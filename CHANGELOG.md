@@ -1,4 +1,34 @@
-## Unreleased
+## v1.65.0 — foreign text no longer stops an update; WebKit-first members; OpenClaw opt-in
+
+From the 2026-10-16 host validation ([report](docs/reports/2026-10-16-coding-agent-compatibility/README.md),
+brief `docs/evidence/briefs/2026-10-16-host-validation-release.md`).
+
+- **Operator text inside a managed block no longer stops the whole run (B-201).** Text placed inside
+  the `wait-is-not-a-stop` block made `update`/`install` exit 2 on every host and name no file.
+  Now that one host is refused, its file is left untouched, the message names `file:line` and the
+  remedy (move the text outside the markers), every other step runs, and the run exits 1 (partial).
+  `blocks` reports `FOREIGN_TEXT_INSIDE <marker> lines a-b` without printing the text.
+- **A router section you edited is kept, never silently deleted (B-202).** `routers` records what it
+  wrote (`~/.sshlg-skills/routers-rendered.json`); a section that matches neither that record nor the
+  new text is kept and recorded as `authored` (`--diff`, `--adopt` work on it); an edited
+  MAP/PROTOCOL/TABLE region is refused with `file:line` until the lines move out.
+- **The wait rule names a host it has not reached (B-208).** With `rules.wait=on`, `update` prints the
+  instruction file and the exact `rules --apply --agent <host>` command for a supported host without a
+  receipt, instead of staying silent; consent is not widened automatically.
+- **Claude Code 2.2 and later no longer stop plugin updates (B-203)**: the pin transaction accepts any
+  version from 2.1.296 on by numeric comparison. **No stray `~/.claude/.claude.json` (B-220)**:
+  `CLAUDE_CONFIG_DIR` is passed to `claude plugin` only for a non-default profile.
+- **Gemini relocation follows `GEMINI_CLI_HOME` (B-204)**, a HOME replacement (`<home>/.gemini`,
+  `<home>/.agents/skills`); the non-existent `GEMINI_CONFIG_DIR` is no longer read.
+- **OpenClaw is opt-in (B-219):** out of `defaultAgents` (the skills CLI detects it by folder only, and
+  its prompt caps — 150 skills, 18,000 characters — would hide most of the family); `--agent openclaw`
+  still works.
+- **Continue copies only when Continue is there (B-213):** `update` adds the `--agent continue --copy`
+  pass only when Continue is installed and in the requested scope.
+- **README corrections (B-215):** which hosts read which instruction file, that Cursor and the
+  Continue CLI can import the Claude hooks, Cursor rules load by ancestor walk, universal adapters
+  install into `~/.agents/skills` only, `skillOverrides` does not hide plugin skills, Codex invokes
+  skills as `$name`.
 
 - **A credential printed under its label is named in the same turn (I-6 remainder, OPS-002).**
   `secrets.scan` knew vendor prefixes only, so a key with none — a 40-character hex token, a

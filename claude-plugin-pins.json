@@ -4,8 +4,8 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "7267757e152ce3b434e283596f219dca335b4ed0",
-      "version": "0.59.3",
+      "commit": "d17b51fc783fa15ac43fd05c7dd423c346efe961",
+      "version": "0.60.0",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
@@ -13,7 +13,7 @@
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
         "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ — product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.59.3",
+        "version": "0.60.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,7 +40,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "cbc112ccb60fa399525ecc88049935d0e7a1d910e4ae421025f6dceb468b59ea",
+          "sha256": "5f4cf7bfe5ef6342b58c06c5255389d720db765e4f4365a9865a33fe94106bae",
           "bytes": 1196
         },
         {
@@ -359,6 +359,11 @@
           "bytes": 25391
         },
         {
+          "path": "skills/references/browser-engine.md",
+          "sha256": "85a77188d4a6fbcd9aa3e7b641d6b7701f477661177ef71836c5bec63549261b",
+          "bytes": 2031
+        },
+        {
           "path": "skills/references/channel-playbooks.md",
           "sha256": "cf41e208f2dadaae26252a737f210293e3f5a472a6272102212c09f20d64fa93",
           "bytes": 17505
@@ -385,8 +390,8 @@
         },
         {
           "path": "skills/references/funnel-research.md",
-          "sha256": "bf810f08bed953680b7634d3edd050871d4bcd88fb1190cc94f4bc6ddcc7551d",
-          "bytes": 15116
+          "sha256": "d04f6f45f077c33fd3c3806eed5e072c4ecdfcbc442bca660dcf4ace503ebfb6",
+          "bytes": 15330
         },
         {
           "path": "skills/references/hooks.md",
@@ -534,6 +539,11 @@
           "bytes": 25391
         },
         {
+          "path": "skills/ux-audit/references/browser-engine.md",
+          "sha256": "85a77188d4a6fbcd9aa3e7b641d6b7701f477661177ef71836c5bec63549261b",
+          "bytes": 2031
+        },
+        {
           "path": "skills/ux-audit/references/channel-playbooks.md",
           "sha256": "cf41e208f2dadaae26252a737f210293e3f5a472a6272102212c09f20d64fa93",
           "bytes": 17505
@@ -630,8 +640,8 @@
         },
         {
           "path": "skills/ux-audit/SKILL.md",
-          "sha256": "37e4b564036f9374a66cff700c35de95ac3b7f0800bbfa7f83fe8c1a1fab90c6",
-          "bytes": 19268
+          "sha256": "7c4bc6aef3cecad2f42434f33412d2bfc16d098afae1ac69a1f8d28be58ff7b9",
+          "bytes": 19576
         },
         {
           "path": "skills/ux-flows/references/best-practices-index.md",
@@ -642,6 +652,11 @@
           "path": "skills/ux-flows/references/best-practices.md",
           "sha256": "44d0f209d141368c7b36e408bff650b0239b3a97a50822f353ed254003012056",
           "bytes": 177522
+        },
+        {
+          "path": "skills/ux-flows/references/browser-engine.md",
+          "sha256": "85a77188d4a6fbcd9aa3e7b641d6b7701f477661177ef71836c5bec63549261b",
+          "bytes": 2031
         },
         {
           "path": "skills/ux-flows/references/clickable-flow-prototypes.md",
@@ -665,8 +680,8 @@
         },
         {
           "path": "skills/ux-flows/references/funnel-research.md",
-          "sha256": "bf810f08bed953680b7634d3edd050871d4bcd88fb1190cc94f4bc6ddcc7551d",
-          "bytes": 15116
+          "sha256": "d04f6f45f077c33fd3c3806eed5e072c4ecdfcbc442bca660dcf4ace503ebfb6",
+          "bytes": 15330
         },
         {
           "path": "skills/ux-flows/references/interactive-flow-prototypes.md",
@@ -739,6 +754,11 @@
           "bytes": 177522
         },
         {
+          "path": "skills/ux-foundation/references/browser-engine.md",
+          "sha256": "85a77188d4a6fbcd9aa3e7b641d6b7701f477661177ef71836c5bec63549261b",
+          "bytes": 2031
+        },
+        {
           "path": "skills/ux-foundation/references/component-guidelines.md",
           "sha256": "fae56733b363bd32f4054c50e89e4822d3e7f6f966fa0e8be8cbbaf842e5e485",
           "bytes": 7263
@@ -755,8 +775,8 @@
         },
         {
           "path": "skills/ux-foundation/references/funnel-research.md",
-          "sha256": "bf810f08bed953680b7634d3edd050871d4bcd88fb1190cc94f4bc6ddcc7551d",
-          "bytes": 15116
+          "sha256": "d04f6f45f077c33fd3c3806eed5e072c4ecdfcbc442bca660dcf4ace503ebfb6",
+          "bytes": 15330
         },
         {
           "path": "skills/ux-foundation/references/practice-selection.md",
@@ -2053,8 +2073,8 @@
     {
       "name": "sheleg-design",
       "repo": "ssheleg/sheleg-design-skill",
-      "commit": "d113f43df6e7dc7e5befef492ccc8964d49a7fa4",
-      "version": "1.64.2",
+      "commit": "6fdbe96798e746e26442d3a0dbad151a9342f6b7",
+      "version": "1.65.0",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
       "pluginPath": "plugins/sheleg-design",
       "entry": {
@@ -2062,7 +2082,7 @@
         "displayName": "SHELEG Design",
         "source": "./plugins/sheleg-design",
         "description": "SHELEG Design methodology: cinematic scroll-driven landing pages (single scroll clock, layered degrade-to-calm motion, WebGL particle formations), a motion doctrine that decides whether to animate before it decides how, and thirty-nine pluggable visual style packs, each with a ready-made token layer — instrument-console (near-black aerospace console; technical systems and infrastructure), editorial-luxury (cream and espresso; editorial, research, premium B2B), workbench (quiet light/dark UI; dashboards, admin, internal tools), briefing-room (dark 16:9 deck; investor and board presentations), atrium (cream daylight; consumer health and high-trust DTC), babylove (white with orange; SEO SaaS, long time-to-value, disconnected states), patchbay (black with mint-cyan; engines, buses, pipelines, OSS front doors), nameplate (cool slab with coral; press, certification and third-party trust), rimlight (white with blue light; studios, services and case studies), onionskin (white working sheet; developer and AI infrastructure), deskmate (warm beige with a dusk bleed; AI coworkers and chat-native agents), test-drive (warm paper with one coral; self-serve SaaS proven by the live product), surveyor (peach paper with teal and pink; visibility, monitoring and benchmark tools), chorus (warm paper under a crosshair grid, with a cut-corner bubble; AI-search visibility, brand monitoring and community marketing), outrank (white with violet; one brand across marketing and product), orchard (warm oat slabs; friendly biotech and wellness), field-notes (ruled green paper; auditable open-source developer tools), showroom (white gallery; product-led companies selling the app), blueprint (white technical stock; vector, storage and query infrastructure), prism (iridescent hard edge; command-first OSS infrastructure), maquette (near-black table; enterprise data infrastructure), cyclorama (looping pastel field; applied-AI consultancies), scoreboard (warm paper; growth, ads and accumulating metrics), datasheet (off-white specification; fraud, identity and device intelligence), manpage (cream manual; APIs, SDKs, CLIs and MCP servers), pigeonhole (filed white field; inbox, ticket and CRM triage), roster (faint square grid; platforms sold through who uses them), ora (warm coal; machine verdicts, audits and protocol traces), tenor (warm management paper; agent operations and autonomous back office), ledger (cream ruled console; analysts, BI and warehouse agents), paperclip (monochrome coal; orchestrators, schedulers and job runners), awning (white commerce forecourt; storefront, payroll and billing platforms), router (pale console with hairlines; dashboard, billing and inventory surfaces), daylight (bright portal with one shadow; client onboarding and service portals), notation (restrained technical hairlines; OSS, docs and developer workspaces), almanac (oatmeal editorial paper; manifestos and category-defining pages), vitrine (serif trust display; evaluated B2B, security and compliance), proscenium (white demo sequence; product tours and launch pages), bulletin (cheerful outlined bands; broad SMB and agency platforms). Ships the sheleg-design skill, the architecture reference, the motion doctrine, the Figma and Claude Design bridges, AI-surface patterns, the packs' token CSS, and the /sheleg-design command.",
-        "version": "1.64.2",
+        "version": "1.65.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2089,7 +2109,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "62fe41eb10e3317944e6a415569dd9cc9a203706063d1b9b59f85c24899ca089",
+          "sha256": "de1748e8389998d3e9c2f1575c078d2f4fc7c5d58c9e7dd6e261d5c4d91b2850",
           "bytes": 3896
         },
         {
@@ -2129,8 +2149,8 @@
         },
         {
           "path": "skills/sheleg-design/CREATIVE_DIRECTOR.md",
-          "sha256": "3f53cd2feed1c9c0acd4de8249f9d022e01f1af533d3a02157b48ee90abb807f",
-          "bytes": 32093
+          "sha256": "4efcb6ab402e3864c54900ec8a326fc72ec58b58cd9356bdbfc99522b0cba664",
+          "bytes": 32269
         },
         {
           "path": "skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
@@ -2159,8 +2179,8 @@
         },
         {
           "path": "skills/sheleg-design/MOTION_DOCTRINE.md",
-          "sha256": "d54474b5a3f0e42bbc2e5db496d17aa7d0fca56f933d0f6521b77518a70b31b8",
-          "bytes": 27166
+          "sha256": "219f340bcc53177f543fe37a582f580f5634fd4d9d1638d79fc2d8e7b635b7ef",
+          "bytes": 27379
         },
         {
           "path": "skills/sheleg-design/MOTION_PRODUCTION.md",
@@ -2174,7 +2194,7 @@
         },
         {
           "path": "skills/sheleg-design/SKILL.md",
-          "sha256": "4614d091879dd58c84355ebecafa7fe691c63a5f967a8f98e27c5289e804051a",
+          "sha256": "c0e2d4c10e16866293e699e776e4cefa4daa0369313c0ca604e48ff44a9729eb",
           "bytes": 21270
         },
         {
@@ -2604,16 +2624,16 @@
         },
         {
           "path": "skills/sheleg-design/VISUAL_REVIEW.md",
-          "sha256": "79630c541246c2a5c33e1dc8841b59553236bb29d4bbf17ef44140e95b23077d",
-          "bytes": 7285
+          "sha256": "8a2aa8c6c1d641ffce897781e4aecc50f03b1847131d00ff48cb3e3fb8ef18a6",
+          "bytes": 9018
         }
       ]
     },
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "a6e471ef1236fd31359cba727fc948dbd760e372",
-      "version": "0.26.6",
+      "commit": "d11dc0d3123448319d6fe7ad7e2cf43e737b13e0",
+      "version": "0.27.0",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
       "entry": {
@@ -2621,7 +2641,7 @@
         "displayName": "SEO + AEO Audit",
         "source": "./plugins/seo-aeo-audit",
         "description": "Audits a website across ten evidence-based tracks (access & indexation, canonicalization, architecture & link equity, intent, content value, extractability/AEO, entity consensus, experience signals, risk, measurement) and outputs a findings report plus a prioritized change plan with verification steps. Includes a stdlib-only page auditor with answer-engine read-budget analysis.",
-        "version": "0.26.6",
+        "version": "0.27.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2646,7 +2666,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "7251d55442b610d50ad1c2b5761ea3ad16de59abe2f59755319cff1379d4428d",
+          "sha256": "6072dc641c158117e808791be8843630daa6dc5492540896e62a4b903503a6b4",
           "bytes": 766
         },
         {
@@ -2711,8 +2731,8 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/experience-signals.md",
-          "sha256": "712eb2c417820fda81806fb7f5229e4cee15a97ffcaddc132442eb35ab282b42",
-          "bytes": 11675
+          "sha256": "25b7fa0fd612e7bd0ea0dda470db23c99e99610d55c3bb3240066244320000d6",
+          "bytes": 11820
         },
         {
           "path": "skills/seo-aeo-audit/references/experiments.md",
@@ -2736,8 +2756,8 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/measurement.md",
-          "sha256": "087f42534002f1c3e6150e3cbcce49bba8859ed29a4ba732d1d0575b7c17dd95",
-          "bytes": 24976
+          "sha256": "20038715de50096c05f9126f69c703ddfadf6abed21dda292135e68df6ab7e34",
+          "bytes": 25145
         },
         {
           "path": "skills/seo-aeo-audit/references/myths.md",
@@ -2766,8 +2786,8 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/scripts.md",
-          "sha256": "5adbba6808e51f109df76d394e20d56924d7059e6ef2b2f551e5e3d0b5deaa0f",
-          "bytes": 21990
+          "sha256": "7c1f235f56708adb9ff2350733d7276c965d26cf3ba7da2e14d415b880ee353a",
+          "bytes": 22235
         },
         {
           "path": "skills/seo-aeo-audit/references/technical-checks.md",
@@ -2781,42 +2801,42 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/tooling.md",
-          "sha256": "f41e9b09fd905f2cc0656c1f83cb39077e16426dd3fc2fd034e1a198624172f6",
-          "bytes": 16890
+          "sha256": "e028b3bef0f301c78a90f9dadf53bc1fd5d9afe1237d6cc6a4038690058444ac",
+          "bytes": 19633
         },
         {
           "path": "skills/seo-aeo-audit/scripts/agent_surface.py",
-          "sha256": "15bf95f5925faedcd5404cc0469bdc4642ca6f5c8ee034313eaf8d3285297466",
+          "sha256": "f170e0ae0a28fd897cbd350643f189680eab8a8bda0b46ed433ae398adda776c",
           "bytes": 95441
         },
         {
           "path": "skills/seo-aeo-audit/scripts/gsc_pull.py",
-          "sha256": "0aaf051d9779c63d37302100f1808487a7c6c8af84e8b01b623c280a03fbfd10",
+          "sha256": "66adffd2cb9088f77e3a377717dd2b8be0ea8832ff746983a7de495e687c9567",
           "bytes": 55705
         },
         {
           "path": "skills/seo-aeo-audit/scripts/page_audit.py",
-          "sha256": "871ed7f6d8de39f55e088201626cd4417f80bac3a9e0662af004cbe58a55202e",
+          "sha256": "8c82d554b60e5ad44196cd2239b031b3056a74f2df8c564e31784ee9d46d66f2",
           "bytes": 71413
         },
         {
           "path": "skills/seo-aeo-audit/scripts/preflight.py",
-          "sha256": "306e83ee2d1e817bc3e24a26a8f70c7625704d67a2755c62ede9321aba217579",
+          "sha256": "562df83ebe27733fe736d2b588cccf9c01db83962c8581d8e093f4b3c641d428",
           "bytes": 60911
         },
         {
           "path": "skills/seo-aeo-audit/scripts/psi_pull.py",
-          "sha256": "2c3e41e423f811e5f6ca696ccfd025e6f71b2f2339d8eeebadd38067507a9aa6",
+          "sha256": "be356c267365c16d3ece54d1112b6eda281153cd32100307d22b19515ff765ab",
           "bytes": 28524
         },
         {
           "path": "skills/seo-aeo-audit/scripts/sitemap_audit.py",
-          "sha256": "19d82b381e1cf18c48fa39389757872382905a874ce21ef09502ade5e8254479",
+          "sha256": "89914400fce171178f20a3e7ce0d21b864f0d22e47c9c875dc066178aaad37ce",
           "bytes": 28949
         },
         {
           "path": "skills/seo-aeo-audit/scripts/url_inspection.py",
-          "sha256": "0406709c85948295bca98cf5ca82b0b2709690ee4c288216d910940940e446c6",
+          "sha256": "0a06c52310c95bf281b1bbb3085d180d227ebb8087c81effb0f230e44d1ac988",
           "bytes": 34555
         },
         {
@@ -2829,8 +2849,8 @@
     {
       "name": "sheleg-dev",
       "repo": "ssheleg/sheleg-dev",
-      "commit": "7ced39b11ff562b9f7c75d01c4b472d7321b8dc7",
-      "version": "0.13.4",
+      "commit": "662838741042708bc72c27b646572801d0d4657a",
+      "version": "0.14.0",
       "pluginInstall": "sheleg-dev@sheleg-dev",
       "pluginPath": "plugins/sheleg-dev",
       "entry": {
@@ -2838,7 +2858,7 @@
         "displayName": "Sheleg Dev",
         "source": "./plugins/sheleg-dev",
         "description": "The integration layer a product needs once it has users: Stripe subscription billing reconciled into your own database, crypto payments that survive over-payment and duplicate webhooks, ad and conversion tracking under Consent Mode v2, Google sign-in with the account-linking guards, the wider Google auth surface, and Core Web Vitals work that moves the score, and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it.",
-        "version": "0.13.4",
+        "version": "0.14.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2867,7 +2887,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "b3b38e7a94a84ed03b5c6157f230e93757ee20cd3fc6da4b48622725d5fa541e",
+          "sha256": "7c3af0ea6a968d58fefc8ccf35a7abe50884b7f3872ab8833d619ae529c6ce4f",
           "bytes": 1221
         },
         {
@@ -2992,8 +3012,8 @@
         },
         {
           "path": "skills/frontend-performance/references/accessibility-perf.md",
-          "sha256": "e6ef05c5f701de8977523b7d999e65391bc3a88449497149e20716fa47ab0468",
-          "bytes": 5787
+          "sha256": "37b222f0bd51a77f9c13682353a4dd285c2c8934b099c3bdba044fe503fa90dc",
+          "bytes": 6004
         },
         {
           "path": "skills/frontend-performance/references/css-performance.md",
@@ -3007,8 +3027,8 @@
         },
         {
           "path": "skills/frontend-performance/SKILL.md",
-          "sha256": "f4c3882395a2cdccf3ffb73338ece9e53bc388c2a0ef54556ba95869ee02d76b",
-          "bytes": 13349
+          "sha256": "6da640069caac34bda54a4c3300bf0e210d0e13c2280e8ce5394783b6bd445ff",
+          "bytes": 14870
         },
         {
           "path": "skills/google-auth/references/adc-and-service-accounts.md",

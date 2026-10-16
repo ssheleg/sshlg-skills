@@ -56,13 +56,13 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.59.3",
+      "version": "0.60.0",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
       "shape": "static",
       "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
-      "commit": "7267757e152ce3b434e283596f219dca335b4ed0"
+      "commit": "d17b51fc783fa15ac43fd05c7dd423c346efe961"
     },
     {
       "name": "task-pipeline",
@@ -131,7 +131,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.64.2",
+      "version": "1.65.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -148,7 +148,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "d113f43df6e7dc7e5befef492ccc8964d49a7fa4"
+      "commit": "6fdbe96798e746e26442d3a0dbad151a9342f6b7"
     },
     {
       "name": "seo-aeo-audit",
@@ -160,13 +160,13 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.26.6",
+      "version": "0.27.0",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "a6e471ef1236fd31359cba727fc948dbd760e372"
+      "commit": "d11dc0d3123448319d6fe7ad7e2cf43e737b13e0"
     },
     {
       "name": "sheleg-dev",
@@ -184,13 +184,13 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.13.4",
+      "version": "0.14.0",
       "entry": null,
       "role": "integrations: money in, tracking, errors, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
       "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
-      "commit": "7ced39b11ff562b9f7c75d01c4b472d7321b8dc7"
+      "commit": "662838741042708bc72c27b646572801d0d4657a"
     },
     {
       "name": "agent-stack",
