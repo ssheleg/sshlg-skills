@@ -6,7 +6,8 @@ report:
   project: sshlg-skills
   domains: [ai-agent, automation]
   as_of: 2026-10-13
-  status: active
+  status: superseded
+  superseded_by: sshlg-skills/2026-10-16-coding-agent-compatibility
   valid_until: 2026-11-13
   supersedes: [sshlg-skills/2026-10-12-coding-agent-compatibility]
   summary: >-

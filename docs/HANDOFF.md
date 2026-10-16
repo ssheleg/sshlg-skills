@@ -1,3 +1,23 @@
+## Current — 2026-10-16, host-compatibility validation (gates, rules, installer) — lease `HOSTCOMPAT-1016`
+
+**Objective.** The operator asked to validate that the family and every rule work in each installed
+coding agent: read each host's current docs (gates, features), check the adaptation, and check that
+`install`/`update` set up skills, routing, wait rule, operator rules, hooks and visibility correctly.
+
+**Done.** [Report](reports/2026-10-16-coding-agent-compatibility/README.md) (supersedes the 10-13 cut):
+17 hosts, 80 doc sources, 91 findings in [raw/findings.json](reports/2026-10-16-coding-agent-compatibility/raw/findings.json)
+(16 blocking, 44 deferred, 31 noise). Skills reach every host; gates exist only for Claude Code;
+operator rules were complete only in Claude — synced on the machine through `blocks install`
+(`OPERATOR:GLOBAL-RULES` in Codex/Gemini/Pi, Observatory block in Gemini/Pi, wait rule in Pi,
+`~/.agents/AGENTS.md` → Pi file for Kimi/Goose/Warp/Droid, Cursor `operator-global-rules.mdc`).
+An operator rule placed inside the wait block had stopped every `update` with exit 2 (B-201); moved out.
+Checks run: `npm test` exit 0 (137 green), `python3 test/validate.py` exit 0, `reports.py check` 0 errors.
+
+**Open.** Board rows B-201…B-218 (hub), operator steps in the report (Gemini sign-in and trusted
+folders, `cursor-agent login`, the stale MCP-gateway section).
+**Next:** B-203 (Claude 2.2.x version gate, P 3.0) and B-215 (false README claims, P 3.0), then
+B-201/B-202 (managed-block safety) as one hub release through `/task-pipeline`.
+
 ## Current — 2026-10-15, hub 1.64.0 and task-pipeline 1.96.0 published and installed
 
 **Big goal.** The ssheleg family (hub + 11 members) is coherent, published, installed on the
