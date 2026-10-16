@@ -27,9 +27,9 @@ try {
   check('known exact file is not added again', () => assert.ok(!T.readShared(home,[{id:'same',path:alt}],{env:{}}).some(s=>s.path===alt)));
   const nested = skill('.codex/skills/.system/create', '---\nname: create\ndescription: "Create a skill"\n---\n');
   check('Codex system skills are found', () => assert.ok(T.readShared(home,[],{env:{}}).some(s=>s.path===nested)));
-  const moved = skill('custom-gemini/skills/moved', '---\nname: moved\ndescription: |\n  Moved root\n  telescope\n---\n');
+  const moved = skill('custom-gemini/.gemini/skills/moved', '---\nname: moved\ndescription: |\n  Moved root\n  telescope\n---\n');
   check('documented environment root is respected', () => {
-    const rows=T.readShared(home,[],{env:{GEMINI_CONFIG_DIR:path.join(home,'custom-gemini')}});
+    const rows=T.readShared(home,[],{env:{GEMINI_CLI_HOME:path.join(home,'custom-gemini')}});
     assert.ok(rows.some(s=>s.path===moved)); assert.ok(!rows.some(s=>s.path===gem));
   });
   const cached=skill('.codex/plugins/cache/vendor/plugin/1.0/skills/cached','---\nname: cached\ndescription: Cached plugin\n---\n');

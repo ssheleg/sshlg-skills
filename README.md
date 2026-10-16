@@ -20,10 +20,13 @@ every routing rule verbatim, and [`llms.txt`](https://skills.sshlg.me/llms.txt)
 for the machines. · **[Follow @sshlg93 on X](https://x.com/intent/follow?screen_name=sshlg93)**
 
 Works with **Claude Code** (as plugins) and **DeepSeek Harness** (`dsh`), plus
-Cursor, OpenCode, Codex, Kilo, Kimi, Hermes, OpenClaw, Gemini CLI, Windsurf, Zed
+Cursor, OpenCode, Codex, Kilo, Kimi, Hermes, Gemini CLI, Windsurf, Zed
 and other targets among the 79+ agents the vercel `skills` CLI supports.
-The pinned snapshot has 77 global targets; native extension support is checked
-separately in the [compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md).
+Kimi gets the skills only: the hub has no instruction target for it, so the
+routing block reaches it only through a file you keep yourself
+([which](#routing--making-the-family-engage-by-default)). OpenClaw is opt-in (`--agent openclaw`,
+[why](#install)). The pinned snapshot has 77 global targets; native extension
+support is checked separately in the [compatibility report](docs/reports/2026-10-16-coding-agent-compatibility/README.md).
 
 ---
 
@@ -43,13 +46,13 @@ scripts. No services, no telemetry, no API keys.
 
 | Skill | Version | What it does |
 |---|---|---|
-| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.59.3 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.96.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
+| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.60.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.97.1 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.22.2 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.31.2 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
-| **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.64.2 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
-| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.26.6 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief — not a score. |
-| **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.13.4 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
+| **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.65.0 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
+| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.27.0 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief — not a score. |
+| **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.14.0 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
 | **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.28.2 | Production patterns for agent systems, in four skills. **The orchestrator** — tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, memory architecture — form, function and dynamics, the four-stage retrieval pipeline, and what a layer table alone cannot say, and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness** — what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals** — suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer** — MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
 | **[telegram-dev](https://github.com/ssheleg/telegram-dev)** | 0.2.4 | Telegram, split by the API each surface actually speaks. **`telegram-bots`** — the official HTTP Bot API: `update_id` as the only idempotency key an update carries, the `allowed_updates` default that subscribes you to everything *except* `chat_member` and the two reaction types while answering `ok: true`, the webhook secret header that is the real check, rate limits as a design constraint (1/sec per chat, 20/min per group, ~30/sec bulk), and Telegram Stars with a **ten-second** pre-checkout window and a grant that belongs to `successful_payment`. **`telegram-userbots`** — MTProto and Telethon: the session file as a credential equal to the password, `FloodWaitError` as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — the skill opens with whether a user account is needed at all. **`telegram-miniapps`** — the web layer, whose entire security model is one signed query string: verifying `initData` server-side, the `auth_date` window, the Ed25519 path for a third party, and the SDK package whose name moved while the organisation's own page still fronts the old one. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants. |
 | **[xr-dev](https://github.com/ssheleg/xr-dev)** | 0.3.4 | **`quest-lifecycle`** maps the product from platform choice through design, build, testing, Store, monetization, launch and operation. The existing owners cover native OpenXR, Kotlin Spatial/hybrid apps, measured rendering optimization, current-source/tool discovery, commercial and asset readiness, and WebXR/PWA. Every stage names evidence and a next action; Meta engine companions and official Godot XR documentation supply implementation detail. |
@@ -132,14 +135,24 @@ Flags: `--agent a,b` picks valid global targets, `--all` selects the pinned CLI�
 77 globally supported targets (76 while Claude uses plugins),
 `--no-claude` skips the plugin step, `--claude-only` does nothing else.
 
+**OpenClaw is opt-in:** `--agent openclaw` (or `--all`) installs for it; a plain
+`install` or `update` does not. The skills CLI counts OpenClaw as present whenever
+a `~/.openclaw` folder exists, so a leftover folder kept a dead host in every run.
+And OpenClaw's caps would show only part of the family even where it runs: at most
+150 skills and 18,000 characters in the prompt, and 300 candidates and 200 loaded
+skills per root. Raise its `skills.limits.*` before you opt in.
+
 ### What `install` actually does
 
 - **Claude Code** → each skill as a **plugin** (`claude plugin marketplace add` +
   `claude plugin install`), never as a plain `~/.claude/skills/` copy.
 - **Other installer targets** → the vercel
-  [`skills`](https://github.com/vercel-labs/skills) CLI, using shared storage and
-  each adapter’s global destination, with repeated `--agent` flags. Hermes and
-  Kiro use native roots; shared `~/.agents/skills` loading is host-specific.
+  [`skills`](https://github.com/vercel-labs/skills) CLI, using shared storage, with
+  repeated `--agent` flags. A *universal* adapter (Cursor, Gemini CLI, OpenCode,
+  Kilo, GitHub Copilot, Droid and the like) installs into `~/.agents/skills` only,
+  never into its own declared global folder (skills@1.7.2 `dist/cli.mjs:2337-2341`),
+  so such a host sees the family only if it reads `~/.agents/skills`. Other adapters
+  get their own global destination; Hermes and Kiro use native roots.
 - **Unsupported global targets** → Eve and PromptScript are excluded from
   `--all`; explicit unknown or project-only names fail before installation.
   The [dated compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md)
@@ -439,10 +452,15 @@ Five channels get it, and each only where that agent is actually installed:
 | Agent | Where |
 |---|---|
 | Claude Code | `~/.claude/CLAUDE.md` |
-| Codex | `~/.codex/AGENTS.md` |
-| Gemini CLI | `~/.gemini/GEMINI.md` |
+| Codex | `~/.codex/AGENTS.md` (Codex invokes a skill as `$name`; the block's `/name` is Claude's syntax) |
+| Gemini CLI | `~/.gemini/GEMINI.md` (or `$GEMINI_CLI_HOME/.gemini/GEMINI.md`) |
 | Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md` — the writer, `uninstall` and the write guard all follow it) |
-| Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true` |
+| Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true`. Cursor finds it by walking up from the workspace, so it loads only for workspaces under `$HOME` |
+
+Other hosts read these files without the hub writing for them. OpenCode and VS Code
+Copilot read `~/.claude/CLAUDE.md` as a fallback; OpenCode stops as soon as a
+`~/.config/opencode/AGENTS.md` exists. `~/.agents/AGENTS.md` is read by Kimi, Goose,
+Warp and Droid; the hub does not write it, so today it holds what you put there.
 
 **Pi** (`@earendil-works/pi-coding-agent`, command `pi`) reads skills from `~/.pi/agent/skills`,
 `~/.agents/skills` and, per project, `.pi/skills` and `.agents/skills` up to the repository root;
@@ -514,6 +532,19 @@ back the wrong text. Your word still wins; silence stops being the decision.
 out and which survives a reinstall and a restored dotfile. Everything outside
 the sentinels is preserved byte for byte.
 
+**Text you put inside the block is kept, not refreshed away.** Each write records
+a hash of every section and of the map, protocol and table regions it wrote, in
+`~/.sshlg-skills/routers-rendered.json`. A later refresh that finds a section or
+region matching neither that record nor the new text, and that would drop a
+non-blank line, leaves it as it stands and names `file:line` in the preview and
+the run. A kept **section** becomes your authored text for that router, so
+`routers --diff <name>` and `--adopt <name>` apply to it. A kept **region** is a
+refused refresh: the run exits 1 until you move those lines outside the block.
+Without a record (a block an older release wrote), any section or region that
+would lose a line is kept the same way, so an older packaged wording can stay
+until you adopt the current one. `npx sshlg-skills blocks` reports such text as
+`FOREIGN_TEXT_INSIDE` with its line range, without printing it.
+
 ### Turning routers off
 
 ```bash
@@ -542,8 +573,17 @@ npx sshlg-skills rules --apply --agent codex
 Supported destinations are existing Claude Code, Codex, Gemini, Pi and Cursor
 instruction roots. Use `--claude-only` for Claude Code; `--agent` selects other
 hosts. A later `update` refreshes only profiles with a prior ownership receipt.
+It does not extend the rule to a host added later: with `rules.wait` on, `update`
+names each such host's instruction file and the command that applies it there
+(`npx sshlg-skills rules --apply --agent pi`; `--claude-only` for Claude Code).
+That stays a named gap rather than an automatic write because consent to the rule
+is recorded per host, and an update never creates it for a new one.
 Set `rules.wait off` and apply the same scope to remove its owned text. Surrounding
 content is preserved; malformed, edited or retargeted state stops for recovery.
+Text placed inside an applied block refuses that block on that host only:
+`install`, `update` and `uninstall` name `file:line` and the remedy (move the text
+outside the markers), run every other step and exit 1. An explicit `rules --apply`
+still refuses as a whole and writes nothing.
 The rule describes continuation and durable handoff. It creates no watcher or job,
 and sign-ins, consent, payment and action-specific authority keep their own gates.
 
@@ -614,7 +654,9 @@ hides every other installed pack; an existing file is replaced only with `--repl
 
 **Which switch each host gets, and what decides it:**
 
-- **Claude Code and Codex** hide every skill outside the usage core, as since v1.55.0.
+- **Claude Code and Codex** hide every skill outside the usage core, as since v1.55.0,
+  with one exception on Claude Code: `skillOverrides` does not apply to plugin skills,
+  so a plugin's skills stay listed (switch a foreign plugin off with `enabledPlugins`).
   The pack marks and the overrides below do not change them; `--keep <skill>` keeps a
   skill listed there.
 - **Gemini, Pi, OpenCode and Hermes** hide the skills of marked packs, except the usage
@@ -634,7 +676,7 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 
 | Host | The switch `visibility` writes | Source | A hidden skill can still |
 |---|---|---|---|
-| Claude Code | `skillOverrides: "user-invocable-only"` in `~/.claude/settings.json` | since v1.55.0 | be run from the `/` menu by a person |
+| Claude Code | `skillOverrides: "user-invocable-only"` in `~/.claude/settings.json`; plugin skills are out of its reach | since v1.55.0; Claude Code settings reference: overrides do not apply to plugin skills | be run from the `/` menu by a person |
 | Codex | `enabled = false` entries in `~/.codex/config.toml` `[skills] config` | since v1.55.0 | be read from its SKILL.md path when asked |
 | Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
 | Pi 1.1.0 | `-<path>` exact exclusions in the `skills` array of `~/.pi/agent/settings.json`, one per folder holding the skill (`~/.agents/skills`, `~/.pi/agent/skills`); the file is created if absent and removed again by `--revert` | Pi's own docs, settings → Resources; `isEnabledByOverrides` in its `dist/core/package-manager.js` | be loaded for one session with `pi --skill <path>` |
@@ -643,9 +685,10 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 | Cursor agent CLI 2026.09.02 | **cannot hide on cursor**: no setting switches a skill off. The only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) | (not hidden) |
 | Kimi 2.1.1 | **cannot hide on kimi**: `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) | (not hidden) |
 
-Visibility follows the active host directories, including `CLAUDE_CONFIG_DIR` and
-`CODEX_HOME`. New ownership records bind to the canonical settings files; changing a
-profile or retargeting its symlink refuses apply/revert until the original target is
+Visibility follows the active host directories, including `CLAUDE_CONFIG_DIR`,
+`CODEX_HOME` and `GEMINI_CLI_HOME` (Gemini's HOME replacement: its files sit under
+`$GEMINI_CLI_HOME/.gemini`). New ownership records bind to the canonical settings
+files; changing a profile or retargeting its symlink refuses apply/revert until the original target is
 restored. Malformed or unreadable policy and incomplete skill inventories refuse apply
 before writing an ownership journal. Revert can still restore owned settings without a
 working discovery inventory. Legacy records without file bindings are accepted only
@@ -679,7 +722,12 @@ never extended: `update` prints one line asking for one `visibility --apply [--k
 
 The routing block loads in every session and is still routed around, because
 prose in a long file loses to whatever spoke last. Hooks are what speak first —
-and, since v0.42.0, what **holds**:
+and, since v0.42.0, what **holds**.
+
+The hub wires hooks into one target: Claude Code's `~/.claude/settings.json`. Two
+other hosts can import them from that file: Cursor (its third-party hooks import,
+on by default) and the Continue CLI. Neither is tested here, so the family claims
+nothing about how its hooks behave there:
 
 ```bash
 npx sshlg-skills hooks                    # what would be wired, and what holds it now

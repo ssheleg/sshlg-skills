@@ -375,7 +375,7 @@ function plainSkillsPlan(f, update = false) {
   if (f.claudeOnly) return [];
   if (cliSpec() !== 'skills@1.7.2') throw new Error('immutable source contract requires verified skills@1.7.2');
   return require('../lib/installer-pins').build(SKILLS, skillsCliAgents(f),
-    { continueCopies: update && continueHasFamilyCopies() });
+    { continueCopies: update && continueRestoreWanted(f) });
 }
 
 function planInstall(f) {
@@ -1483,7 +1483,17 @@ function cmdRouters(f) {
     }
   }
 
+  // B-202: what this hub last wrote into each file, so a refresh can tell its own
+  // bytes from a hand edit inside a section or region. Hub metadata, not an
+  // operator file: no backup; a damaged record reads as none, which keeps MORE.
+  const store = require('../lib/store.js');
+  const renderedFile = path.join(home, '.sshlg-skills', 'routers-rendered.json');
+  const renderedRecord = store.readJson(renderedFile);
+  const renderedFiles = renderedRecord.schema === 1 && renderedRecord.files && typeof renderedRecord.files === 'object'
+    ? renderedRecord.files : {};
+
   const res = apply.apply({
+    rendered: renderedFiles,
     home, mode, consent: decision, routers: packaged,
     // Only the selected host files are written; the rest stay byte-identical.
     hostTargets: scoped.hostTargets, includeCursor: scoped.includeCursor,
@@ -1517,6 +1527,38 @@ function cmdRouters(f) {
     // A restored section is live again, so its copy in the settings is now a
     // stale duplicate of text that has a home.
     for (const name of restored) configLib.stashClear(home, name);
+  }
+
+  // Hand edits the refresh kept (B-202). Named by file:line in the preview and the run,
+  // every time, until resolved: a section becomes the operator's authored text (so
+  // `--diff` / `--adopt` apply); a region is a refused refresh and the run is partial.
+  const keptRegions = [];
+  const lines = (k) => (k.startLine === k.endLine ? `${k.startLine}` : `${k.startLine}-${k.endLine}`);
+  for (const r of res.targets) {
+    for (const k of r.kept || []) {
+      if (k.kind === 'section') {
+        log(`routers: ${r.file}:${lines(k)} — section "${k.name}" holds text the pack did not write; kept as it is and ${f.dryRun ? 'would be ' : ''}recorded as your authored text for ${k.name}.`);
+        log(`  Compare: npx sshlg-skills routers --diff ${k.name}   Take the packaged text: npx sshlg-skills routers --update --adopt ${k.name}`);
+        if (!f.dryRun && decision === 'yes' && configLib.authoredGet(configLib.readConfig(home), k.name) === undefined) {
+          configLib.authoredSet(home, k.name, k.body);
+        }
+      } else {
+        keptRegions.push(k);
+        log(`routers: ${r.file}:${lines(k)} — the ${k.name} region holds text the pack did not write; the region was left as it is, not refreshed.`);
+        log('  Move those lines outside the block (above its BEGIN or below its END marker), then run: npx sshlg-skills routers --update');
+      }
+    }
+  }
+  if (!f.dryRun && decision === 'yes') {
+    const next = Object.assign({}, renderedFiles);
+    for (const r of res.targets) {
+      if (r.rendered && ['unchanged', 'updated', 'created'].includes(r.action)) next[r.file] = r.rendered;
+    }
+    // Written only when it changes, so a run that changed nothing writes nothing.
+    if (JSON.stringify(next) !== JSON.stringify(renderedFiles) || renderedRecord.schema !== 1) {
+      try { store.writeJson(renderedFile, () => ({ schema: 1, files: next })); }
+      catch (e) { log(`routers: the record of what was written (${renderedFile}) was not saved: ${e.message}; the next refresh keeps more, never less`); }
+    }
   }
 
   // A copy of every file this run modified, taken before it was modified. Said
@@ -1572,7 +1614,9 @@ function cmdRouters(f) {
     log('  Посмотреть разницу:  npx sshlg-skills routers --diff <имя>');
     log('  Принять пакетный:    npx sshlg-skills routers --update --adopt <имя>');
   }
-  return true;
+  // A refused region refresh makes a real run partial (exit 1), like a refused wait
+  // block; a preview is a render and exits 0, as `update --dry-run` does.
+  return f.dryRun || !keptRegions.length;
 }
 
 /**
@@ -1592,17 +1636,29 @@ function attachWaitPlan(steps, f, options = {}) {
   if (f.member) return opres.buildPlan(steps);
   const pending = waitPlan(f, { automatic: true, ...options });
   steps.push(opres.step('working-rule', 'home', 'refresh only previously applied wait-rule profiles', {
-    changes: pending.rows.map(r => `${r.agent}: ${r.action} (${r.file})`),
+    changes: pending.rows.map(waitRowLine),
   }));
   const planned = opres.buildPlan(steps);
   WAIT_PLANS.set(planned, pending);
   return planned;
 }
+// One wording for the plan and the run. A refused block names `file:line` and its remedy
+// (B-201); a host the enabled rule has not reached names the command that applies it (B-208).
+function waitRowLine(r) {
+  if (r.action === 'refused') return `${r.agent}: refused — ${r.reason}; ${r.remedy}`;
+  if (r.command) return `${r.agent}: not applied — ${r.file}: rules.wait is on, this host has no ownership receipt; apply it here: ${r.command}`;
+  return `${r.agent}: ${r.action} (${r.file})`;
+}
 function executeWaitPlan(planned) {
   const pending = WAIT_PLANS.get(planned);
   if (!pending) return true;
   const result = require('../lib/wait-rules.js').execute(pending);
-  for (const r of result.results) log(`rules.wait: ${r.agent} ${r.action}${r.error ? ': ' + r.error : ''}`);
+  for (const r of result.results) {
+    if (r.action === 'refused') log(`rules.wait: ${r.agent} refused — ${r.error}; ${r.remedy}. Every other step of this run continues; the run reports partial (exit 1).`);
+    else if (r.command) log(`rules.wait: ${r.agent} not applied — ${r.file}: rules.wait is on and this host has no ownership receipt (an update never extends it to a new host); apply it here: ${r.command}`);
+    else if (r.action === 'agent-absent') continue;
+    else log(`rules.wait: ${r.agent} ${r.action}${r.error ? ': ' + r.error : ''}`);
+  }
   return result.ok;
 }
 function parseRuleFlags(args) {
@@ -1981,6 +2037,36 @@ function cmdToolkit(argv) {
   const protect = toolkit.advertisedWords(triggers.ROUTES);
 
   log(toolkit.report(skills, family, { for: forQuery, expand, limit, seeds, protect }));
+}
+
+/**
+ * Should `update` add the Continue `--copy` restore pass (B-213)? Only when the run's
+ * scope includes Continue (no --agent filter, or --agent names it), Continue itself is
+ * installed, and its directory holds family copies to keep current. Copies alone are
+ * not a host: a leftover ~/.continue/skills on a machine without Continue gets nothing.
+ */
+function continueRestoreWanted(f) {
+  if (f.agents && f.agents.length && !f.agents.includes('continue')) return false;
+  return continueInstalled() && continueHasFamilyCopies();
+}
+
+/** Continue is installed: its `cn` CLI is on PATH, or ~/.continue holds a config.* file. */
+function continueInstalled() {
+  const home = process.env.HOME || os.homedir();
+  try {
+    if (fs.readdirSync(path.join(home, '.continue')).some((n) => /^config\.[A-Za-z0-9]+$/.test(n))) return true;
+  } catch (e) { /* no ~/.continue: decided by PATH alone */ }
+  const names = process.platform === 'win32' ? ['cn.cmd', 'cn.exe', 'cn'] : ['cn'];
+  for (const dir of (process.env.PATH || '').split(path.delimiter)) {
+    if (!dir) continue;
+    for (const n of names) {
+      try {
+        const file = path.join(dir, n);
+        if (fs.statSync(file).isFile()) { fs.accessSync(file, fs.constants.X_OK); return true; }
+      } catch (e) { /* not here */ }
+    }
+  }
+  return false;
 }
 
 /**

@@ -215,7 +215,7 @@ watcher has been started. The existing maintainer persona applies to host settin
 - **Expected result:** repeated maintenance does not broaden opt-in, and disabling the rule preserves the maintainer's own instructions.
 - **UI elements:** policy state, update plan, removal preview, ownership receipt
 - **States covered:** success, empty, error
-- **Errors & recovery:** a retargeted profile or edited region refuses; restore the original binding or review ownership before retrying.
+- **Errors & recovery:** a retargeted profile or edited region refuses; restore the original binding or review ownership before retrying. During install/update/uninstall the refusal is that host's only: the run names `file:line` and the remedy (move the text outside the markers), runs every other step and exits 1. With the rule on, a host that has no receipt is named with the command that applies it there; update never writes it.
 - **Status:** validated
 - **Coverage:** test/wait_rules_test.js; test/wait_rules_cli_test.js
 - **Product:** unobserved

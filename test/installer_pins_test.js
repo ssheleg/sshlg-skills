@@ -48,7 +48,7 @@ test('shipped commit inventory equals gitlinks, with mismatch and missing contro
   assert.throws(()=>pins.verifyGitlinks([{...members[0],commit:sha}],r.stdout),/gitlink/);
   assert.throws(()=>pins.verifyGitlinks(members,''),/gitlink/);
 });
-test('packed launcher preview equals executed pinned argv, preserving Continue restoration', () => {
+test('packed launcher preview equals executed pinned argv; Continue restoration only for an installed, in-scope Continue (B-213)', () => {
   const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'installer-pins-'));
   try {
     const pkg=path.join(tmp,'package'), home=path.join(tmp,'home');
@@ -57,11 +57,14 @@ test('packed launcher preview equals executed pinned argv, preserving Continue r
     for(const f of ['skills.json','package.json','claude-plugin-pins.json'])fs.copyFileSync(path.join(root,f),path.join(pkg,f));
     const continueDir=path.join(home,'.continue','skills','make-skill');
     fs.mkdirSync(continueDir,{recursive:true});fs.writeFileSync(path.join(continueDir,'SKILL.md'),'existing');
+    fs.writeFileSync(path.join(home,'.continue','config.yaml'),'');  // Continue itself is installed
     const calls=path.join(tmp,'calls.jsonl'), shim=path.join(tmp,'shim.cjs');
     fs.writeFileSync(shim,`const fs=require('fs');require('child_process').spawnSync=(cmd,args)=>{fs.appendFileSync(${JSON.stringify(calls)},JSON.stringify({cmd,args})+'\\n');return {status:0,stdout:'',stderr:''};};`);
     const env={...process.env,HOME:home,USERPROFILE:home,CLAUDE_CONFIG_DIR:path.join(home,'.claude'),CODEX_HOME:path.join(home,'.codex'),XDG_CONFIG_HOME:path.join(home,'.config'),NODE_OPTIONS:'--require='+shim};
-    const run=(verb,extra=[])=>spawnSync(process.execPath,[path.join(pkg,'bin/sshlg-skills.js'),verb,'--agent','zed','--no-claude','--member','make-skill',...extra],{env,cwd:tmp,encoding:'utf8',timeout:20000});
-    for(const verb of ['install','update']) {
+    let scope=['--agent','zed'];
+    const run=(verb,extra=[])=>spawnSync(process.execPath,[path.join(pkg,'bin/sshlg-skills.js'),verb,...scope,'--no-claude','--member','make-skill',...extra],{env,cwd:tmp,encoding:'utf8',timeout:20000});
+    for(const [verb,agents,copies] of [['install',['--agent','zed'],0],['update',['--agent','zed'],0],['update',[],require('../skills.json').skills.length]]) {
+      scope=agents;
       fs.writeFileSync(calls,'');
       const dry=run(verb,['--dry-run']);assert.equal(dry.status,0,dry.stdout+dry.stderr);
       assert.equal(fs.readFileSync(calls,'utf8'),'','preview spawned a child');
@@ -70,7 +73,7 @@ test('packed launcher preview equals executed pinned argv, preserving Continue r
       const npx=fs.readFileSync(calls,'utf8').trim().split('\n').filter(Boolean).map(JSON.parse).filter(c=>c.cmd==='npx').map(c=>c.args);
       assert.deepEqual(npx,expected);assert(npx.length>0,'vacuous plan');
       assert(npx.every(a=>a[2]==='add' && /#[a-f0-9]{40}$/.test(a[3])),'floating refresh');
-      assert.equal(npx.filter(a=>a.includes('--copy')).length,verb==='update'?require('../skills.json').skills.length:0);
+      assert.equal(npx.filter(a=>a.includes('--copy')).length,copies,verb+' '+agents.join(' '));
     }
     const registry=path.join(home,'.claude','plugins');fs.mkdirSync(registry,{recursive:true});
     fs.writeFileSync(path.join(registry,'installed_plugins.json'),JSON.stringify({version:2,plugins:{'make-skill@make-skill':[{scope:'user',installPath:path.join(tmp,'payload')}]}}));

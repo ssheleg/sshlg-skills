@@ -378,6 +378,61 @@ it('B-131: no member role answers a question another router owns', () => {
   }
 });
 
+// B-202: a refresh replaced a section or region body whole, so a line the operator had put
+// inside it left the file with no warning. With a record of what the pack last wrote
+// (`rendered`), a body that is neither that nor the new text, and would lose words, is kept.
+const sha = (s) => require('crypto').createHash('sha256').update(s).digest('hex');
+const SU_RAW = '<!-- SSHLG:ROUTER:super-ux:BEGIN -->\nsuper-ux body line one\nsuper-ux body line two\n<!-- SSHLG:ROUTER:super-ux:END -->';
+const TABLE_RAW = '<!-- SSHLG:ROUTERS:TABLE:BEGIN -->\n| a | b |\n<!-- SSHLG:ROUTERS:TABLE:END -->';
+
+it('guarded refresh keeps a section body that would lose words and names its lines', () => {
+  const out = R.upsert(wellFormed, { 'super-ux': 'packaged now' }, { rendered: {} });
+  assert.ok(out.text.includes('super-ux body line one\nsuper-ux body line two'), 'the operator lines were dropped');
+  const k = out.kept.find((x) => x.kind === 'section' && x.name === 'super-ux');
+  assert.ok(k, JSON.stringify(out.kept));
+  assert.deepStrictEqual([k.startLine, k.endLine], [9, 10]);
+  assert.strictEqual(k.body, 'super-ux body line one\nsuper-ux body line two');
+  assert.ok(!R.diff(wellFormed, out.text).includes('-super-ux body'), 'the preview still shows a removal');
+});
+
+it('guarded refresh replaces a section the pack itself last wrote', () => {
+  const out = R.upsert(wellFormed, { 'super-ux': 'packaged now' }, { rendered: { sections: { 'super-ux': sha(SU_RAW) } } });
+  assert.ok(out.text.includes('packaged now'));
+  assert.ok(!out.text.includes('super-ux body line one'));
+  assert.ok(!out.kept.some((x) => x.name === 'super-ux'));
+  assert.strictEqual(out.rendered.sections['super-ux'], sha(R.sectionRaw('super-ux', 'packaged now')));
+});
+
+it('guarded refresh replaces a body when nothing but blank lines would be lost', () => {
+  const out = R.upsert(wellFormed, { 'super-ux': 'super-ux body line one\nsuper-ux body line two\n\nand a new packaged line' }, { rendered: {} });
+  assert.ok(out.text.includes('and a new packaged line'));
+  assert.ok(!out.kept.some((x) => x.kind === 'section'), JSON.stringify(out.kept));
+});
+
+it('guarded refresh keeps a region holding text the pack did not write, and keeps its record stale', () => {
+  // `| a | b |` is not a row the pack renders for these routers.
+  const out = R.upsert(wellFormed, { 'super-ux': 'super-ux body line one\nsuper-ux body line two' }, { rendered: { regions: { TABLE: 'old' } } });
+  assert.ok(out.text.includes('| a | b |'), 'the operator row was dropped');
+  const k = out.kept.find((x) => x.kind === 'region' && x.name === 'TABLE');
+  assert.ok(k, JSON.stringify(out.kept));
+  assert.deepStrictEqual([k.startLine, k.endLine], [18, 18]);
+  assert.strictEqual(out.rendered.regions.TABLE, 'old', 'a kept region must stay foreign to the record');
+  const again = R.upsert(wellFormed, { 'super-ux': 'super-ux body line one\nsuper-ux body line two' }, { rendered: { regions: { TABLE: sha(TABLE_RAW) } } });
+  assert.ok(!again.text.includes('| a | b |'), 'a region the pack last wrote was not refreshed');
+});
+
+it('an unguarded upsert behaves exactly as before (callers that keep no record)', () => {
+  const out = R.upsert(wellFormed, { 'super-ux': 'packaged now' });
+  assert.ok(out.text.includes('packaged now'));
+  assert.deepStrictEqual(out.kept, []);
+});
+
+it('line numbers count from the caller-supplied offset (Cursor frontmatter)', () => {
+  const out = R.upsert(wellFormed, { 'super-ux': 'packaged now' }, { rendered: {}, lineOffset: 5 });
+  const k = out.kept.find((x) => x.name === 'super-ux');
+  assert.deepStrictEqual([k.startLine, k.endLine], [14, 15]);
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

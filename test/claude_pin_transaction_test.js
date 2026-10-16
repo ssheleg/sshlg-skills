@@ -2,9 +2,9 @@
 const assert=require('assert'),fs=require('fs'),os=require('os'),path=require('path');
 const S=require('../lib/claude-plugin-source'),P=require('../lib/claude-pinned'),T=require('../lib/claude-pin-transaction');
 let count=0;
-function test(name,fn){const box=fs.mkdtempSync(path.join(os.tmpdir(),'claude-transaction-'));try{fn(fixture(box));count++;console.log('ok '+name);}finally{fs.rmSync(box,{recursive:true,force:true});}}
-function fixture(box) {
- const home=box+'/home',profile=home+'/.claude',id='probe@fixture',a='a'.repeat(40),b='b'.repeat(40);
+function test(name,fn,profileRel){const box=fs.mkdtempSync(path.join(os.tmpdir(),'claude-transaction-'));try{fn(fixture(box,profileRel));count++;console.log('ok '+name);}finally{fs.rmSync(box,{recursive:true,force:true});}}
+function fixture(box,profileRel='.claude') {
+ const home=box+'/home',profile=home+'/'+profileRel,id='probe@fixture',a='a'.repeat(40),b='b'.repeat(40);
  const payload=profile+'/plugins/cache/fixture/probe/1.0.0',sf=profile+'/settings.json',rf=profile+'/plugins/installed_plugins.json';
  const raw=JSON.stringify({name:'probe',version:'1.0.0'}),files={'.claude-plugin/plugin.json':raw,'value.txt':'second'};
  const m={name:'fixture',repo:'o/r',commit:b,version:'1.0.0',pluginInstall:id};
@@ -13,10 +13,10 @@ function fixture(box) {
  fs.mkdirSync(payload+'/.claude-plugin',{recursive:true});fs.writeFileSync(payload+'/.claude-plugin/plugin.json',raw);fs.writeFileSync(payload+'/value.txt','first');
  const rec={scope:'user',version:'1.0.0',gitCommitSha:a,installPath:payload};fs.writeFileSync(rf,JSON.stringify({version:2,plugins:{[id]:[rec]}}));
  fs.writeFileSync(sf,'{\r\n "huge":1000001.2500, "enabledPlugins":{"probe@fixture":false,"foreign@foreign":false}, "env":{"KEEP":"same"}\r\n}\r\n');
- const calls=[];let hook=null;
+ const calls=[],envs=[];let hook=null;
  const plan=()=>P.prepare([m],inventory,opts);
- function runner(cmd,args) {
-  calls.push(args);
+ function runner(cmd,args,opts) {
+  calls.push(args);if(args[0]==='plugin')envs.push(opts.env);
   if(args[0]==='--version')return {status:0,stdout:'2.1.296 (Claude Code)'};
   if(hook){const result=hook(args);if(result)return result;}
   const current=JSON.parse(fs.readFileSync(sf));
@@ -29,7 +29,7 @@ function fixture(box) {
   fs.writeFileSync(sf,JSON.stringify(current,null,2));return {status:0,stdout:''};
  }
  function planCatalog(){return home+'/.sshlg-skills/claude-pinned/'+S.sha256(require('../lib/visibility-state').profilePath(profile)).slice(0,16)+'/fixture/.claude-plugin/marketplace.json';}
- return {box,home,profile,id,a,b,payload,sf,rf,m,row,inventory,opts,calls,plan,runner,setHook:f=>hook=f,execute:()=>T.execute(plan(),[m],inventory,{runner})};
+ return {box,home,profile,id,a,b,payload,sf,rf,m,row,inventory,opts,calls,envs,plan,runner,setHook:f=>hook=f,execute:()=>T.execute(plan(),[m],inventory,{runner})};
 }
 test('same-version repair verifies exact payload and restores raw round-trip-safe numbers + disabled state',f=>{const r=f.execute();assert(r.ok,JSON.stringify(r));const s=fs.readFileSync(f.sf,'utf8');assert(s.includes('1000001.2500'));assert(s.includes('\r\n'));assert.equal(JSON.parse(s).enabledPlugins[f.id],false);assert.equal(f.plan().jobs[0].action,'verify');assert.equal(r.results[0].files,2);});
 test('failure after uninstall rolls back through native CLI and permits safe retry',f=>{let fail=true;f.setHook(a=>{if(fail&&a[1]==='install'){fail=false;return {status:1};}});const r=f.execute();assert.equal(r.ok,false);assert.equal(r.results[0].rollback,'verified-prior-payload');assert.equal(fs.readFileSync(f.payload+'/value.txt','utf8'),'first');assert(f.execute().ok);});
@@ -120,4 +120,20 @@ test('runtime refuses error signal and unsuccessful status despite compatible st
  }
  assert.equal(T.runtime(()=>({status:0,stdout:'2.1.296 (Claude Code)'})),'2.1.296 (Claude Code)');
 });
+test('runtime admits every Claude Code release from 2.1.296 on, across minors and majors (B-203)',()=>{
+ for(const v of ['2.1.296','2.1.300','2.2.0','2.10.1','3.0.1','2.2.0-beta.1']) assert.equal(T.runtime(()=>({status:0,stdout:v+' (Claude Code)\n'})),v+' (Claude Code)',v);
+ for(const v of ['2.1.295','2.0.999','1.9.400','0.2.0']) assert.throws(()=>T.runtime(()=>({status:0,stdout:v+' (Claude Code)'})),new RegExp('2\\.1\\.296 or later.*found '+v.replace(/\./g,'\\.')),v);
+ for(const out of ['','Claude Code','v2.2.0','2.2','latest',undefined]) assert.throws(()=>T.runtime(()=>({status:0,stdout:out})),/2\.1\.296 or later.*unparsable/,String(out));
+});
+test('default profile: claude plugin children get no CLAUDE_CONFIG_DIR, even an inherited one (B-220)',f=>{
+ const saved=process.env.CLAUDE_CONFIG_DIR;process.env.CLAUDE_CONFIG_DIR=f.profile;
+ try{const r=f.execute();assert(r.ok,JSON.stringify(r));}finally{if(saved===undefined)delete process.env.CLAUDE_CONFIG_DIR;else process.env.CLAUDE_CONFIG_DIR=saved;}
+ assert(f.envs.length>0);
+ for(const env of f.envs){assert.equal(env.HOME,require('../lib/visibility-state').profilePath(f.home));assert(!Object.prototype.hasOwnProperty.call(env,'CLAUDE_CONFIG_DIR'),'CLAUDE_CONFIG_DIR leaked for the default profile');}
+});
+test('non-default profile: claude plugin children keep CLAUDE_CONFIG_DIR on that profile (B-220)',f=>{
+ const r=f.execute();assert(r.ok,JSON.stringify(r));
+ assert(f.envs.length>0);
+ for(const env of f.envs){assert.equal(env.HOME,require('../lib/visibility-state').profilePath(f.home));assert.equal(env.CLAUDE_CONFIG_DIR,require('../lib/visibility-state').profilePath(f.profile));}
+},'.claude-work');
 console.log(`PASS: Claude native transaction — ${count} cases`);

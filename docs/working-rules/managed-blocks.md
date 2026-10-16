@@ -13,7 +13,7 @@ is `lib/blocks.js` (reading) and `lib/blockwriter.js` (writing); the tests are
 |---|---|
 | `claude` | `~/.claude/CLAUDE.md` (`CLAUDE_CONFIG_DIR`) |
 | `codex` | `~/.codex/AGENTS.md` (`CODEX_HOME`) |
-| `gemini` | `~/.gemini/GEMINI.md` (`GEMINI_CONFIG_DIR`) |
+| `gemini` | `~/.gemini/GEMINI.md` (`GEMINI_CLI_HOME`, a HOME replacement: the file is `$GEMINI_CLI_HOME/.gemini/GEMINI.md`) |
 | `pi` | `~/.pi/agent/AGENTS.md` (`PI_CODING_AGENT_DIR`) |
 | `cursor` | `~/.cursor/rules/sshlg-routing.mdc`, `~/.cursor/rules/sshlg-wait.mdc` |
 
@@ -71,6 +71,15 @@ syntax state, claimed owner, registered owner and writer admission. It reads met
 only: no block text is printed, and nothing is created — no directory, lock, backup or
 journal. Missing files are `ABSENT`; unreadable, oversized, symlinked or concurrently
 changed files are reported as such and make the exit code 1.
+
+Each block the hub writes also gets a `content` state, compared with the hub's own
+record of what it wrote: the wait rule against `~/.sshlg-skills/wait-rules.json`,
+router sections and the map, protocol and table regions against the hashes in
+`~/.sshlg-skills/routers-rendered.json`. `AS_WRITTEN` matches; `NO_RECORD` and
+`RECORD_UNREADABLE` say there is nothing to compare with; `FOREIGN_TEXT_INSIDE`
+carries a line range and makes the exit code 1. The wait rule's range is the exact
+changed lines; a router section's or region's is its inner lines, since only hashes
+are recorded. The text itself is never printed.
 
 `npx sshlg-skills blocks diff OWNER:NAME --from FILE --agent HOST` prints the selected
 block's current and proposed text. It writes nothing.
