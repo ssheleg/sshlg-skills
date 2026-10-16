@@ -1,3 +1,30 @@
+## 2026-10-17 — v1.65.0 host-validation release (ITER-1016) released and installed
+
+Brief: [2026-10-16-host-validation-release](briefs/2026-10-16-host-validation-release.md).
+[Installed readback](iter-1016/installed-1.65.0.md). `npm test` on the release tree: 139 suites / 2615
+fixtures / 11 members, exit 0. `python3 test/check_pins.py`: every pin matches its release, exit 0.
+CTX-04.06 staging receipt re-emitted for the new set (`OK (6 checks)`). Release run 38982999523 passed on
+the tag `v1.65.0` (`f2f24dc`); npm serves 1.65.0.
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| R1 | B-203 Claude ≥ 2.1.296 incl. 2.2/3.x | `test/claude_pin_transaction_test.js` (2.1.295 refused, 2.2.0 and 3.0.1 accepted), in the release tree's `npm test` | v1.65.0 | a change to `runtime()` in `lib/claude-pin-transaction.js` | 2026-10-17, release tree |
+| R2 | B-204 `GEMINI_CLI_HOME` | `test/gemini_cli_home_test.js` (7 cases) | v1.65.0 | a Gemini CLI release that renames `GEMINI_CLI_HOME` | 2026-10-17, release tree |
+| R3 | B-219 OpenClaw opt-in | `test/host_targets_test.js`; installed `update` log names no OpenClaw step | v1.65.0 | `openclaw` returning to `skills.json` `defaultAgents` | 2026-10-17, operator machine |
+| R4 | B-220 no stray `~/.claude/.claude.json` | `test/claude_pin_transaction_test.js` (default profile: no `CLAUDE_CONFIG_DIR`) | v1.65.0 | a change to the pin transaction's child env | 2026-10-17, release tree |
+| R5 | B-213 Continue only when present | `test/host_targets_test.js` (`--agent codex` plans none) | v1.65.0 | a change to `continueHasFamilyCopies()` or the plan scope | 2026-10-17, release tree |
+| R6 | B-208 wait-rule gap named | `test/wait_rules_cli_test.js`; installed `update` printed no gap (every host has a receipt) | v1.65.0 | a change to the wait-rule consent model (`lib/wait-rule-policy.js`) | 2026-10-17, operator machine |
+| R7 | B-201 foreign text refuses one host | `test/wait_rules_cli_test.js` (three `update` runs, equal hashes), `test/blocks_test.js` | v1.65.0 | a change to `lib/wait-rules.js` refusal or `lib/foreign-lines.js` | 2026-10-17, release tree |
+| R8 | B-202 router edits kept | `test/routers_test.js`, `test/drift_test.js` | v1.65.0 | a change to `lib/routers.js` upsert or `routers-rendered.json` | 2026-10-17, release tree |
+| R9 | B-215 README | `test/doc_refs.py`, `validate.py` in `npm test` | v1.65.0 | README edits to the host tables | 2026-10-17, release tree |
+| R10 | B-195 labelled-secret detector | `test/labelled_secrets_test.js` (204), `test/hooks_e2e_test.js` (81) on the merged tree; #224 | v1.65.0 | a change to `lib/labelledsecrets.js` or the PostToolUse matcher | 2026-10-16, merged tree |
+| R11–R15 | WebKit-first doctrine in five members | each member's `test/audit_regressions/safari-first.py` (task-pipeline: negative 463), watched failing before the text | members (see installed readback) | a member doctrine edit to the engine order | 2026-10-17, member release trees |
+| R16 | members released | release runs selected by tag; `npm view` for all five (installed readback table) | members (see installed readback) | a new member release | 2026-10-17, npm |
+| R17 | hub release installed | installed readback: Claude plugins = pins, `hooks status` matches, `blocks` valid, operator blocks kept | v1.65.0 | the next `update` on this machine | 2026-10-17, operator machine |
+
+
+Not observed: model behaviour (does an agent open Safari first); Codex's six deferred members (B-188/B-210).
+
 ## 2026-10-01 — v1.52.6 display-copy guard released and installed
 
 The [root-cause report](audits/2026-10-01-display-copy/README.md) links the four
