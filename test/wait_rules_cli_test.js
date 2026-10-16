@@ -45,4 +45,37 @@ test('actual packaged uninstall removes only selected owned wait text',(h,run,en
  const f=host(h,'.codex','AGENTS.md'),c=host(h,'.claude','CLAUDE.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply']));const before=fs.readFileSync(c,'utf8');
  const r=packaged(h,env)(['uninstall','--no-claude','--agent','codex']);ok(r);assert.equal(fs.readFileSync(f,'utf8'),'USER TEXT\n');assert.equal(fs.readFileSync(c,'utf8'),before);
 });
+const sha=f=>require('crypto').createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+function intrude(f,line='OPERATOR RULE'){const B='<!-- SSHLG:RULE:wait-is-not-a-stop:BEGIN -->\n';const t=fs.readFileSync(f,'utf8').replace(B,B+line+'\n');fs.writeFileSync(f,t);return {text:t,line:t.split('\n').indexOf(line)+1};}
+// B-201: one edited block used to abort every step on every host with the usage-error code.
+test('foreign text inside one owned wait block refuses that block only: file:line named, other steps run, exit 1, three runs byte-identical',(h,run,env)=>{
+ const x=host(h,'.codex','AGENTS.md'),g=host(h,'.gemini','GEMINI.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply','--agent','codex,gemini']));
+ const {text,line}=intrude(x);const gBefore=fs.readFileSync(g,'utf8');
+ const dry=run(['update','--dry-run','--no-claude']);assert.equal(dry.status,0,dry.stdout+dry.stderr);assert(dry.stdout.includes('codex: refused'),dry.stdout);assert(dry.stdout.includes(`${x}:${line}`),dry.stdout);assert.equal(fs.readFileSync(x,'utf8'),text);
+ const up=packaged(h,env),hashes=[];
+ for(let i=0;i<3;i++){
+  const r=up(['update','--no-claude']);assert.equal(r.status,1,r.stdout+r.stderr);
+  assert(r.stdout.includes(`rules.wait: codex refused — ${x}:${line}`),r.stdout);assert(/outside the markers/.test(r.stdout),r.stdout);
+  assert(r.stdout.includes('rules.wait: gemini unchanged'),r.stdout);assert(r.stdout.includes('== Refreshing the routing block =='),r.stdout);
+  hashes.push(sha(x));
+ }
+ assert.equal(fs.readFileSync(x,'utf8'),text);assert.equal(new Set(hashes).size,1);assert.equal(fs.readFileSync(g,'utf8'),gBefore);
+ assert(fs.readFileSync(path.join(h,'stub-calls'),'utf8').includes('npx'),'the skills CLI step ran');
+ // Moving the text outside the markers is the whole remedy.
+ fs.writeFileSync(x,text.replace('OPERATOR RULE\n','')+'OPERATOR RULE\n');ok(up(['update','--no-claude']));assert(fs.readFileSync(x,'utf8').endsWith('OPERATOR RULE\n'));
+});
+test('the explicit rules command names the file and line of foreign text and writes nothing',(h,run)=>{
+ const x=host(h,'.codex','AGENTS.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply','--agent','codex']));const {text,line}=intrude(x);
+ const r=run(['rules','--apply','--agent','codex']);assert.equal(r.status,1,r.stdout+r.stderr);assert(r.stdout.includes(`${x}:${line}`),r.stdout);assert.equal(fs.readFileSync(x,'utf8'),text);
+});
+// B-208: an enabled rule never reached a host added later, and nothing said so.
+test('update names a policy-on host without a receipt with the exact command and writes nothing there',(h,run,env)=>{
+ const x=host(h,'.codex','AGENTS.md'),p=host(h,path.join('.pi','agent'),'AGENTS.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply','--agent','codex']));
+ const up=packaged(h,env);
+ for(let i=0;i<3;i++){const r=up(['update','--no-claude']);ok(r);assert(r.stdout.includes(`rules.wait: pi not applied — ${p}`),r.stdout);assert(r.stdout.includes('npx sshlg-skills rules --apply --agent pi'),r.stdout);assert(!/cursor: not-applied|cursor not applied/.test(r.stdout),r.stdout);}
+ assert.equal(fs.readFileSync(p,'utf8'),'USER TEXT\n');
+ ok(run(['rules','--apply','--agent','pi']));const r=up(['update','--no-claude']);ok(r);assert(!r.stdout.includes('rules.wait: pi not applied'),r.stdout);assert(r.stdout.includes('rules.wait: pi unchanged'),r.stdout);
+ // Off: a host never applied is not a gap.
+ ok(run(['config','set','rules.wait','off']));host(h,'.gemini','GEMINI.md');const off=up(['update','--no-claude']);ok(off);assert(!off.stdout.includes('not applied —'),off.stdout);
+});
 console.log(failed ? `FAIL: wait_rules_cli — ${n} passed; ${failed} failed` : `PASS: wait_rules_cli — ${n} cases`);process.exitCode=failed?1:0;

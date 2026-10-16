@@ -53,4 +53,33 @@ test('unknown source revision refuses despite a matching segment hash',h=>{
 test('receipt cannot extend its segment over foreign text even with a recomputed hash',h=>{
  const f=host(h,'codex');P.set(h,'on');apply(h);const rec=W.receipt(h),r=Object.values(rec.data.records)[0];r.segment='FOREIGN\n'+r.segment;r.sourceHash=require('crypto').createHash('sha256').update(r.segment).digest('hex');fs.writeFileSync(rec.file,JSON.stringify(rec.data));P.set(h,'off');const before=fs.readFileSync(f);assert.throws(()=>W.plan(h,opts),/revision|ownership/);assert(fs.readFileSync(f).equals(before));
 });
+// B-201: an edited block is that target's refusal during update, never the whole plan's.
+test('automatic plan refuses only the edited block, names file:line, and execute still writes the others',h=>{
+ const f=host(h,'codex'),g=host(h,'gemini');P.set(h,'on');apply(h);
+ const edited=fs.readFileSync(f,'utf8').replace(T.BEGIN+'\n',T.BEGIN+'\nMINE\n');fs.writeFileSync(f,edited);const line=edited.split('\n').indexOf('MINE')+1;
+ P.set(h,'off');const p=W.plan(h,{...opts,automatic:true});const row=p.rows.find(r=>r.agent==='codex');
+ assert.equal(row.action,'refused');assert.deepEqual(row.lines,{startLine:line,endLine:line});assert(row.reason.includes(f+':'+line),row.reason);assert(/outside the markers/.test(row.remedy));
+ assert.equal(p.rows.find(r=>r.agent==='gemini').action,'remove');
+ const r=W.execute(p);assert.equal(r.ok,false);assert.equal(r.results.find(x=>x.agent==='codex').action,'refused');assert.equal(r.results.find(x=>x.agent==='gemini').action,'remove');
+ assert.equal(fs.readFileSync(f,'utf8'),edited);assert.equal(fs.readFileSync(g,'utf8'),'FOREIGN\n');
+ assert.throws(()=>W.plan(h,opts),new RegExp(f.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+':'+line));
+});
+test('an edit to the separator above BEGIN is refused by its own line, the block untouched',h=>{
+ const f=host(h,'codex','no final newline');P.set(h,'on');apply(h);const t=fs.readFileSync(f,'utf8'),edited=t.replace('\n\n'+T.BEGIN,'\nMINE\n'+T.BEGIN);fs.writeFileSync(f,edited);
+ const row=W.plan(h,{...opts,automatic:true}).rows.find(r=>r.agent==='codex'),line=edited.split('\n').indexOf(T.BEGIN);
+ assert.equal(row.action,'refused');assert.deepEqual(row.lines,{startLine:line,endLine:line});assert(/above the BEGIN marker/.test(row.reason),row.reason);assert.equal(fs.readFileSync(f,'utf8'),edited);
+});
+test('a removed owned block is refused by name during update, with no line to point at',h=>{
+ const f=host(h,'codex');P.set(h,'on');apply(h);fs.writeFileSync(f,'FOREIGN\n');const p=W.plan(h,{...opts,automatic:true});const row=p.rows.find(r=>r.agent==='codex');
+ assert.equal(row.action,'refused');assert.equal(row.lines,null);assert(row.reason.includes(f));assert(/removed/.test(row.reason));
+});
+test('automatic plan marks a policy-on host without a receipt as a gap with its command; an absent root is agent-absent',h=>{
+ host(h,'codex');const g=host(h,'gemini');P.set(h,'on');apply(h,{hostTargets:A.TARGETS.filter(t=>t.agent==='codex')});
+ const p=W.plan(h,{...opts,automatic:true}),row=p.rows.find(r=>r.agent==='gemini');
+ assert.equal(row.action,'not-applied');assert.equal(row.command,'npx sshlg-skills rules --apply --agent gemini');assert.equal(row.file,g);
+ assert.equal(p.rows.find(r=>r.agent==='pi').action,'agent-absent');
+ assert.equal(W.plan(h,{...opts,automatic:true,remove:true}).rows.find(r=>r.agent==='gemini').command,undefined);
+ P.set(h,'off');assert.equal(W.plan(h,{...opts,automatic:true}).rows.find(r=>r.agent==='gemini').command,undefined);
+ P.set(h,'on');host(h,'claude');assert.equal(W.plan(h,{...opts,automatic:true}).rows.find(r=>r.agent==='claude').command,'npx sshlg-skills rules --apply --claude-only');
+});
 console.log(failed ? `FAIL: wait_rules — ${n} passed; ${failed} failed` : `PASS: wait_rules — ${n} cases`);process.exitCode=failed?1:0;

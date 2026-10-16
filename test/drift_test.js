@@ -345,6 +345,71 @@ it('the drift report names a diverging router and stays quiet when none diverge'
   assert.ok(/task-pipeline/.test(loud.out), loud.out);
 });
 
+// B-202: operator text inside a router section or the MAP/PROTOCOL regions left the file on
+// the next refresh, the preview showed only `-` lines, and nothing was said.
+it('a refresh keeps operator text inside a section and the regions, names file:line, and is byte-stable over three runs', () => {
+  const home = tmpHome();
+  const sha = (f) => require('crypto').createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+  fs.mkdirSync(path.join(home, '.codex'), { recursive: true });
+  fs.mkdirSync(path.join(home, '.sshlg-skills'), { recursive: true });
+  fs.writeFileSync(path.join(home, '.sshlg-skills', 'state.json'), '{"routers":"yes"}\n');
+  const file = path.join(home, '.codex', 'AGENTS.md');
+  fs.writeFileSync(file, '# mine\n');
+  assert.strictEqual(run(home, ['routers', '--agent', 'codex']).code, 0);
+  const put = (text, marker, line) => text.replace(marker + '\n', marker + '\n' + line + '\n');
+  let text = fs.readFileSync(file, 'utf8');
+  text = put(text, '<!-- SSHLG:ROUTERS:MAP:BEGIN -->', 'OPERATOR-IN-MAP line');
+  text = put(text, '<!-- SSHLG:ROUTERS:PROTOCOL:BEGIN -->', 'OPERATOR-IN-PROTOCOL line');
+  text = put(text, '<!-- SSHLG:ROUTER:task-pipeline:BEGIN -->', 'OPERATOR-IN-SECTION line');
+  fs.writeFileSync(file, text);
+  const at = (needle) => text.split('\n').indexOf(needle) + 1;
+
+  const dry = run(home, ['routers', '--update', '--dry-run', '--agent', 'codex']);
+  assert.ok(!/^-OPERATOR/m.test(dry.out), 'the preview still deletes operator lines\n' + dry.out);
+  for (const [what, needle] of [['task-pipeline', 'OPERATOR-IN-SECTION line'], ['MAP', 'OPERATOR-IN-MAP line'], ['PROTOCOL', 'OPERATOR-IN-PROTOCOL line']]) {
+    assert.ok(dry.out.includes(`${file}:${at(needle)}`) && dry.out.includes(what), `${what} not named at ${at(needle)}\n` + dry.out);
+  }
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), text, 'a dry run wrote');
+
+  const hashes = [];
+  for (let i = 0; i < 3; i += 1) {
+    const r = run(home, ['routers', '--update', '--agent', 'codex']);
+    assert.strictEqual(r.code, 1, 'a kept region is a refused write: partial, exit 1\n' + r.out);
+    assert.ok(/outside the block/.test(r.out), r.out);
+    hashes.push(sha(file));
+  }
+  assert.strictEqual(new Set(hashes).size, 1, 'three runs differ');
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), text, 'operator text was removed');
+  assert.ok(String(C.authoredGet(C.readConfig(home), 'task-pipeline')).includes('OPERATOR-IN-SECTION line'), 'kept section was not recorded as authored');
+
+  // The remedies the warnings name: lines moved out of the regions; adopt takes the packaged section.
+  fs.writeFileSync(file, text.replace('OPERATOR-IN-MAP line\n', '').replace('OPERATOR-IN-PROTOCOL line\n', '') + 'OPERATOR-IN-MAP line\n');
+  assert.strictEqual(run(home, ['routers', '--update', '--agent', 'codex']).code, 0);
+  const adopt = run(home, ['routers', '--update', '--adopt', 'task-pipeline', '--agent', 'codex']);
+  assert.strictEqual(adopt.code, 0, adopt.out);
+  const after = fs.readFileSync(file, 'utf8');
+  assert.ok(!after.includes('OPERATOR-IN-SECTION line'), 'adopt did not take the packaged section');
+  assert.ok(after.endsWith('OPERATOR-IN-MAP line\n'), 'text outside the block changed');
+  assert.ok(String(C.stashGet(C.readConfig(home), 'adopted:task-pipeline')).includes('OPERATOR-IN-SECTION line'));
+});
+
+it('without a record of what the pack wrote (an older release wrote the block), operator text is still kept', () => {
+  const home = tmpHome();
+  fs.mkdirSync(path.join(home, '.codex'), { recursive: true });
+  fs.mkdirSync(path.join(home, '.sshlg-skills'), { recursive: true });
+  fs.writeFileSync(path.join(home, '.sshlg-skills', 'state.json'), '{"routers":"yes"}\n');
+  const file = path.join(home, '.codex', 'AGENTS.md');
+  fs.writeFileSync(file, '# mine\n');
+  assert.strictEqual(run(home, ['routers', '--agent', 'codex']).code, 0);
+  fs.rmSync(path.join(home, '.sshlg-skills', 'routers-rendered.json'), { force: true });
+  const text = fs.readFileSync(file, 'utf8').replace('<!-- SSHLG:ROUTER:task-pipeline:BEGIN -->\n', '<!-- SSHLG:ROUTER:task-pipeline:BEGIN -->\nOPERATOR-IN-SECTION line\n');
+  fs.writeFileSync(file, text);
+  const r = run(home, ['routers', '--update', '--agent', 'codex']);
+  assert.strictEqual(r.code, 0, r.out);
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), text);
+  assert.ok(fs.existsSync(path.join(home, '.sshlg-skills', 'routers-rendered.json')), 'the record was not written');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
