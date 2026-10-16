@@ -1,0 +1,567 @@
+{
+ "schema": 1,
+ "sources": [
+  {
+   "url": "https://code.claude.com/docs/en/headless.md",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/headless.md:70",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/hooks",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/hooks.md",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/memory",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/memory.md",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/permissions.md",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/plugins/loading.md",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/plugins/marketplace-reference",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/settings-reference.md",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/skills",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/skills.md",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.visualstudio.com/docs/copilot/customization/agent-skills",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.visualstudio.com/docs/copilot/customization/custom-instructions",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://code.visualstudio.com/docs/copilot/customization/hooks",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://cursor.com/docs/agent/hooks",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://cursor.com/docs/cli/reference/permissions",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://cursor.com/docs/cli/using",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://cursor.com/docs/context/rules",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://cursor.com/docs/context/skills",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://cursor.com/docs/reference/third-party-hooks",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://cursor.com/install",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.devin.ai/desktop/cascade/hooks",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.devin.ai/desktop/cascade/memories",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.devin.ai/desktop/cascade/skills",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.factory.com/cli/configuration/agents-md",
+   "groups": [
+    "cli5"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.factory.com/cli/configuration/plugins",
+   "groups": [
+    "cli5"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.factory.com/cli/configuration/skills",
+   "groups": [
+    "cli5"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.factory.com/reference/hooks-reference",
+   "groups": [
+    "cli5"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/use-hooks",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://docs.warp.dev/agents/capabilities/rules/",
+   "groups": [
+    "cli5"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://geminicli.com/docs/cli/skills/",
+   "groups": [
+    "gemini"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://github.com/MoonshotAI/kimi-code/blob/main/apps/kimi-code/CHANGELOG.md",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://github.com/NousResearch/hermes-agent/releases",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://github.com/aaif-goose/goose",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://github.com/aaif-goose/goose/releases",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://github.com/anomalyco/opencode",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://github.com/anomalyco/opencode/releases",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://github.com/openai/codex/releases/tag/rust-v0.163.0",
+   "groups": [
+    "codex"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://goose-docs.ai/docs/guides/context-engineering/hooks",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://goose-docs.ai/docs/guides/managing-tools/goose-permissions",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://goose-docs.ai/docs/guides/using-goosehints",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://goose-docs.ai/docs/guides/using-persistent-instructions",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/context-files",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/hooks",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/skills",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://kiro.dev/changelog/cli/",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://kiro.dev/docs/hooks/",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://kiro.dev/docs/skills/",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://kiro.dev/docs/steering/",
+   "groups": [
+    "ide"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+   "groups": [
+    "codex"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/agent-configuration/rules",
+   "groups": [
+    "codex"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/build-skills",
+   "groups": [
+    "codex"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/config-file/config-reference",
+   "groups": [
+    "codex"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/hooks",
+   "groups": [
+    "codex"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/plugins",
+   "groups": [
+    "codex"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://moonshotai.github.io/kimi-code/en/configuration/config-files.html#permission",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://moonshotai.github.io/kimi-code/en/customization/agents.html",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://moonshotai.github.io/kimi-code/en/customization/hooks.html",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://moonshotai.github.io/kimi-code/en/customization/plugins.html",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://moonshotai.github.io/kimi-code/en/customization/skills.html",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://opencode.ai/docs/permissions/",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://opencode.ai/docs/plugins/",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://opencode.ai/docs/rules/",
+   "groups": [
+    "cli4",
+    "installer"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://opencode.ai/docs/skills/",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://opencode.ai/v2/docs/instructions",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://opencode.ai/v2/docs/permissions",
+   "groups": [
+    "cli4"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://qwenlm.github.io/qwen-code-docs/en/users/configuration/settings/",
+   "groups": [
+    "gemini"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://qwenlm.github.io/qwen-code-docs/en/users/features/hooks/",
+   "groups": [
+    "gemini"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://raw.githubusercontent.com/continuedev/continue/main/extensions/cli/src/hooks/{types",
+   "groups": [
+    "cli5"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://raw.githubusercontent.com/continuedev/continue/main/extensions/cli/src/systemMessage.ts",
+   "groups": [
+    "cli5"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://raw.githubusercontent.com/continuedev/continue/main/extensions/cli/src/util/loadMarkdownSkills.ts",
+   "groups": [
+    "cli5"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://raw.githubusercontent.com/vercel-labs/skills/v1.7.2/src/agents.ts",
+   "groups": [
+    "gemini"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://registry.npmjs.org/@anthropic-ai/claude-code/latest",
+   "groups": [
+    "claude"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://registry.npmjs.org/@google/gemini-cli",
+   "groups": [
+    "gemini"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://registry.npmjs.org/@qwen-code/qwen-code",
+   "groups": [
+    "gemini"
+   ],
+   "read_at": "2026-10-16"
+  },
+  {
+   "url": "https://registry.npmjs.org/skills/-/skills-1.7.2.tgz",
+   "groups": [
+    "gemini",
+    "installer"
+   ],
+   "read_at": "2026-10-16"
+  }
+ ]
+}

@@ -1,0 +1,1139 @@
+{
+ "schema": 1,
+ "as_of": "2026-10-16",
+ "hub": "1.64.0 (a5c1615)",
+ "findings": [
+  {
+   "id": "CLAUDE-1",
+   "group": "claude",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub (report/README) + members (description length) + operator (budget/plugin choice)",
+   "title": "Family skill descriptions do not fit Claude's skill-listing budget; 19 of 39 family skills reach the model name-only, and README says Claude hides everything outside the core when plugin skills cannot be hidden",
+   "evidence": [
+    "probe debug log: 'Skill listing over budget: 116 skills, 68658 chars > 30000 budget — descriptions will be truncated'",
+    "family descriptions alone total 32,546 chars (39 SKILL.md in plugin cache) > 30,000 budget",
+    "this session's skill listing: xr-dev quest-* (7), web3d-* (3), telegram-miniapps/userbots, crypto-payments, frontend-performance, google-auth, google-signin, agent-interop, vision, ux-foundation carry no description",
+    "settings-reference.md:4313 'Overrides don't apply to plugin skills'; binary Lx(): source==='plugin' returns 'on'; probe: 23 foreign plugin skills (anthropic-skills 9, fabric-agent-adapter 4, observatory-log 3, …) stay listed",
+    "README.md:617 'Claude Code and Codex hide every skill outside the usage core'; visibility preview prints '≈ 62509 → 62509 characters' and '30000 characters measured' but never says the result is still over budget or which family skills lose descriptions"
+   ],
+   "fix": "hub: visibility preview compares charsAfter to the budget and names family skills that will be name-only; correct README.md:617 (plugin skills are out of skillOverrides' reach; disable foreign plugins via enabledPlugins or pack marks); offer an explicit, operator-consented skillListingBudgetFraction (e.g. 0.03 ≈ 90k chars) or name-only for low-priority foreign skills. members: shorten descriptions (family needs ≤ ~600 chars avg to fit alongside the core).",
+   "status": "open"
+  },
+  {
+   "id": "CLAUDE-2",
+   "group": "claude",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Pin transaction refuses any Claude Code outside 2.1.x — family plugin updates stop on the next minor release",
+   "evidence": [
+    "lib/claude-pin-transaction.js:79-84: /^2\\.1\\.(\\d+)\\b/ and patch >= 296, else throw 'requires verified CLI 2.1.296 or later in 2.1.x'"
+   ],
+   "fix": "accept >= 2.1.296 across later minors after a contract re-check (plugin subcommands/flags/installed_plugins.json version 2), or fail with a named re-verification step and a backlog row",
+   "status": "open"
+  },
+  {
+   "id": "CLAUDE-3",
+   "group": "claude",
+   "host": null,
+   "severity": "deferred",
+   "owner": "operator + hub",
+   "title": "~/.claude/CLAUDE.md is 626 lines / 40,058 chars — above Claude's 40,000-char per-file warning floor and 3x the documented 200-line target",
+   "evidence": [
+    "node char count: 40,058 chars, 626 lines; hub block 22,977 B",
+    "binary Lrt(): max(40000, ctx*0.05*charsPerToken) — warns on ≤200k-context models, not on opus[1m]",
+    "memory.md:88 'target under 200 lines'"
+   ],
+   "fix": "hub `context` should print the char threshold next to the 200-line note; operator moves dated procedures out (most of the non-hub 17.7 kB)",
+   "status": "open"
+  },
+  {
+   "id": "CLAUDE-4",
+   "group": "claude",
+   "host": null,
+   "severity": "deferred",
+   "owner": "operator",
+   "title": "Installed 2.1.299 lags latest 2.1.301",
+   "evidence": [
+    "registry latest 2.1.301; 2.1.301 fixes 'skills no longer being listed to the model after using /rewind' and 'artifact updates being refused where a PreToolUse hook covers Edit or Write' (our PreToolUse covers Edit|Write)"
+   ],
+   "fix": "operator updates Claude Code; no hub change needed",
+   "status": "open"
+  },
+  {
+   "id": "CLAUDE-5",
+   "group": "claude",
+   "host": null,
+   "severity": "deferred",
+   "owner": "upstream (watch) + hub",
+   "title": "Headless runs will lose routing block and hooks when --bare becomes the -p default",
+   "evidence": [
+    "https://code.claude.com/docs/en/headless.md:70 '--bare … will become the default for -p in a future release'; --bare skips hooks, plugins, CLAUDE.md auto-discovery (claude --help)"
+   ],
+   "fix": "watch item: when it lands, document that headless agents need --append-system-prompt-file / --settings for routing; add a probe to hub checks",
+   "status": "open"
+  },
+  {
+   "id": "CLAUDE-6",
+   "group": "claude",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "PreToolUse matcher names tools absent in 2.1.299 and runs as an unanchored regex",
+   "evidence": [
+    "lib/hooks.js:51; probe init.tools has no MultiEdit, Grep or Glob",
+    "hooks.md:291-297: any char outside [A-Za-z0-9_- ,|] makes the matcher an unanchored RegExp"
+   ],
+   "fix": "optional: drop MultiEdit/Grep or anchor with ^(…)$; behaviour is correct, only dead alternatives and extra spawns",
+   "status": "open"
+  },
+  {
+   "id": "CLAUDE-7",
+   "group": "claude",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "Hook rewire is read-modify-write without compare-before-replace",
+   "evidence": [
+    "bin/sshlg-skills.js:993 reads, :1054 protect(), :1059 writeFileSync — unlike claude-pin-transaction.js write() which re-reads and compares"
+   ],
+   "fix": "re-read and compare before rename (as claude-pin-transaction write()); keeps a concurrent permissions edit from being lost (a backup exists today)",
+   "status": "open"
+  },
+  {
+   "id": "CLAUDE-8",
+   "group": "claude",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "Hooks wiring path ignores CLAUDE_CONFIG_DIR while pins and visibility follow it",
+   "evidence": [
+    "bin/sshlg-skills.js:985 path.join(home,'.claude','settings.json'); claude-pinned.js prepare() uses opts.profileRoot; README visibility section: 'follows … CLAUDE_CONFIG_DIR'"
+   ],
+   "fix": "resolve the Claude profile once (visibility-state.profilePath) for hooks too",
+   "status": "open"
+  },
+  {
+   "id": "CLAUDE-9",
+   "group": "claude",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "runtime-sync leaves a deleted module behind",
+   "evidence": [
+    "~/.sshlg-skills/runtime/lib/router-texts.js (2026-09-01) exists; removed from source in ff823db; only a comment references it"
+   ],
+   "fix": "runtime-sync prunes files absent from the package",
+   "status": "open"
+  },
+  {
+   "id": "KIMI-1",
+   "group": "cli4",
+   "host": "kimi-code-cli",
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "Kimi loads a global AGENTS.md, but the hub writes no routing block or operator rules into it",
+   "evidence": [
+    "probe-kimi/req-001.json: '<!-- From: /Users/sshlg/.kimi-code/AGENTS.md -->' loaded; 'Work routing — the ssheleg family' 0, 'Refusal phrase' 0",
+    "~/.kimi-code/AGENTS.md 1,490 B holds only two Fabric sections (Fabric board writer, .bak-board-20261012-233217)",
+    "lib/apply.js:34-46 TARGETS has no kimi entry; README.md:21-23 lists Kimi as a supported host"
+   ],
+   "fix": "Add a Kimi target {agent:'kimi', dir:'.kimi-code', file:'AGENTS.md', env:'KIMI_CODE_HOME'} through protect()/backup, sentinel block coexisting with the Fabric sections; or write one shared ~/.agents/AGENTS.md read by Kimi and Goose. Note Kimi frames AGENTS.md as reference data that cannot override its own instructions.",
+   "status": "stopgap on this machine 2026-10-16: ~/.agents/AGENTS.md -> ~/.pi/agent/AGENTS.md symlink (Kimi, Goose, Warp, Droid read it); hub target still owed"
+  },
+  {
+   "id": "HERMES-1",
+   "group": "cli4",
+   "host": "hermes-agent",
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "Hermes has no user-global instruction file and the hub supplies no other channel: routing and operator rules are absent in every Hermes session",
+   "evidence": [
+    "agent/prompt_builder.py: only $HERMES_HOME/SOUL.md is global; agent/subdirectory_hints.py:195-196 refuses ~/.claude/CLAUDE.md and ~/.codex/AGENTS.md",
+    "~/.hermes/SOUL.md 667 B persona, grep 'Refusal phrase'/'task-pipeline' = 0",
+    "lib/apply.js has no hermes target"
+   ],
+   "fix": "Ship a Hermes plugin that calls register_system_prompt_section with a compact routing map (<=4,000 chars/section, 8,000 total) and the key operator rules, enabled via `hermes config set plugins.enabled`; or a sentinel block appended to SOUL.md (cap 20K chars floor; the 17.9 KB block fits only barely). Remember pre_tool_call plugins fail closed.",
+   "status": "open"
+  },
+  {
+   "id": "GOOSE-1",
+   "group": "cli4",
+   "host": "goose",
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "Goose loads ~/.config/goose/{.goosehints,AGENTS.md} and ~/.agents/AGENTS.md, but none exists and the hub writes none: no routing or operator rules",
+   "evidence": [
+    "probe-goose/req-003.json: 'Work routing — the ssheleg family' 0, 'Refusal phrase' 0, Safari/approval/Fabric 0",
+    "load_hints.rs@v1.44.0:13-24,231-241; ls: all three files absent",
+    "lib/apply.js has no goose target"
+   ],
+   "fix": "Write ~/.agents/AGENTS.md (one block serves Goose and Kimi) or ~/.config/goose/.goosehints with the sentinel block; optionally GOOSE_MOIM_MESSAGE_FILE for a per-turn reminder.",
+   "status": "stopgap on this machine 2026-10-16: ~/.agents/AGENTS.md symlink; hub target still owed"
+  },
+  {
+   "id": "GOOSE-2",
+   "group": "cli4",
+   "host": "goose",
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "`visibility` silently skips Goose although the README promises hiding 'on every host'; Goose lists all 525 skills including the 34 hidden packs",
+   "evidence": [
+    "lib/hostvis.js:100-145 hosts() has no goose entry; `npx sshlg-skills visibility` output names claude, codex, gemini, pi, opencode, hermes, cursor, kimi, not goose",
+    "README.md:591 '### Hiding the marked packs on every host'; README.md:616-626 omit Goose",
+    "probe-goose: 525 skills, 210,473 description chars; skills/mod.rs: no per-skill disable in 1.44/1.54"
+   ],
+   "fix": "Add goose to hostvis hosts() with cannot:'Goose 1.44 has no per-skill switch (only the whole skills extension or a whole plugin)' so the run and README say so; long-term ship hidden packs outside Goose's roots or via a disabled Open Plugin.",
+   "status": "open"
+  },
+  {
+   "id": "OPENCODE-1",
+   "group": "cli4",
+   "host": "opencode",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "OpenCode gets the routing block and every operator rule only through its undocumented Claude fallback; one new file switches it off silently",
+   "evidence": [
+    "probe-opencode/req-002.json: 'Instructions from: /Users/sshlg/.claude/CLAUDE.md', routing x1",
+    "https://opencode.ai/docs/rules/ global CLAUDE.md 'used if no ~/.config/opencode/AGENTS.md exists'; first existing wins (binary: break)",
+    "README.md:437-445 'Five channels' omits OpenCode; Fabric already wrote a board AGENTS.md for Kimi (~/.kimi-code/AGENTS.md.bak-board-*)"
+   ],
+   "fix": "Document OpenCode as a sixth channel (via fallback) and make `hosts`/doctor warn when ~/.config/opencode/AGENTS.md exists without the block or OPENCODE_DISABLE_CLAUDE_CODE(_PROMPT) is set; coordinate with Fabric so it never creates ~/.config/opencode/AGENTS.md without carrying the block.",
+   "status": "open"
+  },
+  {
+   "id": "OPENCODE-2",
+   "group": "cli4",
+   "host": "opencode",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "OpenCode 2 (@opencode/cli 2.0.31, `opencode upgrade --major`) reads AGENTS.md only and uses a new permissions schema: an upgrade drops all rules and the visibility write",
+   "evidence": [
+    "https://opencode.ai/v2/docs/instructions: 'does not use CLAUDE.md as a fallback'",
+    "https://opencode.ai/v2/docs/permissions: permissions:[{action,resource,effect}]",
+    "lib/hostvis.js:123-128 writes v1 permission.skill.<name>"
+   ],
+   "fix": "Before the operator upgrades: add an OpenCode target ~/.config/opencode/AGENTS.md (v2) with the routing block and a v2 visibility writer; detect the major version in `hosts`.",
+   "status": "open"
+  },
+  {
+   "id": "OPENCODE-3",
+   "group": "cli4",
+   "host": "opencode",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "No hub gate on OpenCode: default '*' allow, .env reads only ask (docs wrongly say deny), no secret-reader/hygiene/repo-gate plugin",
+   "evidence": [
+    "/private/tmp/claude-501/-Users-sshlg-DATA-sshlg-skills/d2e870cb-4a8f-4826-b44a-7c77219f08e9/scratchpad/compat/oc-agent-build.json: '*' allow, read *.env ask",
+    "agent.ts@v1.19.3:130-134 vs https://opencode.ai/docs/permissions/ '.env files are denied by default'",
+    "~/.config/opencode/plugins holds only the Orca status plugin"
+   ],
+   "fix": "Ship an OpenCode plugin: tool.execute.before -> lib/guard.js + lib/secretreaders.js decisions (throw blocks the call), experimental.chat.system.transform/chat.message for route reminders; install with backup; or state in README that rules are self-check on OpenCode. Report the .env doc/code mismatch upstream.",
+   "status": "open"
+  },
+  {
+   "id": "OPENCODE-4",
+   "group": "cli4",
+   "host": "opencode",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Visibility inventory reads only direct children of each root, OpenCode scans **/SKILL.md recursively: nested skills escape hiding",
+   "evidence": [
+    "lib/hostvis.js readRoot(): fs.readdirSync(root) + <dir>/SKILL.md only",
+    "`opencode debug skill`: 537 skills vs `visibility` 'opencode: 502 skills in its roots'; nested e.g. ~/.claude/skills/synced/<uuid>/..., ~/.claude/skills/build-zoom-meeting-sdk-app/web"
+   ],
+   "fix": "Make the OpenCode (and Goose/Kimi recursive) inventory walk **/SKILL.md like the host, or read `opencode debug skill`.",
+   "status": "open"
+  },
+  {
+   "id": "KIMI-2",
+   "group": "cli4",
+   "host": "kimi-code-cli",
+   "severity": "deferred",
+   "owner": "member",
+   "title": "Kimi truncates every skill description to 250 chars: all 39 family descriptions lose their trailing triggers",
+   "evidence": [
+    "probe-kimi: 39/39 family descriptions end with '...'",
+    "binary LISTING_DESC_MAX = 250"
+   ],
+   "fix": "Members front-load triggers in the first 250 chars or add the Kimi-honoured `whenToUse` field; add a description-head check to the member validators.",
+   "status": "open"
+  },
+  {
+   "id": "KIMI-3",
+   "group": "cli4",
+   "host": "kimi-code-cli",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Kimi has Claude-compatible hooks and the hub wires none; headless `kimi -p` runs in Never-Ask mode",
+   "evidence": [
+    "https://moonshotai.github.io/kimi-code/en/customization/hooks.html: PreToolUse/UserPromptSubmit/Stop block with exit 2, UserPromptSubmit adds context, fail-open",
+    "~/.kimi-code/config.toml [[hooks]]: 1 Fabric + 7 Orca entries, 0 hub",
+    "probe system-reminder 'Auto permission mode is active'"
+   ],
+   "fix": "Add a Kimi hook adapter (PreToolUse secret-reader/hygiene/repo gate, UserPromptSubmit route reminder) written as exact 4-field [[hooks]] tables with backup; SessionStart cannot inject, use UserPromptSubmit or a plugin sessionStart.skill.",
+   "status": "open"
+  },
+  {
+   "id": "HERMES-2",
+   "group": "cli4",
+   "host": "hermes-agent",
+   "severity": "deferred",
+   "owner": "member",
+   "title": "Hermes skill index shows only the first 57 characters of each description",
+   "evidence": [
+    "agent/skill_utils.py:741-756 SKILL_PROMPT_DESC_LIMIT = 60"
+   ],
+   "fix": "Members put the trigger in the first ~57 chars or add metadata.hermes.tags/category; the index also tells the agent to load any partially relevant skill.",
+   "status": "open"
+  },
+  {
+   "id": "HERMES-3",
+   "group": "cli4",
+   "host": "hermes-agent",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Hermes skill_manage(patch) writes through the family symlinks into the shared ~/.agents/skills copy every other host reads",
+   "evidence": [
+    "~/.hermes/skills/<n> -> ../../.agents/skills/<n> (39/39)",
+    "tools/skill_manager_tool.py:359-378 _guarded_write in place"
+   ],
+   "fix": "Document; consider installing Hermes as a copy (skills CLI --copy for hermes-agent) or detect drift in `update` (skillFolderHash vs pinned).",
+   "status": "open"
+  },
+  {
+   "id": "HERMES-4",
+   "group": "cli4",
+   "host": "hermes-agent",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Hermes gates exist (plugin pre_tool_call, config shell hooks, approvals smart) but the hub wires none; plugin pre_tool_call fails closed, unlike the hub's fail-silent invariant",
+   "evidence": [
+    "hermes_cli/plugins.py:1700-1840; agent/shell_hooks.py:1-5,39,135",
+    "CLAUDE.md invariant 'Hooks fail silent'"
+   ],
+   "fix": "If adapters are added, use config.yaml shell hooks (fail-open, Claude wire format, first-use consent) rather than a plugin pre_tool_call.",
+   "status": "open"
+  },
+  {
+   "id": "GOOSE-3",
+   "group": "cli4",
+   "host": "goose",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Goose's native distribution and gate channel (Open Plugins with skills/ + hooks/hooks.json, `goose plugin update`) is unused; GOOSE_MODE=auto means no approvals",
+   "evidence": [
+    "Goose research: plugins/formats/open_plugins.rs:15-21; hooks/mod.rs:359-364",
+    "~/.config/goose/config.yaml GOOSE_MODE: auto"
+   ],
+   "fix": "Evaluate shipping the family as an Open Plugin for Goose (skills + PreToolUse hooks; SessionStart cannot inject).",
+   "status": "open"
+  },
+  {
+   "id": "CLI4-X1",
+   "group": "cli4",
+   "host": "all",
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "`update --agent <four hosts>` still plans 11 Continue `--copy` installs and a router-block refresh",
+   "evidence": [
+    "/private/tmp/claude-501/-Users-sshlg-DATA-sshlg-skills/d2e870cb-4a8f-4826-b44a-7c77219f08e9/scratchpad/compat/cli4-update-dryrun.txt",
+    "lib/installer-pins.js:32 restore = opts.continueCopies && !agents.includes('continue')"
+   ],
+   "fix": "Bound the Continue restore pass (and say what router-block does) by the --agent selection.",
+   "status": "open"
+  },
+  {
+   "id": "CLI4-N1",
+   "group": "cli4",
+   "host": "all",
+   "severity": "noise",
+   "owner": "operator",
+   "title": "Installed versions lag: OpenCode 1.19.0 < 1.19.3, Kimi 2.1.1 < 2.2.0, Hermes 0.21.4 < 0.22.2, Goose 1.44.0 < 1.54.0; hostvis cites OpenCode 1.18.10",
+   "evidence": [
+    "see per-host latest"
+   ],
+   "fix": "Re-verify after operator upgrades; refresh hostvis header facts.",
+   "status": "open"
+  },
+  {
+   "id": "CLI4-N2",
+   "group": "cli4",
+   "host": "all",
+   "severity": "noise",
+   "owner": "operator",
+   "title": "Stale skills-CLI lock row '<skill-name>' (ssheleg/make-skill templates/SKILL.md, 2026-07-25) with no directory",
+   "evidence": [
+    "~/.agents/.skill-lock.json"
+   ],
+   "fix": "Ignore or prune with the skills CLI.",
+   "status": "open"
+  },
+  {
+   "id": "PI-1",
+   "group": "cli5",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "Wait rule is on but was never applied to Pi; update only refreshes earlier receipts",
+   "evidence": "~/.sshlg-skills/config.json rules.wait=on; ~/.sshlg-skills/wait-rules.json records claude,codex,gemini,cursor only; update --dry-run: 'pi: not-applied (/Users/sshlg/.pi/agent/AGENTS.md)'; Pi native loader: waitRule=false; `rules --agent pi` preview: 'pi: write'",
+   "fix": "hub: while rules.wait=on, update applies the rule to a supported host root that has no receipt yet, or at least lists it as degraded; one-off on this machine: npx sshlg-skills rules --apply --agent pi",
+   "status": "resolved on this machine 2026-10-16: `rules --apply --agent pi`; mechanism gap remains as INST-5"
+  },
+  {
+   "id": "PI-2",
+   "group": "cli5",
+   "host": null,
+   "severity": "blocking",
+   "owner": "operator",
+   "title": "Operator rules are missing from Pi: only the routing block and local-artifacts section load",
+   "evidence": "grep counts: ~/.pi/agent/AGENTS.md has 0 Observatory/secrets, 0 repository-handoff, 0 Safari, 0 no-approval, 0 spending sections; Codex/Gemini/Cursor carry them; loader context_files (tmp cwd) = only ~/.pi/agent/AGENTS.md",
+   "fix": "operator: copy the global rule set into ~/.pi/agent/AGENTS.md (below the hub block) or ~/.pi/agent/APPEND_SYSTEM.md; hub could add a 'mirror operator rules' step that reports which hosts are missing them",
+   "status": "resolved on this machine 2026-10-16: OPERATOR:GLOBAL-RULES + OBSERVATORY:AGENT-UPDATES blocks via `blocks install`"
+  },
+  {
+   "id": "PI-3",
+   "group": "cli5",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "None of the hub guards or reminders run in Pi; its extension API could host them",
+   "evidence": "Pi has no hook config; docs/extensions.md:105 'tool_call can mutate input or block execution'; :260 a handler failure blocks the tool (fail-closed); hub hooks are Claude-only (lib/hooks.js:47-58)",
+   "fix": "add a Pi extension (or Pi package) that wraps lib/guard.js, hygiene.js and repogate.js on tool_call and emits route reminders on before_agent_start; catch every error to keep fail-silent; install and remove it through protect()",
+   "status": "open"
+  },
+  {
+   "id": "PI-4",
+   "group": "cli5",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Pi's skill listing costs about 145k characters a session and has no cap",
+   "evidence": "offline createAgentSession: system prompt 166686 chars, <available_skills> 144987 chars, 176 entries; Claude listing is 62509 by visibility preview; Pi visibility hides marked packs only",
+   "fix": "offer core-only visibility on Pi as for Claude/Codex, and have `hosts`/visibility report Pi's listing size",
+   "status": "open"
+  },
+  {
+   "id": "PI-5",
+   "group": "cli5",
+   "host": null,
+   "severity": "noise",
+   "owner": "operator",
+   "title": "Pi 1.1.0 is installed; 1.3.0 is latest. The contract docs have not changed",
+   "evidence": "npm view: 1.3.0 (2026-10-15); diff of configuration.md and skills.md is empty; extensions.md before_agent_start messageType (1.2.0)",
+   "fix": "operator upgrade at will; a future hub extension must check messageType",
+   "status": "open"
+  },
+  {
+   "id": "PI-6",
+   "group": "cli5",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "`hosts` counts Pi skills on disk (500) and ignores the settings exclusions (179 actually load)",
+   "evidence": "hosts: 'skills root (user) ~/.agents/skills 500'; native loader loaded_total 179",
+   "fix": "count after settings.json exclusions, or label the number as files",
+   "status": "open"
+  },
+  {
+   "id": "CONT-1",
+   "group": "cli5",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Update re-copies Continue skills on a machine without Continue",
+   "evidence": "no cn binary or extension, ~/.continue has only skills/; update --dry-run adds 11 `--agent continue --global --yes --copy` steps; continueHasFamilyCopies() checks only the directory (bin/sshlg-skills.js:1991-1997). The copies are current: 39/39 full trees match ~/.agents/skills, and the lock refs match the pins 39/39",
+   "fix": "require evidence that the host is present (cn on PATH, ~/.continue/config.yaml or an IDE extension) before adding the restore steps, or document the copies as kept on purpose",
+   "status": "open"
+  },
+  {
+   "id": "CONT-2",
+   "group": "cli5",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Untested: Continue CLI reads ~/.claude/settings.json hooks (so ours would fire) but would receive no routing",
+   "evidence": "continue main hooks/hookConfig.ts:4-12,80 reads ~/.claude/settings.json; tools named Read/Write/Bash/Edit/MultiEdit match our PreToolUse matcher; rules come only from cwd AGENTS.md and ~/.continue/rules (systemMessage.ts:89-178)",
+   "fix": "if Continue is supported: write ~/.continue/rules/sshlg-routing.md (alwaysApply) and add a Continue payload fixture to the hooks e2e test",
+   "status": "open"
+  },
+  {
+   "id": "DROID-1",
+   "group": "cli5",
+   "host": null,
+   "severity": "noise",
+   "owner": "operator",
+   "title": "Droid is not installed; ~/.factory/skills holds a stale partial set of family symlinks",
+   "evidence": "no droid binary; 27 family symlinks with 12 missing (quest-*, web3d-*, telegram-userbots, skill-search); skills lock lastSelectedAgents includes droid; the skills CLI's droid detection is the ~/.factory directory itself (cli.mjs:1656-1664). Warp also reads ~/.factory/skills, below ~/.agents/skills",
+   "fix": "none needed while Droid is absent. If it is installed: it reads ~/.agents/skills as a personal compatibility root; route via ~/.factory/AGENTS.md or ~/.agents/AGENTS.md; Droid hooks are Claude-shaped but use different tool names",
+   "status": "open"
+  },
+  {
+   "id": "WARP-1",
+   "group": "cli5",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "Warp Agent is disabled. If enabled it would see 39 family skills but no routing block",
+   "evidence": "~/.warp/settings.toml is_any_ai_enabled=false; skill_provider.rs ranks ~/.agents/skills first; global rule file ~/.agents/AGENTS.md is absent",
+   "fix": "if Warp/Droid support is wanted, a hub-owned ~/.agents/AGENTS.md routing block covers both (Warp global_rules.rs; Droid reads ~/.agents/)",
+   "status": "open"
+  },
+  {
+   "id": "ZCODE-1",
+   "group": "cli5",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "ZCode is installed and sees all 39 skills but gets no routing, operator rules or guards",
+   "evidence": "~/.zcode/AGENTS.md absent (bundle: user default ~/.zcode/AGENTS.md); skill roots ~/.zcode/skills then ~/.agents/skills; Claude-style hooks with trust review; .claude-plugin plugins and marketplaces accepted",
+   "fix": "add a ZCode TARGET (~/.zcode/AGENTS.md) next to Pi; consider the .claude-plugin marketplace channel; hooks need a ZCode trust grant",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-1",
+   "group": "codex",
+   "host": null,
+   "severity": "blocking",
+   "owner": "operator (content) + hub (B-174 mechanism)",
+   "title": "Operator global rules silently absent in Codex; the wait addendum cites a rule Codex never receives",
+   "evidence": "grep counts claude/codex: 'Credentials: consult Observatory' 1/0, 'Personal agents remain private' 1/0, 'Send mail/messages' 1/0, 'Asset Foundry' 1/0, 'Releases are the agent' 1/0, 'agents create every provider key' 1/0; '## No approval questions' heading at ~/.claude/CLAUDE.md:545, absent in ~/.codex/AGENTS.md, yet referenced at ~/.codex/AGENTS.md:544; probe answer 'NO' for that section",
+   "fix": "Short term: operator copies the missing sections (secrets/Observatory, no-approval, private agents, outbound messages, Asset Foundry, releases) into ~/.codex/AGENTS.md (~6-8 KB, still far below any limit since the global file is not capped). Durable: one managed operator-rules block written to every host file (B-174 managed-blocks) so rules cannot drift per host.",
+   "status": "resolved on this machine 2026-10-16: OPERATOR:GLOBAL-RULES block via `blocks install` (backup+journal)"
+  },
+  {
+   "id": "CODEX-2",
+   "group": "codex",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub (+ upstream for a retention API)",
+   "title": "Three members frozen at old versions in Codex with no end condition (B-188)",
+   "evidence": "codex plugin list: task-pipeline 1.93.3 (pin 1.96.0), agent-stack 0.27.1 (0.28.2), seo-aeo-audit 0.26.5 (0.26.6); their fresh ~/.agents copies are enabled=false in skills.config, so Codex uses the old doctrine and old hooks; newest receipt ~/.sshlg-skills/codex-deferred/f8f5f080….json has no observation and no watcher runs; README.md:244-263 discloses the deferral; 0.163.0 notes have no retention fix",
+   "fix": "Either (a) a retirement barrier built on Codex's own consumer enumeration (`codex agents` lists sessions on the shared app-server daemon) — update only when no thread holds the old generation; or (b) while deferred, have visibility flip the dedupe toward the fresh ~/.agents copies for stale members (skills fresh, hooks still old — disclose); or (c) operator runs the documented 3-step native update when Codex is closed (human step).",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-3",
+   "group": "codex",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Codex has stable, Claude-compatible hooks; the hub wires none of its guards there",
+   "evidence": "codex features list: hooks stable true; docs: PreToolUse deny/exit 2, SessionStart/UserPromptSubmit additionalContext, CLAUDE_PLUGIN_ROOT set; lib/hooks.js:42-57 targets ~/.claude/settings.json only; ~/.codex/hooks.json holds only Orca + Fabric. README.md:717 lists ~/.codex/AGENTS.md as guarded and README.md:730 says 'Now every route is covered' — true only for Claude Code tool calls.",
+   "fix": "Add a Codex target to lib/hooks.js: write ~/.codex/hooks.json through protect(), reuse lib/guard.js / hygiene.js / repogate.js with a payload adapter (Bash -> tool_input.command; apply_patch -> parse '*** Add/Update/Delete File:' paths from tool_input.command), SessionStart/UserPromptSubmit route notes via additionalContext. Note trust: each hook needs /hooks review and re-trust after every hash change (human step per release). Until then, scope README:717/730 to Claude Code.",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-4",
+   "group": "codex",
+   "host": null,
+   "severity": "deferred",
+   "owner": "member (agent-sync, task-pipeline, make-skill)",
+   "title": "Member edit-guards are inert in Codex: apply_patch carries no file_path",
+   "evidence": "Codex sends tool_name apply_patch with tool_input.command (hooks doc). Guards read file_path: agent-sync guard.sh:114 (self-declares apply_patch UNSUPPORTED :41), task-pipeline build-gate.sh:42, make-skill skill-md-audit.sh:22-30 -> silent no-op. task-pipeline's PostToolUseFailure is not a Codex event (no hooks.state entry).",
+   "fix": "Members parse apply_patch headers when tool_name == apply_patch; add a Codex fixture to each member's hook tests.",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-5",
+   "group": "codex",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Codex one-channel dedupe rests on 30 hand-written skills.config entries the hub neither writes nor checks",
+   "evidence": "463 enabled=false entries, hub owns 433 (~/.sshlg-skills/visibility.json); bin/sshlg-skills.js:2131 excludes family from hiding; `update` still installs every member to ~/.agents for --agent codex (dry-run) while 9 are native plugins; 0.163.0 #51865 no longer suppresses same-name skills. Today correct: 39/39 once each (prompt-input).",
+   "fix": "Hub computes the Codex dedupe itself: for each family member installed+enabled as a Codex plugin, disable its ~/.agents copies; keep absent members enabled; report drift in `hosts`.",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-6",
+   "group": "codex",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "`context` mis-models project_doc_max_bytes: the global file is not capped, project files are truncated",
+   "evidence": "lib/context.js:10,20-49 flags the global file 'over Codex's cap' as error; measured with codex debug prompt-input: global AGENTS.md loads in full at cap=1000; a 51350 B project AGENTS.md is cut at 1000 B. Config reference: 'Maximum bytes read from AGENTS.md when building project instructions'.",
+   "fix": "Drop the global-file error; instead warn when a project AGENTS.md chain exceeds the cap (measured: 5 repos under ~/DATA have a project AGENTS.md of 41659-51350 B, above the 32 KiB default and below the 65536 now set).",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-7",
+   "group": "codex",
+   "host": null,
+   "severity": "noise",
+   "owner": "operator / hub",
+   "title": "Three Codex binaries of three versions share one CODEX_HOME",
+   "evidence": "PATH 0.162.1, daemon 0.163.0, ChatGPT.app 0.162.0-alpha.17.2; codexplugins.js records only the PATH runtime (refreshAll runtime field)",
+   "fix": "operator: brew upgrade codex; hub: record daemon version beside PATH version in receipts",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-8",
+   "group": "codex",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "--agent codex update also plans 11 Continue installs",
+   "evidence": "codex-update-dryrun.txt: 11 x 'skills add … --agent continue --global --yes --copy'; lib/plan.js:150 restores Continue copies whenever ~/.continue/skills holds family copies",
+   "fix": "Print why Continue joins an --agent-scoped run, or require 'continue' in scope",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-9",
+   "group": "codex",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "Dry-run shows 'defer a version change' for plugins already at the pin",
+   "evidence": "codex-update-dryrun.txt: super-ux 0.59.3, agent-sync 1.22.2, make-skill, sheleg-design, sheleg-dev, web3d-dev all rendered as codex-deferred although codex plugin list reports them at pin",
+   "fix": "Dry-run reads the catalog (read-only) and labels current vs deferred",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-10",
+   "group": "codex",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub (reports)",
+   "title": "Official Codex doc URLs moved",
+   "evidence": "developers.openai.com/codex/{hooks,skills,plugins,rules,guides/agents-md} -> 308 learn.chatgpt.com/docs/*; prior cut sources cite the old host",
+   "fix": "Cite learn.chatgpt.com in the next cut",
+   "status": "open"
+  },
+  {
+   "id": "CODEX-11",
+   "group": "codex",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "Routing block speaks Claude invocation syntax",
+   "evidence": "~/.codex/AGENTS.md routing table uses `/task-pipeline`, `/ux`; Codex invokes skills with $name or /skills (build-skills doc)",
+   "fix": "Host-neutral wording in the Codex rendering",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-1",
+   "group": "gemini",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "Gemini relocation variable is wrong: hub honours GEMINI_CONFIG_DIR, which Gemini does not have; Gemini uses GEMINI_CLI_HOME as a HOME replacement (+.gemini, +.agents)",
+   "evidence": "lib/apply.js:42 (comment :36 says 'DOCUMENTED host variable'); lib/blocks.js:4; lib/guard.js:59; lib/hostvis.js:102-115; docs/working-rules/managed-blocks.md:16; tests use GEMINI_CONFIG_DIR (test/catalogue_test.js:32, test/visibility_hosts_e2e_test.js:605) while test/host_targets_test.js:70 already sets GEMINI_CLI_HOME. Gemini docs reference/configuration.md:2689-2696, cli/enterprise.md:218-235; bundle paths.ts homedir() reads GEMINI_CLI_HOME; grep GEMINI_CONFIG_DIR in bundle and docs = 0. Not triggered on this Mac (neither variable set).",
+   "fix": "TARGETS gemini: env GEMINI_CLI_HOME with root = join(env,'.gemini'); hostvis shared root = join(GEMINI_CLI_HOME||home,'.agents','skills') for gemini; same in blocks.js SCOPE and guard RELOCATED; fix doc+tests; CHANGELOG note.",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-2",
+   "group": "gemini",
+   "host": null,
+   "severity": "blocking",
+   "owner": "operator",
+   "title": "Operator rules silently missing on Gemini: GEMINI.md lacks 7 sections Claude has (secrets/Observatory credentials, private agents, no-approval-questions, language/autonomy, domain routes, interface rules, Fabric board, important repository updates)",
+   "evidence": "grep -E '^#{1,2} ' on ~/.claude/CLAUDE.md vs ~/.gemini/GEMINI.md (headings listed in hosts.gemini-cli.instructions); Codex has 'Important repository updates' and 'Fabric project board', Gemini has neither",
+   "fix": "Operator decides the owner (cf. B-174): either a hub-managed operator-rules block mirrored to every TARGET, or the operator copies the sections; at minimum the secrets rule.",
+   "status": "resolved on this machine 2026-10-16: OPERATOR:GLOBAL-RULES + OBSERVATORY:AGENT-UPDATES blocks via `blocks install`"
+  },
+  {
+   "id": "GEMINI-3",
+   "group": "gemini",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub (writer) / operator (decision)",
+   "title": "Project house rules are not loaded by Gemini: context.fileName is unset, so repo AGENTS.md/CLAUDE.md are ignored (93/117 repos vs 1 GEMINI.md)",
+   "evidence": "cli/gemini-md.md:94-108; reference/configuration.md:1690-1694 default undefined; ~/.gemini/settings.json has no context key; ls ~/DATA/*/{AGENTS,CLAUDE,GEMINI}.md -> 93/117/1; /Users/sshlg/DATA/sshlg-skills has AGENTS.md+CLAUDE.md, no GEMINI.md",
+   "fix": "Offer an opt-in, backed-up settings write context.fileName=['GEMINI.md','AGENTS.md'] (note: the list also makes Gemini read ~/.gemini/AGENTS.md globally), or per-repo GEMINI.md that @imports AGENTS.md. Record in README which project files each host reads.",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-4",
+   "group": "gemini",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "No family hook protection on Gemini although Gemini has equivalent blocking hooks",
+   "evidence": "lib/hooks.js:45-59 wires ~/.claude/settings.json only; update dry-run: 'hooks-wiring … out of scope (skipped: --agent gemini-cli)'; ~/.gemini/settings.json hooks contain only fabric-session-note.sh and ~/.orca/agent-hooks/gemini-hook.sh; hooks/pre-tool-use.js:55 matches Claude tool names (lib/guard.js:243 ['Edit','Write','MultiEdit','NotebookEdit','Bash']) and answers with hookSpecificOutput.permissionDecision (hooks/pre-tool-use.js:33-38); Gemini expects decision/reason or exit 2 and names run_shell_command/write_file/replace/read_file (hooks/reference.md:92-112, reference/tools.md)",
+   "fix": "Gemini adapter: BeforeTool (run_shell_command|write_file|replace|read_file|grep_search|mcp_.*) mapping payload to the pure guards and emitting {decision:'deny',reason}; SessionStart/BeforeAgent additionalContext pointers; keep fail-silent (exit 0) on malformed payload; backed-up write to ~/.gemini/settings.json via protect().",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-5",
+   "group": "gemini",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Visibility: a slash in a skill name defeats Gemini's skills.disabled (1 of 321 stays Enabled)",
+   "evidence": "~/.agents/skills/ui-toolkit-web/SKILL.md 'name: ui-toolkit/web'; settings skills.disabled has 'ui-toolkit/web'; gemini skills list shows 'ui-toolkit-web [Enabled]'; bundle skillLoader.ts sanitizedName = name.replace(/[:\\\\/<>*?\"|]/g,'-')",
+   "fix": "hostvis gemini: write the sanitized name (apply Gemini's replace) and test with a slash/colon fixture.",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-6",
+   "group": "gemini",
+   "host": null,
+   "severity": "deferred",
+   "owner": "operator",
+   "title": "Gemini still not signed in (B-146 auth half open); model probe NOT_RUN",
+   "evidence": "no oauth_creds.json/gemini-credentials.json in ~/.gemini; security find-generic-password -s gemini-cli-oauth / gemini-cli-api-key -> absent; no GEMINI_/GOOGLE_ env names; backlog.md:208 B-146 text still says 'deprecated Homebrew formula' while install is now npm 0.63.0",
+   "fix": "Operator sign-in; then one bounded headless probe from mktemp -d with --skip-trust; refresh B-146 wording.",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-7",
+   "group": "gemini",
+   "host": null,
+   "severity": "deferred",
+   "owner": "operator",
+   "title": "No trusted folders: MCP (fabric-dashboards, switchboard, pencil, metavr) never connects and headless runs abort without --skip-trust",
+   "evidence": "~/.gemini/trustedFolders.json absent; security.folderTrust.enabled default true (configuration.md:1978); trusted-folders.md:72-115; stderr 'Project hooks disabled because the folder is not trusted.'",
+   "fix": "Operator trusts ~/DATA (or the repos) once; Fabric board rule also needs the fabric MCP registered for Gemini.",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-8",
+   "group": "gemini",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "update --agent gemini-cli also plans 11 Continue copy installs (scope leak)",
+   "evidence": "update-dryrun-gemini.txt: 11 × 'skills add … --agent continue --global --yes --copy'; bin/sshlg-skills.js:374-379 continueCopies ignores f.agents; :1991-1998",
+   "fix": "Only add Continue steps when the resolved agent set includes continue or is unscoped.",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-9",
+   "group": "gemini",
+   "host": null,
+   "severity": "noise",
+   "owner": "operator",
+   "title": "Installed Gemini 0.63.0 lags 0.64.0 (3 days); documented contracts unchanged",
+   "evidence": "npm view; diff of 8 docs files between bundles = identical",
+   "fix": "npm i -g @google/gemini-cli@0.64.0 at the next host maintenance; hostvis comment stays valid.",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-10",
+   "group": "gemini",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "Gemini skill listing has no budget: ~27k tokens of names+descriptions per session after hiding",
+   "evidence": "180 Enabled in gemini skills list; summed name+description ≈107.9k chars; bundle getActivateSkillDeclaration enumerates all names",
+   "fix": "Report it in `sshlg-skills context` next to the instruction-file size.",
+   "status": "open"
+  },
+  {
+   "id": "GEMINI-11",
+   "group": "gemini",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Gemini extension channel unused; possible single-channel alternative (skills + GEMINI.md + hooks/hooks.json + deny policies, --auto-update)",
+   "evidence": "extensions/reference.md:16-80,104-300; gemini extensions list -> none; extension skills rank below ~/.agents/skills (cli/skills.md:40-47)",
+   "fix": "Design decision only; never run both channels for the same skill.",
+   "status": "open"
+  },
+  {
+   "id": "QWEN-1",
+   "group": "gemini",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Qwen Code not installed but would get skills and no instructions: hub writes no QWEN.md/AGENTS.md for it",
+   "evidence": "which qwen -> not found; ~/.qwen has only skills/; Qwen 0.25.2 bundle loads $QWEN_HOME|~/.qwen/{QWEN.md,AGENTS.md}; lib/apply.js:39-48 has no qwen row",
+   "fix": "When Qwen is installed: add TARGETS {agent:'qwen', dir:'.qwen', file:'QWEN.md', env:'QWEN_HOME'}; Qwen hooks are Claude-shaped, so an adapter mostly needs runtime tool names (run_shell_command, write_file).",
+   "status": "open"
+  },
+  {
+   "id": "QWEN-2",
+   "group": "gemini",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "~/.qwen/skills holds 39 family links outside the hub's default set; they stay current through ~/.agents/skills but no prune covers them",
+   "evidence": "39/39 link-ok to ../../.agents/skills, cmp identical; qwen-code not in skills.json defaultAgents; .skill-lock.json lastSelectedAgents includes qwen-code; Qwen also reads ~/.agents/skills directly (getUserSkillsDirs), so the links are same-realpath duplicates. Corrects 2026-10-09 cut line 92 ('shared .agents not confirmed')",
+   "fix": "None now; include ~/.qwen/skills in dangling-link checks when a family skill is retired.",
+   "status": "open"
+  },
+  {
+   "id": "CURSOR-1",
+   "group": "ide",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub (+upstream for a documented global path)",
+   "title": "Cursor 'global' rules work only by ancestor walk: routing block, wait rule and operator rules are silently absent for workspaces outside $HOME",
+   "evidence": "cursor-agent 2026.09.02 index.js LocalCursorRulesService.loadRulesFromDirAndAncestors walks workspace->'/' loading <dir>/.cursor/rules; no home load; official docs (cursor.com/docs/context/rules, /docs/cli/using) document only project .cursor/rules and Customize->Rules user rules; README.md:445 presents ~/.cursor/rules/sshlg-routing.mdc as Cursor's routing destination with no scope caveat",
+   "fix": "README/doctor: state the under-$HOME scope; add a test that greps the installed cursor-agent bundle for the ancestor walk on each version; consider also offering the block as a Cursor User Rule (settings) or a project-root rule for out-of-home roots",
+   "status": "open"
+  },
+  {
+   "id": "CURSOR-2",
+   "group": "ide",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "Family Claude hooks already run inside cursor-agent (third-party hook import), contradicting 'hooks — Claude Code only' and untested",
+   "evidence": "cursor.com/docs/reference/third-party-hooks: loads ~/.claude/settings.json, toggle on by default; 190.index.js loads claudeUserConfigPath; offline Cursor-shaped payloads to ~/.sshlg-skills/runtime/hooks/pre-tool-use.js returned deny JSON; Cursor blocks every Shell/Read/Write call if a preToolUse hook ever prints non-JSON (index.js J[] + function j)",
+   "fix": "Document Cursor as a hook consumer; add hooks_e2e cases with Cursor payloads (Shell/Read/MCP:<tool>, conversation_id); keep stdout JSON-or-empty invariant asserted for preToolUse",
+   "status": "open"
+  },
+  {
+   "id": "CURSOR-3",
+   "group": "ide",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "In Cursor the MCP secret guard, route-gate escalation and route reminders are no-ops",
+   "evidence": "Cursor sends tool_name 'MCP:<tool>' (hub matches 'mcp__'); payload has conversation_id not session_id (turnstate keys on session_id); user-prompt-submit.js prints plain text, beforeSubmitPrompt ignores invalid JSON",
+   "fix": "Normalise payloads by hook_event_name (preToolUse/beforeSubmitPrompt): map MCP:<tool>, accept conversation_id, emit JSON {additional_context} for beforeSubmitPrompt",
+   "status": "open"
+  },
+  {
+   "id": "CURSOR-4",
+   "group": "ide",
+   "host": null,
+   "severity": "deferred",
+   "owner": "operator",
+   "title": "Operator Cursor rule planning-workflow.mdc (alwaysApply) mandates Superpowers brainstorming/writing-plans, contradicting the routing block and the disabled-superpowers machine rule; several Claude operator rules have no Cursor counterpart",
+   "evidence": "~/.cursor/rules/planning-workflow.mdc lines 5-25; routing block 'Brainstorm/spec/plan already occupy task-pipeline stages 2-4'; /Users/sshlg/CLAUDE.md 'superpowers ... deliberately disabled'",
+   "fix": "Operator decision: retire or rewrite planning-workflow.mdc; add Cursor .mdc for secrets/Observatory, no-approval-questions, LLM models, media route if wanted",
+   "status": "resolved on this machine 2026-10-16: planning-workflow.mdc retired to ~/.sshlg-skills/backups (contradicted recorded decisions); operator-global-rules.mdc added"
+  },
+  {
+   "id": "CURSOR-5",
+   "group": "ide",
+   "host": null,
+   "severity": "deferred",
+   "owner": "operator",
+   "title": "cursor-agent is not authenticated and lags latest (2026.09.02 vs 2026.10.14); runtime probe impossible",
+   "evidence": "`cursor-agent models` -> 'Authentication required'; `about` -> Not logged in; https://cursor.com/install pins 2026.10.14-941492e",
+   "fix": "Human step: `cursor-agent login`; then `cursor-agent update`; re-run probe from an empty dir under $HOME",
+   "status": "open"
+  },
+  {
+   "id": "CURSOR-6",
+   "group": "ide",
+   "host": null,
+   "severity": "noise",
+   "owner": "operator",
+   "title": "Cursor IDE not installed; IDE-specific behaviour (settings User Rules, IDE hooks) unverified",
+   "evidence": "no Cursor.app; ~/.local/bin/cursor shim error text",
+   "fix": "none until installed",
+   "status": "open"
+  },
+  {
+   "id": "CURSOR-7",
+   "group": "ide",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "Family skills reach Cursor through two roots (~/.agents/skills and third-party ~/.grok/skills symlinks)",
+   "evidence": "~/.grok/skills/task-pipeline -> ../../.agents/skills/task-pipeline; Cursor root list includes .grok/skills",
+   "fix": "verify Cursor dedupes by realpath once authenticated",
+   "status": "open"
+  },
+  {
+   "id": "CURSOR-8",
+   "group": "ide",
+   "host": null,
+   "severity": "noise",
+   "owner": "member",
+   "title": "Member-shipped cursor/rules/*.mdc (14 files) are never installed by the hub",
+   "evidence": "find skills -path '*/cursor/rules/*.mdc'; no install path in lib/ or bin/",
+   "fix": "declare them project-only in member docs or drop them",
+   "status": "open"
+  },
+  {
+   "id": "WINDSURF-1",
+   "group": "ide",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Windsurf is now Cascade in Devin Desktop: no global_rules.md, no hooks, routing block exceeds the 6,000-char global rule cap",
+   "evidence": "docs.windsurf.com 307 -> docs.devin.ai/desktop; memories doc cap; ~/.codeium/windsurf/memories absent; README ships no Windsurf writer",
+   "fix": "If Devin Desktop is adopted: compact routing renderer for global_rules.md and a hooks.json adapter (exit 2 semantics)",
+   "status": "open"
+  },
+  {
+   "id": "WINDSURF-2",
+   "group": "ide",
+   "host": null,
+   "severity": "noise",
+   "owner": "upstream",
+   "title": "Same family skill discoverable via ~/.codeium/windsurf/skills, ~/.config/devin/skills and ~/.agents/skills",
+   "evidence": "39 symlinks in each of the first two, 39 dirs in the third; app not installed",
+   "fix": "none while uninstalled",
+   "status": "open"
+  },
+  {
+   "id": "KIRO-1",
+   "group": "ide",
+   "host": null,
+   "severity": "noise",
+   "owner": "upstream",
+   "title": "kiro-cli adapter writes ~/.kiro/skills, which current docs mark as IDE-only; neither Kiro product is installed",
+   "evidence": "skills@1.7.2 cli.mjs:1811-1819; https://kiro.dev/docs/skills/ scope table",
+   "fix": "re-check when a Kiro host appears; upstream skills CLI may need a CLI-specific root",
+   "status": "open"
+  },
+  {
+   "id": "KIRO-2",
+   "group": "ide",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "No steering or hooks for Kiro (routing/operator rules absent)",
+   "evidence": "~/.kiro/steering, ~/.kiro/hooks absent; steering doc",
+   "fix": "steering writer (~/.kiro/steering/sshlg-routing.md, inclusion always) if Kiro is adopted",
+   "status": "open"
+  },
+  {
+   "id": "COPILOT-1",
+   "group": "ide",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "VS Code Copilot already loads ~/.claude/CLAUDE.md and ~/.agents/skills by default, so it receives Claude-worded rules and 39 skills without the hub knowing",
+   "evidence": "workbench.desktop.main.js listAgentInstructions (userHome/.claude/CLAUDE.md), USE_CLAUDE_MD default true, USE_AGENT_SKILLS default true, personal skill roots list; VS Code docs",
+   "fix": "Record VS Code Copilot as an indirect consumer in skills.json/README; decide whether Claude-only wording (plugins, /hooks) needs a host-neutral note",
+   "status": "open"
+  },
+  {
+   "id": "COPILOT-2",
+   "group": "ide",
+   "host": null,
+   "severity": "noise",
+   "owner": "operator",
+   "title": "Copilot CLI not installed; three copilot-chat extension versions on disk",
+   "evidence": "which copilot -> not found; ~/.vscode/extensions/github.copilot-chat-0.32.5, -0.36.2, -0.48.1",
+   "fix": "none",
+   "status": "open"
+  },
+  {
+   "id": "HUB-IDE-1",
+   "group": "ide",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "skills.json agentsUpstream cites skills@1.5.25 while host-targets snapshot is skills@1.7.2",
+   "evidence": "skills.json agentsUpstream.source; lib/host-targets.snapshot.js:5",
+   "fix": "regenerate agentsUpstream",
+   "status": "open"
+  },
+  {
+   "id": "HUB-IDE-2",
+   "group": "ide",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "update --agent cursor,windsurf,kiro-cli also plans a --agent continue --copy pass",
+   "evidence": "scratchpad/compat/ide-update-dryrun.txt",
+   "fix": "confirm intended (Continue copy channel) or scope it to --agent",
+   "status": "open"
+  },
+  {
+   "id": "INST-1",
+   "group": "installer",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "Foreign text inside an owned wait-rule block aborts the entire update/install with exit 2 (usage-error code), on every host",
+   "evidence": [
+    "lib/wait-rules.js:66 throws during plan",
+    "bin/sshlg-skills.js:1591-1600 attachWaitPlan runs inside planUpdate/planInstall; bin:3813-3817 catch -> log + return 2",
+    "scratch HOME repro: update --dry-run --claude-only and update --claude-only both exit=2 with 'owned wait rule was edited or removed; preserve it and review ownership' (no file named)",
+    "README Defaults: 'exits 75 ... and 2 on a usage error'",
+    "real machine: 2026-10-16 backups show the local-artifacts rule inside the block on Claude/Codex/Gemini; while it stood, any update (incl. idle unattended, lib/updaterun.js:80) did nothing and recorded only 'FAILED'"
+   ],
+   "fix": "Make an edited owned segment a per-target refusal row (action 'refused-edited', path named, remedy: move text outside the markers or `rules recovery inspect`), let other steps run, overall result partial with a distinct exit; add an e2e test that update proceeds for other hosts.",
+   "status": "live instance resolved 2026-10-16 (rule moved out of the wait block); code defect open"
+  },
+  {
+   "id": "INST-2",
+   "group": "installer",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub",
+   "title": "Routing-block refresh silently deletes operator text placed inside a router section or the MAP/PROTOCOL/TABLE regions",
+   "evidence": [
+    "lib/routers.js:370-371 replaces a section unless its name is in preserve (authored config); refreshRegion lib/routers.js:266-277 replaces region bodies",
+    "scratch repro exp-routers-dry.txt: '-OPERATOR-IN-MAP line', '-OPERATOR-IN-PROTOCOL line', '-OPERATOR-IN-SECTION line', no warning; routers --update -> 'updated', lines gone (backup kept)",
+    "comment lib/routers.js:366-368 claims hand edits inside the block are protected — true only for authored routers"
+   ],
+   "fix": "Before upsert, compare each existing section/region with the last rendered packaged text; an unknown difference is a hand edit -> preserve it and record as authored (or refuse naming the file), and print it in the update summary.",
+   "status": "open"
+  },
+  {
+   "id": "INST-3",
+   "group": "installer",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "`blocks` cannot see foreign text inside a managed block",
+   "evidence": [
+    "lib/blocks.js:93 inspect = markers + syntax only; scratch file with foreign lines inside wait and router regions reported 'READ (19 markers; syntax valid)'"
+   ],
+   "fix": "Add a content check: wait segment vs ~/.sshlg-skills/wait-rules.json owned segment; router sections vs packaged/authored text; report FOREIGN_TEXT_INSIDE with line numbers.",
+   "status": "open"
+  },
+  {
+   "id": "INST-4",
+   "group": "installer",
+   "host": null,
+   "severity": "blocking",
+   "owner": "hub (paths: per-host groups)",
+   "title": "11 installed hosts receive family skills but no routing block, wait rule or operator rules",
+   "evidence": [
+    "lib/apply.js:34-47 TARGETS = claude, codex, gemini, pi (+cursor); README.md:437-451 'Five channels'",
+    "files absent/without hub blocks: ~/.config/opencode/AGENTS.md absent (OpenCode falls back to ~/.claude/CLAUDE.md per https://opencode.ai/docs/rules/ read 2026-10-16), ~/.kimi-code/AGENTS.md 1490 B 0 markers, ~/.hermes/SOUL.md 667 B, goose .goosehints, windsurf global_rules.md, ~/.kiro/steering, ~/.factory/AGENTS.md, ~/.qwen/QWEN.md, ~/.copilot/copilot-instructions.md absent; Warp/Continue none",
+    "global instruction paths per host-matrix.json / additional-hosts.json / extra-hosts.json"
+   ],
+   "fix": "Add writer targets for hosts with a documented global instruction file (Kimi $KIMI_CODE_HOME/AGENTS.md, Droid ~/.factory/AGENTS.md, Qwen ~/.qwen/QWEN.md, Copilot ~/.copilot/copilot-instructions.md, Goose ~/.config/goose/.goosehints, Windsurf global_rules.md, Kiro ~/.kiro/steering/*.md, OpenCode ~/.config/opencode/AGENTS.md — the latter would stop the CLAUDE.md fallback, so decide deliberately) under the same protect()/consent/new-target rules; per-host groups confirm paths/caps first.",
+   "status": "open"
+  },
+  {
+   "id": "INST-5",
+   "group": "installer",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Wait rule never reaches Pi although rules.wait=on; automatic mode does not extend consent to a new target",
+   "evidence": [
+    "~/.sshlg-skills/wait-rules.json records: claude, codex, gemini, cursor only; config rules.wait=on",
+    "lib/wait-rules.js:58 automatic && !owned -> not-applied; contrast routing block newTargetUnderConsent lib/apply.js:196-197, 339-340",
+    "rules preview: 'pi: write'; update dry-run: 'pi: not-applied'; blocks: pi lacks SSHLG:RULE:wait-is-not-a-stop"
+   ],
+   "fix": "When policy is on and a selected host root exists without a record, write it (same journal) or print an explicit 'policy on, not applied on pi — run rules --apply --agent pi'.",
+   "status": "open"
+  },
+  {
+   "id": "INST-6",
+   "group": "installer",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Codex native plugins lag pins indefinitely; every real update exits 1 and the idle run reports FAILED",
+   "evidence": [
+    "codex plugin list (0.162.1): task-pipeline 1.93.3 vs 1.96.0, agent-stack 0.27.1 vs 0.28.2, seo-aeo-audit 0.26.5 vs 0.26.6",
+    "bin/sshlg-skills.js:922; README.md:249",
+    "lib/updaterun.js:103 ranRecord(ok=!err); lib/updatecheck.js:254-256 'An unattended set update FAILED'",
+    "Codex also reads pinned plain copies in ~/.agents/skills -> two generations of the same skill names",
+    "dry-run labels all 9 Codex plugins 'defer a version change' incl. 6 already current"
+   ],
+   "fix": "Separate exit/record for 'partial: deferred by design' vs failure; updatecheck prints 'Codex plugins deferred (B-188)' not FAILED; dry-run computes the real version delta; backlog B-188 end condition.",
+   "status": "open"
+  },
+  {
+   "id": "INST-7",
+   "group": "installer",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Universal adapters never get their declared global dir; README and snapshot do not say so",
+   "evidence": [
+    "cli.mjs:2182-2184, 2217, 2337-2341 (skills@1.7.2): universal (project skillsDir .agents/skills) global installs write only ~/.agents/skills",
+    "affects cursor, gemini-cli, opencode, kilo, github-copilot, droid (declared ~/.cursor/skills etc. stay empty: roots.sh 0/39)",
+    "README.md:139-142 'each adapter's global destination'",
+    "lib/host-targets.js:58-60 snapshot keeps only {id, global}"
+   ],
+   "fix": "Record skillsDir/globalSkillsDir/universal in the snapshot and verify them; README: shared root is the only global destination for universal adapters; coverage depends on each host reading ~/.agents/skills (per-host evidence).",
+   "status": "open"
+  },
+  {
+   "id": "INST-8",
+   "group": "installer",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub",
+   "title": "Non-default host roots hold unmanaged family symlinks that drift in membership",
+   "evidence": [
+    "~/.qwen/skills 39 symlinks and ~/.config/devin/skills 39 symlinks (links dated 2026-08-29), not in defaults; ~/.factory/skills 27/39 (missing skill-search, telegram-userbots, 7 quest-*, 3 web3d-*); ~/.pi/agent/skills 38/39 (skill-search missing)",
+    "Qwen reads only ~/.qwen/skills (additional-hosts.json: shared NOT_ESTABLISHED) -> a new family skill never reaches Qwen",
+    "host-matrix.json windsurf: Devin dir replaces legacy Windsurf dir"
+   ],
+   "fix": "In update, reconcile any non-universal adapter root that already holds family links (like continueHasFamilyCopies), i.e. add qwen-code/devin when present; for universal hosts, prune stale same-name links; or add qwen-code and devin to defaults when detected.",
+   "status": "open"
+  },
+  {
+   "id": "INST-9",
+   "group": "installer",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "Defaults include hosts not installed here; on a fresh machine the CLI creates their homes",
+   "evidence": [
+    "zed absent; openclaw/kiro/windsurf only dirs, no binary/app",
+    "cli.mjs createSymlink mkdir(dirname(link), recursive) -> ~/.openclaw/skills, ~/.kiro/skills, ~/.codeium/windsurf/skills, ~/.hermes/skills, ~/.config/goose/skills get created",
+    "contradicts lib/apply.js:20-24 'An agent's home is never created'"
+   ],
+   "fix": "Filter defaults by host detection before passing --agent, or document the exception.",
+   "status": "open"
+  },
+  {
+   "id": "INST-10",
+   "group": "installer",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "VIS_AGENT maps kimi to 'kimi', not the skills-CLI id 'kimi-code-cli'",
+   "evidence": [
+    "bin/sshlg-skills.js:716; lib/host-targets.js:34 rejects --agent kimi; no effect today since Kimi is 'cannot' (lib/hostvis.js:140-141)"
+   ],
+   "fix": "Map to 'kimi-code-cli'.",
+   "status": "open"
+  },
+  {
+   "id": "INST-11",
+   "group": "installer",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "skills.json agentsUpstream.source says skills@1.5.25",
+   "evidence": [
+    "skills.json:420 vs package.json skillsCli skills@1.7.2"
+   ],
+   "fix": "Update the source string.",
+   "status": "open"
+  },
+  {
+   "id": "INST-12",
+   "group": "installer",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "`context` measures only the hub's five write targets",
+   "evidence": [
+    "bin cmdContext uses A.TARGETS + cursor .mdc; OpenCode's effective global file (~/.claude/CLAUDE.md fallback), Kimi AGENTS.md and Hermes SOUL.md not measured"
+   ],
+   "fix": "Add read-only rows for every detected host's documented global instruction file.",
+   "status": "open"
+  },
+  {
+   "id": "INST-13",
+   "group": "installer",
+   "host": null,
+   "severity": "deferred",
+   "owner": "hub (contracts: per-host groups)",
+   "title": "Gates exist only for Claude Code",
+   "evidence": [
+    "lib/hooks.js:3 writes ~/.claude/settings.json only; no Codex/Gemini/Cursor/Copilot/Droid/Kiro hook wiring anywhere in lib/",
+    "hooks status: Claude all 7 events + statusLine match"
+   ],
+   "fix": "Per-host groups decide which hosts have equivalent hook surfaces; hub then adds a writer per host through protect().",
+   "status": "open"
+  },
+  {
+   "id": "INST-14",
+   "group": "installer",
+   "host": null,
+   "severity": "noise",
+   "owner": "hub",
+   "title": "No --version flag",
+   "evidence": [
+    "npx sshlg-skills@latest --version -> 'unknown command: --version' + usage (inst/version.txt)"
+   ],
+   "fix": "Add --version.",
+   "status": "open"
+  }
+ ]
+}
