@@ -1,4 +1,4 @@
-## Current — 2026-10-17, release 1.65.0 from the host validation (ITER-1016)
+## Current — 2026-10-17, hub 1.65.0 released and installed (ITER-1016)
 
 **Objective.** Ship the hub fixes found by the 2026-10-16 host validation and the operator's Safari
 rule in the members, then install and read back. Brief:
@@ -9,14 +9,16 @@ rule in the members, then install and read back. Brief:
 first in every browser check (task-pipeline v1.97.0 failed its immutable tag — retro declaration missing — and shipped as 1.97.1). Hub 1.65.0: B-201 (foreign text in a managed block refuses that host only),
 B-202 (edited router sections kept), B-203 (Claude 2.2+), B-204 (`GEMINI_CLI_HOME`), B-208 (named wait-rule
 gap), B-213 (Continue only when present), B-215 (README), B-219 (OpenClaw opt-in), B-220 (no stray
-`~/.claude/.claude.json`), B-195 (#224, labelled-secret detector). Board: Open 27.
+`~/.claude/.claude.json`), B-195 (#224, labelled-secret detector). Board: Open 29.
 
 **Open.** B-221 (Pi precedence in `lib/pi.js`), B-205/B-206/B-207/B-209 and the rest of the 2026-10-16
 rows; inline MCP tokens wait for the operator's one-time `vault.py bind` (operator dossier, local).
 Noise seen twice under load, passing alone: `test/runtime_recovery_test.js` (hub),
 `test/audit_regressions/fw07_child_lifetime.py` (task-pipeline).
-**Next:** after the hub tag, `npx --yes sshlg-skills@latest update` and the installed readback
-(plugins = pins, `hooks status`, `blocks`, wait rule on Pi); then the highest-priority open row.
+**Released and installed:** hub 1.65.0 (`f2f24dc`, tag `v1.65.0`, npm 1.65.0); [installed readback](evidence/iter-1016/installed-1.65.0.md);
+`update` exit 1 = Codex partial (6 deferred, B-188/B-210), everything else 11/11 green. New rows B-222 (member release suite on the
+tag tree before tagging), B-223 (host self-update inside command substitution).
+**Next:** the highest-priority open row (B-222/B-203-class release safety first), then B-221.
 
 ## Current — 2026-10-16, host-compatibility validation (gates, rules, installer) — lease `HOSTCOMPAT-1016`
 
