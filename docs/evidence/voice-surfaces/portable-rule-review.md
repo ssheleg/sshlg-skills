@@ -12,7 +12,7 @@ Independent read-only review found no objective blocker. Checks actually run:
 The reviewer loaded the actual protocol module from the base commit and verified
 refresh with no rendered record and with its matching record, preservation of
 outside bytes and a custom operator line, and idempotence.
-The block measures18395characters within the explicit18400budget.
+The block measures 18,395 characters within the explicit 18,400 budget.
 `super-ux@0.61.0` is published; its manifest and gitlink name
 `e7ad4e703949382eb55041f496c7c475b0f39c5c`.
 
@@ -23,10 +23,10 @@ full integration pass. The combined final tree still requires its own gates.
 
 Owner: `r-c8d11e357525`, task `NO-EM-DASH-1018`.
 Source: remote `refs/agent-sync/leases/NO-EM-DASH-1018`, observed at
-`920e7f0f97a77f31c77a9cbc612a3e096e970efc`, timestamp2026-10-18T01:56:20Z,
-TTL2700seconds. It expires at02:41:20UTC unless renewed.
+`920e7f0f97a77f31c77a9cbc612a3e096e970efc`, timestamp 2026-10-18T01:56:20Z,
+TTL 2,700 seconds. It expires at 02:41:20 UTC unless renewed.
 Watcher: active-session observer `portable-rule-1018`, reads the local lease
-on a30second cadence. It is a session process, not a durable scheduler.
+on a 30 second cadence. It is a session process, not a durable scheduler.
 
 Exact next action: recheck remote lease and main. If the owner delivers, consume
 that release. If the lease expires, acquire with this run's own identity, compare
@@ -35,3 +35,5 @@ run the combined gates, merge, tag and verify publication, then update installs.
 Do not impersonate the old owner or clear its lease manually.
 Fallback after session loss: this packet and the main HANDOFF identify the source
 and continuation; no watcher survival is claimed.
+
+The release workflow title template now uses a colon, so the new GitHub release itself follows the punctuation rule. Historical release titles are not rewritten.
