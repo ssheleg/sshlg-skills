@@ -383,7 +383,7 @@ const AGENT_FAQ = [
   {
     q: 'Does DeepSeek Harness need a plugin for these?',
     a: 'No. <code>dsh</code> reads the Agent Skills standard directly and its skills '
-      + 'subsystem is in the default profile — a plugin there is a Cordis module, and '
+      + 'subsystem is in the default profile. A plugin there is a Cordis module, and '
       + 'skills are loaded <em>by</em> one rather than being one.',
   },
   {
@@ -399,14 +399,14 @@ const AGENT_FAQ = [
     // answer, and it also keeps the node's decoded text comparable to the served
     // body — a check that reads the body escaped sees &lt;name&gt; where the node
     // correctly carries <name>, and reports the pair as drift.
-    a: 'No — every pack installs standalone, as in '
+    a: 'No. Every pack installs standalone, as in '
       + '<code>npx skills add ssheleg/telegram-dev</code> for one of them. The launcher '
       + 'exists because a member updated on its own leaves the set in a combination '
       + 'nobody tested.',
   },
   {
     q: 'Do they send anything anywhere?',
-    a: 'No. They are documentation, validators and small standard-library scripts — no '
+    a: 'No. They are documentation, validators and small standard-library scripts. There are no '
       + 'services, no telemetry and no API keys, which is checkable in the repository '
       + 'rather than promised here.',
   },
@@ -887,11 +887,11 @@ function indexPage() {
         <li><code class="cmd">npx --yes sshlg-skills@latest list</code>
           <span class="says">every pack, its pinned version and where it came from</span></li>
         <li><code class="cmd">npx @deepseek-ai/dsh --profile web --dump-default-config | grep skill</code>
-          <span class="says">the harness reads these without a plugin — its own default profile says so</span></li>
+          <span class="says">the harness reads these without a plugin, as its default profile confirms</span></li>
         <li><code class="cmd">ls ~/.agents/skills/telegram-bots/</code>
           <span class="says">SKILL.md, references and fixtures, where every agent looks</span></li>
         <li><code class="cmd">npm test</code>
-          <span class="says">${GATE.suites} suites, ${GATE.fixtures} fixtures — the gate this repository ships with</span></li>
+          <span class="says">the repository gate: ${GATE.suites} suites, ${GATE.fixtures} fixtures</span></li>
       </ol>
     </aside>
   </div>
@@ -919,7 +919,7 @@ function indexPage() {
   <h2>Install</h2>
   <p class="sub">One launcher installs every pack into every agent you have, and
   prunes the plain Claude Code copies that would shadow your plugins.</p>
-  ${term(install, 'from npm — nothing to clone')}
+  ${term(install, 'from npm, with nothing to clone')}
   ${term('npx sshlg-skills update', 'installed but behind')}
   ${term('npx --yes sshlg-skills@latest list', 'what the current release of each member is')}
   <div class="note">
@@ -939,13 +939,13 @@ function indexPage() {
       CLI, into <code>~/.agents/skills/</code>.</li>
       <li><b>DeepSeek Harness</b> (<code>dsh</code>) needs nothing further and
       <b>no plugin</b>: it reads the Agent Skills standard directly, scanning
-      <code>&lt;agentsHome&gt;/skills</code> — the same
-      <code>~/.agents/skills/</code> — at rank 500. A project-local
+      <code>&lt;agentsHome&gt;/skills</code> (the same
+      <code>~/.agents/skills/</code>) at rank 500. A project-local
       <code>.dsh/skills</code> or <code>.agents/skills</code> outranks it, which
       is the same shadowing trap, with the same remedy: one channel per skill.</li>
       <li><b>Then it prunes</b> the plain Claude copies the skills CLI recreates on its
-      own. That duplicate shadows your plugin and silently serves a stale skill — the one
-      failure mode worth automating away.</li>
+      own. Removing that duplicate prevents it from shadowing your plugin and silently
+      serving a stale skill.</li>
     </ul>
   </div>
 </section>
@@ -998,7 +998,7 @@ function indexPage() {
     rel,
     url: '/',
     card: 'index',
-    cardAlt: `ssheleg skills — ${members.length} agent skill packs, one command, every agent`,
+    cardAlt: `ssheleg skills: ${members.length} agent skill packs, one command, every agent`,
     title: 'ssheleg skills · skill packs for coding agents',
     description: `${members.length} independently installable skill packs for coding agents. `
       + 'Find product, design, development and delivery skills, then explore the '
@@ -1040,7 +1040,7 @@ function memberPage(m) {
   const routerBlocks = m.routers.map((r) => {
     const refusal = refusalOf(r.text);
     return `<div class="prose" style="margin-top:34px">
-  <h3>/${esc(r.name)} — ${esc(r.answers)}</h3>
+  <h3>/${esc(r.name)}: ${esc(r.answers)}</h3>
   <ul class="chips">
     <li class="chip">when: ${esc(r.when)}</li>
     ${refusal ? `<li class="chip chip--refuse">decline it: ${esc(refusal)}</li>` : ''}
@@ -1066,7 +1066,7 @@ function memberPage(m) {
   <div class="stats">
     <div class="stat"><b>v${esc(m.version)}</b><span>pinned in this release of the family</span></div>
     <div class="stat"><b>${subs.length}</b><span>skill${subs.length === 1 ? '' : 's'} in the pack</span></div>
-    <div class="stat"><b>${m.routers.length || '—'}</b><span>routing rule${m.routers.length === 1 ? '' : 's'} it owns</span></div>
+    <div class="stat"><b>${m.routers.length}</b><span>routing rule${m.routers.length === 1 ? '' : 's'} it owns</span></div>
   </div>
 </section>
 
@@ -1095,8 +1095,7 @@ ${m.name === 'sheleg-design' ? `<hr class="rule">
 
 <section class="wrap sec">
   <h2>This page is built from one of its packs</h2>
-  <p class="sub">Not an illustration of the pack — the page you are reading consumes
-  it. The site's token layer is <strong>workbench</strong>, the pack this skill ships
+  <p class="sub">The page you are reading uses the pack directly. The site's token layer is <strong>workbench</strong>, the pack this skill ships
   for product UI, copied from its own <code>tokens/workbench.css</code> and consumed
   as <code>var(--…)</code> with no literal hex anywhere in the generator.</p>
   <div class="swatches">${[
@@ -1113,8 +1112,8 @@ ${m.name === 'sheleg-design' ? `<hr class="rule">
     <em>core</em> contract: it declines <code>## Hero</code>,
     <code>## Components</code>, <code>## Responsive</code> and
     <code>## Signature element</code>, so those four are authored rather than
-    inherited — and the pack requires saying so instead of filling them from the token
-    layer with a citation attached.</p>
+    inherited. The pack requires us to state that choice instead of filling them from
+    the token layer with a citation attached.</p>
     <p>The pack whose register matched this site exactly was <strong>field-notes</strong>,
     for <em>open-source and developer tools sold on auditability</em>. It was refused on
     its own words: its palette section says the dawn gradient has no dark twin and
@@ -1138,7 +1137,7 @@ ${m.routers.length ? `<hr class="rule">
 <section class="wrap sec">
   <h2>When the agent reaches for it</h2>
   <p class="sub">These are the rules the family writes into your agent's own
-  instruction file — verbatim. Each one states the rule, the boundary in both
+  instruction file, verbatim. Each one states the rule, the boundary in both
   directions, and the phrase that declines it.</p>
   ${routerBlocks}
 </section>` : ''}
@@ -1156,9 +1155,9 @@ ${m.routers.length ? `<hr class="rule">
     rel,
     url: `/skills/${m.slug}/`,
     card: `skills-${m.slug}`,
-    cardAlt: `${m.name} v${m.version} — ${m.role}`,
+    cardAlt: `${m.name} v${m.version}: ${m.role}`,
     ogType: 'website',
-    title: `${m.name} — ${m.role} · ssheleg skills`,
+    title: `${m.name}: ${m.role} · ssheleg skills`,
     description: firstSentence(m.desc, 300),
     jsonld: [
       {
@@ -1219,7 +1218,7 @@ function harnessPage() {
       <tr><td>Delivery</td><td>Keep scope, dependencies, acceptance evidence and a resume point</td><td><a href="../skills/task-pipeline/">task-pipeline</a></td></tr>
       <tr><td>Coordination</td><td>Claim shared work and record who changed what</td><td><a href="../skills/agent-sync/">agent-sync</a></td></tr>
       <tr><td>Specialist skills</td><td>Apply product, design, integration and agent engineering contracts</td><td><a href="../#skills">${members.length} independently usable packs</a></td></tr>
-      <tr><td>Asset creation</td><td>3D, image and audio workflows for agents — in development</td><td><a href="#asset-foundry">Asset Foundry</a></td></tr>
+      <tr><td>Asset creation</td><td>3D, image and audio workflows for agents (in development)</td><td><a href="#asset-foundry">Asset Foundry</a></td></tr>
       <tr><td>Observation</td><td>Inspect enrolled projects, changes and possible credential exposures</td><td><a href="https://observatory.sshlg.me/">Project Observatory</a></td></tr>
       </tbody></table></div>
       <div class="note"><p><strong>Your agent remains the runtime.</strong> Claude Code,
@@ -1281,11 +1280,11 @@ function routingPage() {
     const refusal = refusalOf(r.text);
     const m = members.find((x) => (r.requires || []).includes(x.name));
     return `<div class="prose" style="margin-top:38px">
-  <h3 id="${esc(r.name)}">/${esc(r.name)} — ${esc(r.answers)}</h3>
+  <h3 id="${esc(r.name)}">/${esc(r.name)}: ${esc(r.answers)}</h3>
   <ul class="chips">
     <li class="chip">when: ${esc(r.when)}</li>
     ${m ? `<li class="chip">ships in <a href="${rel}skills/${m.slug}/">${esc(m.name)}</a></li>`
-       : '<li class="chip">a rule, not a skill — it holds whether or not anything is installed</li>'}
+       : '<li class="chip">a standing rule that holds whether or not anything is installed</li>'}
     ${refusal ? `<li class="chip chip--refuse">decline it: ${esc(refusal)}</li>` : ''}
   </ul>
   ${paras(r.text)}
@@ -1301,8 +1300,8 @@ function routingPage() {
   <p class="lede">Installing a skill does not make an agent reach for it. The family
   writes this block into your agent's own instruction file, so the decision is made
   before the work starts rather than remembered afterwards. <b>Every rule names the
-  boundary in both directions</b> — a router that swallows everything gets routed
-  around within a week — and <b>every rule names the phrase that declines it</b>.</p>
+  boundary in both directions</b> and <b>the phrase that declines it</b>.
+  A router with no useful boundary is easy to ignore.</p>
   <div class="ctas">${xFollowBtn()}${ghBtn(`https://github.com/${GH_OWNER}/${GH_REPO}#routing--making-the-family-engage-by-default`, 'How the block is installed')}</div>
 </section>
 
@@ -1328,7 +1327,7 @@ function routingPage() {
 <section class="wrap sec">
   <h2>Every rule, verbatim</h2>
   <p class="sub">This is the exact text the family writes into your instruction
-  file — read from <code>lib/routers-registry.js</code>, which is the only place a
+  file. It is read from <code>lib/routers-registry.js</code>, which is the only place a
   router is declared.</p>
   ${registry.order().map((n) => block({ name: n, ...registry.REGISTRY[n] })).join('\n')}
 </section>
@@ -1337,9 +1336,9 @@ function routingPage() {
     rel,
     url: '/routing/',
     card: 'routing',
-    cardAlt: `${registry.order().length} routing rules — which agent skill answers what, and when`,
+    cardAlt: `${registry.order().length} routing rules: which agent skill answers what, and when`,
     ogType: 'article',
-    title: 'Routing — which agent skill answers what, and when · ssheleg skills',
+    title: 'Routing: which agent skill answers what, and when · ssheleg skills',
     description: `The ${registry.order().length} routing rules the ssheleg skill family `
       + 'writes into your agent\'s instruction file: what each pack answers, when it '
       + 'applies, the boundary in both directions, and the phrase that declines it.',
@@ -1376,8 +1375,8 @@ function agentsPage() {
   <p class="eyebrow">${agents.length} named · ${agentCount}+ supported · one install</p>
   <h1>Where these skills run.</h1>
   <p class="lede">Every pack is an <a href="https://agentskills.io/specification"
-  rel="noopener" target="_blank">Agent Skills</a> bundle — a <code>SKILL.md</code> with
-  its references beside it — so <b>any agent that reads that standard reads these</b>.
+  rel="noopener" target="_blank">Agent Skills</a> bundle: a <code>SKILL.md</code> with
+  its references beside it. <b>Any agent that reads that standard reads these</b>.
   Two get a channel of their own; the rest share one directory.</p>
   <div class="ctas">${xFollowBtn()}${ghBtn(`https://github.com/${GH_OWNER}/${GH_REPO}`, 'Get it on GitHub')}</div>
 </section>
@@ -1386,18 +1385,18 @@ function agentsPage() {
 
 <section class="wrap sec">
   <h2>The named agents</h2>
-  <p class="sub"><b>Reads</b> is the path that agent actually looks in — the fact worth
-  having when something does not show up.</p>
+  <p class="sub"><b>Reads</b> names the path that agent actually looks in. Check it
+  when a skill does not show up.</p>
   <div class="tw"><table>
     <thead><tr><th>Agent</th><th>Channel</th><th>Reads</th><th>Worth knowing</th></tr></thead>
     <tbody>${agents.map((a) => `<tr><td class="nw"><strong>${esc(a.name)}</strong></td>`
       + `<td class="nw">${esc(a.channel)}</td>`
       + `<td class="nw"><code>${esc(a.reads)}</code></td>`
-      + `<td>${a.note ? esc(a.note) : '<span style="color:var(--muted)">—</span>'}</td></tr>`).join('\n')}</tbody>
+      + `<td>${a.note ? esc(a.note) : '<span style="color:var(--muted)">No additional notes</span>'}</td></tr>`).join('\n')}</tbody>
   </table></div>
   <div class="note">
     <p><strong>One channel per agent, always.</strong> A plain copy beside a plugin, or a
-    project-local copy beside the installed one, wins — and then serves its frozen version
+    project-local copy beside the installed one, takes precedence and serves its frozen version
     forever. The launcher prunes the copies the skills CLI recreates; the project-local
     case is yours to avoid.</p>
   </div>
@@ -1408,7 +1407,7 @@ function agentsPage() {
 <section class="wrap sec" id="dsh">
   <h2>DeepSeek Harness, specifically</h2>
   <p class="sub">Nothing to install beyond the ordinary command, and <b>no plugin to
-  write</b> — in <code>dsh</code> a plugin is a Cordis module exporting
+  write</b>. In <code>dsh</code>, a plugin is a Cordis module exporting
   <code>apply(ctx)</code>, and skills are loaded <em>by</em> one.</p>
   ${term('npx sshlg-skills install', 'and dsh already sees them')}
   <div class="prose" style="margin-top:26px">
@@ -1422,15 +1421,15 @@ function agentsPage() {
     and <code>fixtures/</code> beside it.</p>
     <h3>Six roots, nearest wins</h3>
     <ul>
-      <li><code>&lt;projectRoot&gt;/.dsh/skills</code> — rank 100</li>
-      <li><code>&lt;projectRoot&gt;/.agents/skills</code> — rank 200</li>
-      <li><code>customSkillDirs</code> — rank 300</li>
-      <li><code>&lt;dshHome&gt;/skills</code> — rank 400</li>
-      <li><b><code>&lt;agentsHome&gt;/skills</code> — rank 500</b>, which is <code>~/.agents/skills</code></li>
-      <li>bundled — rank 600</li>
+      <li><code>&lt;projectRoot&gt;/.dsh/skills</code>: rank 100</li>
+      <li><code>&lt;projectRoot&gt;/.agents/skills</code>: rank 200</li>
+      <li><code>customSkillDirs</code>: rank 300</li>
+      <li><code>&lt;dshHome&gt;/skills</code>: rank 400</li>
+      <li><b><code>&lt;agentsHome&gt;/skills</code>: rank 500</b>, which is <code>~/.agents/skills</code></li>
+      <li>bundled: rank 600</li>
     </ul>
-    <p><b>A project-local copy overrides the installed one</b> — the same shadowing trap
-    Claude Code has, with the same remedy.</p>
+    <p><b>A project-local copy overrides the installed one</b>. Claude Code has
+    the same shadowing trap and the same remedy.</p>
     <p><code>disable-model-invocation</code> and <code>user-invocable</code> are the two
     front-matter keys it reads, both defaulting to <code>true</code>. This family ships
     neither, so every skill is model- and user-invocable there without a change.</p>
@@ -1469,13 +1468,13 @@ function agentsPage() {
     rel,
     url: '/agents/',
     card: 'agents',
-    cardAlt: `Where the ssheleg skills run — ${agents.length} named agents including Claude Code and DeepSeek Harness`,
+    cardAlt: `Where the ssheleg skills run: ${agents.length} named agents including Claude Code and DeepSeek Harness`,
     ogType: 'article',
-    title: 'Agents — where these skills run · Claude Code, DeepSeek Harness, Cursor and more',
-    description: `The ${agents.length} agents the ssheleg skill family installs into by name — `
+    title: 'Agents: where these skills run · Claude Code, DeepSeek Harness, Cursor and more',
+    description: `The ${agents.length} agents the ssheleg skill family installs into by name: `
       + 'Claude Code as plugins, DeepSeek Harness reading the same hub directory, plus Cursor, '
       + `Codex, Gemini CLI, OpenCode, Windsurf, Zed and the rest of ${agentCount}+ through the `
-      + 'skills CLI — with the path each one actually reads.',
+      + 'skills CLI, with the path each one actually reads.',
     jsonld: [
       {
         '@context': 'https://schema.org',
@@ -1538,7 +1537,7 @@ function notFoundPage() {
     noindex: true,
     card: 'index',
     title: 'Not found · ssheleg skills',
-    description: 'That page is not here — it may have moved with a release. '
+    description: 'That page is not here. It may have moved with a release. '
       + `All ${members.length} skill packs of the ssheleg family, and every routing `
       + 'rule, are one click away.',
     body,
@@ -1592,7 +1591,7 @@ ${members.map((m) => `- [${m.name} v${m.version}](${SITE}/skills/${m.slug}/): `
   + `${m.role}. Ships ${(m.skillNames || []).join(', ')}. `
   + `Repository https://github.com/${m.repo}, npm ${m.npm}${m.npmPublished === false ? ' (not published; install from GitHub)' : ''}.`).join('\n')}
 
-## Routing — which pack answers what, when
+## Routing: which pack answers what, when
 
 ${registry.order().map((n) => {
   const e = registry.REGISTRY[n];
