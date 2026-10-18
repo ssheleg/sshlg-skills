@@ -104,7 +104,7 @@ jobs:
             echo "release ${{ steps.t.outputs.tag }} already existed — notes refreshed"
           else
             gh release create "${{ steps.t.outputs.tag }}" \
-              --title "${{ steps.t.outputs.tag }} — sshlg-skills" \
+              --title "${{ steps.t.outputs.tag }}: sshlg-skills" \
               --notes-file /tmp/notes.md --latest
           fi
 

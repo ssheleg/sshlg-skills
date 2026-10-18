@@ -1,3 +1,26 @@
+## 2026-10-18: v1.66.0, no em dash in text for people on every host
+
+Operator rule of 2026-10-18. Source commit `0995a178905cfc7fe355809f745f2370cbc07fb6`
+recorded 139 suites, 2,619 fixtures and 11 members; that is the source packet's
+receipt, not the final combined tree's result. Combined candidate PR239 owns
+the final exact-head CI result.
+super-ux `v0.61.0` (`e7ad4e7`) is published; release run 39087837151 succeeded.
+The first combined local run found a stale ledger total and a fixture left by
+this run's interrupted preparation. The total is corrected to 763; the owned,
+unheld fixture was removed. Both `test/validate.py` and `test/residue_test.py`
+then passed. The full local run was still in progress at candidate promotion;
+it is not asserted green here. Native Claude inventory and published pin
+checks passed. The exact-head CI and tag release gates remain binding.
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| EMD-1 | the PROTOCOL region carries the no-em-dash rule, once, with its exception, kept places, draft check and exemption from the protocol boundary | `test/protocol_test.js` (19 checks) | v1.66.0 | a change to `PROTOCOL_LINES` in `lib/routers.js` | 2026-10-18, release tree |
+| EMD-2 | the protocol region has no U+2014 | `test/protocol_test.js` "the protocol region itself carries no em dash" | v1.66.0 | a protocol edit | 2026-10-18, release tree |
+| EMD-3 | a 1.65.0 protocol with no rendered record refreshes, not refused | `test/protocol_test.js`; watched failing with `PREVIOUS_PROTOCOL` removed from the guard; control: a real hand edit is still kept | v1.66.0 | a change to `regionGuard` or `PREVIOUS_PROTOCOL` | 2026-10-18, release tree |
+| EMD-4 | block budget 18,400 (17,551 before, 18,395 after) | `test/router_compaction_test.js` | v1.66.0 | any block growth | 2026-10-18, release tree |
+| EMD-5 | super-ux 0.61.0: AT-06 hard ban, `B067` | super-ux `test/brand_lint_test.py` (206), `B067` stubbed out: 5 red | super-ux v0.61.0 | a change to `em_dash_findings` | 2026-10-18, member tree |
+| Agent behaviour | whether agents stop writing em dashes | no agent run observed | never | | |
+
 ## 2026-10-17 — v1.65.0 host-validation release (ITER-1016) released and installed
 
 Brief: [2026-10-16-host-validation-release](briefs/2026-10-16-host-validation-release.md).
@@ -51,7 +74,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**758** id'd requirement rows below, **641** read `verified` and none of them says which
+**763** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with

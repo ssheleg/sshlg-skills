@@ -77,3 +77,9 @@ coordination. The enclosing run owns task-pipeline integration and delivery.
 The saved full-run COUNTED line was parsed into [counts.json](counts.json), with the relevant output retained in [gate-excerpt.txt](gate-excerpt.txt). These are log-derived counts, not a second full run. DOCMAP now carries139suites,2618fixtures,11members. `node test/run.js --ratchets-from docs/evidence/voice-surfaces/counts.json` passes after the correction.
 
 `node test/site_test.js` passes48checks over16pages; `python3 test/validate.py` exits0 after submodules were materialized. Initial checks in the unmaterialized worktree failed and are not treated as code defects. `node scripts/site.js --out _site` builds16pages. Safari opened the homepage, harness, agents, routing and super-ux pages; [readback](safari-local.json) shows expected titles/headings and no broken images. The homepage screenshot was inspected locally.
+
+## Published packet
+
+PR237 merged as `3d85922c6db20cea7c0e79f2741caa0b91d05e4e` after all three jobs in [candidate validation39089481441](https://github.com/ssheleg/sshlg-skills/actions/runs/39089481441) passed. The frozen candidate used the repository's `ready_for_review` gate once; no per-push workflow dispatch or trigger change was introduced.
+
+[Pages run39089811020](https://github.com/ssheleg/sshlg-skills/actions/runs/39089811020) passed on the merge head, including its validation, build and deploy jobs. Safari opened all five primary page types on `https://skills.sshlg.me`; [live readback](safari-live.json) confirms the expected rewritten titles and no broken images. A fresh public Git clone resolves the plan, readback receipts and corrected DOCMAP counters.

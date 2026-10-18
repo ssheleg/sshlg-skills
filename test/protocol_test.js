@@ -205,7 +205,10 @@ it('it states no count of its own — the block ships to machines it cannot see'
   // True of one machine, written into a file on every other. A number a document restates
   // is a number that describes the day it was typed; this one belongs to the command.
   const body = write(EMPTY).match(/PROTOCOL:BEGIN -->([\s\S]*?)<!-- SSHLG:ROUTERS:PROTOCOL:END/)[1];
-  const prose = body.replace(/```bash[\s\S]*?```/g, '');
+  // A dated operator decision and a codepoint are identifiers, not counts of a machine.
+  const prose = body.replace(/```bash[\s\S]*?```/g, '')
+    .replace(/`[^`\n]*`/g, '')
+    .replace(/\b\d{4}-\d{2}-\d{2}\b/g, '').replace(/U\+[0-9A-F]{4,6}\b/g, '');
   const numbers = prose.match(/\b\d{2,}\b/g) || [];
   assert.deepStrictEqual(numbers, [],
     `the protocol states a machine-specific figure: ${numbers.join(', ')}`);
@@ -254,6 +257,65 @@ it('the refusal a pack page shows is the English one', () => {
     checked += 1;
   }
   assert.ok(checked >= 8, `only ${checked} cards were checked`);
+});
+
+// The operator's writing rule, 2026-10-18: no em dash in any text a person reads. It rides
+// in the protocol because the protocol reaches every host whatever is installed, and it has
+// to say that the protocol's boundary and refusal phrase do not lift it.
+const EM = '\u2014';
+function protocolBody(text) {
+  return text.match(/PROTOCOL:BEGIN -->([\s\S]*?)<!-- SSHLG:ROUTERS:PROTOCOL:END/)[1];
+}
+it('the no-em-dash rule arrives in the protocol, once, and says what it binds', () => {
+  const out = write(EMPTY);
+  const body = protocolBody(out);
+  const flat = body.replace(/\s+/g, ' ');
+  assert.strictEqual(count(out, 'No em dash in text for people'), 1, 'the rule is missing or doubled');
+  assert.ok(/U\+2014/.test(flat), 'the rule does not name the character');
+  assert.ok(/in any language/.test(flat), 'the rule is not language-wide');
+  assert.ok(/chat answers/.test(flat) && /PR descriptions/.test(flat), 'the rule does not name what it binds');
+  assert.ok(/`--`/.test(flat) && /spaced hyphen/.test(flat), 'the substitutes are not banned');
+  assert.ok(/Russian grammar where a dash is required and no rewrite reads naturally/.test(flat), 'the one exception is missing');
+  assert.ok(flat.includes("`grep -n \"$(printf '\\342\\200\\224')\" <file>` must print nothing"), 'the draft check is missing');
+  assert.ok(/exact quotations, code, commands, paths and historical records/.test(flat), 'the kept places are missing');
+  assert.ok(/no boundary and no refusal phrase/.test(flat), 'nothing takes the rule out of the protocol boundary');
+  assert.ok(flat.indexOf('No em dash') > flat.indexOf('Refusal phrase: "no tooling"'),
+    'the rule sits above the boundary it is exempt from');
+});
+
+it('the protocol region itself carries no em dash', () => {
+  const body = protocolBody(write(EMPTY));
+  const at = body.indexOf(EM);
+  assert.strictEqual(at, -1, `an em dash in the protocol: ${body.slice(Math.max(0, at - 40), at + 40)}`);
+});
+
+it('a 1.65.0 protocol with no rendered record is refreshed, not refused as a hand edit', () => {
+  // The three de-dashed lines are the pack's own words. Without the KNOWN lines the B-202
+  // guard reads them as the operator's and refuses the region, so `update` exits 1 on
+  // every machine whose block predates the rendered record.
+  const fresh = write(EMPTY);
+  const body = protocolBody(fresh);
+  const old = body
+    .replace('search the WHOLE catalogue, which is', `search the WHOLE catalogue ${EM}`)
+    .replace('**Print the plan before starting** (skills,', `**Print the plan before starting** ${EM} skills,`)
+    .replace('purpose, order), then proceed', `purpose, order ${EM} then proceed`)
+    .replace('**The boundary: "the work', `**The boundary ${EM} "the work`)
+    .replace(/\n\n\*\*No em dash in text for people[\s\S]*$/, '\n');
+  assert.notStrictEqual(old, body, 'the fixture did not rebuild the old region');
+  assert.strictEqual(count(old, EM), 4, 'the fixture is not the 1.65.0 wording');
+  const before = fresh.replace(body, old);
+  const res = R.upsert(before, { 'task-pipeline': 'body' }, { members, rendered: {} });
+  assert.deepStrictEqual(res.kept, [], `the old packaged lines were kept as a hand edit: ${JSON.stringify(res.kept)}`);
+  assert.strictEqual(res.text, fresh, 'the refresh did not land the current protocol');
+});
+
+it('a line the operator wrote inside the protocol is still kept (control)', () => {
+  const fresh = write(EMPTY);
+  const body = protocolBody(fresh);
+  const edited = fresh.replace(body, body.replace('**Refusal phrase', 'My own line in here.\n\n**Refusal phrase'));
+  const res = R.upsert(edited, { 'task-pipeline': 'body' }, { members, rendered: {} });
+  assert.ok(res.kept.some((k) => k.kind === 'region' && k.name === 'PROTOCOL'),
+    'a real hand edit inside the protocol was refreshed away');
 });
 
 if (failures.length) {

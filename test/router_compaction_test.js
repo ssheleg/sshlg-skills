@@ -37,8 +37,12 @@ it('whole-family managed context stays inside the recorded block budget', () => 
   // absorbed silently: 17,501 measured, 17,600 budgeted. Against the frozen
   // baseline that is a 17.5% saving, not 25% — the trim that buys the room back
   // is task-pipeline's description work (B-154), not this router's absence.
+  // 1.66.0 moves it once more, for the same kind of reason: the operator's writing rule
+  // (no em dash in text for people, 2026-10-18) reaches every host only through this
+  // block, and the operator asked for it there. 17,551 measured before, 18,395 after
+  // (+844: the rule's ten lines, less the three de-dashed protocol lines); 18,400 budgeted.
   const chars = [...R.parse(block).block].length;
-  assert.ok(chars <= 17600, `${chars} chars exceed the 17,600 block budget`);
+  assert.ok(chars <= 18400, `${chars} chars exceed the 18,400 block budget`);
 });
 it('all declared routes and both generated tables survive compaction', () => {
   assert.strictEqual(names.length, 15);

@@ -1,3 +1,25 @@
+## v1.66.0 (2026-10-18): no em dash in text for people, on every host
+
+- **An always-on writing rule in the routing block.** The operator's decision of
+  2026-10-18 (no em dash, U+2014, in any text a person reads, in any language; no
+  substitute such as `--` or a spaced hyphen; the grammatical Russian dash only where no
+  rewrite reads naturally) now ends the PROTOCOL region, so Claude Code, Codex, Gemini,
+  Pi and Cursor all receive it from `install`/`update`. It names a draft check
+  (`grep -n "$(printf '\342\200\224')" <file>` prints nothing) and states that the
+  protocol's boundary and refusal phrase do not lift it.
+- **The protocol region itself carries no em dash.** Three of its lines were reworded.
+  The 1.65.0 lines are passed to the hand-edit guard (B-202) as the pack's own known
+  lines, so a machine without a rendered record refreshes the region instead of
+  refusing it as an operator edit (`test/protocol_test.js`, watched failing without them).
+- **Block budget 17,600 to 18,400 characters** (`test/router_compaction_test.js`):
+  17,551 measured before, 18,395 after. Recorded here, not absorbed.
+- **super-ux 0.61.0:** `ai-tells.md` AT-06 is a hard ban with two layers (the glyph,
+  the role); new lint code `B067` (an em dash joining a range or opening a line in a
+  locale without a dialogue dash errors; a lone dash in Russian warns); `copywriting`
+  Non-negotiable; `brand-voice` seeds the invariant.
+- Router sections, the map, the heading and the wait rule still carry em dashes; that
+  rewrite needs the same known-lines path per section and is board row B-226.
+
 ## v1.65.0 — foreign text no longer stops an update; WebKit-first members; OpenClaw opt-in
 
 From the 2026-10-16 host validation ([report](docs/reports/2026-10-16-coding-agent-compatibility/README.md),
