@@ -1,3 +1,21 @@
+## Current: 2026-10-18, hub 1.66.0, no em dash in text for people (lease `NO-EM-DASH-1018`)
+
+**Objective.** The operator's rule of 2026-10-18 (no em dash, U+2014, in any text a person reads, in
+any language; the grammatical Russian dash only where no rewrite reads naturally) made binding and
+portable through the family, not only the personal `sshlg-voice` skill.
+
+**Done.** The rule ends the routing block's PROTOCOL region (`lib/routers.js` `PROTOCOL_LINES`), so
+every host the hub writes (Claude Code, Codex, Gemini, Pi, Cursor) gets it from `update`. The region's
+own three dashed lines reworded, with the 1.65.0 lines passed to the B-202 guard as known lines. Block
+budget 17,600 to 18,400. super-ux 0.61.0: AT-06 hard ban, lint code `B067`, `copywriting`
+Non-negotiable, `brand-voice` invariant seed. Evidence: [verification](evidence/verification.md) EMD-1..5.
+
+**Open.** B-226 (router sections, map, heading, table cells and wait rule still carry em dashes).
+After the installed update the hand-written copies of the rule in the operator's global files are
+removed where the block now carries it (Claude, Codex, Gemini); `~/.kimi-code/AGENTS.md` is not a hub
+target and keeps its hand-written copy.
+**Next:** the highest-priority open row, then B-226.
+
 ## Current — 2026-10-17, hub 1.65.0 released and installed (ITER-1016)
 
 **Objective.** Ship the hub fixes found by the 2026-10-16 host validation and the operator's Safari
