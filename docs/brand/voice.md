@@ -5,7 +5,8 @@ Locale parity threshold: 100%
 Derived-from: inferred
 Status: draft
 Humanization: on
-Last calibrated: 2026-10-13
+Humanization pass: own
+Last calibrated: 2026-10-18
 
 # Voice
 
@@ -35,6 +36,12 @@ Promise:      the agent preserves intent, verifies the artifact and leaves a dur
 - Never publish a number without a current row in `facts.md`.
 - Say `designed`, `measured` or `released`; do not blur those states.
 - Explain a term before relying on it.
+- Avoid decorative em dashes. Use sentences, commas, colons or parentheses.
+  Do not substitute double hyphens, spaced hyphens or en dashes for them.
+  A rare grammatical exception is allowed only when a natural rewrite would
+  damage meaning. Preserve exact quotations, commands, code, identifiers and
+  historical records. This applies to titles, descriptions and accessible labels
+  as well as body copy.
 
 ## Reconsidered per locale
 
@@ -46,7 +53,7 @@ Promise:      the agent preserves intent, verifies the artifact and leaves a dur
 ## Failure mode
 
 Insider shorthand: dense references accumulate until a new reader cannot tell
-which pack solves their problem. The other failure is performed honesty — a
+which pack solves their problem. The other failure is performed honesty: a
 long list of caveats that never states the useful thing first.
 
 ## Voice references

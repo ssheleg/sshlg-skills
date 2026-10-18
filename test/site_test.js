@@ -71,6 +71,82 @@ function decodedPng(buf) {
   return Buffer.concat([ihdr, zlib.inflateSync(Buffer.concat(idat))]);
 }
 
+// Source-owned wording is rendered verbatim. Exempt only exact source fragments,
+// not a whole page or a container which could also acquire authored prose.
+const importedCopy = [];
+function collectCopy(value) {
+  if (typeof value === 'string') importedCopy.push(value);
+  else if (value && typeof value === 'object') Object.values(value).forEach(collectCopy);
+}
+collectCopy(data);
+collectCopy(registry.REGISTRY);
+for (const member of site.members) {
+  collectCopy(member);
+  importedCopy.push(site.firstSentence(member.desc), site.firstSentence(member.desc, 210), site.firstSentence(member.desc, 300));
+  for (const skill of member.skillNames || []) importedCopy.push(site.skillBrief(member, skill));
+}
+for (const rule of Object.values(registry.REGISTRY)) {
+  for (const paragraph of rule.text.trim().split(/\n\s*\n/)) {
+    importedCopy.push(site.inline(paragraph.replace(/\n/g, ' ')));
+  }
+}
+const sourceFragments = [...new Set(importedCopy.flatMap((text) => [
+  text, site.esc(text), text.replace(/\s+/g, ' '), site.esc(text.replace(/\s+/g, ' ')),
+]))].filter((text) => /\u2014|\s(?:--?|\u2013)\s/.test(text))
+  .sort((a, b) => b.length - a.length);
+
+function authoredCopy(html) {
+  let copy = html;
+  for (const fragment of sourceFragments) copy = copy.split(fragment).join(' source ');
+  copy = copy.replace(/<!--[^]*?-->/g, '')
+    .replace(/<(script|style)\b[^>]*>[^]*?<\/\1>/gi, '')
+    .replace(/<(pre|code)\b[^>]*>[^]*?<\/\1>/gi, ' literal ');
+  // Keep the values people and crawlers read, even though ordinary tag stripping
+  // would discard them. Commands and URLs are not prose.
+  const attributes = [...copy.matchAll(/\b(?:alt|title|aria-label|content)="([^"]*)"/g)]
+    .map((match) => match[1]).join('\n');
+  return unesc(`${copy.replace(/<[^>]+>/g, '')}\n${attributes}`)
+    .replace(/&(?:mdash|#8212|#x2014);/gi, '\u2014')
+    .replace(/&(?:ndash|#8211|#x2013);/gi, '\u2013');
+}
+function assertAuthoredPunctuation(html, label) {
+  const copy = authoredCopy(html);
+  const found = copy.match(/.{0,80}(?:\u2014|\s(?:--?|\u2013)\s).{0,80}/g);
+  assert.strictEqual(found, null, `${label}: ${JSON.stringify(found)}`);
+}
+
+it('authored rendered prose and metadata avoid decorative dashes', () => {
+  assert.ok(pages.length > 10, 'the check must scan the generated site');
+  for (const page of pages) assertAuthoredPunctuation(read(page), page);
+  assertAuthoredPunctuation(read('llms.txt').replace(/^- /gm, ''), 'llms.txt');
+});
+
+it('the copy check rejects planted title, accessible-label and FAQ regressions', () => {
+  for (const dash of ['\u2014', '--', '-', '\u2013', '&mdash;']) {
+    for (const fragment of [
+      `<title>Clear ${dash} readable</title>`,
+      `<img alt="Clear ${dash} readable">`,
+      `<button aria-label="Clear ${dash} readable">Read</button>`,
+      `<meta name="description" content="Clear ${dash} readable">`,
+      `<section id="faq"><p>Clear <b>${dash}</b> readable</p></section>`,
+    ]) assert.throws(() => assertAuthoredPunctuation(fragment, 'planted copy'));
+  }
+  assertAuthoredPunctuation('<p>Meaningful sentences. A useful answer: read on.</p>'
+    + '<code>tool --flag</code><p>state-of-the-art</p>', 'clean controls');
+});
+
+it('source doctrine stays verbatim while adjacent authored copy remains checked', () => {
+  const rule = Object.values(registry.REGISTRY).find((item) => /\u2014/.test(item.text));
+  assert.ok(rule, 'the source exception control must contain a literal dash');
+  for (const source of Object.values(registry.REGISTRY)) {
+    const literal = source.text.trim().split(/\n\s*\n/)
+      .map((paragraph) => `<p>${site.inline(paragraph.replace(/\n/g, ' '))}</p>`).join('\n');
+    assert.ok(read('routing/index.html').includes(literal), 'router source was rewritten');
+    assertAuthoredPunctuation(literal, 'literal doctrine');
+    assert.throws(() => assertAuthoredPunctuation(`${literal}<p>Added \u2014 prose</p>`, 'adjacent copy'));
+  }
+});
+
 // ------------------------------------------------------------------- structure
 
 it('every member in skills.json has a page, and no page has no member', () => {
@@ -618,7 +694,7 @@ it('a member page reproduces its own routing text verbatim', () => {
     const own = registry.order()
       .filter((r) => (registry.REGISTRY[r].requires || []).includes(m.name));
     for (const r of own) {
-      assert.ok(html.includes(`/${r} — ${registry.REGISTRY[r].answers}`),
+      assert.ok(html.includes(`/${r}: ${registry.REGISTRY[r].answers}`),
         `${m.name}'s page does not carry the ${r} rule`);
     }
   }

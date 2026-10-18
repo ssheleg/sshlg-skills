@@ -1,0 +1,74 @@
+[
+  {
+    "repo": "ssheleg/sshlg-skills",
+    "before": "Install and update nine Agent Skills packs for UX, delivery, design, integrations, SEO, agent systems, Telegram, coordination, and skill authoring.",
+    "after": "Install and update agent skill packs for UX, delivery, design, integrations and verification, with shared routing and durable handoffs.",
+    "verifiedAt": "2026-10-18T02:02:43.537481+00:00"
+  },
+  {
+    "repo": "ssheleg/super-ux",
+    "before": "Scenario-driven UX for coding agents: vision, personas, flows, screens, acceptance scenarios, UX audits, brand voice, and product copy.",
+    "after": "Define product behavior, trace UX scenarios and keep copy consistent through brand voice, audits and code checks.",
+    "verifiedAt": "2026-10-18T02:02:46.181930+00:00"
+  },
+  {
+    "repo": "ssheleg/task-pipeline",
+    "before": "Gated delivery for coding agents: a pipeline from intake to acceptance, a read-only project audit that says what is true before any change, and the evidence canons that decide what counts as proof.",
+    "after": "Take repository changes from a clear brief to implementation, verification and a durable handoff through explicit delivery gates.",
+    "verifiedAt": "2026-10-18T02:02:48.074667+00:00"
+  },
+  {
+    "repo": "ssheleg/agent-sync",
+    "before": "Coordinate concurrent coding agents with expiring leases, race-free IDs, run journals, generated boards, and Git-backed cross-machine claims.",
+    "after": "Coordinate coding agents with task leases, shared-file claims and Git-backed handoffs.",
+    "verifiedAt": "2026-10-18T02:02:50.141732+00:00"
+  },
+  {
+    "repo": "ssheleg/make-skill",
+    "before": "Create, audit, package, validate, and publish Agent Skills and Claude Code plugins across npm, GitHub, and skills-compatible agents.",
+    "after": "Build, audit and publish portable agent skills and plugins with validation and release checks.",
+    "verifiedAt": "2026-10-18T02:02:52.229245+00:00"
+  },
+  {
+    "repo": "ssheleg/sheleg-design-skill",
+    "before": "Visual-system skill for coding agents: a library of locked style packs, design tokens, cinematic scroll motion, product UI, the evidence bar for accessibility claims, and Figma handoff.",
+    "after": "Define the visual language of an interface, from typography and layout to motion, tokens and implementation checks.",
+    "verifiedAt": "2026-10-18T02:02:54.515489+00:00"
+  },
+  {
+    "repo": "ssheleg/seo-aeo-audit",
+    "before": "Evidence-first SEO and AEO audits for search, AI citations, indexation, architecture, measurement, and prioritized change plans.",
+    "after": "Audit websites for search and answer-engine visibility, with source evidence and actionable findings.",
+    "verifiedAt": "2026-10-18T02:02:56.901823+00:00"
+  },
+  {
+    "repo": "ssheleg/sheleg-dev",
+    "before": "Production integration skills for Stripe, crypto payments, ad tracking, Google sign-in and server-side auth, Sentry, and Core Web Vitals.",
+    "after": "Agent skills for payments, sign-in, conversion tracking, error reporting and frontend performance.",
+    "verifiedAt": "2026-10-18T02:02:58.887271+00:00"
+  },
+  {
+    "repo": "ssheleg/agent-stack",
+    "before": "Production patterns for agent orchestrators, harnesses, evals, MCP/A2A interoperability, memory, provider routing, and LLM usage metering.",
+    "after": "Agent skills for orchestration, system prompts, evaluations, interoperability and LLM usage accounting.",
+    "verifiedAt": "2026-10-18T02:03:00.949236+00:00"
+  },
+  {
+    "repo": "ssheleg/telegram-dev",
+    "before": "Production skills for Telegram Bot API, Telethon userbots, Mini Apps, Stars payments, delivery idempotency, rate limits, and initData auth.",
+    "after": "Build Telegram bots, user-account automation and Mini Apps with the right API, authentication and payment rules.",
+    "verifiedAt": "2026-10-18T02:03:02.988580+00:00"
+  },
+  {
+    "repo": "ssheleg/xr-dev",
+    "before": "Meta Quest and Horizon OS development in five agent skills: native OpenXR, frame budget, toolchain, Store, WebXR/PWA.",
+    "after": "Agent skills for the Meta Quest lifecycle: platform choice, native and web development, performance, tooling and store delivery.",
+    "verifiedAt": "2026-10-18T02:03:04.919591+00:00"
+  },
+  {
+    "repo": "ssheleg/web3d-dev",
+    "before": "Agent skills for realtime 3D on the web: three.js WebGPU runtime, glTF asset pipeline, 3D animation protocol",
+    "after": "Build realtime web 3D with three.js and React Three Fiber: rendering, asset delivery and animation.",
+    "verifiedAt": "2026-10-18T02:03:06.802740+00:00"
+  }
+]

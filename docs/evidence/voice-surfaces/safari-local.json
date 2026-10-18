@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/",
+    "links": 51,
+    "title": "ssheleg skills \u00b7 skill packs for coding agents",
+    "heading": "Skills for work your agent can prove done.",
+    "brokenImages": []
+  },
+  {
+    "path": "/harness/",
+    "links": 27,
+    "title": "How the ssheleg harness works",
+    "heading": "From a request to a result you can inspect.",
+    "brokenImages": []
+  },
+  {
+    "path": "/agents/",
+    "links": 33,
+    "title": "Agents: where these skills run \u00b7 Claude Code, DeepSeek Harness, Cursor and more",
+    "heading": "Where these skills run.",
+    "brokenImages": []
+  },
+  {
+    "path": "/routing/",
+    "links": 57,
+    "title": "Routing: which agent skill answers what, and when \u00b7 ssheleg skills",
+    "heading": "Which pack answers what, and when.",
+    "brokenImages": []
+  },
+  {
+    "path": "/skills/super-ux/",
+    "links": 37,
+    "title": "super-ux: what the interface must do \u00b7 ssheleg skills",
+    "heading": "super-ux",
+    "brokenImages": []
+  }
+]

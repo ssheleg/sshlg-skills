@@ -1,3 +1,24 @@
+## Current: 2026-10-18 public voice surfaces
+
+[Entry and requirements](evidence/plans/2026-10-18-voice-surfaces.md).
+[Website implementation and checks](evidence/voice-surfaces/site-copy.md).
+[Reviewed public GitHub descriptions](evidence/plans/2026-10-18-github-descriptions.json)
+and [verified readback](evidence/plans/2026-10-18-github-description-receipt.json).
+
+Authored website copy is rewritten without decorative em dashes; literal source
+quotes remain intact. Sixteen pages build,48site checks pass and Safari readback
+covers the five primary page types. Full suite completed with a stale DOCMAP
+counter as its only failure; the counter is now corrected and the same ratchet
+comparison passes against retained measured output. The brand linter's existing
+non-punctuation findings remain open as described in the packet.
+
+The portable-rule release is held by the separate NO-EM-DASH-1018 run. Its
+working tree is preserved. Next: merge this site packet, observe the Pages run,
+then consume the rule release, update installed skills and record live readback.
+Copylot and personal-site records remain in their private owning repositories.
+Fabric whoami succeeds, but board/work tools are not exposed by this connection;
+no board state or claim is represented as successful.
+
 ## Current — 2026-10-17, hub 1.65.0 released and installed (ITER-1016)
 
 **Objective.** Ship the hub fixes found by the 2026-10-16 host validation and the operator's Safari

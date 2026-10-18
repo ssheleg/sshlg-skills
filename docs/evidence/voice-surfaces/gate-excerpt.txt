@@ -1,0 +1,47 @@
+PASS: sshlg-skills structure valid (11 skills, 11 submodules)
+PASS: board_age — 9 cases
+PASS: doc_refs — 17 cases
+PASS: graph_staleness — 14 cases
+PASS: pin_source — 7 cases
+PASS: plant_guard — 9 cases
+PASS: release_lag — 6 cases
+PASS: residue — 8 cases
+PASS: backup retention process — 1 case
+PASS: backup_retention — 8 cases
+PASS: blocks — 17 cases
+PASS: blockwriter — 32 cases
+PASS: Claude native transaction — 32 cases
+PASS: Claude pinned admission — 21 cases
+PASS: Claude immutable source admission — 9 controls
+PASS: Claude source generation/readback — 17 controls
+PASS: codex native e2e — 10 cases
+PASS: codex pending — 28 cases
+PASS: codexplugins — 16 cases
+PASS: context handoff — 6 cases
+PASS: context — 8 checks
+PASS: Gemini CLI home relocation — 7 cases
+PASS: inbound handoffs — 13 case(s)
+PASS: injectors — 21 checks
+PASS: installer pins — 6 cases
+PASS: lifecycle — 7 cases
+PASS: mcpsecrets — 17 checks
+PASS: og-card — 14 checks (56 glyphs, 1200x630)
+PASS: operation plan/result contract — 14 cases
+PASS: quarantine — 7 checks
+PASS: remedies — 31 cases
+PASS: router migration scope — 7 cases
+PASS: runtime atomic — 40 cases
+PASS: runtime closure — 6 checks
+PASS: runtime recovery — 41 checks
+PASS: runtime — 12 checks
+PASS: site — 48 checks (16 pages, 11 members, 15 routers)
+PASS: set-update notice — 25 case(s)
+PASS: wait_recovery_cli — 33 cases
+PASS: wait_recovery_crash — 7 cases
+PASS: wait_recovery_revision — 3 cases
+PASS: wait_recovery — 30 cases
+PASS: wait_rule_policy — 25 cases
+PASS: wait_rules_cli — 11 cases
+PASS: wait_rules — 26 cases
+COUNTED: 139 suites, 2618 fixtures, 11 pinned members
+FAIL: docs/DOCMAP.md states fixtures=2615, this run counted 2618 — the stated figure is behind the gate
