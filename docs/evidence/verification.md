@@ -1,3 +1,19 @@
+## 2026-10-18: v1.66.0, no em dash in text for people on every host
+
+Operator rule of 2026-10-18 relayed by session dataroom-eb. `npm test` on the release candidate:
+139 suites / 2619 fixtures / 11 members, exit 0. `python3 test/check_pins.py`: every pin matches its
+release. CTX-04.06 staging receipt re-emitted for the new set. super-ux `v0.61.0` (`e7ad4e7`), release run
+39087837151 (validate, release, publish: success); `npm view super-ux version` prints 0.61.0.
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| EMD-1 | the PROTOCOL region carries the no-em-dash rule, once, with its exception, kept places, draft check and exemption from the protocol boundary | `test/protocol_test.js` (19 checks) | v1.66.0 | a change to `PROTOCOL_LINES` in `lib/routers.js` | 2026-10-18, release tree |
+| EMD-2 | the protocol region has no U+2014 | `test/protocol_test.js` "the protocol region itself carries no em dash" | v1.66.0 | a protocol edit | 2026-10-18, release tree |
+| EMD-3 | a 1.65.0 protocol with no rendered record refreshes, not refused | `test/protocol_test.js`; watched failing with `PREVIOUS_PROTOCOL` removed from the guard; control: a real hand edit is still kept | v1.66.0 | a change to `regionGuard` or `PREVIOUS_PROTOCOL` | 2026-10-18, release tree |
+| EMD-4 | block budget 18,400 (17,551 before, 18,395 after) | `test/router_compaction_test.js` | v1.66.0 | any block growth | 2026-10-18, release tree |
+| EMD-5 | super-ux 0.61.0: AT-06 hard ban, `B067` | super-ux `test/brand_lint_test.py` (206), `B067` stubbed out: 5 red | super-ux v0.61.0 | a change to `em_dash_findings` | 2026-10-18, member tree |
+| Agent behaviour | whether agents stop writing em dashes | no agent run observed | never | | |
+
 ## 2026-10-17 — v1.65.0 host-validation release (ITER-1016) released and installed
 
 Brief: [2026-10-16-host-validation-release](briefs/2026-10-16-host-validation-release.md).

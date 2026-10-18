@@ -4,8 +4,8 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "d17b51fc783fa15ac43fd05c7dd423c346efe961",
-      "version": "0.60.0",
+      "commit": "e7ad4e703949382eb55041f496c7c475b0f39c5c",
+      "version": "0.61.0",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
@@ -13,7 +13,7 @@
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
         "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ — product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.60.0",
+        "version": "0.61.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,7 +40,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "5f4cf7bfe5ef6342b58c06c5255389d720db765e4f4365a9865a33fe94106bae",
+          "sha256": "855bb466093723507fab0fa060aca355b928891671a113de0511e8bf479537d1",
           "bytes": 1196
         },
         {
@@ -100,8 +100,8 @@
         },
         {
           "path": "commands/ux-rule.md",
-          "sha256": "8f344350c95fa2cb5b3479fdfd1296a81684692270e05f97c923d8bfee05916f",
-          "bytes": 5747
+          "sha256": "f81c8ad3fc07bab31d636052543d46770afb396b1782b196e89235109485a8e1",
+          "bytes": 5884
         },
         {
           "path": "commands/ux-update.md",
@@ -125,8 +125,8 @@
         },
         {
           "path": "scripts/brand_lint.py",
-          "sha256": "921f50f242290d3134dbab9bdc6770cb4a8efec8a8e3faa355305f90382437a8",
-          "bytes": 120759
+          "sha256": "494f8c2c46dc6c03a1135285f53b54ab4a26094baeac774070714b28399625bd",
+          "bytes": 124264
         },
         {
           "path": "scripts/ux_doctor.py",
@@ -140,13 +140,13 @@
         },
         {
           "path": "skills/brand-voice/references/ai-tells.md",
-          "sha256": "676b16da81b4198b987e39af6436ece4f46bbbe13cbb239272372bdb988d7096",
-          "bytes": 19162
+          "sha256": "801a7b003150874dfc78415fe79646e928fa126e56e4ab63f966fe149d968afb",
+          "bytes": 21117
         },
         {
           "path": "skills/brand-voice/references/brand-contract.md",
-          "sha256": "c4a97c87679ab6994e6863204105ba22ca2e85932ec961631d1cc899c8aae5d8",
-          "bytes": 25391
+          "sha256": "35388606d7c407adfa85e5269bfe56ff5f499af91e9bc7bd3c405b3cd77b9b53",
+          "bytes": 25804
         },
         {
           "path": "skills/brand-voice/references/channel-playbooks.md",
@@ -190,7 +190,7 @@
         },
         {
           "path": "skills/brand-voice/references/system-map.md",
-          "sha256": "1351c7a8417de18507c00c303cc9370d5f2561c16a38754d14733e31cf795fd4",
+          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
           "bytes": 8452
         },
         {
@@ -205,8 +205,8 @@
         },
         {
           "path": "skills/brand-voice/SKILL.md",
-          "sha256": "15e04f9a205affcb5eb379dc5ec5b5b360a35b425b5f65fad68702300d0ede9d",
-          "bytes": 7107
+          "sha256": "fea9c68e54a02a6bbffe4144de026c61b99fcb92dd5b8e3517c416864dbd1af2",
+          "bytes": 7469
         },
         {
           "path": "skills/brand-voice/templates/brand/channels.md",
@@ -245,18 +245,18 @@
         },
         {
           "path": "skills/brand-voice/templates/brand/voice.md",
-          "sha256": "4ae150fca4476bdecdeddb772686fe0fdc18114acf2ba8c8bb04f9af2ac08611",
-          "bytes": 2095
+          "sha256": "3eb25eebc7aa60398bf47470571bb0ab1bbe1e634b4ca8b40219da85bdcb91dd",
+          "bytes": 2245
         },
         {
           "path": "skills/copywriting/references/ai-tells.md",
-          "sha256": "676b16da81b4198b987e39af6436ece4f46bbbe13cbb239272372bdb988d7096",
-          "bytes": 19162
+          "sha256": "801a7b003150874dfc78415fe79646e928fa126e56e4ab63f966fe149d968afb",
+          "bytes": 21117
         },
         {
           "path": "skills/copywriting/references/brand-contract.md",
-          "sha256": "c4a97c87679ab6994e6863204105ba22ca2e85932ec961631d1cc899c8aae5d8",
-          "bytes": 25391
+          "sha256": "35388606d7c407adfa85e5269bfe56ff5f499af91e9bc7bd3c405b3cd77b9b53",
+          "bytes": 25804
         },
         {
           "path": "skills/copywriting/references/channel-playbooks.md",
@@ -305,7 +305,7 @@
         },
         {
           "path": "skills/copywriting/references/system-map.md",
-          "sha256": "1351c7a8417de18507c00c303cc9370d5f2561c16a38754d14733e31cf795fd4",
+          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
           "bytes": 8452
         },
         {
@@ -325,8 +325,8 @@
         },
         {
           "path": "skills/copywriting/SKILL.md",
-          "sha256": "9685b6049bbc9212f23163da801826997926d9aa8eeff9c49c379c7bcc94d39b",
-          "bytes": 13171
+          "sha256": "39da973f3ea6f157caae7e215ce4884fadbc1733fd89685f83de9fc752864b66",
+          "bytes": 13902
         },
         {
           "path": "skills/copywriting/templates/brand/copy-brief.md",
@@ -335,8 +335,8 @@
         },
         {
           "path": "skills/references/ai-tells.md",
-          "sha256": "676b16da81b4198b987e39af6436ece4f46bbbe13cbb239272372bdb988d7096",
-          "bytes": 19162
+          "sha256": "801a7b003150874dfc78415fe79646e928fa126e56e4ab63f966fe149d968afb",
+          "bytes": 21117
         },
         {
           "path": "skills/references/audit-depth.md",
@@ -355,8 +355,8 @@
         },
         {
           "path": "skills/references/brand-contract.md",
-          "sha256": "c4a97c87679ab6994e6863204105ba22ca2e85932ec961631d1cc899c8aae5d8",
-          "bytes": 25391
+          "sha256": "35388606d7c407adfa85e5269bfe56ff5f499af91e9bc7bd3c405b3cd77b9b53",
+          "bytes": 25804
         },
         {
           "path": "skills/references/browser-engine.md",
@@ -485,7 +485,7 @@
         },
         {
           "path": "skills/references/system-map.md",
-          "sha256": "1351c7a8417de18507c00c303cc9370d5f2561c16a38754d14733e31cf795fd4",
+          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
           "bytes": 8452
         },
         {
@@ -515,8 +515,8 @@
         },
         {
           "path": "skills/ux-audit/references/ai-tells.md",
-          "sha256": "676b16da81b4198b987e39af6436ece4f46bbbe13cbb239272372bdb988d7096",
-          "bytes": 19162
+          "sha256": "801a7b003150874dfc78415fe79646e928fa126e56e4ab63f966fe149d968afb",
+          "bytes": 21117
         },
         {
           "path": "skills/ux-audit/references/audit-depth.md",
@@ -535,8 +535,8 @@
         },
         {
           "path": "skills/ux-audit/references/brand-contract.md",
-          "sha256": "c4a97c87679ab6994e6863204105ba22ca2e85932ec961631d1cc899c8aae5d8",
-          "bytes": 25391
+          "sha256": "35388606d7c407adfa85e5269bfe56ff5f499af91e9bc7bd3c405b3cd77b9b53",
+          "bytes": 25804
         },
         {
           "path": "skills/ux-audit/references/browser-engine.md",
@@ -615,7 +615,7 @@
         },
         {
           "path": "skills/ux-audit/references/system-map.md",
-          "sha256": "1351c7a8417de18507c00c303cc9370d5f2561c16a38754d14733e31cf795fd4",
+          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
           "bytes": 8452
         },
         {
@@ -725,7 +725,7 @@
         },
         {
           "path": "skills/ux-flows/references/system-map.md",
-          "sha256": "1351c7a8417de18507c00c303cc9370d5f2561c16a38754d14733e31cf795fd4",
+          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
           "bytes": 8452
         },
         {
@@ -805,7 +805,7 @@
         },
         {
           "path": "skills/ux-foundation/references/system-map.md",
-          "sha256": "1351c7a8417de18507c00c303cc9370d5f2561c16a38754d14733e31cf795fd4",
+          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
           "bytes": 8452
         },
         {
@@ -880,7 +880,7 @@
         },
         {
           "path": "skills/ux-scenarios/references/system-map.md",
-          "sha256": "1351c7a8417de18507c00c303cc9370d5f2561c16a38754d14733e31cf795fd4",
+          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
           "bytes": 8452
         },
         {
@@ -945,7 +945,7 @@
         },
         {
           "path": "skills/vision/references/system-map.md",
-          "sha256": "1351c7a8417de18507c00c303cc9370d5f2561c16a38754d14733e31cf795fd4",
+          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
           "bytes": 8452
         },
         {
@@ -1005,13 +1005,13 @@
         },
         {
           "path": "templates/brand/voice.md",
-          "sha256": "4ae150fca4476bdecdeddb772686fe0fdc18114acf2ba8c8bb04f9af2ac08611",
-          "bytes": 2095
+          "sha256": "3eb25eebc7aa60398bf47470571bb0ab1bbe1e634b4ca8b40219da85bdcb91dd",
+          "bytes": 2245
         },
         {
           "path": "templates/claude-rule.md",
-          "sha256": "e7835bdaa86b8b4e8887ad1393592fb38486a5f11390d437954103c18b8751d0",
-          "bytes": 4054
+          "sha256": "cbf86f5b4fc076a182ae73d6d98cdacedeca117810fa3c71152b340d0136fe05",
+          "bytes": 4185
         },
         {
           "path": "templates/flows.md",
