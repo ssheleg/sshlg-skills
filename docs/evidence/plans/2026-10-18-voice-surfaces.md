@@ -48,4 +48,5 @@ actions. Preserve unrelated work. Keep the current model.
 
 The edges carry the saved voice policy into copy review, the released member
 commit into the hub pin, and the final main commits into live readback.
-Resume here until a completion receipt is linked.
+Completion and the remaining native-host boundary are recorded in the
+[release receipt](../voice-surfaces/release-1.66.0.md).

@@ -1,0 +1,57 @@
+{
+  "asOf": "2026-10-18T03:11:14.346882+00:00",
+  "updateExit": 1,
+  "protocols": [
+    {
+      "host": "claude",
+      "ruleCountInProtocol": 1,
+      "protocolSha256": "16d7a9fe43bbc6e106cb44de420661923afd8df772f9571a0995a12b90fb98a8"
+    },
+    {
+      "host": "codex",
+      "ruleCountInProtocol": 1,
+      "protocolSha256": "16d7a9fe43bbc6e106cb44de420661923afd8df772f9571a0995a12b90fb98a8"
+    },
+    {
+      "host": "gemini",
+      "ruleCountInProtocol": 1,
+      "protocolSha256": "16d7a9fe43bbc6e106cb44de420661923afd8df772f9571a0995a12b90fb98a8"
+    },
+    {
+      "host": "pi",
+      "ruleCountInProtocol": 1,
+      "protocolSha256": "16d7a9fe43bbc6e106cb44de420661923afd8df772f9571a0995a12b90fb98a8"
+    },
+    {
+      "host": "cursor",
+      "ruleCountInProtocol": 1,
+      "protocolSha256": "16d7a9fe43bbc6e106cb44de420661923afd8df772f9571a0995a12b90fb98a8"
+    }
+  ],
+  "claudeSkills": [
+    {
+      "skill": "copywriting",
+      "sha256": "39da973f3ea6f157caae7e215ce4884fadbc1733fd89685f83de9fc752864b66",
+      "installedEqualsPinnedSource": true
+    },
+    {
+      "skill": "brand-voice",
+      "sha256": "fea9c68e54a02a6bbffe4144de026c61b99fcb92dd5b8e3517c416864dbd1af2",
+      "installedEqualsPinnedSource": true
+    }
+  ],
+  "claudeVerifiedMembers": 11,
+  "codex": {
+    "alreadyCurrent": 3,
+    "deferred": 6,
+    "threadLoadedGeneration": "unknown",
+    "reason": "DEFERRED_ACTIVE_GENERATION_SAFETY"
+  },
+  "watcher": {
+    "readOnly": true,
+    "maxCycles": 60,
+    "intervalSeconds": 120,
+    "maxHours": 2,
+    "automaticInstall": false
+  }
+}
