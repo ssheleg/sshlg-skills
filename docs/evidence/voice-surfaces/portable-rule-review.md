@@ -49,3 +49,22 @@ must measure it. The source backlog attribution contains a private session
 identifier; remove that attribution before public integration. No other
 introduced objective blocker was found in this delta. These are review
 observations, not a claim that the source owner has delivered or released it.
+
+## Integrated candidate
+
+The source owner published `0995a178905cfc7fe355809f745f2370cbc07fb6`
+while the old lease expired. This run acquired `NO-EM-DASH-1018` through the
+remote compare-and-swap and integrated that published commit into
+`324d067857aaa2b8f763ea9e68cba2eec581114e`. Source PR238 is superseded by
+combined PR239. The original working copy was preserved.
+
+Final independent review found two documentation issues: a second private
+attribution and an ambiguous source-only test total in `verification.md`.
+Both are corrected in the combined receipt. Protocol, tests and pins match the
+reviewed source; exact member release and focused 206-case member validation
+passed. PR239 receives one full candidate CI run after focused local validation.
+The slower aggregate local run continues in parallel and is not asserted green.
+The first local pass found two issues: a stale ledger count and a residual
+fixture from this run's interrupted preparation. Both were corrected; the
+structural validator and residue suite then passed. The fixture was removed
+only after source identity and absence of open holders were checked.

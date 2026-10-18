@@ -1,9 +1,16 @@
 ## 2026-10-18: v1.66.0, no em dash in text for people on every host
 
-Operator rule of 2026-10-18 relayed by session dataroom-eb. `npm test` on the release candidate:
-139 suites / 2619 fixtures / 11 members, exit 0. `python3 test/check_pins.py`: every pin matches its
-release. CTX-04.06 staging receipt re-emitted for the new set. super-ux `v0.61.0` (`e7ad4e7`), release run
-39087837151 (validate, release, publish: success); `npm view super-ux version` prints 0.61.0.
+Operator rule of 2026-10-18. Source commit `0995a178905cfc7fe355809f745f2370cbc07fb6`
+recorded 139 suites, 2,619 fixtures and 11 members; that is the source packet's
+receipt, not the final combined tree's result. Combined candidate PR239 owns
+the final exact-head CI result.
+super-ux `v0.61.0` (`e7ad4e7`) is published; release run 39087837151 succeeded.
+The first combined local run found a stale ledger total and a fixture left by
+this run's interrupted preparation. The total is corrected to 763; the owned,
+unheld fixture was removed. Both `test/validate.py` and `test/residue_test.py`
+then passed. The full local run was still in progress at candidate promotion;
+it is not asserted green here. Native Claude inventory and published pin
+checks passed. The exact-head CI and tag release gates remain binding.
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
 |---|---|---|---|---|---|
@@ -67,7 +74,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**758** id'd requirement rows below, **641** read `verified` and none of them says which
+**763** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
