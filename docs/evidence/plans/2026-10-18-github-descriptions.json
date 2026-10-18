@@ -1,0 +1,14 @@
+{
+  "ssheleg/sshlg-skills": "Install and update agent skill packs for UX, delivery, design, integrations and verification, with shared routing and durable handoffs.",
+  "ssheleg/super-ux": "Define product behavior, trace UX scenarios and keep copy consistent through brand voice, audits and code checks.",
+  "ssheleg/task-pipeline": "Take repository changes from a clear brief to implementation, verification and a durable handoff through explicit delivery gates.",
+  "ssheleg/agent-sync": "Coordinate coding agents with task leases, shared-file claims and Git-backed handoffs.",
+  "ssheleg/make-skill": "Build, audit and publish portable agent skills and plugins with validation and release checks.",
+  "ssheleg/sheleg-design-skill": "Define the visual language of an interface, from typography and layout to motion, tokens and implementation checks.",
+  "ssheleg/seo-aeo-audit": "Audit websites for search and answer-engine visibility, with source evidence and actionable findings.",
+  "ssheleg/sheleg-dev": "Agent skills for payments, sign-in, conversion tracking, error reporting and frontend performance.",
+  "ssheleg/agent-stack": "Agent skills for orchestration, system prompts, evaluations, interoperability and LLM usage accounting.",
+  "ssheleg/telegram-dev": "Build Telegram bots, user-account automation and Mini Apps with the right API, authentication and payment rules.",
+  "ssheleg/xr-dev": "Agent skills for the Meta Quest lifecycle: platform choice, native and web development, performance, tooling and store delivery.",
+  "ssheleg/web3d-dev": "Build realtime web 3D with three.js and React Three Fiber: rendering, asset delivery and animation."
+}

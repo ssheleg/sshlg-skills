@@ -71,3 +71,9 @@ for new website prose.
 Skills used: `copywriting` for website wording and the semantic review,
 `brand-voice` for the punctuation invariant, `agent-sync` for exclusive task
 coordination. The enclosing run owns task-pipeline integration and delivery.
+
+## Integrator verification
+
+The saved full-run COUNTED line was parsed into [counts.json](counts.json), with the relevant output retained in [gate-excerpt.txt](gate-excerpt.txt). These are log-derived counts, not a second full run. DOCMAP now carries139suites,2618fixtures,11members. `node test/run.js --ratchets-from docs/evidence/voice-surfaces/counts.json` passes after the correction.
+
+`node test/site_test.js` passes48checks over16pages; `python3 test/validate.py` exits0 after submodules were materialized. Initial checks in the unmaterialized worktree failed and are not treated as code defects. `node scripts/site.js --out _site` builds16pages. Safari opened the homepage, harness, agents, routing and super-ux pages; [readback](safari-local.json) shows expected titles/headings and no broken images. The homepage screenshot was inspected locally.
