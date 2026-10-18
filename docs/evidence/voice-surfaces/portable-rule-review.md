@@ -37,3 +37,15 @@ Fallback after session loss: this packet and the main HANDOFF identify the sourc
 and continuation; no watcher survival is claimed.
 
 The release workflow title template now uses a colon, so the new GitHub release itself follows the punctuation rule. Historical release titles are not rewritten.
+
+## Source refresh before integration
+
+At 02:36 UTC the source also carried a DOCMAP ratchet update. Its new diff
+SHA-256 is `34f098f854f8f99d173a7aec3277b6e498b04749469deee194b1ca8b719b4953`.
+Independent read-only review confirms its marker and prose both name 2,619
+fixtures, the source base plus four protocol fixtures. The site integration
+base measures 2,618, so the combined expected count is 2,622; the final runner
+must measure it. The source backlog attribution contains a private session
+identifier; remove that attribution before public integration. No other
+introduced objective blocker was found in this delta. These are review
+observations, not a claim that the source owner has delivered or released it.
