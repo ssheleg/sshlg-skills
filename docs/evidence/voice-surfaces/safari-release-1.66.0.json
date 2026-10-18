@@ -1,0 +1,42 @@
+[
+  {
+    "path": "/",
+    "h1": "Skills for work your agent can prove done.",
+    "title": "ssheleg skills · skill packs for coding agents",
+    "protocolRule": false,
+    "superUx061": true,
+    "brokenImages": []
+  },
+  {
+    "path": "/harness/",
+    "h1": "From a request to a result you can inspect.",
+    "title": "How the ssheleg harness works",
+    "protocolRule": false,
+    "superUx061": false,
+    "brokenImages": []
+  },
+  {
+    "path": "/agents/",
+    "h1": "Where these skills run.",
+    "title": "Agents: where these skills run · Claude Code, DeepSeek Harness, Cursor and more",
+    "protocolRule": false,
+    "superUx061": false,
+    "brokenImages": []
+  },
+  {
+    "path": "/routing/",
+    "h1": "Which pack answers what, and when.",
+    "title": "Routing: which agent skill answers what, and when · ssheleg skills",
+    "protocolRule": false,
+    "superUx061": false,
+    "brokenImages": []
+  },
+  {
+    "path": "/skills/super-ux/",
+    "h1": "super-ux",
+    "title": "super-ux: what the interface must do · ssheleg skills",
+    "protocolRule": false,
+    "superUx061": true,
+    "brokenImages": []
+  }
+]

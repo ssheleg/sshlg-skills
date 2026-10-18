@@ -6,15 +6,17 @@
 [Public GitHub descriptions](evidence/plans/2026-10-18-github-descriptions.json)
 and [readback](evidence/plans/2026-10-18-github-description-receipt.json).
 
-The integrated candidate combines the released website changes with the 1.66.0
-portable protocol rule and super-ux 0.61.0. The source packet is commit
-`0995a178905cfc7fe355809f745f2370cbc07fb6`. The protocol migration preserves
-operator edits and recognises old packaged lines. See verification rows EMD-1..5.
+Hub 1.66.0 is merged and published, with super-ux 0.61.0 pinned.
+[Final release, live website and installed-byte receipt](evidence/voice-surfaces/release-1.66.0.md)
+records exact commits, successful candidate/release runs and Safari readback.
+The official update verified all 11 Claude payloads and installed the portable
+rule in five host protocols, including Codex. Native Codex plugins remain
+partial: three current, six deferred by B-188/B-210.
 
-Exact next task: run combined gates, merge the frozen candidate, release 1.66.0,
-verify npm publication, run the family updater and record installed bytes.
-A candidate is not a release. Existing Codex retention deferral B-188/B-210
-must remain explicit. B-226 tracks remaining instruction-source punctuation.
+Exact remaining installation task: verify a supported Codex generation-retention
+or all-consumer retirement barrier, rerun the official updater and read back the
+catalog. The bounded observer is read-only; it cannot install. No operator
+approval is pending. B-226 tracks separate instruction-source punctuation.
 
 Copylot and personal-site receipts remain in their private owning repositories.
 Fabric whoami succeeds, but board/work tools are absent from this connection;
