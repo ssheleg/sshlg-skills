@@ -160,13 +160,13 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.28.0",
+      "version": "0.29.0",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "ef78acecee236d9dcbe47a937147a1ce3a741e89"
+      "commit": "7c6ccab656eaabdc6695173cb161b60da4c40f4e"
     },
     {
       "name": "sheleg-dev",

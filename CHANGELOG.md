@@ -1,3 +1,13 @@
+## v1.69.0 (2026-10-19): seo-aeo-audit 0.29.0
+
+- **Pin: seo-aeo-audit 0.29.0.** `scripts/ai_panel.py` scores captured AI answers per
+  engine, mode, account state, locale and date and refuses a single-run verdict;
+  `scripts/bwt_pull.py` and a `preflight.py --bing-site` probe read Bing Webmaster data;
+  `page_audit.py` gains a cache-parity probe and a JSON-LD round-trip check; the update
+  timeline gains dated, tiered rows and a release-time staleness warning.
+- **Handoff:** the 2026-10-19 feed-review run closes (`docs/HANDOFF.md`), its retrospective
+  is the newest run stamp in `docs/evidence/retro.md`.
+
 ## v1.68.1 (2026-10-19): enroll on real repositories
 
 - **A `<!--` inside inline code opens no comment** (`lib/blocks.js`, CommonMark code-span
