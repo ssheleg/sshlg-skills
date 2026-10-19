@@ -942,6 +942,7 @@ npx sshlg-skills humanizers  # anti-AI-writing skills this machine can reach —
 npx sshlg-skills signature --used "<skill>=<what it did>,…"
                              # a report's one-line header and short footer — every
                              # address looked up from the manifest, never typed
+npx sshlg-skills enroll      # this repository's routes, written into its own CLAUDE.md
 ```
 
 `pack` is the one command here that can answer about **absence**. `toolkit`
@@ -977,6 +978,43 @@ instead of written into everyone's block. It reports candidates, not offenders:
 most of what it finds answers HOW where a router answers WHEN, and a router
 reaching for one as a tool is the system working.
 
+### Enroll a project
+
+```bash
+npx sshlg-skills enroll --dry-run          # what it would write, removals included
+npx sshlg-skills enroll                    # write it
+npx sshlg-skills enroll --root <dir> --surface internal --json
+```
+
+The global routing block says what each router owns in general; `enroll` says which
+routers apply to one repository. It reads the files Git lists (tracked, plus untracked
+files that are not ignored) and classes the surface: `public-web` when it finds a web
+framework dependency (next, astro, nuxt, Remix, SvelteKit, gatsby, Eleventy, or vite
+with an `index.html`), a Hugo or Jekyll config, `public/index.html`, a `robots.txt` or a
+sitemap; `app-text` for store metadata, a Telegram bot or Mini App dependency, a mobile
+project or a string catalogue; otherwise `internal`. Three, Telegram, payment, pixel,
+Sentry, Google sign-in and XR dependencies add `web3d-dev`, `telegram-dev`, `sheleg-dev`
+and `xr-dev`. `--surface` overrides the class and the output says it is an override.
+
+Each route carries its setup state, read from the tree, and the command that seeds what
+is missing: the brand pack (`<project>/docs/brand/{voice,terminology,facts}.md`,
+`/brand-init`), scenarios with their linter (`<project>/docs/ux/{scenarios.md,lint.py}`,
+`/ux-init`), a DOCMAP (`/task-pipeline setup`), an SEO brief or audit
+(`/seo-aeo-audit brief`). It writes two things and only two:
+
+- one `SSHLG:PROJECT` block in the project's `CLAUDE.md` and `AGENTS.md` where each
+  exists (with neither, a new `CLAUDE.md` holding only the block), listing the routes,
+  the surface and its signals, and the setup still owed;
+- `.claude/routers.json` entries for routers whose material already exists, so
+  `npx sshlg-skills materialised` reports them true. Existing entries and keys are kept
+  in their order; an entry `enroll` did not add is never rewritten.
+
+Every byte outside the block is preserved and each file is copied to
+`~/.sshlg-skills/backups/` before the write. A malformed file, an
+`SSHLG:PROJECT:OPTOUT` line, a symlinked instruction file or a root outside a Git work
+tree is refused with its reason and nothing is written. A second run over the same tree
+prints `enroll: unchanged`. Exit codes: 0 written or unchanged, 1 refused, 2 usage.
+
 ## How it works
 
 A thin, zero-dependency Node launcher over the three mechanisms that already
@@ -1002,6 +1040,7 @@ lib/conflicts.js             installed skills on a router's ground — candidate
 lib/packs.js                 curated recommendations by lane — what is missing, and the exact command
 lib/cursor.js                Cursor's channel, which is one file per rule rather than a block
 lib/apply.js                 the only module that writes to the instruction files
+lib/enroll.js                a project's routes: detection and the SSHLG:PROJECT plan; pure
 lib/migrate.js               moves hand-written rules in; never reads inside the block
 lib/config.js, lib/store.js  the pack's settings, and the 0600 discipline they share
 install.sh                   POSIX fallback (macOS/Linux; use npx on Windows)

@@ -1,3 +1,20 @@
+## 2026-10-19: `npx sshlg-skills enroll` (plan wave 5, R10), branch `feat/enroll`, unreleased
+
+Spec: [2026-10-19-enroll](specs/2026-10-19-enroll.md). Not released, not installed: a
+pushed branch only.
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| ENR-1 | detection per class and per extra route, with known-clean cases (vite alone, a redux `src/store/`, an unrelated dependency) | `test/enroll_test.js` (65 checks) | unreleased | a change to the signal tables in `lib/enroll.js` | 2026-10-19, branch tree |
+| ENR-2 | the plan names registry routers only | same suite; plant "unknown router accepted" turned 2 fixtures red | unreleased | a change to `plan()` or `CLASS_ROUTES` | 2026-10-19, branch tree |
+| ENR-3 | bytes outside the block preserved; opt-out, malformed file, symlink, unterminated comment refused | same suite; plants for preservation, opt-out, malformed and symlink each turned it red | unreleased | a change to `place()` | 2026-10-19, branch tree |
+| ENR-4 | routers.json: foreign keys, bytes and order kept; no declaration for a missing file; `materialised` resolves every added entry | same suite; plants "routers.json rewritten" and "partial material declared" turned it red | unreleased | a change to `declare()` or `SETUP` | 2026-10-19, branch tree |
+| ENR-5 | pure: no filesystem call while planning | same suite traps ten `fs` functions; plant "module touches fs" turned it red | unreleased | a new `require` in `lib/enroll.js` | 2026-10-19, branch tree |
+| ENR-6 | three real runs, one hash | temporary Git repository with foreign text in CLAUDE.md and docs/brand/voice.md: before d7bf67d3a2e4f5e183b264d60ef4ec74140c0976500cd9fc0879e743426cecc9; runs 1, 2, 3 all 1eeacf9db638c710b8d38105f3ce7b314d3adbca5eac2b353b6208ddcdc364b7; runs 2 and 3 printed `enroll: unchanged`; the original bytes are an exact prefix of the result. Also a suite fixture (plant "block not deterministic" turned it red) | unreleased | any change to the block text | 2026-10-19, branch tree |
+| ENR-7 | `--dry-run` writes nothing (tree listing, hashes and the backup directory unchanged), backup before every write, root outside Git refused | same suite; plants "dry run writes", "no backup before write", "git work tree not checked" each turned it red | unreleased | a change to `cmdEnroll` | 2026-10-19, branch tree |
+| ENR-8 | a defect found by reading the real output, not by the suite: the SEO pattern label was mangled by the path sanitiser | fixed; the pinning assertion watched failing on the old rendering | unreleased | | 2026-10-19, branch tree |
+| Agent behaviour | whether agents read and follow the block | no agent run observed | never | | |
+
 ## 2026-10-18: v1.66.0, no em dash in text for people on every host
 
 Operator rule of 2026-10-18. Source commit `0995a178905cfc7fe355809f745f2370cbc07fb6`
@@ -74,7 +91,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**763** id'd requirement rows below, **641** read `verified` and none of them says which
+**771** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
