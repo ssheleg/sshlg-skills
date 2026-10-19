@@ -4,8 +4,8 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "e7ad4e703949382eb55041f496c7c475b0f39c5c",
-      "version": "0.61.0",
+      "commit": "9d24605204946bb314d78c15719937f11433f77b",
+      "version": "0.62.0",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
@@ -13,7 +13,7 @@
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
         "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ — product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.61.0",
+        "version": "0.62.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,7 +40,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "855bb466093723507fab0fa060aca355b928891671a113de0511e8bf479537d1",
+          "sha256": "2d24b5e03b5bd054ccabe8218831ce2adea3ecf64b1d40224c7f76e0779767c8",
           "bytes": 1196
         },
         {
@@ -125,8 +125,8 @@
         },
         {
           "path": "scripts/brand_lint.py",
-          "sha256": "494f8c2c46dc6c03a1135285f53b54ab4a26094baeac774070714b28399625bd",
-          "bytes": 124264
+          "sha256": "3c02bcc6c7147ad22fafe285236439ac3b9375df39003517975592e736e40475",
+          "bytes": 127942
         },
         {
           "path": "scripts/ux_doctor.py",
@@ -145,8 +145,8 @@
         },
         {
           "path": "skills/brand-voice/references/brand-contract.md",
-          "sha256": "35388606d7c407adfa85e5269bfe56ff5f499af91e9bc7bd3c405b3cd77b9b53",
-          "bytes": 25804
+          "sha256": "8f839ca36632623a0168add2582cd0c1362cbdd5e231df63293fffebd25c1745",
+          "bytes": 25977
         },
         {
           "path": "skills/brand-voice/references/channel-playbooks.md",
@@ -175,8 +175,8 @@
         },
         {
           "path": "skills/brand-voice/references/seo-aeo-safety.md",
-          "sha256": "861da0b19009a3c47843fe8de35882afccb1af43c417898650e8933febe1f5d4",
-          "bytes": 6544
+          "sha256": "275eec857d30615e258c6818674382dec3c3b7fdeaa27a0db029589f46e7669f",
+          "bytes": 10195
         },
         {
           "path": "skills/brand-voice/references/store-copy.md",
@@ -255,8 +255,8 @@
         },
         {
           "path": "skills/copywriting/references/brand-contract.md",
-          "sha256": "35388606d7c407adfa85e5269bfe56ff5f499af91e9bc7bd3c405b3cd77b9b53",
-          "bytes": 25804
+          "sha256": "8f839ca36632623a0168add2582cd0c1362cbdd5e231df63293fffebd25c1745",
+          "bytes": 25977
         },
         {
           "path": "skills/copywriting/references/channel-playbooks.md",
@@ -270,8 +270,8 @@
         },
         {
           "path": "skills/copywriting/references/landing-pages.md",
-          "sha256": "f70096219a868cd7efc1dd2534d732378d02077c2b13790d55014ae108a13537",
-          "bytes": 20679
+          "sha256": "80eb1cccabcdc9ce91afdac6c4c01561d1d2b69fb4a062237bfe37817b5680b5",
+          "bytes": 27555
         },
         {
           "path": "skills/copywriting/references/localization.md",
@@ -290,8 +290,8 @@
         },
         {
           "path": "skills/copywriting/references/seo-aeo-safety.md",
-          "sha256": "861da0b19009a3c47843fe8de35882afccb1af43c417898650e8933febe1f5d4",
-          "bytes": 6544
+          "sha256": "275eec857d30615e258c6818674382dec3c3b7fdeaa27a0db029589f46e7669f",
+          "bytes": 10195
         },
         {
           "path": "skills/copywriting/references/store-copy.md",
@@ -325,8 +325,8 @@
         },
         {
           "path": "skills/copywriting/SKILL.md",
-          "sha256": "39da973f3ea6f157caae7e215ce4884fadbc1733fd89685f83de9fc752864b66",
-          "bytes": 13902
+          "sha256": "eb232b670e9110443f7c6e02f035b350cd501e3e2e97d6e597edebbb8ecdb027",
+          "bytes": 14640
         },
         {
           "path": "skills/copywriting/templates/brand/copy-brief.md",
@@ -340,8 +340,8 @@
         },
         {
           "path": "skills/references/audit-depth.md",
-          "sha256": "27fd26c931f2522f6e6b484b9928cde82e062d2fa8e51710d086fed888dd3778",
-          "bytes": 4612
+          "sha256": "e5cbd0f1660757f784d9dd7e39d6cc8860068ea46c2caea0b84f719e1b21bfc1",
+          "bytes": 6043
         },
         {
           "path": "skills/references/best-practices-index.md",
@@ -355,8 +355,8 @@
         },
         {
           "path": "skills/references/brand-contract.md",
-          "sha256": "35388606d7c407adfa85e5269bfe56ff5f499af91e9bc7bd3c405b3cd77b9b53",
-          "bytes": 25804
+          "sha256": "8f839ca36632623a0168add2582cd0c1362cbdd5e231df63293fffebd25c1745",
+          "bytes": 25977
         },
         {
           "path": "skills/references/browser-engine.md",
@@ -410,8 +410,8 @@
         },
         {
           "path": "skills/references/landing-pages.md",
-          "sha256": "f70096219a868cd7efc1dd2534d732378d02077c2b13790d55014ae108a13537",
-          "bytes": 20679
+          "sha256": "80eb1cccabcdc9ce91afdac6c4c01561d1d2b69fb4a062237bfe37817b5680b5",
+          "bytes": 27555
         },
         {
           "path": "skills/references/localization.md",
@@ -450,8 +450,8 @@
         },
         {
           "path": "skills/references/research-evidence.md",
-          "sha256": "a20d76e8931f821e8438c5cf7af094e508fcfd34b6573b9ec92cdec134e080b4",
-          "bytes": 4599
+          "sha256": "3590ab5a5558a9703919b2209ddaa8c9190458c6ddda5aa270423c56efeb0603",
+          "bytes": 5696
         },
         {
           "path": "skills/references/research-outliers.md",
@@ -465,8 +465,8 @@
         },
         {
           "path": "skills/references/seo-aeo-safety.md",
-          "sha256": "861da0b19009a3c47843fe8de35882afccb1af43c417898650e8933febe1f5d4",
-          "bytes": 6544
+          "sha256": "275eec857d30615e258c6818674382dec3c3b7fdeaa27a0db029589f46e7669f",
+          "bytes": 10195
         },
         {
           "path": "skills/references/state-stress-matrix.md",
@@ -520,8 +520,8 @@
         },
         {
           "path": "skills/ux-audit/references/audit-depth.md",
-          "sha256": "27fd26c931f2522f6e6b484b9928cde82e062d2fa8e51710d086fed888dd3778",
-          "bytes": 4612
+          "sha256": "e5cbd0f1660757f784d9dd7e39d6cc8860068ea46c2caea0b84f719e1b21bfc1",
+          "bytes": 6043
         },
         {
           "path": "skills/ux-audit/references/best-practices-index.md",
@@ -535,8 +535,8 @@
         },
         {
           "path": "skills/ux-audit/references/brand-contract.md",
-          "sha256": "35388606d7c407adfa85e5269bfe56ff5f499af91e9bc7bd3c405b3cd77b9b53",
-          "bytes": 25804
+          "sha256": "8f839ca36632623a0168add2582cd0c1362cbdd5e231df63293fffebd25c1745",
+          "bytes": 25977
         },
         {
           "path": "skills/ux-audit/references/browser-engine.md",
@@ -595,8 +595,8 @@
         },
         {
           "path": "skills/ux-audit/references/seo-aeo-safety.md",
-          "sha256": "861da0b19009a3c47843fe8de35882afccb1af43c417898650e8933febe1f5d4",
-          "bytes": 6544
+          "sha256": "275eec857d30615e258c6818674382dec3c3b7fdeaa27a0db029589f46e7669f",
+          "bytes": 10195
         },
         {
           "path": "skills/ux-audit/references/state-stress-matrix.md",
@@ -790,8 +790,8 @@
         },
         {
           "path": "skills/ux-foundation/references/research-evidence.md",
-          "sha256": "a20d76e8931f821e8438c5cf7af094e508fcfd34b6573b9ec92cdec134e080b4",
-          "bytes": 4599
+          "sha256": "3590ab5a5558a9703919b2209ddaa8c9190458c6ddda5aa270423c56efeb0603",
+          "bytes": 5696
         },
         {
           "path": "skills/ux-foundation/references/scenario-format.md",
@@ -820,8 +820,8 @@
         },
         {
           "path": "skills/ux-foundation/SKILL.md",
-          "sha256": "9646329cd533c9166379a5ca87e55795702bea6b6d78be5e8ce70c3f0a743d32",
-          "bytes": 12192
+          "sha256": "7cb1bffc1a620fe4632c5bb65749adfde83ce08b6ed42ea1b870fe829717ef3f",
+          "bytes": 12327
         },
         {
           "path": "skills/ux-foundation/templates/foundation.md",
@@ -895,8 +895,8 @@
         },
         {
           "path": "skills/ux-scenarios/SKILL.md",
-          "sha256": "e6614abe7dadb0b0107adc15dbcbae818a7ae09b06d4d18753bc2b738ecd61bf",
-          "bytes": 10678
+          "sha256": "5efbbbc6c287379545647609008c324a069e4000cbc5e56073b202767caeb08b",
+          "bytes": 11024
         },
         {
           "path": "skills/ux-scenarios/templates/scenarios.md",
@@ -2632,8 +2632,8 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "d11dc0d3123448319d6fe7ad7e2cf43e737b13e0",
-      "version": "0.27.0",
+      "commit": "ef78acecee236d9dcbe47a937147a1ce3a741e89",
+      "version": "0.28.0",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
       "entry": {
@@ -2641,7 +2641,7 @@
         "displayName": "SEO + AEO Audit",
         "source": "./plugins/seo-aeo-audit",
         "description": "Audits a website across ten evidence-based tracks (access & indexation, canonicalization, architecture & link equity, intent, content value, extractability/AEO, entity consensus, experience signals, risk, measurement) and outputs a findings report plus a prioritized change plan with verification steps. Includes a stdlib-only page auditor with answer-engine read-budget analysis.",
-        "version": "0.27.0",
+        "version": "0.28.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2666,18 +2666,18 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "6072dc641c158117e808791be8843630daa6dc5492540896e62a4b903503a6b4",
+          "sha256": "753bf3f6f9a40b5696c8f112332c32bdb397c8e9ad0d718e4d5a1da94764c1d6",
           "bytes": 766
         },
         {
           "path": "commands/seo-aeo-audit.md",
-          "sha256": "504084df9a35ded95191da2839ab9c23d850f936055e0d22bcc3b0964ad2ba9b",
-          "bytes": 3217
+          "sha256": "040d7f8e3b8317eb3cd855869362aea5a38065361b95bf79d2d22f9390bcf7b0",
+          "bytes": 3560
         },
         {
           "path": "skills/seo-aeo-audit/REFERENCE_INDEX.md",
-          "sha256": "367493754ea2dc44eaf1491286c04b963b44785eae4520d95eebf40272751126",
-          "bytes": 1790
+          "sha256": "eebda02b35ac9e6e2a44a3b5b4d6fa3b9c33ed3623cb47e7d9dfabe02f438f3d",
+          "bytes": 1991
         },
         {
           "path": "skills/seo-aeo-audit/references/aeo-geo.md",
@@ -2691,8 +2691,8 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/algorithm-updates.md",
-          "sha256": "8e877a49d41121902ae44bdf0e06f51416bfb87cf443e937a03e8c3d3e17f1d4",
-          "bytes": 17668
+          "sha256": "b22a0d09c28d3597d5938922a6108905d8b941e0fb1c57abdd7c941a75ef7153",
+          "bytes": 18117
         },
         {
           "path": "skills/seo-aeo-audit/references/architecture-and-equity.md",
@@ -2701,18 +2701,23 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/benchmarks.md",
-          "sha256": "cc265508e082b94fb554e7fa13ddd2e80bc69b30c6050b7f2db000fc5c538cf4",
-          "bytes": 30250
+          "sha256": "12390483920552325bfe54fd86aae9eeadd81240e8b058edac25c72346904aa1",
+          "bytes": 31198
+        },
+        {
+          "path": "skills/seo-aeo-audit/references/build-time.md",
+          "sha256": "1847fe59b6c2a2b11d8f75e31e7c1efa0f4407ed27175d2389667c03755539c7",
+          "bytes": 14511
         },
         {
           "path": "skills/seo-aeo-audit/references/deliverable-templates.md",
-          "sha256": "2f4be100c39ddcd4b862f2b3b1f05c7cb6f331cf72e76bf6f8b752780d3d02df",
-          "bytes": 13079
+          "sha256": "6f8b46863218989fd7f227d756c3e2e9510e2494624adf759bcdfc6231ff6fa5",
+          "bytes": 17356
         },
         {
           "path": "skills/seo-aeo-audit/references/demand-and-conversion.md",
-          "sha256": "d8d401734cf6bca344ce23cccb177b1a35ebef9573f3a2b832ea708224e677e1",
-          "bytes": 14926
+          "sha256": "4319a81f7672f953e2722335bfbbb4f57d4ddc4bef4be2d81aee68453f71f16d",
+          "bytes": 15356
         },
         {
           "path": "skills/seo-aeo-audit/references/discover.md",
@@ -2751,13 +2756,13 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/linkbuilding.md",
-          "sha256": "6caf8a1ccf5312bdb33201d227f4bdf033fdfed689d8543603e0dd1d9bc78b86",
-          "bytes": 10758
+          "sha256": "f8edc32e2893140801110d57e7f31e39296537194bb3ed46c5dd1717af0f49e2",
+          "bytes": 11209
         },
         {
           "path": "skills/seo-aeo-audit/references/measurement.md",
-          "sha256": "20038715de50096c05f9126f69c703ddfadf6abed21dda292135e68df6ab7e34",
-          "bytes": 25145
+          "sha256": "a9e2ee469b4915aa3cfa06f1b5172aad4b2e69f144f5dfb1075df4f3b9e22ab4",
+          "bytes": 29541
         },
         {
           "path": "skills/seo-aeo-audit/references/myths.md",
@@ -2786,13 +2791,13 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/scripts.md",
-          "sha256": "7c1f235f56708adb9ff2350733d7276c965d26cf3ba7da2e14d415b880ee353a",
-          "bytes": 22235
+          "sha256": "06e307e20efc3d9eaab5a39f7b40862ee3363b840741e1a366208643d1b35c31",
+          "bytes": 23979
         },
         {
           "path": "skills/seo-aeo-audit/references/technical-checks.md",
-          "sha256": "e61177f07305a5f336e2c0a7ba6d4e55fdaca3f5f9f535020308a243a8c17f1e",
-          "bytes": 45455
+          "sha256": "70253f74b3a511ae992b1ec455058d2e79586d3f84656d6cf48edf04c9dea549",
+          "bytes": 48594
         },
         {
           "path": "skills/seo-aeo-audit/references/threats-and-defense.md",
@@ -2801,48 +2806,48 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/tooling.md",
-          "sha256": "e028b3bef0f301c78a90f9dadf53bc1fd5d9afe1237d6cc6a4038690058444ac",
-          "bytes": 19633
+          "sha256": "ee520de8695f0776cd493956e555ffe6fd2afdc787a10993d6936601e7169d45",
+          "bytes": 20182
         },
         {
           "path": "skills/seo-aeo-audit/scripts/agent_surface.py",
-          "sha256": "f170e0ae0a28fd897cbd350643f189680eab8a8bda0b46ed433ae398adda776c",
+          "sha256": "77bc6d73cace026b27f63f6a2abb4cbe22b0a9770e14e4957772e522a322689d",
           "bytes": 95441
         },
         {
           "path": "skills/seo-aeo-audit/scripts/gsc_pull.py",
-          "sha256": "66adffd2cb9088f77e3a377717dd2b8be0ea8832ff746983a7de495e687c9567",
-          "bytes": 55705
+          "sha256": "46786d8237fb47eda282ef75438e947b6e58054a4e4baf41d1182cf8b7aa0a9b",
+          "bytes": 61134
         },
         {
           "path": "skills/seo-aeo-audit/scripts/page_audit.py",
-          "sha256": "8c82d554b60e5ad44196cd2239b031b3056a74f2df8c564e31784ee9d46d66f2",
-          "bytes": 71413
+          "sha256": "ed95dbdf7fafd99e696091da635d7a02fbbec90870ef61ef0c8de7142dfaa64b",
+          "bytes": 73994
         },
         {
           "path": "skills/seo-aeo-audit/scripts/preflight.py",
-          "sha256": "562df83ebe27733fe736d2b588cccf9c01db83962c8581d8e093f4b3c641d428",
+          "sha256": "79859836ddb74274d16c956184536b4efed2e9627db9d8267ff18731af93a5f8",
           "bytes": 60911
         },
         {
           "path": "skills/seo-aeo-audit/scripts/psi_pull.py",
-          "sha256": "be356c267365c16d3ece54d1112b6eda281153cd32100307d22b19515ff765ab",
+          "sha256": "e00bf9ac8538237faaa7bf70e1dbe563e8a8aab86a586bab195c6f2af5d55040",
           "bytes": 28524
         },
         {
           "path": "skills/seo-aeo-audit/scripts/sitemap_audit.py",
-          "sha256": "89914400fce171178f20a3e7ce0d21b864f0d22e47c9c875dc066178aaad37ce",
-          "bytes": 28949
+          "sha256": "fd207e5a5beb86eae0d854ceef17164016eb10c92526899dbc2f33bc3d186c6a",
+          "bytes": 44652
         },
         {
           "path": "skills/seo-aeo-audit/scripts/url_inspection.py",
-          "sha256": "0a06c52310c95bf281b1bbb3085d180d227ebb8087c81effb0f230e44d1ac988",
+          "sha256": "2f3ff4ebcfe299162ad82e387e13257d84b95f85a8abc248a41682f93fc07ac9",
           "bytes": 34555
         },
         {
           "path": "skills/seo-aeo-audit/SKILL.md",
-          "sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
-          "bytes": 21316
+          "sha256": "de1b0ef026626ecf74a969af7bc0cfed54a3ea5907a324eba0f9b1ce7dc83e18",
+          "bytes": 21395
         }
       ]
     },

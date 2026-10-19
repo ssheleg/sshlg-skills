@@ -254,11 +254,11 @@ routing block the hub writes into every host's instruction file (headings, table
 may fall and never rise without a recorded reason, so the always-loaded block cannot grow by
 accident. A cut still needs the paired routing evaluation before it ships.
 
-<!-- description-total: 32498 -->
+<!-- description-total: 32495 -->
 **Family description total (R32, 2026-10-12).** The characters of every family skill
 description — whitespace collapsed, the figure the 970 cap is quoted in — summed over the
-pinned submodules. Measured at the pins of this revision: **32498 characters over 39
-skills** (32501 before the 1.63.0 re-pins, 32635 before the 1.57.0 re-pins), by `check_the_family_description_total_only_falls` in `test/validate.py`, which
+pinned submodules. Measured at the pins of this revision: **32495 characters over 39
+skills** (32498 before the 1.67.0 re-pins, 32501 before the 1.63.0 re-pins, 32635 before the 1.57.0 re-pins), by `check_the_family_description_total_only_falls` in `test/validate.py`, which
 computes the sum on every run and compares it with the marker above. **It may fall and
 never rise:** a total above the marker fails and names the excess; a total below it passes
 and prints `record N as the new description-total`, so a member's trim is welcomed and

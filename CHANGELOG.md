@@ -1,4 +1,13 @@
-## Unreleased
+## v1.67.0 (2026-10-19): enroll a project; SEO/AEO briefed before build
+
+- **Pins: seo-aeo-audit 0.28.0 and super-ux 0.62.0.** seo-aeo-audit gains a `brief` mode
+  (`references/build-time.md`, 19 rows each linked to the audit check that verifies it),
+  a poisoned rank-tracker guard, a GSC freshness check and per-URL sitemap checks.
+  super-ux judges only retrieval crawlers in B050, points its SEO floor at the brief,
+  adds landing rows LP-21..LP-24 and calls `copylot.check` from copywriting when present.
+- **seo-llmo has a backing doctrine.** The router text names `/seo-aeo-audit brief` before
+  build and `/seo-aeo-audit` after; the route gains the member's new phrases
+  ("SEO brief before launch" / «SEO-бриф до запуска сайта»). Backlog B-08 closes.
 
 - **`npx sshlg-skills enroll`: the routes that apply to one repository** (spec
   `docs/evidence/specs/2026-10-19-enroll.md`, plan wave 5, R10). It reads the tree Git
