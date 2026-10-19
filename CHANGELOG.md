@@ -1,3 +1,30 @@
+## v1.67.0 (2026-10-19): enroll a project; SEO/AEO briefed before build
+
+- **Pins: seo-aeo-audit 0.28.0 and super-ux 0.62.0.** seo-aeo-audit gains a `brief` mode
+  (`references/build-time.md`, 19 rows each linked to the audit check that verifies it),
+  a poisoned rank-tracker guard, a GSC freshness check and per-URL sitemap checks.
+  super-ux judges only retrieval crawlers in B050, points its SEO floor at the brief,
+  adds landing rows LP-21..LP-24 and calls `copylot.check` from copywriting when present.
+- **seo-llmo has a backing doctrine.** The router text names `/seo-aeo-audit brief` before
+  build and `/seo-aeo-audit` after; the route gains the member's new phrases
+  ("SEO brief before launch" / «SEO-бриф до запуска сайта»). Backlog B-08 closes.
+
+- **`npx sshlg-skills enroll`: the routes that apply to one repository** (spec
+  `docs/evidence/specs/2026-10-19-enroll.md`, plan wave 5, R10). It reads the tree Git
+  lists, classes the surface as `public-web`, `app-text` or `internal` from named signals
+  (a web framework, a sitemap, store metadata, a Telegram dependency, a mobile project, a
+  string catalogue), adds `web3d-dev`, `telegram-dev`, `sheleg-dev` and `xr-dev` by their
+  own signals, and plans the routers for that class from `lib/routers-registry.js` (a name
+  the registry lacks is refused). It writes two things: one `SSHLG:PROJECT` block in the
+  project's `CLAUDE.md` and `AGENTS.md` (or a new `CLAUDE.md`), and `.claude/routers.json`
+  entries only for material that exists, so `materialised` reports them true. Existing
+  entries and every byte outside the block are kept; an opt-out, a malformed file, a
+  symlink and a root outside Git are refused; `--dry-run` writes nothing and prints the
+  diff. `--surface` overrides the class and says so. Exit 0 written or unchanged, 1
+  refused, 2 usage. `test/enroll_test.js` (65 checks); 13 planted defects each turned it red.
+- **`SSHLG:PROJECT` is a registered, dedicated block** (`lib/blocks.js` `REGISTRY`, the
+  managed-blocks page), so `blocks install` refuses it.
+
 ## v1.66.0 (2026-10-18): no em dash in text for people, on every host
 
 - **An always-on writing rule in the routing block.** The operator's decision of

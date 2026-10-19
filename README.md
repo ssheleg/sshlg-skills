@@ -46,12 +46,12 @@ scripts. No services, no telemetry, no API keys.
 
 | Skill | Version | What it does |
 |---|---|---|
-| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.61.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
+| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.62.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
 | **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.97.1 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.22.2 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.31.2 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.65.0 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
-| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.27.0 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief — not a score. |
+| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.28.0 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief, not a score. Before a site is built, `/seo-aeo-audit brief` writes the build-time brief that the audit later verifies. |
 | **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.14.0 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
 | **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.28.2 | Production patterns for agent systems, in four skills. **The orchestrator** — tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, memory architecture — form, function and dynamics, the four-stage retrieval pipeline, and what a layer table alone cannot say, and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness** — what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals** — suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer** — MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
 | **[telegram-dev](https://github.com/ssheleg/telegram-dev)** | 0.2.4 | Telegram, split by the API each surface actually speaks. **`telegram-bots`** — the official HTTP Bot API: `update_id` as the only idempotency key an update carries, the `allowed_updates` default that subscribes you to everything *except* `chat_member` and the two reaction types while answering `ok: true`, the webhook secret header that is the real check, rate limits as a design constraint (1/sec per chat, 20/min per group, ~30/sec bulk), and Telegram Stars with a **ten-second** pre-checkout window and a grant that belongs to `successful_payment`. **`telegram-userbots`** — MTProto and Telethon: the session file as a credential equal to the password, `FloodWaitError` as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — the skill opens with whether a user account is needed at all. **`telegram-miniapps`** — the web layer, whose entire security model is one signed query string: verifying `initData` server-side, the `auth_date` window, the Ed25519 path for a third party, and the SDK package whose name moved while the organisation's own page still fronts the old one. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants. |
@@ -942,6 +942,7 @@ npx sshlg-skills humanizers  # anti-AI-writing skills this machine can reach —
 npx sshlg-skills signature --used "<skill>=<what it did>,…"
                              # a report's one-line header and short footer — every
                              # address looked up from the manifest, never typed
+npx sshlg-skills enroll      # this repository's routes, written into its own CLAUDE.md
 ```
 
 `pack` is the one command here that can answer about **absence**. `toolkit`
@@ -977,6 +978,43 @@ instead of written into everyone's block. It reports candidates, not offenders:
 most of what it finds answers HOW where a router answers WHEN, and a router
 reaching for one as a tool is the system working.
 
+### Enroll a project
+
+```bash
+npx sshlg-skills enroll --dry-run          # what it would write, removals included
+npx sshlg-skills enroll                    # write it
+npx sshlg-skills enroll --root <dir> --surface internal --json
+```
+
+The global routing block says what each router owns in general; `enroll` says which
+routers apply to one repository. It reads the files Git lists (tracked, plus untracked
+files that are not ignored) and classes the surface: `public-web` when it finds a web
+framework dependency (next, astro, nuxt, Remix, SvelteKit, gatsby, Eleventy, or vite
+with an `index.html`), a Hugo or Jekyll config, `public/index.html`, a `robots.txt` or a
+sitemap; `app-text` for store metadata, a Telegram bot or Mini App dependency, a mobile
+project or a string catalogue; otherwise `internal`. Three, Telegram, payment, pixel,
+Sentry, Google sign-in and XR dependencies add `web3d-dev`, `telegram-dev`, `sheleg-dev`
+and `xr-dev`. `--surface` overrides the class and the output says it is an override.
+
+Each route carries its setup state, read from the tree, and the command that seeds what
+is missing: the brand pack (`<project>/docs/brand/{voice,terminology,facts}.md`,
+`/brand-init`), scenarios with their linter (`<project>/docs/ux/{scenarios.md,lint.py}`,
+`/ux-init`), a DOCMAP (`/task-pipeline setup`), an SEO brief or audit
+(`/seo-aeo-audit brief`). It writes two things and only two:
+
+- one `SSHLG:PROJECT` block in the project's `CLAUDE.md` and `AGENTS.md` where each
+  exists (with neither, a new `CLAUDE.md` holding only the block), listing the routes,
+  the surface and its signals, and the setup still owed;
+- `.claude/routers.json` entries for routers whose material already exists, so
+  `npx sshlg-skills materialised` reports them true. Existing entries and keys are kept
+  in their order; an entry `enroll` did not add is never rewritten.
+
+Every byte outside the block is preserved and each file is copied to
+`~/.sshlg-skills/backups/` before the write. A malformed file, an
+`SSHLG:PROJECT:OPTOUT` line, a symlinked instruction file or a root outside a Git work
+tree is refused with its reason and nothing is written. A second run over the same tree
+prints `enroll: unchanged`. Exit codes: 0 written or unchanged, 1 refused, 2 usage.
+
 ## How it works
 
 A thin, zero-dependency Node launcher over the three mechanisms that already
@@ -1002,6 +1040,7 @@ lib/conflicts.js             installed skills on a router's ground — candidate
 lib/packs.js                 curated recommendations by lane — what is missing, and the exact command
 lib/cursor.js                Cursor's channel, which is one file per rule rather than a block
 lib/apply.js                 the only module that writes to the instruction files
+lib/enroll.js                a project's routes: detection and the SSHLG:PROJECT plan; pure
 lib/migrate.js               moves hand-written rules in; never reads inside the block
 lib/config.js, lib/store.js  the pack's settings, and the 0600 discipline they share
 install.sh                   POSIX fallback (macOS/Linux; use npx on Windows)

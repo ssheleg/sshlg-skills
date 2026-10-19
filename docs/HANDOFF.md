@@ -1,3 +1,15 @@
+## In flight: 2026-10-19 feed review, SEO/AEO upgrade, base-skill rollout
+
+Lease `FEED-SEO-1019`, branch `plan/2026-10-19-feed-seo-aeo`.
+[Brief and REQ table](evidence/briefs/2026-10-19-feed-seo-aeo.md) ·
+[plan and waves](evidence/plans/2026-10-19-feed-seo-aeo.md). Evidence is the operator's
+private report `channel-digest-3` (`reports.py find channel-digest-3`): all 2900 feed
+posts classified, the SEO research synthesis and the project inventory.
+Wave 0 (report and plan) is pushed.
+
+**Exact next bounded task:** wave 1, primary-source verification of every "verify" row
+that a P0/P1 change cites, then waves 2 (super-ux) and 3 (seo-aeo-audit 0.28) in parallel.
+
 ## Current: 2026-10-18 portable punctuation and public voice
 
 [Entry and requirements](evidence/plans/2026-10-18-voice-surfaces.md).

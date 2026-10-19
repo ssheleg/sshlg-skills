@@ -55,6 +55,7 @@ link to nothing is refused as `HOST_ABSENT` and says so.
 |---|---|---|
 | `SSHLG:ROUTERS` (and its subregions) | sshlg-skills | `npx sshlg-skills install` / `update` (`lib/apply.js`) |
 | `SSHLG:RULE:wait-is-not-a-stop` | sshlg-skills | `npx sshlg-skills rules` (`lib/wait-rules.js`), opt-in |
+| `SSHLG:PROJECT` | sshlg-skills | `npx sshlg-skills enroll` (`lib/enroll.js`), in a project's own `CLAUDE.md` and `AGENTS.md`, never a host's global file |
 | `SSHLG:REPOSITORY-HANDOFF` | **undecided** | none: which tool owns it is the operator's decision (B-174), and until it is recorded no writer touches the block |
 | `OBSERVATORY:AGENT-UPDATES` | project-observatory | its `agent_updates.py`, through `npx sshlg-skills blocks install --owner OBSERVATORY` |
 | any other `OWNER:NAME` | the tool named by `OWNER` | that tool, through `blocks install --owner OWNER` |
@@ -191,6 +192,19 @@ between is refused (`TARGET_CHANGED`), and so is a backup whose bytes are not th
 previewed ones (`BACKUP_FAILED`). This protects against cooperating writers and
 operator edits seen in time; it is not a compare-and-swap against an uncooperative
 process writing at the same instant.
+
+## A project's block: `SSHLG:PROJECT`
+
+`npx sshlg-skills enroll` writes one block into a repository's own `CLAUDE.md` and
+`AGENTS.md` (where each exists; with neither, it creates `CLAUDE.md` holding only the
+block). The block lists the routers that apply to that repository, its surface class
+and the signals behind it, and the setup commands still owed. It follows this page's
+fence and placement rules (`eolOf`, `appended` and the parse-after check are shared with
+`lib/blockwriter.js`), takes its backup through `apply.protect()`, and refuses a
+malformed file, an `SSHLG:PROJECT:OPTOUT`, a symlinked instruction file and a root
+outside a Git work tree. It writes no journal record: the project's Git history is the
+record, and `blocks install` refuses the id as a dedicated block. The contract is
+`docs/evidence/specs/2026-10-19-enroll.md`.
 
 ## Known limits
 

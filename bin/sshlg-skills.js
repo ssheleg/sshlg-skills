@@ -319,6 +319,9 @@ Usage:
                                                       # load only in projects that call for them
   npx sshlg-skills pack [<name>] [--lane <id>] [--check]
   npx sshlg-skills materialised                       # routers this project says live in its tree
+  npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface public-web|app-text|internal]
+                                                      # this repository's routes: SSHLG:PROJECT block in its
+                                                      # CLAUDE.md/AGENTS.md, routers.json for existing material
                                                       # curated recommendations, measured here
   npx sshlg-skills list
   npx sshlg-skills agents
@@ -3269,6 +3272,156 @@ function checkAddresses(pack) {
  * act with a different risk; the project's own gate runs them, and the report says so
  * rather than implying it.
  */
+/**
+ * `enroll`: which family routes apply to THIS repository, and what is still missing
+ * for them (docs/evidence/specs/2026-10-19-enroll.md). `lib/enroll.js` decides from a
+ * reader; this function lists the tree through Git, takes the backup through
+ * `apply.protect()` and writes. Two things only: the `SSHLG:PROJECT` block in the
+ * project's CLAUDE.md / AGENTS.md, and `.claude/routers.json` entries for material that
+ * already exists. Exit 0 written or unchanged, 1 refused, 2 usage.
+ */
+function cmdEnroll(argv) {
+  const E = require(path.join(ROOT, 'lib', 'enroll.js'));
+  const Bk = require(path.join(ROOT, 'lib', 'blocks.js'));
+  const A = require(path.join(ROOT, 'lib', 'apply.js'));
+  const rest = argv.slice(3);
+  const f = { root: null, dryRun: false, json: false, surface: null };
+  const seen = new Set();
+  const usageError = (reason) => {
+    if (rest.includes('--json')) log(JSON.stringify({ schema: 'sshlg-enroll/1', state: 'USAGE', reason }));
+    else log(`enroll: ${reason}\nusage: npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface ${E.SURFACES.join('|')}]`);
+    return 2;
+  };
+  for (let i = 0; i < rest.length; i += 1) {
+    const a = rest[i];
+    if (seen.has(a)) return usageError(`duplicate flag: ${a}`);
+    seen.add(a);
+    if (a === '--dry-run') f.dryRun = true;
+    else if (a === '--json') f.json = true;
+    else if (a === '--root' || a === '--surface') {
+      const v = rest[i + 1];
+      if (!v || v.startsWith('--')) return usageError(`${a} needs a value`);
+      i += 1;
+      if (a === '--root') f.root = v;
+      else if (!E.SURFACES.includes(v)) return usageError(`unknown surface: ${v} (${E.SURFACES.join('|')})`);
+      else f.surface = v;
+    } else return usageError(`unknown flag: ${a}`);
+  }
+
+  const root = path.resolve(f.root || process.cwd());
+  const refuse = (refusals) => {
+    if (f.json) log(JSON.stringify({ schema: 'sshlg-enroll/1', state: 'REFUSED', root, refusals }, null, 2));
+    else {
+      log(`enroll: refused, nothing written (${root})`);
+      for (const r of refusals) log(`  ${r.code}${r.file ? ' ' + r.file : ''}: ${r.reason}`);
+    }
+    return 1;
+  };
+  // A root outside a Git work tree is refused: the tree enroll reads is what Git lists.
+  const inside = spawnSync('git', ['-C', root, 'rev-parse', '--is-inside-work-tree'], { encoding: 'utf8' });
+  if (inside.status !== 0 || String(inside.stdout).trim() !== 'true') {
+    return refuse([{ code: 'NOT_A_GIT_WORK_TREE', file: null, reason: `${root} is not inside a Git work tree; enroll reads the tree Git lists and writes only inside one` }]);
+  }
+  const ls = spawnSync('git', ['-C', root, 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
+  if (ls.status !== 0) return refuse([{ code: 'GIT_FAILED', file: null, reason: `git ls-files failed: ${String(ls.stderr).trim()}` }]);
+  const paths = String(ls.stdout).split('\0').filter(Boolean);
+
+  // Every path is resolved under the root and refused if it escapes: enroll is about
+  // THIS repository and nothing else on the machine.
+  const under = (rel) => {
+    const target = path.resolve(root, rel);
+    return target === root || target.startsWith(root + path.sep) ? target : null;
+  };
+  const MAX = 1024 * 1024;
+  const kind = (rel) => {
+    const target = under(rel);
+    if (!target) return 'other';
+    let st;
+    try { st = fs.lstatSync(target); } catch (e) { return e.code === 'ENOENT' ? 'absent' : 'unreadable'; }
+    if (st.isSymbolicLink()) return 'symlink';
+    if (st.isDirectory()) return 'dir';
+    if (!st.isFile()) return 'other';
+    if (st.size > MAX) return 'unreadable';
+    try { Bk.decode(fs.readFileSync(target)); } catch (e) { return e.message === 'INVALID_UTF8' ? 'invalid-utf8' : 'unreadable'; }
+    return 'file';
+  };
+  const read = (rel) => {
+    const target = under(rel);
+    if (!target) return null;
+    try {
+      const st = fs.statSync(target);
+      if (!st.isFile() || st.size > MAX) return null;
+      return Bk.decode(fs.readFileSync(target));
+    } catch (e) { return null; }
+  };
+
+  // Where a symlinked instruction file points, as a path inside the work tree, or null.
+  const alias = (rel) => {
+    const target = under(rel);
+    if (!target) return null;
+    let real;
+    try { real = fs.realpathSync(target); } catch (e) { return null; }
+    const realRoot = fs.realpathSync(root);
+    if (!(real === realRoot || real.startsWith(realRoot + path.sep))) return null;
+    return path.relative(realRoot, real).split(path.sep).join('/');
+  };
+  const p = E.plan({ paths, read, kind, alias }, { surface: f.surface });
+  if (!p.ok) return refuse(p.refusals);
+
+  const changed = p.writes.filter((w) => w.action !== 'unchanged');
+  const summary = () => {
+    log(`enroll: ${root}`);
+    log(`  surface: ${p.surface}${p.override ? ` (override; detected ${p.detected})` : ' (detected)'}`);
+    log(`  routes: ${p.routes.map((r) => r.router).join(', ')}`);
+    log(`  remaining setup: ${p.remaining.length ? p.remaining.map((x) => x.seed).join(', ') : 'none'}`);
+  };
+  const report = (state, files) => ({
+    schema: 'sshlg-enroll/1', state, root, surface: p.surface, detected: p.detected, override: p.override,
+    signals: p.signals, extras: p.extras,
+    routes: p.routes.map((r) => ({ router: r.router, extra: r.extra, setup: r.setup && { what: r.setup.what, state: r.setup.state, missing: r.setup.missing, seed: r.setup.seed } })),
+    remaining: p.remaining, files,
+  });
+
+  if (f.dryRun) {
+    if (f.json) {
+      log(JSON.stringify(report('PREVIEW', p.writes.map((w) => ({ file: w.file, action: w.action, diff: w.diff }))), null, 2));
+      return 0;
+    }
+    summary();
+    for (const w of p.writes) {
+      log(`  ${w.file}: ${w.action === 'unchanged' ? 'unchanged' : 'would ' + w.action}`);
+      if (w.action !== 'unchanged') { log(`--- ${w.file}`); log(`+++ ${w.file} (after enroll)`); log(w.diff); }
+    }
+    log(changed.length ? 'Dry run: nothing written.' : 'enroll: unchanged (dry run, nothing written)');
+    return 0;
+  }
+
+  const home = process.env.HOME || os.homedir();
+  const files = [];
+  for (const w of p.writes) {
+    if (w.action === 'unchanged') { files.push({ file: w.file, action: 'unchanged' }); continue; }
+    const target = under(w.file);
+    // The file must still hold what the plan was computed from.
+    const now = kind(w.file) === 'absent' ? null : read(w.file);
+    if (now !== w.before) return refuse([{ code: 'TARGET_CHANGED', file: w.file, reason: 'changed while enroll was planning; run it again' }]);
+    const saved = A.protect(target, { home });
+    if (saved.action === 'backup-failed') {
+      return refuse([{ code: 'BACKUP_FAILED', file: w.file, reason: `no verified backup (${saved.error || 'copy failed'}), so nothing was written` }]);
+    }
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    fs.writeFileSync(target, w.after, 'utf8');
+    if (fs.readFileSync(target, 'utf8') !== w.after) {
+      return refuse([{ code: 'WRITE_UNVERIFIED', file: w.file, reason: 'the bytes read back differ from the bytes written; restore from the backup' }]);
+    }
+    files.push({ file: w.file, action: w.action, backup: saved.path ? path.basename(saved.path) : saved.action });
+  }
+  if (f.json) { log(JSON.stringify(report(changed.length ? 'WRITTEN' : 'UNCHANGED', files), null, 2)); return 0; }
+  summary();
+  for (const x of files) log(`  ${x.file}: ${x.action}`);
+  log(changed.length ? `enroll: written (${changed.length} file${changed.length === 1 ? '' : 's'}; backups in ~/.sshlg-skills/backups/)` : 'enroll: unchanged');
+  return 0;
+}
+
 function cmdMaterialised(argv) {
   const M = require(path.join(ROOT, 'lib', 'materialised.js'));
   const rest = argv.slice(3);
@@ -3888,6 +4041,7 @@ function main(argv) {
   if (cmd === 'domains') return runDomainsLocked(argv);
   if (cmd === 'pack' || cmd === 'packs') { return cmdPack(argv); }
   if (cmd === 'materialised' || cmd === 'materialized') { return cmdMaterialised(argv); }
+  if (cmd === 'enroll') { return cmdEnroll(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }
   if (cmd === 'humanizers') { return cmdHumanizers(argv); }
   // `restore` takes a positional archive name.
