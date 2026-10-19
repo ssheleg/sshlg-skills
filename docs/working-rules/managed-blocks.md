@@ -41,7 +41,8 @@ link to nothing is refused as `HOST_ABSENT` and says so.
 - A marker inside a closed Markdown code fence (```` ``` ```` or `~~~`, up to three
   spaces of indent) is an example, not a block: it is not listed and never written. An
   unclosed fence fences nothing, so it cannot hide a real block's `END`; a comment
-  opened inside a fence ends with the fence. Stray, unbalanced fences around a real block
+  opened inside a fence ends with the fence. A `<!--` inside an inline code span on its
+  line (CommonMark: a code span is literal) opens no comment at all. Stray, unbalanced fences around a real block
   make it read as an example; the writer's preview then warns, naming the line of every
   `BEGIN` of the selected id that sits inside a fence.
 - A duplicate, crossed, unclosed or stray marker, a near-miss spelling (spaces around

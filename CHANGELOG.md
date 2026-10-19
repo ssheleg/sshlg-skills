@@ -1,3 +1,13 @@
+## v1.68.1 (2026-10-19): enroll on real repositories
+
+- **A `<!--` inside inline code opens no comment** (`lib/blocks.js`, CommonMark code-span
+  rule). Two repositories whose AGENTS.md quotes `<!--` in backticks were refused by
+  `enroll` with `RESULT_WOULD_NOT_PARSE`; an unterminated comment outside code still
+  swallows what follows, as before. Four fixtures in `test/blocks_test.js`.
+- **`enroll` recognises more Telegram stacks:** telethon, pyrogram, pyTelegramBotAPI,
+  gramjs (`telegram`) and node-telegram-bot-api now class a repository as `app-text`
+  (a telethon bot had been classed `internal`). Five fixtures in `test/enroll_test.js`.
+
 ## v1.68.0 (2026-10-19): supply-chain checks, agent incidents, Telegram session risks
 
 - **Pins: make-skill 0.32.0, agent-stack 0.29.0, telegram-dev 0.3.0.** make-skill adds five
