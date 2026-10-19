@@ -113,13 +113,13 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.31.2",
+      "version": "0.32.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "df53aaa93def11d587943e119761605c64186e0c"
+      "commit": "837821b49e1cdc7ce848617619a6d379df90fabb"
     },
     {
       "name": "sheleg-design",
@@ -205,13 +205,13 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.28.2",
+      "version": "0.29.0",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "fefece0267272e28a391d8ef9615f059ff84aed4"
+      "commit": "baf238571b2fc503b0b83cb865e5ac403e349865"
     },
     {
       "name": "telegram-dev",
@@ -225,13 +225,13 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.2.4",
+      "version": "0.3.0",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",
       "shape": "static",
       "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code.",
-      "commit": "8639e59a7b09df4e0a7a6bc101e7605032b153b3"
+      "commit": "dfa267cf2ef9244d37c3634b7a408e2cbba22732"
     },
     {
       "name": "xr-dev",

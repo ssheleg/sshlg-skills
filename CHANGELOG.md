@@ -1,3 +1,13 @@
+## v1.68.0 (2026-10-19): supply-chain checks, agent incidents, Telegram session risks
+
+- **Pins: make-skill 0.32.0, agent-stack 0.29.0, telegram-dev 0.3.0.** make-skill adds five
+  supply-chain checks to its install-safety doctrine (an opt-in `--supply-chain` scanner
+  mode), corrects the `claude plugin eval` note against Claude Code 2.1.299 and states
+  Codex's `AGENTS.md` byte budget. agent-stack adds a sourced agent-incident checklist and
+  the rule that an eval task needs a reference solution before it scores an agent.
+  telegram-dev adds what Log Out and session termination revoke, login-token links, the
+  Mini App host threat model and the official Markdown Bot API copy.
+
 ## v1.67.0 (2026-10-19): enroll a project; SEO/AEO briefed before build
 
 - **Pins: seo-aeo-audit 0.28.0 and super-ux 0.62.0.** seo-aeo-audit gains a `brief` mode
