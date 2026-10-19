@@ -26,6 +26,12 @@ t('near markers and invalid UTF8 are uncertain, not repaired',()=>{
  assert.throws(()=>b.decode(Buffer.from([0xff])),/UTF/);
 });
 t('large valid inventory retains exact line ranges without prefix rescans',()=>{const r=b.parse(Array.from({length:10000},(_,i)=>block('A:B'+i,'')).join(''));assert(r.ok);assert.strictEqual(r.blocks.length,10000);assert.deepStrictEqual(r.blocks[9999].range,{startLine:29998,endLine:30000});});
+t('a <!-- inside an inline code span opens no comment (CommonMark), so it cannot swallow a block below',()=>{
+ let r=b.parse('Never write `<!--` in a table cell.\n'+block('A:B'));assert(r.ok,JSON.stringify(r.issues));assert.strictEqual(r.blocks.length,1);
+ r=b.parse('Use ``a `<!--` b`` here.\n'+block('A:B'));assert(r.ok);assert.strictEqual(r.blocks.length,1,'a double-backtick span counts too');
+ r=b.parse('An open <!-- comment outside code\n'+block('A:B'));assert.strictEqual(r.blocks.length,0,'an unterminated comment outside code still swallows what follows');
+ r=b.parse('One backtick ` then <!-- with no closing tick\n'+block('A:B'));assert.strictEqual(r.blocks.length,0,'an unclosed backtick is not a code span');
+});
 t('markers inside a closed code fence are examples: alone, beside a real block, and an unterminated example comment',()=>{
  const fence=(body)=>'```markdown\n'+body+'\n```\n';
  let r=b.parse('# doc\n'+fence(block('OBSERVATORY:AGENT-UPDATES','example')));assert(r.ok);assert.strictEqual(r.blocks.length,0);
