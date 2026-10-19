@@ -1903,8 +1903,8 @@
     {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
-      "commit": "df53aaa93def11d587943e119761605c64186e0c",
-      "version": "0.31.2",
+      "commit": "837821b49e1cdc7ce848617619a6d379df90fabb",
+      "version": "0.32.0",
       "pluginInstall": "make-skill@make-skill",
       "pluginPath": "plugins/make-skill",
       "entry": {
@@ -1912,7 +1912,7 @@
         "displayName": "Make Skill",
         "source": "./plugins/make-skill",
         "description": "Encodes the Agent Skills open standard AND Anthropic's platform rules (front-matter limits, disclosure budgets, per-surface runtime limits, the Skills API, evaluation-driven authoring) plus the Claude Code plugin reference (manifest schemas, component layout, `claude plugin validate --strict`) and the proven ssheleg pipeline: marketplace repo layout, version sync, validator + CI, multi-channel distribution (Claude Code plugin, vercel skills CLI, npx, Cursor), npm gotchas, end-to-end first publish, the review checklist for third-party skills, and MCP / A2A rules for protocol-connected skills.",
-        "version": "0.31.2",
+        "version": "0.32.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1940,7 +1940,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "b3d6a0cbd744d14c473c2053d8c7d4c6e0e363b6baa92d39d679628124aa62c1",
+          "sha256": "9b1fe4bf4516960db18ac14a9ff27ed55b38723924068af5bd4ef87042ad8dd4",
           "bytes": 1093
         },
         {
@@ -2010,8 +2010,8 @@
         },
         {
           "path": "skills/make-skill/references/authoring.md",
-          "sha256": "0d683ed6fa867b69f22ad4b69599dfb651b859a519d3297118f064379df70430",
-          "bytes": 22734
+          "sha256": "2c32d3e5eedde2f0238f55e79a5beb92abe14cac5addd3a1158ebc9a0e388972",
+          "bytes": 23119
         },
         {
           "path": "skills/make-skill/references/claude-code-plugin.md",
@@ -2020,13 +2020,13 @@
         },
         {
           "path": "skills/make-skill/references/distribution.md",
-          "sha256": "e4f4975c3bde14980a1bd4b32a836004bed8bae6e25591d7c8d126897e05531b",
-          "bytes": 28227
+          "sha256": "588448eece6580ed0deb999ba5da8ff0318d602b2eb1625973a47354de43d4a8",
+          "bytes": 29800
         },
         {
           "path": "skills/make-skill/references/enterprise.md",
-          "sha256": "7a9d6fd35f957a5641cc966d0621393f9bda20108a19ae3df42b2297897e15bf",
-          "bytes": 12074
+          "sha256": "97f25050aebd8289a9b655c7ce1a2891d6669c41d9dbc85c1b98325429a1dc33",
+          "bytes": 17909
         },
         {
           "path": "skills/make-skill/references/host-capabilities.md",
@@ -2045,8 +2045,8 @@
         },
         {
           "path": "skills/make-skill/references/retrofit.md",
-          "sha256": "a190ea697aceffe41f479623d8074e62a494e1543bdd9dd4e3a9ee8c8f9ecfaf",
-          "bytes": 8037
+          "sha256": "74aecc7fd7f12d1613f746b2ee5a83d123cd1d76222276626804b1dedba2b605",
+          "bytes": 8041
         },
         {
           "path": "skills/make-skill/references/surfaces.md",
@@ -2055,17 +2055,17 @@
         },
         {
           "path": "skills/make-skill/scripts/audit_skill.py",
-          "sha256": "6f1367dca19331e465910fc8c4237be7386133759d8a24aaed6e9ede43e07304",
-          "bytes": 50523
+          "sha256": "5a16cb4781fd4ac43ffde49776ce11e3f6d7f8d9254c43ef2327e267c18683fb",
+          "bytes": 59124
         },
         {
           "path": "skills/make-skill/SKILL.md",
-          "sha256": "8bc90f7d14a55a80f0fa86253bcb571e284c1302cb0f957bae329f60dbd0ac7c",
-          "bytes": 20214
+          "sha256": "bbefdd6b45e94b2618db315ad3f6d21c56423d3db0b05c4e406a44fabb5024b7",
+          "bytes": 20182
         },
         {
           "path": "skills/skill-search/SKILL.md",
-          "sha256": "6c94e2cb9dedaeab6e5814333b1445ceb5df4b833d0769d8b9339995e29b75f7",
+          "sha256": "9539186249d31d06411bd0583506ffd3c9b1f0e33cff180a79e7ba3e68c89cef",
           "bytes": 3464
         }
       ]
@@ -3205,8 +3205,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "fefece0267272e28a391d8ef9615f059ff84aed4",
-      "version": "0.28.2",
+      "commit": "baf238571b2fc503b0b83cb865e5ac403e349865",
+      "version": "0.29.0",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3214,7 +3214,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.28.2",
+        "version": "0.29.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3239,13 +3239,13 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "678aa34cceef4ff51bedad7f718baa901af911fdf33afd9bf22b091ac1461a3f",
+          "sha256": "2d194e590cac44aeba0f8c1977c326ddc2e007ad937ed87ae0e9e5cf3962eafa",
           "bytes": 1081
         },
         {
           "path": "skills/agent-evals/references/multi-agent.md",
-          "sha256": "e0c3175aa8858de1ba8117c613d2e201e32ff581453078c927a3ebddcff6c0bb",
-          "bytes": 5473
+          "sha256": "41c95478234dee0c2b0e978fe7728d2ddd0f082a16e7ec8dc2331dafcee2f86c",
+          "bytes": 6383
         },
         {
           "path": "skills/agent-evals/references/otel-genai.md",
@@ -3259,8 +3259,8 @@
         },
         {
           "path": "skills/agent-evals/SKILL.md",
-          "sha256": "8f533ce3e320e0416163a39a98207cd347a0d22332c4072afa1d628f77204b8b",
-          "bytes": 20773
+          "sha256": "82a9aa5ded49d7eebee8505a9bb806882f459bc5852fa340f68e4dc9f274a926",
+          "bytes": 21601
         },
         {
           "path": "skills/agent-harness/references/audit.md",
@@ -3369,8 +3369,8 @@
         },
         {
           "path": "skills/agent-orchestrator/references/governance.md",
-          "sha256": "bb2e3389779a56d4ace610bb14b5df05ace7fa6efc1e5810b0ae929f7050e435",
-          "bytes": 9487
+          "sha256": "1c40b06aaabc842240b15700af9d69f75be7a04e4cab5a80d9df0951a7e72fb4",
+          "bytes": 14517
         },
         {
           "path": "skills/agent-orchestrator/references/graph-engineering.md",
@@ -3424,23 +3424,23 @@
         },
         {
           "path": "skills/agent-orchestrator/SKILL.md",
-          "sha256": "8a80583133707ea69c9e7c0963a68f74b138b74e5148e31ceeea12097af32aba",
-          "bytes": 20286
+          "sha256": "b307cb64556e0a23cf4cb1e344f64b70541f78c2fa3291ec74e9fca7d29c35fe",
+          "bytes": 20414
         }
       ]
     },
     {
       "name": "telegram-dev",
       "repo": "ssheleg/telegram-dev",
-      "commit": "8639e59a7b09df4e0a7a6bc101e7605032b153b3",
-      "version": "0.2.4",
+      "commit": "dfa267cf2ef9244d37c3634b7a408e2cbba22732",
+      "version": "0.3.0",
       "pluginInstall": "telegram-dev@telegram-dev",
       "pluginPath": "plugins/telegram-dev",
       "entry": {
         "name": "telegram-dev",
         "displayName": "Telegram Dev",
         "description": "Telegram development, split by the API each surface actually speaks. telegram-bots covers the official HTTP Bot API — update_id as the only idempotency key, the allowed_updates default that drops three types in silence, the webhook secret header, rate limits as a design constraint, and Telegram Stars with its ten-second pre-checkout window. telegram-userbots covers MTProto and Telethon — the session file as a credential equal to the password, FloodWaitError as the API working rather than failing, and the account-ban risk a bot token does not carry. telegram-miniapps covers initData verification, the algorithm shipped as a runnable fixture, and the SDK package whose name moved.",
-        "version": "0.2.4",
+        "version": "0.3.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3472,7 +3472,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "ee85c8604d73dbda3bd7ede7b17d4918176457d227b7dddc79892236e5e827ef",
+          "sha256": "f275ead172577d0abac6ca9013a4bf55dbb1bd4a0c87ce1ff55802f8b145f31e",
           "bytes": 1375
         },
         {
@@ -3492,8 +3492,8 @@
         },
         {
           "path": "skills/telegram-bots/references/payments-stars.md",
-          "sha256": "5dfc88e5d9803362680bb06a7c39828a3f4e8c50fed6fe991928085359b8605b",
-          "bytes": 3362
+          "sha256": "f762c71df6323b0001d6dfa14c7bdd80ce25471cc17873f152726ed277e04adb",
+          "bytes": 4199
         },
         {
           "path": "skills/telegram-bots/references/updates-and-delivery.md",
@@ -3502,8 +3502,8 @@
         },
         {
           "path": "skills/telegram-bots/SKILL.md",
-          "sha256": "c58b2efbeca6b4844a929028bc1b1f6f8351b14f45367be678e4f8ceaa454cc2",
-          "bytes": 11642
+          "sha256": "2d8b98c2499575a4d721738f06885bffd62a13bde1f7635c86aac382024ebbdf",
+          "bytes": 12438
         },
         {
           "path": "skills/telegram-miniapps/fixtures/verify_initdata.py",
@@ -3527,8 +3527,8 @@
         },
         {
           "path": "skills/telegram-miniapps/SKILL.md",
-          "sha256": "62fb97b5e2cb39f80ccf0d9794a68b36f9702594f7b1196412118dd41f0aff5a",
-          "bytes": 10157
+          "sha256": "6253a46b534e2fc4c6f64756250c049023c371d9043a3f98a9b7173f0eac8e6c",
+          "bytes": 12700
         },
         {
           "path": "skills/telegram-userbots/references/entities-and-history.md",
@@ -3542,13 +3542,13 @@
         },
         {
           "path": "skills/telegram-userbots/references/sessions-and-auth.md",
-          "sha256": "fa1949c0988cdb950decfe800540f3410a559e329fb5099982166dbbf2e3375e",
-          "bytes": 4304
+          "sha256": "44dea155f6a75ff1a59c35b6c795dcf2514535ad6214842a2aba7ddf1256848f",
+          "bytes": 8072
         },
         {
           "path": "skills/telegram-userbots/SKILL.md",
-          "sha256": "ab961479c3ee0a671ccccdb33cebb72009a5e13f0e3e89bbff1f0dd4df40e412",
-          "bytes": 8652
+          "sha256": "bb020daade9e19da85ee6ce469c088fc27f695527d3befdb65e3f4a13676e284",
+          "bytes": 9446
         }
       ]
     },
