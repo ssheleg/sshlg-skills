@@ -31,12 +31,15 @@ function it(name, fn) {
 
 /** An in-memory tree: the module is handed this and never a disk of its own. */
 function tree(files, links) {
-  const l = new Set(links || []);
+  // `links` is a list of symlinked paths (target unknown) or a map path -> target.
+  const map = Array.isArray(links) || !links ? {} : links;
+  const l = new Set(Array.isArray(links) ? links : Object.keys(map));
   const has = (p) => Object.prototype.hasOwnProperty.call(files, p);
   return {
     paths: Object.keys(files).filter((p) => !l.has(p)),
     read: (p) => (has(p) && !l.has(p) ? files[p] : null),
     kind: (p) => (l.has(p) ? 'symlink' : has(p) ? 'file' : 'absent'),
+    alias: (p) => map[p] || null,
   };
 }
 const pkg = (deps, dev) => JSON.stringify({ name: 'x', dependencies: deps || {}, devDependencies: dev || {} });
@@ -271,6 +274,25 @@ it('a symlinked instruction file is refused', () => {
   assert.strictEqual(p.ok, false);
   assert.ok(p.refusals.some((r) => r.code === 'SYMLINK' && r.file === 'AGENTS.md'), JSON.stringify(p.refusals));
   assert.deepStrictEqual(p.writes, []);
+});
+
+it('AGENTS.md linked to CLAUDE.md is one file: the block is written once, the link untouched', () => {
+  const p = E.plan(tree({ 'CLAUDE.md': '# rules\n' }, { 'AGENTS.md': 'CLAUDE.md' }));
+  assert.strictEqual(p.ok, true, JSON.stringify(p.refusals));
+  assert.ok(write(p, 'CLAUDE.md'), 'CLAUDE.md is written');
+  assert.strictEqual(write(p, 'AGENTS.md'), undefined, 'the link itself is never written');
+});
+
+it('a link to an absent instruction file is refused', () => {
+  const p = E.plan(tree({}, { 'AGENTS.md': 'CLAUDE.md' }));
+  assert.strictEqual(p.ok, false);
+  assert.ok(p.refusals.some((r) => r.code === 'SYMLINK' && r.file === 'AGENTS.md'), JSON.stringify(p.refusals));
+});
+
+it('a link to a file that is not an instruction file is refused', () => {
+  const p = E.plan(tree({ 'CLAUDE.md': '# rules\n', 'docs/x.md': 'x' }, { 'AGENTS.md': 'docs/x.md' }));
+  assert.strictEqual(p.ok, false);
+  assert.ok(p.refusals.some((r) => r.code === 'SYMLINK' && r.file === 'AGENTS.md'), JSON.stringify(p.refusals));
 });
 
 it('an unterminated comment that would swallow the block is refused', () => {

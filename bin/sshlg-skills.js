@@ -3355,7 +3355,17 @@ function cmdEnroll(argv) {
     } catch (e) { return null; }
   };
 
-  const p = E.plan({ paths, read, kind }, { surface: f.surface });
+  // Where a symlinked instruction file points, as a path inside the work tree, or null.
+  const alias = (rel) => {
+    const target = under(rel);
+    if (!target) return null;
+    let real;
+    try { real = fs.realpathSync(target); } catch (e) { return null; }
+    const realRoot = fs.realpathSync(root);
+    if (!(real === realRoot || real.startsWith(realRoot + path.sep))) return null;
+    return path.relative(realRoot, real).split(path.sep).join('/');
+  };
+  const p = E.plan({ paths, read, kind, alias }, { surface: f.surface });
   if (!p.ok) return refuse(p.refusals);
 
   const changed = p.writes.filter((w) => w.action !== 'unchanged');
