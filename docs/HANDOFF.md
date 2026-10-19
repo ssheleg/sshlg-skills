@@ -1,14 +1,31 @@
-## In flight: 2026-10-19 feed review, SEO/AEO upgrade, base-skill rollout
+## Current: 2026-10-19 feed review, SEO/AEO upgrade, base-skill rollout (FEED-SEO-1019)
 
-Lease `FEED-SEO-1019`, branch `plan/2026-10-19-feed-seo-aeo`.
-[Brief and REQ table](evidence/briefs/2026-10-19-feed-seo-aeo.md) ·
-[plan and waves](evidence/plans/2026-10-19-feed-seo-aeo.md). Evidence is the operator's
-private report `channel-digest-3` (`reports.py find channel-digest-3`): all 2900 feed
-posts classified, the SEO research synthesis and the project inventory.
-Wave 0 (report and plan) is pushed.
+[Brief, REQ table and carry-over ledger](evidence/briefs/2026-10-19-feed-seo-aeo.md) ·
+[plan and waves](evidence/plans/2026-10-19-feed-seo-aeo.md) ·
+[enroll spec](evidence/specs/2026-10-19-enroll.md). Evidence is the operator's private report
+`channel-digest-3` (`reports.py find channel-digest-3`): all 2900 feed posts classified,
+the SEO research synthesis, primary-source verification of 34 claims and the rollout record.
 
-**Exact next bounded task:** wave 1, primary-source verification of every "verify" row
-that a P0/P1 change cites, then waves 2 (super-ux) and 3 (seo-aeo-audit 0.28) in parallel.
+Delivered and published from annotated tags with green release runs:
+seo-aeo-audit 0.28.0 and 0.29.0 (brief mode, poisoned rank-tracker guard, GSC freshness,
+per-URL sitemap checks, AI citation panel scorer, Bing Webmaster collector), super-ux 0.62.0
+(retrieval-only B050, LP-21..LP-24, Copylot sweep), make-skill 0.32.0, agent-stack 0.29.0,
+telegram-dev 0.3.0; hub 1.67.0 (`enroll`, seo-llmo backed by the brief), 1.68.0 (pins),
+1.68.1 (inline-code `<!--`, Telegram stacks), 1.69.0 (seo-aeo-audit 0.29.0). Copylot
+`fabric-rev-18` (web-page pack) is live in both instances. `enroll` wrote the family block
+into 24 repositories. Local install: Claude 11/11 verified; Codex deferred 7 plugins while
+its sessions are active (`DEFERRED_ACTIVE_GENERATION_SAFETY`, by design).
+
+**Open, with owners:** B-227, B-228 (concurrency flakes under load), B-229 (enroll prune);
+seo-aeo-audit B-40 (rows without a verified sentence); Copylot WEB-02..04; longevity-app
+needs a `Task:` id before enroll; fabric-vr enroll waits for its full gate with submodules;
+sasai and the Appvillis repositories need an explicit operator instruction (a PR there is
+read by people outside the estate); per-project seeding (brand pack, scenarios, SEO brief)
+announced on the Fabric board, thread 9925a007.
+
+**Exact next bounded task:** the first project seeding run: `/seo-aeo-audit brief` plus
+`/brand-init` in one tier-1 public site whose block lists both as missing, then
+`npx sshlg-skills@latest enroll` to refresh its declarations.
 
 ## Current: 2026-10-18 portable punctuation and public voice
 
