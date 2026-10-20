@@ -61,7 +61,7 @@ HOME = os.path.expanduser('~')
 FM = re.compile(r'\A---\r?\n(.*?)\r?\n---\r?\n', re.S)
 
 BODY_TOK, BODY_LINES, DESC_CHARS = 5000, 500, 1024
-HEAD_TOK, HEAD_LINES, HEAD_DESC = 4750, 475, 970
+HEAD_TOK, HEAD_LINES, HEAD_DESC = 4750, 475, 500
 
 findings = []
 

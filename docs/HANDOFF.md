@@ -39,6 +39,8 @@ description trims of sheleg-dev, telegram-dev, xr-dev, web3d-dev, super-ux, shel
 seo-aeo-audit and agent-stack; outside the family, switchboard (10 s start), observatory
 (Stop-hook noise) and fabric-agent-adapter (start notes).
 
+**State at the stop (2026-10-20, usage limit):** 1.70.1 released and installed; operator rules installed in every host. Branch `feat/pins-1020` (this commit, WIP, not merged) pins make-skill 0.33.0, sheleg-dev 0.15.0, telegram-dev 0.4.0, xr-dev 0.4.0, web3d-dev 0.2.0, super-ux 0.63.0, sheleg-design 1.66.0, seo-aeo-audit 0.30.0, agent-stack 0.30.0; trigger fixtures read the whole SKILL.md; the description reserve is measured against 500. Still running when stopped: task-pipeline, agent-sync and observatory agents (check their repos for new tags). Released outside the family: switchboard 0.6.54, fabric-agent-adapter 0.38.0.
+
 **Exact next bounded task:** pin every member released by this run in one hub release
 (`skills.json`, submodule pointers, README table), lower `description-total` to the measured
 sum, change the triggers fixture to look for each hub trigger in the member's whole `SKILL.md`

@@ -56,13 +56,13 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.62.0",
+      "version": "0.63.0",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
       "shape": "static",
       "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
-      "commit": "9d24605204946bb314d78c15719937f11433f77b"
+      "commit": "d656a92a0bcfcca374c9a095a20993b8eed58bee"
     },
     {
       "name": "task-pipeline",
@@ -113,13 +113,13 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.32.0",
+      "version": "0.33.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "837821b49e1cdc7ce848617619a6d379df90fabb"
+      "commit": "7745e2c646c0642af8aa0796522867ba115a0f42"
     },
     {
       "name": "sheleg-design",
@@ -131,7 +131,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.65.0",
+      "version": "1.66.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -148,7 +148,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "6fdbe96798e746e26442d3a0dbad151a9342f6b7"
+      "commit": "47016a10115c97cd8d2b34e63693084031893bfc"
     },
     {
       "name": "seo-aeo-audit",
@@ -160,13 +160,13 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.29.0",
+      "version": "0.30.0",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "7c6ccab656eaabdc6695173cb161b60da4c40f4e"
+      "commit": "3b2b13d693111784420fe13e3952a533967ed670"
     },
     {
       "name": "sheleg-dev",
@@ -184,13 +184,13 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.14.0",
+      "version": "0.15.0",
       "entry": null,
       "role": "integrations: money in, tracking, errors, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
       "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
-      "commit": "662838741042708bc72c27b646572801d0d4657a"
+      "commit": "6a7c3e1d4a250ba4b4b66d22cfe3d50b85ccec22"
     },
     {
       "name": "agent-stack",
@@ -205,13 +205,13 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.29.0",
+      "version": "0.30.0",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "baf238571b2fc503b0b83cb865e5ac403e349865"
+      "commit": "672d5ff704b764332bf8136474b3852693b5647c"
     },
     {
       "name": "telegram-dev",
@@ -225,13 +225,13 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.3.0",
+      "version": "0.4.0",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",
       "shape": "static",
       "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code.",
-      "commit": "dfa267cf2ef9244d37c3634b7a408e2cbba22732"
+      "commit": "94251eaae844febabe23fed0399dc5e35783f7c2"
     },
     {
       "name": "xr-dev",
@@ -249,7 +249,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.3.4",
+      "version": "0.4.0",
       "entry": null,
       "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
@@ -262,7 +262,7 @@
           "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
         }
       ],
-      "commit": "b4181b996ef54d29032735be45d7597e7fb18e64"
+      "commit": "fb2cb8f1252f92da9d1fc4fa78c62e9f9b9a0468"
     },
     {
       "name": "web3d-dev",
@@ -276,13 +276,13 @@
         "web3d-assets",
         "web3d-animation"
       ],
-      "version": "0.1.4",
+      "version": "0.2.0",
       "entry": null,
       "role": "how realtime 3D on the web runs, ships its assets and moves",
       "npm": "@ssheleg/web3d-dev",
       "shape": "static",
       "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical.",
-      "commit": "c8478b4e7ea4f1642c463c0f361086aa67b1f803"
+      "commit": "1233f3eadfbe5e74b90384cbdc34d0a6dc1a8361"
     }
   ],
   "agents": [
