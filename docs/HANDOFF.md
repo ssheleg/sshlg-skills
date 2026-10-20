@@ -21,7 +21,7 @@ seo-aeo-audit B-40 (rows without a verified sentence); Copylot WEB-02..04; longe
 needs a `Task:` id before enroll; fabric-vr enroll waits for its full gate with submodules;
 sasai and the Appvillis repositories need an explicit operator instruction (a PR there is
 read by people outside the estate); per-project seeding (brand pack, scenarios, SEO brief)
-announced on the Fabric board, thread 9925a007.
+announced on the Fabric board, thread 9925a007. These are board rows B-230..B-233.
 
 **Exact next bounded task:** the first project seeding run: `/seo-aeo-audit brief` plus
 `/brand-init` in one tier-1 public site whose block lists both as missing, then
