@@ -41,7 +41,7 @@ it('whole-family managed context stays inside the recorded block budget', () => 
   // (no em dash in text for people, 2026-10-18) reaches every host only through this
   // block, and the operator asked for it there. 17,551 measured before, 18,395 after
   // (+844: the rule's ten lines, less the three de-dashed protocol lines); 18,400 budgeted.
-  // 1.70.0 lowers it: the map's roster table, the protocol's long form and the Fabric
+  // 1.70.1 lowers it: the map's roster table, the protocol's long form and the Fabric
   // router's Linux/Windows paths went (2026-10-20 context diet). 18,395 before, 16,116
   // after; 16,200 budgeted, so the saving cannot be spent back by accident.
   const chars = [...R.parse(block).block].length;
@@ -52,7 +52,7 @@ it('all declared routes and both generated tables survive compaction', () => {
   checkSections(block);
   const region = label => block.match(new RegExp(`<!-- SSHLG:ROUTERS:${label}:BEGIN -->([\\s\\S]*?)<!-- SSHLG:ROUTERS:${label}:END -->`))[1];
   const rows = label => [...region(label).matchAll(/^\| `([^`]+)` \|/gm)].map(m => m[1]);
-  // 1.70.0: the map region no longer renders the member roster (its column repeated the
+  // 1.70.1: the map region no longer renders the member roster (its column repeated the
   // router table's); the member table lives in the README and on the site.
   assert.deepStrictEqual(rows('MAP'), []);
   assert.match(region('MAP'), /does not outrank this map/);

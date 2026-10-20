@@ -33,7 +33,7 @@ budget: 81 of 134 skills were shown as a bare name, because almost every family 
 `compact` repeated the hub pointer, and one plugin's start hook waited out its 10 s timeout on 42
 of 44 starts. task-pipeline asked for about 194k characters of reading before any code.
 
-What 1.70.0 and the same-day member releases changed, and the rules they add:
+What 1.70.1 and the same-day member releases changed, and the rules they add:
 
 6. **A description is a router, not a manual.** About 400 characters: one "Use when" sentence, the
    strongest trigger words in both languages, one "Not for". Trigger lists live in the body; a

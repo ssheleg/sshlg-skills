@@ -21,12 +21,12 @@ for ~194k characters of reading before code and looped through three verifier ti
 round; 54 retrospectives across ~50 repositories, with stage-0 reading floors up to ~76k
 tokens.
 
-**Done in this repository (1.70.0):** the routing block's map lost its duplicate roster table
+**Done in this repository (1.70.1):** the routing block's map lost its duplicate roster table
 and the protocol was compacted; the Fabric router lost two platforms' paths; the SessionStart
 pointer is half as long and skipped on `compact`/`resume`; seven false delivery routes are
 silence fixtures; a gate piped into `tail` and chained into `git` is refused;
 `blocks --agent all` installs one source into every host (B-207) and the
-`SSHLG:REPOSITORY-HANDOFF` block is retired (B-174). See [CHANGELOG](../CHANGELOG.md) v1.70.0.
+`SSHLG:REPOSITORY-HANDOFF` block is retired (B-174). See [CHANGELOG](../CHANGELOG.md) v1.70.1.
 
 **Done outside this repository (private, not published):** the operator rules were compacted
 into one `OPERATOR:GLOBAL-RULES` source installed into every host; verbatim originals are kept

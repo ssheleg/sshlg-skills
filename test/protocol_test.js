@@ -290,7 +290,7 @@ it('the protocol region itself carries no em dash', () => {
 });
 
 it('a 1.69.0 or 1.65.0 protocol with no rendered record is refreshed, not refused as a hand edit', () => {
-  // 1.70.0 compacted the protocol; 1.66.0 took three em dashes out of it. Those are the
+  // 1.70.1 compacted the protocol; 1.66.0 took three em dashes out of it. Those are the
   // pack's own words. Without the KNOWN lines the B-202 guard reads them as the operator's
   // and refuses the region, so `update` exits 1 on every machine with no rendered record.
   const fresh = write(EMPTY);

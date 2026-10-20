@@ -1122,7 +1122,7 @@ For an explicit local comparison, run
 The source must contain one complete matching outer block. Output contains only
 the selected block's before/after text, so treat that output as local material.
 The command does not apply the diff. Unknown/foreign blocks remain inspectable;
-`SSHLG:REPOSITORY-HANDOFF` is retired (1.70.0): keep its rule in your own block.
+`SSHLG:REPOSITORY-HANDOFF` is retired (1.70.1): keep its rule in your own block.
 
 ### Write another tool's block (managed-blocks/1)
 

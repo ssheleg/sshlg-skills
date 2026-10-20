@@ -1,4 +1,10 @@
-## v1.70.0 (2026-10-20): context diet, quieter hooks, one source for operator rules
+## v1.70.1 (2026-10-20): context diet, quieter hooks, one source for operator rules
+
+**v1.70.0 is a burned tag and published nothing.** It was pushed onto `cb82183` (the 1.69.0
+tree) while the merge it was meant for was still blocked by the required `validate` check;
+its release run 39370618429 was cancelled before publishing, tags here cannot be deleted, so
+the release is 1.70.1. Cause: the tag was cut from `origin/main` without first confirming that
+main had moved to the merge commit.
 
 Measured on the operator machine before the change: the global `CLAUDE.md` was 50.6 KB
 (~12.4k tokens, 741 lines), the skill listing hit its 30k budget with 81 of 134 skills shown
