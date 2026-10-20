@@ -7,8 +7,9 @@ belong to the host's instruction files; do not duplicate them here.
 
 Read [docs/HANDOFF.md](docs/HANDOFF.md) for the current entry and dated receipts.
 Apply [the standing repository handoff instruction](docs/working-rules/repository-handoff.md)
-to every task. Read [the retrospective's standing instructions](docs/evidence/retro.md)
-in full before work and [coordination](docs/AGENT_SYNC.md) before editing a shared
+to every task. Read [the retrospective's standing instructions](docs/evidence/retro.md#standing-instructions)
+in full before work (that section only, about 12 KB; query the run stamps below it with
+`grep`, never read them whole) and [coordination](docs/AGENT_SYNC.md) before editing a shared
 registry. [DOCMAP](docs/DOCMAP.md) owns single homes and propagation rules;
 [backlog](docs/evidence/backlog.md) owns outstanding work;
 [verification](docs/evidence/verification.md) owns delivery evidence.

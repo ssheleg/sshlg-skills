@@ -57,7 +57,7 @@ link to nothing is refused as `HOST_ABSENT` and says so.
 | `SSHLG:ROUTERS` (and its subregions) | sshlg-skills | `npx sshlg-skills install` / `update` (`lib/apply.js`) |
 | `SSHLG:RULE:wait-is-not-a-stop` | sshlg-skills | `npx sshlg-skills rules` (`lib/wait-rules.js`), opt-in |
 | `SSHLG:PROJECT` | sshlg-skills | `npx sshlg-skills enroll` (`lib/enroll.js`), in a project's own `CLAUDE.md` and `AGENTS.md`, never a host's global file |
-| `SSHLG:REPOSITORY-HANDOFF` | **undecided** | none: which tool owns it is the operator's decision (B-174), and until it is recorded no writer touches the block |
+| `SSHLG:REPOSITORY-HANDOFF` | sshlg-skills, **retired** (B-174, decided 2026-10-20) | removal only: `blocks uninstall SSHLG:REPOSITORY-HANDOFF --owner SSHLG`. The rule now lives in the operator's own rules block, so the hub never writes this block again |
 | `OBSERVATORY:AGENT-UPDATES` | project-observatory | its `agent_updates.py`, through `npx sshlg-skills blocks install --owner OBSERVATORY` |
 | any other `OWNER:NAME` | the tool named by `OWNER` | that tool, through `blocks install --owner OWNER` |
 
@@ -89,11 +89,17 @@ block's current and proposed text. It writes nothing.
 ## Writing: `blocks install` and `blocks uninstall`
 
 ```
-npx sshlg-skills blocks install   OWNER:NAME --owner OWNER --agent HOST --from FILE [--apply] [--json]
-npx sshlg-skills blocks uninstall OWNER:NAME --owner OWNER --agent HOST            [--apply] [--json]
+npx sshlg-skills blocks install   OWNER:NAME --owner OWNER --agent HOST|all --from FILE [--apply] [--json]
+npx sshlg-skills blocks uninstall OWNER:NAME --owner OWNER --agent HOST|all            [--apply] [--json]
 npx sshlg-skills blocks resolve   OPERATION-ID [--json]
 ```
 
+- **`--agent all`** (B-207) runs one operation per installed host, each with its own
+  backup and journal line; a host that is not installed is reported `SKIPPED`, never
+  created. Its preview is the drift report: `unchanged` on a host means that host already
+  carries the source's exact block. The exit code is the worst host's, so one refusal is
+  never hidden by the others. This is how one source file of operator rules reaches every
+  host: `blocks install OPERATOR:GLOBAL-RULES --owner OPERATOR --agent all --from <file>`.
 - **Preview is the default.** Without `--apply` the command prints the diff (or, with
   `--json`, the before/after hashes) and writes nothing at all.
 - **Install** takes the block from `FILE`, a local file holding exactly one complete
@@ -133,7 +139,7 @@ npx sshlg-skills blocks resolve   OPERATION-ID [--json]
 ### Admission
 
 The writer refuses: the hub's own blocks (they have dedicated writers with their own
-consent); `SSHLG:REPOSITORY-HANDOFF`; any other `SSHLG:` name; a call without `--owner`
+consent); any write of the retired `SSHLG:REPOSITORY-HANDOFF` (its owner may only remove it); any other `SSHLG:` name; a call without `--owner`
 or whose `--owner` differs from the marker's prefix; an opted-out block; a malformed
 target; a symlinked or unreadable target; a source that is remote, unreadable or not
 exactly one matching block. `--owner` stops one cooperating tool from writing another's

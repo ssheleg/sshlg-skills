@@ -1,3 +1,41 @@
+## v1.70.0 (2026-10-20): context diet, quieter hooks, one source for operator rules
+
+Measured on the operator machine before the change: the global `CLAUDE.md` was 50.6 KB
+(~12.4k tokens, 741 lines), the skill listing hit its 30k budget with 81 of 134 skills shown
+without a description, and a real session start injected about 2.4k characters of hook text.
+
+- **Routing block, smaller.** The map region no longer carries the member roster table: its
+  "what it closes" column repeated the router table's "answers" cell, and entry points are
+  reached through the catalogue search the protocol mandates. The protocol keeps every rule
+  (search first, print the plan, list skills used, signature, star, refusal semantics,
+  boundary, the no-em-dash rule) in about half the text. The Fabric router lost its Linux and
+  Windows paths (routing-registry-total 11902 to 11750). The whole block measures 16,116
+  characters, down from 18,395; its budget in `test/router_compaction_test.js` drops to 16,200. Machines with no rendered record
+  refresh the 1.69.0 wording instead of keeping it as a hand edit (`PROTOCOL_1_69`,
+  `MAP_1_69`; two fixtures in `test/protocol_test.js`).
+- **Hooks say less, and less often.** The SessionStart pointer is one sentence shorter by half
+  (442 to about 230 characters) and is skipped on `compact` and `resume`, where the global
+  instructions are reloaded anyway. The delivery route is no longer named for a reaction
+  («спасибо, отличная фича»), a question with an advice marker («внедрить или нет? дай
+  совет») or an audit that forbids edits («сделай аудит хуков, ничего не меняй»): seven
+  prompts from the hook audit are silence fixtures in `test/route_coverage.js`.
+- **A gate read through a pipe is refused.** `npm test | tail -5 && git push` pushes on a red
+  suite because a pipeline's status is its last command's; the operators' retrospectives
+  record this class in at least 26 repositories. `hygiene.maskedGate` decides, the
+  PreToolUse hook refuses with the remedy (`set -o pipefail;` or read the gate's own exit
+  code); 12 fixtures in `test/hygiene_test.js`.
+- **One source for operator rules (B-207).** `blocks install|uninstall --agent all` runs one
+  operation per installed host (own backup and journal line each), skips absent hosts, and
+  its preview is the drift report. `SSHLG:REPOSITORY-HANDOFF` is retired (B-174, decided):
+  its rule lives in the operator's own rules block and the hub only removes the old copy.
+- **This repository's entry reads less.** `CLAUDE.md` asks for the retrospective's standing
+  section only (about 12 KB), not the 101 KB file; `docs/HANDOFF.md` keeps the current entry
+  and an index, older entries moved to `docs/HANDOFF-2026-10-archive.md`.
+- **Board:** B-174 and B-207 closed; B-234 to B-241 record what the audits found outside this
+  repository's reach (personal skills, duplicate plugins, per-call hook cost, retro floors in
+  other repositories, the empty lesson index, stale clones, the dirty-checkout guard, the
+  classifier's status questions).
+
 ## v1.69.0 (2026-10-19): seo-aeo-audit 0.29.0
 
 - **Pin: seo-aeo-audit 0.29.0.** `scripts/ai_panel.py` scores captured AI answers per

@@ -10,7 +10,7 @@ const block=(id,body='private-body')=>`<!-- ${id}:BEGIN -->\n${body}\n<!-- ${id}
 t('mixed owners are metadata, never authorization',()=>{
  const r=b.parse(block('SSHLG:ROUTERS',block('SSHLG:ROUTER:fabric'))+block('SSHLG:REPOSITORY-HANDOFF')+block('OTHER:NOTES'));
  assert(r.ok);assert.strictEqual(r.blocks.length,4);assert.strictEqual(r.blocks[1].syntaxState,'NESTED_SUBREGION');
- assert.strictEqual(r.blocks[2].writerAdmission,'OPERATOR_DECISION_REQUIRED');assert.strictEqual(r.blocks[3].writerAdmission,'FOREIGN');
+ assert.strictEqual(r.blocks[2].writerAdmission,'RETIRED_REMOVAL_ONLY');assert.strictEqual(r.blocks[3].writerAdmission,'FOREIGN');
  assert(!JSON.stringify(r).includes('private-body'));assert(r.blocks.every(x=>x.writerAdmission!=='AUTHORIZED_BY_EXISTING_POLICY'));
 });
 t('duplicate, crossed, unclosed and stray markers refuse clean syntax',()=>{
@@ -84,7 +84,7 @@ try{
   const obs=blocks.find(x=>x.markerId==='OBSERVATORY:AGENT-UPDATES');assert(obs,'not listed');
   assert.strictEqual(obs.syntaxState,'PAIRED');assert.strictEqual(obs.claimedOwner,'OBSERVATORY');assert.strictEqual(obs.registered.owner,'project-observatory');
   assert.strictEqual(obs.writerAdmission,'REGISTERED_NOT_AUTHORIZED');assert(!r.stdout.includes('private-body'));
-  const handoff=blocks.find(x=>x.markerId==='SSHLG:REPOSITORY-HANDOFF');assert.strictEqual(handoff.registered.owner,null);assert.strictEqual(handoff.writerAdmission,'OPERATOR_DECISION_REQUIRED');
+  const handoff=blocks.find(x=>x.markerId==='SSHLG:REPOSITORY-HANDOFF');assert.strictEqual(handoff.registered.owner,'sshlg-skills');assert.strictEqual(handoff.writerAdmission,'RETIRED_REMOVAL_ONLY');
   const text=spawnSync(process.execPath,[path.join(__dirname,'..','bin','sshlg-skills.js'),'blocks','--agent','claude'],{env:{PATH:process.env.PATH,HOME:h},encoding:'utf8'});
   assert.match(text.stdout,/claude ~\/\.claude\/CLAUDE\.md: READ \(3 markers; syntax valid\)/);
  });

@@ -1122,7 +1122,7 @@ For an explicit local comparison, run
 The source must contain one complete matching outer block. Output contains only
 the selected block's before/after text, so treat that output as local material.
 The command does not apply the diff. Unknown/foreign blocks remain inspectable;
-REPOSITORY-HANDOFF ownership is still a separate operator decision.
+`SSHLG:REPOSITORY-HANDOFF` is retired (1.70.0): keep its rule in your own block.
 
 ### Write another tool's block (managed-blocks/1)
 
@@ -1133,13 +1133,16 @@ A tool that keeps its own block in a host instruction file — Observatory's
 npx sshlg-skills blocks install OBSERVATORY:AGENT-UPDATES --owner OBSERVATORY --agent claude --from ./block.md
 npx sshlg-skills blocks install OBSERVATORY:AGENT-UPDATES --owner OBSERVATORY --agent claude --from ./block.md --apply
 npx sshlg-skills blocks uninstall OBSERVATORY:AGENT-UPDATES --owner OBSERVATORY --agent claude --apply
+# one source, every installed host; the preview is the drift report
+npx sshlg-skills blocks install OPERATOR:GLOBAL-RULES --owner OPERATOR --agent all --from ./rules.md
 ```
 
 Without `--apply` it previews and writes nothing. With it, the file is copied to
 `~/.sshlg-skills/backups/` first, only the named block changes, and each step is
 recorded in `~/.sshlg-skills/managed-blocks/journal.jsonl`. It writes `claude`,
 `codex`, `gemini` and `pi` files, never installs a host, and refuses the hub's own
-blocks (they have their own writers), `SSHLG:REPOSITORY-HANDOFF` (no owner decided)
+blocks (they have their own writers), any write of the retired
+`SSHLG:REPOSITORY-HANDOFF` (`blocks uninstall ... --owner SSHLG` removes an old copy)
 and any block whose owner prefix differs from `--owner`. An interrupted write is
 classified with `npx sshlg-skills blocks resolve <operation-id>`. The convention:
 [docs/working-rules/managed-blocks.md](docs/working-rules/managed-blocks.md).

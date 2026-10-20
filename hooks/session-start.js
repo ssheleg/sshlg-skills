@@ -39,7 +39,11 @@ process.stdin.on('end', () => {
     const home = os.homedir();
     const triggers = require(path.join(LIB, 'triggers.js'));
 
-    const context = [triggers.sessionNote()];
+    // The pointer only where the context is new. On `compact` and `resume` the global
+    // instructions are reloaded and the earlier note is already in the transcript, so
+    // repeating it was paid for nothing (2026-10-20 hook audit).
+    const fresh = !['compact', 'resume'].includes(data.source);
+    const context = fresh ? [triggers.sessionNote()] : [];
     // A suite must not spawn background processes that mutate shared state. Both
     // probes below write `~/.sshlg-skills/state.json`, and an earlier test's
     // detached probe landed between a later test's fixture write and the hook's

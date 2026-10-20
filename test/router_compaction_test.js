@@ -41,15 +41,21 @@ it('whole-family managed context stays inside the recorded block budget', () => 
   // (no em dash in text for people, 2026-10-18) reaches every host only through this
   // block, and the operator asked for it there. 17,551 measured before, 18,395 after
   // (+844: the rule's ten lines, less the three de-dashed protocol lines); 18,400 budgeted.
+  // 1.70.0 lowers it: the map's roster table, the protocol's long form and the Fabric
+  // router's Linux/Windows paths went (2026-10-20 context diet). 18,395 before, 16,116
+  // after; 16,200 budgeted, so the saving cannot be spent back by accident.
   const chars = [...R.parse(block).block].length;
-  assert.ok(chars <= 18400, `${chars} chars exceed the 18,400 block budget`);
+  assert.ok(chars <= 16200, `${chars} chars exceed the 16,200 block budget`);
 });
 it('all declared routes and both generated tables survive compaction', () => {
   assert.strictEqual(names.length, 15);
   checkSections(block);
   const region = label => block.match(new RegExp(`<!-- SSHLG:ROUTERS:${label}:BEGIN -->([\\s\\S]*?)<!-- SSHLG:ROUTERS:${label}:END -->`))[1];
   const rows = label => [...region(label).matchAll(/^\| `([^`]+)` \|/gm)].map(m => m[1]);
-  assert.deepStrictEqual(rows('MAP'), members.map(m => m.name));
+  // 1.70.0: the map region no longer renders the member roster (its column repeated the
+  // router table's); the member table lives in the README and on the site.
+  assert.deepStrictEqual(rows('MAP'), []);
+  assert.match(region('MAP'), /does not outrank this map/);
   assert.deepStrictEqual(rows('TABLE'), names);
 });
 it('Telegram separates signed input from untrusted parsed data', () => checkTelegram(block));

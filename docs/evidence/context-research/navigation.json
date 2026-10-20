@@ -1,11 +1,17 @@
 {
-  "as_of": "2026-10-09",
+  "as_of": "2026-10-20",
   "archives": [
     {
       "path": "docs/HANDOFF-2026-10-09-archive.md",
       "source_path": "docs/HANDOFF.md",
       "source_commit": "a4c65581787b5ddcb3df1e36a8cae1c89c066479",
       "sha256": "bdfa3beec65b836d1894c9e5a29de2fd661c3c3a6ff25571c1002130533fb64e"
+    },
+    {
+      "path": "docs/HANDOFF-2026-10-20-archive.md",
+      "source_path": "docs/HANDOFF.md",
+      "source_commit": "cb82183c39c93c639a9375529b839fc06f399c5c",
+      "sha256": "966261db9df413dfa0952891149738d2aa9a8922c75aab6eedbe1f7b9dafa497"
     }
   ]
 }
