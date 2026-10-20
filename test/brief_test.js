@@ -155,7 +155,9 @@ it('a block-scalar description is read, not the folding marker', () => {
   const briefs = packs.flatMap((m) => (m.skillNames || []).map((n) => site.skillBrief(m, n)));
   assert.ok(briefs.every((b) => !/^[>|][-+]?$/.test(b.trim())),
     'a folding marker was rendered as the description');
-  assert.ok(briefs.some((b) => b.split(/\s+/).length > 60),
+  // 60 words until 2026-10-20; descriptions became ~400-character routers (longest 57
+  // words), and a folding marker read as the value is one word, so 40 still separates them.
+  assert.ok(briefs.some((b) => b.split(/\s+/).length > 40),
     'no long description survived — the block-scalar arm never ran');
 });
 

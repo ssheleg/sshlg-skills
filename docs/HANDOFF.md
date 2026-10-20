@@ -44,10 +44,14 @@ descriptions fell from 32,495 to 17,601 characters. Released outside the family 
 switchboard 0.6.54 (start hook bounded, 3 s timeout), fabric-agent-adapter 0.38.0 (start
 notes only where Fabric is used).
 
-**Exact next bounded task:** when task-pipeline releases its diet (proportional run,
-verifier tiers by risk, retro byte budget, new universal rules from the retro survey), pin it,
-lower the reserve ratchet and `description-total` to the measured values, release, run
-`npx --yes sshlg-skills@latest update`, then migrate the over-budget retro floors (B-237).
+**1.72.0:** pins task-pipeline 1.98.0 (proportional run, reading diet, verifier tiers by
+risk, retro byte budget). Outside the family the run also released Observatory Log 0.26.0
+(Stop hook counts only this turn's tracked changes; passioncode 0.2.16 pins it).
+
+**Exact next bounded task:** B-242: make the Claude immutable repair upgrade a member in
+every scope it is installed in (telegram-dev, xr-dev and web3d-dev are stuck at their old
+versions on this machine); then B-237, migrate the over-budget retro floors in other
+repositories with `task-pipeline/scripts/retro_budget.py migrate --write`.
 
 **Previous entry, still open:** the 2026-10-19 feed review left B-230 to B-233 (per-project
 seeding: `/seo-aeo-audit brief` plus `/brand-init` in one tier-1 public site, then

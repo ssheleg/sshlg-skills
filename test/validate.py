@@ -2594,7 +2594,8 @@ def check_the_description_reserve_is_not_spent() -> None:
     # 13 → 17 on 2026-10-20: the cap moved from 970 to 500 (make-skill 0.33.0). Ten members
     # re-trimmed to about 400-460; task-pipeline's three skills (project-audit,
     # task-pipeline, evidence-docs) are still the old long ones until its release.
-    ratchet = 17
+    # 17 → 14 on 2026-10-20: task-pipeline 1.98.0 trimmed its three descriptions to 386-399.
+    ratchet = 14
     if len(tight) > ratchet:
         worst = ", ".join(f"{k} ({h})" for k, h in sorted(tight, key=lambda x: x[1])[:6])
         fail(f"{len(tight)} of {total} skills sit within 60 characters of the "

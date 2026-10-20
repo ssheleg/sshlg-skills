@@ -1,3 +1,15 @@
+## v1.72.0 (2026-10-20): task-pipeline 1.98.0, the proportional run
+
+- **Pin: task-pipeline 1.98.0.** A small change takes the short path by itself
+  (`scripts/short_path.py`); a run reads `SKILL.md` at entry and each reference on its
+  trigger (reading floor 236 KB to 35 KB on the short path); an R1 node certifies with one
+  verifier tier, a repeat round on an unchanged tree is refused and the ceiling parks the
+  node; the retro floor has a 12 KB budget (`scripts/retro_budget.py`), entries name a Class
+  and a Cost, and `learned.md` gains rules 33 to 39 from the 2026-10-20 survey of 54
+  retrospectives. Its three descriptions fell to 386-399 characters (B-154 closed).
+- **Ratchets:** family description total 17,601 to 16,103; the 500 reserve's tight count 17 to 14.
+- **Board:** B-242, a member installed in user plus local scopes is never upgraded.
+
 ## v1.71.0 (2026-10-20): ten members re-trimmed, the listing fits again
 
 - **Pins:** make-skill 0.33.0 (a description is a router: target 400, warning above 500,
