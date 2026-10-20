@@ -2591,7 +2591,10 @@ def check_the_description_reserve_is_not_spent() -> None:
     # and stands at 911 of 970, one character inside the 60. Its trim is B-154.
     # 14 → 13 on 2026-10-12: task-pipeline 1.93.2 trimmed to 890 (B-154 closed); agent-stack
     # 0.27.0 fell to 929-938, still inside the 60.
-    ratchet = 13
+    # 13 → 17 on 2026-10-20: the cap moved from 970 to 500 (make-skill 0.33.0). Ten members
+    # re-trimmed to about 400-460; task-pipeline's three skills (project-audit,
+    # task-pipeline, evidence-docs) are still the old long ones until its release.
+    ratchet = 17
     if len(tight) > ratchet:
         worst = ", ".join(f"{k} ({h})" for k, h in sorted(tight, key=lambda x: x[1])[:6])
         fail(f"{len(tight)} of {total} skills sit within 60 characters of the "
