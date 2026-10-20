@@ -2543,7 +2543,11 @@ def _family_description_lengths():
 
 
 def check_the_description_reserve_is_not_spent() -> None:
-    """The 970 limit is a RESERVE, and twelve of twenty-eight skills have spent it.
+    """The house limit is a RESERVE (970 until 2026-10-20, 500 since make-skill 0.33.0).
+
+    2026-10-20: make-skill 0.33.0 made a description a router (target 400, soft cap 500),
+    because a listing over its budget showed 81 of 134 skills as a bare name. The reserve
+    is now measured against 500; the history below is about the old 970 cap.
 
     `make-skill`'s house rule caps a description at 970 against the standard's 1024,
     and says what the 54 characters are for: *leave room for the "what this is NOT for"
@@ -2575,7 +2579,8 @@ def check_the_description_reserve_is_not_spent() -> None:
     umbrella failing for work it does not own.
     """
     measured = _family_description_lengths()
-    tight = [(k, 970 - n) for k, n in measured if 970 - n < 60]
+    HOUSE = 500
+    tight = [(k, HOUSE - n) for k, n in measured if HOUSE - n < 60]
     total = len(measured)
     if not total:
         _skips.append("description reserve — no member is materialised to measure")
@@ -2586,16 +2591,19 @@ def check_the_description_reserve_is_not_spent() -> None:
     # and stands at 911 of 970, one character inside the 60. Its trim is B-154.
     # 14 → 13 on 2026-10-12: task-pipeline 1.93.2 trimmed to 890 (B-154 closed); agent-stack
     # 0.27.0 fell to 929-938, still inside the 60.
-    ratchet = 13
+    # 13 → 17 on 2026-10-20: the cap moved from 970 to 500 (make-skill 0.33.0). Ten members
+    # re-trimmed to about 400-460; task-pipeline's three skills (project-audit,
+    # task-pipeline, evidence-docs) are still the old long ones until its release.
+    ratchet = 17
     if len(tight) > ratchet:
         worst = ", ".join(f"{k} ({h})" for k, h in sorted(tight, key=lambda x: x[1])[:6])
-        fail(f"{len(tight)} of {total} skills sit within 60 characters of the 970 "
-             f"reserve and the ratchet stands at {ratchet}: {worst}. The 54 characters "
+        fail(f"{len(tight)} of {total} skills sit within 60 characters of the "
+             f"{HOUSE} reserve and the ratchet stands at {ratchet}: {worst}. The 54 characters "
              "exist for the 'what this is NOT for' clause a near-miss neighbour will "
              "require, and a reserve spent to the last byte is a reserve in name only")
     elif len(tight) < ratchet:
-        fail(f"only {len(tight)} of {total} skills are within 60 characters of the 970 "
-             f"reserve where the ratchet stands at {ratchet} — lower it to {len(tight)} "
+        fail(f"only {len(tight)} of {total} skills are within 60 characters of the "
+             f"{HOUSE} reserve where the ratchet stands at {ratchet} — lower it to {len(tight)} "
              "in the same change, or the number stops meaning anything")
     zero = [k for k, h in tight if h <= 0]
     if zero:

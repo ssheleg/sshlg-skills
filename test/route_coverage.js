@@ -305,7 +305,7 @@ console.log(
 // a number is computed and not restated had restated one inside the guard for that
 // rule. It is computed here, where the misses live and the route→skill map is one
 // `require` away, and the guard now discloses only what it measures.
-const HOUSE = 970;               // make-skill's house limit; 1024 is the standard's
+const HOUSE = 500;               // make-skill 0.33.0 soft cap (970 before 2026-10-20); 1024 is the standard's
 const TIGHT = 60;                // the umbrella's reserve ratchet counts skills under this
 const ROOM = 25;                 // a trigger phrase and its separator, at the floor
 

@@ -254,7 +254,7 @@ routing block the hub writes into every host's instruction file (headings, table
 may fall and never rise without a recorded reason, so the always-loaded block cannot grow by
 accident. A cut still needs the paired routing evaluation before it ships.
 
-<!-- description-total: 32495 -->
+<!-- description-total: 17601 -->
 **Family description total (R32, 2026-10-12).** The characters of every family skill
 description — whitespace collapsed, the figure the 970 cap is quoted in — summed over the
 pinned submodules. Measured at the pins of this revision: **32495 characters over 39

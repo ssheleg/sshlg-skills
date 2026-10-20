@@ -104,6 +104,10 @@ it('every trigger is a word the skill itself advertises', () => {
       if (!file) continue; // submodule not materialized — reported below, not passed over
       sawOne = true;
       const desc = description(file);
+      // 2026-10-20 (context diet): descriptions became routers of about 400 characters and
+      // the trigger lists moved into each SKILL.md body under "Triggers". The hook's words
+      // must still be the skill's own words, so they are looked for in the whole file.
+      const advertised = fs.readFileSync(file, 'utf8').toLowerCase().replace(/\s+/g, ' ');
       assert.ok(desc.length > 200,
         `${group.skill}: description did not parse (${desc.length} chars) — the folded ` +
         `scalar is longer than this, so the regex stopped early`);
@@ -111,14 +115,14 @@ it('every trigger is a word the skill itself advertises', () => {
       // hook fires on, so it is held to the same advertisement rule.
       for (const t of (group.triggers || []).concat(group.objects || [])) {
         const pending = T.PENDING[t];
-        if (desc.includes(t)) {
+        if (advertised.includes(t)) {
           // The member advertised it: the excuse has done its job and must go, or it
           // would excuse the NEXT removal of this word silently.
           if (pending && pending.skill === group.skill) stale.push(`${t} (${group.skill})`);
           continue;
         }
         if (pending && pending.skill === group.skill) continue;
-        missing.push(`${route}: ${JSON.stringify(t)} not in ${group.skill}'s description`);
+        missing.push(`${route}: ${JSON.stringify(t)} not in ${group.skill}'s SKILL.md`);
       }
     }
     if (sawOne) checkedRoutes += 1;

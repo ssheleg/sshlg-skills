@@ -126,7 +126,9 @@ function description(skillName) {
     // line of fifteen would pass every trigger against a fragment and prove nothing —
     // that exact defect shipped here on 2026-08-14.
     if (desc.length <= 200) return { err: `${skillName}: description parsed to ${desc.length} chars` };
-    return { desc };
+    // 2026-10-20: trigger lists live in the body ("Triggers"), descriptions are routers of
+    // about 400 characters; the advertised words are the whole file's.
+    return { desc: text.toLowerCase().replace(/\s+/g, ' ') };
   }
   return { err: `${skillName}: no shipped SKILL.md under ${base}` };
 }
@@ -187,7 +189,7 @@ if (missing.length) {
   );
   for (const m of missing) console.error(`  - ${m}`);
   console.error(
-    '\nThe hook would name this skill for a phrase its own description does not claim.\n' +
+    '\nThe hook would name this skill for a phrase its own SKILL.md does not claim.\n' +
     'Either restore the wording, or drop the trigger in the umbrella FIRST — the member\n' +
     'releases before the umbrella re-pins, so the umbrella cannot be the one to notice.'
   );

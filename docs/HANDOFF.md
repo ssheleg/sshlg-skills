@@ -39,11 +39,15 @@ description trims of sheleg-dev, telegram-dev, xr-dev, web3d-dev, super-ux, shel
 seo-aeo-audit and agent-stack; outside the family, switchboard (10 s start), observatory
 (Stop-hook noise) and fabric-agent-adapter (start notes).
 
-**Exact next bounded task:** pin every member released by this run in one hub release
-(`skills.json`, submodule pointers, README table), lower `description-total` to the measured
-sum, change the triggers fixture to look for each hub trigger in the member's whole `SKILL.md`
-(descriptions moved trigger lists into the body), then `npx --yes sshlg-skills@latest update`
-and read the listing back.
+**1.71.0:** pins ten re-trimmed members (agent-sync 1.23.0 among them); the family's
+descriptions fell from 32,495 to 17,601 characters. Released outside the family by this run:
+switchboard 0.6.54 (start hook bounded, 3 s timeout), fabric-agent-adapter 0.38.0 (start
+notes only where Fabric is used).
+
+**Exact next bounded task:** when task-pipeline releases its diet (proportional run,
+verifier tiers by risk, retro byte budget, new universal rules from the retro survey), pin it,
+lower the reserve ratchet and `description-total` to the measured values, release, run
+`npx --yes sshlg-skills@latest update`, then migrate the over-budget retro floors (B-237).
 
 **Previous entry, still open:** the 2026-10-19 feed review left B-230 to B-233 (per-project
 seeding: `/seo-aeo-audit brief` plus `/brand-init` in one tier-1 public site, then

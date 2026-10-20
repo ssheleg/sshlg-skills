@@ -1,3 +1,21 @@
+## v1.71.0 (2026-10-20): ten members re-trimmed, the listing fits again
+
+- **Pins:** make-skill 0.33.0 (a description is a router: target 400, warning above 500,
+  failure only above 1024), agent-sync 1.23.0 (SessionStart prints one line or nothing; the
+  guard waits at most 1.5 s for the lease remote), and the description trims of sheleg-dev
+  0.15.0, telegram-dev 0.4.0, xr-dev 0.4.0, web3d-dev 0.2.0, super-ux 0.63.0, sheleg-design
+  1.66.0, seo-aeo-audit 0.30.0 and agent-stack 0.30.0. Each moved the trigger phrases it cut
+  from a description, verbatim, into a "Triggers" section of the same SKILL.md.
+- **Family description total 32,495 to 17,601 characters** over 39 skills
+  (`description-total`). On the operator machine the skill listing had hit its 30,000 budget
+  and shown 81 of 134 skills as a bare name.
+- **The routing hook's words are checked against the whole SKILL.md**, not the description
+  (`test/triggers_test.js`, `test/advertised_check.js`): every one of the 11 members still
+  carries every routed trigger.
+- **The description reserve is measured against 500**, make-skill's new soft cap
+  (`test/validate.py`, `test/route_coverage.js`, `test/audit_bundle.py`); the ratchet stands
+  at 17 until task-pipeline's own trim lands.
+
 ## v1.70.1 (2026-10-20): context diet, quieter hooks, one source for operator rules
 
 **v1.70.0 is a burned tag and published nothing.** It was pushed onto `cb82183` (the 1.69.0
