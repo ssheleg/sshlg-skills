@@ -222,6 +222,17 @@ process.stdin.on('end', () => {
       }
     }
 
+    // 1b. A gate read through a pipe, chained into a commit, push or tag (hygiene.js #4).
+    const masked = command && hygiene.maskedGate(command);
+    if (masked) {
+      say('deny',
+        `\`${masked.gate} | ${masked.filter} … && git ${masked.git}\` runs git even when the gate failed: ` +
+        `a pipeline's exit status is its last command's, here \`${masked.filter}\`.\n` +
+        'Run the gate on its own and read its exit code before committing, or start the command ' +
+        'with `set -o pipefail;`.');
+      return process.exit(0);
+    }
+
     // 2. The config `setup` is about to truncate.
     if (command && hygiene.isObsidianSetup(command)) {
       try {

@@ -37,6 +37,15 @@ const CASES = [
   ['итерация релиза', 'task-pipeline'],
   ['what is a release iteration?', ''],
   ['что такое итерация релиза?', ''],
+  // 2026-10-20 hook audit: a reaction, a question or a read-only audit orders no change,
+  // so the delivery line ("this changes the repository") would be false.
+  ['спасибо, отличная фича', ''],
+  ['это фича или баг? просто интересно', ''],
+  ['посмотри, интеграция со Stripe работает?', ''],
+  ['внедрить или нет? дай совет', ''],
+  ['сделай аудит хуков, ничего не меняй', ''],
+  ['Read-only audit. Do not edit config', ''],
+  ['отлично, теперь сделай фичу логина', 'task-pipeline'],
   ['release iteration, no pipeline', ''],
   ['итерация релиза, без пайплайна', ''],
   // --- growth: funnels, activation, retention, paywalls -------------------

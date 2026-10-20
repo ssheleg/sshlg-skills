@@ -289,24 +289,38 @@ it('the protocol region itself carries no em dash', () => {
   assert.strictEqual(at, -1, `an em dash in the protocol: ${body.slice(Math.max(0, at - 40), at + 40)}`);
 });
 
-it('a 1.65.0 protocol with no rendered record is refreshed, not refused as a hand edit', () => {
-  // The three de-dashed lines are the pack's own words. Without the KNOWN lines the B-202
-  // guard reads them as the operator's and refuses the region, so `update` exits 1 on
-  // every machine whose block predates the rendered record.
+it('a 1.69.0 or 1.65.0 protocol with no rendered record is refreshed, not refused as a hand edit', () => {
+  // 1.70.1 compacted the protocol; 1.66.0 took three em dashes out of it. Those are the
+  // pack's own words. Without the KNOWN lines the B-202 guard reads them as the operator's
+  // and refuses the region, so `update` exits 1 on every machine with no rendered record.
   const fresh = write(EMPTY);
   const body = protocolBody(fresh);
-  const old = body
+  const v169 = '\n' + R.PROTOCOL_1_69 + '\n';
+  const v165 = v169
     .replace('search the WHOLE catalogue, which is', `search the WHOLE catalogue ${EM}`)
     .replace('**Print the plan before starting** (skills,', `**Print the plan before starting** ${EM} skills,`)
     .replace('purpose, order), then proceed', `purpose, order ${EM} then proceed`)
-    .replace('**The boundary: "the work', `**The boundary ${EM} "the work`)
-    .replace(/\n\n\*\*No em dash in text for people[\s\S]*$/, '\n');
-  assert.notStrictEqual(old, body, 'the fixture did not rebuild the old region');
-  assert.strictEqual(count(old, EM), 4, 'the fixture is not the 1.65.0 wording');
-  const before = fresh.replace(body, old);
-  const res = R.upsert(before, { 'task-pipeline': 'body' }, { members, rendered: {} });
-  assert.deepStrictEqual(res.kept, [], `the old packaged lines were kept as a hand edit: ${JSON.stringify(res.kept)}`);
-  assert.strictEqual(res.text, fresh, 'the refresh did not land the current protocol');
+    .replace('**The boundary: "the work', `**The boundary ${EM} "the work`);
+  assert.strictEqual(count(v165, EM), 4, 'the fixture is not the 1.65.0 wording');
+  for (const old of [v169, v165]) {
+    assert.notStrictEqual(old, body, 'the fixture did not rebuild the old region');
+    const res = R.upsert(fresh.replace(body, old), { 'task-pipeline': 'body' }, { members, rendered: {} });
+    assert.deepStrictEqual(res.kept, [], `the old packaged lines were kept as a hand edit: ${JSON.stringify(res.kept)}`);
+    assert.strictEqual(res.text, fresh, 'the refresh did not land the current protocol');
+  }
+});
+
+it('a 1.69.0 map (roster table and composition) with no rendered record is refreshed', () => {
+  const I = require('../lib/inventory.js');
+  const fresh = write(EMPTY);
+  const M_END = '<!-- SSHLG:ROUTERS:MAP:END -->';
+  const current = fresh.slice(fresh.indexOf(M_BEGIN), fresh.indexOf(M_END) + M_END.length);
+  const inner = current.slice(M_BEGIN.length, -M_END.length);
+  const old = `${M_BEGIN}\n${R.MAP_1_69.split('\n')[0]}\n\n${I.renderMap(members)}\n\n${R.MAP_1_69.split('\n').slice(1).join('\n')}${inner}${M_END}`;
+  const res = R.upsert(fresh.replace(current, old), { 'task-pipeline': 'body' }, { members, rendered: {} });
+  assert.deepStrictEqual(res.kept, [], `the old map was kept as a hand edit: ${JSON.stringify(res.kept)}`);
+  assert.strictEqual(res.text, fresh, 'the refresh did not land the compact map');
+  assert.ok(!/\| Member \|/.test(res.text) && !/Composition:/.test(res.text), 'the roster table survived the refresh');
 });
 
 it('a line the operator wrote inside the protocol is still kept (control)', () => {

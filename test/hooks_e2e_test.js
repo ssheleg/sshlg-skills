@@ -281,6 +281,8 @@ it('session start returns the pointer, and a title only where one lands', () => 
     { hook_event_name: 'SessionStart', source: 'compact', cwd: project });
   assert.ok(!('sessionTitle' in compacted.hookSpecificOutput),
     'a title was sent on `compact`, where the reference says it is ignored');
+  assert.ok(!/routing block/i.test(compacted.hookSpecificOutput.additionalContext || ''),
+    'the pointer was repeated on `compact`, where the global instructions are reloaded anyway');
 });
 
 it('the injectors line prints once per set and again only when the set changes (R02)', () => {

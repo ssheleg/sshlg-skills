@@ -50,11 +50,13 @@ const ROUTERS = block('SSHLG:ROUTERS', 'routing');
 const HANDOFF = block('SSHLG:REPOSITORY-HANDOFF', 'handoff');
 
 try {
-  t('admission: hub blocks keep their dedicated writers; REPOSITORY-HANDOFF stays undecided', () => {
+  t('admission: hub blocks keep their dedicated writers; REPOSITORY-HANDOFF is removal-only (B-174)', () => {
     assert.strictEqual(code(() => W.admit('SSHLG:ROUTERS', 'SSHLG')), 'DEDICATED_WRITER');
     assert.strictEqual(code(() => W.admit('SSHLG:ROUTER:fabric', 'SSHLG')), 'DEDICATED_WRITER');
     assert.strictEqual(code(() => W.admit('SSHLG:RULE:wait-is-not-a-stop', 'SSHLG')), 'DEDICATED_WRITER');
-    assert.strictEqual(code(() => W.admit('SSHLG:REPOSITORY-HANDOFF', 'SSHLG')), 'OPERATOR_DECISION_REQUIRED');
+    assert.strictEqual(code(() => W.admit('SSHLG:REPOSITORY-HANDOFF', 'SSHLG', 'install')), 'RETIRED');
+    assert.strictEqual(code(() => W.admit('SSHLG:REPOSITORY-HANDOFF', 'OPERATOR', 'uninstall')), 'RETIRED');
+    assert.strictEqual(W.admit('SSHLG:REPOSITORY-HANDOFF', 'SSHLG', 'uninstall'), 'SSHLG');
     assert.strictEqual(code(() => W.admit('SSHLG:NEW-THING', 'SSHLG')), 'RESERVED_PREFIX');
     assert.strictEqual(code(() => W.admit(ID, 'FABRIC')), 'OWNER_MISMATCH');
     assert.strictEqual(code(() => W.admit(ID)), 'OWNER_REQUIRED');
@@ -519,6 +521,47 @@ try {
     fs.writeFileSync(W.journalPath(f.home), lines.slice(0, 2).join('\n') + '\n'); // chain intact
     fs.unlinkSync(W.headPath(f.home));
     assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+  });
+
+  t('--agent all: one operation per installed host, absent hosts skipped, preview is the drift report', () => {
+    const f = fixture(PROSE + block(ID, 'notice v2') + '\n');
+    fs.mkdirSync(path.join(f.home, '.codex'));
+    fs.writeFileSync(path.join(f.home, '.codex', 'AGENTS.md'), PROSE);
+    const before = tree(f.home);
+    let said = '';
+    const status = W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'all', '--from', f.from, '--json'], { home: f.home, env: {} }, (x) => { said += x; });
+    assert.strictEqual(status, 0, said);
+    assert.deepStrictEqual(tree(f.home), before, 'a preview over every host wrote something');
+    const r = JSON.parse(said);
+    assert.strictEqual(r.schema, 'managed-blocks-operations/1');
+    const by = Object.fromEntries(r.results.map((x) => [x.agent, x]));
+    assert.strictEqual(by.claude.action, 'unchanged');
+    assert.strictEqual(by.codex.action, 'insert');
+    assert.strictEqual(by.gemini.state, 'SKIPPED');
+    assert.strictEqual(by.pi.state, 'SKIPPED');
+    said = '';
+    assert.strictEqual(W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'all', '--from', f.from, '--apply'], { home: f.home, env: {} }, (x) => { said += x; }), 0, said);
+    assert.strictEqual(fs.readFileSync(path.join(f.home, '.codex', 'AGENTS.md'), 'utf8'), PROSE + block(ID, 'notice v2') + '\n');
+    assert.ok(!fs.existsSync(path.join(f.home, '.gemini')), 'an absent host was created');
+  });
+
+  t('--agent all: a refusal on one host fails the whole command and is named', () => {
+    const f = fixture(PROSE);
+    fs.mkdirSync(path.join(f.home, '.codex'));
+    fs.writeFileSync(path.join(f.home, '.codex', 'AGENTS.md'), PROSE + `<!-- ${ID}:OPTOUT -->\n`);
+    let said = '';
+    assert.strictEqual(W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'all', '--from', f.from], { home: f.home, env: {} }, (x) => { said += x; }), 1);
+    assert.match(said, /== codex\nblocks install: refused .*OPTED_OUT/);
+    said = '';
+    assert.strictEqual(W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'cursor', '--from', f.from], { home: f.home, env: {} }, (x) => { said += x; }), 2);
+  });
+
+  t('the retired REPOSITORY-HANDOFF block is removed by its owner and never written', () => {
+    const f = fixture(PROSE + HANDOFF + '\n# after\n');
+    const p = W.plan(opts(f, { op: 'uninstall', id: 'SSHLG:REPOSITORY-HANDOFF', owner: 'SSHLG', from: undefined }));
+    W.execute(p, { home: f.home });
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), PROSE + '# after\n');
+    assert.strictEqual(code(() => W.plan(opts(f, { op: 'install', id: 'SSHLG:REPOSITORY-HANDOFF', owner: 'SSHLG' }))), 'RETIRED');
   });
 } finally { fs.rmSync(root, { recursive: true, force: true }); }
 console.log(`PASS: blockwriter — ${n} cases`);

@@ -127,6 +127,7 @@ const HOOK_DENY_SITES = {
   'hit.why': 'mcpsecrets.inspectTool — every registered tool above',
   '`\\`${bare.verb}': 'not a credential refusal: the bare skills CLI would shadow a plugin',
   '`${target} is an instruction file': 'not a credential refusal: a backup could not be taken',
+  '`\\`${masked.gate}': 'not a credential refusal: a gate read through a pipe would let git run on a red gate',
 };
 function hookDenySites() {
   const src = codeOf(fs.readFileSync(path.join(ROOT, 'hooks', 'pre-tool-use.js'), 'utf8'));

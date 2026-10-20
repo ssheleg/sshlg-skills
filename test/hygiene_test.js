@@ -279,6 +279,30 @@ it('restore is idempotent — running it twice is running it once', () => {
   assert.strictEqual(twice, once, 'the second restore changed the file again');
 });
 
+// --- #4: a gate read through a pipe and chained into git --------------------------
+it('a gate piped into a filter and chained into git is caught', () => {
+  for (const c of [
+    'npm test 2>&1 | tail -5 && git commit -am x',
+    'cargo test | grep -c ok && git push origin main',
+    'python3 test/validate.py | tail -3 && git add -A && git commit -m y',
+    'pytest -q | tail -1 && git tag -a v1 -m v1',
+    'bash scripts/release.sh | tail && git push --tags',
+  ]) assert.ok(H.maskedGate(c), `missed: ${c}`);
+  assert.deepStrictEqual(H.maskedGate('npm test | tail -5 && git push'), { gate: 'npm test', filter: 'tail', git: 'push' });
+});
+
+it('a handled pipeline, a gate with no git after it, and non-gates pass', () => {
+  for (const c of [
+    'set -o pipefail; npm test | tail -5 && git push',
+    'npm test | tail -5; echo "${PIPESTATUS[0]}"',
+    'npm test | tail -5',
+    'npm test && git push',
+    'git log --oneline | head -3 && git push',
+    'ls | head && git status',
+    "cat <<'EOF' > notes.md\nnpm test | tail && git push\nEOF",
+  ]) assert.strictEqual(H.maskedGate(c), null, `over-caught: ${c}`);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
