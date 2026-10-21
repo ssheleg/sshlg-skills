@@ -8,7 +8,24 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-21 multi-scope Claude repair (B-242, 1.72.1)
+## Current: 2026-10-21 pin task-pipeline 1.99.0 (1.73.0)
+
+**Objective:** task-pipeline released 1.99.0 (tag `v1.99.0` on `a33e00b`, release run
+[39624036615](https://github.com/ssheleg/task-pipeline/actions/runs/39624036615), npm
+`task-pipeline-skill@1.99.0`); `update` installs the hub pin, so the release reaches machines
+only through this pin (CONTRIBUTING: a member release lands in two places).
+
+**Done:** submodule `skills/task-pipeline` and `skills.json` at `a33e00b` / 1.99.0, the README
+row, `claude-plugin-pins.json` regenerated (`node scripts/sync-claude-pins.js --write`), the
+ctx-04.06 receipt re-emitted, package 1.73.0, B-245 filed (an orphaned `<pid>.tmp.<hex>` lease
+marker stopped the first `update` of the day; removing the dead pid's files let the second run
+verify).
+
+**Exact next bounded task:** after merge, tag `v1.73.0`, watch the release run, read back
+`npm view sshlg-skills version`, run `npx --yes sshlg-skills@latest update` and compare the
+installed task-pipeline payload with the 1.99.0 tag; then B-244 and B-237 as below.
+
+## Previous: 2026-10-21 multi-scope Claude repair (B-242, 1.72.1)
 
 **Objective (operator, 2026-10-21):** say what is done and what is left, confirm `main`, the
 repository pages and the site carry it, and bring installed skills up to the pins.

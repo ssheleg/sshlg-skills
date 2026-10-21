@@ -1,3 +1,12 @@
+## v1.73.0 (2026-10-21): task-pipeline 1.99.0, the lesson index fixes
+
+- **Pin: task-pipeline 1.99.0** (`a33e00b`). Release iteration 1, fix cycles 6 to 18 of its
+  PR #125: a lesson rebuild never removes or moves an origin on its own (`--prune-carried` is
+  the only way out), the project key is the repository, an index written by v1.95.0 is
+  re-keyed on positive evidence, and one memory id belongs to one project. Descriptions are
+  unchanged.
+- **Board:** B-245, an orphaned Claude lease-marker temp file stops `update`.
+
 ## v1.72.1 (2026-10-21): a member in user plus local scopes is upgraded (B-242)
 
 - **The Claude immutable repair moves every scope of a member in one transaction**

@@ -1063,8 +1063,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "53b322118d48c5cca42c73515a2a399943b188ef",
-      "version": "1.98.0",
+      "commit": "a33e00b13ac19a9483c57932fa64f2e8c92f0220",
+      "version": "1.99.0",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1072,7 +1072,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.98.0",
+        "version": "1.99.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1095,7 +1095,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "712a8bf0bb8b9309a7bab54e59564d4516715f06007f2a8557f24b7cf42f05c2",
+          "sha256": "3ae1ef1452559bbeafcdb109be84436c9bcb86ca6467d2466bb9aa1f86c5c1e4",
           "bytes": 1528
         },
         {
@@ -1295,8 +1295,8 @@
         },
         {
           "path": "skills/task-pipeline/pipeline.schema.json",
-          "sha256": "c48334fcc20bf73e9660870db299d4f4ea4c537a9f06800d681e6e0ff7245a3a",
-          "bytes": 20488
+          "sha256": "5de9f49a0e8e7bb2eae873853ac1dc6aeb60b5b98b476b6f5b5374b1bf617a6d",
+          "bytes": 20326
         },
         {
           "path": "skills/task-pipeline/references/acceptance.md",
@@ -1335,8 +1335,8 @@
         },
         {
           "path": "skills/task-pipeline/references/build.md",
-          "sha256": "eae704e0f2d6ddf7cca80ee6a7a3c1a123f2cdedd3ea48994a1df65f78250f83",
-          "bytes": 39315
+          "sha256": "f816d92d20445ee6f64a98ca4aa6c9449d893ad10129df24cae84ce3fbb397c6",
+          "bytes": 40224
         },
         {
           "path": "skills/task-pipeline/references/certification.md",
@@ -1350,8 +1350,8 @@
         },
         {
           "path": "skills/task-pipeline/references/continuity.md",
-          "sha256": "224ade56b7560b3365fc665b7018cefa9ea9d7f58b0b46cb4d3ba4134eb15f49",
-          "bytes": 29721
+          "sha256": "dc173bab641cb0ce24a71a7b97c188a0434a8312af54ae1e81112ce0269997d7",
+          "bytes": 30025
         },
         {
           "path": "skills/task-pipeline/references/conventions.md",
@@ -1405,8 +1405,8 @@
         },
         {
           "path": "skills/task-pipeline/references/iteration.md",
-          "sha256": "c6bdb1f0c6537185a0fb3855c2a01b358b3cb91df564f19a9a28731d6d9a5af8",
-          "bytes": 25116
+          "sha256": "43e19628b8a50cbc8b96a6f95bebf9f78a8214b280ee11cbfb35a5b745d4b00e",
+          "bytes": 36323
         },
         {
           "path": "skills/task-pipeline/references/knowledge-graph.md",
@@ -1465,8 +1465,8 @@
         },
         {
           "path": "skills/task-pipeline/references/retrospective.md",
-          "sha256": "98f7c681065604e347531075b0f711d03d21be0d004f486b1d0d58b9a8f95247",
-          "bytes": 37119
+          "sha256": "e22949e2708122473ba742969038a51125e824cf05de55f43100ed5c725c193d",
+          "bytes": 37170
         },
         {
           "path": "skills/task-pipeline/references/review.md",
@@ -1540,8 +1540,8 @@
         },
         {
           "path": "skills/task-pipeline/references/stages.md",
-          "sha256": "367dc50da058fada142ee8bf4b3036bf7f00c92d58700f547083656caea09622",
-          "bytes": 36835
+          "sha256": "f8f1d3d72c360f0a11855038253938ee1477550cfaf1f62d95028cc7d124c83f",
+          "bytes": 36657
         },
         {
           "path": "skills/task-pipeline/references/tdd.md",
@@ -1555,8 +1555,8 @@
         },
         {
           "path": "skills/task-pipeline/references/waves.md",
-          "sha256": "bb436d30ca6c773602f5a3d1cd4a8f9996b3ac6c89fc2797e7a16d484df1c117",
-          "bytes": 17799
+          "sha256": "05c565d0604efdb1cb924b1555d123372645c981163d0fd9d55bf7508b79495c",
+          "bytes": 17886
         },
         {
           "path": "skills/task-pipeline/references/work-graph.md",
@@ -1580,13 +1580,13 @@
         },
         {
           "path": "skills/task-pipeline/scripts/graph.py",
-          "sha256": "fa9f7c50284c2e813191a037306e80d3f89e7d50d78bc66fe118fecf7d7403c6",
-          "bytes": 114945
+          "sha256": "e2cfea9b06426012ae211dca4f7800a1778c2311732df62d0f287535f74c8544",
+          "bytes": 115059
         },
         {
           "path": "skills/task-pipeline/scripts/lessons.py",
-          "sha256": "9fbe0fcaa48d92f2c245d12cc58ec543a0a157d6a6c6fda620b081aff56c2348",
-          "bytes": 54613
+          "sha256": "12117287e919b3497b9d122680fafa5edb2eb0eefa89fd0b608d4a3ad2d44c1c",
+          "bytes": 119680
         },
         {
           "path": "skills/task-pipeline/scripts/packet.py",
@@ -1720,8 +1720,8 @@
         },
         {
           "path": "skills/task-pipeline/templates/lesson.schema.json",
-          "sha256": "0b4775cc75b7073ab5809de87c40a4d3340f868c0929fabd81443d9d4ee90571",
-          "bytes": 6959
+          "sha256": "de4226f0a59e03815725b1e0821665640a922632c49eea158e7db9bd08dfb757",
+          "bytes": 9697
         },
         {
           "path": "skills/task-pipeline/templates/open-questions.md",
