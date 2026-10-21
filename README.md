@@ -289,8 +289,12 @@ The selected agent list and shared-store effects still apply.
 hashes. The launcher prepares the full plan, uses owned catalogues with native
 `git-subdir.sha` sources, then checks installed scope, source and every payload file.
 Same-version repair is limited to supported user-scope, unconfigured plugins with
-a verified prior source; it keeps plugin data and restores disabled state. Other
-repair shapes are refused. Interrupted or uncertain execution leaves a recovery
+a verified prior source; it keeps plugin data and restores disabled state. A version
+update moves the user scope and every local (per-project) scope together: each local
+scope is updated inside its own project, every step is read back record by record,
+and a failure rolls the moved scopes back. A local record under an old path that
+resolves to another recorded project is left as recorded. Project and managed scopes
+and other repair shapes block that member, by name, and the run reports partial. Interrupted or uncertain execution leaves a recovery
 receipt and blocks blind retry. Native activation and task quality require their
 own observations even after installed bytes match.
 

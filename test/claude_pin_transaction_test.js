@@ -29,7 +29,7 @@ function fixture(box,profileRel='.claude') {
   fs.writeFileSync(sf,JSON.stringify(current,null,2));return {status:0,stdout:''};
  }
  function planCatalog(){return home+'/.sshlg-skills/claude-pinned/'+S.sha256(require('../lib/visibility-state').profilePath(profile)).slice(0,16)+'/fixture/.claude-plugin/marketplace.json';}
- return {box,home,profile,id,a,b,payload,sf,rf,m,row,inventory,opts,calls,envs,plan,runner,setHook:f=>hook=f,execute:()=>T.execute(plan(),[m],inventory,{runner})};
+ return {box,home,profile,id,a,b,payload,sf,rf,m,row,inventory,opts,calls,envs,plan,runner,planCatalog,setHook:f=>hook=f,execute:()=>T.execute(plan(),[m],inventory,{runner})};
 }
 test('same-version repair verifies exact payload and restores raw round-trip-safe numbers + disabled state',f=>{const r=f.execute();assert(r.ok,JSON.stringify(r));const s=fs.readFileSync(f.sf,'utf8');assert(s.includes('1000001.2500'));assert(s.includes('\r\n'));assert.equal(JSON.parse(s).enabledPlugins[f.id],false);assert.equal(f.plan().jobs[0].action,'verify');assert.equal(r.results[0].files,2);});
 test('failure after uninstall rolls back through native CLI and permits safe retry',f=>{let fail=true;f.setHook(a=>{if(fail&&a[1]==='install'){fail=false;return {status:1};}});const r=f.execute();assert.equal(r.ok,false);assert.equal(r.results[0].rollback,'verified-prior-payload');assert.equal(fs.readFileSync(f.payload+'/value.txt','utf8'),'first');assert(f.execute().ok);});
@@ -136,4 +136,69 @@ test('non-default profile: claude plugin children keep CLAUDE_CONFIG_DIR on that
  assert(f.envs.length>0);
  for(const env of f.envs){assert.equal(env.HOME,require('../lib/visibility-state').profilePath(f.home));assert.equal(env.CLAUDE_CONFIG_DIR,require('../lib/visibility-state').profilePath(f.profile));}
 },'.claude-work');
+// B-242: a member in the user scope plus local scopes. The simulator follows Claude Code
+// 2.1.299 as measured in a scratch HOME: `update --scope local` picks the record whose
+// projectPath is the physical cwd, and a cwd matching none moves the FIRST local record
+// and still exits 0. `wrongCwd` plants exactly that.
+function multi(f,{userAtPin=false,alias=false,failAt=null,wrongCwd=null,reorder=false}={}) {
+ const oldDir=f.profile+'/plugins/cache/fixture/probe/0.9.0',oldRaw=JSON.stringify({name:'probe',version:'0.9.0'});
+ fs.mkdirSync(oldDir+'/.claude-plugin',{recursive:true});fs.writeFileSync(oldDir+'/.claude-plugin/plugin.json',oldRaw);fs.writeFileSync(oldDir+'/value.txt','old');
+ const proj=n=>{const d=f.box+'/projects/'+n;fs.mkdirSync(d,{recursive:true});return fs.realpathSync(d);};
+ const a=proj('a'),b=proj('b');
+ const prior={version:'0.9.0',gitCommitSha:f.a,installPath:oldDir};
+ const pinned={version:'1.0.0',gitCommitSha:f.b,installPath:f.payload};
+ fs.writeFileSync(f.payload+'/value.txt','second');
+ const records=[{scope:'user',...(userAtPin?pinned:prior)},{scope:'local',projectPath:a,...prior},{scope:'local',projectPath:b,...prior}];
+ let link=null;if(alias){link=f.box+'/projects/a-renamed';fs.symlinkSync(a,link);records.push({scope:'local',projectPath:link,...prior});}
+ fs.writeFileSync(f.rf,JSON.stringify({version:2,plugins:{[f.id]:records}}));
+ const calls=[];let updates=0;
+ function runner(cmd,args,opts) {
+  if(args[0]==='--version')return {status:0,stdout:'2.1.299 (Claude Code)'};
+  calls.push({args,cwd:opts.cwd,pwd:opts.env.PWD});
+  if(args[1]==='update') {
+   updates++;if(failAt===updates)return {status:1};
+   const commit=JSON.parse(fs.readFileSync(f.planCatalog())).plugins[0].source.sha,to=commit===f.b?pinned:prior;
+   const reg=JSON.parse(fs.readFileSync(f.rf)),list=reg.plugins[f.id];
+   let i=args[4]==='user'?list.findIndex(r=>r.scope==='user'):list.findIndex(r=>r.scope==='local' && r.projectPath===fs.realpathSync(opts.cwd));
+   if(wrongCwd===updates || i<0) i=list.findIndex(r=>r.scope==='local');
+   list[i]={...list[i],...to};
+   // Claude 2.1.299 rewrote a neighbouring record's key order on save (measured).
+   if(reorder) reg.plugins[f.id]=list.map(r=>Object.fromEntries(Object.entries(r).reverse()));
+   fs.writeFileSync(f.rf,JSON.stringify(reg));
+  }
+  return {status:0,stdout:''};
+ }
+ return {a,b,link,calls,runner,regs:()=>JSON.parse(fs.readFileSync(f.rf)).plugins[f.id],execute:()=>T.execute(f.plan(),[f.m],f.inventory,{runner})};
+}
+test('B-242: user plus two local scopes move to the pin together, each local run in its own project',f=>{
+ const x=multi(f);assert.equal(f.plan().jobs[0].action,'update');const r=x.execute();assert(r.ok,JSON.stringify(r));
+ assert.deepEqual(x.regs().map(r=>[r.scope,r.version,r.gitCommitSha]),[['user','1.0.0',f.b],['local','1.0.0',f.b],['local','1.0.0',f.b]]);
+ const ups=x.calls.filter(c=>c.args[1]==='update');assert.deepEqual(ups.map(c=>c.args[4]),['user','local','local']);
+ assert.deepEqual(ups.slice(1).map(c=>[c.cwd,c.pwd]),[[x.a,x.a],[x.b,x.b]]);assert.notEqual(ups[0].cwd,x.a);
+ const again=f.plan();assert.equal(again.blocked.length,0);assert(['rebind','verify'].includes(again.jobs[0].action),again.jobs[0].action);
+});
+test('B-242: a rebind readback accepts records Claude re-saved in another key order, values unchanged',f=>{
+ fs.writeFileSync(f.payload+'/value.txt','second');
+ f.setHook(a=>{if(a[1]==='marketplace'){const reg=JSON.parse(fs.readFileSync(f.rf));reg.plugins[f.id]=reg.plugins[f.id].map(r=>Object.fromEntries(Object.entries(r).reverse()));fs.writeFileSync(f.rf,JSON.stringify(reg));return {status:0,stdout:''};}return null;});
+ assert.equal(f.plan().jobs[0].action,'rebind');const r=f.execute();assert(r.ok,JSON.stringify(r));
+});
+test('B-242: a neighbour record rewritten in another key order is the same record',f=>{
+ const x=multi(f,{reorder:true,alias:true});const r=x.execute();assert(r.ok,JSON.stringify(r));
+});
+test('B-242: a scope already at the pin is not touched; only the stale scopes update',f=>{
+ const x=multi(f,{userAtPin:true});const r=x.execute();assert(r.ok,JSON.stringify(r));
+ assert.deepEqual(x.calls.filter(c=>c.args[1]==='update').map(c=>c.args[4]),['local','local']);
+});
+test('B-242: a failure on the second local scope rolls every moved scope back to the prior install',f=>{
+ const x=multi(f,{failAt:3});const r=x.execute();assert.equal(r.ok,false);assert.equal(r.results[0].rollback,'verified-prior-payload',JSON.stringify(r));
+ assert.deepEqual(x.regs().map(r=>r.version),['0.9.0','0.9.0','0.9.0']);
+ const rp=JSON.parse(fs.readFileSync(path.join(path.dirname(r.receipt),'plan.json')));assert.deepEqual(rp.jobs[0].scopes.map(t=>t.projectPath),[null,x.a,x.b],'the recovery plan names every scope');
+});
+test('B-242: an exit-0 update that moved the wrong scope is caught by readback, not trusted',f=>{
+ const x=multi(f,{wrongCwd:3});const r=x.execute();assert.equal(r.ok,false);assert.match(r.error,/did not move exactly the local scope/);assert.equal(r.results[0].rollback,'verified-prior-payload');assert.deepEqual(x.regs().map(r=>r.version),['0.9.0','0.9.0','0.9.0']);
+});
+test('B-242: an aliased local path is left as recorded and read back unchanged',f=>{
+ const x=multi(f,{alias:true});const p=f.plan();assert.equal(p.jobs[0].aliases.length,1);const r=x.execute();assert(r.ok,JSON.stringify(r));
+ const al=x.regs().find(r=>r.projectPath===x.link);assert.equal(al.version,'0.9.0');assert.equal(x.calls.filter(c=>c.args[1]==='update').length,3);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);

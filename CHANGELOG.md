@@ -1,3 +1,33 @@
+## v1.72.1 (2026-10-21): a member in user plus local scopes is upgraded (B-242)
+
+- **The Claude immutable repair moves every scope of a member in one transaction**
+  (`lib/claude-pinned.js`, `lib/claude-pin-transaction.js`). A member installed in the user
+  scope and in local (per-project) scopes was blocked with "supports one user-scope install
+  only" on every version bump; on the operator machine telegram-dev, xr-dev and web3d-dev
+  stayed at 0.3.0, 0.3.4 and 0.1.4 after 1.71.0 pinned 0.4.0, 0.4.0 and 0.2.0. Each local
+  scope now runs `claude plugin update --scope local` inside its own project, and each step
+  is read back record by record: the target moved to the pin, every other record unchanged.
+  Measured on Claude Code 2.1.299 in a scratch HOME: a cwd that matches no record moves a
+  DIFFERENT local scope and still exits 0, so the exit code is not trusted. A failure rolls
+  every moved scope back to the prior install by a native update to the prior catalog.
+- **A local path recorded under a symlink** whose target is another recorded scope of the
+  same plugin (a renamed project) is left as recorded and read back unchanged; Claude
+  addresses local scopes by the physical path, so it never matches that record. A symlinked
+  or missing path with no such twin blocks the member and names the path.
+- **Still blocked, by name:** project and managed scopes, a same-version repair across
+  several scopes, and scopes that hold different prior installs.
+- **`update` no longer ends on "all green" when its result is partial.** The summary counted
+  only subprocesses; a blocked Claude member or a deferred Codex plugin left `ok` false
+  under a green line. It now prints `result PARTIAL` (`test/cli_config_test.js`).
+- **The plan line names the scopes** a job moves and any alias it leaves.
+- **Proved on the real CLI** (`test/claude_pin_native_probe.py`, opt-in): a user plus two
+  local scopes move to a new pin with both projects' `settings.local.json` untouched. That
+  probe found two things the simulator had not: Claude spells one payload directory as
+  `/var` and `/private/var` in different records, and it rewrites a neighbouring record's
+  key order when it saves. Installs compare by physical path and records by value.
+- **Board:** B-242 closed; B-243, the dead alias record Claude cannot address; B-244,
+  task-pipeline's retro migration reads no standing rows in this repository's retro.
+
 ## v1.72.0 (2026-10-20): task-pipeline 1.98.0, the proportional run
 
 - **Pin: task-pipeline 1.98.0.** A small change takes the short path by itself

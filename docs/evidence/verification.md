@@ -1,3 +1,14 @@
+## 2026-10-21: multi-scope Claude repair (B-242), branch `fix/b242-multiscope-repair`, 1.72.1
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| MSR-1 | a member in user plus local scopes is planned as one `update` job, each scope a target; project/managed scopes, same-version multi-scope repair, mixed priors and unaddressable paths block by name | `test/claude_pinned_test.js` (34 cases); the new cases failed on the 1.72.0 `lib/` (stash run) | 1.72.1 | a change to `prepare()` admission | 2026-10-21, branch tree |
+| MSR-2 | each local scope runs in its own project with PWD set; a wrong-scope exit-0 update is caught by readback; a mid-run failure rolls every moved scope back | `test/claude_pin_transaction_test.js` (39 cases; simulator follows the measured CLI) | 1.72.1 | a change to `execute()`, `verify()` or `readScope()` | 2026-10-21, branch tree |
+| MSR-3 | Claude Code 2.1.299 addresses a local scope by the physical cwd, downgrades through `update`, leaves `settings.local.json` untouched, and on an unmatched cwd moves another local scope with exit 0 | scratch-HOME probe with a directory marketplace, two projects and a symlink (session transcript 2026-10-21) | 1.72.1 | a Claude Code release changing scope resolution | 2026-10-21, `claude --version` 2.1.299 |
+| MSR-6 | the real CLI moves a user plus two local scopes to a new pin through the transaction, with both projects' `settings.local.json` byte-identical; on that run Claude spelled one payload directory as `/var` and `/private/var` in different records and rewrote a neighbour record's key order, both now compared by value | `python3 test/claude_pin_native_probe.py` (opt-in, synthetic HOME and local Git): `multiScope:true, scopes:3`; the probe failed twice first, once on each of the two spellings; `test/claude_pin_transaction_test.js` reorder case red under an order-sensitive compare | 1.72.1 | a change to `prepare()` keys or `readScope()` | 2026-10-21, `claude --version` 2.1.299 |
+| MSR-4 | a partial `update` prints `result PARTIAL`, never "all green" | `test/cli_config_test.js` (25 checks); failed on the 1.72.0 `bin/` | 1.72.1 | a change to `reportProgress()` | 2026-10-21, branch tree |
+| MSR-5 | on this machine the dry-run plans telegram-dev (user + 7 local), xr-dev (user + 2 local) and web3d-dev (user + 1 local, one alias left) as `update`, none blocked | `node bin/sshlg-skills.js update --claude-only --dry-run` from the branch | 1.72.1 | a change to the installed registry | 2026-10-21, operator machine |
+
 ## 2026-10-19: `npx sshlg-skills enroll` (plan wave 5, R10), branch `feat/enroll`, unreleased
 
 Spec: [2026-10-19-enroll](specs/2026-10-19-enroll.md). Not released, not installed: a
@@ -91,7 +102,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**771** id'd requirement rows below, **641** read `verified` and none of them says which
+**777** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with

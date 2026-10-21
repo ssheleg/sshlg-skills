@@ -391,7 +391,7 @@ it('blocked Claude members make the update partial without stopping later channe
     fs.mkdirSync(path.join(home, '.claude', 'plugins'), { recursive: true });
     const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'skills.json'), 'utf8'));
     const plugins = {};
-    for (const m of manifest.skills) plugins[m.pluginInstall] = [{ scope: 'project', projectPath: '/x', version: m.version, gitCommitSha: m.commit, installPath: path.join(home, '.claude', 'plugins', 'cache', 'x', m.name, m.version) }];
+    for (const [i, m] of manifest.skills.entries()) plugins[m.pluginInstall] = [{ scope: i % 2 ? 'project' : 'local', ...(i % 2 ? { projectPath: '/x' } : {}), version: m.version, gitCommitSha: m.commit, installPath: path.join(home, '.claude', 'plugins', 'cache', 'x', m.name, m.version) }];
     fs.writeFileSync(path.join(home, '.claude', 'plugins', 'installed_plugins.json'), JSON.stringify({ version: 2, plugins }));
     fs.writeFileSync(path.join(home, '.claude', 'settings.json'), '{}\n');
     const r = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: path.join(home, '.claude') }) });
@@ -399,6 +399,9 @@ it('blocked Claude members make the update partial without stopping later channe
     assert.strictEqual(r.status, 1, out);
     assert.match(out, /blocked, left as installed/);
     assert.match(out, /== Refreshing the routing block ==/, 'a blocked member stopped the later channels');
+    // B-242: a partial run never ends on the green summary line (retro #8).
+    assert.doesNotMatch(out, /all green/, 'a partial update printed the green summary');
+    assert.match(out, /result PARTIAL/);
   } finally { fs.rmSync(home, { recursive: true, force: true }); }
 });
 
