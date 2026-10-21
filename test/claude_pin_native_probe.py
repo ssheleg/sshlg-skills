@@ -66,7 +66,17 @@ const newer={...m,version:'2.0.0',commit:c},newInventory=S.generate([newer],box)
 let settings2=JSON.parse(fs.readFileSync(profile2+'/settings.json'));settings2.enabledPlugins[id]=false;fs.writeFileSync(profile2+'/settings.json',JSON.stringify(settings2));
 const upgrade=T.execute(P.prepare([newer],newInventory,opts2),[newer],newInventory);assert(upgrade.ok,JSON.stringify(upgrade));assert.equal(upgrade.results[0].action,'update');
 const downgrade=T.execute(P.prepare([m],inventory,opts2),[m],inventory);assert(downgrade.ok,JSON.stringify(downgrade));assert.equal(downgrade.results[0].action,'update');assert.equal(JSON.parse(fs.readFileSync(profile2+'/settings.json')).enabledPlugins[id],false);
-console.log(JSON.stringify({native:spawnSync('claude',['--version'],{encoding:'utf8'}).stdout.trim(),fresh:fresh.ok,upgrade:upgrade.ok,downgrade:downgrade.ok,rollback:failed.results[0].rollback,repaired:repaired.ok,verified:verified.ok,enabled:false,dataPreserved:true,files:repaired.results[0].files}));
+// B-242: user plus two local scopes move together through the real CLI, each local run in
+// its own project, and the projects' settings.local.json stay byte for byte as they were.
+const env2={...process.env,HOME:home2};delete env2.CLAUDE_CONFIG_DIR;
+const projs=['pa','pb'].map(n=>{const d=box+'/projects/'+n;fs.mkdirSync(d,{recursive:true});return fs.realpathSync(d);});
+for(const d of projs){const r=spawnSync('claude',['plugin','install',id,'--scope','local'],{cwd:d,env:{...env2,PWD:d},encoding:'utf8',timeout:180000});assert.equal(r.status,0,r.stdout+r.stderr);}
+const localHash=()=>projs.map(d=>S.sha256(fs.readFileSync(d+'/.claude/settings.local.json','utf8')));const localBefore=localHash();
+const scoped=P.prepare([newer],newInventory,opts2);assert(scoped.jobs.length,JSON.stringify({blocked:scoped.blocked,recs:JSON.parse(fs.readFileSync(profile2+'/plugins/installed_plugins.json')).plugins[id]}));assert.deepEqual(scoped.jobs[0].targets.map(t=>t.scope),['user','local','local'],JSON.stringify(scoped.blocked));
+const multi=T.execute(scoped,[newer],newInventory);assert(multi.ok,JSON.stringify(multi));
+const recs=JSON.parse(fs.readFileSync(profile2+'/plugins/installed_plugins.json')).plugins[id];
+assert.equal(recs.length,3);assert(recs.every(r=>r.version==='2.0.0' && r.gitCommitSha===c),JSON.stringify(recs));assert.deepEqual(localHash(),localBefore);
+console.log(JSON.stringify({native:spawnSync('claude',['--version'],{encoding:'utf8'}).stdout.trim(),fresh:fresh.ok,upgrade:upgrade.ok,downgrade:downgrade.ok,rollback:failed.results[0].rollback,repaired:repaired.ok,verified:verified.ok,enabled:false,dataPreserved:true,files:repaired.results[0].files,multiScope:multi.ok,scopes:recs.length}));
 ''')
     print(run(['node',str(script),str(ROOT),str(box),a,b,c],box),flush=True)
 finally:

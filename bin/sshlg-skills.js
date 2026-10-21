@@ -99,8 +99,16 @@ function run(cmd, args, opts) {
  * always "how do I retry just that", and answering it here is cheaper than answering it
  * in a document nobody has open at minute fifteen.
  */
-function reportProgress() {
+function reportProgress(ok = true) {
+  if (!progress.total && !ok) { log('\n== result PARTIAL: a section above names what did not complete =='); return; }
   if (!progress.total) return;
+  // B-242: the counter sees only subprocesses. A step that runs in process (the Claude
+  // pin transaction, Codex, domains) reports through `ok`, so a partial run never ends
+  // on a green line (retro #8: a wrapper's status is not the verdict).
+  if (!progress.failed.length && !ok) {
+    log(`\n== ${progress.done} of ${progress.total} steps ran; result PARTIAL: a section above names what did not complete ==`);
+    return;
+  }
   if (!progress.failed.length) {
     log(`\n== ${progress.done} of ${progress.total} steps, all green ==`);
     return;
@@ -399,6 +407,14 @@ function planInstall(f) {
   return withClaudePlan(steps, f);
 }
 
+// B-242: which scopes a native job moves, and which aliased local paths it leaves.
+function scopesNote(j) {
+  const t = j.targets || [], local = t.filter(x => x.scope === 'local');
+  if (!local.length && !(j.aliases || []).length) return '';
+  const moving = t.filter(x => !x.exact).length;
+  return `; scopes: ${t.some(x => x.scope === 'user') ? 'user + ' : ''}${local.length} local, ${moving} to move`
+    + ((j.aliases || []).length ? `; left as recorded: ${j.aliases.map(a => `${a.projectPath} (alias of ${a.real})`).join(', ')}` : '');
+}
 // Private snapshots contain settings values and never enter printable effects.
 const claudePlans = new WeakMap();
 const frozenOperations = new WeakMap();
@@ -411,7 +427,7 @@ function withClaudePlan(steps, f) {
     steps.unshift(opres.step('claude-pins', 'home',
       'native immutable source transaction; protected catalogs/settings, scoped repair, rollback on failure, payload readback',
       { fingerprint: native.fingerprint, profile: native.profile,
-        members: native.jobs.filter(j => j.action !== 'rebind').map(j => `${j.pluginInstall}: ${j.action} @ ${j.row.commit}; ${j.row.files.length} files`)
+        members: native.jobs.filter(j => j.action !== 'rebind').map(j => `${j.pluginInstall}: ${j.action} @ ${j.row.commit}; ${j.row.files.length} files${scopesNote(j)}`)
           .concat(native.equivalent.map(e => `${e.pluginInstall}: payload-equivalent (installed ${String(e.installed).slice(0, 7)}, pin ${e.pin.slice(0, 7)}; ${e.files} files equal) — source rebind, no reinstall`))
           .concat(native.blocked.map(b => `${b.pluginInstall}: blocked, left as installed — ${b.reason}`)),
         journal: path.join(native.transactionRoot, 'latest.json') }));
@@ -705,7 +721,7 @@ function cmdUpdate(f) {
 
   printUpdateModel('update');
 
-  reportProgress();
+  reportProgress(ok);
   sourceContract(planned);
   return ok;
 }

@@ -8,7 +8,33 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-20 context diet (CONTEXT-DIET-1020)
+## Current: 2026-10-21 multi-scope Claude repair (B-242, 1.72.1)
+
+**Objective (operator, 2026-10-21):** say what is done and what is left, confirm `main`, the
+repository pages and the site carry it, and bring installed skills up to the pins.
+
+**State found:** `main` at `2619be84` (v1.72.0) equals npm `sshlg-skills@1.72.0`; the
+`pages` run for that commit succeeded and skills.sshlg.me was last modified 2026-10-20 08:45
+GMT; all 11 member pins equal each member's latest GitHub release. Installed on this machine:
+8 members at their pins, telegram-dev 0.3.0, xr-dev 0.3.4 and web3d-dev 0.1.4 stuck (B-242),
+while `npx sshlg-skills@latest update` printed "11 of 11 steps, all green".
+
+**Done (1.72.1):** the native repair moves a member's user and local scopes in one
+transaction, reads each step back and rolls moved scopes back on failure; the update summary
+prints `result PARTIAL` instead of "all green" when anything was left. See
+[CHANGELOG](../CHANGELOG.md) v1.72.1 and the [verification rows](evidence/verification.md).
+
+**Exact next bounded task:** after the 1.72.1 release, run `npx --yes sshlg-skills@latest
+update` and read back `~/.claude/plugins/installed_plugins.json`: every telegram-dev, xr-dev
+and web3d-dev scope at 0.4.0, 0.4.0 and 0.2.0, the one alias record of web3d-dev unchanged
+(B-243). Then B-244 in task-pipeline (its retro migration reads no standing rows here, so
+this repository's 103,737-byte floor cannot meet the 12,000 budget), then B-237.
+
+**Still open from earlier entries:** B-230 to B-233 (per-project seeding from the 2026-10-19
+feed review); Codex keeps 9 family plugins deferred at older catalog versions
+(`DEFERRED_ACTIVE_GENERATION_SAFETY`, receipt under `~/.sshlg-skills/codex-deferred/`).
+
+## Previous: 2026-10-20 context diet (CONTEXT-DIET-1020)
 
 **Objective (operator, 2026-10-20):** audit every skill, hook, routing block and instruction
 file for token cost and loops; cut what is duplicated or loaded without need; fold the
@@ -48,7 +74,7 @@ notes only where Fabric is used).
 risk, retro byte budget). Outside the family the run also released Observatory Log 0.26.0
 (Stop hook counts only this turn's tracked changes; passioncode 0.2.16 pins it).
 
-**Exact next bounded task:** B-242: make the Claude immutable repair upgrade a member in
+**Next task it named:** B-242 (closed by 1.72.1 above): make the Claude immutable repair upgrade a member in
 every scope it is installed in (telegram-dev, xr-dev and web3d-dev are stuck at their old
 versions on this machine); then B-237, migrate the over-budget retro floors in other
 repositories with `task-pipeline/scripts/retro_budget.py migrate --write`.
