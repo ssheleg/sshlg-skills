@@ -1,3 +1,10 @@
+## 2026-10-22: retro floor migration (B-244), branch `release/pin-tp-1991`, 1.73.1
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| RFM-1 | this repository's retro floor is within its 12,000-byte budget and every archive pointer is proved | `python3 <task-pipeline 1.99.1>/scripts/retro_budget.py check --retro docs/evidence/retro.md` exit 0 (6,621 bytes); `verify` exit 0 | 1.73.1 | the next stamp or standing edit | 2026-10-22, branch tree |
+| RFM-2 | the migration lost no floor line and left the text outside the floor unchanged | a comparison of the 103,737-byte original against the new retro plus `docs/evidence/retro/2026-Q4.md`: 0 of 347 non-blank floor lines missing, the three outside regions identical; three migrate runs byte-identical | 1.73.1 | an edit to the archive | 2026-10-22, scratch copy of `origin/main` |
+
 ## 2026-10-21: multi-scope Claude repair (B-242), branch `fix/b242-multiscope-repair`, 1.72.1
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -103,7 +110,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**778** id'd requirement rows below, **642** read `verified` and none of them says which
+**780** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
