@@ -24,11 +24,19 @@ transaction, reads each step back and rolls moved scopes back on failure; the up
 prints `result PARTIAL` instead of "all green" when anything was left. See
 [CHANGELOG](../CHANGELOG.md) v1.72.1 and the [verification rows](evidence/verification.md).
 
-**Exact next bounded task:** after the 1.72.1 release, run `npx --yes sshlg-skills@latest
-update` and read back `~/.claude/plugins/installed_plugins.json`: every telegram-dev, xr-dev
-and web3d-dev scope at 0.4.0, 0.4.0 and 0.2.0, the one alias record of web3d-dev unchanged
-(B-243). Then B-244 in task-pipeline (its retro migration reads no standing rows here, so
-this repository's 103,737-byte floor cannot meet the 12,000 budget), then B-237.
+**Released and installed (2026-10-21):** PR #249 merged as `4acc48a7`, tag `v1.72.1`; the
+`release` run 39622112526 (validate, release, publish) and the `pages` run 39622061783
+succeeded on that commit; `npm view sshlg-skills version` reads 1.72.1. On this machine
+`npx --yes sshlg-skills@latest update` verified telegram-dev, xr-dev and web3d-dev and ended
+`result PARTIAL` (exit 1) because Codex still defers 9 plugins. Readback of
+`~/.claude/plugins/installed_plugins.json` against `claude-plugin-pins.json`: every scope of
+every member at its pin (telegram-dev 8/8, xr-dev 3/3), except web3d-dev's alias record under
+`~/DATA/heygen-hyperframes-vr`, left at 0.1.4 as designed (B-243). Two more
+`update --claude-only` runs left the registry, catalogue list and settings hashes unchanged.
+A session reload loads the new descriptions.
+
+**Exact next bounded task:** B-244 in task-pipeline (its retro migration reads no standing
+rows here, so this repository's 103,737-byte floor cannot meet the 12,000 budget), then B-237.
 
 **Still open from earlier entries:** B-230 to B-233 (per-project seeding from the 2026-10-19
 feed review); Codex keeps 9 family plugins deferred at older catalog versions
