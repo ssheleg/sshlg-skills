@@ -1,3 +1,9 @@
+## 2026-10-23: a long token is not a placeholder by accident (B-250), branch `m3/plan-and-wave1`, unreleased
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| LPW-1 | a bearer token of 100 characters or more is reported even when random base64 spells a placeholder word or a short ascending run inside it; a delimited word (`.REDACTED`) or a run of 10 still reads as an example | `test/labelled_secrets_test.js` (219 checks; ten word cases red on 1.74.2's `lib/`); a measurement of 100,000 random 600-character and 30,000 1,500-character JWTs: 0 missed (36 of 20,000 before) | unreleased | a change to `isPlaceholder()`, `PLACEHOLDER_WORD` or `ascendingLimit()` | 2026-10-23, branch tree |
+
 ## 2026-10-22: an unread Codex is not green (B-252), branch `fix/codex-unread-not-green`, 1.74.2
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -130,7 +136,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**785** id'd requirement rows below, **642** read `verified` and none of them says which
+**786** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with

@@ -1,3 +1,12 @@
+## Unreleased
+
+- **B-250 closed:** the labelled-secret detector no longer drops a long token that happens to
+  spell a placeholder word. From 100 characters a word (`dummy`, `fake`, `xxxx`, ...) counts only
+  with a boundary on both sides, and an ascending run must reach 10; shorter values keep the old
+  rules. 36 of 20,000 random 600-character JWTs were missed before, 0 of 130,000 after.
+- **Plan:** `docs/runs/2026-10-23-milestone-m3.md`, gates that cannot lie, with the operator's
+  decisions of 2026-10-22 (B-247 closed by decision; B-248, B-180, B-249 scheduled).
+
 ## v1.74.2 (2026-10-22): an unread Codex is not a green step
 
 - **B-252 closed:** the 1.74.1 `update` printed "11 of 11 steps, all green" beside "not read:

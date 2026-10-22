@@ -671,6 +671,44 @@ it('whereOf names the file for Read and the path for Grep', () => {
   assert.deepStrictEqual(L.whereOf({}), { tool: 'a tool', where: '' });
 });
 
+// ── B-250 (2026-10-23): a long token that happens to spell a placeholder word ──────────
+// 36 of 20,000 random 600-character JWTs were dropped because base64 spelled `duMMY` or
+// another word inside them. From 100 characters a word counts only after a separator.
+const PH_WORDS = ['redacted', 'placeholder', 'example', 'changeme', 'dummy', 'fake', 'sample', 'replace', 'todo', 'xxxx'];
+const mixed = (w) => w.split('').map((c, i) => (i % 2 ? c.toUpperCase() : c)).join('');
+for (const w of PH_WORDS) {
+  it(`B-250: a 600-character bearer token with "${mixed(w)}" inside a random run is reported`, () => {
+    const t = jwtOf(600);
+    const at = 300;
+    const planted = t.slice(0, at) + 'Q' + mixed(w) + 'Z' + t.slice(at + w.length + 2);
+    assert.strictEqual(planted.length, 600);
+    assert.deepStrictEqual(labels(L.scanLabelled(`Authorization: Bearer ${planted}`)), ['Authorization']);
+  });
+}
+it('B-250: a long value whose placeholder word follows a separator stays silent', () => {
+  const v = 'sk-live-' + 'REDACTED-'.repeat(12) + 'end2026';
+  assert.ok(v.length >= 100);
+  assert.deepStrictEqual(labels(L.scanLabelled(`API_KEY=${v}`)), []);
+  assert.deepStrictEqual(labels(L.scanLabelled(`Authorization: Bearer ${'a1B2c3D4'.repeat(12)}_example_${'z9Y8'.repeat(4)}`)), []);
+});
+it('B-250: a JWT whose signature was replaced by REDACTED stays silent', () => {
+  const t = jwtOf(600).split('.').slice(0, 2).join('.') + '.REDACTED';
+  assert.deepStrictEqual(labels(L.scanLabelled(`Authorization: Bearer ${t}`)), []);
+});
+it('B-250: an ascending run of 7 inside a 600-character token is noise, of 10 an example', () => {
+  const t = jwtOf(600);
+  assert.deepStrictEqual(labels(L.scanLabelled(`Authorization: Bearer ${t.slice(0, 300)}qrstuvw${t.slice(307)}`)), ['Authorization']);
+  assert.deepStrictEqual(labels(L.scanLabelled(`Authorization: Bearer ${t.slice(0, 300)}0123456789${t.slice(310)}`)), []);
+});
+it('B-250: a short documented example key keeps the substring rule', () => {
+  assert.deepStrictEqual(labels(L.scanLabelled('AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY')), []);
+});
+it('B-250: 2,000 random 600-character bearer tokens are all reported', () => {
+  let missed = 0;
+  for (let i = 0; i < 2000; i += 1) if (!labels(L.scanLabelled(`Authorization: Bearer ${jwtOf(600)}`)).includes('Authorization')) missed += 1;
+  assert.strictEqual(missed, 0);
+});
+
 if (failures.length) {
   console.error(`labelled_secrets_test: ${failures.length}/${checks} failed`);
   for (const f of failures) console.error('  - ' + f);
