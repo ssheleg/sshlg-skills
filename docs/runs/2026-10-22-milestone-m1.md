@@ -55,6 +55,22 @@ merged work (E3).
 retro floor), B-245 (an orphaned lease marker stops `update`), and a recheck of B-210/B-188 now
 that Codex reports `0 deferred` (E5).
 
+## Exit checks, read 2026-10-22 (M1 is done)
+
+| # | Result | Evidence |
+|---|---|---|
+| E1 | green | `npx --yes sshlg-skills@latest update` on hub 1.74.2: exit 0, "11 of 11 steps, all green"; Claude native transaction verified for all 11 members in every scope; Codex "9 family plugin(s) ... 9 already at it ... 0 deferred ... overall current". Six Codex plugins were moved to their pins by hand first (no Codex process running; config backed up under `~/.sshlg-skills/backups/codex-manual-2026-10-22-1742/`), because the hub defers Codex version changes by design (B-188). |
+| E2 | green | each repository's HANDOFF names a next task not yet done: hub (this record's next task), task-pipeline B-152, super-ux none on its board (operator planning), sheleg-design B-052, seo-aeo-audit B-11, sheleg-dev B-98, agent-stack B-156, agent-sync its new HANDOFF, telegram-dev its FEED re-check, make-skill, web3d-dev and xr-dev board empty |
+| E3 | green | 210 remote branches deleted across the family (166 decided ones after a ref bundle backup in `~/.sshlg-skills/backups/branches-2026-10-22/`, then 44 whose merged PR had the same head); left: `codex/harness-acceptance-20261017` (B-249), task-pipeline's two fw07 branches (its B-150), and agent-stack `fix/restart-boundaries-1013`, which has an open pull request |
+| E4 | green | the term list over open rows of the public boards returns nothing after the neutral-row changes in this hub, agent-stack (#62) and seo-aeo-audit (#47) |
+| E5 | green | B-246 released in task-pipeline 1.101.0 (its B-151), B-245 in 1.74.0, B-210 re-measured and closed; found on the way and closed with tests: B-251 (1.74.1, a git worktree's local scope), B-252 (1.74.2, an unread Codex called green) |
+
+**Budget used:** three waves as planned, at most two sub-agents at once. Releases per repository
+exceeded one per wave twice, both forced by the install readback (hub 1.74.1 and 1.74.2); task-pipeline
+1.101.0 took three tagged-gate attempts (a disk stop, a race in `lessons_test` H1 fixed in its #144).
+M2 ran beside M1 in its own repositories and is complete: super-ux 0.65.0 and 0.66.0, sheleg-dev
+0.16.0, task-pipeline 1.101.0 (G8, R2, R3); G7's audit half was already in seo-aeo-audit.
+
 ## After M1
 
 Re-prioritise the remaining rows (hub, task-pipeline and sheleg-design hold most of them) with
