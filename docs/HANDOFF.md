@@ -26,8 +26,8 @@ pinned here; B-245 fixed here; every HANDOFF names a live next task, and agent-s
 (B-249 here); merged worktrees removed; private project names out of open board rows. G7's
 audit half was already in seo-aeo-audit, so no release was owed there.
 
-**Open:** B-188 (Codex payload retention boundary) stays open; B-210 is re-read on this
-release's install. Operator decisions waiting: B-29, B-146, B-180, B-247, B-248, B-249, and
+**Open:** B-188 (Codex payload retention boundary) stays open; B-210 was re-measured on the
+1.74.2 install and closed. Operator decisions waiting: B-29, B-146, B-180, B-247, B-248, B-249, and
 sheleg-design B-004.
 
 **1.74.1 (same day):** the 1.74.0 install failed xr-dev on a linked git worktree's local scope
@@ -36,10 +36,12 @@ sheleg-design B-004.
 **1.74.2 (same day):** the 1.74.1 install verified every Claude scope but called an unread
 Codex green (B-252, closed): a Codex read now has 120 s and an unread one makes the run PARTIAL.
 
-**Exact next bounded task:** after merge, tag `v1.74.2`, watch the release, `npx --yes
-sshlg-skills@latest update`, read the install back (Claude every scope, Codex `overall
-current`) and record M1's exit checks in the M1 plan; then re-prioritise the board with the
-operator.
+**M1 is done** (exit checks E1 to E5 green, read 2026-10-22, recorded in the
+[M1 plan](runs/2026-10-22-milestone-m1.md#exit-checks-read-2026-10-22-m1-is-done)); M2 is complete.
+
+**Exact next bounded task:** re-prioritise the open board rows (hub 49, task-pipeline, sheleg-design
+and seo-aeo-audit hold most of the rest) with the operator, take the operator decisions listed
+above, and plan the next milestone with its own exit checks.
 
 ## Previous: 2026-10-22 leak sweep and Codex catch-up (1.73.2)
 
