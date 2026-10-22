@@ -1,3 +1,15 @@
+## v1.74.1 (2026-10-22): a git worktree's local scope no longer fails the Claude update
+
+- **B-251 closed:** the 1.74.0 `update` on the operator machine failed xr-dev (and rolled it
+  back) because one of its local scopes was a linked git worktree. Claude Code 2.1.299 runs a
+  local-scope `update` from a worktree against its main repository's record and exits 0
+  (measured in a scratch HOME: "updated ... for scope local (<repo>)", the worktree's record
+  unchanged), so the transaction's readback saw the wrong record move. The planner
+  (`lib/claude-pinned.js`) now leaves a worktree's record as recorded beside a recorded main
+  repository, disclosed as `left as recorded: <worktree> (alias of <main>)`, and blocks the member
+  by name when the main repository has no record. A submodule checkout is unaffected.
+  `test/claude_pinned_test.js` 34 to 37 cases.
+
 ## v1.74.0 (2026-10-22): the design-review gate, subscription growth, milestones M1 and M2
 
 - **Pins:** task-pipeline 1.101.0 (1.100.0's design-review gate: the `design-tester` agent, a
