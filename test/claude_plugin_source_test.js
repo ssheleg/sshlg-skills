@@ -27,6 +27,14 @@ try {
  assert.equal(C.verifyPayload(plugin,row),2);
  fs.mkdirSync(path.join(plugin,'.in_use'));fs.writeFileSync(path.join(plugin,'.in_use/1234'),'runtime');assert.equal(C.verifyPayload(plugin,row),2);
  fs.writeFileSync(path.join(plugin,'.in_use/extra'),'bad');assert.throws(()=>C.verifyPayload(plugin,row),/lease-marker/);fs.unlinkSync(path.join(plugin,'.in_use/extra'));
+ // B-245: a Claude process that died while writing its marker leaves `<pid>.tmp.<hex>`.
+ // A dead writer's temp file is residue; a live writer's is a marker in flight and refuses.
+ const dead=spawnSync(process.execPath,['-e','']).pid;
+ fs.writeFileSync(path.join(plugin,`.in_use/${dead}.tmp.1a2b3c`),'');assert.equal(C.verifyPayload(plugin,row),2,'a dead writer\'s temp marker is residue');
+ fs.writeFileSync(path.join(plugin,`.in_use/${process.pid}.tmp.4d5e6f`),'');assert.throws(()=>C.verifyPayload(plugin,row),/lease marker in flight.*pid \d+/);fs.unlinkSync(path.join(plugin,`.in_use/${process.pid}.tmp.4d5e6f`));
+ fs.writeFileSync(path.join(plugin,`.in_use/${dead}.tmp.`),'');assert.throws(()=>C.verifyPayload(plugin,row),/lease-marker shape/,'a temp name without its suffix is not the writer\'s shape');fs.unlinkSync(path.join(plugin,`.in_use/${dead}.tmp.`));
+ fs.mkdirSync(path.join(plugin,`.in_use/${dead}.tmp.abc`+'d'));assert.throws(()=>C.verifyPayload(plugin,row),/lease-marker shape/,'a directory is never a marker');fs.rmdirSync(path.join(plugin,`.in_use/${dead}.tmp.abcd`));
+ fs.unlinkSync(path.join(plugin,`.in_use/${dead}.tmp.1a2b3c`));
  // Python bytecode caches written by running hooks are runtime artifacts, not payload.
  // A cache for a pinned source is ignored; an orphan or shadowing .pyc is not.
  fs.mkdirSync(path.join(plugin,'__pycache__'),{recursive:true});fs.writeFileSync(path.join(plugin,'__pycache__/payload.cpython-314.pyc'),'bytecode');
@@ -43,5 +51,5 @@ try {
  assert.throws(()=>C.validate({...inventory,members:[row,row]},[member]),/duplicate/);
  assert.throws(()=>C.generate([{...member,version:'2.0.0'}],box),/identity\/version/);
  const invalid=JSON.parse(JSON.stringify(inventory));invalid.members[0].files[0].path='../escape';assert.throws(()=>C.validate(invalid,[member]),/payload inventory/);
- console.log('PASS: Claude source generation/readback — 17 controls');
+ console.log('PASS: Claude source generation/readback — 21 controls');
 } finally {fs.rmSync(box,{recursive:true,force:true});}
