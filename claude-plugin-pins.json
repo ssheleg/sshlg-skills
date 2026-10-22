@@ -1063,8 +1063,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "a33e00b13ac19a9483c57932fa64f2e8c92f0220",
-      "version": "1.99.0",
+      "commit": "5974fb4b275f6b2fa4a7607074ab3c8dfaa114df",
+      "version": "1.99.1",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1072,7 +1072,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.99.0",
+        "version": "1.99.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1095,7 +1095,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "3ae1ef1452559bbeafcdb109be84436c9bcb86ca6467d2466bb9aa1f86c5c1e4",
+          "sha256": "7d021eeedb62ab1364f6959dc71fcec1322e3607b18a5d12e10ff51bfcfc8d5e",
           "bytes": 1528
         },
         {
@@ -1465,8 +1465,8 @@
         },
         {
           "path": "skills/task-pipeline/references/retrospective.md",
-          "sha256": "e22949e2708122473ba742969038a51125e824cf05de55f43100ed5c725c193d",
-          "bytes": 37170
+          "sha256": "944589dd10da7360db55fbda9ef4979ac85737de982cfe9c18e17ca45d11b11c",
+          "bytes": 37510
         },
         {
           "path": "skills/task-pipeline/references/review.md",
@@ -1600,8 +1600,8 @@
         },
         {
           "path": "skills/task-pipeline/scripts/retro_budget.py",
-          "sha256": "0ceaec6a7d041616293923a7b4b83bfca09fe778c6e88950a0893e40a4e80e6a",
-          "bytes": 11828
+          "sha256": "3496cdb0f4348d16593fc0eaa251d2242c197d0e15508a5f7398afea5719a512",
+          "bytes": 24076
         },
         {
           "path": "skills/task-pipeline/scripts/short_path.py",

@@ -8,7 +8,23 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-21 pin task-pipeline 1.99.0 (1.73.0)
+## Current: 2026-10-22 pin task-pipeline 1.99.1, retro floor migrated (B-244, 1.73.1)
+
+**Objective (operator, 2026-10-21):** finish the open units to the end: B-244, task-pipeline's
+retro migration could not read this repository's retro, so stage 10's byte budget could never pass.
+
+**Done:** task-pipeline 1.99.1 (PR ssheleg/task-pipeline#139, squash `5974fb4`, CI run
+39692469477 green; its B-149) reads a numbered-list floor and list stamps. This repository's
+retro migrated with it: 103,737 to 6,446 bytes, then 6,621 with this run's stamp (the first live
+rotation); `retro_budget.py verify` and `check` exit 0. Pin, `skills.json`, README row and
+`claude-plugin-pins.json` at 1.99.1; package 1.73.1. B-244 closed; B-246 filed.
+
+**Exact next bounded task:** after merge, tag `v1.73.1`, watch the release run, read back
+`npm view sshlg-skills version`, run `npx --yes sshlg-skills@latest update` and read back the
+installed task-pipeline 1.99.1; then B-246 in task-pipeline, then B-237 (other repositories'
+retro floors, now migratable).
+
+## Previous: 2026-10-21 pin task-pipeline 1.99.0 (1.73.0)
 
 **Objective:** task-pipeline released 1.99.0 (tag `v1.99.0` on `a33e00b`, release run
 [39624036615](https://github.com/ssheleg/task-pipeline/actions/runs/39624036615), npm

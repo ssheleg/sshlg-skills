@@ -1,3 +1,16 @@
+## v1.73.1 (2026-10-22): task-pipeline 1.99.1, the retro floor reads this repository's format
+
+- **Pin: task-pipeline 1.99.1** (`5974fb4`). `retro_budget.py` now measures a retro whose
+  standing instructions are a numbered list and whose run stamps are `- **date: title**` items
+  (it read this repository's 103,737-byte floor as `standing 0/10` and `migrate` moved nothing),
+  rotates stamps past the cap by date, keeps a long rule and its retire trigger, and moves loose
+  Run stamps prose only over budget (task-pipeline B-149).
+- **This repository's retro floor migrated** with that script: 103,737 to 6,446 bytes before
+  this run's stamp, 6,621 after it; every moved byte is verbatim in
+  `docs/evidence/retro/2026-Q4.md` behind a `sha256:` pointer that `retro_budget.py verify`
+  proves; no floor line lost, text outside the floor unchanged.
+- **Board:** B-244 closed; B-246, each rotation adds one pointer line to the floor.
+
 ## v1.73.0 (2026-10-21): task-pipeline 1.99.0, the lesson index fixes
 
 - **Pin: task-pipeline 1.99.0** (`a33e00b`). Release iteration 1, fix cycles 6 to 18 of its
