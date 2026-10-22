@@ -1,3 +1,10 @@
+## 2026-10-22: milestone M1 and M2 pins, branch `release/pin-1740-m1`, 1.74.0
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| LMK-1 | a `<pid>.tmp.<suffix>` lease marker left by a dead Claude process is residue, a live writer's refuses by pid, any other `.in_use` shape still refuses | `test/claude_plugin_source_test.js` (17 to 21 controls); red on 1.73.2's `lib/` with "unexpected native lease-marker shape" | 1.74.0 | a change to `snapshotPayload()` | 2026-10-22, branch tree |
+| BRC-1 | every remote branch the 2026-10-22 inventory decided was deleted only after its sha was found in a local ref bundle, with no open PR and a last commit older than 48 hours | the cleanup script's plan and apply output: 166 deleted, 0 failed; kept: `codex/harness-acceptance-20261017` (B-249), task-pipeline's two fw07 branches (its B-150) | 1.74.0 (record) | a bundle under `~/.sshlg-skills/backups/branches-2026-10-22/` removed | 2026-10-22, GitHub API |
+
 ## 2026-10-22: retro floor migration (B-244), branch `release/pin-tp-1991`, 1.73.1
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -110,7 +117,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**780** id'd requirement rows below, **642** read `verified` and none of them says which
+**782** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with

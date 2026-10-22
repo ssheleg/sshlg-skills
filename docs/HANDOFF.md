@@ -8,7 +8,34 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-22 leak sweep and Codex catch-up (1.73.2)
+## Current: 2026-10-22 milestones M1 and M2, the design-review gate (1.74.0)
+
+**Objective (operator, 2026-10-22):** a mandatory design-review agent in every pipeline (ten
+user portraits, Figma or mockups then the build, a browser the operator chose, load and window
+limits, everything it opened closed); agents that move in bounded, checkable iterations; then
+bring the family to a clean baseline (milestone M1) and strengthen the product, marketing and
+UI/UX skills from GP Bullhound's subscription report (milestone M2).
+
+**Plans and their limiters:** [M1](runs/2026-10-22-milestone-m1.md) (exit checks E1 to E5,
+three waves, two sub-agents at most) and [M2](runs/2026-10-22-m2-subscription-growth-plan.md)
+(gaps G1 to G10, rules R1 to R4, three waves).
+
+**Done:** task-pipeline 1.100.0 and 1.101.0, super-ux 0.64.0 to 0.66.0, sheleg-dev 0.16.0, all
+pinned here; B-245 fixed here; every HANDOFF names a live next task, and agent-sync has one;
+166 decided remote branches deleted after a ref bundle backup, three kept with board rows
+(B-249 here); merged worktrees removed; private project names out of open board rows. G7's
+audit half was already in seo-aeo-audit, so no release was owed there.
+
+**Open:** B-188 (Codex payload retention boundary) stays open; B-210 is re-read on this
+release's install. Operator decisions waiting: B-29, B-146, B-180, B-247, B-248, B-249, and
+sheleg-design B-004.
+
+**Exact next bounded task:** after merge, tag `v1.74.0`, watch the release, `npx --yes
+sshlg-skills@latest update`, read the install back (Claude every scope, Codex `overall
+current`) and record M1's exit checks in the M1 plan; then re-prioritise the board with the
+operator.
+
+## Previous: 2026-10-22 leak sweep and Codex catch-up (1.73.2)
 
 **Objective (operator, 2026-10-22):** no active Codex sessions should hold the family back,
 and no private project names may appear in the skills.

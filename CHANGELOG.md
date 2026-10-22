@@ -1,3 +1,23 @@
+## v1.74.0 (2026-10-22): the design-review gate, subscription growth, milestones M1 and M2
+
+- **Pins:** task-pipeline 1.101.0 (1.100.0's design-review gate: the `design-tester` agent, a
+  ten-portrait test panel walked over Figma or mockups and then the build, the tester's browser,
+  the machine-load guard, `run.finish.maxAgents`; 1.101.0's cancel parity on subscription
+  surfaces, locals and tourists on the panel, one retro rotation line per archive), super-ux
+  0.66.0 (0.64.0's test panel; 0.65.0 and 0.66.0: subscription economics with investor bands,
+  cohorts, BP-242 to BP-247, creator programs, LLM referrals as a channel, all from GP
+  Bullhound's *Consumer Subscription Software*, cited by page), sheleg-dev 0.16.0 (a pause in
+  place of cancellation, `pause_collection` against Stripe's Pause endpoint).
+- **B-245 closed:** `update` no longer stops on a Claude lease-marker temp file a dead process
+  left behind (`lib/claude-plugin-source.js`); a live writer's file still refuses, by pid.
+- **Plans:** `docs/runs/2026-10-22-milestone-m1.md` (a clean family baseline, with its exit
+  checks as the limiter) and `docs/runs/2026-10-22-m2-subscription-growth-plan.md`.
+- **Board:** B-225 closed (the 10-13 branches compared and superseded); B-249 keeps
+  `codex/harness-acceptance-20261017`, the one branch with work main lacks; private project names
+  neutralised in open rows. B-250: the labelled-secret detector drops a long token that happens to spell a
+  placeholder word (0.18% of random 600-character JWTs). The 2026-10-22 cleanup deleted 166 decided remote branches across the
+  family after a ref bundle backup.
+
 ## v1.73.2 (2026-10-22): no private project names in shipped skills
 
 - **Pins:** sheleg-dev 0.15.1, xr-dev 0.4.2, sheleg-design 1.66.2, agent-stack 0.30.2 and

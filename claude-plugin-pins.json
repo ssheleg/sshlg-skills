@@ -4,8 +4,8 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "d656a92a0bcfcca374c9a095a20993b8eed58bee",
-      "version": "0.63.0",
+      "commit": "13195c6402705cb656961fb04ca6d1f8c1df3fb0",
+      "version": "0.66.0",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
@@ -13,7 +13,7 @@
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
         "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ — product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.63.0",
+        "version": "0.66.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,7 +40,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "cf8050a7f7d18644093dabd29135cf563dbdf31f8620c04486365873bc4cbbea",
+          "sha256": "42fd5c31e30c9df462bc7588731d2aa0e91de38d9e79bd039a165b163df345f8",
           "bytes": 1196
         },
         {
@@ -150,8 +150,8 @@
         },
         {
           "path": "skills/brand-voice/references/channel-playbooks.md",
-          "sha256": "cf41e208f2dadaae26252a737f210293e3f5a472a6272102212c09f20d64fa93",
-          "bytes": 17505
+          "sha256": "784a4c341257dfea885de66345e9b7a642cd2e717101e0b442b59fc57189bb29",
+          "bytes": 20491
         },
         {
           "path": "skills/brand-voice/references/hooks.md",
@@ -260,8 +260,8 @@
         },
         {
           "path": "skills/copywriting/references/channel-playbooks.md",
-          "sha256": "cf41e208f2dadaae26252a737f210293e3f5a472a6272102212c09f20d64fa93",
-          "bytes": 17505
+          "sha256": "784a4c341257dfea885de66345e9b7a642cd2e717101e0b442b59fc57189bb29",
+          "bytes": 20491
         },
         {
           "path": "skills/copywriting/references/hooks.md",
@@ -325,8 +325,8 @@
         },
         {
           "path": "skills/copywriting/SKILL.md",
-          "sha256": "26b6dafb8be057566886cca45ea0a4dbcffcf61a143a3ad4d2dde2009731f87f",
-          "bytes": 14981
+          "sha256": "2de97bd4bf8e7dd538f4e61da81c41436cd8760e1de0789979f61d3b80f11bc3",
+          "bytes": 15079
         },
         {
           "path": "skills/copywriting/templates/brand/copy-brief.md",
@@ -345,13 +345,13 @@
         },
         {
           "path": "skills/references/best-practices-index.md",
-          "sha256": "1357ba24535297fe90c4e1b4c9319f4ed88ff0a045e93b0950e73b5270568cdc",
-          "bytes": 26124
+          "sha256": "8e02f1a308f429f81dcf09142245e115a1bf54f277ff16bf89e45f431452a93f",
+          "bytes": 26958
         },
         {
           "path": "skills/references/best-practices.md",
-          "sha256": "44d0f209d141368c7b36e408bff650b0239b3a97a50822f353ed254003012056",
-          "bytes": 177522
+          "sha256": "8268f29364dc134b2a5a58eeb7963b4a069cbddb7786db374bc1ef6ffc968df7",
+          "bytes": 188292
         },
         {
           "path": "skills/references/brand-contract.md",
@@ -365,8 +365,8 @@
         },
         {
           "path": "skills/references/channel-playbooks.md",
-          "sha256": "cf41e208f2dadaae26252a737f210293e3f5a472a6272102212c09f20d64fa93",
-          "bytes": 17505
+          "sha256": "784a4c341257dfea885de66345e9b7a642cd2e717101e0b442b59fc57189bb29",
+          "bytes": 20491
         },
         {
           "path": "skills/references/clickable-flow-prototypes.md",
@@ -395,8 +395,8 @@
         },
         {
           "path": "skills/references/funnel-research.md",
-          "sha256": "d04f6f45f077c33fd3c3806eed5e072c4ecdfcbc442bca660dcf4ace503ebfb6",
-          "bytes": 15330
+          "sha256": "55826a9ccc52787b9a169e1a1a37c0946d3d6696b68564599330e06b115e974e",
+          "bytes": 23665
         },
         {
           "path": "skills/references/hooks.md",
@@ -435,12 +435,12 @@
         },
         {
           "path": "skills/references/practice-selection.md",
-          "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270",
-          "bytes": 12067
+          "sha256": "6a84ce4aba2c401e6e98fbc2c36b9e20546b83730c9b30993ad4eb6c0d34b26f",
+          "bytes": 12775
         },
         {
           "path": "skills/references/product-frameworks.md",
-          "sha256": "cd343a5b127aad938ce606476a68e2744029c0a0cf21217d2464953f51c27c37",
+          "sha256": "2728dcea56880a7b2d62a0309a8e0f4a6e0e6b560af9629822237a28eb9355cf",
           "bytes": 14754
         },
         {
@@ -530,13 +530,13 @@
         },
         {
           "path": "skills/ux-audit/references/best-practices-index.md",
-          "sha256": "1357ba24535297fe90c4e1b4c9319f4ed88ff0a045e93b0950e73b5270568cdc",
-          "bytes": 26124
+          "sha256": "8e02f1a308f429f81dcf09142245e115a1bf54f277ff16bf89e45f431452a93f",
+          "bytes": 26958
         },
         {
           "path": "skills/ux-audit/references/best-practices.md",
-          "sha256": "44d0f209d141368c7b36e408bff650b0239b3a97a50822f353ed254003012056",
-          "bytes": 177522
+          "sha256": "8268f29364dc134b2a5a58eeb7963b4a069cbddb7786db374bc1ef6ffc968df7",
+          "bytes": 188292
         },
         {
           "path": "skills/ux-audit/references/brand-contract.md",
@@ -550,8 +550,8 @@
         },
         {
           "path": "skills/ux-audit/references/channel-playbooks.md",
-          "sha256": "cf41e208f2dadaae26252a737f210293e3f5a472a6272102212c09f20d64fa93",
-          "bytes": 17505
+          "sha256": "784a4c341257dfea885de66345e9b7a642cd2e717101e0b442b59fc57189bb29",
+          "bytes": 20491
         },
         {
           "path": "skills/ux-audit/references/component-guidelines.md",
@@ -585,8 +585,8 @@
         },
         {
           "path": "skills/ux-audit/references/practice-selection.md",
-          "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270",
-          "bytes": 12067
+          "sha256": "6a84ce4aba2c401e6e98fbc2c36b9e20546b83730c9b30993ad4eb6c0d34b26f",
+          "bytes": 12775
         },
         {
           "path": "skills/ux-audit/references/research-outliers.md",
@@ -650,13 +650,13 @@
         },
         {
           "path": "skills/ux-flows/references/best-practices-index.md",
-          "sha256": "1357ba24535297fe90c4e1b4c9319f4ed88ff0a045e93b0950e73b5270568cdc",
-          "bytes": 26124
+          "sha256": "8e02f1a308f429f81dcf09142245e115a1bf54f277ff16bf89e45f431452a93f",
+          "bytes": 26958
         },
         {
           "path": "skills/ux-flows/references/best-practices.md",
-          "sha256": "44d0f209d141368c7b36e408bff650b0239b3a97a50822f353ed254003012056",
-          "bytes": 177522
+          "sha256": "8268f29364dc134b2a5a58eeb7963b4a069cbddb7786db374bc1ef6ffc968df7",
+          "bytes": 188292
         },
         {
           "path": "skills/ux-flows/references/browser-engine.md",
@@ -690,8 +690,8 @@
         },
         {
           "path": "skills/ux-flows/references/funnel-research.md",
-          "sha256": "d04f6f45f077c33fd3c3806eed5e072c4ecdfcbc442bca660dcf4ace503ebfb6",
-          "bytes": 15330
+          "sha256": "55826a9ccc52787b9a169e1a1a37c0946d3d6696b68564599330e06b115e974e",
+          "bytes": 23665
         },
         {
           "path": "skills/ux-flows/references/interactive-flow-prototypes.md",
@@ -710,8 +710,8 @@
         },
         {
           "path": "skills/ux-flows/references/practice-selection.md",
-          "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270",
-          "bytes": 12067
+          "sha256": "6a84ce4aba2c401e6e98fbc2c36b9e20546b83730c9b30993ad4eb6c0d34b26f",
+          "bytes": 12775
         },
         {
           "path": "skills/ux-flows/references/prototype-walkthrough.md",
@@ -750,18 +750,18 @@
         },
         {
           "path": "skills/ux-flows/SKILL.md",
-          "sha256": "363c110b32e4479db435b6228a2000aef3a03ec6854fce3a2950d95d9fffc9c6",
-          "bytes": 20140
+          "sha256": "f31fb393601dd586b7a4b4b4bfdb8ed90c291efcb436f1ffe64af3bf97b5380f",
+          "bytes": 20474
         },
         {
           "path": "skills/ux-foundation/references/best-practices-index.md",
-          "sha256": "1357ba24535297fe90c4e1b4c9319f4ed88ff0a045e93b0950e73b5270568cdc",
-          "bytes": 26124
+          "sha256": "8e02f1a308f429f81dcf09142245e115a1bf54f277ff16bf89e45f431452a93f",
+          "bytes": 26958
         },
         {
           "path": "skills/ux-foundation/references/best-practices.md",
-          "sha256": "44d0f209d141368c7b36e408bff650b0239b3a97a50822f353ed254003012056",
-          "bytes": 177522
+          "sha256": "8268f29364dc134b2a5a58eeb7963b4a069cbddb7786db374bc1ef6ffc968df7",
+          "bytes": 188292
         },
         {
           "path": "skills/ux-foundation/references/browser-engine.md",
@@ -785,17 +785,17 @@
         },
         {
           "path": "skills/ux-foundation/references/funnel-research.md",
-          "sha256": "d04f6f45f077c33fd3c3806eed5e072c4ecdfcbc442bca660dcf4ace503ebfb6",
-          "bytes": 15330
+          "sha256": "55826a9ccc52787b9a169e1a1a37c0946d3d6696b68564599330e06b115e974e",
+          "bytes": 23665
         },
         {
           "path": "skills/ux-foundation/references/practice-selection.md",
-          "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270",
-          "bytes": 12067
+          "sha256": "6a84ce4aba2c401e6e98fbc2c36b9e20546b83730c9b30993ad4eb6c0d34b26f",
+          "bytes": 12775
         },
         {
           "path": "skills/ux-foundation/references/product-frameworks.md",
-          "sha256": "cd343a5b127aad938ce606476a68e2744029c0a0cf21217d2464953f51c27c37",
+          "sha256": "2728dcea56880a7b2d62a0309a8e0f4a6e0e6b560af9629822237a28eb9355cf",
           "bytes": 14754
         },
         {
@@ -830,8 +830,8 @@
         },
         {
           "path": "skills/ux-foundation/SKILL.md",
-          "sha256": "207bea1e115decb25a060dccd896b5bff882764fa73bc3d5a860336675561a44",
-          "bytes": 12500
+          "sha256": "db6e10b036ba87839d17dc846ec1d00bdae75b73d3ded1fb2cf2f34b10839595",
+          "bytes": 13842
         },
         {
           "path": "skills/ux-foundation/templates/foundation.md",
@@ -839,14 +839,19 @@
           "bytes": 3330
         },
         {
+          "path": "skills/ux-foundation/templates/test-panel.md",
+          "sha256": "59c8abf19040deecd6b6fbcb1d023a37cbbac6e8448969a28f7ebd824152835a",
+          "bytes": 2218
+        },
+        {
           "path": "skills/ux-scenarios/references/best-practices-index.md",
-          "sha256": "1357ba24535297fe90c4e1b4c9319f4ed88ff0a045e93b0950e73b5270568cdc",
-          "bytes": 26124
+          "sha256": "8e02f1a308f429f81dcf09142245e115a1bf54f277ff16bf89e45f431452a93f",
+          "bytes": 26958
         },
         {
           "path": "skills/ux-scenarios/references/best-practices.md",
-          "sha256": "44d0f209d141368c7b36e408bff650b0239b3a97a50822f353ed254003012056",
-          "bytes": 177522
+          "sha256": "8268f29364dc134b2a5a58eeb7963b4a069cbddb7786db374bc1ef6ffc968df7",
+          "bytes": 188292
         },
         {
           "path": "skills/ux-scenarios/references/component-guidelines.md",
@@ -870,8 +875,8 @@
         },
         {
           "path": "skills/ux-scenarios/references/practice-selection.md",
-          "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270",
-          "bytes": 12067
+          "sha256": "6a84ce4aba2c401e6e98fbc2c36b9e20546b83730c9b30993ad4eb6c0d34b26f",
+          "bytes": 12775
         },
         {
           "path": "skills/ux-scenarios/references/prototype-walkthrough.md",
@@ -915,13 +920,13 @@
         },
         {
           "path": "skills/vision/references/best-practices-index.md",
-          "sha256": "1357ba24535297fe90c4e1b4c9319f4ed88ff0a045e93b0950e73b5270568cdc",
-          "bytes": 26124
+          "sha256": "8e02f1a308f429f81dcf09142245e115a1bf54f277ff16bf89e45f431452a93f",
+          "bytes": 26958
         },
         {
           "path": "skills/vision/references/best-practices.md",
-          "sha256": "44d0f209d141368c7b36e408bff650b0239b3a97a50822f353ed254003012056",
-          "bytes": 177522
+          "sha256": "8268f29364dc134b2a5a58eeb7963b4a069cbddb7786db374bc1ef6ffc968df7",
+          "bytes": 188292
         },
         {
           "path": "skills/vision/references/component-guidelines.md",
@@ -940,8 +945,8 @@
         },
         {
           "path": "skills/vision/references/practice-selection.md",
-          "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270",
-          "bytes": 12067
+          "sha256": "6a84ce4aba2c401e6e98fbc2c36b9e20546b83730c9b30993ad4eb6c0d34b26f",
+          "bytes": 12775
         },
         {
           "path": "skills/vision/references/scenario-format.md",
@@ -1049,6 +1054,11 @@
           "bytes": 3855
         },
         {
+          "path": "templates/test-panel.md",
+          "sha256": "59c8abf19040deecd6b6fbcb1d023a37cbbac6e8448969a28f7ebd824152835a",
+          "bytes": 2218
+        },
+        {
           "path": "templates/vision-rule.md",
           "sha256": "b76ad91a18828b2bb084ae90a164f8fdca9695df807f2d33a695adf6483c8a55",
           "bytes": 839
@@ -1063,8 +1073,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "5974fb4b275f6b2fa4a7607074ab3c8dfaa114df",
-      "version": "1.99.1",
+      "commit": "8c0a06404faf381b029f1080e1d9324d3b8d5fb1",
+      "version": "1.101.0",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1072,7 +1082,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.99.1",
+        "version": "1.101.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1095,8 +1105,13 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "7d021eeedb62ab1364f6959dc71fcec1322e3607b18a5d12e10ff51bfcfc8d5e",
-          "bytes": 1528
+          "sha256": "85d2c7a14a0c6042d6b8575ef71e48476bac7bc4220a3a995a58bb841bceb046",
+          "bytes": 1529
+        },
+        {
+          "path": "agents/design-tester.md",
+          "sha256": "5df666ef7c48edcc45ffe4d9f95bde602ef691be57345572fb0dc1c45ebf39f8",
+          "bytes": 6517
         },
         {
           "path": "agents/verifier-product.md",
@@ -1295,8 +1310,8 @@
         },
         {
           "path": "skills/task-pipeline/pipeline.schema.json",
-          "sha256": "5de9f49a0e8e7bb2eae873853ac1dc6aeb60b5b98b476b6f5b5374b1bf617a6d",
-          "bytes": 20326
+          "sha256": "4a123f1f501184a45de225e3568d60de0510b50d9b9e91e703b46d3e8550a930",
+          "bytes": 22920
         },
         {
           "path": "skills/task-pipeline/references/acceptance.md",
@@ -1330,8 +1345,8 @@
         },
         {
           "path": "skills/task-pipeline/references/browser.md",
-          "sha256": "458b1e4601525019d94420e9e59e87af58152de3b89fdf170f5f55d6f3065652",
-          "bytes": 26298
+          "sha256": "48b3e36783cf505bbfca156cafe21f563083ccc4a702abd7f177ce86f2489baa",
+          "bytes": 28337
         },
         {
           "path": "skills/task-pipeline/references/build.md",
@@ -1369,9 +1384,14 @@
           "bytes": 9439
         },
         {
+          "path": "skills/task-pipeline/references/design-review.md",
+          "sha256": "5122b5563afe09f12a0ff89d868a4ba77eea818aebf9996643dbba4080e01603",
+          "bytes": 4430
+        },
+        {
           "path": "skills/task-pipeline/references/doctrine-map.md",
-          "sha256": "7a3d933f1bc0f01701d073cbc1af8168ad78e4891f62767c8d67b99402e88f6c",
-          "bytes": 5188
+          "sha256": "1928796d40bb9a9f4f2ec360063ad6d5101accbdb3755f62399beb90f5f9a880",
+          "bytes": 5350
         },
         {
           "path": "skills/task-pipeline/references/documentation.md",
@@ -1385,8 +1405,8 @@
         },
         {
           "path": "skills/task-pipeline/references/finish-line.md",
-          "sha256": "f44e710fcb5a7dc99a3cc7ea977c7942c4ce0f53b87969d6bd1f6807fffb8300",
-          "bytes": 7304
+          "sha256": "5a306bf1615b689db76b8236e390fa4f53a124ffbd3e193bbc2651408b779def",
+          "bytes": 7689
         },
         {
           "path": "skills/task-pipeline/references/gates.md",
@@ -1425,8 +1445,8 @@
         },
         {
           "path": "skills/task-pipeline/references/loop-guard.md",
-          "sha256": "f11c0e8974e6f938fcc8d9552e8801a0bd424309fa7857057e7046928572a3f2",
-          "bytes": 12455
+          "sha256": "bdd51956fcf14b319232a681fb189b1433596aeb94dc3d028b5bb62be1d9245b",
+          "bytes": 12799
         },
         {
           "path": "skills/task-pipeline/references/model-tiering.md",
@@ -1440,8 +1460,8 @@
         },
         {
           "path": "skills/task-pipeline/references/portability.md",
-          "sha256": "eebbe048ca37387810584d5b9ba5315386b4f4480bedc19e81562650cf8da370",
-          "bytes": 11929
+          "sha256": "e9c039c741b743ed3ee0d93459773210fa79daeae9f55e2136aa5ceb1f113d48",
+          "bytes": 12060
         },
         {
           "path": "skills/task-pipeline/references/prioritisation.md",
@@ -1465,8 +1485,8 @@
         },
         {
           "path": "skills/task-pipeline/references/retrospective.md",
-          "sha256": "944589dd10da7360db55fbda9ef4979ac85737de982cfe9c18e17ca45d11b11c",
-          "bytes": 37510
+          "sha256": "17ed4553e12902fe67b6dfc1e345864e77dc686a1fbfc7cc0bd026ae2b4ae974",
+          "bytes": 37823
         },
         {
           "path": "skills/task-pipeline/references/review.md",
@@ -1540,8 +1560,8 @@
         },
         {
           "path": "skills/task-pipeline/references/stages.md",
-          "sha256": "f8f1d3d72c360f0a11855038253938ee1477550cfaf1f62d95028cc7d124c83f",
-          "bytes": 36657
+          "sha256": "d45637faf55c26e1a9e2d25e2fa7fca6ead1153d6f9cab2d536e6bad9723aed1",
+          "bytes": 37900
         },
         {
           "path": "skills/task-pipeline/references/tdd.md",
@@ -1565,13 +1585,18 @@
         },
         {
           "path": "skills/task-pipeline/scripts/backlog_sources.py",
-          "sha256": "031da18c1a3b1095c44cb9b77d59088f67af5b9730d8e58bdd52bb4df99c2880",
-          "bytes": 11562
+          "sha256": "84fb72adf46cce68d6df02340e3f72d99c1bdd8d35019128a49157c22eb3fa92",
+          "bytes": 11525
         },
         {
           "path": "skills/task-pipeline/scripts/context_packets.py",
           "sha256": "a503328d788a29c2129507238bc39d36903af567676e14698006d7864428c473",
           "bytes": 29913
+        },
+        {
+          "path": "skills/task-pipeline/scripts/design_gate.py",
+          "sha256": "2429bc6272294ee1034420a4015886111941adef3a0f65de9df2d77b8e1cc07e",
+          "bytes": 21490
         },
         {
           "path": "skills/task-pipeline/scripts/execution_authority.py",
@@ -1580,7 +1605,7 @@
         },
         {
           "path": "skills/task-pipeline/scripts/graph.py",
-          "sha256": "e2cfea9b06426012ae211dca4f7800a1778c2311732df62d0f287535f74c8544",
+          "sha256": "a0d6c501ef4bf17b0f93b66e828ea662b925682bea7f9fbf8ca481f06df8925f",
           "bytes": 115059
         },
         {
@@ -1599,9 +1624,14 @@
           "bytes": 17215
         },
         {
+          "path": "skills/task-pipeline/scripts/resource_guard.py",
+          "sha256": "6a66cb6b1e2826b3825e4f8c18a995eaa9934deda4b24a4d9c98b8c44e143abc",
+          "bytes": 13706
+        },
+        {
           "path": "skills/task-pipeline/scripts/retro_budget.py",
-          "sha256": "3496cdb0f4348d16593fc0eaa251d2242c197d0e15508a5f7398afea5719a512",
-          "bytes": 24076
+          "sha256": "1e6f7243e35f99c1fbb4a538cced47440c4f7ea6609ef075f57dc3163fdd64e9",
+          "bytes": 25922
         },
         {
           "path": "skills/task-pipeline/scripts/short_path.py",
@@ -1620,8 +1650,8 @@
         },
         {
           "path": "skills/task-pipeline/scripts/waves.py",
-          "sha256": "1d90fca5959679bbcd99c3f25f3b3e9e95c0a7673d0fe3d6a4b1583f819e4538",
-          "bytes": 40718
+          "sha256": "0ce7035c4fe2a5574d7452d5b9476a2d48880c9689f0a729c9082f63be2dc2b8",
+          "bytes": 43400
         },
         {
           "path": "skills/task-pipeline/SKILL.md",
@@ -1755,8 +1785,8 @@
         },
         {
           "path": "skills/task-pipeline/templates/run.md",
-          "sha256": "9bfe093a68c5836afa268207dbbae3f8cdb8cf5dcbe14368c3e91dd7c643b6b4",
-          "bytes": 13007
+          "sha256": "126bfb4a4c18719eb41c485e830e1d40433f491b05a7e53a908214d930faedb0",
+          "bytes": 13120
         },
         {
           "path": "skills/task-pipeline/templates/stage-coverage.sh",
@@ -2884,8 +2914,8 @@
     {
       "name": "sheleg-dev",
       "repo": "ssheleg/sheleg-dev",
-      "commit": "9e017c4d1505b615bdf4aadec245300a37858be0",
-      "version": "0.15.1",
+      "commit": "5842df5677ab330738ea5ef4c14add4f7dea089d",
+      "version": "0.16.0",
       "pluginInstall": "sheleg-dev@sheleg-dev",
       "pluginPath": "plugins/sheleg-dev",
       "entry": {
@@ -2893,7 +2923,7 @@
         "displayName": "Sheleg Dev",
         "source": "./plugins/sheleg-dev",
         "description": "The integration layer a product needs once it has users: Stripe subscription billing reconciled into your own database, crypto payments that survive over-payment and duplicate webhooks, ad and conversion tracking under Consent Mode v2, Google sign-in with the account-linking guards, the wider Google auth surface, and Core Web Vitals work that moves the score, and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it.",
-        "version": "0.15.1",
+        "version": "0.16.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2922,7 +2952,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "a900db15c87f08763d9a9f15720471c67ac0dcd9f8d693a4d8d1d0fb960cd5a9",
+          "sha256": "4897cd65af1c37c75cd94c81324d2de8bb4973e0545f235a5c787ff7e0d83396",
           "bytes": 1221
         },
         {
@@ -3187,13 +3217,13 @@
         },
         {
           "path": "skills/stripe-billing/references/cancellation-and-retention.md",
-          "sha256": "d912bc206d61c10b36d9570a31136995f24e03d84b5f6f8e523f7412720388fd",
-          "bytes": 21045
+          "sha256": "d21f43e00c8ec6fa246d83139b8ab60e6163b7e57c74932cf7595b18b26d8298",
+          "bytes": 32065
         },
         {
           "path": "skills/stripe-billing/references/price-integrity.md",
-          "sha256": "d736f8acf4a927bef87d3f9c43efebb86404b25ddaea0a8f15bbf6611c46726e",
-          "bytes": 9986
+          "sha256": "2e15950756aecf45e72992c8b39ee4c6e37cd85b3661a65d6e0acc7a293a40e2",
+          "bytes": 10202
         },
         {
           "path": "skills/stripe-billing/references/provider-concentration.md",
@@ -3207,8 +3237,8 @@
         },
         {
           "path": "skills/stripe-billing/references/subscription-lifecycle.md",
-          "sha256": "a4f98f45cd66cc5d61ab8eecbda8fa16e1e527b7cb95834d74ee1a3d1bd99c7b",
-          "bytes": 20893
+          "sha256": "5832595aa7dad38ecd2f3600ae2e220e74ac79a2f5f43ba5a16a17b4b15acb6f",
+          "bytes": 21253
         },
         {
           "path": "skills/stripe-billing/references/testing-and-local-dev.md",
@@ -3227,8 +3257,8 @@
         },
         {
           "path": "skills/stripe-billing/SKILL.md",
-          "sha256": "b8154b12a8b4ed14f1ccb9177f5006a5dc1fb9d56a4c9bece5221c35ba3c48d0",
-          "bytes": 20710
+          "sha256": "ee6866bd1afaef5fbb30cb19c1db663200fe23d5065c10a9ca0123018be17c71",
+          "bytes": 20721
         }
       ]
     },
