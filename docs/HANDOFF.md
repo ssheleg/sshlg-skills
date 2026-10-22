@@ -19,10 +19,18 @@ retro migrated with it: 103,737 to 6,446 bytes, then 6,621 with this run's stamp
 rotation); `retro_budget.py verify` and `check` exit 0. Pin, `skills.json`, README row and
 `claude-plugin-pins.json` at 1.99.1; package 1.73.1. B-244 closed; B-246 filed.
 
-**Exact next bounded task:** after merge, tag `v1.73.1`, watch the release run, read back
-`npm view sshlg-skills version`, run `npx --yes sshlg-skills@latest update` and read back the
-installed task-pipeline 1.99.1; then B-246 in task-pipeline, then B-237 (other repositories'
-retro floors, now migratable).
+**Released and installed (2026-10-22):** task-pipeline tag `v1.99.1` on `5974fb4` (release run
+39699028230, jobs release and publish succeeded; `npm view task-pipeline-skill version` 1.99.1).
+Hub PR #252 merged as `cdf74bdb`, tag `v1.73.1`, release run 39708518945 succeeded,
+`npm view sshlg-skills version` 1.73.1. `npx --yes sshlg-skills@latest update` verified
+task-pipeline at 1.99.1 (`5974fb4`); the installed `retro_budget.py` hashes equal to the tag's and
+its `check` exits 0 on this repository's retro (6,621 bytes). The run ends `result PARTIAL`
+because Codex still defers 9 plugins (`DEFERRED_ACTIVE_GENERATION_SAFETY`); web3d-dev's alias
+record stays at 0.1.4 by design (B-243).
+
+**Exact next bounded task:** B-246 in task-pipeline (merge the rotation pointer lines into one
+per archive quarter), then B-237: migrate the over-budget retro floors in the five repositories it
+names with task-pipeline 1.99.1's `retro_budget.py migrate --write`.
 
 ## Previous: 2026-10-21 pin task-pipeline 1.99.0 (1.73.0)
 
