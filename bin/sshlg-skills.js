@@ -875,11 +875,14 @@ function codexPinRef(s, opts) {
  * counted like every other `update` step, and a failure lands in the closing summary; a
  * read (`--version`, `plugin list`) is captured and stays quiet.
  */
+// A read of Codex's plugin list took 31.5 s on a loaded machine (2026-10-22); 30 s timed it
+// out. SSHLG_CODEX_READ_TIMEOUT_MS overrides, never below one second.
+const CODEX_READ_TIMEOUT_MS = Math.max(1000, Number(process.env.SSHLG_CODEX_READ_TIMEOUT_MS) || 120000);
 function codexRunner(cmd, args, opts) {
   if (!opts || !opts.read || !(args.length === 1 && args[0] === '--version'
     || args[0] === 'plugin' && args[1] === 'list' && (args.length === 2 || args.length === 3 && args[2] === '--json'))) throw new Error('Codex native mutation is deferred');
   const r = spawnSync(cmd, args, { encoding: 'utf8', shell: process.platform === 'win32',
-    stdio: ['ignore', 'pipe', 'pipe'], timeout: 30000, maxBuffer: 32 * 1024 * 1024 });
+    stdio: ['ignore', 'pipe', 'pipe'], timeout: CODEX_READ_TIMEOUT_MS, maxBuffer: 32 * 1024 * 1024 });
   return { status: r.status, signal: r.signal, stdout: r.stdout || '', stderr: r.stderr || '', error: r.error };
 }
 
@@ -921,7 +924,8 @@ function refreshCodexPlugins(f) {
   }
   if (out.status === 'unread') {
     log(`  not read: codex plugin list failed — ${out.why}. Nothing in Codex was touched.`);
-    return true;
+    // Not looked is not green: the summary reads PARTIAL and names this section.
+    return false;
   }
   for (const it of out.items) {
     if (it.action === 'skip') log(`  ${it.pluginId}: left alone — ${it.why}`);
@@ -4090,4 +4094,4 @@ if (require.main === module) {
   process.exit(main(process.argv));
 }
 
-module.exports = { cliSpec, pinnedArgv, resolvePayloads, resolveProviders };
+module.exports = { cliSpec, pinnedArgv, resolvePayloads, resolveProviders, refreshCodexPlugins, CODEX_READ_TIMEOUT_MS };

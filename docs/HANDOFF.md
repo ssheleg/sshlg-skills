@@ -8,7 +8,7 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-22 milestones M1 and M2, the design-review gate (1.74.0, 1.74.1)
+## Current: 2026-10-22 milestones M1 and M2, the design-review gate (1.74.0 to 1.74.2)
 
 **Objective (operator, 2026-10-22):** a mandatory design-review agent in every pipeline (ten
 user portraits, Figma or mockups then the build, a browser the operator chose, load and window
@@ -33,7 +33,10 @@ sheleg-design B-004.
 **1.74.1 (same day):** the 1.74.0 install failed xr-dev on a linked git worktree's local scope
 (B-251, closed); the planner now leaves such a record as recorded.
 
-**Exact next bounded task:** after merge, tag `v1.74.1`, watch the release, `npx --yes
+**1.74.2 (same day):** the 1.74.1 install verified every Claude scope but called an unread
+Codex green (B-252, closed): a Codex read now has 120 s and an unread one makes the run PARTIAL.
+
+**Exact next bounded task:** after merge, tag `v1.74.2`, watch the release, `npx --yes
 sshlg-skills@latest update`, read the install back (Claude every scope, Codex `overall
 current`) and record M1's exit checks in the M1 plan; then re-prioritise the board with the
 operator.

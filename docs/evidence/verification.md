@@ -1,3 +1,9 @@
+## 2026-10-22: an unread Codex is not green (B-252), branch `fix/codex-unread-not-green`, 1.74.2
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| CUN-1 | a Codex whose `plugin list` times out or exits non-zero makes the Codex step false, so `update` reads PARTIAL, and the read limit defaults to 120 s with a one-second floor | `test/codex_unread_test.js` (4 cases, a fake `codex` on PATH and a scratch CODEX_HOME; red on 1.74.1's `bin/`) | 1.74.2 | a change to `refreshCodexPlugins()` or `codexRunner()` | 2026-10-22, branch tree |
+
 ## 2026-10-22: a git worktree's local scope (B-251), branch `fix/worktree-local-scope`, 1.74.1
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -124,7 +130,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**784** id'd requirement rows below, **642** read `verified` and none of them says which
+**785** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
