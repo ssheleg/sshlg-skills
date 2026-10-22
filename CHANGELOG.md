@@ -1,3 +1,12 @@
+## v1.74.2 (2026-10-22): an unread Codex is not a green step
+
+- **B-252 closed:** the 1.74.1 `update` printed "11 of 11 steps, all green" beside "not read:
+  codex plugin list failed — spawnSync codex ETIMEDOUT", and Codex stayed at older pins. The
+  read took 31.5 s at a load average near 60 against a 30 s limit. A Codex read now has 120 s
+  (`SSHLG_CODEX_READ_TIMEOUT_MS` overrides, never below one second), and a Codex that cannot be
+  read makes the run PARTIAL instead of green. `test/codex_unread_test.js` (4 cases, red on
+  1.74.1).
+
 ## v1.74.1 (2026-10-22): a git worktree's local scope no longer fails the Claude update
 
 - **B-251 closed:** the 1.74.0 `update` on the operator machine failed xr-dev (and rolled it
