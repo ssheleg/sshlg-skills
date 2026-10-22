@@ -500,7 +500,7 @@ it('property (fix 3, L3): a label or scheme glued to a value never echoes 8 char
   assert.ok(reported > 1000, `only ${reported} reports: the property proves little`);
 });
 it('ordinary labels are echoed whole (fix 3, L3)', () => {
-  for (const l of ['OPENROUTER_API_KEY', 'secretAccessKey', 'x-goog-api-key', 'NICEGRAM_INTERNAL_SECRET', 'aws_session_token', 'STRIPE_WEBHOOK_SECRET', 'applicationSecret']) {
+  for (const l of ['OPENROUTER_API_KEY', 'secretAccessKey', 'x-goog-api-key', 'TELEGRAM_INTERNAL_SECRET', 'aws_session_token', 'STRIPE_WEBHOOK_SECRET', 'applicationSecret']) {
     assert.strictEqual(L.safeLabel(l), l);
   }
   assert.deepStrictEqual(labels(L.scanLabelled(`motd=xyz123://a:${V()}@db.internal/x`)), ['url-password']);

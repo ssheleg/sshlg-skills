@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 // B-177: a configured MCP server that does not answer when a session starts leaves that
-// session without its tools for good, and nothing says so. On 2026-10-12 `asset-foundry`
-// (restarted by a release), `publisher` and `fabric-dashboards` refused, and an agent fell
-// back to calling Foundry directly with its client token. `hosts` names local HTTP servers
+// session without its tools for good, and nothing says so. On 2026-10-12 a private asset
+// server (restarted by a release), `publisher` and `fabric-dashboards` refused, and an agent fell
+// back to calling that service directly with its client token. `hosts` names local HTTP servers
 // that do not answer — by a TCP connect only: no request is sent, so no header or token
 // leaves the process — and points at `/mcp` → reconnect.
 const assert = require('assert');
