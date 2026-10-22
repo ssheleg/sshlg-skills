@@ -173,7 +173,7 @@ it('the launcher mid-run is detected by its argv, not by its name', () => {
 it('a Claude session sitting in the repo is NOT the launcher running', () => {
   // The exact false positive the machine's own CLAUDE.md records: `pgrep -f
   // sshlg-skills` matches every session whose cwd is this repository.
-  const ps = 'claude --project /Users/sshlg/DATA/sshlg-skills\nnode /Users/sshlg/DATA/sshlg-skills/test/run.js';
+  const ps = 'claude --project /Users/example/DATA/sshlg-skills\nnode /Users/example/DATA/sshlg-skills/test/run.js';
   assert.strictEqual(H.launcherRunning(ps), false,
     'a session working in the repo was mistaken for the launcher installing');
 });

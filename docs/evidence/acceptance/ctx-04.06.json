@@ -18,8 +18,8 @@
     "member_count": 11,
     "upgraded_member": "agent-stack",
     "clean_install": {
-      "expected": "14067dccf3694c4b5c139324569753b683fb2401c5c201cc103f8160ddece40c",
-      "installed": "14067dccf3694c4b5c139324569753b683fb2401c5c201cc103f8160ddece40c",
+      "expected": "be44574f252bb8dc6d6da1e608fde2f3a55ccfaeef7151154648fd23d4dd5859",
+      "installed": "be44574f252bb8dc6d6da1e608fde2f3a55ccfaeef7151154648fd23d4dd5859",
       "active": "current",
       "channels": {
         "claude": "current",
@@ -28,8 +28,8 @@
       }
     },
     "upgrade": {
-      "expected": "d629ae130f93fedef83ca248f3c5eb5f1ac197802a4b5ebf9e718e8c77307dd6",
-      "installed": "d629ae130f93fedef83ca248f3c5eb5f1ac197802a4b5ebf9e718e8c77307dd6",
+      "expected": "40f6c6daf561142e14dbaa7c911bf3d917cee53481719b77c957e63e28f6d717",
+      "installed": "40f6c6daf561142e14dbaa7c911bf3d917cee53481719b77c957e63e28f6d717",
       "active": "current",
       "channels": {
         "claude": "current",
@@ -38,8 +38,8 @@
       }
     },
     "faulted_upgrade": {
-      "expected": "d629ae130f93fedef83ca248f3c5eb5f1ac197802a4b5ebf9e718e8c77307dd6",
-      "installed": "14067dccf3694c4b5c139324569753b683fb2401c5c201cc103f8160ddece40c",
+      "expected": "40f6c6daf561142e14dbaa7c911bf3d917cee53481719b77c957e63e28f6d717",
+      "installed": "be44574f252bb8dc6d6da1e608fde2f3a55ccfaeef7151154648fd23d4dd5859",
       "active": "stale",
       "channels": {
         "claude": "stale",
@@ -48,8 +48,8 @@
       }
     },
     "recovery": {
-      "expected": "14067dccf3694c4b5c139324569753b683fb2401c5c201cc103f8160ddece40c",
-      "installed": "14067dccf3694c4b5c139324569753b683fb2401c5c201cc103f8160ddece40c",
+      "expected": "be44574f252bb8dc6d6da1e608fde2f3a55ccfaeef7151154648fd23d4dd5859",
+      "installed": "be44574f252bb8dc6d6da1e608fde2f3a55ccfaeef7151154648fd23d4dd5859",
       "active": "current",
       "channels": {
         "claude": "current",

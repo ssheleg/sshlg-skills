@@ -8,7 +8,28 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-22 pin task-pipeline 1.99.1, retro floor migrated (B-244, 1.73.1)
+## Current: 2026-10-22 leak sweep and Codex catch-up (1.73.2)
+
+**Objective (operator, 2026-10-22):** no active Codex sessions should hold the family back,
+and no private project names may appear in the skills.
+
+**Codex:** no Codex process was running (`ps` showed none), so the nine family plugins were
+moved to their pins by hand: `codex plugin marketplace remove`, `add <repo> --ref v<pin>`,
+`codex plugin add` (config backed up first under `~/.sshlg-skills/backups/`). The updater now
+reports Codex `9 already at it ... 0 deferred ... overall current`.
+
+**Leak sweep:** 12 public repositories scanned for private project, product and repository
+names, the operator's paths and addresses. Shipped skills cleaned in five member releases and
+this one (see CHANGELOG v1.73.2). Left, each with a board row: dated records and history
+(B-247), the site's Asset Foundry announcement (B-248), and two shipped mentions that ride the
+next releases of super-ux (Copylot in `copywriting`) and task-pipeline (a comment citing a
+private repository).
+
+**Exact next bounded task:** after merge, tag `v1.73.2`, watch the release, `npx --yes
+sshlg-skills@latest update`; then the design-review agent (operator, 2026-10-22) in
+task-pipeline and super-ux, carrying those two shipped mentions; then the project review.
+
+## Previous: 2026-10-22 pin task-pipeline 1.99.1, retro floor migrated (B-244, 1.73.1)
 
 **Objective (operator, 2026-10-21):** finish the open units to the end: B-244, task-pipeline's
 retro migration could not read this repository's retro, so stage 10's byte budget could never pass.

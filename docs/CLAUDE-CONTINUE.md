@@ -4,9 +4,9 @@
 
 Оператор 2026-10-13 остановил эту сессию словами: «закончи и оставь план и контекст чтобы продолжил клод». Программа **не объявлена завершённой**. Новые волны остановлены для передачи; уже запущенные проверки продолжают собирать результаты. Не начинать исследование заново и не принимать промежуточный PASS за релиз или установленное состояние.
 
-Рабочая папка: `/Users/sshlg/DATA/_wt/hub-release-1.62.0`.
+Рабочая папка: `~/DATA/_wt/hub-release-1.62.0`.
 Ветка: `waves/2026-10-13-finalization`, репозиторий `ssheleg/sshlg-skills`.
-Исходная папка `/Users/sshlg/DATA/sshlg-skills` содержит чужие/предыдущие незавершённые изменения: **не reset, не stash, не переключать её принудительно**.
+Исходная папка `~/DATA/sshlg-skills` содержит чужие/предыдущие незавершённые изменения: **не reset, не stash, не переключать её принудительно**.
 
 ## Продолжение Claude 2026-10-13 (сессия 5f151e9c) — текущий срез
 
@@ -51,7 +51,7 @@
 ### Блокер: диск машины (2026-10-14 ~01:20 Europe/Warsaw)
 
 Тегированный gate TP v1.95.0 (попытка 1, объект `303c1ff`, клон переименован в
-`/Users/sshlg/DATA/_wt/tp-publish-1.95.0-attempt1-diskstop` — **этот тег не пушить**)
+`~/DATA/_wt/tp-publish-1.95.0-attempt1-diskstop` — **этот тег не пушить**)
 остановлен helper'ом `disk-stopped` через 3598с: 439 guards + 15 properties уже PASS,
 остановка на старте certify. Причина — swap машины: 26.6GB и растёт ~4GB/час
 (десятки параллельных сессий Claude + OrbStack). Сессии не закрываются агентом.
@@ -66,7 +66,7 @@ standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch 
   сигнального RuntimeError в тесте после review-исправления — исправлено `b2dcdc1`.
 - **TP PR127 слит** squash'ем (merge commits запрещены ruleset): main `4fa7ec6`, дерево
   = проверенному `b2dcdc1`; 12/12 hosted jobs зелёные; ветка compose сохранена.
-- **Тегированный gate TP v1.95.0 идёт**: standalone `/Users/sshlg/DATA/_wt/tp-publish-1.95.0`,
+- **Тегированный gate TP v1.95.0 идёт**: standalone `~/DATA/_wt/tp-publish-1.95.0`,
   `release_candidate.py prepare` → PREPARED, `check` запущен 22:10 UTC. Receipts в
   `.git/sshlg-release-candidates/v1.95.0/`. После CHECK_PASSED: `publish` откажет (нет
   привязанного run-context; ledger не подделывать) → push тега вручную
@@ -233,7 +233,7 @@ Hub **1.64.0** (fc11487) и task-pipeline **1.96.0** (2674147) опублико�
 - [Основной durable пакет](evidence/completion-1013/README.md), [план волн](evidence/plans/2026-10-13-completion.md).
 - [Свежие primary-source практики discovery/token efficiency](reports/2026-10-13-skill-discovery-efficiency/README.md), [совместимость](reports/2026-10-13-coding-agent-compatibility/README.md), [результаты качества](reports/2026-10-13-skill-discovery-quality-results/README.md).
 - [Claude immutable install](evidence/completion-1013/claude-pins/README.md), [Codex order fix](evidence/completion-1013/codex-visibility-order/README.md), [native quality](evidence/completion-1013/native-quality-v1/README.md).
-- Локальный пользовательский export `/Users/sshlg/DATA/sshlg-skills/2026-10-13-024112-this-session-is-being-continued-from-a-previous-c.txt` содержит исходные сообщения. Он намеренно **не коммитится**. Ключи, сырые настройки, полные argv/env и приватные backup payloads не публиковать.
+- Локальный пользовательский export `~/DATA/sshlg-skills/2026-10-13-024112-this-session-is-being-continued-from-a-previous-c.txt` содержит исходные сообщения. Он намеренно **не коммитится**. Ключи, сырые настройки, полные argv/env и приватные backup payloads не публиковать.
 
 ## Применённые skills
 

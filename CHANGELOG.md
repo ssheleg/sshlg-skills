@@ -1,3 +1,20 @@
+## v1.73.2 (2026-10-22): no private project names in shipped skills
+
+- **Pins:** sheleg-dev 0.15.1, xr-dev 0.4.2, sheleg-design 1.66.2, agent-stack 0.30.2 and
+  web3d-dev 0.2.2 (the second patch of each records its version in its verification ledger;
+  web3d-dev's also trims a description the generic wording had lengthened). Each removes the name of one of the operator's private projects, products or
+  repositories from a shipped skill: an example brand, a lock-file anecdote, a design origin
+  note, citations into a private repository, and a private asset service, which web3d-dev now
+  describes generically while still detecting it by its `foundry_*` tools.
+- **This repository:** the label vocabulary in `lib/labelledsecrets.js` no longer lists private
+  project names; tests use neutral paths and labels; `README.md` and the cross-repo handoff
+  rule no longer point into a private repository; `skills.json` and the README describe the
+  asset service generically.
+- **Ratchet:** family description total 16,103 to 16,102 characters.
+- **Board:** B-247, dated records and git history still carry private names; B-248, the
+  site's public Asset Foundry section is a recorded product decision, kept until the operator
+  says otherwise.
+
 ## v1.73.1 (2026-10-22): task-pipeline 1.99.1, the retro floor reads this repository's format
 
 - **Pin: task-pipeline 1.99.1** (`5974fb4`). `retro_budget.py` now measures a retro whose
