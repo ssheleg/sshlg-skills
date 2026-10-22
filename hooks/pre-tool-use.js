@@ -15,6 +15,10 @@
  *    truncate. Nothing is denied here; `hooks/post-tool-use.js` puts back what
  *    the tool drops.
  *
+ * Between 2 and 3, two shell-shape refusals from the same pure module: a gate piped
+ * into a filter and chained into `git`, and a host self-update (`pi update`,
+ * `brew upgrade codex`, `npm i -g @openai/codex`) inside `$(…)` or backticks (B-223).
+ *
  * All deciding is in `lib/guard.js` and `lib/hygiene.js`, both pure and fixtured.
  * This file moves bytes and touches the filesystem exactly where a backup happens.
  *
@@ -230,6 +234,22 @@ process.stdin.on('end', () => {
         `a pipeline's exit status is its last command's, here \`${masked.filter}\`.\n` +
         'Run the gate on its own and read its exit code before committing, or start the command ' +
         'with `set -o pipefail;`.');
+      return process.exit(0);
+    }
+
+    // 1c. A host self-update inside `$(…)` or backticks (hygiene.js #5, B-223): prose the
+    //     shell reads as code, and an in-place upgrade that can remove the host it updates.
+    const selfUpdate = command && hygiene.hostSelfUpdate(command);
+    if (selfUpdate) {
+      say('deny',
+        `\`${selfUpdate.command}\` sits inside a command substitution (${selfUpdate.form}), so the shell ` +
+        'runs it before the command around it starts. A host that updates itself in place can fail ' +
+        'halfway (ENOSPC, a dropped download) and remove its own link: on 2026-10-17 a backticked ' +
+        '`pi update` in a double-quoted argument did exactly that.\n' +
+        'If this is text (a commit message, a PR body, a comment), put it in single quotes, escape the ' +
+        'backticks as \\`, or pass it through a file (`git commit -F <file>`, `gh ... --body-file <file>`).\n' +
+        'If you mean to update the host, run that command on its own, outside `$(...)` and backticks, ' +
+        'after checking free disk space (`df -h`).');
       return process.exit(0);
     }
 

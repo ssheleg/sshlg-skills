@@ -303,6 +303,72 @@ it('a handled pipeline, a gate with no git after it, and non-gates pass', () => 
   ]) assert.strictEqual(H.maskedGate(c), null, `over-caught: ${c}`);
 });
 
+// --- #5: a host self-update inside a command substitution (B-223) -----------------
+// 2026-10-17: a review agent wrote `pi update` in backticks inside a double-quoted
+// argument. The shell ran it before the outer command started; the in-place
+// `npm install -g` hit ENOSPC and removed the `pi` link.
+it('a host self-update inside $(…) or backticks is caught, in double quotes and nested', () => {
+  for (const c of [
+    'echo "$(pi update)"',
+    'echo "`pi update`"',
+    'x=$(brew upgrade codex)',
+    'echo $(echo $(npm i -g @openai/codex))',
+    'echo `codex update`',
+    'gh pr comment 1 --body "run `pi update` first"',
+    'git commit -m "note: `sudo npm install --global @earendil-works/pi-coding-agent@latest`"',
+    'echo "$(echo "$(claude update)")"',
+    'echo "`echo \\`codex update\\``"',
+    'x=$(cd /tmp && pnpm add -g @google/gemini-cli)',
+    'echo "$(env FOO=1 brew upgrade --cask claude-code)"',
+    'echo $(brew upgrade)',
+    'echo $(npm update -g)',
+    "bash -c 'echo $(pi update)'",
+    'cat <<EOF\nnotes $(pi update)\nEOF',
+    'echo "${x:-$(opencode upgrade)}"',
+    'git commit -m "$(cat <<EOF\nrun `pi update`\nEOF\n)"',
+    "bash <<'EOF'\nx=$(codex update)\nEOF",
+  ]) assert.ok(H.hostSelfUpdate(c), `missed: ${JSON.stringify(c)}`);
+  const v = H.hostSelfUpdate('gh pr comment 1 --body "run `pi update` first"');
+  assert.strictEqual(v.host, 'pi');
+  assert.strictEqual(v.command, 'pi update');
+  assert.strictEqual(v.form, 'backticks');
+  assert.strictEqual(H.hostSelfUpdate('x=$(brew upgrade codex)').form, '$(…)');
+});
+
+it('literal text, data heredocs, plain mentions and top-level updates pass', () => {
+  for (const c of [
+    "echo '$(pi update)'",
+    "echo '`pi update`'",
+    "echo \"$(echo '$(pi update)')\"",
+    'echo "\\$(pi update)"',
+    'echo "\\`pi update\\`"',
+    "python3 - <<'PY'\nprint(\"$(pi update)\")\nPY",
+    "cat > notes.md <<'EOF'\nrun `pi update` later\nEOF",
+    'git commit -m "mentions pi update"',
+    'grep "pi update" file',
+    'echo $(echo pi update)',
+    'x=$(git log --grep "codex update")',
+    'x=$(npm i @openai/codex)',
+    'x=$(npm i -g typescript)',
+    'x=$(brew upgrade jq)',
+    'x=$(pi --version)',
+    '# echo $(pi update)',
+    'pi update',
+    'brew upgrade codex && npm i -g @openai/codex',
+    'x=$((1 + 2))',
+    'gh pr create --body-file body.md',
+    "git commit -m \"$(cat <<'EOF'\nrun `pi update` after the release\nEOF\n)\"",
+    '',
+  ]) assert.strictEqual(H.hostSelfUpdate(c), null, `over-caught: ${JSON.stringify(c)}`);
+});
+
+it('a malformed or unterminated payload neither throws nor hangs', () => {
+  for (const c of ['echo "$(pi update', 'echo `pi update', "echo '", 'cat <<EOF\n$(pi', null, undefined, 42]) {
+    H.hostSelfUpdate(c);
+  }
+  assert.ok(H.hostSelfUpdate('echo "$(pi update'), 'an unterminated substitution still runs up to end of input');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

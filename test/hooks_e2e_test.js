@@ -178,6 +178,24 @@ it('the launcher itself is not denied by that guard', () => {
   }), null);
 });
 
+// B-223: the 2026-10-17 shape, a backticked host self-update inside a double-quoted
+// argument, refused by the real script with the remedy; the single-quoted twin runs nothing.
+it('a host self-update inside a substitution is denied by the real script, naming the remedy', () => {
+  const out = runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', tool_name: 'Bash',
+    tool_input: { command: 'gh pr comment 7 --body "review done, run `pi update` next"' },
+  });
+  assert.strictEqual(out.hookSpecificOutput.permissionDecision, 'deny');
+  const why = out.hookSpecificOutput.permissionDecisionReason;
+  assert.match(why, /`pi update` sits inside a command substitution \(backticks\)/);
+  assert.match(why, /single quotes/);
+  assert.match(why, /--body-file/);
+  assert.strictEqual(runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', tool_name: 'Bash',
+    tool_input: { command: "gh pr comment 7 --body 'review done, run `pi update` next'" },
+  }), null, 'single-quoted text runs nothing and was refused');
+});
+
 it('the wiki-config restore restores the keys, through a copy of its own (UM-06)', () => {
   // The restore in post-tool-use.js was the one write to an operator-owned file
   // outside `protect()` — CLAUDE.md's "no second write path" invariant, found as
