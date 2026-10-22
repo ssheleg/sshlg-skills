@@ -1,3 +1,10 @@
+## 2026-10-22: a git worktree's local scope (B-251), branch `fix/worktree-local-scope`, 1.74.1
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| WTL-1 | Claude Code 2.1.299 runs `plugin update --scope local` from a linked git worktree against the main repository's record, exit 0, the worktree's record unchanged | scratch-HOME probe: a directory marketplace at 1.0.0 then 2.0.0, a repository and its worktree each installed at local scope, `update` from the worktree moved the repository's record only (session transcript 2026-10-22) | 1.74.1 | a Claude Code release that resolves a worktree's own local scope | 2026-10-22, scratch HOME |
+| WTL-2 | the planner leaves a worktree's record as recorded beside a recorded main repository, blocks without one, and keeps a submodule checkout a target | `test/claude_pinned_test.js` (37 cases; the three new ones red on 1.74.0's `lib/`); `update --claude-only --dry-run` on this machine lists `voc-learn-dataroom (alias of /Users/sshlg/DATA/dataroom)` and xr-dev with three scopes to move | 1.74.1 | a change to the local-record classification in `prepare()` | 2026-10-22, branch tree |
+
 ## 2026-10-22: milestone M1 and M2 pins, branch `release/pin-1740-m1`, 1.74.0
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -117,7 +124,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**782** id'd requirement rows below, **642** read `verified` and none of them says which
+**784** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
