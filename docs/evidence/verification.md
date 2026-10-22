@@ -1,4 +1,11 @@
-## 2026-10-23: a long token is not a placeholder by accident (B-250), branch `m3/plan-and-wave1`, unreleased
+## 2026-10-23: host self-update inside a substitution (B-223), branch `fix/b223-substitution`, 1.75.0
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| HSU-1 | `hostSelfUpdate()` finds a host self-update (`pi update`, `codex update`, `brew upgrade <host>`, `npm i -g <host>`, a bare global update) inside `$(…)` or backticks at top level, in double quotes, nested, in an unquoted heredoc and in a `bash -c` script, and passes single-quoted text, escaped substitutions, quoted-delimiter heredocs, comments, plain mentions and a top-level update | `test/hygiene_test.js` (32 checks; the three new cases failed on `origin/main`'s `lib/` with `H.hostSelfUpdate is not a function`) | unreleased | a change to `lex()`, `hostCall()` or `HOSTS` in `lib/hygiene.js` | 2026-10-23, branch tree |
+| HSU-2 | the real `hooks/pre-tool-use.js` denies ``gh pr comment 7 --body "review done, run `pi update` next"`` naming single quotes and `--body-file`, and says nothing for the single-quoted twin | `test/hooks_e2e_test.js` (82 checks; the new case failed with the previous hook and `lib/`) | unreleased | a change to decision 1c in `hooks/pre-tool-use.js` | 2026-10-23, branch tree |
+
+## 2026-10-23: a long token is not a placeholder by accident (B-250), branch `m3/plan-and-wave1`, 1.75.0
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
 |---|---|---|---|---|---|
@@ -136,7 +143,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**786** id'd requirement rows below, **642** read `verified` and none of them says which
+**788** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with

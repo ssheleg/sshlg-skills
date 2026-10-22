@@ -1,11 +1,23 @@
-## Unreleased
+## v1.75.0 (2026-10-23): milestone M3 wave 1, two guards that let defects through
 
+- **B-223 closed:** on 2026-10-17 a review agent's backticked `pi update` inside a double-quoted
+  argument ran an in-place `npm install -g` that hit ENOSPC and removed the `pi` link. The
+  `PreToolUse` hook now refuses a host self-update (`pi update`, `codex update`, `brew upgrade
+  <host>`, `npm i -g <host>` and the bare global upgrades) found inside `$(…)` or backticks: at
+  top level, in double quotes, nested, in an unquoted heredoc body and in a `bash -c` script. The
+  refusal names the remedy (single quotes, escaped backticks, `-F`/`--body-file`, or the update on
+  its own line). Single-quoted text, escaped substitutions and quoted-delimiter heredocs run
+  nothing and pass; a top-level `pi update` stays the operator's call. `hostSelfUpdate()` in
+  `lib/hygiene.js`; `test/hygiene_test.js` three new cases and `test/hooks_e2e_test.js` one, all
+  red on 1.74.2.
 - **B-250 closed:** the labelled-secret detector no longer drops a long token that happens to
   spell a placeholder word. From 100 characters a word (`dummy`, `fake`, `xxxx`, ...) counts only
   with a boundary on both sides, and an ascending run must reach 10; shorter values keep the old
   rules. 36 of 20,000 random 600-character JWTs were missed before, 0 of 130,000 after.
 - **Plan:** `docs/runs/2026-10-23-milestone-m3.md`, gates that cannot lie, with the operator's
   decisions of 2026-10-22 (B-247 closed by decision; B-248, B-180, B-249 scheduled).
+- **Board:** B-253, `executablePart()` drops an unquoted heredoc body and in-string `#` lines
+  the shell would still run.
 
 ## v1.74.2 (2026-10-22): an unread Codex is not a green step
 

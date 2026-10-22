@@ -8,7 +8,22 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-22 milestones M1 and M2, the design-review gate (1.74.0 to 1.74.2)
+## Current: 2026-10-23 milestone M3, gates that cannot lie (1.75.0)
+
+**Objective (operator, 2026-10-22):** show the decisions that are the operator's, then the next
+stage. The operator decided B-247 (keep history), B-248 (remove the site section), B-180 (star
+line opt-in, off) and B-249 (land the bridge). [M3 plan](runs/2026-10-23-milestone-m3.md), exit
+checks X1 to X4.
+
+**Wave 1 (this release):** B-223 (a host self-update inside a command substitution is refused,
+with the remedy) and B-250 (a long token is not a placeholder by accident) closed with tests;
+B-247 closed by decision; B-253 filed.
+
+**Exact next bounded task:** after merge, tag `v1.75.0`, watch the release, `npx --yes
+sshlg-skills@latest update`; then M3 wave 2: B-108, B-109 here and the task-pipeline 1.101.1 pin
+(B-153).
+
+## Previous: 2026-10-22 milestones M1 and M2, the design-review gate (1.74.0 to 1.74.2)
 
 **Objective (operator, 2026-10-22):** a mandatory design-review agent in every pipeline (ten
 user portraits, Figma or mockups then the build, a browser the operator chose, load and window
