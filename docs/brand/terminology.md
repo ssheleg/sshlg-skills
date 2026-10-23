@@ -20,7 +20,6 @@ Contract: brand-contract v1
 | ssheleg | SSHLG, Ssheleg |
 | ssheleg skills | the Skills site branded as ssheleg harness |
 | ssheleg harness | SSHLG Harness |
-| Asset Foundry | Foundry presented as a released public package |
 | Project Observatory | project observatory |
 | sshlg-skills | sshlg skills, SSHLG Skills |
 | Agent Skills | agent skills standard, Agent skills |

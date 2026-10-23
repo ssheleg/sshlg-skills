@@ -1073,8 +1073,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "8c0a06404faf381b029f1080e1d9324d3b8d5fb1",
-      "version": "1.101.0",
+      "commit": "c914a84d1240caef00c8ed4342b0ef3eddf4f5b0",
+      "version": "1.101.1",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1082,7 +1082,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.101.0",
+        "version": "1.101.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1105,7 +1105,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "85d2c7a14a0c6042d6b8575ef71e48476bac7bc4220a3a995a58bb841bceb046",
+          "sha256": "27aebdde4177506522664b4722111876ad30f2eeca938dfde28d25433ce7e625",
           "bytes": 1529
         },
         {
@@ -1170,8 +1170,8 @@
         },
         {
           "path": "hooks/release-gate.sh",
-          "sha256": "29b30f85220398c5a17dbaaba1cb7977ab36e0c2f86855abd08040dcf5ed4350",
-          "bytes": 14083
+          "sha256": "57d19a885632678014fca7c9374469ee711487798f0089158aed6676c9fa39b9",
+          "bytes": 14452
         },
         {
           "path": "hooks/run-lifecycle.sh",

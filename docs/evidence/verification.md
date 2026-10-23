@@ -1,3 +1,13 @@
+## 2026-10-23: M3 wave 3, the operator's decisions and the member gate, branch `m3/wave3`, 1.76.0
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| STR-1 | the star line is absent by default, present with `rules.star on`, and a 1.75.0 block is refreshed without being kept as a hand edit | `test/protocol_test.js` (23 checks; the default-off case red on 1.75.0's `lib/`), `test/config_test.js` (13) | unreleased | a change to `renderProtocolSection()` or the known protocol lines | 2026-10-23, branch tree |
+| STR-2 | on a copy of a real instruction file, `routers --agent claude` run three times lands one hash with the star off and one with it on, and the toggle moves only the star sentence | scratch HOME run, session transcript 2026-10-23 | unreleased | a change to the routing write path | 2026-10-23, scratch HOME |
+| SIT-1 | no generated page and no llms line names the private asset agent | `test/site_test.js` (48 checks) | unreleased | a change to `scripts/site.js` | 2026-10-23, branch tree |
+| MCB-1 | the opt-in MCP bridge rewrites boolean schemas only in `tools/list` output schemas and passes other traffic unchanged | `test/mcp_schema_bridge_test.py` (5 checks) | unreleased | a change to the bridge | 2026-10-23, branch tree |
+| FGC-1 | `member-gate/family_gate.py --self-test` catches a shifted row, a duplicate id and a release workflow without the ancestry check; a pinned member's copy is compared by hash, and a member without one is named as not looked at | `test/member_gate_copies_test.py`; every member's own gate runs its copy with `--self-test` | unreleased | a change to the canonical file without copying it out | 2026-10-23, branch tree |
+
 ## 2026-10-23: host self-update inside a substitution (B-223), branch `fix/b223-substitution`, 1.75.0
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -143,7 +153,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**788** id'd requirement rows below, **642** read `verified` and none of them says which
+**793** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with

@@ -47,7 +47,7 @@ scripts. No services, no telemetry, no API keys.
 | Skill | Version | What it does |
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.66.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.101.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.101.1 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.23.0 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.33.0 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.66.2 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
@@ -599,6 +599,20 @@ outside the markers), run every other step and exit 1. An explicit `rules --appl
 still refuses as a whole and writes nothing.
 The rule describes continuation and durable handoff. It creates no watcher or job,
 and sign-ins, consent, payment and action-specific authority keep their own gates.
+
+### The star line is opt-in
+
+The routing block's request for a star on this repository is off by default
+(operator, 2026-10-22). Turn it on, then let the next refresh write it:
+
+```bash
+npx sshlg-skills config set rules.star on
+npx sshlg-skills update
+```
+
+`rules.star off` (or absence) removes it on the next refresh. A block written by an
+older release, star included, is the pack's own text and is refreshed, not kept as a
+hand edit.
 
 ### Inspect an interrupted wait-rule change
 

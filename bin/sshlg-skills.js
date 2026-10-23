@@ -1526,6 +1526,8 @@ function cmdRouters(f) {
     // With --member the caller speaks only for itself and must not render a
     // roster of the whole family from a manifest it happens to ship.
     members: f.member ? [] : SKILLS,
+    // B-180: the star line rides only when the operator turned it on.
+    star: require('../lib/config.js').starEnabled(require('../lib/config.js').readConfig(home)),
     remove, preserve, sources, dryRun: f.dryRun, log,
   });
 
@@ -1735,6 +1737,7 @@ function cmdConfig(argv) {
       log(`  routers.${name.padEnd(16)} ${configLib.isEnabled(config, name) ? 'on' : 'off'}`);
     }
     log(`  update.auto${' '.repeat(11)} ${configLib.autoUpdateEnabled(config) ? 'on' : 'off'}`);
+    log(`  rules.star${' '.repeat(12)} ${configLib.starEnabled(config) ? 'on' : 'off'}`);
     try { log(`  rules.wait             ${require('../lib/wait-rule-policy.js').read(home).enabled ? 'on' : 'off'}`); }
     catch (e) { log(`  rules.wait             unknown — ${e.message}`); return 2; }
     const declared = configLib.externalGet(config);
@@ -1752,6 +1755,7 @@ function cmdConfig(argv) {
     for (const p of packs.showPacks) log(`  visibility.pack.${p}  show`);
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
     log('           npx sshlg-skills config set update.auto on|off');
+    log('           npx sshlg-skills config set rules.star on|off');
     log('           npx sshlg-skills config set rules.wait on|off');
     log('           npx sshlg-skills config set routes.external.<имя>.triggers "слово, фраза, …"');
     log('           npx sshlg-skills config set routes.external.<имя>.skill <skill-id>');
@@ -1776,6 +1780,19 @@ function cmdConfig(argv) {
       log('Preview with `npx sshlg-skills rules`; apply with `rules --apply` and the desired host scope.');
       return 0;
     } catch (e) { log(`rules.wait: refused: ${e.message}`); return 2; }
+  }
+
+  if (key === 'rules.star') {
+    if (configLib.STATES.indexOf(value) === -1) {
+      log(`config set: состояние должно быть on или off — получено "${value === undefined ? '' : value}"`);
+      return 2;
+    }
+    const was = configLib.starEnabled(configLib.readConfig(home)) ? 'on' : 'off';
+    if (was === value) { log(`rules.star: ${value} (без изменений)`); return 0; }
+    configLib.setStar(home, value);
+    log(`rules.star: ${was} → ${value}`);
+    log('Блок маршрутизации получит или потеряет строку со звездой при следующем npx sshlg-skills update.');
+    return 0;
   }
 
   if (key === 'update.auto') {
@@ -1814,7 +1831,7 @@ function cmdConfig(argv) {
   }
 
   if (!key || key.indexOf('routers.') !== 0) {
-    log('config set: ключ должен начинаться с "routers.", "routes.external." или "visibility.pack.", или быть "update.auto"');
+    log('config set: ключ должен начинаться с "routers.", "routes.external." или "visibility.pack.", или быть "update.auto" или "rules.star"');
     return 2;
   }
 

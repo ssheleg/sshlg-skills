@@ -136,6 +136,21 @@ it('authored, external, router and auto-update writes merge into the file as it 
   assert.strictEqual(C.authoredClear(home, 'never'), undefined);
 });
 
+it('B-180: rules.star is off by default, stored only as on, and leaves rules.wait alone', () => {
+  const home = tmpHome();
+  assert.strictEqual(C.starEnabled(C.readConfig(home)), false);
+  C.setStar(home, 'on');
+  assert.deepStrictEqual(C.readConfig(home).rules, { star: 'on' });
+  assert.strictEqual(C.starEnabled(C.readConfig(home)), true);
+  C.setStar(home, 'off');
+  assert.ok(!('rules' in C.readConfig(home)), 'an empty rules object was left behind');
+  const file = C.configPath(home);
+  fs.writeFileSync(file, JSON.stringify({ rules: { wait: 'on' } }));
+  C.setStar(home, 'on'); C.setStar(home, 'off');
+  assert.deepStrictEqual(C.readConfig(home).rules, { wait: 'on' }, 'the wait rule was touched');
+  assert.throws(() => C.setStar(home, 'maybe'), /on, off/);
+});
+
 it('no config.js writer merges a sub-object read outside the lock (final polish 3)', () => {
   const text = fs.readFileSync(path.join(__dirname, '..', 'lib', 'config.js'), 'utf8');
   const offenders = text.split('\n').map((l, i) => [l, i + 1])

@@ -8,7 +8,7 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-23 milestone M3, gates that cannot lie (1.75.0)
+## Current: 2026-10-23 milestone M3, gates that cannot lie (1.75.0, 1.76.0)
 
 **Objective (operator, 2026-10-22):** show the decisions that are the operator's, then the next
 stage. The operator decided B-247 (keep history), B-248 (remove the site section), B-180 (star
@@ -19,9 +19,14 @@ checks X1 to X4.
 with the remedy) and B-250 (a long token is not a placeholder by accident) closed with tests;
 B-247 closed by decision; B-253 filed.
 
-**Exact next bounded task:** after merge, tag `v1.75.0`, watch the release, `npx --yes
-sshlg-skills@latest update`; then M3 wave 2: B-108, B-109 here and the task-pipeline 1.101.1 pin
-(B-153).
+**Waves 2 and 3 (1.76.0):** task-pipeline 1.101.1 pinned (B-153); `member-gate/family_gate.py`
+copied into all eleven members' gates (B-108, B-109); the star line opt-in, off (B-180); the
+private asset agent off the public site, SCN-004 retired (B-248); the MCP schema bridge landed
+(B-249). agent-stack #50 closed as superseded by its #51. Filed on the way: B-155 and B-156 in
+task-pipeline (a validator section-date rule, a cleanup race).
+
+**Exact next bounded task:** after merge, tag `v1.76.0`, watch the release, `npx --yes
+sshlg-skills@latest update`, read X4, then record M3's exit checks in the M3 plan.
 
 ## Previous: 2026-10-22 milestones M1 and M2, the design-review gate (1.74.0 to 1.74.2)
 

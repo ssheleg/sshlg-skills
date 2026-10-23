@@ -187,7 +187,9 @@ it('the star ask is bounded, addressed, and conditional on the family doing work
   // killing stray Chrome processes — no family skill had run at all — it named no
   // repository, so the reply was "which project?", and the operator it asked was the
   // author of the repository it was asking them to star.
-  const body = write(EMPTY).match(/PROTOCOL:BEGIN -->([\s\S]*?)<!-- SSHLG:ROUTERS:PROTOCOL:END/)[1];
+  // B-180 (operator, 2026-10-22): opt-in, so the clauses are read from a block written with it on.
+  const on = R.upsert(EMPTY, { 'task-pipeline': 'body' }, { members, star: true }).text;
+  const body = on.match(/PROTOCOL:BEGIN -->([\s\S]*?)<!-- SSHLG:ROUTERS:PROTOCOL:END/)[1];
   const star = body.slice(body.indexOf('A star,'));
   assert.ok(/once per session/.test(star), 'the star ask is unbounded');
   assert.ok(/github\.com\/ssheleg\/sshlg-skills/.test(star),
@@ -287,6 +289,41 @@ it('the protocol region itself carries no em dash', () => {
   const body = protocolBody(write(EMPTY));
   const at = body.indexOf(EM);
   assert.strictEqual(at, -1, `an em dash in the protocol: ${body.slice(Math.max(0, at - 40), at + 40)}`);
+});
+
+it('B-180: the star line is off by default and appears only with rules.star on', () => {
+  assert.ok(!write(EMPTY).includes('A star,'), 'a default block still asks for a star');
+  const on = R.upsert(EMPTY, { 'task-pipeline': 'body' }, { members, star: true }).text;
+  assert.strictEqual(count(on, 'A star, once per session'), 1);
+  assert.strictEqual(R.STAR_LINES.length, 3);
+});
+
+it('B-180: a 1.75.0 block with the star and no rendered record loses it, not refused as a hand edit', () => {
+  const fresh = write(EMPTY);
+  const withStar = R.upsert(EMPTY, { 'task-pipeline': 'body' }, { members, star: true }).text;
+  assert.ok(R.PROTOCOL_1_75.includes('A star, once per session'));
+  // The layout 1.70.1 to 1.75.0 actually wrote: the star sentence and the routes sentence share lines.
+  const v175 = fresh.replace('Routes declared in `.claude/routers.json` are checked with `npx sshlg-skills materialised`\n(FALSE: the named file lost the doctrine).', R.PROTOCOL_1_75);
+  assert.notStrictEqual(v175, fresh, 'the fixture did not rebuild the 1.75.0 region');
+  for (const old of [withStar, v175]) {
+    const res = R.upsert(old, { 'task-pipeline': 'body' }, { members, rendered: {} });
+    assert.deepStrictEqual(res.kept, [], `the packaged star line was kept as a hand edit: ${JSON.stringify(res.kept)}`);
+    assert.strictEqual(res.text, fresh, 'turning the star off did not land the default protocol');
+  }
+});
+
+it('B-180: on, off, on, off three times over lands the same bytes each way', () => {
+  const crypto = require('crypto');
+  const h = (t) => crypto.createHash('sha256').update(t).digest('hex');
+  let text = write(EMPTY);
+  const seen = { on: new Set(), off: new Set() };
+  for (let i = 0; i < 3; i += 1) {
+    text = R.upsert(text, { 'task-pipeline': 'body' }, { members, star: true, rendered: {} }).text; seen.on.add(h(text));
+    text = R.upsert(text, { 'task-pipeline': 'body' }, { members, star: false, rendered: {} }).text; seen.off.add(h(text));
+  }
+  assert.strictEqual(seen.on.size, 1, 'turning it on drifts between runs');
+  assert.strictEqual(seen.off.size, 1, 'turning it off drifts between runs');
+  assert.ok(text.startsWith(OUTSIDE_BEFORE) && text.endsWith(OUTSIDE_AFTER), 'text outside the block moved');
 });
 
 it('a 1.69.0 or 1.65.0 protocol with no rendered record is refreshed, not refused as a hand edit', () => {
