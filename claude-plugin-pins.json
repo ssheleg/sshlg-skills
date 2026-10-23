@@ -2682,8 +2682,8 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "3b2b13d693111784420fe13e3952a533967ed670",
-      "version": "0.30.0",
+      "commit": "1cbb3610b484dfc700086c8470377944c0e405da",
+      "version": "0.31.0",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
       "entry": {
@@ -2691,7 +2691,7 @@
         "displayName": "SEO + AEO Audit",
         "source": "./plugins/seo-aeo-audit",
         "description": "Audits a website across ten evidence-based tracks (access & indexation, canonicalization, architecture & link equity, intent, content value, extractability/AEO, entity consensus, experience signals, risk, measurement) and outputs a findings report plus a prioritized change plan with verification steps. Includes a stdlib-only page auditor with answer-engine read-budget analysis.",
-        "version": "0.30.0",
+        "version": "0.31.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2716,7 +2716,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "b409b02222d63afeb1026ae21aef1fa70b4e72f30d72167b9e9c0cf402ee07a3",
+          "sha256": "45c983161bfb449a821f3fe0f4d600f137e843abb3bb41a00973a94c9ca4906e",
           "bytes": 766
         },
         {
@@ -2751,8 +2751,8 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/benchmarks.md",
-          "sha256": "c9edddf4e6fd9d712d1596add60942c4cc9149c4688fae80b6b030e94f50dc3e",
-          "bytes": 31793
+          "sha256": "9df13c51fa45f24610bf3312b1f0d698fe9ee4bcb1448f64d5fe3edf1f945dc1",
+          "bytes": 32172
         },
         {
           "path": "skills/seo-aeo-audit/references/build-time.md",
@@ -2856,52 +2856,52 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/tooling.md",
-          "sha256": "dff178e16dd2bff376f803ad007a430ae0604165dec6e97ab6ba0e257b3e644c",
-          "bytes": 21102
+          "sha256": "692d232dcdc6a52f4c8d40785b2a320387df48f4630ffd3b246345f1caaa4677",
+          "bytes": 41865
         },
         {
           "path": "skills/seo-aeo-audit/scripts/agent_surface.py",
-          "sha256": "b6acd544d16ee74bf747823435f9e3319608eb7ab25ca7edba1ba5ede7a443c9",
+          "sha256": "bc5d2d01a482d84a0630ec842ca418698f1c32912f89f6a7cb556d16666fb1ef",
           "bytes": 97372
         },
         {
           "path": "skills/seo-aeo-audit/scripts/ai_panel.py",
-          "sha256": "0b86fefc620e01f353920421c4262cd76301baa121a7a36d04a3651adcfaee51",
+          "sha256": "2c7231e84d8528c04e2b6431d3585e9c44c9a28b8ddc7d663f6000500830d7c2",
           "bytes": 25268
         },
         {
           "path": "skills/seo-aeo-audit/scripts/bwt_pull.py",
-          "sha256": "ebd4161a9722ccb94a856682a21126e0507b1c47765705c246cc0b619118252b",
+          "sha256": "b8dece8c1755ab0f0a2e71080a87ebd90f241ce60ba7e5b9affac612d0b8c562",
           "bytes": 25409
         },
         {
           "path": "skills/seo-aeo-audit/scripts/gsc_pull.py",
-          "sha256": "a1dff8c0934f11a026deda46d08ce18a000595016c135a304184b1414d05824b",
+          "sha256": "bcf4c84b57cee199fe72950bd7f05e0a02132d9bd6fcc00feed1af5e6f49dabe",
           "bytes": 61132
         },
         {
           "path": "skills/seo-aeo-audit/scripts/page_audit.py",
-          "sha256": "e044c3bd0d9ce495ea6cab2259127bc17539fde3b803d841b88481083d66f1c6",
+          "sha256": "492ae9dac4f32158db50def808f7f9b0952d188dafdb47984df01c02b2c5e965",
           "bytes": 80703
         },
         {
           "path": "skills/seo-aeo-audit/scripts/preflight.py",
-          "sha256": "97fed4a1cc80d34cba51217b91562b19de9af200238708028393f5bfa808aae2",
+          "sha256": "5497598d14dfcfada90e41ec2684e32d56b786e6314c16c1d84c65ea6d5d5047",
           "bytes": 65317
         },
         {
           "path": "skills/seo-aeo-audit/scripts/psi_pull.py",
-          "sha256": "1a7e87d23964a524f7612c6847bba420d2171d51424600d9f7bbd667e89e01ea",
+          "sha256": "38fde119ac40aeec72c0f8dca88f31ac730382f2b9272a3d10993ea83848f848",
           "bytes": 28522
         },
         {
           "path": "skills/seo-aeo-audit/scripts/sitemap_audit.py",
-          "sha256": "7d36f2cad978b308a455ed0f577b5053cccb7084acc85ae8088b5acd4043518d",
+          "sha256": "c17da63f913fe256879b02dd3da978b36f45959818f153efec256878e51eeeba",
           "bytes": 44650
         },
         {
           "path": "skills/seo-aeo-audit/scripts/url_inspection.py",
-          "sha256": "8095a2adf754defd4da3f0a226d58e4d8e017943d4637ca225b7179d38af7ff7",
+          "sha256": "31e10819459f89246ce55d3fc5b678c20e2177c5faedb3bdbbdd22bfbf9243ee",
           "bytes": 34553
         },
         {
