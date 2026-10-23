@@ -172,15 +172,13 @@ it('Skills leads the home identity and stays beside Harness in narrow navigation
   assert.ok(read('llms.txt').startsWith('# ssheleg skills'));
 });
 
-it('Foundry has a truthful development boundary and no private code link', () => {
-  const harness = read('harness/index.html');
-  const section = harness.match(/<section[^>]+id="asset-foundry"[\s\S]*?<\/section>/);
-  assert.ok(section, 'Foundry section is addressable');
-  assert.ok(section[0].includes('In development'));
-  assert.match(section[0], /3D, images and\s+audio/);
-  assert.ok(section[0].includes('not included in the skill installation'));
-  assert.ok(!harness.includes('github.com/ssheleg/asset-foundry'));
-  assert.ok(harness.includes('href="#asset-foundry"'));
+// B-248 (operator, 2026-10-22): the private asset agent is not announced on the public site.
+it('no page and no llms line announces the private asset agent', () => {
+  for (const f of built.written.filter((x) => x.endsWith('.html') || x.endsWith('.txt'))) {
+    const text = read(f);
+    assert.ok(!/foundry/i.test(text), `${f} still names the asset agent`);
+  }
+  assert.ok(!read('harness/index.html').includes('id="asset-foundry"'));
 });
 
 it('every page has a card of its own, and no card belongs to no page', () => {

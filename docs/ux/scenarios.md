@@ -11,7 +11,6 @@ Scope: the public Skills website, its separate Harness section and member relati
 | SCN-001 | Find skills, then understand the harness | Public website | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-002 | Locate a pack's role | Member page | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-003 | Choose Observatory separately | Harness page | maintainer | — | validated | 2026-09-21: browser + site suite |
-| SCN-004 | Understand Foundry availability | Harness page | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-005 | Find the Quest lifecycle workflow | XR member page | builder | — | validated | 2026-09-21: desktop/mobile browser + site suite |
 | SCN-006 | Start a domain project before dependencies exist | domains CLI and skill search | builder and coding agent | — | implemented | 2026-10-13: domain focused checks |
 | SCN-007 | Opt into a scoped wait rule | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
@@ -94,23 +93,11 @@ Scope: the public Skills website, its separate Harness section and member relati
 - **Coverage:** scripts/site.js
 - **Product:** unobserved
 
-### SCN-004: Understand Foundry availability
-- **Persona:** builder
-- **Feature:** Harness page
-- **Entry point:** /harness/#asset-foundry
-- **Preconditions:** none
-- **Steps:**
-  1. Open the asset creation layer -> see Asset Foundry's role in 3D, image and audio workflows.
-  2. Read its availability -> see “In development” and understand it has separate availability from the skill packs.
-- **Expected result:** the visitor understands the planned role without mistaking it for an available installation or following a private repository link.
-- **UI elements:** architecture table, Asset Foundry section, development state
-- **States covered:** success, empty
-- **Errors & recovery:** no public release -> an explicit development state replaces an install or source link.
-- **Status:** validated
-- **Coverage:** scripts/site.js; test/site_test.js
-- **Product:** unobserved
-
 ## Verification receipt
+
+2026-10-23: SCN-004 retired with the Harness page's asset-creation section, the operator's
+decision of 2026-10-22 (hub B-248): a private agent is not announced on the public site. Its
+id is not reused.
 
 2026-09-21: local generated home and harness pages reviewed at desktop width; harness and agent-stack member page reviewed at 390×844. Document width equalled the viewport (390px). A browser-observed missing side inset on combined `.wrap.hero` / `.wrap.sec` elements was corrected by using block-axis padding in `scripts/site.js`; the member h1 then measured 16px from the viewport edge. The content and navigation are generated HTML; no script is required for the three scenario paths. `node test/site_test.js` checks every member relationship and the separate-installation boundary. This is implementation verification, not observed conversion or adoption evidence.
 

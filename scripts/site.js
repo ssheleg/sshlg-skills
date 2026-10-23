@@ -1193,7 +1193,7 @@ function harnessPage() {
   return layout({
     rel: '../', url: '/harness/', card: 'harness',
     title: 'How the ssheleg harness works',
-    description: 'The method around your coding agent: skill packs, routing, verified delivery, Project Observatory and Asset Foundry in development. Each component has its own role and availability.',
+    description: 'The method around your coding agent: skill packs, routing, verified delivery and Project Observatory. Each component has its own role and availability.',
     jsonld: [{ '@context': 'https://schema.org', '@type': 'WebPage',
       name: 'How the ssheleg harness works', url: `${SITE}/harness/`,
       author: { '@id': PERSON_ID } }, { '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -1218,7 +1218,6 @@ function harnessPage() {
       <tr><td>Delivery</td><td>Keep scope, dependencies, acceptance evidence and a resume point</td><td><a href="../skills/task-pipeline/">task-pipeline</a></td></tr>
       <tr><td>Coordination</td><td>Claim shared work and record who changed what</td><td><a href="../skills/agent-sync/">agent-sync</a></td></tr>
       <tr><td>Specialist skills</td><td>Apply product, design, integration and agent engineering contracts</td><td><a href="../#skills">${members.length} independently usable packs</a></td></tr>
-      <tr><td>Asset creation</td><td>3D, image and audio workflows for agents (in development)</td><td><a href="#asset-foundry">Asset Foundry</a></td></tr>
       <tr><td>Observation</td><td>Inspect enrolled projects, changes and possible credential exposures</td><td><a href="https://observatory.sshlg.me/">Project Observatory</a></td></tr>
       </tbody></table></div>
       <div class="note"><p><strong>Your agent remains the runtime.</strong> Claude Code,
@@ -1248,17 +1247,6 @@ function harnessPage() {
       integration requirements. Public examples use synthetic projects and credentials.</p></div>
       <div class="ctas"><a class="btn" href="https://observatory.sshlg.me/">Explore Project Observatory</a>
       <a class="btn btn--ghost" href="https://observatory.sshlg.me/field-notes/">Why I built it: folders, projects and API-key copies</a></div>
-    </section>
-    <hr class="rule">
-    <section class="wrap sec" id="asset-foundry">
-      <p class="eyebrow">In development</p>
-      <h2>Asset Foundry</h2>
-      <p class="sub">Asset creation workflows for agents, covering 3D, images and
-      audio. Asset Foundry is being developed as a companion to the skill family:
-      skills guide the work, while Foundry brings asset creation into that workflow.</p>
-      <div class="note"><p><strong>Separate availability.</strong> Foundry is in
-      development and is not included in the skill installation. Public setup
-      instructions and provider support are not yet published.</p></div>
     </section>
     <hr class="rule">
     <section class="wrap sec"><h2>Borrow mechanisms. Keep one contract.</h2>
@@ -1582,7 +1570,6 @@ Repository: https://github.com/${GH_OWNER}/${GH_REPO}
 Site: ${SITE}/
 Manifesto: ${MANIFESTO}
 Harness architecture: ${SITE}/harness/
-Asset Foundry (in development): ${SITE}/harness/#asset-foundry
 Project Observatory: https://observatory.sshlg.me/
 
 ## Skills

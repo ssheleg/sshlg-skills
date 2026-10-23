@@ -24,7 +24,7 @@ in to Gemini CLI, then the discovery readback is repeated).
 | # | Exit check | How it is read |
 |---|---|---|
 | X1 | B-223 and B-250 closed, each with a test that was red before the fix | the hub's `npm test` on the released tag; the rows' evidence |
-| X2 | B-108, B-109 (hub) and B-152 (task-pipeline) closed the same way | each repository's gate on its released tag |
+| X2 | B-108, B-109 (hub) and B-152 (task-pipeline, renumbered B-153) closed the same way | B-153 on task-pipeline's released tag; B-108 and B-109 in each member's gate on `main` (a test file, no shipped payload, so no member release; the hub compares pinned copies by hash as members release) |
 | X3 | B-248, B-180 and B-249 done as decided; B-150 decided | the site build and `test/site_test.js`; the routing block preview; the merged bridge with its test |
 | X4 | `npx --yes sshlg-skills@latest update` reads all green for Claude and Codex after the last pin | its closing lines on this machine |
 

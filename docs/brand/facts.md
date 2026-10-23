@@ -42,5 +42,3 @@ its source before extending its review date.
 | Claim | Source | Public |
 |---|---|---|
 | skills.sshlg.me leads with skills; Harness is a separate architecture section | operator correction; `docs/evidence/plans/2026-09-21-skills-primary.md`; `scripts/site.js` | yes |
-| Asset Foundry is in development for agent-led 3D, image and audio asset workflows | owner-authorized project inventory; availability is not a public release claim | yes |
-| Foundry repository address, consumer projects and provider acceptance details | private development evidence; not public release evidence | no |

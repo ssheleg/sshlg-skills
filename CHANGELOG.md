@@ -1,3 +1,22 @@
+## v1.76.0 (2026-10-23): M3 waves 2 and 3, the operator's decisions and one member gate
+
+- **Pin:** task-pipeline 1.101.1 (B-153: the release gate's python3-failure fallback reads
+  command shapes, not words).
+
+- **B-180 closed:** the routing block's star line is opt-in, off by default
+  (`npx sshlg-skills config set rules.star on`). An installed block that carries it is the
+  pack's own text and is refreshed. Shown in `config list`.
+- **B-248 closed:** the public site no longer announces the private asset agent: the Harness
+  section, its table row, the llms line, the harness README paragraph and the brand rows are gone;
+  SCN-004 retired.
+- **B-249 closed:** `scripts/host-compat/mcp_schema_bridge.py`, an opt-in stdio MCP wrapper that
+  rewrites boolean JSON Schemas (`true` to `{}`) in `tools/list` output schemas for clients that
+  reject them, with its test.
+- **B-108, B-109:** `member-gate/family_gate.py`, the canonical member gate (the board parses;
+  `release.yml` keeps the tag-ancestry check), copied byte for byte into each member's
+  `test/family_gate.py` and run in its gate with `--self-test`; `test/member_gate_copies_test.py`
+  compares the pinned copies with the canonical file.
+
 ## v1.75.1 (2026-10-23): seo-aeo-audit pinned to 0.31.0
 
 - **seo-aeo-audit 0.31.0** (was 0.30.0), commit `1cbb361`: the property instrument registry, the
