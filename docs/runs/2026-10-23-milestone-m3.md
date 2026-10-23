@@ -45,6 +45,22 @@ tag-reachability guard sits in every member's `release.yml` and in none of their
 **Wave 3, the operator's decisions:** B-248, B-180, B-249, and B-150 (task-pipeline's two fw07
 branches: delete once PR #128's links point at `refs/pull/<n>/head`).
 
+## Exit checks, read 2026-10-23 (M3 is done)
+
+| # | Result | Evidence |
+|---|---|---|
+| X1 | green | B-223 (a host self-update inside a command substitution refused, with its remedy) and B-250 (a long token is not a placeholder by accident: 0 of 130,000 random JWTs missed, 36 of 20,000 before) shipped in 1.75.0, each with tests red before the fix |
+| X2 | green | B-153 shipped in task-pipeline 1.101.1; B-108 and B-109: `member-gate/family_gate.py` runs in all eleven members' gates with `--self-test` (the last, task-pipeline, through #147), and the hub compares pinned copies by hash (seo-aeo-audit 0.31.0's copy is identical) |
+| X3 | green | B-248, B-180 and B-249 shipped in 1.76.0 as the operator decided; B-150 closed (both fw07 heads equal `refs/pull/123/head` and `refs/pull/124/head`; branches deleted) |
+| X4 | green | `npx --yes sshlg-skills@latest update` on 1.76.0: exit 0, "11 of 11 steps, all green", Claude verified, Codex "9 already at it ... 0 deferred ... overall current" after two Codex plugins were moved to their new pins by hand (no Codex process running; config backed up under `~/.sshlg-skills/backups/codex-manual-2026-10-23-1760/`) |
+
+**Budget used:** three waves, at most two sub-agents at once. task-pipeline needed two releases in
+M3 waves (1.101.1, and its release run's first attempt failed on B-156, a cleanup race fixed in
+#147). Found on the way and filed: B-253 (hub, `executablePart()` drops text the shell would run),
+B-155 (task-pipeline, a dated first Closed bullet exempts the section). Another session released
+hub 1.75.1 (seo-aeo-audit 0.31.0) in parallel; 1.76.0 carries both. agent-stack #50 was closed as
+superseded by its #51.
+
 ## After M3
 
 Candidates for M4 are the doctrine rows at the top of task-pipeline's board (priority 7.0: the
