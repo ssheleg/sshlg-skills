@@ -2682,8 +2682,8 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "1cbb3610b484dfc700086c8470377944c0e405da",
-      "version": "0.31.0",
+      "commit": "eb6e8528236d79cd1122d5a5d33fa795ec1b2a48",
+      "version": "0.31.3",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
       "entry": {
@@ -2691,7 +2691,7 @@
         "displayName": "SEO + AEO Audit",
         "source": "./plugins/seo-aeo-audit",
         "description": "Audits a website across ten evidence-based tracks (access & indexation, canonicalization, architecture & link equity, intent, content value, extractability/AEO, entity consensus, experience signals, risk, measurement) and outputs a findings report plus a prioritized change plan with verification steps. Includes a stdlib-only page auditor with answer-engine read-budget analysis.",
-        "version": "0.31.0",
+        "version": "0.31.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2716,7 +2716,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "45c983161bfb449a821f3fe0f4d600f137e843abb3bb41a00973a94c9ca4906e",
+          "sha256": "d09218c055d3696714d6e2b0f2dde8c10cdd28265c0c3a1049350e0c9c5deab8",
           "bytes": 766
         },
         {
@@ -2841,8 +2841,8 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/scripts.md",
-          "sha256": "4eb2ec3b55276ed4e6bdc20b6e4d683db04e0c5a8266ddceccbe5789b9499de0",
-          "bytes": 26137
+          "sha256": "cb26823aeb51f7cc8660dae71474dc59fd50ded161f106b350dfd427a1df0d76",
+          "bytes": 26377
         },
         {
           "path": "skills/seo-aeo-audit/references/technical-checks.md",
@@ -2861,48 +2861,48 @@
         },
         {
           "path": "skills/seo-aeo-audit/scripts/agent_surface.py",
-          "sha256": "bc5d2d01a482d84a0630ec842ca418698f1c32912f89f6a7cb556d16666fb1ef",
+          "sha256": "44972de35d6d0a37fbe24ceaf9956d2bb3b9972d53ee05eea21d7f4aeab444d2",
           "bytes": 97372
         },
         {
           "path": "skills/seo-aeo-audit/scripts/ai_panel.py",
-          "sha256": "2c7231e84d8528c04e2b6431d3585e9c44c9a28b8ddc7d663f6000500830d7c2",
+          "sha256": "2d57da6ebe3849a0f595aa2fbd4af2d38c7204e950638c007d8edba53ad4dcaa",
           "bytes": 25268
         },
         {
           "path": "skills/seo-aeo-audit/scripts/bwt_pull.py",
-          "sha256": "b8dece8c1755ab0f0a2e71080a87ebd90f241ce60ba7e5b9affac612d0b8c562",
+          "sha256": "213e8504d82205b018281b120fc66d3f4794c66debf7e10c0054faaf72684c4e",
           "bytes": 25409
         },
         {
           "path": "skills/seo-aeo-audit/scripts/gsc_pull.py",
-          "sha256": "bcf4c84b57cee199fe72950bd7f05e0a02132d9bd6fcc00feed1af5e6f49dabe",
+          "sha256": "adccf84929e60347cc213aa715a3e3b9c03e314f8516926b7020e27435efc666",
           "bytes": 61132
         },
         {
           "path": "skills/seo-aeo-audit/scripts/page_audit.py",
-          "sha256": "492ae9dac4f32158db50def808f7f9b0952d188dafdb47984df01c02b2c5e965",
+          "sha256": "4a5d1ce7ff3b5069e129b23bcb92fd6192c5169ec026098f8271d72465e067a2",
           "bytes": 80703
         },
         {
           "path": "skills/seo-aeo-audit/scripts/preflight.py",
-          "sha256": "5497598d14dfcfada90e41ec2684e32d56b786e6314c16c1d84c65ea6d5d5047",
+          "sha256": "3e3064fc61061da199e2075802021f4e7d6757c08e99ce2682c0aa4efc1ef248",
           "bytes": 65317
         },
         {
           "path": "skills/seo-aeo-audit/scripts/psi_pull.py",
-          "sha256": "38fde119ac40aeec72c0f8dca88f31ac730382f2b9272a3d10993ea83848f848",
+          "sha256": "1d1b3f4941d895869215eecea758ace157b67dcc4c588cb27e3cbad61527f3ed",
           "bytes": 28522
         },
         {
           "path": "skills/seo-aeo-audit/scripts/sitemap_audit.py",
-          "sha256": "c17da63f913fe256879b02dd3da978b36f45959818f153efec256878e51eeeba",
+          "sha256": "3639cf111af8c94cf899f621c73e61160caca73e5d249c26daa34ae0f052199f",
           "bytes": 44650
         },
         {
           "path": "skills/seo-aeo-audit/scripts/url_inspection.py",
-          "sha256": "31e10819459f89246ce55d3fc5b678c20e2177c5faedb3bdbbdd22bfbf9243ee",
-          "bytes": 34553
+          "sha256": "b6a242af5d2defbcaffe60b42980926ab52a2cdebd17739cada5eb31e817e653",
+          "bytes": 36543
         },
         {
           "path": "skills/seo-aeo-audit/SKILL.md",
@@ -3265,8 +3265,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "4a15f7c26f41c95ce300be131d5d6f33491f4f88",
-      "version": "0.30.2",
+      "commit": "27be243b737e50cb1198207ba07e8704076853bb",
+      "version": "0.31.2",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3274,7 +3274,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.30.2",
+        "version": "0.31.2",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3299,7 +3299,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "dcede6fd908154045471766784f2de2ba7bcb205a38761d2335a1cec907edc13",
+          "sha256": "9f3c5b3a06538e3a5dfdffd47f1cf531d943d3f40816bd18ae3961480241d643",
           "bytes": 1081
         },
         {
@@ -3318,9 +3318,14 @@
           "bytes": 13853
         },
         {
+          "path": "skills/agent-evals/references/support-quality.md",
+          "sha256": "a39fb4a9b68d9d90c9a2ccf1a32252535328b582b487a0196e7b321fb4a44dbd",
+          "bytes": 12410
+        },
+        {
           "path": "skills/agent-evals/SKILL.md",
-          "sha256": "221d4487a1775f8b9c1fc30ac49251a14d08e248def29afdfc66aa677db417b3",
-          "bytes": 21197
+          "sha256": "6c17dff16c45711cd3ca550585e23fb77b2d1f59fbc26c7042625f423ac46b6d",
+          "bytes": 21472
         },
         {
           "path": "skills/agent-harness/references/audit.md",
@@ -3484,8 +3489,8 @@
         },
         {
           "path": "skills/agent-orchestrator/SKILL.md",
-          "sha256": "7d0e36de35cf002c2959aba394f9ed89d264473b049695d2e54dabfe191480e1",
-          "bytes": 20571
+          "sha256": "e933867fb85610efd76e7bc8b1d0ec186cfe26cefbbe6c43afb5d8062a8e232e",
+          "bytes": 20723
         }
       ]
     },

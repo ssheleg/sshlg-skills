@@ -1,3 +1,14 @@
+## v1.76.1 (2026-10-23): two issues closed in the members
+
+- **Pins:** agent-stack 0.31.2 (0.31.0 closed issue agent-stack#56: `agent-evals/references/support-quality.md`,
+  a product-neutral support quality standard for agents that answer people, routed from
+  `agent-evals` and `agent-orchestrator`); seo-aeo-audit 0.31.3 (0.31.1 closed issue seo-aeo-audit#56:
+  `url_inspection.py` re-mints its ADC token before 50 minutes and once on HTTP 401, so a long
+  run no longer answers 401 after an hour). Both patches carry `test/family_gate.py` with
+  `# shared-mechanism: family-gate` and `# diverges: none`, the two lines this repository's
+  cross-repository check requires of every copy; the canonical `member-gate/family_gate.py` carries it too, and all
+  eleven members' copies were refreshed.
+
 ## v1.76.0 (2026-10-23): M3 waves 2 and 3, the operator's decisions and one member gate
 
 - **Pin:** task-pipeline 1.101.1 (B-153: the release gate's python3-failure fallback reads
