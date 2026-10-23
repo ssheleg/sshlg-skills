@@ -28,6 +28,10 @@ task-pipeline (a validator section-date rule, a cleanup race).
 **M3 is done** (exit checks X1 to X4 green, read 2026-10-23, recorded in the
 [M3 plan](runs/2026-10-23-milestone-m3.md#exit-checks-read-2026-10-23-m3-is-done)).
 
+**1.76.1 (2026-10-23):** the two open issues closed through member releases: agent-stack 0.31.0
+(#56, the support quality standard) and seo-aeo-audit 0.31.1 (#56, URL Inspection token refresh);
+agent-stack PR #50 closed as superseded. No open PR or issue remains in the family.
+
 **Exact next bounded task:** plan M4 with the operator from the doctrine rows at the top of
 task-pipeline's board (priority 7.0) and this board's B-253; operator decisions still open:
 sheleg-design B-004, B-29, B-146.

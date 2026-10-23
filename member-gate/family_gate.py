@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# shared-mechanism: family-gate
+# diverges: none
 """family_gate.py: two checks every sshlg-skills member runs in its own gate.
 
 Canonical copy: ssheleg/sshlg-skills `member-gate/family_gate.py`. Every member carries it
