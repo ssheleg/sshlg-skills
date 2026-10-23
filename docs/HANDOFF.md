@@ -25,8 +25,12 @@ private asset agent off the public site, SCN-004 retired (B-248); the MCP schema
 (B-249). agent-stack #50 closed as superseded by its #51. Filed on the way: B-155 and B-156 in
 task-pipeline (a validator section-date rule, a cleanup race).
 
-**Exact next bounded task:** after merge, tag `v1.76.0`, watch the release, `npx --yes
-sshlg-skills@latest update`, read X4, then record M3's exit checks in the M3 plan.
+**M3 is done** (exit checks X1 to X4 green, read 2026-10-23, recorded in the
+[M3 plan](runs/2026-10-23-milestone-m3.md#exit-checks-read-2026-10-23-m3-is-done)).
+
+**Exact next bounded task:** plan M4 with the operator from the doctrine rows at the top of
+task-pipeline's board (priority 7.0) and this board's B-253; operator decisions still open:
+sheleg-design B-004, B-29, B-146.
 
 ## Previous: 2026-10-22 milestones M1 and M2, the design-review gate (1.74.0 to 1.74.2)
 
