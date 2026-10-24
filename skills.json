@@ -225,13 +225,13 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.4.0",
+      "version": "0.5.3",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",
       "shape": "static",
       "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code.",
-      "commit": "94251eaae844febabe23fed0399dc5e35783f7c2"
+      "commit": "50cb6eb0793a5d2db9232c44e36daf7bdd2a77f7"
     },
     {
       "name": "xr-dev",

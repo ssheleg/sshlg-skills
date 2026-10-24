@@ -1,3 +1,16 @@
+## v1.76.2 (2026-10-24): telegram-dev pinned to 0.5.3
+
+- **Pin:** telegram-dev 0.5.3 (`telegram-bots/references/high-load.md`, a bot under load: the
+  poll loop that awaits a whole batch, a queue per chat under one ceiling, payments outside it,
+  flood guards measured from arrival rather than from the start of handling, the waiting
+  callback answered at once, a bounded shutdown, and what to measure; with
+  `fixtures/update_pump.py`, a discrete-event simulation on a virtual clock whose nine
+  invariants each go red when their rule is removed). 0.5.0 was skipped: a tag named `v0.5.0`
+  sits on a commit that is no release and the member's ruleset forbids deleting tags.
+  0.5.2 and 0.5.3 add the member's verification ledger section for that content (this
+  repository's `validate.py` refuses a ledger older than the shipped version); `v0.5.2` was a
+  lightweight tag the release workflow refused, so 0.5.3 is the release.
+
 ## v1.76.1 (2026-10-23): two issues closed in the members
 
 - **Pins:** agent-stack 0.31.2 (0.31.0 closed issue agent-stack#56: `agent-evals/references/support-quality.md`,
