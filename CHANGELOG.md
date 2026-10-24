@@ -22,6 +22,15 @@
   a non-shell stay executable, and a `#` line inside a quote left open from an earlier line is
   not a comment. `lib/guard.js` and `lib/repogate.js`, which reuse it, inherit the fix.
 
+## v1.76.4 (2026-10-24): seo-aeo-audit pinned to 0.32.2
+
+- **seo-aeo-audit 0.32.2** (was 0.32.0), commit `08a57df`: `references/playbooks.md` grows. PB5
+  gains the hub-showcase step (every item, in stock first, the rest marked "check availability" as
+  a live check); PB11 reads page speed per template from a keyed PageSpeed Insights call; PB12 adds
+  a network's hosts to Bing Webmaster through the API and keeps adding apart from verifying. 0.32.1
+  carries the same content under a lightweight tag its release refused, so 0.32.2 is the published
+  one.
+
 ## v1.76.3 (2026-10-24): telegram-dev pinned to 0.5.3
 
 - **Pin:** telegram-dev 0.5.3 (`telegram-bots/references/high-load.md`, a bot under load: the
