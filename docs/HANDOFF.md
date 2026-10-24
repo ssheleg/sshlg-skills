@@ -8,7 +8,32 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-24 releases with users carry an impact card (1.77.0)
+## Current: 2026-10-24 context audit: where always-loaded text exceeds what is needed (1.78.0)
+
+**Objective (operator, 2026-10-24):** check every project, agent, file and skill for text that
+costs more tokens than needed, and optimize where we can.
+
+**Measured** (agent-stack `agent-harness/references/instruction-budget.md` and its
+`instruction_budget.py`; local budget 40,000 characters for a project's always-loaded chain,
+32,768 bytes for an AGENTS.md because Codex truncates project docs above it silently):
+- Claude's skill listing: 132 entries, 61,725 characters against a 30,000 budget (debug log
+  2026-10-24). Fixed in part here (B-254); the rest is B-255. The routing block, 15,410
+  characters in each of five host files, is B-256.
+- Project instruction files over budget. Done in the operator's own repositories:
+  `ssheleg/nicegramappbot` PR #6 (chain 262,677 to 21,588 characters, lossless line check).
+  Given to the owning projects as Fabric board findings (2026-10-24): nicegram-ad-manager-bot
+  (CLAUDE.md 181,363 characters), nicegram-business (AGENTS.md 53,428 bytes, Codex truncates),
+  sasai (60,405), project-observatory-open-source (AGENTS.md 40,488 bytes), and copylot-agent
+  (two MCP registrations repeat 2,400 characters of instructions). Not on the board:
+  checkmydata-ai (136,051) and the PROWL-AI repositories (prowl-app 51,904). Third-party
+  checkouts (claude-skills, openclaw) are left alone.
+
+**Exact next bounded task:** after merge, tag `v1.78.0`, watch the release, `npx --yes
+sshlg-skills@latest update`, then `npx sshlg-skills visibility --apply` on this machine and
+read Claude Code's own listing count in a fresh `claude -p x --debug`; stage 8 for this
+release's card (`docs/evidence/specs/2026-10-24-v1780-release-impact.md`) after 24 hours.
+
+## Previous: 2026-10-24 releases with users carry an impact card (1.77.0)
 
 **Objective (operator, 2026-10-24):** work through open pull requests and pending work and ship
 updates; and every release in any project assesses its effect on current users, with tracking,

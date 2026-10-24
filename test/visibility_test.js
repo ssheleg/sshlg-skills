@@ -188,7 +188,66 @@ it('listing cost: a listed name counts, a description only when on (capped at 15
     { name: 'bb', description: 'y'.repeat(10), state: 'name-only' },
     { name: 'ccc', description: 'z'.repeat(10), state: 'hidden' },
   ];
-  assert.strictEqual(V.listingChars(rows), 1 + 1536 + 2);
+  // Claude Code 2.1.299 prints `- name: description` per entry, `- name` when name-only,
+  // one newline between entries: (2+1+2+1536) + 1 + (2+2).
+  assert.strictEqual(V.listingChars(rows), (2 + 1 + 2 + 1536) + 1 + (2 + 2));
+});
+
+it('listing cost: an empty listing costs nothing', () => {
+  assert.strictEqual(V.listingChars([]), 0);
+  assert.strictEqual(V.listingChars([{ name: 'a', description: 'x', state: 'hidden' }]), 0);
+});
+
+// Name-only tier (B-254). Core skills stay listed, but only the ones in use keep their
+// description: Claude Code 2.1.299 drops descriptions least-used first once the listing is
+// over budget, so a quiet skill loses its description either way. Choosing which, by
+// recency, keeps the decision with the operator's own usage instead of the host's order.
+it('claude plan: core skills outside the full set go name-only; full, kept and operator-set do not', () => {
+  const core = new Set(['used-recently', 'used-long-ago', 'named-in-instructions', 'operator-set']);
+  const full = new Set(['used-recently', 'named-in-instructions']);
+  const plan = V.claudePlan({ personal: PERSONAL, core, full, overrides: { 'operator-set': 'on' }, keep: [] });
+  assert.deepStrictEqual(plan.hide, ['never-used']);
+  assert.deepStrictEqual(plan.nameOnly, ['used-long-ago']);
+  assert.deepStrictEqual(plan.respected, ['operator-set']);
+});
+
+it('claude plan: without a full set nothing goes name-only (the old behaviour)', () => {
+  const plan = V.claudePlan({ personal: PERSONAL, core: new Set(['used-recently']), overrides: {}, keep: [] });
+  assert.deepStrictEqual(plan.nameOnly, []);
+});
+
+it('claude plan: --keep keeps the description too', () => {
+  const plan = V.claudePlan({ personal: ['a'], core: new Set(['a']), full: new Set(), overrides: {}, keep: ['a'] });
+  assert.deepStrictEqual(plan.nameOnly, []);
+  assert.deepStrictEqual(plan.hide, []);
+});
+
+it('full set: used within the full window or named in the instructions', () => {
+  const full = V.fullSet({ personal: PERSONAL, usage: USAGE, now: NOW, fullDays: 14,
+    instructions: 'Read the `named-in-instructions` skill first.' });
+  assert.deepStrictEqual([...full].sort(), ['named-in-instructions', 'used-recently']);
+});
+
+it('claude settings: name-only is written and reverted byte for byte', () => {
+  const before = JSON.stringify({ model: 'x' }, null, 2) + '\n';
+  const r = V.editClaudeSettings(before, { set: { a: V.NAME_ONLY, b: V.HIDE }, unset: {} });
+  assert.deepStrictEqual(JSON.parse(r.text).skillOverrides, { a: 'name-only', b: 'user-invocable-only' });
+  const back = V.editClaudeSettings(r.text, { set: {}, unset: { a: V.NAME_ONLY, b: V.HIDE } });
+  assert.strictEqual(back.text, before);
+});
+
+it('claude settings: the launcher moves its own value from hidden to name-only', () => {
+  const t = JSON.stringify({ skillOverrides: { a: 'user-invocable-only' } }, null, 2) + '\n';
+  const r = V.editClaudeSettings(t, { set: { a: V.NAME_ONLY }, unset: {} });
+  assert.deepStrictEqual(JSON.parse(r.text).skillOverrides, { a: 'name-only' });
+});
+
+it('claude settings: unset removes only the value the launcher owns', () => {
+  const t = JSON.stringify({ skillOverrides: { a: 'user-invocable-only', b: 'name-only' } }, null, 2) + '\n';
+  // The operator turned the launcher's name-only `a` into a hide by hand: it is theirs now.
+  const r = V.editClaudeSettings(t, { set: {}, unset: { a: V.NAME_ONLY, b: V.NAME_ONLY } });
+  assert.deepStrictEqual(JSON.parse(r.text).skillOverrides, { a: 'user-invocable-only' });
+  assert.deepStrictEqual(r.kept, ['a']);
 });
 
 if (failures.length) {
