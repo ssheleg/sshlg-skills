@@ -1,4 +1,13 @@
-## Unreleased
+## v1.77.0 (2026-10-24): every release with users carries its impact card
+
+- **Pins:** task-pipeline 1.102.0, the release impact card (operator, 2026-10-24): a release in a
+  project with users owes, before its tag, publish or deploy, a card naming who is affected and
+  how, the tracking that shows it going well with a watch window, the alert that fires when it
+  does not, and the rollback or hotfix with its decision trigger; stage 8 watches it
+  (`scripts/release_impact.py`, 47 cases); its own release carries the first card. Also B-155.
+  Member releases of what merged since their last tags (the family member gate and docs):
+  super-ux 0.66.1, sheleg-design 1.66.3, sheleg-dev 0.16.1, agent-sync 1.23.1, make-skill 0.33.1,
+  web3d-dev 0.2.3, xr-dev 0.4.3.
 
 - **#267 closed:** `update` rolled telegram-dev back because one of its local scopes is a
   subdirectory of a git repository (`sshlg-personal-os/apps/adops-bot`). Measured in a scratch

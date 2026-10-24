@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-23 milestone M3, gates that cannot lie (1.75.0, 1.76.0)
+## Current: 2026-10-24 releases with users carry an impact card (1.77.0)
+
+**Objective (operator, 2026-10-24):** work through open pull requests and pending work and ship
+updates; and every release in any project assesses its effect on current users, with tracking,
+alerting and a rollback or hotfix plan.
+
+**Done:** task-pipeline 1.102.0 (the release impact card; v1.101.2 was not tagged, its content
+ships here); member releases of everything merged since their tags; B-253 and #267 fixed here
+with tests and probes; agent-stack #56 and seo-aeo-audit #56 closed in their 0.31.x releases.
+
+**Exact next bounded task:** after merge, tag `v1.77.0`, watch the release, `npx --yes
+sshlg-skills@latest update`; stage 8 for task-pipeline's v1.102.0 card (read its signals for
+24 hours, add the Outcome); move the deferred Codex plugins when Codex is idle.
+
+## Previous: 2026-10-23 milestone M3, gates that cannot lie (1.75.0, 1.76.0)
 
 **Objective (operator, 2026-10-22):** show the decisions that are the operator's, then the next
 stage. The operator decided B-247 (keep history), B-248 (remove the site section), B-180 (star

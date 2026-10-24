@@ -1,4 +1,4 @@
-## 2026-10-24: text the shell would still run (B-253), branch `fix/b253-heredoc`, unreleased
+## 2026-10-24: text the shell would still run (B-253), branch `fix/b253-heredoc`, 1.77.0
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
 |---|---|---|---|---|---|

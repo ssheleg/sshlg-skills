@@ -4,8 +4,8 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "13195c6402705cb656961fb04ca6d1f8c1df3fb0",
-      "version": "0.66.0",
+      "commit": "4965a0b5ff10bca27e7044d957f5cdb612841783",
+      "version": "0.66.1",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
@@ -13,7 +13,7 @@
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
         "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ — product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.66.0",
+        "version": "0.66.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,7 +40,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "42fd5c31e30c9df462bc7588731d2aa0e91de38d9e79bd039a165b163df345f8",
+          "sha256": "9a54d7d75b7d07030de41f0bfafff651b56cbf7063d0a2fcf4005f3b104d7635",
           "bytes": 1196
         },
         {
@@ -1073,8 +1073,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "c914a84d1240caef00c8ed4342b0ef3eddf4f5b0",
-      "version": "1.101.1",
+      "commit": "34251bff4ab67bbaed8e290884327f03ad646ad8",
+      "version": "1.102.0",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1082,7 +1082,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.101.1",
+        "version": "1.102.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1105,7 +1105,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "27aebdde4177506522664b4722111876ad30f2eeca938dfde28d25433ce7e625",
+          "sha256": "0646241836573d8a111f38f4edb57d1d15621da1bfbaab7405ad14c1a9793ba4",
           "bytes": 1529
         },
         {
@@ -1305,13 +1305,13 @@
         },
         {
           "path": "skills/task-pipeline/pipeline.example.json",
-          "sha256": "253d7f3b83516933660b61e55b8756019caae182d759a2f1c5a21af9a0aba6d4",
-          "bytes": 25974
+          "sha256": "e6caf3c47a5638d6bfdda19f16a58d3a8edc53a891c6363956d05e9febedaeb2",
+          "bytes": 25999
         },
         {
           "path": "skills/task-pipeline/pipeline.schema.json",
-          "sha256": "4a123f1f501184a45de225e3568d60de0510b50d9b9e91e703b46d3e8550a930",
-          "bytes": 22920
+          "sha256": "52739da82583aa96740359e6b3c3c6e9399d3f8c95df875e746fc460f1baf144",
+          "bytes": 23552
         },
         {
           "path": "skills/task-pipeline/references/acceptance.md",
@@ -1325,8 +1325,8 @@
         },
         {
           "path": "skills/task-pipeline/references/artifacts.md",
-          "sha256": "49f82f9895b5e5df86471a1122d46adccdbccb3846f23485d815442e19af3044",
-          "bytes": 20165
+          "sha256": "aa20a00752c9f5403212081cec24532da23f2aef5165827a448832b8c1bf84f9",
+          "bytes": 20513
         },
         {
           "path": "skills/task-pipeline/references/audit.md",
@@ -1390,8 +1390,8 @@
         },
         {
           "path": "skills/task-pipeline/references/doctrine-map.md",
-          "sha256": "1928796d40bb9a9f4f2ec360063ad6d5101accbdb3755f62399beb90f5f9a880",
-          "bytes": 5350
+          "sha256": "680452be2e1eadd42d7180ffeeaff2eb432b213e4dc4408f2d76bfc6de8e83fa",
+          "bytes": 5543
         },
         {
           "path": "skills/task-pipeline/references/documentation.md",
@@ -1460,8 +1460,8 @@
         },
         {
           "path": "skills/task-pipeline/references/portability.md",
-          "sha256": "e9c039c741b743ed3ee0d93459773210fa79daeae9f55e2136aa5ceb1f113d48",
-          "bytes": 12060
+          "sha256": "309fb98d58e9dc71ea3d3fd9f185371c70e745fbb42bc45614d015525a18691b",
+          "bytes": 12313
         },
         {
           "path": "skills/task-pipeline/references/prioritisation.md",
@@ -1477,6 +1477,11 @@
           "path": "skills/task-pipeline/references/progress.md",
           "sha256": "216f5d195c8b99aa7113d9fd19c6666b88b6b0cadd38eb93c840440fbabbb6eb",
           "bytes": 25540
+        },
+        {
+          "path": "skills/task-pipeline/references/release-impact.md",
+          "sha256": "182135808e6db37647cfb30dadede0deceecf4f6bd69dc9aa99589c9aefa2d1c",
+          "bytes": 9909
         },
         {
           "path": "skills/task-pipeline/references/residue.md",
@@ -1540,13 +1545,13 @@
         },
         {
           "path": "skills/task-pipeline/references/stage-07-lint-deploy.md",
-          "sha256": "2a1eeb370e346a679d05b2e1670f0cd4a2e8ebc485538f92e63ec3b185d6f138",
-          "bytes": 936
+          "sha256": "6af757f8c22c4da3169600f3bb9bcf2f631411e8d676ad53b811fe154111bce3",
+          "bytes": 1444
         },
         {
           "path": "skills/task-pipeline/references/stage-08-post-deploy.md",
-          "sha256": "b2d1c70fe9261d62985c1356b5650df3006f0e4e7dd8534753d824f43899bd2a",
-          "bytes": 2002
+          "sha256": "bc10341cbc6b9356311ae62021a0182768930fc0221dcb142bf6d491262c79ab",
+          "bytes": 2465
         },
         {
           "path": "skills/task-pipeline/references/stage-09-docs-wiki.md",
@@ -1560,8 +1565,8 @@
         },
         {
           "path": "skills/task-pipeline/references/stages.md",
-          "sha256": "d45637faf55c26e1a9e2d25e2fa7fca6ead1153d6f9cab2d536e6bad9723aed1",
-          "bytes": 37900
+          "sha256": "cd2a737e30e96ef29a90c9d30790159a6eb88b223b524d46c46659d861498deb",
+          "bytes": 38987
         },
         {
           "path": "skills/task-pipeline/references/tdd.md",
@@ -1605,7 +1610,7 @@
         },
         {
           "path": "skills/task-pipeline/scripts/graph.py",
-          "sha256": "a0d6c501ef4bf17b0f93b66e828ea662b925682bea7f9fbf8ca481f06df8925f",
+          "sha256": "503afebfa1891badd0c5bf4dc7b41ee832021ddb1fdc5d0192d9cec507728a44",
           "bytes": 115059
         },
         {
@@ -1622,6 +1627,11 @@
           "path": "skills/task-pipeline/scripts/plan_audit.py",
           "sha256": "0c1c2a55b9907147c9f8f5dc9075f67b050df6d79581eef4dca4c89ec33e8728",
           "bytes": 17215
+        },
+        {
+          "path": "skills/task-pipeline/scripts/release_impact.py",
+          "sha256": "b9a6803e5ddd23372b737e428211c5b092c72e05209d1988356c4475c8778cee",
+          "bytes": 11959
         },
         {
           "path": "skills/task-pipeline/scripts/resource_guard.py",
@@ -1765,8 +1775,13 @@
         },
         {
           "path": "skills/task-pipeline/templates/README.md",
-          "sha256": "664ba4d50bd4ec6c7d6351189efb5004d162956219c44b54841d3374c9b26380",
-          "bytes": 5560
+          "sha256": "cb2cdbd2d93d7bc8a06fc54d8b2d218b57d2911b7c7dc925320877c1e9733ee6",
+          "bytes": 5811
+        },
+        {
+          "path": "skills/task-pipeline/templates/release-impact.md",
+          "sha256": "7d3d2b9e693b9cf42e47ffbbcafd7b5e4f033bfdfa381762175de7a38664c295",
+          "bytes": 2141
         },
         {
           "path": "skills/task-pipeline/templates/retro-archive.md",
@@ -1785,7 +1800,7 @@
         },
         {
           "path": "skills/task-pipeline/templates/run.md",
-          "sha256": "126bfb4a4c18719eb41c485e830e1d40433f491b05a7e53a908214d930faedb0",
+          "sha256": "bd89a1680e6f861d435df9caf0685385fa3f1d7ff7fbea93c153fde2c3be0b8e",
           "bytes": 13120
         },
         {
@@ -1803,8 +1818,8 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "5c169af9097f8192fe8786014fb08b3e8fe2204d",
-      "version": "1.23.0",
+      "commit": "7c3f18aed38b4fa8d8c8d4d7da9df223141cb7ef",
+      "version": "1.23.1",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
       "entry": {
@@ -1812,7 +1827,7 @@
         "displayName": "Agent Sync",
         "source": "./plugins/agent-sync",
         "description": "Coordination layer for multi-agent repositories. Gives task-pipeline runs leases with a TTL, race-free ID reservation, a cross-repo signal feed, an append-only run journal and a machine-generated read-only board. A lease is decided by a primitive that genuinely has compare-and-swap — an atomic file create on one machine, a pushed git ref across machines — never by the knowledge base, which loses concurrent writes; the store carries the record and the ID allocation, which is positional over the merged log. The knowledge backend is a pluggable adapter (Outline, filesystem) declaring its own capabilities and degrading out loud. Ships Claude Code hooks that deny edits to guarded registry files without a live lease.",
-        "version": "1.23.0",
+        "version": "1.23.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1835,7 +1850,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "bca81db5728d6686d6664f3d248660e7155ad504a033eea65cbd4c43697b6291",
+          "sha256": "69b086ad9fa4b2a71efee43fc01302fe40aa16e377c17586d058553ab7ba8a5c",
           "bytes": 695
         },
         {
@@ -1935,7 +1950,7 @@
         },
         {
           "path": "skills/agent-sync/scripts/agent_sync.py",
-          "sha256": "fc35d561ff73efbb31be792f2bfe46e51d72bcc8b8a04627f07aa0bf377b33d0",
+          "sha256": "80a162732f4f8fe0cbca7df7355bbc757ed98e038d7e1ac9b2708de120b575d8",
           "bytes": 376420
         },
         {
@@ -1945,7 +1960,7 @@
         },
         {
           "path": "skills/agent-sync/SKILL.md",
-          "sha256": "6807c2cf0eb8e8ad675c8bf92d7eed550baeb8420442cdaf4002ab43a6b0c1e7",
+          "sha256": "d49b5b0dad05af9a988d0cc31ef483be2d1006d01b21e519afc44691764dcd0d",
           "bytes": 19971
         }
       ]
@@ -1953,8 +1968,8 @@
     {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
-      "commit": "7745e2c646c0642af8aa0796522867ba115a0f42",
-      "version": "0.33.0",
+      "commit": "c59b0761cb57c8a67bb35e18615ca6f77c08b170",
+      "version": "0.33.1",
       "pluginInstall": "make-skill@make-skill",
       "pluginPath": "plugins/make-skill",
       "entry": {
@@ -1962,7 +1977,7 @@
         "displayName": "Make Skill",
         "source": "./plugins/make-skill",
         "description": "Encodes the Agent Skills open standard AND Anthropic's platform rules (front-matter limits, disclosure budgets, per-surface runtime limits, the Skills API, evaluation-driven authoring) plus the Claude Code plugin reference (manifest schemas, component layout, `claude plugin validate --strict`) and the proven ssheleg pipeline: marketplace repo layout, version sync, validator + CI, multi-channel distribution (Claude Code plugin, vercel skills CLI, npx, Cursor), npm gotchas, end-to-end first publish, the review checklist for third-party skills, and MCP / A2A rules for protocol-connected skills.",
-        "version": "0.33.0",
+        "version": "0.33.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1990,7 +2005,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "0cab374d5d4bfc6d3a54a506170e3653fd6d2a7d48308ef4fbf815e25fa67f28",
+          "sha256": "9e7c1b71a83cb84b5cc4d37c0b6d1b266caeba63c3167252295d88a1e42320dc",
           "bytes": 1093
         },
         {
@@ -2110,12 +2125,12 @@
         },
         {
           "path": "skills/make-skill/SKILL.md",
-          "sha256": "7fbbdfe703da183be326b04b8842fb3e71b45b16624c701333ec3cb1fce900d1",
+          "sha256": "0e97e39e38c9bacdfc99c4a2744daada24a4820e40cdbae838fa86184e644ca5",
           "bytes": 19692
         },
         {
           "path": "skills/skill-search/SKILL.md",
-          "sha256": "79b79c7b65262400dc34e5f452668a1f7743d536301a05563d2ef2d67c0aba0b",
+          "sha256": "2cb5cbe4a884dcc14c77ae697f5ff4de548f3aad67d036482c37af42659f0773",
           "bytes": 3490
         }
       ]
@@ -2123,8 +2138,8 @@
     {
       "name": "sheleg-design",
       "repo": "ssheleg/sheleg-design-skill",
-      "commit": "9d8dd8b36362d38a112d726c459c31a38c2b6673",
-      "version": "1.66.2",
+      "commit": "f5743d2259da679a157e9d1c01b90e8e3e1d969a",
+      "version": "1.66.3",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
       "pluginPath": "plugins/sheleg-design",
       "entry": {
@@ -2132,7 +2147,7 @@
         "displayName": "SHELEG Design",
         "source": "./plugins/sheleg-design",
         "description": "SHELEG Design methodology: cinematic scroll-driven landing pages (single scroll clock, layered degrade-to-calm motion, WebGL particle formations), a motion doctrine that decides whether to animate before it decides how, and thirty-nine pluggable visual style packs, each with a ready-made token layer — instrument-console (near-black aerospace console; technical systems and infrastructure), editorial-luxury (cream and espresso; editorial, research, premium B2B), workbench (quiet light/dark UI; dashboards, admin, internal tools), briefing-room (dark 16:9 deck; investor and board presentations), atrium (cream daylight; consumer health and high-trust DTC), babylove (white with orange; SEO SaaS, long time-to-value, disconnected states), patchbay (black with mint-cyan; engines, buses, pipelines, OSS front doors), nameplate (cool slab with coral; press, certification and third-party trust), rimlight (white with blue light; studios, services and case studies), onionskin (white working sheet; developer and AI infrastructure), deskmate (warm beige with a dusk bleed; AI coworkers and chat-native agents), test-drive (warm paper with one coral; self-serve SaaS proven by the live product), surveyor (peach paper with teal and pink; visibility, monitoring and benchmark tools), chorus (warm paper under a crosshair grid, with a cut-corner bubble; AI-search visibility, brand monitoring and community marketing), outrank (white with violet; one brand across marketing and product), orchard (warm oat slabs; friendly biotech and wellness), field-notes (ruled green paper; auditable open-source developer tools), showroom (white gallery; product-led companies selling the app), blueprint (white technical stock; vector, storage and query infrastructure), prism (iridescent hard edge; command-first OSS infrastructure), maquette (near-black table; enterprise data infrastructure), cyclorama (looping pastel field; applied-AI consultancies), scoreboard (warm paper; growth, ads and accumulating metrics), datasheet (off-white specification; fraud, identity and device intelligence), manpage (cream manual; APIs, SDKs, CLIs and MCP servers), pigeonhole (filed white field; inbox, ticket and CRM triage), roster (faint square grid; platforms sold through who uses them), ora (warm coal; machine verdicts, audits and protocol traces), tenor (warm management paper; agent operations and autonomous back office), ledger (cream ruled console; analysts, BI and warehouse agents), paperclip (monochrome coal; orchestrators, schedulers and job runners), awning (white commerce forecourt; storefront, payroll and billing platforms), router (pale console with hairlines; dashboard, billing and inventory surfaces), daylight (bright portal with one shadow; client onboarding and service portals), notation (restrained technical hairlines; OSS, docs and developer workspaces), almanac (oatmeal editorial paper; manifestos and category-defining pages), vitrine (serif trust display; evaluated B2B, security and compliance), proscenium (white demo sequence; product tours and launch pages), bulletin (cheerful outlined bands; broad SMB and agency platforms). Ships the sheleg-design skill, the architecture reference, the motion doctrine, the Figma and Claude Design bridges, AI-surface patterns, the packs' token CSS, and the /sheleg-design command.",
-        "version": "1.66.2",
+        "version": "1.66.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2159,7 +2174,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "c5ccd0f385217a5f5c69a80d8dc8ddc93b3ae9f36058c7617d13d96747a6a260",
+          "sha256": "42d48b7b499f73a53b4660f3d97a6a5253ab8ebafdeb575bb61e313f6ea59df7",
           "bytes": 3896
         },
         {
@@ -2244,7 +2259,7 @@
         },
         {
           "path": "skills/sheleg-design/SKILL.md",
-          "sha256": "3e3c5afea5716b27238a7b13eb728be7adcefe41562542b8d0b9b88e480cc0d1",
+          "sha256": "e1acc4d721e55a85c871a2172948e63405a393baa936ff2e7b8455565e5fa218",
           "bytes": 19980
         },
         {
@@ -2919,8 +2934,8 @@
     {
       "name": "sheleg-dev",
       "repo": "ssheleg/sheleg-dev",
-      "commit": "5842df5677ab330738ea5ef4c14add4f7dea089d",
-      "version": "0.16.0",
+      "commit": "fa5a739960973aaacabfe0fb5db8b4f5e856f232",
+      "version": "0.16.1",
       "pluginInstall": "sheleg-dev@sheleg-dev",
       "pluginPath": "plugins/sheleg-dev",
       "entry": {
@@ -2928,7 +2943,7 @@
         "displayName": "Sheleg Dev",
         "source": "./plugins/sheleg-dev",
         "description": "The integration layer a product needs once it has users: Stripe subscription billing reconciled into your own database, crypto payments that survive over-payment and duplicate webhooks, ad and conversion tracking under Consent Mode v2, Google sign-in with the account-linking guards, the wider Google auth surface, and Core Web Vitals work that moves the score, and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it.",
-        "version": "0.16.0",
+        "version": "0.16.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2957,7 +2972,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "4897cd65af1c37c75cd94c81324d2de8bb4973e0545f235a5c787ff7e0d83396",
+          "sha256": "89e576714f389c51efccc25512df9ca65a5576e46691dc4ded0e5a14f5109250",
           "bytes": 1221
         },
         {
@@ -3635,15 +3650,15 @@
     {
       "name": "xr-dev",
       "repo": "ssheleg/xr-dev",
-      "commit": "98e26301a664232cd27c6ad9737bb74547dd4e1a",
-      "version": "0.4.2",
+      "commit": "ba885bb48d2737902628c3a9e4d512379feb65c6",
+      "version": "0.4.3",
       "pluginInstall": "xr-dev@xr-dev",
       "pluginPath": "plugins/xr-dev",
       "entry": {
         "name": "xr-dev",
         "displayName": "XR Dev",
         "description": "Seven skills for the Meta Quest product lifecycle: platform and engine discovery, immersive design, native OpenXR, Kotlin Spatial and hybrid apps, WebXR/PWA, rendering experiments, tool and source discovery, Store submission, monetization, launch assets and post-launch operation. Agents receive stage-specific next actions, evidence gates and fallbacks when tools or devices are absent. Engine specialists remain separate; live requirements are verified against current Meta documentation.",
-        "version": "0.4.2",
+        "version": "0.4.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3681,7 +3696,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "766b9b27824b8f9c24ad690e40e2e6e6001ed8e5f731f9635a752b2ba66def53",
+          "sha256": "5ddea375283df66b668a8880fa9f8a2dd0b8501449c7142125b7406ed655713b",
           "bytes": 1200
         },
         {
@@ -3701,7 +3716,7 @@
         },
         {
           "path": "skills/quest-lifecycle/SKILL.md",
-          "sha256": "52b2128d47e933094a22c63b9e17a0fb273c39cfaf571da8f6ef206ae2a3ca6d",
+          "sha256": "4c5defbf25df5196bbae70fe26511d556845ffdc35d0b8e14f322aedc1d432f1",
           "bytes": 6283
         },
         {
@@ -3731,7 +3746,7 @@
         },
         {
           "path": "skills/quest-native/SKILL.md",
-          "sha256": "f83a678180a1aec766cb760283f024f53d5e34bd0795e8443a560bc85bab5da4",
+          "sha256": "b059d2e0cdd2dd071cb9a1d86e1c0548559358365bf18646afea3cff92a9469e",
           "bytes": 9777
         },
         {
@@ -3751,7 +3766,7 @@
         },
         {
           "path": "skills/quest-perf/SKILL.md",
-          "sha256": "93cca47df4aa28d77a6f818bd5bd67f8ee406274b66a6d36404c1eb4b7907324",
+          "sha256": "01d80cfcd2c026076d728e1d61cf198585d3a6a5a117e387ae47669273af7458",
           "bytes": 7155
         },
         {
@@ -3781,7 +3796,7 @@
         },
         {
           "path": "skills/quest-spatial/SKILL.md",
-          "sha256": "003e78099a8b438955f74d492cebf6530fdb581c791afe33cd0937f4cfa095f9",
+          "sha256": "b4adbbda3e4e51caf6b91532c69dd0c910ea3b7524a26af61d49ebad0e71f824",
           "bytes": 8890
         },
         {
@@ -3806,7 +3821,7 @@
         },
         {
           "path": "skills/quest-store/SKILL.md",
-          "sha256": "dbece3ee9ee45f252360691333026a875f0bdb4abe022969c77476910b5ce3ed",
+          "sha256": "bcc8e86d2eebdce7e3930e4c11caa0bc4d1b81b55335fc687378104c8cd0fc49",
           "bytes": 8416
         },
         {
@@ -3826,7 +3841,7 @@
         },
         {
           "path": "skills/quest-tooling/SKILL.md",
-          "sha256": "313027fb192461588c7b047d31777fa3014d01f091e59c9b0a7f54281726725f",
+          "sha256": "5b6c343a5db725e3f630a8b5393c85139ed892afec54de113f86dae50a2def4d",
           "bytes": 8677
         },
         {
@@ -3841,7 +3856,7 @@
         },
         {
           "path": "skills/quest-webxr/SKILL.md",
-          "sha256": "370b86a7c9a47bcc7d472e9535cf2c5a9a0f289ae5c2700753c0dfa25ffa7461",
+          "sha256": "3a42715f14f32009c4e50b3ccae8e6fe33c4d574fb18561b343bfd27e808457e",
           "bytes": 6526
         }
       ]
@@ -3849,15 +3864,15 @@
     {
       "name": "web3d-dev",
       "repo": "ssheleg/web3d-dev",
-      "commit": "7c04756d0124bb26b749535dc0ebb975741b19fb",
-      "version": "0.2.2",
+      "commit": "c1f45420bfcbb1f03cd37e7fb95abdac1ce89f69",
+      "version": "0.2.3",
       "pluginInstall": "web3d-dev@web3d-dev",
       "pluginPath": "plugins/web3d-dev",
       "entry": {
         "name": "web3d-dev",
         "displayName": "Web3D Dev",
         "description": "Three skills for realtime 3D on the web: the three.js WebGPU runtime with TSL, compute, post-processing and a WebGL2 fallback; the glTF asset pipeline from source to frame, with compression, budgets, sourcing and optional asset-service ordering; and a 3D animation protocol covering rigs, clip conventions, blending, GPU and instanced animation, and reduced motion. Every API fact is pinned to a verified three.js release.",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3891,7 +3906,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "b908de45fd41fb40cc639e0b13fcc5274fb22ee3e3fa75651c9dab3828f5a1df",
+          "sha256": "c1b85054996b3ce96b998e21c567a270a421494b4f20f9acb535f68fad94fe8d",
           "bytes": 1092
         },
         {
@@ -3911,7 +3926,7 @@
         },
         {
           "path": "skills/web3d-animation/SKILL.md",
-          "sha256": "8a95f66a049e7dc76bf798f7f28e67ff16cd85c2a3c8b03a49578669815e1549",
+          "sha256": "c9e149c1c9b9f0f5c6fd74e2a101063059e74ca8a0c26ee9a6aa3b352c709a58",
           "bytes": 10234
         },
         {
@@ -3936,7 +3951,7 @@
         },
         {
           "path": "skills/web3d-assets/SKILL.md",
-          "sha256": "50abe858fe91e0203c42da1bbf5aaa897f697479b696c4fca58a30fd4f32f7db",
+          "sha256": "9f811a6a00f50e1820d7153739dca5b7a54b3f0374025e00b078d389d0d0791d",
           "bytes": 8664
         },
         {
@@ -3956,7 +3971,7 @@
         },
         {
           "path": "skills/web3d-runtime/SKILL.md",
-          "sha256": "27103ee44ce4867be6fba80306d1daf696c9dcea9360eec89363d6100d373796",
+          "sha256": "f3b54dc2c9540d96273832f49dbeb6a34a34a2b5ac5d0186e2417fd8fbd70c53",
           "bytes": 7721
         }
       ]
