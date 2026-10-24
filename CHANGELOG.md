@@ -1,5 +1,13 @@
 ## Unreleased
 
+- **#267 closed:** `update` rolled telegram-dev back because one of its local scopes is a
+  subdirectory of a git repository (`sshlg-personal-os/apps/adops-bot`). Measured in a scratch
+  HOME on Claude Code 2.1.299: a local-scope update run in a repository's subdirectory moves the
+  repository root's record and leaves the subdirectory's unchanged, the B-251 worktree case
+  widened. The planner now resolves the address Claude uses (`claudeAddress()`: the repository
+  root, a worktree's main tree, or the directory itself outside a repository) and leaves a record
+  whose path differs from its address as recorded beside a recorded root, or blocks the member by
+  name without one. `test/claude_pinned_test.js` 37 to 40 cases.
 - **B-253 closed:** the hygiene guard's `executablePart()` no longer drops text the shell would
   still run: the `$(...)` and backtick substitutions in an unquoted-delimiter heredoc body fed to
   a non-shell stay executable, and a `#` line inside a quote left open from an earlier line is
