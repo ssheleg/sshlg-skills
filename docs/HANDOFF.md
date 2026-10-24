@@ -20,7 +20,13 @@ costs more tokens than needed, and optimize where we can.
   2026-10-24). Fixed in part here (B-254); the rest is B-255. The routing block, 15,410
   characters in each of five host files, is B-256.
 - Project instruction files over budget. Done in the operator's own repositories:
-  `ssheleg/nicegramappbot` PR #6 (chain 262,677 to 21,588 characters, lossless line check).
+  `ssheleg/nicegramappbot` PR #6 (chain 262,677 to 21,588 characters, lossless line check),
+  `ssheleg/x-pay-crypto-processing` PR #61 into the branch of its open PR #56
+  (`feat/agent-native-settlement`, CLAUDE.md 155,586 to 34,662 bytes; main was already 8,323
+  and gets the split when #56 merges) and `ssheleg/vitrual-phone-number-bot` PR #7 (68,189 to
+  19,324 bytes; its size test now caps CLAUDE.md at 40,000 characters). Each moved rules
+  verbatim into reference files behind explicit load triggers and passed a line-by-line
+  lossless check.
   Given to the owning projects as Fabric board findings (2026-10-24): nicegram-ad-manager-bot
   (CLAUDE.md 181,363 characters), nicegram-business (AGENTS.md 53,428 bytes, Codex truncates),
   sasai (60,405), project-observatory-open-source (AGENTS.md 40,488 bytes), and copylot-agent
@@ -28,10 +34,14 @@ costs more tokens than needed, and optimize where we can.
   checkmydata-ai (136,051) and the PROWL-AI repositories (prowl-app 51,904). Third-party
   checkouts (claude-skills, openclaw) are left alone.
 
-**Exact next bounded task:** after merge, tag `v1.78.0`, watch the release, `npx --yes
-sshlg-skills@latest update`, then `npx sshlg-skills visibility --apply` on this machine and
-read Claude Code's own listing count in a fresh `claude -p x --debug`; stage 8 for this
-release's card (`docs/evidence/specs/2026-10-24-v1780-release-impact.md`) after 24 hours.
+**Shipped and read back:** v1.78.0 tagged on `9a9b25bc`, release run success, npm 1.78.0;
+`update` verified all 11 Claude members (Codex deferred: a Codex process is running);
+`visibility --apply` wrote 22 name-only values; a fresh `claude -p ok --debug` then logged
+`Skill listing over budget: 132 skills, 51178 chars > 30000 budget` (was 61,725).
+
+**Exact next bounded task:** on or after 2026-10-25T13:00Z, stage 8 for this release's card
+(`docs/evidence/specs/2026-10-24-v1780-release-impact.md`): read its four signals and add the
+Outcome. Then B-255 (the listing still over budget) by priority.
 
 ## Previous: 2026-10-24 releases with users carry an impact card (1.77.0)
 
