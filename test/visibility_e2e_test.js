@@ -26,11 +26,15 @@ function it(name, fn) {
 const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-vis-'));
 const w = (rel, text) => { const p = path.join(home, rel); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, text); return p; };
 const skill = (dir, name) => w(path.join(dir, name, 'SKILL.md'), `---\nname: ${name}\ndescription: Use when testing ${name}.\n---\n# ${name}\n`);
-for (const n of ['used', 'unused', 'named', 'mine-already']) { skill('.agents/skills', n); fs.mkdirSync(path.join(home, '.claude', 'skills'), { recursive: true }); fs.symlinkSync(path.join(home, '.agents', 'skills', n), path.join(home, '.claude', 'skills', n)); }
+for (const n of ['used', 'unused', 'named', 'mine-already', 'quiet']) { skill('.agents/skills', n); fs.mkdirSync(path.join(home, '.claude', 'skills'), { recursive: true }); fs.symlinkSync(path.join(home, '.agents', 'skills', n), path.join(home, '.claude', 'skills', n)); }
 skill('.agents/skills', 'task-pipeline');
 const SETTINGS = JSON.stringify({ model: 'x', skillOverrides: { 'mine-already': 'on' } }, null, 2) + '\n';
 const settings = w('.claude/settings.json', SETTINGS);
-w('.claude.json', JSON.stringify({ skillUsage: { used: { usageCount: 1, lastUsedAt: Date.now() } } }));
+// `quiet` is core (used within 60 days) but not used within 14: name-only (B-254).
+w('.claude.json', JSON.stringify({ skillUsage: {
+  used: { usageCount: 1, lastUsedAt: Date.now() },
+  quiet: { usageCount: 2, lastUsedAt: Date.now() - 30 * 86400e3 },
+} }));
 w('.claude/CLAUDE.md', 'Read the `named` skill first.\n');
 const CODEX = 'model = "m"\n\n["skills"]\n"config" = [{ "path" = "/elsewhere/SKILL.md", "enabled" = false }]\n\n[tail]\nk = 1\n';
 const codex = w('.codex/config.toml', CODEX);
@@ -61,7 +65,18 @@ it('three runs leave identical bytes', () => {
 
 it('only the unused skill is hidden; core, named and operator-set are untouched', () => {
   const ov = JSON.parse(fs.readFileSync(settings, 'utf8')).skillOverrides;
-  assert.deepStrictEqual(ov, { 'mine-already': 'on', unused: 'user-invocable-only' });
+  assert.deepStrictEqual(ov, { 'mine-already': 'on', unused: 'user-invocable-only', quiet: 'name-only' });
+});
+
+it('the record owns the name-only value and the full window it used', () => {
+  const rec = JSON.parse(fs.readFileSync(path.join(home, '.sshlg-skills', 'visibility.json'), 'utf8'));
+  assert.deepStrictEqual(rec.claudeNameOnly, ['quiet']);
+  assert.strictEqual(rec.fullDays, 14);
+});
+
+it('the preview reports the name-only tier', () => {
+  const r = run();
+  assert.ok(/name-only tier: core skills not used within 14 days/.test(r.stdout), r.stdout);
 });
 
 it('codex gains the non-core, non-family shared skills and keeps its own entry', () => {
@@ -86,6 +101,24 @@ it('--revert returns the original bytes of both files', () => {
   assert.strictEqual(r.status, 0, r.stderr + r.stdout);
   assert.strictEqual(fs.readFileSync(settings, 'utf8'), SETTINGS);
   assert.strictEqual(fs.readFileSync(codex, 'utf8'), CODEX);
+});
+
+it('--full-days off restores the description and keeps the hide', () => {
+  assert.strictEqual(run('--apply', '--full-days', 'off').status, 0);
+  const ov = JSON.parse(fs.readFileSync(settings, 'utf8')).skillOverrides;
+  assert.deepStrictEqual(ov, { 'mine-already': 'on', unused: 'user-invocable-only' });
+  assert.strictEqual(run('--apply').status, 0);
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).skillOverrides.quiet, 'name-only');
+});
+
+it('a name-only value the operator changed by hand is theirs: revert leaves it', () => {
+  const ov = JSON.parse(fs.readFileSync(settings, 'utf8'));
+  ov.skillOverrides.quiet = 'on';
+  fs.writeFileSync(settings, JSON.stringify(ov, null, 2) + '\n');
+  assert.strictEqual(run('--revert').status, 0);
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).skillOverrides.quiet, 'on');
+  fs.writeFileSync(settings, SETTINGS);
+  fs.rmSync(path.join(home, '.sshlg-skills', 'visibility.json'), { force: true });
 });
 
 // Review 2026-10-10, finding 2: an entry the operator already had was recorded as the

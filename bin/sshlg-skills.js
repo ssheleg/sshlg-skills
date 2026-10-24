@@ -314,8 +314,9 @@ Usage:
                                                       # report header + footer, links looked up
   npx sshlg-skills toolkit [--for "<task>"] [--find "<concept>, …"] [--expand <provider>]
                                                       # every skill this machine can reach
-  npx sshlg-skills visibility [--apply | --revert] [--days 60] [--keep a,b]
+  npx sshlg-skills visibility [--apply | --revert] [--days 60] [--full-days 14|off] [--keep a,b]
                                                       # Claude/Codex: hide all outside the core;
+                                                      # Claude: quiet core skills name-only;
                                                       # Gemini/Pi/OpenCode/Hermes: hide marked
                                                       # packs; Cursor/Kimi: cannot hide
   npx sshlg-skills visibility marks [--init --show <owner/repo,…> [--replace] [--apply]]
@@ -773,6 +774,9 @@ function reapplyVisibility(f) {
   log(`\n== Skill visibility (re-applied: this machine ran \`visibility --apply\`; hosts: ${[...only].join(', ')}) ==`);
   return runVisibility({
     mode: 'apply', days: Number(rec.days) || undefined, keep: Array.isArray(rec.keep) ? rec.keep : [], only, reapply: true,
+    // A record from before the name-only tier carries no fullDays: re-apply keeps the old
+    // behaviour until the operator runs `visibility --apply` once (B-254, explicit consent).
+    fullDays: typeof rec.fullDays === 'number' ? rec.fullDays : null,
   }) === 0;
 }
 
@@ -2139,7 +2143,17 @@ function cmdVisibility(argv) {
     mode: flag('--revert') ? 'revert' : flag('--apply') ? 'apply' : 'preview',
     days: Number(value('--days')) || V.DEFAULT_DAYS,
     keep: (value('--keep') || '').split(',').map((s) => s.trim()).filter(Boolean),
+    fullDays: fullDaysArg(value('--full-days'), V.DEFAULT_FULL_DAYS),
   });
+}
+
+/** `--full-days N` (a whole number of days), `--full-days off` (no name-only tier), or the default. */
+function fullDaysArg(raw, dflt) {
+  if (raw === null) return dflt;
+  if (raw === 'off') return null;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 0) { log(`visibility: --full-days takes a whole number of days or "off", got "${raw}"; using ${dflt}`); return dflt; }
+  return n;
 }
 
 /**
@@ -2163,6 +2177,29 @@ function runVisibility(opts) {
   finally { lock.release(home, got.token); }
 }
 
+/**
+ * Claude Code's own last listing count, read from its debug logs (newest first). Only the
+ * one warning line is parsed; nothing else in a log is read into the output.
+ */
+function lastListingMeasure(claudeRoot) {
+  const dir = path.join(claudeRoot, 'debug');
+  let files = [];
+  try {
+    files = fs.readdirSync(dir).filter((n) => n.endsWith('.txt'))
+      .map((n) => ({ n, m: fs.statSync(path.join(dir, n)).mtimeMs })).sort((a, b) => b.m - a.m).slice(0, 40);
+  } catch (e) { return null; }
+  const re = /^(\S+) \[WARN\] Skill listing over budget: (\d+) skills, (\d+) chars > (\d+) budget/m;
+  for (const f of files) {
+    let text;
+    try { text = fs.readFileSync(path.join(dir, f.n), 'utf8'); } catch (e) { continue; }
+    const all = text.match(new RegExp(re.source, 'gm'));
+    if (!all) continue;
+    const m = re.exec(all[all.length - 1]);
+    return { at: m[1], skills: Number(m[2]), chars: Number(m[3]), budget: Number(m[4]) };
+  }
+  return null;
+}
+
 function runVisibilityUnlocked(opts) {
   const V = require(path.join(ROOT, 'lib', 'visibility.js'));
   const HV = require(path.join(ROOT, 'lib', 'hostvis.js'));
@@ -2179,6 +2216,8 @@ function runVisibilityUnlocked(opts) {
   const doRevert = opts.mode === 'revert';
   const days = opts.days || V.DEFAULT_DAYS;
   const keep = opts.keep || [];
+  // null: no name-only tier (a re-apply of a record that predates it, or `--full-days off`).
+  const fullDays = typeof opts.fullDays === 'number' ? opts.fullDays : null;
   const inScope = (id) => !opts.only || opts.only.has(id);
 
   const recordPath = path.join(home, '.sshlg-skills', 'visibility.json');
@@ -2226,11 +2265,24 @@ function runVisibilityUnlocked(opts) {
   try { settingsData = JSON.parse(settingsText || '{}'); } catch (e) { settingsData = {}; }
   const overrides = settingsData.skillOverrides || {};
   const mine = new Set(owned.claude.filter((n) => overrides[n] === V.HIDE));
+  const ownedNameOnly = Array.isArray(owned.claudeNameOnly) ? owned.claudeNameOnly : [];
+  const mineNameOnly = new Set(ownedNameOnly.filter((n) => overrides[n] === V.NAME_ONLY));
   const foreign = {};
-  for (const [k, v] of Object.entries(overrides)) if (!mine.has(k)) foreign[k] = v;
-  const plan = doRevert ? { hide: [], respected: [] } : V.claudePlan({ personal, core: coreSet, overrides: foreign, keep });
-  const claudeSet = plan.hide.filter((n) => !mine.has(n));
-  const claudeUnset = [...mine].filter((n) => !plan.hide.includes(n));
+  for (const [k, v] of Object.entries(overrides)) if (!mine.has(k) && !mineNameOnly.has(k)) foreign[k] = v;
+  const full = doRevert || fullDays === null ? null
+    : V.fullSet({ personal, usage, now, fullDays, instructions });
+  const plan = doRevert ? { hide: [], nameOnly: [], respected: [] }
+    : V.claudePlan({ personal, core: coreSet, full, overrides: foreign, keep });
+  // Values this run writes, and values it removes (only while they still hold what it wrote).
+  const claudeSetMap = {};
+  for (const n of plan.hide) if (overrides[n] !== V.HIDE) claudeSetMap[n] = V.HIDE;
+  for (const n of plan.nameOnly) if (overrides[n] !== V.NAME_ONLY) claudeSetMap[n] = V.NAME_ONLY;
+  const planned = new Set(plan.hide.concat(plan.nameOnly));
+  const claudeUnsetMap = {};
+  for (const n of mine) if (!planned.has(n)) claudeUnsetMap[n] = V.HIDE;
+  for (const n of mineNameOnly) if (!planned.has(n)) claudeUnsetMap[n] = V.NAME_ONLY;
+  const claudeSet = Object.keys(claudeSetMap);
+  const claudeUnset = Object.keys(claudeUnsetMap);
   const stateOf = (s, ov) => {
     if (s.loaded === false) return 'hidden';  // installed, not loaded here (B-185): not in the listing
     if (s.namespace !== 'claude:plain') return 'on';
@@ -2239,7 +2291,7 @@ function runVisibilityUnlocked(opts) {
     return v === 'name-only' ? 'name-only' : 'on';
   };
   const after = Object.assign({}, overrides);
-  for (const n of claudeSet) after[n] = V.HIDE;
+  for (const n of claudeSet) after[n] = claudeSetMap[n];
   for (const n of claudeUnset) delete after[n];
   const charsBefore = V.listingChars(skills.map((s) => ({ name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id, description: s.description, state: stateOf(s, overrides) })));
   const charsAfter = V.listingChars(skills.map((s) => ({ name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id, description: s.description, state: stateOf(s, after) })));
@@ -2336,11 +2388,21 @@ function runVisibilityUnlocked(opts) {
     log(`  overrides (config.json): hidePacks ${(ov.hidePacks || []).length}, showPacks ${(ov.showPacks || []).length} — Gemini, Pi, OpenCode and Hermes only`);
   }
   if (inScope('claude')) {
-    log(`  Claude: ${personal.length} personal skills; hide ${claudeSet.length} more, un-hide ${claudeUnset.length}; ` +
+    const newHides = claudeSet.filter((n) => claudeSetMap[n] === V.HIDE).length;
+    log(`  Claude: ${personal.length} personal skills; hide ${newHides} more, name-only ${claudeSet.length - newHides} more, restore ${claudeUnset.length}; ` +
         `${Object.keys(foreign).length} operator-set override(s) left alone`);
-    log(`  Claude listing ≈ ${charsBefore} → ${charsAfter} characters (names + descriptions, 1536 cap each).`);
-    log('    Budget: Claude Code logs it — `claude -p x --debug` then look for "Skill listing over budget"');
-    log('    (30000 characters measured on 2026-10-10). Over budget, descriptions drop least-used first.');
+    log(fullDays === null
+      ? '    name-only tier: off (`--full-days N` turns it on: core skills unused for N days keep their name, lose their description)'
+      : `    name-only tier: core skills not used within ${fullDays} days and not named in the instructions are listed by name only (${plan.nameOnly.length})`);
+    log(`  Claude listing, launcher's estimate ≈ ${charsBefore} → ${charsAfter} characters`);
+    log('    (personal and registered plugin skills in Claude\'s `- name: description` form; bundled skills,');
+    log('    plugin commands and plugins loaded from other roots are not counted).');
+    const measured = lastListingMeasure(claudeRoot);
+    log(measured
+      ? `    Claude Code's own count (debug log ${measured.at}): ${measured.skills} entries, ${measured.chars} characters > ${measured.budget} budget.`
+      : '    Claude Code\'s own count: none logged yet. `claude -p x --debug`, then look for "Skill listing over budget".');
+    log('    Over budget, Claude Code 2.1.299 keeps bundled skills whole, gives the others their description');
+    log('    most-used first and lists the rest by name only.');
   }
   if (inScope('codex')) {
     log(`  Codex: ${shared.length} shared skills; disable up to ${codexAdd.length} more (entries already present are left as they are), re-enable ${codexDrop.length}` +
@@ -2404,7 +2466,7 @@ function runVisibilityUnlocked(opts) {
   const degraded = [];
   let record = Object.assign({}, owned, {
     note: 'Written by `npx sshlg-skills visibility`; --revert removes these entries. Pending holds a write-ahead receipt; applied is consent for update on hosts only.',
-    days, keep, marksRevision: marksData && !markProblems.length ? marksData.revision : null,
+    days, keep, fullDays, marksRevision: marksData && !markProblems.length ? marksData.revision : null,
     updatedAt: new Date().toISOString(), created: Object.assign({}, owned.created || {}),
     files: Object.assign({}, owned.files || {}, Object.fromEntries(Object.entries(files).filter(([id]) => inScope(id)))),
   });
@@ -2442,13 +2504,14 @@ function runVisibilityUnlocked(opts) {
       if (id === 'claude') {
         if (claudeSet.length && !('skillOverrides' in settingsData)) next.created.claude = ['skillOverrides'];
         if (doRevert) delete next.created.claude;
+        next.claudeNameOnly = plan.nameOnly.slice().sort();
       }
       if (r.text === before) { journal.save(next); log(`  ${id}: already as planned`); return; }
       transact(id, file, before, r.text, next, () => S.write(file, r.text, home));
     };
     const claudeCreated = createdOf('claude').includes('skillOverrides') || !Object.prototype.hasOwnProperty.call(owned, 'applied');
     writeSimple('claude', settingsPath, settingsText,
-      (t) => V.editClaudeSettings(t, { set: claudeSet, unset: claudeUnset, prune: claudeCreated }), () => plan.hide.slice().sort());
+      (t) => V.editClaudeSettings(t, { set: claudeSetMap, unset: claudeUnsetMap, prune: claudeCreated }), () => plan.hide.slice().sort());
     writeSimple('codex', codexPath, codexText,
       (t) => V.editCodexConfig(t, { disable: codexAdd, enable: codexDrop }),
       (r) => [...new Set(owned.codex.filter((p) => codexWant.includes(p)).concat(r.added || []))].sort());

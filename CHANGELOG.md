@@ -1,3 +1,23 @@
+## v1.78.0 (2026-10-24): quiet core skills listed by name only
+
+- **B-254:** `visibility` lists quiet core skills by name only on Claude Code. Measured
+  2026-10-24 on Claude Code 2.1.299: `Skill listing over budget: 132 skills, 61725 chars > 30000
+  budget`; over budget the host keeps bundled skills whole, gives the rest their description
+  most-used first and lists the remainder by name. A personal skill in the core that was not
+  used within 14 days and is not named in `~/.claude/CLAUDE.md` now gets
+  `skillOverrides: "name-only"` (on this machine 22 skills, the launcher's estimate 46,402 to
+  35,853 characters). `--full-days N|off`; ownership of each value is recorded
+  (`claudeNameOnly`), `--revert` removes only values still as written, and `update` re-applies
+  the tier only after an `--apply` that recorded `fullDays`. The listing estimate now counts
+  Claude's `- name: description` form, and the preview prints Claude Code's own last count
+  from its debug logs. `test/visibility_test.js` 22 to 29 checks,
+  `test/visibility_e2e_test.js` 11 to 15. Release impact card:
+  `docs/evidence/specs/2026-10-24-v1780-release-impact.md`.
+- **Context audit, the same request:** B-255 (the listing still over budget: family and foreign
+  plugin descriptions) and B-256 (the 15,410-character routing block in every host file) are
+  open rows with their measurements; oversized project instruction files are tracked in the
+  HANDOFF entry.
+
 ## v1.77.0 (2026-10-24): every release with users carries its impact card
 
 - **Pins:** task-pipeline 1.102.0, the release impact card (operator, 2026-10-24): a release in a

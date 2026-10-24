@@ -686,6 +686,17 @@ hides every other installed pack; an existing file is replaced only with `--repl
   so a plugin's skills stay listed (switch a foreign plugin off with `enabledPlugins`).
   The pack marks and the overrides below do not change them; `--keep <skill>` keeps a
   skill listed there.
+- **Claude Code name-only tier** (B-254, since v1.78.0): a personal skill in the core that
+  was not used within 14 days and is not named in `~/.claude/CLAUDE.md` stays listed by name
+  without its description (`skillOverrides: "name-only"`). Claude Code 2.1.299 does the same
+  on its own once the listing is over budget (bundled skills whole, the others' descriptions
+  most-used first, the rest by name), so this picks the quiet ones by the operator's usage
+  instead of the host's order. `--full-days N` sets the window, `--full-days off` turns the
+  tier off. `update` re-applies it only after one `visibility --apply` that recorded
+  `fullDays`; an older record re-applies without it. The preview prints the launcher's
+  estimate of the listing and Claude Code's own last count from its debug logs (the one
+  `Skill listing over budget` line); the estimate leaves out bundled skills, plugin commands
+  and plugins loaded from other roots, so the logged count is the one to trust.
 - **Gemini, Pi, OpenCode and Hermes** hide the skills of marked packs, except the usage
   core. Strongest first: a family pack is never hidden; the usage core is never hidden
   (family skills, skills used in the last 60 days by Claude Code usage, skills
@@ -698,12 +709,13 @@ hides every other installed pack; an existing file is replaced only with `--repl
 npx sshlg-skills config set visibility.pack.anthropics/financial-services show   # or hide, or default
 npx sshlg-skills visibility            # preview: per-host counts, nothing written
 npx sshlg-skills visibility --apply    # write each host's own switch, backups first; records consent
+npx sshlg-skills visibility --apply --full-days off   # Claude: keep every core description
 npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; withdraws consent
 ```
 
 | Host | The switch `visibility` writes | Source | A hidden skill can still |
 |---|---|---|---|
-| Claude Code | `skillOverrides: "user-invocable-only"` in `~/.claude/settings.json`; plugin skills are out of its reach | since v1.55.0; Claude Code settings reference: overrides do not apply to plugin skills | be run from the `/` menu by a person |
+| Claude Code | `skillOverrides: "user-invocable-only"` (hidden) or `"name-only"` (quiet core) in `~/.claude/settings.json`; plugin skills are out of its reach | since v1.55.0; Claude Code settings reference: overrides do not apply to plugin skills | be run from the `/` menu by a person |
 | Codex | `enabled = false` entries in `~/.codex/config.toml` `[skills] config` | since v1.55.0 | be read from its SKILL.md path when asked |
 | Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
 | Pi 1.1.0 | `-<path>` exact exclusions in the `skills` array of `~/.pi/agent/settings.json`, one per folder holding the skill (`~/.agents/skills`, `~/.pi/agent/skills`); the file is created if absent and removed again by `--revert` | Pi's own docs, settings → Resources; `isEnabledByOverrides` in its `dist/core/package-manager.js` | be loaded for one session with `pi --skill <path>` |

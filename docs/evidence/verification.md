@@ -1,3 +1,10 @@
+## 2026-10-24: quiet core skills listed by name only (B-254), branch `feat/visibility-name-only`, 1.78.0
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| NO-1 | `visibility` plans `name-only` for a personal core skill unused within `fullDays` and not named in the instructions, writes and removes only values it owns, and `update` re-applies the tier only from a record carrying `fullDays` | `test/visibility_test.js` (29 checks; the 7 new ones red before `fullSet()` and the map form of `editClaudeSettings()`); `test/visibility_e2e_test.js` (15 checks: three `--apply` runs identical, `--full-days off`, a hand-changed value survives `--revert`) | unreleased | a change to `claudePlan()`, `fullSet()`, `editClaudeSettings()` or the re-apply options | 2026-10-24, branch tree |
+| NO-2 | Claude Code 2.1.299 lists over-budget skills by name only, most-used first keeping descriptions, bundled skills whole, and `skillOverrides` does not reach plugin skills | the installed binary's listing and override functions (`Skill listing over budget` warning and the override resolver returning `on` for `source === "plugin"`), read 2026-10-24; debug log `Skill listing over budget: 132 skills, 61725 chars > 30000 budget` | unreleased | a Claude Code release that changes the listing or override rules | 2026-10-24, operator machine |
+
 ## 2026-10-24: text the shell would still run (B-253), branch `fix/b253-heredoc`, 1.77.0
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -160,7 +167,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**795** id'd requirement rows below, **642** read `verified` and none of them says which
+**797** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
