@@ -3502,15 +3502,15 @@
     {
       "name": "telegram-dev",
       "repo": "ssheleg/telegram-dev",
-      "commit": "94251eaae844febabe23fed0399dc5e35783f7c2",
-      "version": "0.4.0",
+      "commit": "50cb6eb0793a5d2db9232c44e36daf7bdd2a77f7",
+      "version": "0.5.3",
       "pluginInstall": "telegram-dev@telegram-dev",
       "pluginPath": "plugins/telegram-dev",
       "entry": {
         "name": "telegram-dev",
         "displayName": "Telegram Dev",
         "description": "Telegram development, split by the API each surface actually speaks. telegram-bots covers the official HTTP Bot API — update_id as the only idempotency key, the allowed_updates default that drops three types in silence, the webhook secret header, rate limits as a design constraint, and Telegram Stars with its ten-second pre-checkout window. telegram-userbots covers MTProto and Telethon — the session file as a credential equal to the password, FloodWaitError as the API working rather than failing, and the account-ban risk a bot token does not carry. telegram-miniapps covers initData verification, the algorithm shipped as a runnable fixture, and the SDK package whose name moved.",
-        "version": "0.4.0",
+        "version": "0.5.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3542,7 +3542,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "321e45692e19b87607037c5eb2ad5784c224be4536da333736af81f999e20522",
+          "sha256": "40dd708a565101ec397a7a7f0b912043bd83b3340ec361a4816d0dc69c43e5f0",
           "bytes": 1375
         },
         {
@@ -3551,9 +3551,19 @@
           "bytes": 19980
         },
         {
+          "path": "skills/telegram-bots/fixtures/update_pump.py",
+          "sha256": "ab8d037888e29d0118d87a97be3430d88991fc4100c11d3a08a728ef5ab1cdb9",
+          "bytes": 15220
+        },
+        {
           "path": "skills/telegram-bots/references/frameworks.md",
           "sha256": "d2c70658590eea1e4869b5628d9a105688a935dfd6f821bd6bcb3b255ae7dfaf",
           "bytes": 2947
+        },
+        {
+          "path": "skills/telegram-bots/references/high-load.md",
+          "sha256": "93075456ae2287c39c5231f0049821c9703184feeb381ff1ed85d311b44c4511",
+          "bytes": 9711
         },
         {
           "path": "skills/telegram-bots/references/limits-and-files.md",
@@ -3572,8 +3582,8 @@
         },
         {
           "path": "skills/telegram-bots/SKILL.md",
-          "sha256": "a2ce4f256cba788eed8cbd4616c918ceb407a2aaa127c9bcc31af4caacec3202",
-          "bytes": 12079
+          "sha256": "56ceb1a2be3ab12b65fa73bfd7fc5298d1a499e90bb2d1387478f4e91090e5e8",
+          "bytes": 12868
         },
         {
           "path": "skills/telegram-miniapps/fixtures/verify_initdata.py",

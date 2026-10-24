@@ -1,3 +1,16 @@
+## v1.76.3 (2026-10-24): telegram-dev pinned to 0.5.3
+
+- **Pin:** telegram-dev 0.5.3 (`telegram-bots/references/high-load.md`, a bot under load: the
+  poll loop that awaits a whole batch, a queue per chat under one ceiling, payments outside it,
+  flood guards measured from arrival rather than from the start of handling, the waiting
+  callback answered at once, a bounded shutdown, and what to measure; with
+  `fixtures/update_pump.py`, a discrete-event simulation on a virtual clock whose nine
+  invariants each go red when their rule is removed). The content shipped in 0.5.1; 0.5.2 and
+  0.5.3 add the member's verification ledger section for it (`test/validate.py` refuses a
+  ledger older than the shipped version). `v0.5.0` and `v0.5.2` name no release: the first sits
+  on a commit before the change, the second was a lightweight tag the release workflow refused,
+  and the member's rules keep tags.
+
 ## v1.76.2 (2026-10-24): seo-aeo-audit pinned to 0.32.0
 
 - **seo-aeo-audit 0.32.0** (was 0.31.3), commit `51dba19`: `references/playbooks.md`, ten
