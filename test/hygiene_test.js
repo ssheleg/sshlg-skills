@@ -369,6 +369,35 @@ it('a malformed or unterminated payload neither throws nor hangs', () => {
   assert.ok(H.hostSelfUpdate('echo "$(pi update'), 'an unterminated substitution still runs up to end of input');
 });
 
+// ---- B-253: text the shell would still run ------------------------------------
+// An unquoted-delimiter heredoc fed to a non-shell still expands `$(...)` and backticks in
+// its body; a `#` line inside a multi-line double-quoted string is not a comment.
+it('B-253: a substitution in an unquoted heredoc body fed to cat is executable text', () => {
+  const ep = H.executablePart('cat <<EOF > notes.txt\nplain words\nnow $(npx skills update super-ux) runs\nEOF');
+  assert.ok(ep.includes('npx skills update super-ux'), ep);
+  assert.ok(!ep.includes('plain words'), 'the body text itself is still data: ' + ep);
+});
+it('B-253: a backtick substitution in an unquoted heredoc body is executable text', () => {
+  const ep = H.executablePart('python3 - <<EOF\nprint("`skills add ssheleg/super-ux`")\nEOF');
+  assert.ok(ep.includes('skills add ssheleg/super-ux'), ep);
+});
+it('B-253: a quoted-delimiter heredoc body stays data, substitutions included', () => {
+  const ep = H.executablePart("cat <<'EOF'\n$(npx skills update super-ux)\nEOF");
+  assert.ok(!ep.includes('skills update'), ep);
+});
+it('B-253: a # line inside a multi-line double-quoted string is kept', () => {
+  const ep = H.executablePart('git commit -m "subject\n# $(npx skills update super-ux)\nbody"');
+  assert.ok(ep.includes('npx skills update super-ux'), ep);
+});
+it('B-253: a real comment line is still dropped', () => {
+  const ep = H.executablePart('# npx skills update super-ux\necho ok');
+  assert.ok(!ep.includes('skills update'), ep);
+});
+it('B-253: the guard reads the heredoc substitution as a bare skills install', () => {
+  const r = H.bareFamilyInstall('cat <<EOF\n$(npx skills update super-ux)\nEOF', IDS);
+  assert.ok(r, 'a skills update hidden in a heredoc body was not seen');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

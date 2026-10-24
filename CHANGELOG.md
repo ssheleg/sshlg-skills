@@ -1,3 +1,10 @@
+## Unreleased
+
+- **B-253 closed:** the hygiene guard's `executablePart()` no longer drops text the shell would
+  still run: the `$(...)` and backtick substitutions in an unquoted-delimiter heredoc body fed to
+  a non-shell stay executable, and a `#` line inside a quote left open from an earlier line is
+  not a comment. `lib/guard.js` and `lib/repogate.js`, which reuse it, inherit the fix.
+
 ## v1.76.3 (2026-10-24): telegram-dev pinned to 0.5.3
 
 - **Pin:** telegram-dev 0.5.3 (`telegram-bots/references/high-load.md`, a bot under load: the

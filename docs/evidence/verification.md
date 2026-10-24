@@ -1,3 +1,9 @@
+## 2026-10-24: text the shell would still run (B-253), branch `fix/b253-heredoc`, unreleased
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| EXP-1 | `executablePart()` keeps the substitutions of an unquoted-delimiter heredoc body fed to a non-shell and the `#` lines inside a quote left open across lines; a quoted-delimiter body and a real comment stay out | `test/hygiene_test.js` (38 checks; four of the six new cases red on 1.76.1's `lib/`); `test/guard_test.js` 30, `test/repogate_test.js` 18, `test/hooks_e2e_test.js` 82 | unreleased | a change to `executablePart()`, `substitutions()` or `quoteAfter()` | 2026-10-24, branch tree |
+
 ## 2026-10-23: M3 wave 3, the operator's decisions and the member gate, branch `m3/wave3`, 1.76.0
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -153,7 +159,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**793** id'd requirement rows below, **642** read `verified` and none of them says which
+**794** id'd requirement rows below, **642** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
