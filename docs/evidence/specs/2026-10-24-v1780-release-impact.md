@@ -34,3 +34,8 @@ date: 2026-10-24
 - **Kill switch:** `--full-days off` per machine.
 - **Hotfix path:** a patch release through the same PR, tag and release workflow (1.78.1).
 - **Decision trigger:** roll back if the release run fails, if `update` exits non-zero on the operator machine, or if an issue reports a lost or wrongly hidden skill within 24 hours.
+
+## Outcome
+
+- **Read:** 2026-10-25T20:30Z, after the 24-hour window: (1) release run for v1.78.0 success; (2) `npm view sshlg-skills version` 1.78.0; (3) `update` on the operator machine verified all 11 Claude members, `visibility --apply` wrote 22 name-only values and read them back, and a fresh session logged 51,178 listing characters (was 61,725); the deferred Codex plugins moved at 2026-10-25T20:26Z once no Codex process ran; (4) no issue opened on ssheleg/sshlg-skills since the release; no alert fired; the decision trigger did not fire
+- **Result:** held

@@ -39,9 +39,14 @@ costs more tokens than needed, and optimize where we can.
 `visibility --apply` wrote 22 name-only values; a fresh `claude -p ok --debug` then logged
 `Skill listing over budget: 132 skills, 51178 chars > 30000 budget` (was 61,725).
 
-**Exact next bounded task:** on or after 2026-10-25T13:00Z, stage 8 for this release's card
-(`docs/evidence/specs/2026-10-24-v1780-release-impact.md`): read its four signals and add the
-Outcome. Then B-255 (the listing still over budget) by priority.
+**Stage 8 closed 2026-10-25:** the card's Outcome is `held` (release green, npm 1.78.0, update
+verified, no issue, no alert). Codex plugins moved to their pins at 2026-10-25T20:26Z after the
+operator closed Codex. nicegram-ad-manager-bot and copylot-agent acted on their findings
+(CLAUDE.md 199,620 bytes to 38,380 characters; MCP instructions 2,836 to 1,361 characters).
+
+**Exact next bounded task:** the operator decided on 2026-10-25: B-255 (a) family descriptions
+to a budget near 300 characters with the trigger suites as the guard; B-256 as milestone M4
+(compress the routing block, each wording change shown before adoption).
 
 ## Previous: 2026-10-24 releases with users carry an impact card (1.77.0)
 
