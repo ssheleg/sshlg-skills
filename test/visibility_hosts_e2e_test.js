@@ -105,6 +105,7 @@ fs.symlinkSync(path.join(shared, 'dcf'), path.join(home, '.hermes', 'skills', 'd
 fs.symlinkSync(path.join(shared, 'kw'), path.join(home, '.hermes', 'skills', 'kw'));
 fs.mkdirSync(path.join(home, '.cursor'), { recursive: true });
 fs.mkdirSync(path.join(home, '.kimi-code'), { recursive: true });
+fs.mkdirSync(path.join(home, '.config', 'goose'), { recursive: true });
 
 const marksFile = path.join(home, '.sshlg-skills', 'pack-marks.json');
 const files = [claude, gemini, piFile, opencode, A.hermesState];
@@ -141,13 +142,15 @@ it('marks --init previews, then writes the machine file only with --apply', () =
   assert.strictEqual(vis('marks', '--init', '--show', 'anthropics/skills', '--apply').status, 2, 'an existing file is replaced only with --replace');
 });
 
-it('the preview with marks names every host and the two that cannot hide, and writes nothing', () => {
+it('the preview with marks names every host and the three that cannot hide, and writes nothing', () => {
   const before = files.map(sha).join(',');
   const r = vis();
   assert.strictEqual(r.status, 0, r.out);
   for (const h of ['gemini', 'pi', 'opencode']) assert.ok(new RegExp(`^  ${h}: 6 skills in its roots, 3 in hidden packs \\(1 kept by the core\\); hide 2;`, 'm').test(r.out), `${h}: ${r.out}`);
   assert.ok(/^  hermes: 2 skills in its roots, 2 in hidden packs \(0 kept by the core\); hide 2; write 2 new entries/m.test(r.out), r.out);
   assert.ok(/cannot hide on cursor/.test(r.out) && /cannot hide on kimi/.test(r.out), r.out);
+  // B-205: Goose was skipped without a word; it has only the whole `skills` extension.
+  assert.ok(/^  goose: cannot hide on goose .*no per-skill switch/m.test(r.out), r.out);
   assert.strictEqual(files.map(sha).join(','), before);
   assert.ok(!fs.existsSync(path.join(home, '.sshlg-skills', 'visibility.json')));
 });

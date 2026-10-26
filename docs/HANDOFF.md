@@ -8,7 +8,7 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-26 the remaining tails of the context audit (1.79.1)
+## Current: 2026-10-26 the remaining tails of the context audit (1.79.1, 1.80.0)
 
 **Objective (operator, 2026-10-26, «давай доделаем»):** close what the context audit left open:
 the duplicate copylot registration, B-257, and stage 8 of the 1.79.0 card when its window ends.
@@ -28,10 +28,16 @@ make-skill (generation safety), so it was moved by hand with Codex closed (backu
 `~/.sshlg-skills/backups/codex-manual-2026-10-26-0429`); the installed `SKILL.md` in Codex and
 Claude hashes the same as the tag (`182311e7758c2bee`).
 
+**Then (operator, «доделай»):** the context-related board rows closed in 1.80.0: B-212 (`context`
+checks Codex's cap against the project chain, not the global file, read from Codex 0.163's source),
+B-205 (Goose named in `visibility`), B-234 (already name-only by B-254), B-235 (`warp` plugin disabled,
+Warp not installed; settings backup `~/.sshlg-skills/backups/claude-settings-before-warp-disable-*`).
+Card: `docs/evidence/specs/2026-10-26-v1800-release-impact.md`.
+
 **Exact next bounded task:** on or after 2026-10-27T01:43Z, stage 8 for
 `docs/evidence/specs/2026-10-26-v1790-release-impact.md`; on or after 2026-10-27T03:23Z (the 1.79.1 tag plus 24
-hours), stage 8 for `docs/evidence/specs/2026-10-26-v1791-release-impact.md`; then the highest
-open board row.
+hours), stage 8 for `docs/evidence/specs/2026-10-26-v1791-release-impact.md` and, 24 hours after
+its tag, `docs/evidence/specs/2026-10-26-v1800-release-impact.md`; then the highest open board row.
 
 ## Previous: 2026-10-26 family descriptions within 300 characters (1.79.0)
 

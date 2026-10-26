@@ -3568,13 +3568,17 @@ function cmdContext(argv) {
   const override = C.host('codex', pathMod.join(codexRoot, 'AGENTS.override.md'));
   if (override.text != null || override.error) { const main = hosts.find(h => h.agent === 'codex'); if (main && override.text != null) main.shadowed = true; hosts.push(override); }
   for (const name of ['sshlg-routing.mdc', 'sshlg-wait.mdc']) hosts.push(C.host('cursor', pathMod.join(home, '.cursor', 'rules', name)));
+  // B-212: the project files a session started here also loads; Codex caps only these.
+  const cwd = process.cwd();
+  for (const f of C.codexProjectFiles(cwd)) hosts.push(C.host('codex', f, 'project'));
+  for (const f of C.claudeProjectFiles(cwd, hosts.map(h => h.file))) hosts.push(C.host('claude', f, 'project'));
   const config = C.read(pathMod.join(codexRoot, 'config.toml'));
   const r = C.report(hosts, config);
   if (json) { console.log(JSON.stringify(r)); return r.findings.some(f => f.severity === 'error') ? 1 : 0; }
-  log('Always-loaded instruction files (' + r.estimate + '):');
+  log('Always-loaded instruction files (' + r.estimate + '); project rows are for ' + cwd + ':');
   for (const row of r.rows) {
-    if (!row.present) { log(`  ${row.agent.padEnd(7)} ${row.error ? 'unreadable (' + row.error + ')' : 'absent'}  ${row.file}`); continue; }
-    log(`  ${row.agent.padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.shadowed ? '  (shadowed by AGENTS.override.md)' : row.cap ? `  cap ${row.cap} (${row.capSource})` : ''}`);
+    if (!row.present) { log(`  ${row.agent.padEnd(7)} ${(row.scope === 'project' ? 'project' : 'global ').padEnd(7)} ${row.error ? 'unreadable (' + row.error + ')' : 'absent'}  ${row.file}`); continue; }
+    log(`  ${row.agent.padEnd(7)} ${(row.scope === 'project' ? 'project' : 'global ').padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.shadowed ? '  (shadowed by AGENTS.override.md)' : row.cap ? `  cap ${row.cap} combined (${row.capSource})` : row.agent === 'codex' ? '  read in full' : ''}${row.scope === 'project' ? '  ' + row.file : ''}`);
   }
   for (const f of r.findings) log(`  ${f.severity}: ${f.message}`);
   if (!r.findings.length) log('  no host is over a documented cap');

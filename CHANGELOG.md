@@ -1,3 +1,17 @@
+## v1.80.0 (2026-10-26): `context` measures the caps hosts actually apply
+
+- **`context` (B-212).** Codex 0.163 reads the global `AGENTS.md` in full; `project_doc_max_bytes`
+  caps only the project chain, combined, from the nearest `.git` to cwd, and cuts the file that
+  crosses it without a warning. `context` no longer reports the global file against that cap; it
+  measures the project files a session started in the current directory loads (Codex's chain and
+  every ancestor's `CLAUDE.md`, `.claude/CLAUDE.md`, `CLAUDE.local.md`), exits 1 when the Codex
+  chain passes the cap, and notes a Claude memory file above 40,000 characters.
+- **`visibility` names Goose (B-205).** Goose 1.44.0 has no per-skill switch (only the whole
+  `skills` extension), and the preview now says `cannot hide on goose` instead of skipping it.
+- **Board.** B-205, B-212, B-234 and B-235 closed; the last two were machine configuration
+  (`warp` plugin disabled with Warp not installed; duplicate `copylot-cloud` removed).
+- Release impact card: `docs/evidence/specs/2026-10-26-v1800-release-impact.md`.
+
 ## v1.79.1 (2026-10-26): make-skill's description target is 300 characters
 
 - **make-skill 0.33.2 to 0.33.3** (B-257): the canon new members and retrofits read said
