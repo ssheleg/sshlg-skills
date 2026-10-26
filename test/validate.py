@@ -2595,7 +2595,9 @@ def check_the_description_reserve_is_not_spent() -> None:
     # re-trimmed to about 400-460; task-pipeline's three skills (project-audit,
     # task-pipeline, evidence-docs) are still the old long ones until its release.
     # 17 → 14 on 2026-10-20: task-pipeline 1.98.0 trimmed its three descriptions to 386-399.
-    ratchet = 14
+    # 14 → 0 on 2026-10-26: B-255, every family description within a 300-character budget
+    # (operator, 2026-10-25); none is within 60 of the 500 cap.
+    ratchet = 0
     if len(tight) > ratchet:
         worst = ", ".join(f"{k} ({h})" for k, h in sorted(tight, key=lambda x: x[1])[:6])
         fail(f"{len(tight)} of {total} skills sit within 60 characters of the "

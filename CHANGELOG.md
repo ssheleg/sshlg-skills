@@ -1,3 +1,26 @@
+## v1.79.0 (2026-10-26): every family description within 300 characters
+
+- **B-255 closed (operator, 2026-10-25):** all 39 family skill descriptions are within a
+  300-character budget; the family total falls from 16,102 to 11,470 characters (`description-total`
+  in DOCMAP), and no skill is within 60 characters of the 500 cap (reserve ratchet 14 to 0). Every
+  phrase a description dropped moved to that skill's `## Triggers` section, which the trigger
+  checks read. Guards before and after: `test/route_coverage.js` 125 of 140 prompts reach the
+  expected route with the same 15 misses and 0 false routes; `test/triggers_test.js` 70 checks.
+  Pins: super-ux 0.66.2, task-pipeline 1.102.2 (v1.102.1 was tagged and not published: its
+  release run refused an undeclared stamp), agent-sync 1.23.2, make-skill 0.33.2, sheleg-design
+  1.66.4, seo-aeo-audit 0.32.3, sheleg-dev 0.16.2, agent-stack 0.31.3, telegram-dev 0.5.4, xr-dev
+  0.4.4, web3d-dev 0.2.4.
+- **Family briefs:** the shorter descriptions carry a `RU:` sentence and a refusal clause, and
+  `capabilityBrief()` (`lib/brief.js`) left husks of them in seven rendered briefs (`RU:.`,
+  `Refusal / «».`, `repo: / «».`). Both now go whole before quotes and Cyrillic are stripped;
+  `test/brief_test.js` 9 to 13 checks, and all 39 family briefs render without a husk.
+- **B-256 closed (operator, 2026-10-25):** the routing block stays as it is. A candidate that kept
+  every rule, boundary, refusal phrase and neighbour saved 530 of 10,493 characters (5.1%), too
+  little to change the operator's wording.
+- **Codex:** the nine deferred family plugins moved to their pins on 2026-10-25 once no Codex
+  process ran (config backed up first).
+- Release impact card: `docs/evidence/specs/2026-10-26-v1790-release-impact.md`.
+
 ## v1.78.0 (2026-10-24): quiet core skills listed by name only
 
 - **B-254:** `visibility` lists quiet core skills by name only on Claude Code. Measured
