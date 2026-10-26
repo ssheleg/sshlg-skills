@@ -113,13 +113,13 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.33.2",
+      "version": "0.33.3",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "eaad435f060852ef77e5d48c7448174345196540"
+      "commit": "faabd1265b4c5ef4e6af0f2423e072dbecdfd26e"
     },
     {
       "name": "sheleg-design",

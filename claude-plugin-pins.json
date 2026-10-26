@@ -1968,8 +1968,8 @@
     {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
-      "commit": "eaad435f060852ef77e5d48c7448174345196540",
-      "version": "0.33.2",
+      "commit": "faabd1265b4c5ef4e6af0f2423e072dbecdfd26e",
+      "version": "0.33.3",
       "pluginInstall": "make-skill@make-skill",
       "pluginPath": "plugins/make-skill",
       "entry": {
@@ -1977,7 +1977,7 @@
         "displayName": "Make Skill",
         "source": "./plugins/make-skill",
         "description": "Encodes the Agent Skills open standard AND Anthropic's platform rules (front-matter limits, disclosure budgets, per-surface runtime limits, the Skills API, evaluation-driven authoring) plus the Claude Code plugin reference (manifest schemas, component layout, `claude plugin validate --strict`) and the proven ssheleg pipeline: marketplace repo layout, version sync, validator + CI, multi-channel distribution (Claude Code plugin, vercel skills CLI, npx, Cursor), npm gotchas, end-to-end first publish, the review checklist for third-party skills, and MCP / A2A rules for protocol-connected skills.",
-        "version": "0.33.2",
+        "version": "0.33.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2005,7 +2005,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "1007c8ab736897a648cdae0ccd89feba7c9abb527db97257650f9584dd819d32",
+          "sha256": "7bacfcbe236a38b15b4ea66f799bf58585cd40d1aa3b7e749ee0fa864fe50bf4",
           "bytes": 1093
         },
         {
@@ -2060,7 +2060,7 @@
         },
         {
           "path": "skills/make-skill/assets/SKILL.template.md",
-          "sha256": "e5f80c5d1332eba072a1cd8c6f95cbef0a18de22be0256a46794f2db61891d2c",
+          "sha256": "c6240ed36d4c4045d88093e798b041d3d56b3abf794d3446ee2ab1a961210de5",
           "bytes": 3010
         },
         {
@@ -2070,17 +2070,17 @@
         },
         {
           "path": "skills/make-skill/references/agent-skills-spec.md",
-          "sha256": "65183bca8359525592e3ff535896f4304403f531ef4f96ef6454a97f91313630",
+          "sha256": "78a92a568e9f4919427fe55b612897f00337172ed7b677e6882798d4ec06e301",
           "bytes": 11402
         },
         {
           "path": "skills/make-skill/references/authoring.md",
-          "sha256": "e58fb681408292271370b467804b759499c7b99136bae5edf422510adc8b3947",
-          "bytes": 25986
+          "sha256": "608a1b99682a995b0b832426c4c32d358f11c79db251c2e1100f675f68ce6e37",
+          "bytes": 26189
         },
         {
           "path": "skills/make-skill/references/claude-code-plugin.md",
-          "sha256": "f15c999fec4a112503cf82b392f9a8b8d5264952a0c9526d3b7dabc2ea825562",
+          "sha256": "2c6d08431402df7f3c398a9ee25c350fe4d22828084fdced910777bed385e069",
           "bytes": 26958
         },
         {
@@ -2110,7 +2110,7 @@
         },
         {
           "path": "skills/make-skill/references/retrofit.md",
-          "sha256": "4dc77f126c9e215bff5f8ead7296c1ac1d7c7d7873f475644e1867f54aa847bf",
+          "sha256": "10b7d11c8f0a11d9a7e81c07757551d525218eeb588d485370f9ccc14f0faa1a",
           "bytes": 8120
         },
         {
@@ -2120,17 +2120,17 @@
         },
         {
           "path": "skills/make-skill/scripts/audit_skill.py",
-          "sha256": "8bf41f03ceb3730c1f00a5b35d9b4e7d4849e2746c6482285ec9e2b02179c35d",
-          "bytes": 60239
+          "sha256": "bfdd7aa8ea50de30608d8d63ca77d4530f45c97de187d0fbfa2a30d068fd5a0f",
+          "bytes": 60320
         },
         {
           "path": "skills/make-skill/SKILL.md",
-          "sha256": "647376277c489ac5431671df40d8ad9448e85b8ae72578917e6a92cab72f5b0f",
+          "sha256": "182311e7758c2bee862292cb58d3b0f4cc38e30b4a27c92d253a1935368ac1f9",
           "bytes": 19500
         },
         {
           "path": "skills/skill-search/SKILL.md",
-          "sha256": "2b2f89bccf18a9bb2b8ba295d406e303f1a77d653d39a6c24c34477390833963",
+          "sha256": "3f82be732c02b5652b2ef5e725cbbe4fb68727f077e3a2e9016c24bcb5ba716c",
           "bytes": 3531
         }
       ]
