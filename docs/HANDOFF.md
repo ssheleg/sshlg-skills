@@ -21,9 +21,16 @@ so both reached one service; `claude mcp list` reads `copylot` Connected and its
 `/.well-known/fabric-service` reads ready, degraded []. Answer on board thread 18a30fdb.
 B-257 closed: make-skill 0.33.3 pinned here (1.79.1).
 
+**Shipped and read back:** make-skill v0.33.3 tagged on `faabd126`, release run 40262515892
+success; hub v1.79.1 tagged on `ee67e1de`, release run 40263572040 success, npm 1.79.1;
+`npx --yes sshlg-skills@latest update` verified all 11 Claude members and deferred Codex
+make-skill (generation safety), so it was moved by hand with Codex closed (backup
+`~/.sshlg-skills/backups/codex-manual-2026-10-26-0429`); the installed `SKILL.md` in Codex and
+Claude hashes the same as the tag (`182311e7758c2bee`).
+
 **Exact next bounded task:** on or after 2026-10-27T01:43Z, stage 8 for
-`docs/evidence/specs/2026-10-26-v1790-release-impact.md`; on or after the 1.79.1 tag plus 24
-hours, stage 8 for `docs/evidence/specs/2026-10-26-v1791-release-impact.md`; then the highest
+`docs/evidence/specs/2026-10-26-v1790-release-impact.md`; on or after 2026-10-27T03:23Z (the 1.79.1 tag plus 24
+hours), stage 8 for `docs/evidence/specs/2026-10-26-v1791-release-impact.md`; then the highest
 open board row.
 
 ## Previous: 2026-10-26 family descriptions within 300 characters (1.79.0)
