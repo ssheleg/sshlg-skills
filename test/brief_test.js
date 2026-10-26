@@ -161,6 +161,31 @@ it('a block-scalar description is read, not the folding marker', () => {
     'no long description survived — the block-scalar arm never ran');
 });
 
+// B-255 (2026-10-26): the 300-character descriptions carry a `RU:` sentence and a refusal
+// clause (`Refusal "no design" / «без дизайна».`, `Refusal phrase "…" / «…».`, or the pair
+// after a colon). Both are routing data, not capability, and both left husks: `RU:.`,
+// `Refusal / «».`, `repo: / «».` shipped as prose.
+it('a RU: sentence goes whole, Latin words inside it included', () => {
+  const out = capabilityBrief('Use when several agents share a repo. RU: занять задачу, id. Not for solo work.');
+  assert.strictEqual(out, 'Use when several agents share a repo. Not for solo work.');
+});
+
+it('a refusal clause goes whole, with or without the word phrase', () => {
+  for (const d of [
+    'Use when deciding how a surface looks. Not for copy. Refusal "no design" / «без дизайна».',
+    'Use when defining a voice. Not for writing. Refusal phrase "no brand" / «без бренда».',
+  ]) assert.ok(!/Refusal|«|»|\/\s*\./.test(capabilityBrief(d)), capabilityBrief(d));
+  assert.strictEqual(capabilityBrief('Use when auditing a site. Not for panels. Refusal "no SEO" / «без SEO».'),
+    'Use when auditing a site. Not for panels.');
+});
+
+it('a quoted refusal pair after a colon leaves no husk', () => {
+  const out = capabilityBrief('Use when agents share a repo. Not for solo work or an unconfigured repo: "no coordination" / «без координации».');
+  assert.strictEqual(out, 'Use when agents share a repo. Not for solo work or an unconfigured repo.');
+  assert.strictEqual(capabilityBrief("Use when agents share a repo. Not for solo work: 'no coordination' / «без координации»."),
+    'Use when agents share a repo. Not for solo work.');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

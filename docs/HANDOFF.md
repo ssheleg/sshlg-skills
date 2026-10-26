@@ -8,7 +8,27 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-24 context audit: where always-loaded text exceeds what is needed (1.78.0)
+## Current: 2026-10-26 family descriptions within 300 characters (1.79.0)
+
+**Objective (operator, 2026-10-25):** finish the context audit: move the deferred Codex plugins,
+close both release cards, ask copylot-agent about its duplicate registration, trim every family
+description to about 300 characters with the trigger suites as the guard; the routing block stays.
+
+**Done:** Codex plugins on their pins (2026-10-25T20:26Z, backup under
+`~/.sshlg-skills/backups/codex-manual-2026-10-25-2126`); stage 8 held for task-pipeline v1.102.0
+and hub v1.78.0; eleven member patch releases and their pins here (B-255 closed; B-256 closed by
+operator decision; B-257 opened for make-skill's canon).
+
+**Open:** copylot-agent has not yet answered why `copylot` and `copylot-cloud` are both
+registered (board thread 18a30fdb, asked 2026-10-25T20:28Z); the operator wants the duplicate
+removed if nothing depends on it.
+
+**Exact next bounded task:** after merge, tag `v1.79.0`, watch the release, `npx --yes
+sshlg-skills@latest update`, read Claude Code's listing count in a fresh `claude -p x --debug`;
+stage 8 for `docs/evidence/specs/2026-10-26-v1790-release-impact.md` after 24 hours; then the
+copylot answer, then B-257.
+
+## Previous: 2026-10-24 context audit: where always-loaded text exceeds what is needed (1.78.0)
 
 **Objective (operator, 2026-10-24):** check every project, agent, file and skill for text that
 costs more tokens than needed, and optimize where we can.
