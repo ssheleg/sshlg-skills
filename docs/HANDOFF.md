@@ -39,6 +39,11 @@ Card: `docs/evidence/specs/2026-10-26-v1800-release-impact.md`.
 family plugins at their pins (0 deferred); `npx sshlg-skills@1.80.0 context` in this repository exit 0
 with project rows; `visibility` prints `cannot hide on goose`.
 
+**Then B-237 (retro floors):** sheleg-design-skill (58,392 to 8,544 B, PR #61) and super-ux (16,476 to
+6,555 B, PR #62) migrated with `retro_budget.py`, rows the tool mis-shortened rebuilt from the verbatim
+archive; fabric, research-agent, nicegramappbot and mobile-publisher-agent told on board thread fb5d5d5b;
+the tool defect is B-258 (owner task-pipeline).
+
 **Exact next bounded task:** on or after 2026-10-27T01:43Z, stage 8 for
 `docs/evidence/specs/2026-10-26-v1790-release-impact.md`; on or after 2026-10-27T03:23Z (the 1.79.1 tag plus 24
 hours), stage 8 for `docs/evidence/specs/2026-10-26-v1791-release-impact.md` and, 24 hours after
