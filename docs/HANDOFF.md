@@ -34,6 +34,11 @@ B-205 (Goose named in `visibility`), B-234 (already name-only by B-254), B-235 (
 Warp not installed; settings backup `~/.sshlg-skills/backups/claude-settings-before-warp-disable-*`).
 Card: `docs/evidence/specs/2026-10-26-v1800-release-impact.md`.
 
+**1.80.0 shipped and read back:** tagged on `085ff07f`, release run 40270413186 success, npm 1.80.0;
+`npx --yes sshlg-skills@latest update`: 11 of 11 steps green, every Claude member verified, Codex 9 of 9
+family plugins at their pins (0 deferred); `npx sshlg-skills@1.80.0 context` in this repository exit 0
+with project rows; `visibility` prints `cannot hide on goose`.
+
 **Exact next bounded task:** on or after 2026-10-27T01:43Z, stage 8 for
 `docs/evidence/specs/2026-10-26-v1790-release-impact.md`; on or after 2026-10-27T03:23Z (the 1.79.1 tag plus 24
 hours), stage 8 for `docs/evidence/specs/2026-10-26-v1791-release-impact.md` and, 24 hours after
