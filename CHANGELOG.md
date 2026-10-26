@@ -1,3 +1,14 @@
+## v1.79.1 (2026-10-26): make-skill's description target is 300 characters
+
+- **make-skill 0.33.2 to 0.33.3** (B-257): the canon new members and retrofits read said
+  "Target ≤400 chars" after the family moved to 300 in 1.79.0, so a skill written to it would
+  raise the family total the description ratchet holds. Every live statement of the target now
+  says 300; the soft cap (500, WARN) and spec cap (1024, FAIL) are unchanged.
+- The duplicate `copylot-cloud` MCP registration on the operator's machine was removed by the
+  operator's decision; the local `copylot` is the cloud's edge and stays (machine configuration,
+  nothing in this repository changed for it).
+- Release impact card: `docs/evidence/specs/2026-10-26-v1791-release-impact.md`.
+
 ## v1.79.0 (2026-10-26): every family description within 300 characters
 
 - **B-255 closed (operator, 2026-10-25):** all 39 family skill descriptions are within a

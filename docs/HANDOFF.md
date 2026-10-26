@@ -8,7 +8,25 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-26 family descriptions within 300 characters (1.79.0)
+## Current: 2026-10-26 the remaining tails of the context audit (1.79.1)
+
+**Objective (operator, 2026-10-26, «давай доделаем»):** close what the context audit left open:
+the duplicate copylot registration, B-257, and stage 8 of the 1.79.0 card when its window ends.
+
+**Done:** `copylot-cloud` removed from the user-scope Claude Code config
+(`claude mcp remove copylot-cloud -s user`, private backup under
+`~/.sshlg-skills/backups/claude-json-before-copylot-cloud-removal-*.json`): copylot-agent's own
+handoff says the local `copylot` (127.0.0.1:8793) is the cloud's edge with no database of its own,
+so both reached one service; `claude mcp list` reads `copylot` Connected and its
+`/.well-known/fabric-service` reads ready, degraded []. Answer on board thread 18a30fdb.
+B-257 closed: make-skill 0.33.3 pinned here (1.79.1).
+
+**Exact next bounded task:** on or after 2026-10-27T01:43Z, stage 8 for
+`docs/evidence/specs/2026-10-26-v1790-release-impact.md`; on or after the 1.79.1 tag plus 24
+hours, stage 8 for `docs/evidence/specs/2026-10-26-v1791-release-impact.md`; then the highest
+open board row.
+
+## Previous: 2026-10-26 family descriptions within 300 characters (1.79.0)
 
 **Objective (operator, 2026-10-25):** finish the context audit: move the deferred Codex plugins,
 close both release cards, ask copylot-agent about its duplicate registration, trim every family
