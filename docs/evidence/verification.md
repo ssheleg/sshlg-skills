@@ -2,8 +2,9 @@
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
 |---|---|---|---|---|---|
-| DB-1 | All 39 family skill descriptions are at most 300 characters and total 11,470, with no skill within 60 characters of the 500 cap | `python3 test/validate.py` at these pins (`check_the_family_description_total_only_falls`, `check_the_description_reserve_is_not_spent`, ratchet 0) | unreleased | a member release that lengthens a description | 2026-10-26, branch tree |
-| DB-2 | The trim lost no route: 125 of 140 prompts reach the expected route, the same 15 misses, 0 false routes; the trigger suite holds | `node test/route_coverage.js` before (pins of 1.78.0) and after (these pins), output lines 1 to 18 identical; `node test/triggers_test.js` 70 checks | unreleased | a change to a description, a `## Triggers` section or `lib/triggers.js` | 2026-10-26, branch tree |
+| DB-1 | All 39 family skill descriptions are at most 300 characters and total 11,470, with no skill within 60 characters of the 500 cap | `python3 test/validate.py` at these pins (`check_the_family_description_total_only_falls`, `check_the_description_reserve_is_not_spent`, ratchet 0) | v1.79.0 | a member release that lengthens a description | 2026-10-26, branch tree |
+| DB-2 | The trim lost no route: 125 of 140 prompts reach the expected route, the same 15 misses, 0 false routes; the trigger suite holds | `node test/route_coverage.js` before (pins of 1.78.0) and after (these pins), output lines 1 to 18 identical; `node test/triggers_test.js` 70 checks | v1.79.0 | a change to a description, a `## Triggers` section or `lib/triggers.js` | 2026-10-26, branch tree |
+| DB-3 | On the operator machine after `update` to 1.79.0, Claude Code's skill listing measured 47,297 characters over 131 entries (51,178 on 1.78.0) | debug log 2026-10-26T01:53:42Z, `Skill listing over budget` line; `update` output `verified` for all 11 members | v1.79.0 | a change to installed skills or their descriptions | 2026-10-26, operator machine |
 
 ## 2026-10-24: quiet core skills listed by name only (B-254), branch `feat/visibility-name-only`, 1.78.0
 
@@ -175,7 +176,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**800** id'd requirement rows below, **642** read `verified` and none of them says which
+**801** id'd requirement rows below, **643** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with

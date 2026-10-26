@@ -23,10 +23,14 @@ operator decision; B-257 opened for make-skill's canon).
 registered (board thread 18a30fdb, asked 2026-10-25T20:28Z); the operator wants the duplicate
 removed if nothing depends on it.
 
-**Exact next bounded task:** after merge, tag `v1.79.0`, watch the release, `npx --yes
-sshlg-skills@latest update`, read Claude Code's listing count in a fresh `claude -p x --debug`;
-stage 8 for `docs/evidence/specs/2026-10-26-v1790-release-impact.md` after 24 hours; then the
-copylot answer, then B-257.
+**Shipped and read back:** v1.79.0 tagged on `7064d2b3`, release run 40255202605 success, npm
+1.79.0; `update` verified all 11 Claude members; Codex moved to the new pins at 2026-10-26T02:52
+(backup `~/.sshlg-skills/backups/codex-manual-2026-10-26-0252`); a fresh `claude -p ok --debug`
+logged `Skill listing over budget: 131 skills, 47297 chars` (61,725 before 1.78.0, 51,178 after it).
+
+**Exact next bounded task:** on or after 2026-10-27T01:43Z, stage 8 for
+`docs/evidence/specs/2026-10-26-v1790-release-impact.md`; the copylot answer on board thread
+18a30fdb; then B-257.
 
 ## Previous: 2026-10-24 context audit: where always-loaded text exceeds what is needed (1.78.0)
 
