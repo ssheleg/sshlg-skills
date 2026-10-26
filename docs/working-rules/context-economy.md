@@ -19,8 +19,10 @@ Claude counts within ±15%). Before the first user word a Claude Code session he
 3. **Imperative and short.** State the rule and its reason in one sentence. Dates, quotations
    and history go into HTML comments or the reference file. Avoid emphasis inflation:
    aggressive wording makes models over-apply a rule.
-4. **Respect host caps.** Codex stops adding instruction files once the combined size reaches
-   `project_doc_max_bytes` (32 KiB by default); `context` reports it as an error.
+4. **Respect host caps.** Codex 0.163 reads the global `AGENTS.md` in full, but cuts the project
+   chain (nearest `.git` to cwd) once its combined size reaches `project_doc_max_bytes` (32 KiB
+   by default), without a warning; `context` reports that as an error. Claude Code warns on a
+   memory file above 40,000 characters; `context` notes it.
 5. **Keep the prefix stable.** In the measured transcripts, an instruction file edited mid-session
    reached running sessions again as a whole file (one re-injection of 41k characters); batch edits.
 

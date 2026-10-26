@@ -723,6 +723,7 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 | OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config`. An `opencode.jsonc` is refused | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission | be read as a plain file |
 | Cursor agent CLI 2026.09.02 | **cannot hide on cursor**: no setting switches a skill off. The only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) | (not hidden) |
 | Kimi 2.1.1 | **cannot hide on kimi**: `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) | (not hidden) |
+| Goose 1.44.0 | **cannot hide on goose**: `~/.config/goose/config.yaml` can only turn the whole `skills` extension off (`extensions.skills.enabled`), and `goose skills` only lists | `goose --version` 1.44.0, `goose skills --help` (only `list`), the operator machine's config.yaml, 2026-10-26 | (not hidden) |
 
 Visibility follows the active host directories, including `CLAUDE_CONFIG_DIR`,
 `CODEX_HOME` and `GEMINI_CLI_HOME` (Gemini's HOME replacement: its files sit under
@@ -955,9 +956,12 @@ npx sshlg-skills context          # per host: bytes, ~tokens, lines, hub-managed
 npx sshlg-skills context --json
 ```
 
-Read-only. Exits 1 when a host file is over a documented cap (Codex stops adding instruction
-files at `project_doc_max_bytes`, 32 KiB by default) and notes a `CLAUDE.md` above Claude Code's
-200-line target. The rules behind it: [context economy](docs/working-rules/context-economy.md).
+Read-only. Measures the five files the hub writes, plus the project files a session started in
+the current directory loads (Codex: `AGENTS.override.md` or `AGENTS.md` from the nearest `.git` to
+cwd; Claude Code: every ancestor's `CLAUDE.md`, `.claude/CLAUDE.md` and `CLAUDE.local.md`). Exits 1
+when Codex's project files together pass `project_doc_max_bytes` (32 KiB by default; Codex cuts
+them there without a warning, while the global `AGENTS.md` is read in full), and notes a `CLAUDE.md`
+above Claude Code's 200-line target or its 40,000-character warning. The rules behind it: [context economy](docs/working-rules/context-economy.md).
 
 ## Other commands
 
