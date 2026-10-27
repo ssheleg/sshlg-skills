@@ -144,6 +144,20 @@ stale graph misleads a run quietly; the validator discloses the drift on every r
 this is the command that clears it.
 
 ```bash
+node scripts/release-member.js <member-checkout> vX.Y.Z [--push]   # B-222
+```
+
+A **member's** tag goes out through this, never a bare `git push origin vX.Y.Z`. Members
+validate on PRs and nightly, not on a push, so a commit tagged right after its merge was
+first checked by the release run itself, and a check that reads the tag list (task-pipeline's
+retro declaration) could only fail there: v1.97.0 burned that way. The script refuses a
+candidate not on `origin`'s default branch, a `plugin.json` or `package.json` version that
+differs from the tag, a missing CHANGELOG section or a dirty tree; then it creates the
+annotated tag locally, runs the member's `npm run test:all` (else `npm test`) with the tag
+present, and pushes only when that is green. A red suite removes the tag this run created.
+`test/release_member_test.js` runs every branch against a bare remote.
+
+```bash
 python3 test/check_pins.py --self-test   # pure, offline, in CI's blocking path
 python3 test/check_pins.py               # 0 fresh · 1 never published · 2 behind · 3 own tag unshipped
 pip install tiktoken && python3 test/audit_bundle.py
