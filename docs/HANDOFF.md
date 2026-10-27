@@ -8,7 +8,36 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-26 the remaining tails of the context audit (1.79.1, 1.80.0)
+## Current: 2026-10-27 the hub board closed in waves (1.81.0)
+
+**Objective (operator, 2026-10-27, «до конца сам делай все»):** close every open board row with
+no human gate. Plan and wave cut: [board waves](evidence/specs/2026-10-27-board-waves.md).
+
+**Done:** 31 rows closed (B-84, B-184, B-185, B-188, B-190, B-198, B-199, B-206, B-209, B-211,
+B-214, B-216, B-217, B-218, B-221, B-222, B-224, B-226, B-227, B-228, B-229, B-230, B-233, B-236,
+B-238, B-239, B-240, B-241, B-243, B-246, B-258) with receipts in the
+[backlog](evidence/backlog.md); findings filed as B-259 to B-290, nine closed in the same release.
+Members released for it: task-pipeline 1.102.3 (PR #159), agent-sync 1.23.3 (PR #47), make-skill
+0.33.4 (PR #50), seo-aeo-audit 0.32.4 (PR #69). Outside this repository: the private app repository
+enrolled (`aa32b25e` on its `main`); two orphaned submodule worktrees moved to
+`~/.sshlg-skills/orphaned-worktrees/2026-10-27/` (every file in remote history) and
+`domains --apply` read back; the shared lesson index rebuilt (0 shareable lessons); the clone list
+kept local at `~/.sshlg-skills/reports/2026-10-27-duplicate-clones.json`.
+
+**Decisions:** B-239 removal left to the operator (his cleanup rule forbids deleting Git-tracked
+files across `~/DATA`); B-233 seeding handed to the owning projects; Gemini hook adapter parked
+until the host (Gemini CLI or Antigravity CLI) is chosen (B-280).
+
+**Waits:** B-231, fabric-vr runs `enroll` itself (no JDK here for its pre-push gate; board thread
+`e23891ab`, request `3fb622c5`); no watcher. Stage 8 of the 1.81.0 card on or after the tag plus 24
+hours. Human gates: B-29 (confirmation), B-146 (Gemini sign-in), B-232 (decision), B-271 (sending
+the Orca ask), B-276 (Cursor and Codex sign-in for live probes).
+
+**Exact next bounded task:** stage 8 for
+[`2026-10-27-v1810-release-impact.md`](evidence/specs/2026-10-27-v1810-release-impact.md) 24 hours
+after the tag; then the highest open board row (B-265, B-268, B-289 and B-200 lead at P 1.0).
+
+## Previous: 2026-10-26 the remaining tails of the context audit (1.79.1, 1.80.0)
 
 **Objective (operator, 2026-10-26, «давай доделаем»):** close what the context audit left open:
 the duplicate copylot registration, B-257, and stage 8 of the 1.79.0 card when its window ends.

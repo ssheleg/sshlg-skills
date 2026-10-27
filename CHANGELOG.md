@@ -1,3 +1,44 @@
+## v1.81.0 (2026-10-27): the hub board closed in waves
+
+The operator, 2026-10-27: «до конца сам делай все». Thirty-one open rows were taken in five
+waves; 31 closed, one waits on its owner (B-231), and the findings became new rows B-259 to
+B-290, nine of them closed in the same release. Plan: `docs/evidence/specs/2026-10-27-board-waves.md`.
+
+- **Your routing block is reworded on the next `update`** (B-226). The router sections, table,
+  heading (now `## Work routing: the ssheleg family`), opening comment, Cursor rule and wait rule
+  (`wait-v3`) carry no em dash; only punctuation changed. The 1.80.0 wording is known to the
+  hand-edit guard, so nothing is mistaken for your edit; a section you edited by hand is kept,
+  named by `file:line` and reported as drift. Launcher and hook output carry no em dash either
+  (B-278); the report header reads `ssheleg skills: ...`.
+- **More hosts get the routing block, only where installed** (B-206): `~/.agents/AGENTS.md` (a
+  regular file only), ZCode, Qwen, Kiro steering, and a compact block in Windsurf's 6,000-character
+  `global_rules.md`. On the operator machine only `~/.zcode/AGENTS.md` is new. `hosts` and
+  `context` name the hosts the hub does not write for, and why.
+- **Every write to an operator file is atomic** (B-260): temp file, flush, rename, mode kept, a
+  symlink written through; a crash leaves the old file.
+- **Hooks.** A git command that would throw away uncommitted work is refused with the paths and
+  the remedy; `SSHLG_DISCARD_OK=1` overrides one command (B-240). Cursor gets answers it accepts
+  and `hooks install --codex` wires the guard into Codex (B-209). The matcher is anchored, settings
+  writes compare before replace and follow `CLAUDE_CONFIG_DIR` (B-218, B-272). Modules load on
+  demand, and a Read no longer takes a backup (B-236). The guard covers Codex `hooks.json` and the
+  new instruction files (B-273, B-281).
+- **Routing.** A status question or a look no longer names delivery (B-241); new trigger phrases
+  from task-pipeline, seo-aeo-audit and make-skill route (B-84): coverage 135 of 144, 0 false
+  positives.
+- **CLI.** Every command answers `--help`; `--version` (B-198). A plain install or update no longer
+  creates the home of an absent host (B-218).
+- **Hosts and visibility.** Gemini, OpenCode and Kimi visibility holes (B-214); Pi precedence
+  (B-221); extra host skill folders refreshed or reported (B-216); old-path install records
+  reported with a remedy (B-243); Hermes gets its own skill copy (B-217).
+- **State.** A real lost write in the settings store is fixed (B-227); old Claude pin
+  transactions and Codex receipts are retired (B-224, about 43 directories on the first run);
+  a backup an open managed-blocks operation names is pinned (B-199); `enroll --prune` (B-229);
+  runtime modules older than the ownership record retire by history (B-259).
+- **Member tags** go out through `node scripts/release-member.js`, which runs the member's suite
+  with the tag present before pushing it (B-222).
+- **Members:** task-pipeline 1.102.3, agent-sync 1.23.3, make-skill 0.33.4, seo-aeo-audit 0.32.4.
+- Release impact card: `docs/evidence/specs/2026-10-27-v1810-release-impact.md`.
+
 ## v1.80.0 (2026-10-26): `context` measures the caps hosts actually apply
 
 - **`context` (B-212).** Codex 0.163 reads the global `AGENTS.md` in full; `project_doc_max_bytes`

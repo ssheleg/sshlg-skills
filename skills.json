@@ -76,13 +76,13 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.102.2",
+      "version": "1.102.3",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
       "shape": "static",
       "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third — `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision.",
-      "commit": "ce33d5d4134b0c61df2bbe41574b5021ca476e91"
+      "commit": "64e28dfa1aa860780072da867c7dea41c3099edd"
     },
     {
       "name": "agent-sync",
@@ -94,13 +94,13 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.23.2",
+      "version": "1.23.3",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
       "shape": "static",
       "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape.",
-      "commit": "f3828c5f4fa60eacdf5a1da1516f523f9a54e09c"
+      "commit": "6a30f41482d0586523b165147d2bff55810144e5"
     },
     {
       "name": "make-skill",
@@ -113,13 +113,13 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.33.3",
+      "version": "0.33.4",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "faabd1265b4c5ef4e6af0f2423e072dbecdfd26e"
+      "commit": "1bd8c0e128e99b7c20e78a26d433b840e6c2ebbe"
     },
     {
       "name": "sheleg-design",
@@ -160,13 +160,13 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.32.3",
+      "version": "0.32.4",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "478d5568489b95d38b8ac5904965165273577a15"
+      "commit": "993aa5135c29feb3dfac5df671dde3cc94889c7c"
     },
     {
       "name": "sheleg-dev",
