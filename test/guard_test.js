@@ -260,6 +260,21 @@ it('the heredoc treatment is imported, not a second parser', () => {
     'guard.js grew its own copy of executablePart');
 });
 
+// Codex apply_patch (B-209): lib/hookpayload.js hands the patch's paths over as a list.
+it('a list of paths hits the first protected one, and misses when none is', () => {
+  assert.strictEqual(hit({ tool_name: 'apply_patch', tool_input: { file_paths: ['/w/a.js', CLAUDE] } }), CLAUDE);
+  assert.strictEqual(hit({ tool_name: 'apply_patch', tool_input: { file_paths: ['/w/a.js', CLAUDE + '.bak', 7] } }), null);
+  assert.strictEqual(hit({ tool_name: 'apply_patch', tool_input: { file_paths: [] } }), null);
+});
+
+// B-218 CLAUDE-8: the hooks wiring follows CLAUDE_CONFIG_DIR, so does its settings file.
+it('a relocated Claude profile protects its settings.json too', () => {
+  const env = { CLAUDE_CONFIG_DIR: '/profiles/work' };
+  assert.ok(G.targets(HOME, env).includes('/profiles/work/settings.json'));
+  assert.strictEqual(G.decide({ tool_name: 'Write', tool_input: { file_path: '/profiles/work/settings.json' } }, HOME, env),
+    '/profiles/work/settings.json');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

@@ -33,15 +33,20 @@ const fs = require('fs');
 
 const LIB = path.join(__dirname, '..', 'lib');
 
-/** The one output shape this event accepts. */
+/**
+ * The host that sent this payload (lib/hookpayload.js): Claude Code, Cursor (which
+ * imports this entry from settings.json) or Codex. Set once, at the payload entry.
+ */
+let HOST = 'claude';
+
+/**
+ * The answer, spelled for the host that asked. Cursor blocks every call on output that is
+ * not JSON and reads `permission`, not `hookSpecificOutput`; `render` returns '' for what a
+ * host does not enforce (Cursor's `ask`), so nothing is written then.
+ */
 function say(decision, reason) {
-  process.stdout.write(JSON.stringify({
-    hookSpecificOutput: {
-      hookEventName: 'PreToolUse',
-      permissionDecision: decision,
-      permissionDecisionReason: reason,
-    },
-  }) + '\n');
+  const text = require(path.join(LIB, 'hookpayload.js')).render(HOST, decision, reason);
+  if (text) process.stdout.write(text);
 }
 
 /**
@@ -138,7 +143,11 @@ process.stdin.setEncoding('utf8');
 process.stdin.on('data', (c) => { raw += c; });
 process.stdin.on('end', () => {
   try {
-    const data = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
+    // One Claude-shaped payload for every guard below, whichever host ran this (B-209).
+    const normalised = require(path.join(LIB, 'hookpayload.js'))
+      .normalise(raw.trim().startsWith('{') ? JSON.parse(raw) : {});
+    HOST = normalised.host;
+    const data = normalised.data;
     const home = os.homedir();
     const command = (data.tool_input && data.tool_input.command) || '';
 
