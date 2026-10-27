@@ -892,8 +892,13 @@ derived exception: a trigger that is *itself* phrased as a question wins, becaus
 silencing it on the words it owns. Any refusal phrase drops every note on that
 prompt, not only its own route's; later prompts still get the notes not yet given.
 A prompt with no signal costs nothing.
-Every word it fires on must already appear in the target skill's own
-`description`; a fixture reads the shipped descriptions and fails on any trigger
+A report is not an order: a clause that asks whether something happened («миграция
+прошла?», "did the migration pass?") or a turn that only looks («посмотри логи
+миграции», "look at the migration logs") does not name delivery, while a verb that
+orders the work in the same clause («миграция упала? почини её») still does.
+Every word it fires on must already appear in the target skill's own `SKILL.md`
+(its `description`, or since 2026-10-20 the `Triggers` section the full list moved
+to); a fixture reads the shipped files and fails on any trigger
 the skill does not itself advertise, so this cannot become a second routing
 policy that drifts from the skills it routes to. A word a member is still being
 asked to advertise is declared in `PENDING` in `lib/triggers.js`, with the member

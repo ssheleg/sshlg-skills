@@ -46,6 +46,11 @@ const CASES = [
   ['сделай аудит хуков, ничего не меняй', ''],
   ['Read-only audit. Do not edit config', ''],
   ['отлично, теперь сделай фичу логина', 'task-pipeline'],
+  // B-241 (2026-10-27): a status question and a look name no delivery; the order does.
+  ['миграция прошла? посмотри логи', ''],
+  ['did the migration pass? check the logs', ''],
+  ['посмотри логи миграции', ''],
+  ['миграция упала? почини её', 'task-pipeline'],
   ['release iteration, no pipeline', ''],
   ['итерация релиза, без пайплайна', ''],
   // --- growth: funnels, activation, retention, paywalls -------------------
