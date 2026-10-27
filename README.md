@@ -274,7 +274,8 @@ this launcher to replace native payloads.
 
 The hub records immutable private pending intent under
 `~/.sshlg-skills/codex-deferred/`, bound to the canonical profile, config fingerprint
-and desired source. It prints a safely quoted POSIX watcher command. The observer
+and desired source; each member keeps only its newest receipt, which goes together with its
+observations. It prints a safely quoted POSIX watcher command. The observer
 reads native state and records private observations, with a two-minute cadence,
 60-observation limit and two-hour deadline; it never installs or stops Codex.
 Catalog agreement ends observation without claiming old threads reloaded. Other
@@ -321,7 +322,9 @@ every such record in `installed_plugins.json` (all plugins, not only the family'
 command that backs the file up and drops exactly those records, and the undo; nothing in the
 hub writes that file for this (B-243, `test/localrecords_test.js`). Project and managed scopes
 and other repair shapes block that member, by name, and the run reports partial. Interrupted or uncertain execution leaves a recovery
-receipt and blocks blind retry. Native activation and task quality require their
+receipt and blocks blind retry. The newest five finished transactions are kept whole, and
+every unfinished one too; an older finished one moves its copies of Claude's files into
+`~/.sshlg-skills/backups/` (ten per file) and its directory goes. Native activation and task quality require their
 own observations even after installed bytes match.
 
 Flags: `--no-claude`, `--claude-only`, `--agent a,b`, `--all`, and
