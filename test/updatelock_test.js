@@ -372,7 +372,7 @@ for (const [sig, group] of [['SIGTERM', '0'], ['SIGINT', '1']]) {
     assert.ok(res.ms >= 0 && res.ms < 2000, `update took ${res.ms} ms to stop after ${sig}`);
     assert.ok(fs.existsSync(L.lockPath(home)), 'the killed run left no lock — the takeover below proves nothing');
     const next = update(stubEnv(home));
-    assert.ok(new RegExp(`took over update\\.lock — holder pid ${res.pid} is not running`).test(next.out),
+    assert.ok(new RegExp(`took over update\\.lock: holder pid ${res.pid} is not running`).test(next.out),
       `the next update did not take over the dead holder's lock:\n${next.out.slice(0, 400)}`);
     assert.strictEqual(next.status, 0, `the next update failed: ${next.status}`);
     fs.rmSync(home, { recursive: true, force: true });

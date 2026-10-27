@@ -125,7 +125,7 @@ it('the report says CANDIDATES and never offenders', () => {
 it('the empty case still prints, so the check can be watched working', () => {
   const text = C.report([]);
   assert.ok(text.length > 40);
-  assert.ok(/none — nothing installed here overlaps/.test(text));
+  assert.ok(/none: nothing installed here overlaps/.test(text));
 });
 
 it('a scanned count is reported when it is known, and omitted when it is not', () => {
@@ -185,7 +185,7 @@ it('`conflicts` exits 0 and prints the disclaimer on a HOME with nothing install
   const out = (r.stdout || '') + (r.stderr || '');
   assert.strictEqual(r.status, 0, `exit ${r.status}\n${out}`);
   assert.ok(/Installed skills that land on ground a router owns/.test(out), out);
-  assert.ok(/none — nothing installed here overlaps/.test(out), out);
+  assert.ok(/none: nothing installed here overlaps/.test(out), out);
   assert.ok(/CANDIDATES, not offenders/.test(out), out);
 });
 

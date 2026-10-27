@@ -254,7 +254,7 @@ process.stdin.on('end', () => {
         // a diagnostic, and a hook that answered `allow` to it would be deciding
         // something it cannot know.
         process.stderr.write(
-          '[sshlg-skills] no skills.json beside the hook — the shadow guard is '
+          '[sshlg-skills] no skills.json beside the hook: the shadow guard is '
           + 'inert this turn; reinstall with `npx sshlg-skills hooks install`\n');
       }
       const bare = hygiene.bareFamilyInstall(command, ids);
@@ -280,7 +280,7 @@ process.stdin.on('end', () => {
           '~/.claude/skills/' + bare.target + ', a plain copy that shadows the plugin of the ' +
           'same name and serves the version it was copied from forever.\n' +
           `Use the family launcher instead: ${bare.remedy}\n` +
-          'If this text is QUOTED rather than run — a search, a document, a pasted log — ' +
+          'If this text is QUOTED rather than run (a search, a document, a pasted log), ' +
           'this refusal is wrong about it. The guard reads what could execute and cannot ' +
           'tell an example from an invocation. Break the phrase (`skills up\u200bdate`), ' +
           'pass the body through a file, or run the search with the pattern split.');
@@ -379,7 +379,7 @@ process.stdin.on('end', () => {
     // copy, say where it went on stderr, emit no decision, and let the normal
     // permission flow run.
     process.stderr.write(saved.action === 'no-file'
-      ? `[sshlg-skills] ${target} does not exist yet — creating it destroys nothing.\n`
+      ? `[sshlg-skills] ${target} does not exist yet: creating it destroys nothing.\n`
       : `[sshlg-skills] copy taken before the write: ${saved.path}\n`);
   } catch (e) {
     /* Silence, deliberately. See the header. */

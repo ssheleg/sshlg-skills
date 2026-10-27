@@ -101,7 +101,7 @@ process.stdin.on('end', () => {
     }
     try {
       const leak = require(path.join(LIB, 'secrets.js')).scan(text);
-      if (leak) notes.push('[sshlg-skills] CREDENTIAL IN OUTPUT — ' + leak.why);
+      if (leak) notes.push('[sshlg-skills] CREDENTIAL IN OUTPUT: ' + leak.why);
     } catch (e) { /* fails silent, like everything else here */ }
     try {
       const L = require(path.join(LIB, 'labelledsecrets.js'));
@@ -179,7 +179,7 @@ process.stdin.on('end', () => {
               `[sshlg-skills] \`obsidian-wiki setup\` dropped ${restored.length} key(s) from ` +
               `${real} (${restored.join(', ')}), and the restore was NOT performed: a copy ` +
               `of the file could not be taken first (${saved.error}). The pre-run snapshot ` +
-              `is ${snap} — fix the backup directory (~/.sshlg-skills/backups) and re-apply ` +
+              `is ${snap}: fix the backup directory (~/.sshlg-skills/backups) and re-apply ` +
               `the missing keys from it.`);
           } else {
             // B-260: temp file, flush, rename; never the in-place write.

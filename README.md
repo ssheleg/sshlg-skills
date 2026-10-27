@@ -924,7 +924,7 @@ The status line reads `.task-pipeline/run.md`, the ledger a pipeline run already
 keeps:
 
 ```
-0✓ 1✓ 2✓ 3✓ 4✓ 5· 6· 7· 8· 9· 10· · 45% · ▶ 4 Plan auto · gates 5/11 · iter 0 · holds — · 40m
+0✓ 1✓ 2✓ 3✓ 4✓ 5· 6· 7· 8· 9· 10· · 45% · ▶ 4 Plan auto · gates 5/11 · iter 0 · holds n/a · 40m
 ```
 
 **The denominator comes from your `pipeline.json` → `stages[]`, and from nowhere
@@ -948,7 +948,7 @@ write one from memory.
 
 Every number is borrowed rather than computed — the iteration count is the
 number of `iter:` lines, the gates come from `stage:` verdicts — and an
-**unreported** `holds:` prints `holds —`, not `holds 0`, because a silent stage
+**unreported** `holds:` prints `holds n/a`, not `holds 0`, because a silent stage
 must not look like a clean one. In a directory with no run it prints nothing.
 
 ### Routing that acts, not only reminds

@@ -262,7 +262,7 @@ it('the MCP report calls rows candidates and counts what it could not read', () 
   assert.ok(/none among the instructions read here/.test(r));
   assert.ok(/1 not read \(x\)/.test(r), 'an unread server was not counted');
   assert.ok(/CANDIDATES, not offenders/.test(r));
-  assert.ok(/not clean — it is unknown/.test(r));
+  assert.ok(/not clean: it is unknown/.test(r));
 });
 
 it('`sshlg-skills injectors` prints the MCP half even when the plugin registry is unreadable', () => {

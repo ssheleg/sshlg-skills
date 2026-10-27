@@ -113,7 +113,7 @@ runtime copy and this file.
 
 - Created exclusively (`wx`) with `{"pid", "startedAt", "host"}`, mode 0600.
 - A live lock makes the second `update` print who holds it and how long ago it started
-  (`update: refused — …`), and exit **75** (EX_TEMPFAIL, `BUSY_EXIT` in `lib/updatelock.js`).
+  (`update: refused: …`), and exit **75** (EX_TEMPFAIL, `BUSY_EXIT` in `lib/updatelock.js`).
   A caller that sees 75 should retry later, not treat it as a failed update; the idle updater
   (`lib/updaterun.js`) records it as `busyAt`, never `ok: false`. **Exit 2 is a usage error**
   (an unknown flag, a flag without its value, contradictory flags) — fix the call, do not retry.
@@ -124,7 +124,7 @@ runtime copy and this file.
   is**, and one whose pid is gone is taken over at once. A lock written on **another host** is
   judged by its age alone (its pid means nothing here): taken over after 30 minutes. An
   unreadable lock is refused while fresh and taken over once it is 30 seconds old. Every takeover
-  is logged (`update: took over update.lock — ...`).
+  is logged (`update: took over update.lock: ...`).
 - A takeover removes only the lock it judged, atomically: it RENAMES the lock to a name of its
   own, checks that the renamed file is the lock it judged (pid and `startedAt`), and if another
   update had replaced it in between, puts that one back with `link()` and judges again. The one

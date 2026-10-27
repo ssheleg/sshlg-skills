@@ -258,7 +258,7 @@ it('`hosts` names project-first precedence and that project roots need trust (B-
   const r = spawnSync(process.execPath, [BIN, 'hosts'], { cwd: repo, encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home }) });
   const out = `${r.stdout}${r.stderr}`;
   assert.strictEqual(r.status, 0, out);
-  assert.ok(out.includes(`conflict: ux-flows [family] — Pi keeps ${path.join(fs.realpathSync(repo), '.agents', 'skills', 'ux-flows')}`), out);
+  assert.ok(out.includes(`conflict: ux-flows [family]: Pi keeps ${path.join(fs.realpathSync(repo), '.agents', 'skills', 'ux-flows')}`), out);
   assert.ok(/project roots first/.test(out) && /trust/.test(out), out);
 });
 

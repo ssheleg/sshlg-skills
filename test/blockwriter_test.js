@@ -396,7 +396,7 @@ try {
     fs.renameSync = () => { throw Object.assign(new Error('simulated disk error'), { code: 'EIO' }); };
     try { W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'claude', '--from', f.from, '--apply'], { home: f.home, env: {} }, (x) => { said += x; }); }
     finally { fs.renameSync = rename; }
-    assert.match(said, /refused — RECOVERY_REQUIRED/, 'the next write names the open operation');
+    assert.match(said, /refused: RECOVERY_REQUIRED/, 'the next write names the open operation');
   });
 
   t('the journal head covers the last record: an edited or deleted last line is refused', () => {
@@ -593,7 +593,7 @@ try {
     fs.writeFileSync(path.join(f.home, '.codex', 'AGENTS.md'), PROSE + `<!-- ${ID}:OPTOUT -->\n`);
     let said = '';
     assert.strictEqual(W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'all', '--from', f.from], { home: f.home, env: {} }, (x) => { said += x; }), 1);
-    assert.match(said, /== codex\nblocks install: refused .*OPTED_OUT/);
+    assert.match(said, /== codex\nblocks install: refused: .*OPTED_OUT/);
     said = '';
     assert.strictEqual(W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'cursor', '--from', f.from], { home: f.home, env: {} }, (x) => { said += x; }), 2);
   });

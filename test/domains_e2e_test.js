@@ -254,7 +254,7 @@ it('a project write that throws is reported, the others are recorded, and --reve
 it('a project file that cannot be read is refused, not taken for absent', () => {
   fs.mkdirSync(local(P.xr), { recursive: true }); // a directory where the file should be
   const r = run('domains');
-  assert.ok(/p-xr[^\n]*refused — cannot read/.test(r.stdout), r.stdout);
+  assert.ok(/p-xr[^\n]*refused: cannot read/.test(r.stdout), r.stdout);
   fs.rmSync(path.join(P.xr, '.claude'), { recursive: true, force: true });
 });
 

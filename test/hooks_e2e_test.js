@@ -1569,7 +1569,7 @@ try {
       tool_response: { stdout: 'y'.repeat(Math.ceil(1.1 * 1024 * 1024)), stderr: `fatal: ${vendor}` },
     });
     const text = out && out.hookSpecificOutput.additionalContext;
-    assert.ok(text && /CREDENTIAL IN OUTPUT — This command PRINTED/.test(text), 'the vendor key was lost');
+    assert.ok(text && /CREDENTIAL IN OUTPUT: This command PRINTED/.test(text), 'the vendor key was lost');
     assert.ok(!text.includes(vendor), 'the report repeats the value');
   });
 
@@ -1585,7 +1585,7 @@ try {
     });
     const ms = Date.now() - t0;
     const text = out && out.hookSpecificOutput.additionalContext;
-    assert.ok(text && /CREDENTIAL IN OUTPUT — This command PRINTED/.test(text), 'the vendor note was lost');
+    assert.ok(text && /CREDENTIAL IN OUTPUT: This command PRINTED/.test(text), 'the vendor note was lost');
     assert.ok(!text.includes(vendor), 'the report repeats the value');
     assert.ok(ms < 15000, `the hook took ${ms} ms`);
   });
@@ -1600,7 +1600,7 @@ try {
     });
     assert.strictEqual(r.status, 0, r.stderr);
     const text = JSON.parse(r.stdout.trim()).hookSpecificOutput.additionalContext;
-    assert.ok(/CREDENTIAL IN OUTPUT — This command PRINTED/.test(text), 'the vendor note was lost');
+    assert.ok(/CREDENTIAL IN OUTPUT: This command PRINTED/.test(text), 'the vendor note was lost');
     assert.ok(/scan PARTIAL/.test(text) && /time budget/.test(text), `no time-budget note: ${text.slice(0, 200)}`);
   });
 
@@ -1631,7 +1631,7 @@ try {
       });
       assert.strictEqual(r.status, 0, `a broken detector failed the turn: ${r.stderr}`);
       const out = JSON.parse(r.stdout.trim()).hookSpecificOutput.additionalContext;
-      assert.ok(/CREDENTIAL IN OUTPUT — This command PRINTED/.test(out), 'the vendor scan was lost with the module');
+      assert.ok(/CREDENTIAL IN OUTPUT: This command PRINTED/.test(out), 'the vendor scan was lost with the module');
       assert.ok(!out.includes(vendor), 'the vendor report repeats the value');
     } finally {
       fs.rmSync(dir, { recursive: true, force: true });

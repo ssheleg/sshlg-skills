@@ -224,7 +224,7 @@ it('`routers --update` adds the new routers, keeps authored wording, and is idem
     assert.notStrictEqual(hashes[0], seededHash, 'the first run wrote nothing — the routers were never added');
     assert.strictEqual(hashes[1], hashes[0], 'the second run changed the file');
     assert.strictEqual(hashes[2], hashes[1], 'the third run changed the file');
-    assert.ok(/расходится с пакетным — super-ux/.test(last), `the drift was not reported:\n${last}`);
+    assert.ok(/расходится с пакетным: super-ux/.test(last), `the drift was not reported:\n${last}`);
     assert.ok(countBackups() > backupsBefore, 'the write that added the routers took no backup');
   } finally {
     fs.rmSync(h, { recursive: true, force: true });

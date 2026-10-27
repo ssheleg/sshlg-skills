@@ -224,7 +224,7 @@ it('(2) a hand-edited section is kept and reported; every other section is rewor
   assert.strictEqual(sectionOf(after, 'sheleg-dev'), mine, 'the operator\'s section was replaced');
   assert.ok(/section "sheleg-dev" holds text the pack did not write/.test(r.out), `not reported:\n${r.out}`);
   assert.ok(!/section "(?!sheleg-dev)[a-z-]+" holds text/.test(r.out), `another section was kept:\n${r.out}`);
-  assert.ok(/расходится с пакетным — sheleg-dev/.test(r.out), `drift not reported:\n${r.out}`);
+  assert.ok(/расходится с пакетным: sheleg-dev/.test(r.out), `drift not reported:\n${r.out}`);
   assert.deepStrictEqual(Object.keys(authored(h)), ['sheleg-dev'], 'the kept section is not recorded as authored');
   assert.strictEqual(after, fresh.replace(R.sectionRaw('sheleg-dev', registry.REGISTRY['sheleg-dev'].text), () => R.sectionRaw('sheleg-dev', mine)),
     'the rest of the block is not the current text');

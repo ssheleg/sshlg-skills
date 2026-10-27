@@ -117,7 +117,7 @@ process.stdin.on('end', () => {
         process.stderr.write(
           '[repo-gate] ownership unknown: this command moves the shell to an unexpanded '
           + 'path, so which repository it commits in cannot be read from the command '
-          + 'text. Not claimed and not gated — run the commit from inside the '
+          + 'text. Not claimed and not gated: run the commit from inside the '
           + 'repository with a literal path if you want its gate to apply.\n');
         return process.exit(0);
       }
