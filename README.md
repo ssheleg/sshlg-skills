@@ -467,8 +467,14 @@ oblige. So the pack writes a **managed routing block** into your global agent
 instructions, and the rules engage in every project instead of only when
 someone remembers to ask.
 
-The block is headed `## Work routing — the ssheleg family` (until 1.58.0 the
-heading was Russian; a block that still carries it is retitled on its next write).
+The block is headed `## Work routing: the ssheleg family`. Older headings (the Russian
+one until 1.58.0, then `## Work routing — the ssheleg family` with an em dash) are
+recognised and retitled on the next write. The router sections, the table, the block's
+opening comment, the Cursor rule's description and the wait rule follow the same
+no-em-dash rule as the protocol below (B-226): `update` rewords a block the pack wrote,
+even on a machine with no record of what it wrote, because the earlier packaged lines are
+known to the hand-edit guard. A section you edited by hand is kept as it is, recorded as
+your authored text and reported as drift (`routers --diff <name>`, `routers --update --adopt <name>`).
 It opens with the **map**: eleven members, the single command that starts
 each, and one line saying what it closes. It is generated from `skills.json`,
 so a release moves it — and `install` and `update` refresh it, which is what
@@ -631,6 +637,8 @@ names each such host's instruction file and the command that applies it there
 (`npx sshlg-skills rules --apply --agent pi`; `--claude-only` for Claude Code).
 That stays a named gap rather than an automatic write because consent to the rule
 is recorded per host, and an update never creates it for a new one.
+The current text is revision `wait-v3` (no em dash, B-226); a host that applied
+`wait-v2` or `wait-v1` is upgraded in place by the next `update`.
 Set `rules.wait off` and apply the same scope to remove its owned text. Surrounding
 content is preserved; malformed, edited or retargeted state stops for recovery.
 Text placed inside an applied block refuses that block on that host only:
