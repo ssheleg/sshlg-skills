@@ -5,7 +5,7 @@ route? Nothing asked that until 2026-08-31.
 
 ## Why `route_coverage.js` is not this check
 
-`test/route_coverage.js` calls `lib/triggers.js` — a deterministic matcher over the
+`test/route_coverage.js` calls `lib/triggers.js`, a deterministic matcher over the
 **prompt**. It never reads the block. Delete a paragraph from every router and it
 returns the identical number, so using it to clear a change to the block's text
 produces a green that means nothing. Two different questions:
@@ -28,7 +28,7 @@ file, read the prompt, answer `ROUTE:` / `WHY:` from that text alone. One agent 
 pair, because a single agent shown every probe anchors on its own earlier answers.
 Record the run as a dated section in `RESULTS.md`.
 
-## Limits — read these before quoting a number
+## Limits: read these before quoting a number
 
 - **Both arms are contaminated, equally and on purpose.** The probes run on a
   machine whose own global configuration carries this block, so an agent may route
@@ -41,7 +41,7 @@ Record the run as a dated section in `RESULTS.md`.
 - **13 probes is small.** They cover each router once plus two silences; they are
   not a sample of what operators type. A route that never appears here is untested,
   not proven absent.
-- **`want` is a judgement**, taken from `route_coverage.js`'s curated cases — what
+- **`want` is a judgement**, taken from `route_coverage.js`'s curated cases: what
   an operator would expect, not what the block promises. Where the two disagree the
   probe is the thing to argue with.
 - **A probe passes when the wanted route is among those named**, so naming three
@@ -52,5 +52,5 @@ Record the run as a dated section in `RESULTS.md`.
 
 Append to `routing.json` with a new `id`, run the arms, dispatch, and add a dated
 row. `routing_evals_test.js` runs in the gate and holds the fixtures to their shape
-and `RESULTS.md`'s stated counts to the artifact — a hand-typed count that drifts is
+and `RESULTS.md`'s stated counts to the artifact. A hand-typed count that drifts is
 the defect that check exists for.

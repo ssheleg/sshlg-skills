@@ -15,7 +15,13 @@
 //   - an entry under `docs/evidence/` is dropped: that directory holds the dated records,
 //     and a historical record stays as written (the rule's own exception);
 //   - every `docs/working-rules/*.md` is added, discovered: CLAUDE.md applies them to
-//     every task, so they are read as instructions today.
+//     every task, so they are read as instructions today;
+//   - `READER_DOCS` below is added: documents a contributor, a reporter or the next agent
+//     opens as current guidance, which the address gate does not hold (B-289 follow-up).
+// `docs/CLAUDE-CONTINUE.md` is Russian prose. The rule keeps a Russian dash only where the
+// grammar requires it and no rewrite reads naturally; such a line goes into
+// `RUSSIAN_DASH_ALLOWED` by its exact text, with the reason, and the list stays empty
+// while every dash there could be rewritten.
 // A generated page (first line `<!-- <tool>:generated ... do not hand-edit -->`, such as
 // `docs/AGENT_SYNC.md`) is reported apart and not failed: a hand edit is lost on the next
 // regeneration, so its dashes are fixed in the generator's template, not here.
@@ -50,6 +56,20 @@ const DATED_HEADING = /^(#{1,6})\s+\d{4}-\d{2}-\d{2}\b/;
 const HEADING = /^(#{1,6})\s/;
 const GENERATED = /^<!-- [\w-]+:generated\b.*do not hand-edit/;
 
+/** Live documents outside `LIVE_DOCS` that a person reads as current (B-289 follow-up). */
+const READER_DOCS = [
+  'CONTRIBUTING.md', 'SECURITY.md', 'CODE_OF_CONDUCT.md',  // read by contributors and reporters
+  'docs/CLAUDE-CONTINUE.md',                                 // the next agent's entry, in Russian
+  'docs/ux/scenarios.md', 'docs/brand/terminology.md',      // the hub's own UX and brand pack
+  'test/evals/README.md',                                    // how to run the routing eval
+];
+
+/**
+ * Russian lines whose dash the grammar requires and no rewrite reads naturally, by exact
+ * text, each with its reason. Empty: every dash in `docs/CLAUDE-CONTINUE.md` was rewritten.
+ */
+const RUSSIAN_DASH_ALLOWED = new Map([]);
+
 /** The validator's live corpus, read out of its source so the two cannot diverge. */
 function validatorLiveDocs(src) {
   const m = /^LIVE_DOCS\s*=\s*\(([^)]*)\)/m.exec(src);
@@ -64,6 +84,7 @@ function liveCorpus() {
   for (const f of fs.readdirSync(rules).sort()) {
     if (f.endsWith('.md')) candidates.push(`docs/working-rules/${f}`);
   }
+  for (const d of READER_DOCS) if (!candidates.includes(d)) candidates.push(d);
   const live = [];
   const generated = [];
   for (const d of candidates) {
@@ -119,6 +140,7 @@ function offenders(text, label) {
     if (datedLevel) return;
     if (/^\s*>/.test(line)) return;
     const p = prose(line);
+    if (RUSSIAN_DASH_ALLOWED.has(raw.trim())) return;
     if (p.includes(DASH) || SUBSTITUTE.test(p)) out.push(`${label}:${i + 1}  ${raw.trim().slice(0, 100)}`);
   });
   return out;
@@ -167,6 +189,7 @@ it('control: the corpus is derived from the validator and is not empty', () => {
   assert.ok(GENERATED.test('<!-- agent-sync:generated source=x at=y (regenerate), do not hand-edit -->'));
   assert.ok(!GENERATED.test('# A heading that says generated, do not hand-edit'), 'only a first-line marker exempts');
   for (const doc of live) assert.ok(fs.existsSync(path.join(ROOT, doc)), `${doc} is in the corpus and absent`);
+  for (const doc of READER_DOCS) assert.ok(live.includes(doc), `${doc} is listed for the scan and not read`);
 });
 
 // ---- the rule ------------------------------------------------------------------------

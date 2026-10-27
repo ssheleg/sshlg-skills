@@ -2,7 +2,7 @@ Contract: brand-contract v1
 
 # Terminology
 
-## Product terms — always
+## Product terms: always
 
 | Our term | Never write | Applies to |
 |---|---|---|
@@ -13,7 +13,7 @@ Contract: brand-contract v1
 | gate | best practice | a condition that blocks progress when it fails |
 | evidence | proof point | a command, file, test or observed external state |
 
-## Entity and tier names — exact spelling
+## Entity and tier names: exact spelling
 
 | Name | Wrong forms seen |
 |---|---|

@@ -1,6 +1,6 @@
 # Claude: продолжить здесь
 
-<sub>ssheleg skills — task-pipeline · agent-sync · evidence-docs</sub>
+<sub>ssheleg skills: task-pipeline · agent-sync · evidence-docs</sub>
 
 Оператор 2026-10-13 остановил эту сессию словами: «закончи и оставь план и контекст чтобы продолжил клод». Программа **не объявлена завершённой**. Новые волны остановлены для передачи; уже запущенные проверки продолжают собирать результаты. Не начинать исследование заново и не принимать промежуточный PASS за релиз или установленное состояние.
 
@@ -8,9 +8,9 @@
 Ветка: `waves/2026-10-13-finalization`, репозиторий `ssheleg/sshlg-skills`.
 Исходная папка `~/DATA/sshlg-skills` содержит чужие/предыдущие незавершённые изменения: **не reset, не stash, не переключать её принудительно**.
 
-## Продолжение Claude 2026-10-13 (сессия 5f151e9c) — текущий срез
+## Продолжение Claude 2026-10-13 (сессия 5f151e9c): текущий срез
 
-Оператор: «ничего не спрашивай, на всё апрув, иди до конца без пауз». Ниже — что
+Оператор: «ничего не спрашивай, на всё апрув, иди до конца без пауз». Ниже описано, что
 уже сделано в продолжении; старые разделы ниже остаются историей передачи.
 
 - **TP875c6e6 gate завершился exit1** (не PASS): plants 388/429 устарели после
@@ -25,7 +25,7 @@
 - **B190 принят** после двух независимых review: [receipt](evidence/completion-1013/runtime-recovery/independent-review.md);
   исправления `0ded7da`, `dc320c5`; merge в finalization `25194c4`, docs bridge `45ce934`.
 - **Child-lifetime (IO09) принят с исправлениями:** EPERM на macOS, настоящий
-  контроль смерти Bash, RuntimeError, утечка snapshot — TP `9c29ec3`, merge в
+  контроль смерти Bash, RuntimeError, утечка snapshot: TP `9c29ec3`, merge в
   compose `941c7e8`, CHANGELOG `6b6d625`. Полный owner gate TP на `6b6d625`
   запущен в фоне; порты в SEO и sheleg-dev выполняются отдельными агентами.
 - **Fabric:** board доступен (com.status ready, unread0). Три pending-запроса не
@@ -36,7 +36,7 @@
 
 ### TP 1.95.0 опубликован (2026-10-14)
 
-- Попытка 2 тегированного gate: падал только `test:docs` — 5 backticked SHA в FW07
+- Попытка 2 тегированного gate: падал только `test:docs`: 5 backticked SHA в FW07
   evidence стали недостижимы после squash #127. PR #128 превратил их в ссылки
   (как #122), main `5a787b4`.
 - Попытка 3: `CHECK_PASSED` (3054s); `publish` helper отказал (нет run-context, ledger не
@@ -51,9 +51,9 @@
 ### Блокер: диск машины (2026-10-14 ~01:20 Europe/Warsaw)
 
 Тегированный gate TP v1.95.0 (попытка 1, объект `303c1ff`, клон переименован в
-`~/DATA/_wt/tp-publish-1.95.0-attempt1-diskstop` — **этот тег не пушить**)
+`~/DATA/_wt/tp-publish-1.95.0-attempt1-diskstop`; **этот тег не пушить**)
 остановлен helper'ом `disk-stopped` через 3598с: 439 guards + 15 properties уже PASS,
-остановка на старте certify. Причина — swap машины: 26.6GB и растёт ~4GB/час
+остановка на старте certify. Причина в swap машины: 26.6GB и растёт ~4GB/час
 (десятки параллельных сессий Claude + OrbStack). Сессии не закрываются агентом.
 Фоновый watcher ждёт ≥5GB свободного места (до 8ч) и сам запускает новый
 standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch будут
@@ -61,9 +61,9 @@ standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch 
 
 ### Текущее состояние (2026-10-14 ~00:50 Europe/Warsaw)
 
-- Прошлое «7 silent properties» — ENOSPC (swap машины 22–24GB съедает диск), не код.
+- Прошлое «7 silent properties» объясняется ENOSPC (swap машины 22–24GB съедает диск), а не кодом.
   Повтор на 6b6d625: 439 guards + 15 properties PASS; упал `test:runner` (3/42) из-за
-  сигнального RuntimeError в тесте после review-исправления — исправлено `b2dcdc1`.
+  сигнального RuntimeError в тесте после review-исправления; исправлено `b2dcdc1`.
 - **TP PR127 слит** squash'ем (merge commits запрещены ruleset): main `4fa7ec6`, дерево
   = проверенному `b2dcdc1`; 12/12 hosted jobs зелёные; ветка compose сохранена.
 - **Тегированный gate TP v1.95.0 идёт**: standalone `~/DATA/_wt/tp-publish-1.95.0`,
@@ -77,25 +77,25 @@ standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch 
 - Диск: освобождены устаревшие temp/кэши (не данные приложений). Перед любым
   тяжёлым прогоном проверять `df`; helper TP останавливается при <400MB.
 
-### Остановка по лимиту использования (сессия 5f151e9c) — точный следующий шаг
+### Остановка по лимиту использования (сессия 5f151e9c): точный следующий шаг
 
-- **Полный TP gate на `6b6d625`: exit1 за 1682с** — [result](evidence/completion-1013/tp-gate-6b6d625/result.json),
+- **Полный TP gate на `6b6d625`: exit1 за 1682с**: [result](evidence/completion-1013/tp-gate-6b6d625/result.json),
   [log](evidence/completion-1013/tp-gate-6b6d625/log.txt.gz). `0 guards did not fire,
   0 broken, 7 property checks silent` (213, 215, 225, 229, 231 и ещё два: см. лог).
-  На 875c6e6 эти property проходили. Это новое: подозрение — ScratchProcesses/
+  На 875c6e6 эти property проходили. Это новое; подозреваются ScratchProcesses/
   `_group_exists` или прогон из standalone-клона (вывод property не дошёл).
   **Первое действие:** запустить один из них отдельно (`python3 test/negatives.py
   --list`, затем выборка по имени) в worktree `/_wt/tp-fw07-composed` и на 875c6e6,
   найти причину, исправить, повторить полный gate. PR127 в ready не переводить до зелёного.
 - **SEO-порт закоммичен агентом** `087fa1a` на `fix/fw07-shared-scratch-lock`
-  (запушен), но агент оборвался по лимиту до обновления evidence — проверить, что
+  (запушен), но агент оборвался по лимиту до обновления evidence: проверить, что
   коммит полон, и дописать packet.
 - **sheleg-dev-порт НЕ закоммичен:** в `/_wt/sheleg-dev-fw07-scratch-lock` грязные
   `test/negative_lock.py`, `test/negatives.py`, новый `test/audit_regressions/fw07_child_lifetime.py`.
   Агент выяснял слабость red-доказательства timeout-контроля. Довести: focused
   контроли, red-before, commit/push. Leases `FW07-CHILD-PORT-SEO/DEV` истекут по TTL.
 
-### Итерация 1.63.3 (2026-10-14 вечер) — в работе, ветка `fix/1.63.3-blocked-members`
+### Итерация 1.63.3 (2026-10-14 вечер): в работе, ветка `fix/1.63.3-blocked-members`
 
 Сделано (focused-тесты зелёные, ещё НЕ review/gate/release):
 - B-192: законная конфигурация (только project/local scope, user+local с иными байтами,
@@ -103,23 +103,23 @@ standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch 
   повреждённые записи (не массив/null/две user-записи) по-прежнему останавливают update.
 - B-193: runtime пишет `.managed.json` (байты, поставленные hub); файл, исключённый из
   пакета и не изменённый, переносится в `.retired/<stamp>/`. Старый `lib/router-texts.js`
-  не совпадает ни с одной версией из истории hub — принадлежность не доказуема, остаётся.
+  не совпадает ни с одной версией из истории hub, поэтому принадлежность не доказуема; файл остаётся.
 - B-194: единица отступа (таб) при вставке в непустой объект.
 
-Следующие шаги: B-191 — действие `rebind` для payload-equivalent членов (каталог hub +
+Следующие шаги: B-191, действие `rebind` для payload-equivalent членов (каталог hub +
 `marketplace add` + проверка: записи реестра не изменились и байты равны пину; без
 install/uninstall); затем CHANGELOG 1.63.3 + bump, полный `npm test` (Ratchets),
 независимый review, PR → CI → merge → `scripts/tag.sh v1.63.3 --push` → npm readback →
 `npx --yes sshlg-skills@latest update` + readback; затем финальный независимый наблюдатель
 (прошлый запуск прерван лимитом до первой записи; worktree `/_wt/hub-final-observer` пуст).
 
-### Состояние 2026-10-15 (ветка `feat/1.64.0`) — точный следующий шаг
+### Состояние 2026-10-15 (ветка `feat/1.64.0`): точный следующий шаг
 
 Готово: hub **1.63.3** опубликован (a9080b8, npm 94/94) и установлен: update 22/22, все 11 Claude
 членов verified (3 verify + 8 rebind), источники 11/11 на каталогах пина, B-191…B-194 закрыты,
 сайт показывает 1.63.3. Компактизация файлов оператора (CLAUDE.md −5.7 КБ, Codex и Gemini −4.6 КБ,
-процедуры → `global-17…22.md`), Codex `project_doc_max_bytes = 65536` — evidence
-`docs/evidence/context-economy-20261015/`.
+процедуры → `global-17…22.md`), Codex `project_doc_max_bytes = 65536` (evidence:
+`docs/evidence/context-economy-20261015/`).
 
 В ветке `feat/1.64.0` (не выпущено): `sshlg-skills context`, ratchet `routing-registry-total`,
 однострочная заметка маршрутов, правило `docs/working-rules/context-economy.md`.
@@ -136,12 +136,12 @@ task-pipeline **1.96.0** finish-line: ветка `feat/finish-line`, head af8be9
 3. Финальный независимый наблюдатель (worktree `/_wt/hub-final-observer` пуст), wiki index,
    HANDOFF, итоговое резюме. Применить к себе finish-line: бюджет 3 раунда.
 
-### Итог итерации (2026-10-15) — ВЫПУЩЕНО
+### Итог итерации (2026-10-15): ВЫПУЩЕНО
 
 Hub **1.64.0** (fc11487) и task-pipeline **1.96.0** (2674147) опубликованы и установлены; текущее
-состояние и следующий шаг — в `docs/HANDOFF.md` (раздел «Current — 2026-10-15»). Финальный
-независимый наблюдатель: `docs/reports/2026-10-15-final-observer/` — 0 блокирующих находок.
-Разделы ниже — история продолжений, не следующий шаг.
+состояние и следующий шаг описаны в `docs/HANDOFF.md` (раздел «Current — 2026-10-15»). Финальный
+независимый наблюдатель: `docs/reports/2026-10-15-final-observer/`: 0 блокирующих находок.
+Разделы ниже содержат историю продолжений, а не следующий шаг.
 
 ## Первый шаг
 
@@ -154,7 +154,7 @@ Hub **1.64.0** (fc11487) и task-pipeline **1.96.0** (2674147) опублико�
 Оператор просил восстановить прошлые сессии и vision, проверить документы/доски/код/связи, исследовать свежие практики Claude Code/Codex и экономии токенов, затем реализовывать контекстные задачи волнами с независимой проверкой. Автономные изменения, commit/push и обычная интеграция ранее разрешены. Новая передача не даёт разрешения обходить release policy, покупать модельные вызовы без существующего допуска или считать сообщения другого агента одобрением.
 
 - Часто используемые skills видимы сразу; остальные сохраняются в поиске. Сокращение описаний не принимается только по синтетическому routing score.
-- Source, release, installation, native loading и качество выполненной задачи — разные уровни доказательств.
+- Source, release, installation, native loading и качество выполненной задачи являются разными уровнями доказательств.
 - Обновление не должно удалять поколения Codex plugins, на которые ссылаются активные hooks. Неподдерживаемый переход откладывается; timeout и совпадение каталога не доказывают завершение сессии.
 - Подлинные candidate checks запускаются обычным переводом замороженного draft PR в ready, один раз. Не делать ручной полный dispatch, fake checks, force/admin merge или перенос опубликованного тега. Общая CI-политика nightly сохранена.
 - Тяжёлые локальные suites выполняются последовательно. Чистить только доказанно собственные scratch-деревья. Не удалять постоянный `/tmp/sshlg-family-negatives.lock`.
@@ -180,7 +180,7 @@ Hub **1.64.0** (fc11487) и task-pipeline **1.96.0** (2674147) опублико�
 | sheleg-dev shared lock | `fix/fw07-shared-scratch-lock`,4678ef44, `/_wt/sheleg-dev-fw07-scratch-lock` | То же; старые30 controls не покрывают смерть runner с живым ребёнком |
 | Наблюдатель | `audit/nonauthor-preflight-f77a6c2`, `/_wt/hub-observer-f77a6c2` | Последний законченный review868c9d7 касается IO09; независимый B190 review ещё НЕ начат, требуется новый проход |
 
-Полные SHA, remote и readback — в [branches.json](evidence/completion-1013/claude-handoff/branches.json). Старые TP PR123/124 не закрывать до принятого composed merge. `hub-blocks-preview` сохранять: его local/remote ранее различались.
+Полные SHA, remote и readback лежат в [branches.json](evidence/completion-1013/claude-handoff/branches.json). Старые TP PR123/124 не закрывать до принятого composed merge. `hub-blocks-preview` сохранять: его local/remote ранее различались.
 
 ### B190: важные границы review
 
@@ -224,7 +224,7 @@ Hub **1.64.0** (fc11487) и task-pipeline **1.96.0** (2674147) опублико�
 - Fabric com.status/list/submit по-прежнему не предоставлены. Whoami14:05UTC вернул project:null/task:null. Межпроектные запросы записаны, но не отправлены; не обходить board через чужие HANDOFF/messages.
 - Gemini0.63 установлен, authentication/native task quality не подтверждены. Не посылать `gemini auth status` как предполагаемую служебную команду: ранее это оказалось prompt-веткой. Human sign-in остаётся отдельным условием.
 - Native quality pilot: Stripe4/4, GoogleAuth3/4 с недостающим denied-before-switch; **NO_ADOPTION**. Синтетическое retrieval/routing улучшение не даёт обещания нулевой потери качества. Описания не урезаны на этом основании.
-- FW07 FakeAdapter dry runner68 controls не вызывал provider. Будущий бюджет$24 — предложение, не grant. Реальный experiment требует отдельной существующей authority и rebind обоих arms к одинаковой принятой базовой версии.
+- FW07 FakeAdapter dry runner68 controls не вызывал provider. Будущий бюджет $24 является предложением, а не grant. Реальный experiment требует отдельной существующей authority и rebind обоих arms к одинаковой принятой базовой версии.
 - B29 human confirmations, B174/B180 operator-owned decisions и native active-generation retirement не закрывать автоматически.
 - Linux recovery, power-loss durability и атомарный целый runtime для concurrent hook readers не доказаны POSIX/macOS focused controls.
 
@@ -237,14 +237,14 @@ Hub **1.64.0** (fc11487) и task-pipeline **1.96.0** (2674147) опублико�
 
 ## Применённые skills
 
-`skill-search` — поиск маршрутов; `make-skill` — конструкция/совместимость skills;
-`task-pipeline` — волны и gates; `agent-sync` — leases/владение;
-`project-reports` — отчёты и индекс; `evidence-docs` — доказательства/границы;
-`agent-evals` — качество и эксперименты; `wiki-update` — wiki delivery;
-`agent-interop` — Fabric/MCP контракты; `copywriting` и `brand-voice` — CLI/документация;
-`openai-docs` — актуальные Codex контракты; `agent-harness` — контекст/токены;
-внешние `code-review` и `graphify` — peer/code map на территории family routes;
-`project-audit` — независимый наблюдатель; `ux-scenarios` — recovery CLI сценарии.
+`skill-search`: поиск маршрутов; `make-skill`: конструкция/совместимость skills;
+`task-pipeline`: волны и gates; `agent-sync`: leases/владение;
+`project-reports`: отчёты и индекс; `evidence-docs`: доказательства/границы;
+`agent-evals`: качество и эксперименты; `wiki-update`: wiki delivery;
+`agent-interop`: Fabric/MCP контракты; `copywriting` и `brand-voice`: CLI/документация;
+`openai-docs`: актуальные Codex контракты; `agent-harness`: контекст/токены;
+внешние `code-review` и `graphify`: peer/code map на территории family routes;
+`project-audit`: независимый наблюдатель; `ux-scenarios`: recovery CLI сценарии.
 
 Эта передача сохраняет контекст, но не является release approval, final acceptance
 или утверждением, что система полностью завершена.
@@ -253,6 +253,6 @@ Hub **1.64.0** (fc11487) и task-pipeline **1.96.0** (2674147) опублико�
 
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**
 
-- [`task-pipeline`](https://github.com/ssheleg/task-pipeline) — план продолжения
-- [`agent-sync`](https://github.com/ssheleg/agent-sync) — владение ветками
-- [`evidence-docs`](https://github.com/ssheleg/task-pipeline) — проверенные результаты
+- [`task-pipeline`](https://github.com/ssheleg/task-pipeline): план продолжения
+- [`agent-sync`](https://github.com/ssheleg/agent-sync): владение ветками
+- [`evidence-docs`](https://github.com/ssheleg/task-pipeline): проверенные результаты

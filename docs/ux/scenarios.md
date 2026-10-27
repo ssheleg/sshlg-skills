@@ -8,16 +8,16 @@ Scope: the public Skills website, its separate Harness section and member relati
 
 | ID | Title | Feature | Persona | Traces | Status | Last audit |
 |----|-------|---------|---------|--------|--------|------------|
-| SCN-001 | Find skills, then understand the harness | Public website | builder | — | validated | 2026-09-21: browser + site suite |
-| SCN-002 | Locate a pack's role | Member page | builder | — | validated | 2026-09-21: browser + site suite |
-| SCN-003 | Choose Observatory separately | Harness page | maintainer | — | validated | 2026-09-21: browser + site suite |
-| SCN-005 | Find the Quest lifecycle workflow | XR member page | builder | — | validated | 2026-09-21: desktop/mobile browser + site suite |
-| SCN-006 | Start a domain project before dependencies exist | domains CLI and skill search | builder and coding agent | — | implemented | 2026-10-13: domain focused checks |
-| SCN-007 | Opt into a scoped wait rule | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
-| SCN-008 | Refresh or remove owned wait text | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
-| SCN-009 | Recover a refused instruction write | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
-| SCN-010 | Inspect and finalize recovery metadata | Working-rule CLI | maintainer | — | implemented | 2026-10-13: MB02c focused CLI; independent peer pending |
-| SCN-011 | Recover an interrupted hook-runtime write | Hooks recovery CLI | maintainer | — | implemented | 2026-10-13: B190 isolated implementation |
+| SCN-001 | Find skills, then understand the harness | Public website | builder | - | validated | 2026-09-21: browser + site suite |
+| SCN-002 | Locate a pack's role | Member page | builder | - | validated | 2026-09-21: browser + site suite |
+| SCN-003 | Choose Observatory separately | Harness page | maintainer | - | validated | 2026-09-21: browser + site suite |
+| SCN-005 | Find the Quest lifecycle workflow | XR member page | builder | - | validated | 2026-09-21: desktop/mobile browser + site suite |
+| SCN-006 | Start a domain project before dependencies exist | domains CLI and skill search | builder and coding agent | - | implemented | 2026-10-13: domain focused checks |
+| SCN-007 | Opt into a scoped wait rule | Working-rule CLI | maintainer | - | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
+| SCN-008 | Refresh or remove owned wait text | Working-rule CLI | maintainer | - | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
+| SCN-009 | Recover a refused instruction write | Working-rule CLI | maintainer | - | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
+| SCN-010 | Inspect and finalize recovery metadata | Working-rule CLI | maintainer | - | implemented | 2026-10-13: MB02c focused CLI; independent peer pending |
+| SCN-011 | Recover an interrupted hook-runtime write | Hooks recovery CLI | maintainer | - | implemented | 2026-10-13: B190 isolated implementation |
 
 ## Personas
 
@@ -38,7 +38,7 @@ Scope: the public Skills website, its separate Harness section and member relati
 - **Expected result:** verified rollback or explicit unresolved state; no inference that a missing journal proves the interrupted transaction succeeded. Every recover result says whether the dead lock was retired (`retired`), `null` when an interrupted worker did not report it.
 - **UI elements:** JSON state, expected fingerprint, failure reason, process exit code
 - **States covered:** success, error, empty
-- **Errors & recovery:** each refusal names its next step — a live holder (wait for that pid), a stale fingerprint (inspect again), a root writable by others (`chmod go-w`), no runtime (`hooks install`), missing `/usr/bin/python3` or only the Command Line Tools stub (`xcode-select --install`). A worker refusal after it retired the dead lock keeps the worker's own reason. Refusals exit 1, usage errors exit 2 and print JSON only with `--json`; legacy locks remain UNKNOWN. The command never takes a user-supplied runtime path or rewires host settings.
+- **Errors & recovery:** each refusal names its next step: a live holder (wait for that pid), a stale fingerprint (inspect again), a root writable by others (`chmod go-w`), no runtime (`hooks install`), missing `/usr/bin/python3` or only the Command Line Tools stub (`xcode-select --install`). A worker refusal after it retired the dead lock keeps the worker's own reason. Refusals exit 1, usage errors exit 2 and print JSON only with `--json`; legacy locks remain UNKNOWN. The command never takes a user-supplied runtime path or rewires host settings.
 - **Status:** implemented
 - **Coverage:** test/runtime_recovery_test.js
 - **Product:** unobserved
