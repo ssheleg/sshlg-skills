@@ -31,7 +31,7 @@ it('git checkout -- <paths> restores from the index: unstaged changes are lost',
   const t = one('git checkout -- lib/a.js lib/b.js');
   assert.strictEqual(t.form, 'checkout');
   assert.deepStrictEqual(t.pathspecs, ['lib/a.js', 'lib/b.js']);
-  assert.deepStrictEqual(t.lose, { index: false, worktree: true, untracked: false, dirs: false });
+  assert.deepStrictEqual(t.lose, { index: false, worktree: true, untracked: false, dirs: false, ignored: false });
   assert.strictEqual(t.dir, '.');
 });
 
@@ -60,7 +60,7 @@ it('git restore without --staged loses unstaged changes; --staged --worktree los
   const w = one('git restore lib/a.js');
   assert.strictEqual(w.form, 'restore');
   assert.deepStrictEqual(w.pathspecs, ['lib/a.js']);
-  assert.deepStrictEqual(w.lose, { index: false, worktree: true, untracked: false, dirs: false });
+  assert.deepStrictEqual(w.lose, { index: false, worktree: true, untracked: false, dirs: false, ignored: false });
   const sw = one('git restore --staged --worktree --source=HEAD -- .');
   assert.deepStrictEqual(sw.pathspecs, ['.']);
   assert.ok(sw.lose.index && sw.lose.worktree);
@@ -92,7 +92,7 @@ it('git clean -f deletes untracked files; -d adds untracked directories', () => 
   const f = one('git clean -f');
   assert.strictEqual(f.form, 'clean');
   assert.deepStrictEqual(f.pathspecs, ['.']);
-  assert.deepStrictEqual(f.lose, { index: false, worktree: false, untracked: true, dirs: false });
+  assert.deepStrictEqual(f.lose, { index: false, worktree: false, untracked: true, dirs: false, ignored: false });
   assert.ok(one('git clean -fdx').lose.dirs);
   assert.deepStrictEqual(one('git clean --force -e keep.txt -- build').pathspecs, ['build']);
 });
@@ -108,8 +108,9 @@ it('benign forms are not read as destructive', () => {
     'git reset', 'git reset --soft HEAD~1', 'git reset --keep HEAD~1', 'git reset a.js',
     'git stash list', 'git stash show -p', 'git stash pop', 'git stash apply stash@{1}',
     'git stash drop', 'git stash branch b', 'git stash -p',
-    'git clean -n', 'git clean -fn', 'git clean --dry-run -f', 'git clean -fi', 'git clean -fX', 'git clean -d',
-    'git status', 'git switch main', 'git log --oneline -- a.js',
+    'git clean -n', 'git clean -fn', 'git clean --dry-run -f', 'git clean -fi', 'git clean -X', 'git clean -d',
+    'git status', 'git switch main', 'git switch -c feature', 'git switch --detach v1',
+    'git log --oneline -- a.js',
   ].forEach(none);
 });
 
@@ -159,6 +160,87 @@ it('the cheap precheck says no for a payload that never names git', () => {
   assert.strictEqual(D.mightDiscard('git status'), true);
   assert.strictEqual(D.mightDiscard(''), false);
   assert.strictEqual(D.mightDiscard(null), false);
+});
+
+// --- B-270: ignored files, git switch, xargs and an exported override ----------------
+
+it('B-270: git clean -x counts ignored files too; -X counts only ignored ones', () => {
+  const x = one('git clean -fx');
+  assert.ok(x.lose.untracked && x.lose.ignored, 'clean -x deletes untracked and ignored files');
+  const X = one('git clean -fX');
+  assert.ok(!X.lose.untracked && X.lose.ignored, 'clean -X deletes ignored files only');
+  assert.ok(one('git clean -fdX').lose.dirs);
+  assert.ok(one('git clean --force -x -- config').lose.ignored);
+  assert.strictEqual(one('git clean -fd').lose.ignored, false);
+});
+
+it('B-270: an ignored .env is lost to clean -x and -X, and safe from a plain clean -f', () => {
+  const env = Z('!! .env');
+  const v = D.decide(D.targets('git clean -fdx'), [{ dir: '/r', out: env }]);
+  assert.ok(v, 'clean -fdx over an ignored .env was allowed');
+  assert.match(v.why, /\.env \(ignored\)/);
+  assert.match(v.why, /ignored/);
+  assert.ok(D.decide(D.targets('git clean -fX'), [{ dir: '/r', out: env }]));
+  assert.strictEqual(D.decide(D.targets('git clean -f'), [{ dir: '/r', out: env }]), null,
+    'a clean without -x keeps ignored files');
+  assert.strictEqual(D.decide(D.targets('git clean -fX'), [{ dir: '/r', out: Z('?? new.txt') }]), null,
+    'clean -X keeps untracked files that are not ignored');
+  assert.strictEqual(D.decide(D.targets('git clean -fX'), [{ dir: '/r', out: Z('!! node_modules/') }]), null,
+    'without -d an ignored directory stays');
+  assert.ok(D.decide(D.targets('git clean -fdX'), [{ dir: '/r', out: Z('!! node_modules/') }]));
+});
+
+it('B-270: git switch --discard-changes and -f discard every tracked change', () => {
+  for (const cmd of ['git switch --discard-changes main', 'git switch -f main', 'git switch --force main',
+    'git switch -c fresh -f', 'git switch -fc fresh']) {
+    const t = one(cmd);
+    assert.strictEqual(t.form, 'switch', cmd);
+    assert.deepStrictEqual(t.pathspecs, [':/'], cmd);
+    assert.ok(t.lose.index && t.lose.worktree && !t.lose.untracked, cmd);
+  }
+  assert.ok(D.decide(D.targets('git switch -f main'), [{ dir: '/r', out: Z(' M a.js') }]));
+});
+
+it('B-270: xargs fed by a readable producer is read with the paths it feeds', () => {
+  assert.deepStrictEqual(one('echo a.js b.js | xargs git checkout --').pathspecs, ['a.js', 'b.js']);
+  assert.deepStrictEqual(one("printf '%s\\n' lib/a.js | xargs git restore").pathspecs, ['lib/a.js']);
+  // A git listing feeds the files it lists: the probe covers its scope.
+  const diff = one('git diff --name-only | xargs git checkout --');
+  assert.strictEqual(diff.form, 'checkout');
+  assert.deepStrictEqual(diff.pathspecs, [':/']);
+  assert.deepStrictEqual(one('git ls-files -m -- lib | xargs git checkout --').pathspecs, ['lib']);
+  assert.deepStrictEqual(one('git diff --name-only -z -- src | xargs -0 git restore').pathspecs, ['src']);
+  assert.deepStrictEqual(one('git ls-files --modified | xargs -I{} git checkout -- {}').pathspecs, [':/']);
+  assert.deepStrictEqual(one('git ls-files -o --exclude-standard | xargs rm -f && git stash').pathspecs, [':/']);
+  assert.strictEqual(one('cd sub && git diff --name-only | xargs git checkout --').dir, 'sub');
+  // xargs over a whole-repository form needs no paths at all.
+  assert.strictEqual(one('cat refs.txt | xargs git reset --hard').form, 'reset --hard');
+  const v = D.decide(D.targets('git diff --name-only | xargs git checkout --'), [{ dir: '/r', out: Z(' M a.js') }]);
+  assert.ok(v && /a\.js \(unstaged\)/.test(v.why), 'xargs over a dirty file was allowed');
+  assert.ok(v.why.includes(`\`${D.OVERRIDE} xargs git checkout --\``), `the override is not runnable: ${v.why}`);
+});
+
+it('B-270: xargs whose input cannot be read is allowed (fail open)', () => {
+  none('cat list.txt | xargs git checkout --');
+  none('xargs git checkout -- < list.txt');
+  none('xargs -a list.txt git checkout --');
+  none('git diff --name-only HEAD~1 | xargs git checkout --');
+  none('git diff --name-status | xargs git checkout --');
+  none('git -C other diff --name-only | xargs git checkout --');
+  none('echo a.js | xargs -0 git checkout --');
+  none('git diff --name-only | xargs -I{} git checkout -- src/{}');
+  none('echo "$FILES" | xargs git checkout --');
+  none('git diff --name-only | xargs git log --');
+  none(`git diff --name-only | ${D.OVERRIDE} xargs git checkout --`);
+  none(`git diff --name-only | xargs ${D.OVERRIDE} git checkout --`);
+});
+
+it('B-270: an override exported earlier in the same payload is honoured for what follows', () => {
+  none(`export ${D.OVERRIDE}; git checkout -- a.js`);
+  none(`export A=1 ${D.OVERRIDE} && git reset --hard`);
+  assert.strictEqual(one(`git stash; export ${D.OVERRIDE}; git checkout -- a.js`).form, 'stash',
+    'an export covers the commands after it, not before');
+  assert.strictEqual(one('export SSHLG_DISCARD_OK=0; git stash').form, 'stash', 'only the value 1 overrides');
 });
 
 // --- porcelain in, verdict out -----------------------------------------------------

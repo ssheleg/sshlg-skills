@@ -340,6 +340,39 @@ it('a malformed payload is silence and exit 0, never a broken turn', () => {
     }
   });
 
+  // B-270: an ignored `.env`, `git switch -f` and `xargs` fed by a git listing.
+  it('B-270: `git clean -fdx` over an ignored .env is denied by the real script; a plain clean is not', () => {
+    fs.writeFileSync(path.join(repo, '.gitignore'), '.env\n');
+    git('add', '.gitignore');
+    git('commit', '-q', '-m', 'ignore');
+    fs.writeFileSync(path.join(repo, '.env'), 'TOKEN=fixture\n');
+    try {
+      for (const cmd of ['git clean -fdx', 'git clean -fX']) {
+        const out = decision(bash(cmd));
+        assert.ok(out && out.permissionDecision === 'deny', `${cmd} was allowed`);
+        assert.match(out.permissionDecisionReason, /\.env \(ignored\)/);
+      }
+      assert.strictEqual(bash('git clean -f').stdout, '', 'a clean without -x touches no ignored file');
+      assert.strictEqual(bash('SSHLG_DISCARD_OK=1 git clean -fdx').stdout, '');
+      assert.ok(fs.existsSync(path.join(repo, '.env')), 'the hook deleted the file it guards');
+    } finally {
+      fs.rmSync(path.join(repo, '.env'), { force: true });
+    }
+  });
+
+  it('B-270: `git switch -f` and `git diff --name-only | xargs git checkout --` over the dirty file are denied', () => {
+    for (const cmd of ['git switch -f main', 'git switch --discard-changes main',
+      'git diff --name-only | xargs git checkout --', 'echo dirty.txt | xargs git restore']) {
+      const out = decision(bash(cmd));
+      assert.ok(out && out.permissionDecision === 'deny', `${cmd} was allowed`);
+      assert.match(out.permissionDecisionReason, /dirty\.txt/);
+    }
+    for (const cmd of ['echo clean.txt | xargs git restore', 'cat list.txt | xargs git checkout --',
+      'SSHLG_DISCARD_OK=1 xargs git checkout -- < /dev/null', 'git switch main']) {
+      assert.strictEqual(bash(cmd).stdout, '', `${cmd} was not allowed`);
+    }
+  });
+
   it('B-240: a probe that cannot run fails open (no repository, a missing directory)', () => {
     assert.strictEqual(bash('git checkout -- dirty.txt', HOME).stdout, '', 'outside a repository');
     assert.strictEqual(bash('git -C nowhere reset --hard', HOME).stdout, '', 'a missing directory');
