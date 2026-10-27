@@ -461,6 +461,9 @@ function extraRootPlans(f) {
   const lock = lockSources();
   const scope = { agents: f.agents && f.agents.length ? f.agents : null, claudeOnly: !!f.claudeOnly };
   const which = require('../lib/pi.js').whichBin;
+  // B-262: the operator's acknowledgements, read once; an unreadable config acknowledges nothing.
+  let acks = {};
+  try { const C = require('../lib/config.js'); acks = C.extraAckGet(C.readConfig(home)); } catch (_) { acks = {}; }
   return X.hosts(home, process.env).map((h) => {
     const entries = [];
     for (const name of channelEntries(h.dir)) {
@@ -476,7 +479,7 @@ function extraRootPlans(f) {
       entries.push({ name, path: full, isSymlink, target, live, isDir });
     }
     const installed = !!which(h.bin) || channelEntries(h.base).some((n) => n !== 'skills' && !n.startsWith('.'));
-    return X.decide({ host: h, assessed: X.assess({ entries, familyIds, lock, sharedRoot }), installed, scope });
+    return X.decide({ host: h, assessed: X.assess({ entries, familyIds, lock, sharedRoot }), installed, scope, ack: acks[h.agent] });
   });
 }
 
@@ -2004,6 +2007,39 @@ function cmdRules(f) {
   } catch (e) { log(`rules.wait: refused: ${e.message}`); return false; }
 }
 
+/**
+ * B-262: `config set extraRoots.<agent> ack|default`. `ack` records the folder's current
+ * fingerprint (lib/extraroots.js) so `update` prints one line for it until its contents
+ * change; `default` removes the record. Only a root `update` REPORTS can be acknowledged.
+ */
+function configExtraRoot(home, agent, value, argc) {
+  const X = require('../lib/extraroots.js');
+  const configLib = require('../lib/config.js');
+  const agents = X.hosts(home, process.env).map((h) => h.agent);
+  if (!agents.includes(agent)) {
+    log(`config set extraRoots.${agent}: the folder must be one of ${agents.join(', ')}`);
+    return 2;
+  }
+  if (argc !== 3 || !['ack', 'default'].includes(value)) {
+    log(`config set extraRoots.${agent}: expected exactly ack or default`);
+    return 2;
+  }
+  if (value === 'default') {
+    configLib.extraAckSet(home, agent, null);
+    log(`extraRoots.${agent}: default; update prints the full report for this folder again.`);
+    return 0;
+  }
+  const d = extraRootPlans({}).find((x) => x.agent === agent);
+  if (!d || !d.holds) { log(`extraRoots.${agent}: refused: ${d ? d.dir : agent} holds no family entry, so there is nothing to acknowledge`); return 2; }
+  if (d.action !== 'report') { log(`extraRoots.${agent}: refused: ${d.dir} is refreshed by update (its host is installed), so it is not reported`); return 2; }
+  const before = configLib.extraAckGet(configLib.readConfig(home))[agent];
+  configLib.extraAckSet(home, agent, { fingerprint: d.fingerprint, at: new Date().toISOString().slice(0, 10), entries: d.holds });
+  const kept = before && before.fingerprint === d.fingerprint;
+  log(`extraRoots.${agent}: acknowledged${kept ? ` (already, on ${before.at}; unchanged)` : ''}: ${d.dir}, ${d.holds} family entr${d.holds === 1 ? 'y' : 'ies'}.`);
+  log('update prints one line for it until its contents change; `config set extraRoots.' + agent + ' default` undoes this.');
+  return 0;
+}
+
 function cmdConfig(argv) {
   const registry = require('../lib/routers-registry.js');
   const configLib = require('../lib/config.js');
@@ -2033,6 +2069,8 @@ function cmdConfig(argv) {
     log(`\nВидимость паков (поверх pack-marks.json): hidePacks ${packs.hidePacks.length}, showPacks ${packs.showPacks.length}`);
     for (const p of packs.hidePacks) log(`  visibility.pack.${p}  hide`);
     for (const p of packs.showPacks) log(`  visibility.pack.${p}  show`);
+    const acks = configLib.extraAckGet(config);
+    for (const a of Object.keys(acks).sort()) log(`  extraRoots.${a}  ack (${acks[a].at}, ${acks[a].entries} family entries)`);
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
     log('           npx sshlg-skills config set update.auto on|off');
     log('           npx sshlg-skills config set rules.star on|off');
@@ -2041,6 +2079,7 @@ function cmdConfig(argv) {
     log('           npx sshlg-skills config set routes.external.<имя>.skill <skill-id>');
     log('           npx sshlg-skills config set routes.external.<имя> off');
     log('           npx sshlg-skills config set visibility.pack.<owner/repo> hide|show|default');
+    log('           npx sshlg-skills config set extraRoots.<qwen-code|devin|droid|grok> ack|default');
     return 0;
   }
 
@@ -2095,6 +2134,8 @@ function cmdConfig(argv) {
 
   if (key && key.indexOf('routes.external.') === 0) return configExternal(home, key, argv.slice(2));
 
+  if (key && key.indexOf('extraRoots.') === 0) return configExtraRoot(home, key.slice('extraRoots.'.length), value, argv.length);
+
   if (key && key.indexOf('visibility.pack.') === 0) {
     const pack = key.slice('visibility.pack.'.length);
     const before = configLib.packOverridesGet(configLib.readConfig(home));
@@ -2111,7 +2152,7 @@ function cmdConfig(argv) {
   }
 
   if (!key || key.indexOf('routers.') !== 0) {
-    log('config set: ключ должен начинаться с "routers.", "routes.external." или "visibility.pack.", или быть "update.auto" или "rules.star"');
+    log('config set: ключ должен начинаться с "routers.", "routes.external.", "visibility.pack." или "extraRoots.", или быть "update.auto" или "rules.star"');
     return 2;
   }
 

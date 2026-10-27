@@ -310,7 +310,11 @@ the family owns (a family id, or a skills-lock row from an `ssheleg/` repository
 `~/.agents/skills`), only if the frozen plan named it, and prints the `ln -s` that recreates it.
 A live link, a real directory and a link nobody can attribute to the family stay as they are.
 `--dry-run` shows the plan; `--agent` lists that do not name a root, and `--claude-only`, leave
-it alone (`test/extraroots_test.js`).
+it alone (`test/extraroots_test.js`). A reported folder you have seen can be acknowledged with
+`npx sshlg-skills config set extraRoots.<id> ack`: the hub records a fingerprint of what the
+folder holds in `~/.sshlg-skills/config.json`, and later runs print one line for it until its
+entries change (a link added, removed or retargeted), which brings the full report back.
+`config set extraRoots.<id> default` removes the record; neither touches a refresh or a removal (B-262).
 
 **Claude Code plugins use exact member sources through the native CLI.** The shipped
 `claude-plugin-pins.json` records each plugin's commit, relative source and file

@@ -130,6 +130,48 @@ it('decide: out of an --agent scope that does not name it, or under --claude-onl
   assert.strictEqual(named.addAgent, null, 'already in the run: no second --agent');
 });
 
+// ── B-262: an acknowledged root prints one line until its contents change ──
+
+it('B-262: assess fingerprints what the folder holds, independent of listing order', () => {
+  const a = [link('task-pipeline', `${SHARED}/task-pipeline`), { name: 'theirs', isSymlink: false, isDir: true, live: true }];
+  const f1 = X.assess({ entries: a, familyIds: FAMILY, sharedRoot: SHARED }).fingerprint;
+  assert.match(f1, /^[0-9a-f]{64}$/);
+  assert.strictEqual(X.assess({ entries: a.slice().reverse(), familyIds: FAMILY, sharedRoot: SHARED }).fingerprint, f1);
+  const added = a.concat([link('make-skill', `${SHARED}/make-skill`)]);
+  assert.notStrictEqual(X.assess({ entries: added, familyIds: FAMILY, sharedRoot: SHARED }).fingerprint, f1, 'a new link is a change');
+  const moved = [link('task-pipeline', '/elsewhere/task-pipeline'), a[1]];
+  assert.notStrictEqual(X.assess({ entries: moved, familyIds: FAMILY, sharedRoot: SHARED }).fingerprint, f1, 'a new target is a change');
+});
+
+it('B-262: an unacknowledged report names how to acknowledge it', () => {
+  const d = X.decide({ host: host('droid'), assessed: assessed({ fingerprint: 'f' }), installed: false, scope: { agents: null } });
+  assert.ok(d.lines.join('\n').includes('npx sshlg-skills config set extraRoots.droid ack'), d.lines.join('\n'));
+  assert.strictEqual(d.fingerprint, 'f');
+});
+
+it('B-262: an acknowledged, unchanged root is one line; a changed one is the full report again', () => {
+  const ack = { fingerprint: 'f', at: '2026-10-27', entries: 1 };
+  const same = X.decide({ host: host('droid'), assessed: assessed({ fingerprint: 'f' }), installed: false, scope: { agents: null }, ack });
+  assert.strictEqual(same.action, 'report');
+  assert.strictEqual(same.lines.length, 1, same.lines.join('\n'));
+  assert.match(same.lines[0], /^droid \/h\/\.factory\/skills: acknowledged 2026-10-27, unchanged \(1 family entry\)/);
+  assert.ok(same.lines[0].includes('config set extraRoots.droid default'), same.lines[0]);
+  const changed = X.decide({ host: host('droid'), assessed: assessed({ fingerprint: 'g' }), installed: false, scope: { agents: null }, ack });
+  assert.ok(changed.lines.length > 2, changed.lines.join('\n'));
+  assert.match(changed.lines.join('\n'), /changed since it was acknowledged on 2026-10-27/);
+  assert.ok(changed.lines.join('\n').includes('npx sshlg-skills update --agent droid'));
+});
+
+it('B-262: an acknowledgement changes neither a refresh nor the removal of a stale link', () => {
+  const ack = { fingerprint: 'f', at: '2026-10-27', entries: 1 };
+  const stale = [{ name: 'ux-flows', path: '/h/.factory/skills/ux-flows', target: `${SHARED}/ux-flows` }];
+  const d = X.decide({ host: host('droid'), assessed: assessed({ fingerprint: 'f', stale }), installed: false, scope: { agents: null }, ack });
+  assert.deepStrictEqual(d.prune, ['/h/.factory/skills/ux-flows']);
+  const r = X.decide({ host: host('qwen-code'), assessed: assessed({ fingerprint: 'f' }), installed: true, scope: { agents: null }, ack });
+  assert.strictEqual(r.action, 'refresh');
+  assert.ok(!/acknowledged/.test(r.lines.join('\n')));
+});
+
 // ── End to end through the launcher, on a temp HOME ──
 
 function machine() {
@@ -209,6 +251,55 @@ it('update refreshes Qwen, reports Droid with its remedy, removes only the stale
 it('a second update finds nothing more to remove', () => {
   const r = M.run('update', '--no-claude');
   assert.ok(!/removed dangling family link/.test(r.out), r.out.slice(-2000));
+});
+
+const cfgFile = path.join(M.home, '.sshlg-skills', 'config.json');
+const sha = (f) => require('crypto').createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+
+it('B-262: `config set extraRoots.droid ack` records the folder; three runs change nothing more', () => {
+  const hashes = [];
+  for (let i = 0; i < 3; i += 1) {
+    const r = M.run('config', 'set', 'extraRoots.droid', 'ack');
+    assert.strictEqual(r.status, 0, r.out);
+    hashes.push(sha(cfgFile));
+  }
+  assert.strictEqual(hashes[1], hashes[0]);
+  assert.strictEqual(hashes[2], hashes[0]);
+  const rec = JSON.parse(fs.readFileSync(cfgFile, 'utf8')).extraRoots.droid;
+  assert.match(rec.fingerprint, /^[0-9a-f]{64}$/);
+  assert.match(rec.at, /^\d{4}-\d{2}-\d{2}$/);
+});
+
+it('B-262: after the acknowledgement, update prints one line for the folder', () => {
+  const r = M.run('update', '--no-claude');
+  const sect = r.out.slice(r.out.indexOf('== Family links in other host roots'));
+  const droid = sect.split('\n').filter((l) => l.includes('droid') || l.includes('.factory'));
+  assert.strictEqual(droid.length, 1, sect);
+  assert.match(droid[0], /acknowledged \d{4}-\d{2}-\d{2}, unchanged/);
+  assert.ok(!sect.includes('rm --'), sect);
+});
+
+it('B-262: a change in the folder re-opens the full report; `default` clears the acknowledgement', () => {
+  fs.symlinkSync(path.relative(M.factory, path.join(M.home, '.agents', 'skills', 'ux-flows')), path.join(M.factory, 'ux-flows'));
+  let r = M.run('update', '--no-claude');
+  let sect = r.out.slice(r.out.indexOf('== Family links in other host roots'));
+  assert.match(sect, /changed since it was acknowledged on/);
+  assert.ok(sect.includes('npx sshlg-skills update --agent droid'), sect);
+  r = M.run('config', 'set', 'extraRoots.droid', 'default');
+  assert.strictEqual(r.status, 0, r.out);
+  assert.ok(!('extraRoots' in JSON.parse(fs.readFileSync(cfgFile, 'utf8'))), 'the empty record was kept');
+  r = M.run('update', '--no-claude');
+  sect = r.out.slice(r.out.indexOf('== Family links in other host roots'));
+  assert.ok(!/acknowledged/.test(sect.split('\n').filter((l) => l.includes('droid')).join('\n')) && !/changed since/.test(sect), sect);
+});
+
+it('B-262: acknowledging a root that is refreshed, empty or unknown is refused with the reason', () => {
+  for (const [agent, why] of [['qwen-code', /refreshed/], ['grok', /no family entry/], ['nobody', /one of/]]) {
+    const r = M.run('config', 'set', `extraRoots.${agent}`, 'ack');
+    assert.strictEqual(r.status, 2, r.out);
+    assert.match(r.out, why);
+  }
+  assert.strictEqual(M.run('config', 'set', 'extraRoots.droid', 'maybe').status, 2);
 });
 
 if (failures.length) {
