@@ -357,6 +357,9 @@ const iv = setInterval(() => {
 for (const [sig, group] of [['SIGTERM', '0'], ['SIGINT', '1']]) {
   it(`${sig} to the ${group === '1' ? 'process group' : 'pid'} stops a running \`update\` within 2 s; the next run takes the lock over (#1)`, () => {
     const home = sandbox();
+    // A default host must be present for update to run the (sleeping) skills CLI step:
+    // absent default hosts are skipped since B-218 / INST-9.
+    fs.mkdirSync(path.join(home, '.cursor'), { recursive: true });
     const mark = path.join(home, 'npx-started');
     const env = stubEnv(home, { npx: `#!/bin/sh\ntouch "${mark}"\nsleep 5\nexit 0\n` });
     const r = spawnSync(process.execPath, ['-e', SIGNAL_DRIVER, path.join(ROOT, 'bin', 'sshlg-skills.js'), mark, sig, group],

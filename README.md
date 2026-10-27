@@ -135,6 +135,13 @@ Flags: `--agent a,b` picks valid global targets, `--all` selects the pinned CLI�
 77 globally supported targets (76 while Claude uses plugins),
 `--no-claude` skips the plugin step, `--claude-only` does nothing else.
 
+**Absent default hosts are skipped, not created.** The skills CLI creates a target's
+skills folder, and with it the host's home, for every target it is given. So a plain
+`install` or `update` passes a default target only when its home exists here (the
+folder skills@1.7.2's own detection reads, recorded in `lib/host-targets.js` `HOMES`)
+and names the rest: `default hosts not installed here, skipped: zed, …`. An explicit
+`--agent <id>` or `--all` still installs where asked.
+
 **OpenClaw is opt-in:** `--agent openclaw` (or `--all`) installs for it; a plain
 `install` or `update` does not. The skills CLI counts OpenClaw as present whenever
 a `~/.openclaw` folder exists, so a leftover folder kept a dead host in every run.
@@ -977,6 +984,9 @@ npx sshlg-skills signature --used "<skill>=<what it did>,…"
                              # a report's one-line header and short footer — every
                              # address looked up from the manifest, never typed
 npx sshlg-skills enroll      # this repository's routes, written into its own CLAUDE.md
+npx sshlg-skills rules --help   # any command's usage (also -h, or help <command>);
+                                # prints only: no backup, no install, no network
+npx sshlg-skills --version   # the package version (also -v)
 ```
 
 `pack` is the one command here that can answer about **absence**. `toolkit`
