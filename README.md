@@ -38,7 +38,7 @@ checking what was actually asked for. It ships a page that looks generated, on a
 site no search engine or answer engine can read. It reaches for a payment
 webhook or an agent's tool-calling loop and writes the version that holds until
 it meets real traffic. And the moment you want it to remember how *you* work,
-you are writing a skill — and packaging one correctly is its own afternoon.
+you are writing a skill, and packaging one correctly is its own afternoon.
 
 Each skill pack takes one of those gaps and gives the agent a contract it
 has to follow. They are documentation, validators and small standard-library
@@ -46,17 +46,17 @@ scripts. No services, no telemetry, no API keys.
 
 | Skill | Version | What it does |
 |---|---|---|
-| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.66.2 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.102.3 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
-| **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.23.3 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
-| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.33.4 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
-| **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.66.4 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
+| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.66.2 | Scenario-driven UI development. A versioned design chain in `docs/ux/`: the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.102.3 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it (docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance), refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project: discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
+| **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.23.3 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board, over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
+| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.33.4 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A (the protocols themselves live in `agent-stack`). |
+| **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.66.4 | The taste layer. Cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
 | **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.32.4 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief, not a score. Before a site is built, `/seo-aeo-audit brief` writes the build-time brief that the audit later verifies. |
-| **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.16.2 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
-| **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.31.3 | Production patterns for agent systems, in four skills. **The orchestrator** — tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, memory architecture — form, function and dynamics, the four-stage retrieval pipeline, and what a layer table alone cannot say, and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness** — what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals** — suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer** — MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
-| **[telegram-dev](https://github.com/ssheleg/telegram-dev)** | 0.5.4 | Telegram, split by the API each surface actually speaks. **`telegram-bots`** — the official HTTP Bot API: `update_id` as the only idempotency key an update carries, the `allowed_updates` default that subscribes you to everything *except* `chat_member` and the two reaction types while answering `ok: true`, the webhook secret header that is the real check, rate limits as a design constraint (1/sec per chat, 20/min per group, ~30/sec bulk), and Telegram Stars with a **ten-second** pre-checkout window and a grant that belongs to `successful_payment`. **`telegram-userbots`** — MTProto and Telethon: the session file as a credential equal to the password, `FloodWaitError` as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — the skill opens with whether a user account is needed at all. **`telegram-miniapps`** — the web layer, whose entire security model is one signed query string: verifying `initData` server-side, the `auth_date` window, the Ed25519 path for a third party, and the SDK package whose name moved while the organisation's own page still fronts the old one. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants, and a bot under load has its own reference: a poll that never waits on a handler, a queue per chat under one ceiling, payments outside it, guards measured from arrival, a bounded shutdown, with a discrete-event simulation whose nine invariants each go red without their rule. |
+| **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.16.2 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database: webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
+| **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.31.3 | Production patterns for agent systems, in four skills. **The orchestrator**: tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, memory architecture (form, function and dynamics, the four-stage retrieval pipeline, and what a layer table alone cannot say), and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness**, what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals**: suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer**: MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
+| **[telegram-dev](https://github.com/ssheleg/telegram-dev)** | 0.5.4 | Telegram, split by the API each surface actually speaks. **`telegram-bots`**, the official HTTP Bot API: `update_id` as the only idempotency key an update carries, the `allowed_updates` default that subscribes you to everything *except* `chat_member` and the two reaction types while answering `ok: true`, the webhook secret header that is the real check, rate limits as a design constraint (1/sec per chat, 20/min per group, ~30/sec bulk), and Telegram Stars with a **ten-second** pre-checkout window and a grant that belongs to `successful_payment`. **`telegram-userbots`**, MTProto and Telethon: the session file as a credential equal to the password, `FloodWaitError` as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry; the skill opens with whether a user account is needed at all. **`telegram-miniapps`**: the web layer, whose entire security model is one signed query string: verifying `initData` server-side, the `auth_date` window, the Ed25519 path for a third party, and the SDK package whose name moved while the organisation's own page still fronts the old one. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants, and a bot under load has its own reference: a poll that never waits on a handler, a queue per chat under one ceiling, payments outside it, guards measured from arrival, a bounded shutdown, with a discrete-event simulation whose nine invariants each go red without their rule. |
 | **[xr-dev](https://github.com/ssheleg/xr-dev)** | 0.4.4 | **`quest-lifecycle`** maps the product from platform choice through design, build, testing, Store, monetization, launch and operation. The existing owners cover native OpenXR, Kotlin Spatial/hybrid apps, measured rendering optimization, current-source/tool discovery, commercial and asset readiness, and WebXR/PWA. Every stage names evidence and a next action; Meta engine companions and official Godot XR documentation supply implementation detail. |
-| **[web3d-dev](https://github.com/ssheleg/web3d-dev)** | 0.2.4 | Realtime 3D on the web with three.js and React Three Fiber, split by the question. **`web3d-runtime`** — how the scene runs: WebGPURenderer and its WebGL2 fallback, TSL and compute, post-processing, device loss and profiling, led by the failures r186 keeps silent: `render()` before `init()` throws, `positionNode` collapses every instance to a point, `computeAsync` does not wait for the GPU, and about twenty drei components do not run on WebGPU. **`web3d-assets`** — the glTF pipeline from a source to the frame within a written budget: gltf-transform and gltfpack, KTX2 and meshopt, the loader that reads the result, sourcing and the four licence questions; it delegates orders to the asset service when the machine runs one and works by the same principles when not. **`web3d-animation`** — a two-sided animation protocol with a shared clip canon: rig, clips, blending, retargeting, root motion, crowds and vertex-animation textures. Every fact is pinned to three@0.186.1, and the gate checks each code block against that release's exports. |
+| **[web3d-dev](https://github.com/ssheleg/web3d-dev)** | 0.2.4 | Realtime 3D on the web with three.js and React Three Fiber, split by the question. **`web3d-runtime`**, how the scene runs: WebGPURenderer and its WebGL2 fallback, TSL and compute, post-processing, device loss and profiling, led by the failures r186 keeps silent: `render()` before `init()` throws, `positionNode` collapses every instance to a point, `computeAsync` does not wait for the GPU, and about twenty drei components do not run on WebGPU. **`web3d-assets`**: the glTF pipeline from a source to the frame within a written budget: gltf-transform and gltfpack, KTX2 and meshopt, the loader that reads the result, sourcing and the four licence questions; it delegates orders to the asset service when the machine runs one and works by the same principles when not. **`web3d-animation`**: a two-sided animation protocol with a shared clip canon: rig, clips, blending, retargeting, root motion, crowds and vertex-animation textures. Every fact is pinned to three@0.186.1, and the gate checks each code block against that release's exports. |
 
 They compose. `task-pipeline` hands user-facing work to `super-ux` and takes its
 leases from `agent-sync`; `make-skill` encodes the repo layout the others are
@@ -68,7 +68,7 @@ launcher in this repo.
 
 These skills are the reference implementation of
 **[Proof of Done: The Agentic Software Development Manifesto](https://github.com/ssheleg/pod-manifesto)**
-by Sergey Sheleg — *a foundation for building software when agents write the code.*
+by Sergey Sheleg: *a foundation for building software when agents write the code.*
 The manifesto lives in its own repository; this one is where it stops being an argument.
 
 The manifesto's claim is that the unit of progress is not generated code but an
@@ -79,18 +79,18 @@ you can open and a command you can run:
 
 | The manifesto says | Here it is |
 |---|---|
-| Evidence over confidence — a green nobody watched fail is not evidence | [`validate.yml`](.github/workflows/validate.yml) — **33** negative self-tests, each planting the defect its guard exists for and requiring the refusal; [`test/plant_guard.py`](test/plant_guard.py) fails the step when the plant did **not** land, so a guard nobody disarmed cannot report as one that held. `npm run test:plants` is the half you can run here — every member's own gate, fed a dropped trigger |
-| Done is a coverage relation, not a status on a task | [`references/acceptance.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md) — the ladder walk, seam by seam |
+| Evidence over confidence: a green nobody watched fail is not evidence | [`validate.yml`](.github/workflows/validate.yml): **33** negative self-tests, each planting the defect its guard exists for and requiring the refusal; [`test/plant_guard.py`](test/plant_guard.py) fails the step when the plant did **not** land, so a guard nobody disarmed cannot report as one that held. `npm run test:plants` is the half you can run here: every member's own gate, fed a dropped trigger |
+| Done is a coverage relation, not a status on a task | [`references/acceptance.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md): the ladder walk, seam by seam |
 | An edge with no named payload is chronology drawn as architecture | [`graph.schema.json`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json) refuses an edge whose `payload` is empty |
-| The queue is an artifact, not the agent's recollection | [`scripts/graph.py`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py) — the model never reads the graph; a 400-node graph and a 4-node graph print the same 27-byte frontier |
+| The queue is an artifact, not the agent's recollection | [`scripts/graph.py`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py): the model never reads the graph; a 400-node graph and a 4-node graph print the same 27-byte frontier |
 | Never resolve a higher-layer conflict inside a lower-layer loop | [`references/loop-guard.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/loop-guard.md) |
 | When an audit starts finding its own last pass's damage, rotate the axis | [`references/audit.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/audit.md) |
-| Completion includes residue | [`references/residue.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/residue.md) — eight classes, three owners, teardown verified by re-reading state rather than by trusting the reply |
-| A repeated failure becomes a mechanism, not another paragraph | [`references/retrospective.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/retrospective.md) — three grades, retirement triggers, a list capped at ten |
+| Completion includes residue | [`references/residue.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/residue.md): eight classes, three owners, teardown verified by re-reading state rather than by trusting the reply |
+| A repeated failure becomes a mechanism, not another paragraph | [`references/retrospective.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/retrospective.md): three grades, retirement triggers, a list capped at ten |
 | Durable truth over conversational state | [`references/continuity.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/continuity.md) |
 
 Two of the manifesto's evidence notes (`E1`, `E4`) are incidents from this repository's
-own runs — it is describing measurements taken here. The four requirements it named as
+own runs: it is describing measurements taken here. The four requirements it named as
 **not built yet** have since been built, each with its commit:
 [`9d8695d`](https://github.com/ssheleg/task-pipeline/commit/9d8695dc4b73da5b65f2dde6894d351f2e738612)
 a judgment gate the schema distinguishes from a measurement,
@@ -102,7 +102,7 @@ expiring verification, and
 a node that states its own completion check. What is still owed is filed as open rows in
 the member's board ([`skills/task-pipeline/docs/evidence/backlog.md`](skills/task-pipeline/docs/evidence/backlog.md))
 and in this repository's own ([`docs/evidence/backlog.md`](docs/evidence/backlog.md)),
-rather than described as shipped — which is the manifesto's rule applied to the manifesto.
+rather than described as shipped, which is the manifesto's rule applied to the manifesto.
 
 That sentence was wrong for three days after the manifesto stopped saying it, and its own
 receipt pointed at a different row than the one it named. `pod-manifesto` now checks the
@@ -112,13 +112,13 @@ If the ideas are useful to you, a ⭐ on this repository helps other people find
 
 ## Install
 
-**From npm** — nothing to clone:
+**From npm** (nothing to clone):
 
 ```bash
 npx sshlg-skills install
 ```
 
-**From GitHub** — always tracks `main`:
+**From GitHub** (always tracks `main`):
 
 ```bash
 npx github:ssheleg/sshlg-skills install
@@ -165,14 +165,14 @@ skills per root. Raise its `skills.limits.*` before you opt in.
   The [dated compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md)
   separates skill discovery from plugins, hooks, delegation and runtime evidence.
 - **Then it prunes** the plain Claude copies the skills CLI recreates on its own.
-  That duplicate shadows your plugin and silently serves a stale skill — the one
+  That duplicate shadows your plugin and silently serves a stale skill: the one
   failure mode worth automating away.
 
 ### DeepSeek Harness
 
 Nothing to install beyond the ordinary `install`, and **no plugin to write.**
 `dsh` reads the Agent Skills standard directly: its local provider scans
-`<agentsHome>/skills` at rank 500, which is `~/.agents/skills` — the directory
+`<agentsHome>/skills` at rank 500, which is `~/.agents/skills`, the directory
 the skills CLI already installs into.
 
 Verified two ways on 2026-08-25 rather than read off a page. The subsystem is in
@@ -195,7 +195,7 @@ Two things worth knowing, both read from the harness's own
 [skills subsystem doc](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
 on 2026-08-25:
 
-- **Discovery is layered and nearest-wins**, in this order —
+- **Discovery is layered and nearest-wins**, in this order:
   `<projectRoot>/.dsh/skills` (100), `<projectRoot>/.agents/skills` (200),
   `Config.customSkillDirs` (300), `<dshHome>/skills` (400),
   `<agentsHome>/skills` (500), bundled (600). A project-local copy therefore
@@ -207,7 +207,7 @@ on 2026-08-25:
 
 **A skill is not a `dsh` plugin, and the distinction is worth keeping.** In that
 harness a *plugin* is a Cordis module exporting `apply(ctx)`; skills are loaded
-*by* one — `dsh-skill-filesystem`. These repositories carry the `dsh-plugin`
+*by* one, `dsh-skill-filesystem`. These repositories carry the `dsh-plugin`
 topic because that is the discovery channel the project asks for, and
 `dsh-skill`, which is what they actually are.
 
@@ -237,7 +237,7 @@ own leaves the bundle in a combination nobody tested, which is why `update` take
 
 ### The way back
 
-Install had no reverse until v1.47.0 — and clearing an agent's skill store had no recoverable path
+Install had no reverse until v1.47.0, and clearing an agent's skill store had no recoverable path
 at all. Four commands close that:
 
 ```bash
@@ -248,12 +248,12 @@ npx sshlg-skills restore [<archive>]                   # bring the newest (or na
 ```
 
 `uninstall` removes exactly what install reaches: the family's skill ids out of every discovered
-agent channel — provenance-checked, so a foreign skill that merely shares a name is reported and
-kept — the Claude Code plugins with their marketplaces, the managed routing block (through the
+agent channel (provenance-checked, so a foreign skill that merely shares a name is reported and
+kept), the Claude Code plugins with their marketplaces, the managed routing block (through the
 same backup-first `protect()` every operator-file write uses; bytes outside the sentinels are
 preserved), the Cursor rules file, and the hooks. `backup`/`wipe`/`restore` operate on the WHOLE
 store, family or not: one `tar.gz` relative to `$HOME` with symlinks kept as symlinks, a manifest
-beside it, and one gate — **a wipe whose backup could not be taken and verified against the
+beside it, and one gate: **a wipe whose backup could not be taken and verified against the
 archive's own listing does not run.** Restore verifies the counts back against the manifest and
 names every channel that came up short.
 
@@ -333,7 +333,7 @@ every unfinished one too; an older finished one moves its copies of Claude's fil
 own observations even after installed bytes match.
 
 Flags: `--no-claude`, `--claude-only`, `--agent a,b`, `--all`, and
-`--bump-pins` — off by default so a checkout stays reproducible; pass it when
+`--bump-pins` (off by default so a checkout stays reproducible); pass it when
 you deliberately want the submodules fast-forwarded to their upstream tips.
 That run still installs the published commit inventory. For the next release, stage
 the reviewed gitlinks, run `node scripts/sync-member-pins.js --write`, then
@@ -343,14 +343,14 @@ The scope flags scope the Claude host's files too: under `--no-claude`, or any
 `--agent` list, neither the routing block in `CLAUDE.md`, nor the hook wiring in
 `settings.json`, nor the runtime copy those hooks execute
 (`~/.sshlg-skills/runtime`) is touched, nor is `claude plugin update` run, and the run
-says `skipped: <flag>` (since v1.56.0). No `--agent` value selects the Claude host — `--agent claude` exits 2
+says `skipped: <flag>` (since v1.56.0). No `--agent` value selects the Claude host: `--agent claude` exits 2
 (the pinned skills CLI has no such agent id), and `--agent claude-code` names the
-plain-copy target the plugin channel leaves out — so to scope a run to Claude use
+plain-copy target the plugin channel leaves out, so to scope a run to Claude use
 `--claude-only`, or no scope flag at all.
 `--dry-run` lists the `settings.json` write as its own `hooks-wiring` step, with
 the field each entry would change. **`update` never adds a hook entry**: one you
 removed stays removed, and an event a later release introduces is wired only by
-`npx sshlg-skills hooks install` — `update` and its preview name each family event
+`npx sshlg-skills hooks install`; `update` and its preview name each family event
 not wired here, with that command. `hooks install` re-adds every removed family
 entry, not only the new ones, so skip it if you removed an entry on purpose.
 
@@ -369,20 +369,20 @@ Live and unprovable holders are left alone. See the [runtime recovery contract](
 
 **Exit codes of `update`:** 0 done, 1 a step failed, **2 a usage error** (an unknown
 flag, a flag without its value, contradictory flags), **75 another `update` holds
-`~/.sshlg-skills/update.lock`** (EX_TEMPFAIL — retry later, nothing failed; every
+`~/.sshlg-skills/update.lock`** (EX_TEMPFAIL: retry later, nothing failed; every
 published launcher since 1.56.0). Details: `docs/working-rules/state-json.md`.
 
 > **Update through the launcher, not through a bare `npx skills update <id>`.**
 > Without an explicit `--agent` list the skills CLI auto-detects Claude Code and
-> re-creates `~/.claude/skills/<id>` — a plain copy that then shadows your
+> re-creates `~/.claude/skills/<id>`, a plain copy that then shadows your
 > plugin. The launcher passes the agent list explicitly and prunes those copies
-> after every run — including under `--no-claude`, because the copy appears
+> after every run, including under `--no-claude`, because the copy appears
 > whether or not the run was asked to manage plugins.
 
 ### Domain members load only where a project needs them
 
 Claude Code lists every enabled plugin's skills in every session. Four members serve one
-kind of project — `xr-dev`, `web3d-dev`, `telegram-dev` and `sheleg-dev` (money, tracking,
+kind of project: `xr-dev`, `web3d-dev`, `telegram-dev` and `sheleg-dev` (money, tracking,
 errors, sign-in, speed). Only the first three are scoped: **sheleg-dev and any plugin
 shipping hooks stay enabled globally**, because disabling a plugin removes its gates too.
 The core members (`task-pipeline`, `agent-sync`, `make-skill`, `super-ux`, `sheleg-design`,
@@ -465,7 +465,8 @@ enablement takes precedence over the global value for search and hook readers.
 **Inside Fabric**, per-agent skill layers are planned. Until that capability ships,
 `domains` is the host-wide fallback; this command does not implement Fabric's layers.
 
-## Routing — making the family engage by default
+<a id="routing--making-the-family-engage-by-default"></a>
+## Routing: making the family engage by default
 
 A skill's `description` influences whether a model reaches for it. It does not
 oblige. So the pack writes a **managed routing block** into your global agent
@@ -482,14 +483,14 @@ known to the hand-edit guard. A section you edited by hand is kept as it is, rec
 your authored text and reported as drift (`routers --diff <name>`, `routers --update --adopt <name>`).
 It opens with the **map**: eleven members, the single command that starts
 each, and one line saying what it closes. It is generated from `skills.json`,
-so a release moves it — and `install` and `update` refresh it, which is what
+so a release moves it, and `install` and `update` refresh it, which is what
 makes "the instruction your agents read is current" a mechanism rather than a
 habit.
 
 **A map, not a catalogue.** Your agent already gets every skill's name and
 description from its own runtime; copying those here would put one fact in two
 homes and cost context in every session of every project. What no runtime can
-derive is the shape — where to start, and in what order the members compose.
+derive is the shape: where to start, and in what order the members compose.
 
 After the map comes the **work protocol**: how a task opens (search the whole
 catalogue, print the plan) and closes (the skills used, a signed report). It ends
@@ -507,8 +508,8 @@ These channels get it, and each only where that agent is actually installed:
 | Claude Code | `~/.claude/CLAUDE.md` |
 | Codex | `~/.codex/AGENTS.md` (Codex invokes a skill as `$name`; the block's `/name` is Claude's syntax) |
 | Gemini CLI | `~/.gemini/GEMINI.md` (or `$GEMINI_CLI_HOME/.gemini/GEMINI.md`) |
-| Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md` — the writer, `uninstall` and the write guard all follow it) |
-| Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true`. Cursor finds it by walking up from the workspace, so it loads only for workspaces under `$HOME` |
+| Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md`; the writer, `uninstall` and the write guard all follow it) |
+| Cursor | `~/.cursor/rules/sshlg-routing.mdc`: one file per rule, `alwaysApply: true`. Cursor finds it by walking up from the workspace, so it loads only for workspaces under `$HOME` |
 | Kimi, Goose, Warp, Droid | `~/.agents/AGENTS.md`, one shared file all four read. Written as a regular file only; if it is a symlink the hub reports where it points and writes nothing (a link to a file the hub already manages is "already served") |
 | ZCode | `~/.zcode/AGENTS.md` (ZCode 3.14.4's user default). ZCode onboarding offers to migrate `~/.claude/CLAUDE.md` into this file, overwriting it, which duplicates or replaces the block: decline it, or run `npx sshlg-skills update` after it (B-282; `hosts` prints this note) |
 | Qwen Code | `~/.qwen/QWEN.md` (or `$QWEN_HOME/QWEN.md`) |
@@ -550,7 +551,7 @@ twice keeps the first and warns, so a project copy of a family skill wins over t
 roots in that order and names the copy Pi keeps. Pi loads no Claude Code plugins, so the family
 reaches it as plain skill directories plus the block above. `npx sshlg-skills hosts` reports,
 read-only, whether Pi is here, where the 39 family skills are visible to it, and how many names
-repeat across its roots — the same realpath twice (a symlink into `~/.agents/skills`) is counted
+repeat across its roots: the same realpath twice (a symlink into `~/.agents/skills`) is counted
 as harmless, different realpaths are named as conflicts. Nothing is pruned or moved. The sources
 are Pi 1.1.0's own documentation (its skills page, lines 59-61 and 85, and its configuration page, lines 9 and 18);
 `test/pi_test.js` runs the block through the real writer three times against a real file.
@@ -568,7 +569,7 @@ npx sshlg-skills routers --update --adopt <name>  # take the packaged wording fo
 ```
 
 Fifteen routers, and they are **different axes rather than competing
-priorities** — a landing page passes several, an internal script passes none:
+priorities**: a landing page passes several, an internal script passes none:
 
 | Router | Answers | When | Needs installed |
 |---|---|---|---|
@@ -598,12 +599,12 @@ loses it, row included, on the next `update`. The Fabric skills it points at com
 from a plugin outside this family.
 
 **Your own wording wins.** Where you already wrote a rule by hand, migration
-moves *your* text in verbatim — asides included — and the packaged default is
+moves *your* text in verbatim (asides included), and the packaged default is
 used only for a router you never wrote.
 
 **And it keeps winning, which is the part that needs a report.** Because your
 text always takes precedence, a router reworded in a later release never
-reaches your machine — the update lands in the package and stops at your
+reaches your machine: the update lands in the package and stops at your
 config file. So `routers` now *names* the routers whose wording has diverged,
 every run. Nothing is applied: `--diff <name>` shows both sides, and
 `--adopt <name>` takes the packaged one for that router only, parking the
@@ -637,7 +638,7 @@ npx sshlg-skills routers --update                        # apply it
 ```
 
 Switching a router off **removes its section** and drops its table row.
-Switching it back on restores the exact bytes that were there — including
+Switching it back on restores the exact bytes that were there, including
 wording of yours that migration had moved in. Settings live in
 `~/.sshlg-skills/config.json` (mode 0600) and store deviations only, so a
 router added in a later release arrives switched on rather than silently off.
@@ -706,7 +707,7 @@ Recovery changes metadata only. It never restores or rewrites host instructions,
 clears locks, or recovers other settings writers. A `complete` record describes
 that operation's recorded outcome; it does not certify the host's current settings.
 
-### Routes you declare — skills outside the family
+### Routes you declare: skills outside the family
 
 The family cannot know what your machine uses for media, data or anything else it
 does not ship, and a published package naming one would ship a fact about one
@@ -719,15 +720,15 @@ npx sshlg-skills config                                                         
 npx sshlg-skills config set routes.external.example-media off                   # forget it
 ```
 
-From the next prompt the hook prints the route when its words appear — once per
-session, like a family route (`clear` and `compact` re-arm it) — the
+From the next prompt the hook prints the route when its words appear (once per
+session, like a family route; `clear` and `compact` re-arm it), the
 `PreToolUse` escalation can name it, `conflicts` lists foreign skills that land on
 its ground, and `toolkit --for` puts its skill first. A declaration that could
-never work — a family router's name, a trigger inside a refusal phrase, a question
-phrase — is refused with the reason, and nothing is written; the hook itself drops
+never work (a family router's name, a trigger inside a refusal phrase, a question
+phrase) is refused with the reason, and nothing is written; the hook itself drops
 an unusable entry silently, because it must never cost you a turn.
 
-### Hiding the marked packs on every host — `visibility`
+### Hiding the marked packs on every host: `visibility`
 
 **This is the host-wide fallback for sessions Fabric does not start.** Fabric's RM-23 is
 open on Fabric's roadmap; it is to read the same machine file and own
@@ -831,10 +832,10 @@ never extended: `update` prints one line asking for one `visibility --apply [--k
 `--revert` command.
 
 
-### Making it engage by itself — hooks
+### Making it engage by itself: hooks
 
 The routing block loads in every session and is still routed around, because
-prose in a long file loses to whatever spoke last. Hooks are what speak first —
+prose in a long file loses to whatever spoke last. Hooks are what speak first
 and, since v0.42.0, what **holds**.
 
 The hub wires hooks into Claude Code's settings file: `$CLAUDE_CONFIG_DIR/settings.json`
@@ -890,18 +891,18 @@ npx sshlg-skills humanizers               # anti-AI-writing skills here, with th
 
 | Hook | What it does | What it costs |
 |---|---|---|
-| `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch; **and, since v0.48.0, one line naming any other enabled plugin that also injects here** — silent when there is none, and since v1.56.0 printed only when that set differs from the one recorded in `state.json` — a machine-wide record, so a second session with the same set is not told again | ~90 tokens per session |
-| `UserPromptSubmit` | names the route this prompt asks for — **once per route per session** since v1.56.0 (a route already named is not repeated; `clear` and `compact` reset the record, `resume` keeps it, a fork is a new session id and starts without one; a payload with no session id keeps no turn record at all — its note always prints and it is never escalated). One exception: a facet route printed for the first time on a prompt that writes brings the `task-pipeline` line with it, even when delivery was named earlier | nothing on the turns that don't need it |
+| `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch; **and, since v0.48.0, one line naming any other enabled plugin that also injects here**: silent when there is none, and since v1.56.0 printed only when that set differs from the one recorded in `state.json` (a machine-wide record), so a second session with the same set is not told again | ~90 tokens per session |
+| `UserPromptSubmit` | names the route this prompt asks for, **once per route per session** since v1.56.0 (a route already named is not repeated; `clear` and `compact` reset the record, `resume` keeps it, a fork is a new session id and starts without one; a payload with no session id keeps no turn record at all: its note always prints and it is never escalated). One exception: a facet route printed for the first time on a prompt that writes brings the `task-pipeline` line with it, even when delivery was named earlier | nothing on the turns that don't need it |
 | `PreToolUse` | **copies before any write** to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.pi/agent/AGENTS.md`, `~/.cursor/rules/sshlg-routing.mdc`, `~/.claude/settings.json` and Codex's `~/.codex/hooks.json` (each at its relocated path too: `CLAUDE_CONFIG_DIR`, `CODEX_HOME`, `GEMINI_CLI_HOME`, `PI_CODING_AGENT_DIR`), and to every instruction file `lib/instruction-targets.js` lists: `~/.agents/AGENTS.md`, `~/.zcode/AGENTS.md`, `~/.qwen/QWEN.md` (or `$QWEN_HOME/QWEN.md`), `~/.kiro/steering/sshlg-routing.md` and `~/.codeium/windsurf/memories/global_rules.md`. It **refuses the write** if the copy cannot be taken. Also refuses a bare `npx skills update <member>`, a gate piped into a filter and chained into `git`, and a host self-update (`pi update`, `brew upgrade codex`, `npm i -g @openai/codex`) inside `$(…)` or backticks, even in double quotes or nested, with the remedy (single quotes, escaped backticks or a file); single-quoted text runs nothing and passes. **Refuses a git command that would throw away uncommitted work** (`git checkout -- <paths>`, `git checkout <ref> -- <paths>`, `git checkout .`, `git restore` without `--staged` only, `git reset --hard`, `git stash` and `git stash push`/`save`, `git clean -f`), also inside `bash -c '…'`, after `cd` and with `git -C`: it runs one `git status --porcelain` for exactly the named paths (1.5 s budget, no index lock) and refuses only when a change that form would lose is there, naming the paths and the remedy (commit the work, or copy it out of the tree). Benign forms (`checkout -b`, `restore --staged`, `stash list`/`pop`, `clean -n`) and a heredoc body or comment pass without a probe; a probe that fails or times out allows. To discard on purpose, put `SSHLG_DISCARD_OK=1` in front of that git command | nothing until one of those files is touched; one `git status` for a destructive git command; a `Read` or `Grep` loads only the credential-read check (`node scripts/hook-bench.js` measures each hook) |
-| `PostToolUse` | on `Bash`, `Read` and `Grep`: names a credential the tool printed — a vendor-shaped key, or a generated-looking value under a label that names one (`x-api-key: …`, `FOO_API_KEY=…`, `Authorization: Bearer …`, `.netrc`, a URL's `user:password@`) — by its label, the tool and the file or program, **never the value**, with the rotation remedy; hashes, ids and fingerprints under neutral names, placeholders, paths and code stay silent. After any skills-CLI run, names the plain copies shadowing a plugin; after `obsidian-wiki setup`, puts back the config keys it truncates | one scan of the output (each field whole up to 1 MiB, else its first 768 KiB and last 256 KiB; it says when a scan was partial), silent when it finds nothing; a local proxy's token (an active loopback `*_BASE_URL` of the same prefix, in the same file, with no other) is not reported; MCP results are not read |
-| `Notification` | a desktop ping when a long run goes idle or a background agent finishes | nothing — it emits a terminal sequence |
-| `ConfigChange` | notices when something else rewrites these entries (a field this pack writes changed; a field you added is not a change, and an entry that is gone looks like one you removed, so `hooks` lists it on demand instead) | nothing — it records; `SessionStart` reports |
-| `FileChanged` | says when the run ledger advances a stage | nothing — one line, when it moves |
-| `statusLine` | where the pipeline is, always visible | nothing — it prints, it doesn't inject |
+| `PostToolUse` | on `Bash`, `Read` and `Grep`: names a credential the tool printed (a vendor-shaped key, or a generated-looking value under a label that names one: `x-api-key: …`, `FOO_API_KEY=…`, `Authorization: Bearer …`, `.netrc`, a URL's `user:password@`) by its label, the tool and the file or program, **never the value**, with the rotation remedy; hashes, ids and fingerprints under neutral names, placeholders, paths and code stay silent. After any skills-CLI run, names the plain copies shadowing a plugin; after `obsidian-wiki setup`, puts back the config keys it truncates | one scan of the output (each field whole up to 1 MiB, else its first 768 KiB and last 256 KiB; it says when a scan was partial), silent when it finds nothing; a local proxy's token (an active loopback `*_BASE_URL` of the same prefix, in the same file, with no other) is not reported; MCP results are not read |
+| `Notification` | a desktop ping when a long run goes idle or a background agent finishes | nothing: it emits a terminal sequence |
+| `ConfigChange` | notices when something else rewrites these entries (a field this pack writes changed; a field you added is not a change, and an entry that is gone looks like one you removed, so `hooks` lists it on demand instead) | nothing: it records; `SessionStart` reports |
+| `FileChanged` | says when the run ledger advances a stage | nothing: one line, when it moves |
+| `statusLine` | where the pipeline is, always visible | nothing: it prints, it doesn't inject |
 
 **The guard is the reason this pack exists at all.** `~/.claude/CLAUDE.md` has no
 version control behind it, and two defects in this repository's own history
-destroyed or overwrote it — both times the copy that saved it was made by hand.
+destroyed or overwrote it, and both times the copy that saved it was made by hand.
 `lib/backup.js` has ruled since v0.35.0 that a copy which cannot be taken cancels
 the write; until v0.42.0 that rule only covered writes **this pack** performed.
 An agent editing the file with `Edit`, or redirecting into it from a shell, went
@@ -929,25 +930,25 @@ keeps:
 
 **The denominator comes from your `pipeline.json` → `stages[]`, and from nowhere
 else.** Until v0.43.0 both numbers came from how many `stage:` lines the ledger
-happened to hold, so a run at stage 4 of ten printed `gates 5/5` — a finished run,
+happened to hold, so a run at stage 4 of ten printed `gates 5/5`: a finished run,
 at a glance, every time. With no stage list declared, the line prints `5 gates
 passed`: a count claims nothing about what is left, and the example flow's eleven
 are not a fallback.
 
-Glyphs are `✓` passed · `▶` in flight · `·` not entered · `✗` failed · `⊘` skipped
-— a failed gate and a skipped stage must not look like a passed one. When a
+Glyphs are `✓` passed · `▶` in flight · `·` not entered · `✗` failed · `⊘` skipped.
+A failed gate and a skipped stage must not look like a passed one. When a
 **manual** gate has no verdict the line says `⏸ waiting on you`, because that is
 the only moment nothing advances until you act.
 
 Beside the line, two things you do not have to be looking at the terminal for: the
 run's position on the **taskbar or dock** (OSC `9;4`), and a desktop ping the
 moment a manual gate is reached. The four-line progress block is printed by the
-hook rather than by the agent — the doctrine requires every glyph to come from the
+hook rather than by the agent: the doctrine requires every glyph to come from the
 verdict the gate wrote and from nothing else, and a process with no memory cannot
 write one from memory.
 
-Every number is borrowed rather than computed — the iteration count is the
-number of `iter:` lines, the gates come from `stage:` verdicts — and an
+Every number is borrowed rather than computed (the iteration count is the
+number of `iter:` lines, the gates come from `stage:` verdicts), and an
 **unreported** `holds:` prints `holds n/a`, not `holds 0`, because a silent stage
 must not look like a clean one. In a directory with no run it prints nothing.
 
@@ -955,14 +956,14 @@ must not look like a clean one. In a directory with no run it prints nothing.
 
 The prompt hook names the route. Naming is a hint a model may ignore, so since
 v0.43.0 the un-routed path is escalated instead: when a prompt reads as work the
-family routes **and no run is open**, the first `Edit` or `Write` of that turn asks
-— naming the route, what it owns, and the phrase that declines it.
+family routes **and no run is open**, the first `Edit` or `Write` of that turn asks,
+naming the route, what it owns, and the phrase that declines it.
 
 - **`ask`, never `deny`.** The routing block's own boundary says a typo, a one-line
   edit or a mechanical rename does *not* go through the pipeline, and no hook can
   tell a typo from a feature. You answer once.
 - **Once per turn.** A turn that edits forty files asks once.
-- **`Bash` is never gated** — that would put a permission prompt in front of
+- **`Bash` is never gated**: that would put a permission prompt in front of
   running the tests rather than in front of the change.
 - **A refusal phrase silences this escalation for the whole session**, not the turn.
   Someone who said «без пайплайна» has decided. It does not silence the prompt hook's
@@ -975,7 +976,7 @@ guarantee `task-pipeline`'s own hook doctrine warns about.
 **It names the chain, not only the facets.** When a route that says what a change
 contains (`super-ux`, `sheleg-design`, `copywriting`, `sheleg-dev`, `agent-stack`,
 `telegram-dev`, `xr-dev`, `web3d-dev`) matched and the prompt writes, the
-`task-pipeline` line is printed beside it — «сделай редизайн лендинга» names the
+`task-pipeline` line is printed beside it: «сделай редизайн лендинга» names the
 visual layer *and* delivery, and does so even when an earlier prompt in the session
 already named delivery (the once-per-session rule does not split the pair). A question, an explanation or an audit does not write,
 and gets the facet alone. Words are matched in the forms people type: inflected
@@ -984,7 +985,7 @@ nouns that mean a request only behind a verb («сделай дашборд», �
 only there. `test/hook_routing_eval_test.js` holds twelve real tasks, their English
 variants and the silent controls to an exact route set.
 
-**The prompt hook is deliberately quiet.** A question beats any trigger — with one
+**The prompt hook is deliberately quiet.** A question beats any trigger, with one
 derived exception: a trigger that is *itself* phrased as a question wins, because
 `seo-aeo-audit` advertises «почему упал трафик» and the generic filter was
 silencing it on the words it owns. Any refusal phrase drops every note on that
@@ -1000,7 +1001,7 @@ to); a fixture reads the shipped files and fails on any trigger
 the skill does not itself advertise, so this cannot become a second routing
 policy that drifts from the skills it routes to. A word a member is still being
 asked to advertise is declared in `PENDING` in `lib/triggers.js`, with the member
-change it waits on — and fails as stale the moment the member ships it.
+change it waits on, and fails as stale the moment the member ships it.
 
 **It will not quietly take a `statusLine` it did not set.** One held by another
 tool is reported and nothing is written. `--force` takes it and parks the
@@ -1008,9 +1009,9 @@ displaced value in `~/.sshlg-skills/config.json`, so `hooks remove` restores it
 and the settings file round-trips byte for byte. Every write goes through the
 same backup path the routing block uses.
 
-Restart Claude Code after installing — hooks are read at session start.
+Restart Claude Code after installing: hooks are read at session start.
 
-### Working *on* this repository — the gate arrives with the clone
+### Working *on* this repository: the gate arrives with the clone
 
 `.claude/settings.json` is committed, so a checkout brings two project hooks with
 it. They apply only here and only in Claude Code:
@@ -1022,24 +1023,24 @@ it. They apply only here and only in Claude Code:
 
 The commit gate is honest only because of a number: the suite costs **~8.5 s**
 here. At three minutes it would be a gate people route around, and a gate people
-route around is worse than none — it teaches that gates are noise.
+route around is worse than none: it teaches that gates are noise.
 
 These hook adapters are installed through the Claude Code channel. Other hosts
 may support hooks, but need separately verified adapters; without one, these
 rules remain a self-check. Working with a different agent, or want
-them off? Delete the file — nothing else reads it.
+them off? Delete the file; nothing else reads it.
 
 ## With Fabric and Observatory
 
 The family works on its own; on a machine that also runs PassionCode's agent network it
 connects to it at four points, each with its own owner:
 
-- **The `fabric` router** (written only where Fabric is installed — its services directory
+- **The `fabric` router** (written only where Fabric is installed, that is, where its services directory
   exists) sends questions about this machine's agent services to the Fabric tooling and to
   the `fabric-agent-adapter` skills that build and adapt Fabric agents and services.
-- **agent-stack's `agent-interop`** carries the delegation doctrine — trust by machine
-  (T0 this machine, T1 an enrolled one, T2 everyone else), Fabric jobs
-  (`fabric.job.get` / `cancel`) and the `degraded` envelope — pinned to the
+- **agent-stack's `agent-interop`** carries the delegation doctrine (trust by machine:
+  T0 this machine, T1 an enrolled one, T2 everyone else; Fabric jobs,
+  `fabric.job.get` / `cancel`; and the `degraded` envelope), pinned to the
   fabric-agent-contract commit it was read against.
 - **agent-sync** maps its operations onto Fabric's coordination contract
   (`references/fabric-coordination.md`), and reads its Notion token from the Observatory
@@ -1052,7 +1053,7 @@ Credentials go through Project Observatory (`observatory_credentials`, `use_secr
 --vault-only`); the family's secret guard names an Observatory-free route in every refusal
 as well. Observatory: <https://github.com/passioncode-ai/project-observatory-dashboard>.
 
-### What every agent loads — `context`
+### What every agent loads: `context`
 
 ```bash
 npx sshlg-skills context          # per host: bytes, ~tokens, lines, hub-managed vs other text, caps
@@ -1090,7 +1091,7 @@ enumerates what is installed and ranks it by term overlap; by construction it
 cannot name a skill that is not here, and that is the whole question when
 somebody hands you a list of skills to install. A pack declares the entries,
 measures which are already present with the same walk `toolkit` and `conflicts`
-use, and prints the exact install command for the rest — cut into **lanes**, so
+use, and prints the exact install command for the rest, cut into **lanes**, so
 that choosing a visual direction, animating a hero, re-theming a dashboard and
 auditing contrast are four questions with four owners rather than one list. Five
 of the `design` pack's seventeen lanes have no owner in this family, and
@@ -1098,12 +1099,12 @@ of the `design` pack's seventeen lanes have no owner in this family, and
 implied, with a default for each (`a11y-debugging` for accessibility) and a phrase
 for declining it out loud. Checking it in a browser is two lanes, not one:
 `verify` asks whether it works, `visual-qa` what it looks like across states,
-viewports, themes, text sizes and locales — and `references` (the sweep of shipped
+viewports, themes, text sizes and locales; and `references` (the sweep of shipped
 products) and `critique` (what is wrong with a render) sit with `sheleg-design`.
 
 It **prints and never installs**: `settings.json` and `known_marketplaces.json`
 belong to the operator, which is the refusal `lib/updatemodel.js` already records.
-Popularity is deliberately not a field — the first pack was built by measuring two
+Popularity is deliberately not a field: the first pack was built by measuring two
 published listicles, and between them they carried three moved addresses, five
 wrong star counts and one install command that does not exist (`claude plugin add`
 → `error: unknown command 'add'`), plus one that copies a marketplace straight into
@@ -1112,8 +1113,8 @@ by `assertPack()` rather than by review, and `--check` resolves every declared
 address at the moment it is read.
 
 `conflicts` is the machine-specific half of the map's arbitration rule. The rule
-ships — *the router decides the route, a competing skill is never a second entry
-point* — but **which** packs collide is a fact about one laptop, so it is read here
+ships (*the router decides the route, a competing skill is never a second entry
+point*), but **which** packs collide is a fact about one laptop, so it is read here
 instead of written into everyone's block. It reports candidates, not offenders:
 most of what it finds answers HOW where a router answers WHEN, and a router
 reaching for one as a tool is the system working.
@@ -1170,7 +1171,7 @@ prints `enroll: unchanged`. Exit codes: 0 written or unchanged, 1 refused, 2 usa
 ## How it works
 
 A thin, zero-dependency Node launcher over the three mechanisms that already
-reach these agents — the `skills` CLI (79 agent IDs; 77 global targets), `claude plugin` (Claude
+reach these agents: the `skills` CLI (79 agent IDs; 77 global targets), `claude plugin` (Claude
 Code), and `git submodule` (pinned snapshots). It invents no new install path. It
 curates the family, drives those three, and encodes the rules that are easy to
 get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, full
@@ -1201,7 +1202,7 @@ test/validate.py             registry / submodules / version validation
 .github/workflows            validation on push and PR + tag-driven release
 ```
 
-`skills.json` is the source of truth — repos, submodule paths, plugin ids, skill
+`skills.json` is the source of truth: repos, submodule paths, plugin ids, skill
 names, default agents and each skill's pinned version. The validator keeps it in
 sync with `.gitmodules` and with the submodule pointers, so checking out any hub
 commit installs exactly the skill versions that commit was tested with.
@@ -1213,7 +1214,7 @@ npm test
 ```
 
 One entry point: it runs the structural validator, then **discovers** every
-`test/*_test.js` rather than listing them — a list would live in
+`test/*_test.js` rather than listing them; a list would live in
 `package.json` and in the workflow at once, and drift the first time a suite
 was added to one side. An empty run fails rather than reporting green, and
 `validate.py` fails if CI stops calling `npm test`.
@@ -1223,8 +1224,8 @@ python3 test/check_pins.py
 pip install tiktoken && python3 test/audit_bundle.py
 ```
 
-Both kept out of `npm test` on purpose — it must work offline and dependency-free.
-`check_pins.py` queries the npm registry — every member's pin, and since v0.87.0
+Both kept out of `npm test` on purpose: it must work offline and dependency-free.
+`check_pins.py` queries the npm registry: every member's pin, and since v0.87.0
 **this repository's own newest tag**, because a tag that never published is silent
 everywhere else; `audit_bundle.py` needs a tokenizer and
 refuses to estimate without one. The audit reports the always-on token budget,
@@ -1238,14 +1239,14 @@ node scripts/site.js --out _site
 ```
 
 One page per member plus the routing page, built from
-[`skills.json`](skills.json) and [`lib/routers-registry.js`](lib/routers-registry.js) —
+[`skills.json`](skills.json) and [`lib/routers-registry.js`](lib/routers-registry.js),
 the same two files the launcher and the operator's routing block are generated from. The
 site restates nothing: a version, an install identifier or a routing rule on a published
 page is read at build time, so it cannot drift from the manifest.
 
 **The built site is never committed.**
 [`.github/workflows/pages.yml`](.github/workflows/pages.yml) gates on the whole
-`validate` suite through `workflow_call`, then builds and deploys — a generated page in
+`validate` suite through `workflow_call`, then builds and deploys: a generated page in
 git drifts from the data it claims to render, and a page built from the tree cannot.
 [`test/site_test.js`](test/site_test.js) is the half that runs here: it builds into a
 temp directory and fails when a stated version is not the pinned one, when an internal
@@ -1257,7 +1258,7 @@ Releases are tag-driven: bump `skills.json`, `package.json` and the top
 `CHANGELOG.md` entry together, tag `vX.Y.Z`, and the release workflow cuts the
 GitHub release from the matching changelog section.
 
-Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). To report a
+Contributions are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md). To report a
 vulnerability, see [SECURITY.md](SECURITY.md).
 
 ### Inspect instruction blocks
@@ -1278,8 +1279,8 @@ The command does not apply the diff. Unknown/foreign blocks remain inspectable;
 
 ### Write another tool's block (managed-blocks/1)
 
-A tool that keeps its own block in a host instruction file — Observatory's
-`OBSERVATORY:AGENT-UPDATES`, for one — can let the hub write it:
+A tool that keeps its own block in a host instruction file (Observatory's
+`OBSERVATORY:AGENT-UPDATES`, for one) can let the hub write it:
 
 ```bash
 npx sshlg-skills blocks install OBSERVATORY:AGENT-UPDATES --owner OBSERVATORY --agent claude --from ./block.md
@@ -1301,11 +1302,11 @@ classified with `npx sshlg-skills blocks resolve <operation-id>`. The convention
 
 ## Author
 
-Built by ssheleg — [sshlg.me](https://sshlg.me)
+Built by ssheleg: [sshlg.me](https://sshlg.me)
 
-- X / Twitter — [@sshlg93](https://x.com/sshlg93) ·
+- X / Twitter: [@sshlg93](https://x.com/sshlg93) ·
   [follow in one click](https://x.com/intent/follow?screen_name=sshlg93)
-- Telegram — [@sshlg](https://t.me/sshlg)
+- Telegram: [@sshlg](https://t.me/sshlg)
 
 ## License
 

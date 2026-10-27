@@ -1,22 +1,22 @@
-# Doc map — sshlg-skills
+# Doc map: sshlg-skills
 
 Where settled things live in this repository, what each fact's single home is,
 and what proves the docs are in sync. Written so the next run does not have to
 guess, and so "docs updated" is a command rather than a claim.
 
-## Which channel a hook ships through — decided 2026-08-14 (B-19)
+## Which channel a hook ships through (decided 2026-08-14, B-19)
 
 Two channels exist and both are correct, because **the channel follows the shape of the
 thing, not a preference**:
 
 | Shape | Channel | Why it has no alternative |
 |---|---|---|
-| A **plugin** (`agent-sync`, `make-skill`, `task-pipeline`) | `plugins/<name>/hooks/hooks.json` | It has a manifest, so it needs no write to the operator's file at all. The cost is that enablement is the only switch — acceptable for a guard that fails silent, and the reason a doctrine-injecting plugin is a different question (`superpowers` is disabled on this machine for exactly that). |
-| A **launcher** (`sshlg-skills`, run as `npx`) | `~/.claude/settings.json`, via `lib/hooks.js` | It has no plugin manifest. There is no second channel to prefer. Its `PreToolUse` entry is the backup that exists because `~/.claude/CLAUDE.md` was destroyed twice (B-05), so the write is the mechanism, not a convenience — and it goes through `protect()` like every other write to an operator file. |
+| A **plugin** (`agent-sync`, `make-skill`, `task-pipeline`) | `plugins/<name>/hooks/hooks.json` | It has a manifest, so it needs no write to the operator's file at all. The cost is that enablement is the only switch: acceptable for a guard that fails silent, and the reason a doctrine-injecting plugin is a different question (`superpowers` is disabled on this machine for exactly that). |
+| A **launcher** (`sshlg-skills`, run as `npx`) | `~/.claude/settings.json`, via `lib/hooks.js` | It has no plugin manifest. There is no second channel to prefer. Its `PreToolUse` entry is the backup that exists because `~/.claude/CLAUDE.md` was destroyed twice (B-05), so the write is the mechanism, not a convenience, and it goes through `protect()` like every other write to an operator file. |
 
 Measured the day this was decided: three events (`SessionStart`, `PreToolUse`,
-`PostToolUse`) fire in both channels. That is **not** duplication — six different scripts
-doing six different jobs — but it is why an operator debugging *which hook fired* has two
+`PostToolUse`) fire in both channels. That is **not** duplication (six different scripts
+doing six different jobs), but it is why an operator debugging *which hook fired* has two
 places to look, and why `npx sshlg-skills injectors` names the files.
 
 **What is forbidden:** a member that ships a plugin manifest must never also wire itself
@@ -28,12 +28,12 @@ it.
 ## What this repository is
 
 The **umbrella** of the ssheleg skill family: a zero-dependency Node launcher
-plus 11 skill packs as pinned git submodules. It ships no doctrine of its own —
-each skill carries its own — but it owns the family's **routing block**, the
+plus 11 skill packs as pinned git submodules. It ships no doctrine of its own
+(each skill carries its own), but it owns the family's **routing block**, the
 one piece of the family that edits a file the operator owns and did not write.
 
-**6 of the 11 members have their own `CLAUDE.md` house rules** —
-`seo-aeo-audit`, `super-ux`, `task-pipeline`, `telegram-dev`, `web3d-dev` and `xr-dev` — counted with
+**6 of the 11 members have their own `CLAUDE.md` house rules**:
+`seo-aeo-audit`, `super-ux`, `task-pipeline`, `telegram-dev`, `web3d-dev` and `xr-dev`, counted with
 `git -C skills/<name> ls-files CLAUDE.md`, re-run 2026-09-27. The other 5 carry a
 validator and CI but no house rules. This paragraph said *"the first six"* until
 that count was run, which named five repositories as having a file they do not
@@ -49,47 +49,47 @@ have. This repository grew its own on 2026-08-10, closing carry-over C-06.
 | What the public site says about any member | `skills.json` and `lib/routers-registry.js`, rendered by `scripts/site.js` (pages) and `scripts/og-card.js` (the social card, one per page) | the site restates nothing: versions, descriptions, install identifiers and every routing rule are read at build time, and `test/site_test.js` fails when a page's version, address or launcher command disagrees with the source |
 | Whether a member has an npm installation link | `npmPublished: false` in `skills.json` for an unpublished member | the site and llms.txt mark pending publication and retain GitHub installation; verify the registry before removing the flag |
 | What each member publishes as on npm | `npm` in `skills.json`, cross-checked against the submodule's `package.json` name | declared, never derived: six members publish as `@ssheleg/<name>` and `task-pipeline` as `task-pipeline-skill`, while the bare `task-pipeline` on npm is someone else's |
-| What a router is — text, table row, required members | `lib/routers-registry.js` | `test/router-texts.js` is a façade over it; `ROUTER_ROWS` in `lib/routers.js` is derived |
+| What a router is: text, table row, required members | `lib/routers-registry.js` | `test/router-texts.js` is a façade over it; `ROUTER_ROWS` in `lib/routers.js` is derived |
 | Whether the operator's wording has diverged from the packaged one | `lib/drift.js` | pure, like `routers.js`; a fixture asserts it never reaches the filesystem |
 | Whether a native Codex version transition is safe to attempt | `lib/codexplugins.js` | Native replacement prunes active generations on the measured host; the adapter defers before mutation. Catalog versions and thread-loaded generations are separate evidence. `lib/codex-pending.js` owns private immutable intent; `lib/codex-deferred-watch.js` reads host state and records bounded observations, never grants mutation. |
 | Which named instruction blocks can be inspected without changing files | `lib/blocks.js` | The CLI adapter exposes bounded lexical metadata and a selected local diff; malformed/partial reads are explicit. A marker is not writer authority and no backup, journal or consent is created by preview. |
-| The managed-blocks/1 convention — fence, block names and their owners, backup, journal, preview/install/uninstall, recovery | `docs/working-rules/managed-blocks.md`; the owner table as `REGISTRY` in `lib/blocks.js`; the writer `lib/blockwriter.js` | `test/blockwriter_test.js` runs every write in a synthetic HOME (bytes outside the block, preview writes nothing, interrupted writes classified); `SSHLG:REPOSITORY-HANDOFF` is retired and removal-only (B-174, decided 2026-10-20) |
+| The managed-blocks/1 convention: fence, block names and their owners, backup, journal, preview/install/uninstall, recovery | `docs/working-rules/managed-blocks.md`; the owner table as `REGISTRY` in `lib/blocks.js`; the writer `lib/blockwriter.js` | `test/blockwriter_test.js` runs every write in a synthetic HOME (bytes outside the block, preview writes nothing, interrupted writes classified); `SSHLG:REPOSITORY-HANDOFF` is retired and removal-only (B-174, decided 2026-10-20) |
 | Where the copy of an unrecoverable file goes, and what a failed copy means | `lib/backup.js` | naming, key derivation and pruning are pure; `lib/apply.js` precedes every write with exactly one `protect()`, and a `backup-failed` record means the file was not touched |
-| Which prompt asks for which route, and the words that mean a question | `lib/triggers.js` | pure; a fixture reads each member's shipped `description` and fails on any trigger the skill does not itself advertise. Since 2026-10-08 it also owns the word forms (three-letter Cyrillic inflection, `BRAND_ALIASES`, objects behind `ACTION_VERBS`), the chain (`SUBJECT_ROUTES` + `classify().effects.write` → task-pipeline), and `PENDING` — the one list of words a member is still being asked to advertise, read by the soundness fixture AND `test/advertised_check.js`, stale the moment the member ships the word. `test/hook_routing_eval_test.js` holds the audit's tasks to exact route sets |
-| Which routes the operator declared for skills OUTSIDE the family | `~/.sshlg-skills/config.json`, key `routes.external` — written by `config set routes.external.<name>.*`, validated by `routeProblems()` in `lib/triggers.js` | never in this repository: a published package naming a machine's media skill ships a fact about one laptop as doctrine, so the mechanism ships with the neutral `example-media` and a fixture refuses the operator's agent names in the files it touches. The hook DROPS an unusable entry (it must fail silent); the CLI REFUSES it, with the reason. `conflicts` reads the triggers as territory and `toolkit --for` seeds the declared skill first |
+| Which prompt asks for which route, and the words that mean a question | `lib/triggers.js` | pure; a fixture reads each member's shipped `description` and fails on any trigger the skill does not itself advertise. Since 2026-10-08 it also owns the word forms (three-letter Cyrillic inflection, `BRAND_ALIASES`, objects behind `ACTION_VERBS`), the chain (`SUBJECT_ROUTES` + `classify().effects.write` → task-pipeline), and `PENDING`, the one list of words a member is still being asked to advertise, read by the soundness fixture AND `test/advertised_check.js`, stale the moment the member ships the word. `test/hook_routing_eval_test.js` holds the audit's tasks to exact route sets |
+| Which routes the operator declared for skills OUTSIDE the family | `~/.sshlg-skills/config.json`, key `routes.external`, written by `config set routes.external.<name>.*`, validated by `routeProblems()` in `lib/triggers.js` | never in this repository: a published package naming a machine's media skill ships a fact about one laptop as doctrine, so the mechanism ships with the neutral `example-media` and a fixture refuses the operator's agent names in the files it touches. The hook DROPS an unusable entry (it must fail silent); the CLI REFUSES it, with the reason. `conflicts` reads the triggers as territory and `toolkit --for` seeds the declared skill first |
 | What the status line reads, and how each number is derived | `lib/runledger.js` | the ledger's grammar belongs to `task-pipeline` (`references/progress.md`); this only parses it, and every count is borrowed |
-| Who else speaks at `SessionStart`, and what may be claimed about them | `lib/injectors.js` | since 2026-10-08 also MCP server instructions: `readMcp()` reads declarations (`~/.claude.json` global and project scopes, enabled plugins' `.mcp.json`) and the text Claude Code RECORDED as delivered (`mcp_instructions_delta` in the newest transcript) — instructions arrive at `initialize` and live in no config file, so a server with no record is NOT READ, never clean; read-only, fixtured by hashing a HOME before and after. Pure decision plus ONE impure `readRegistry()` — the hook and `sshlg-skills injectors` had a copy of that walk each for about ten minutes, which is a second home for one fact. It reports what INJECTS, never what competes: a plugin printing its own state and one printing instructions that outrank yours are indistinguishable from here, and the output says so. The session line is silent when nothing else injects; the paths live behind the verb, which prints on a clean machine too |
-| Which mechanism carries a handoff — Git record, Observatory lease and checkpoint, Fabric launch context, the inbound queue — and the order a successor reads them | `docs/working-rules/handoff-layers.md` | task-pipeline `references/continuity.md` Part 3 cites it (since 1.93.0; pinned 1.96.0) and does not restate it; B-160 closed |
+| Who else speaks at `SessionStart`, and what may be claimed about them | `lib/injectors.js` | since 2026-10-08 also MCP server instructions: `readMcp()` reads declarations (`~/.claude.json` global and project scopes, enabled plugins' `.mcp.json`) and the text Claude Code RECORDED as delivered (`mcp_instructions_delta` in the newest transcript): instructions arrive at `initialize` and live in no config file, so a server with no record is NOT READ, never clean; read-only, fixtured by hashing a HOME before and after. Pure decision plus ONE impure `readRegistry()`. The hook and `sshlg-skills injectors` had a copy of that walk each for about ten minutes, which is a second home for one fact. It reports what INJECTS, never what competes: a plugin printing its own state and one printing instructions that outrank yours are indistinguishable from here, and the output says so. The session line is silent when nothing else injects; the paths live behind the verb, which prints on a clean machine too |
+| Which mechanism carries a handoff (Git record, Observatory lease and checkpoint, Fabric launch context, the inbound queue), and the order a successor reads them | `docs/working-rules/handoff-layers.md` | task-pipeline `references/continuity.md` Part 3 cites it (since 1.93.0; pinned 1.96.0) and does not restate it; B-160 closed |
 | What `~/.sshlg-skills/state.json` holds, who writes and reads it, and the `update.lock` that serialises `update` | `docs/working-rules/state-json.md` (keys, writers, readers incl. the external Fabric Dashboards consumer, the lock) + `STATE_SCHEMA` in `lib/store.js` and `lib/updatelock.js` | the interface is versioned (`schemaVersion`); `test/updatelock_test.js` stamps and reads it through every writer and runs the real `update` against a held, stale and dead lock |
-| Whether the family has spent the description reserve the house rule sets aside | `check_the_description_reserve_is_not_spent` in `test/validate.py` | the 970 cap is enforced per skill in each member's own CI, one skill at a time, so nothing had ever seen its SHAPE across the family — and the shape is the finding: **12 of 28** within 60 characters and one at exactly 970. A ratchet rather than a failure, because the descriptions are each member's to trim on each member's own release, and an umbrella that turned twelve skills red would be failing for work it does not own |
-| Whether a member's packing configuration could publish bytecode | `check_no_member_can_publish_bytecode` in `test/validate.py` | it reads the CONFIG, not the tree — the audit that found this read `npm pack --dry-run` on one laptop, reported three `.pyc` as shipping, and the published tarballs carry zero, because `npm publish` runs from a fresh CI checkout. Instruction #10 committed while auditing. Three shapes are correct and all three already exist in the family, so the rule is a predicate rather than a required line; the subject list is derived from which members carry Python in a packed directory, never typed |
-| Whether a router not invoked was OBEYED FROM THE TREE or skipped | `lib/materialised.js` + `.claude/routers.json` in the project | the two look identical from a retrospective — a router that owned the ground and was not invoked — and one of them is the success case. The module **resolves** the claim rather than reading it: every path opened, every `#marker` found, so a file that survived a refactor which removed the doctrine reports FALSE. **It does not run the project's guards** — executing code out of somebody's repository is a different act with a different risk, and the report says so rather than implying coverage. Pure, handed a reader; the command refuses a path that escapes the project root |
+| Whether the family has spent the description reserve the house rule sets aside | `check_the_description_reserve_is_not_spent` in `test/validate.py` | the 970 cap is enforced per skill in each member's own CI, one skill at a time, so nothing had ever seen its SHAPE across the family, and the shape is the finding: **12 of 28** within 60 characters and one at exactly 970. A ratchet rather than a failure, because the descriptions are each member's to trim on each member's own release, and an umbrella that turned twelve skills red would be failing for work it does not own |
+| Whether a member's packing configuration could publish bytecode | `check_no_member_can_publish_bytecode` in `test/validate.py` | it reads the CONFIG, not the tree: the audit that found this read `npm pack --dry-run` on one laptop, reported three `.pyc` as shipping, and the published tarballs carry zero, because `npm publish` runs from a fresh CI checkout. Instruction #10 committed while auditing. Three shapes are correct and all three already exist in the family, so the rule is a predicate rather than a required line; the subject list is derived from which members carry Python in a packed directory, never typed |
+| Whether a router not invoked was OBEYED FROM THE TREE or skipped | `lib/materialised.js` + `.claude/routers.json` in the project | the two look identical from a retrospective (a router that owned the ground and was not invoked), and one of them is the success case. The module **resolves** the claim rather than reading it: every path opened, every `#marker` found, so a file that survived a refactor which removed the doctrine reports FALSE. **It does not run the project's guards**: executing code out of somebody's repository is a different act with a different risk, and the report says so rather than implying coverage. Pure, handed a reader; the command refuses a path that escapes the project root |
 | Which family routes apply to ONE repository, its surface class and the setup it still owes | `lib/enroll.js` (detection, the class-to-router map, the `SSHLG:PROJECT` block and the routers.json merge), routers from `lib/routers-registry.js` only; the command `npx sshlg-skills enroll` in `bin/sshlg-skills.js`; the contract `docs/evidence/specs/2026-10-19-enroll.md` | pure, handed a reader (`paths`, `read`, `kind`); `test/enroll_test.js` traps the filesystem while it plans. Writes three things only, all after `apply.protect()`: the block, routers.json entries only for material that exists (so `materialised` resolves them), and `.claude/sshlg-enroll.json`, the record of the entries it wrote, which is all `enroll --prune` may remove (B-229). Three real runs on a Git repository leave one hash (retro #2) |
-| What a task can reach that is NOT installed here, and the exact command that would install it | `lib/packs.js` | the only member of the `injectors`/`conflicts`/`toolkit` family that can answer about ABSENCE — `toolkit` enumerates what is installed and by construction cannot name a skill that is not, which is the whole question when somebody hands you a listicle. Same split, same reason: the doctrine ships in the block, the roster is read when asked. Pure, plus the imported `readSkills()`. It **reports and never installs** — the refusal `lib/updatemodel.js` records, because `settings.json` and `known_marketplaces.json` belong to the operator. Popularity is deliberately not a field: every star count in the two articles the first pack was built from was wrong, so `--check` resolves the ADDRESSES at read time instead. Since 2026-10-07 `verify` (does it work in a browser) and `visual-qa` (what it looks like across states × viewport, theme, text size, locale) are separate lanes, `references` and `critique` are lanes sheleg-design owns, the `a11y` default is `a11y-debugging`, and an entry whose skill id another plugin also ships names that plugin in `excludeProviders` so presence is not answered by the wrong skill |
-| Which packs a host's skill listing hides, and on which host | the machine file `~/.sshlg-skills/pack-marks.json` (schema `pack-marks/1`; the operator's marks, written by `visibility marks --init`) — per-machine overrides in `~/.sshlg-skills/config.json` `visibility.showPacks`/`hidePacks`; the precedence in `packHidden` (`lib/visibility.js`); each host's switch in `lib/hostvis.js` | the public package ships no marks, only `pack-marks.example.json` (`test/validate.py` `check_pack_marks` checks its shape and refuses a root `pack-marks.json`). `npx sshlg-skills visibility` reads the machine file as the host-wide fallback; Fabric's RM-23 (open) is to read the same file for the sessions it starts — nothing in Fabric reads it yet. The dated triage (`docs/audit/2026-09-06-pack-triage.md`) points here and restates no mark |
-| What this machine can actually REACH, before a task picks its tools | `lib/toolkit.js` | the same split as `conflicts.js` and for the same reason — the doctrine that a task looks before it reaches ships in the block, the roster is a fact about one machine and is read when asked. The walk is **not** reimplemented: it imports `conflicts.readSkills()`, because two walks answer "what is installed" identically until somebody fixes one of them. Its `--for` ranking is term overlap and the output says so — a shortlist that reads like a decision is worse than no shortlist. Since 2026-10-08 the shortlist is SEEDED from `triggers.match()` (`seedsFor`), so a task the hook routes never prints NOTHING, and a word a family trigger carries (`advertisedWords`) is never dropped as non-discriminating |
-| How the next version reaches a machine, and whether anyone turned auto-update on | `lib/updatemodel.js` | pure notice plus ONE impure read of `known_marketplaces.json` — the same split as `injectors.js` and `conflicts.js`. It **reports and never writes**: that file belongs to the operator and to Claude Code, and a launcher that flipped somebody's setting to match its own opinion is the class of act that destroyed `~/.claude/CLAUDE.md` twice. `autoUpdate` is deliberately off for this family — the nine are pinned and released as a set, so a per-marketplace clock produces a combination nobody tested |
-| The header and footer a report carries, and every address in them | `lib/signature.js` | pure; the caller writes only what each skill DID. Every URL is looked up from `skills.json`, because `evidence-docs` and `project-audit` live in `task-pipeline` and `sheleg-design` in `sheleg-design-skill` — an agent told to "link the skills you used" composes `github.com/ssheleg/evidence-docs` and it 404s. A plant that composes from the member name instead of reading `repo` is refused. An unrecognised id is named with whatever note the operator gave it, never dropped: a footer missing half of what ran reads as "that skill was never used" |
-| Which anti-AI-writing implementations exist, what each can do, and the caveat that travels with all of them | `lib/humanizers.js` | data, so a third joins by pull request — the two listed are the two that were asked about, not the field. `pick` reads declared MODES rather than names, because a skill hard-coding one ships a preference disguised as a dependency. The false-positive figure is printed on every run and cannot be switched off: audits found **>60% on non-native English writers** (Liang et al., Stanford, *Patterns*, 2023), so a humanizer advises here and no gate in this family fails because a detector disliked a sentence |
-| Which installed skills land on ground a router owns | `lib/conflicts.js` | the same split as `injectors.js` and for the same reason: the map's arbitration rule ships to every operator, but WHICH packs collide is a fact about one machine, so the rule is in the block and the roster is behind `sshlg-skills conflicts`. Pure decision plus ONE impure `readSkills()`. It reports CANDIDATES, never offenders, and its lexicon is hand-kept and says so in its own output — a generated one would be a guess with a machine's authority. Terms match on word boundaries after the first run reported `lease` inside *please*. A term added to the lexicon carries its measurement in the comment beside it — skills scanned, landings before and after, and which new ones are off-subject — because a term that starts matching everything is deleted, and that can only be seen against a count |
-| Which hooks the family wires, and what a conflict means | `lib/hooks.js` | pure planner; `bin/sshlg-skills.js` writes through `protect()`, and a foreign `statusLine` is parked under `displaced:statusLine` so `remove` is an undo. `WIRED` is the ONE list of events — it lived in `plan()` and again in `removal()` until 2026-08-12, which is two lists that agree until someone adds an event to one of them and `remove` quietly stops being an undo |
+| What a task can reach that is NOT installed here, and the exact command that would install it | `lib/packs.js` | the only member of the `injectors`/`conflicts`/`toolkit` family that can answer about ABSENCE. `toolkit` enumerates what is installed and by construction cannot name a skill that is not, which is the whole question when somebody hands you a listicle. Same split, same reason: the doctrine ships in the block, the roster is read when asked. Pure, plus the imported `readSkills()`. It **reports and never installs**, the refusal `lib/updatemodel.js` records, because `settings.json` and `known_marketplaces.json` belong to the operator. Popularity is deliberately not a field: every star count in the two articles the first pack was built from was wrong, so `--check` resolves the ADDRESSES at read time instead. Since 2026-10-07 `verify` (does it work in a browser) and `visual-qa` (what it looks like across states × viewport, theme, text size, locale) are separate lanes, `references` and `critique` are lanes sheleg-design owns, the `a11y` default is `a11y-debugging`, and an entry whose skill id another plugin also ships names that plugin in `excludeProviders` so presence is not answered by the wrong skill |
+| Which packs a host's skill listing hides, and on which host | the machine file `~/.sshlg-skills/pack-marks.json` (schema `pack-marks/1`; the operator's marks, written by `visibility marks --init`); per-machine overrides in `~/.sshlg-skills/config.json` `visibility.showPacks`/`hidePacks`; the precedence in `packHidden` (`lib/visibility.js`); each host's switch in `lib/hostvis.js` | the public package ships no marks, only `pack-marks.example.json` (`test/validate.py` `check_pack_marks` checks its shape and refuses a root `pack-marks.json`). `npx sshlg-skills visibility` reads the machine file as the host-wide fallback; Fabric's RM-23 (open) is to read the same file for the sessions it starts; nothing in Fabric reads it yet. The dated triage (`docs/audit/2026-09-06-pack-triage.md`) points here and restates no mark |
+| What this machine can actually REACH, before a task picks its tools | `lib/toolkit.js` | the same split as `conflicts.js` and for the same reason: the doctrine that a task looks before it reaches ships in the block, the roster is a fact about one machine and is read when asked. The walk is **not** reimplemented: it imports `conflicts.readSkills()`, because two walks answer "what is installed" identically until somebody fixes one of them. Its `--for` ranking is term overlap and the output says so: a shortlist that reads like a decision is worse than no shortlist. Since 2026-10-08 the shortlist is SEEDED from `triggers.match()` (`seedsFor`), so a task the hook routes never prints NOTHING, and a word a family trigger carries (`advertisedWords`) is never dropped as non-discriminating |
+| How the next version reaches a machine, and whether anyone turned auto-update on | `lib/updatemodel.js` | pure notice plus ONE impure read of `known_marketplaces.json`, the same split as `injectors.js` and `conflicts.js`. It **reports and never writes**: that file belongs to the operator and to Claude Code, and a launcher that flipped somebody's setting to match its own opinion is the class of act that destroyed `~/.claude/CLAUDE.md` twice. `autoUpdate` is deliberately off for this family: the nine are pinned and released as a set, so a per-marketplace clock produces a combination nobody tested |
+| The header and footer a report carries, and every address in them | `lib/signature.js` | pure; the caller writes only what each skill DID. Every URL is looked up from `skills.json`, because `evidence-docs` and `project-audit` live in `task-pipeline` and `sheleg-design` in `sheleg-design-skill`, so an agent told to "link the skills you used" composes `github.com/ssheleg/evidence-docs` and it 404s. A plant that composes from the member name instead of reading `repo` is refused. An unrecognised id is named with whatever note the operator gave it, never dropped: a footer missing half of what ran reads as "that skill was never used" |
+| Which anti-AI-writing implementations exist, what each can do, and the caveat that travels with all of them | `lib/humanizers.js` | data, so a third joins by pull request; the two listed are the two that were asked about, not the field. `pick` reads declared MODES rather than names, because a skill hard-coding one ships a preference disguised as a dependency. The false-positive figure is printed on every run and cannot be switched off: audits found **>60% on non-native English writers** (Liang et al., Stanford, *Patterns*, 2023), so a humanizer advises here and no gate in this family fails because a detector disliked a sentence |
+| Which installed skills land on ground a router owns | `lib/conflicts.js` | the same split as `injectors.js` and for the same reason: the map's arbitration rule ships to every operator, but WHICH packs collide is a fact about one machine, so the rule is in the block and the roster is behind `sshlg-skills conflicts`. Pure decision plus ONE impure `readSkills()`. It reports CANDIDATES, never offenders, and its lexicon is hand-kept and says so in its own output: a generated one would be a guess with a machine's authority. Terms match on word boundaries after the first run reported `lease` inside *please*. A term added to the lexicon carries its measurement in the comment beside it (skills scanned, landings before and after, and which new ones are off-subject), because a term that starts matching everything is deleted, and that can only be seen against a count |
+| Which hooks the family wires, and what a conflict means | `lib/hooks.js` | pure planner; `bin/sshlg-skills.js` writes through `protect()`, and a foreign `statusLine` is parked under `displaced:statusLine` so `remove` is an undo. `WIRED` is the ONE list of events. It lived in `plan()` and again in `removal()` until 2026-08-12, which is two lists that agree until someone adds an event to one of them and `remove` quietly stops being an undo |
 | Which tool call is about to overwrite an unrecoverable file | `lib/guard.js` | pure; the hook takes the copy. The matching is here rather than in the entry's `if` field because the reference states that filter is best-effort and **fails open** on a command it cannot parse |
 | Whether a git command would throw away uncommitted work | `lib/gitdiscard.js` | pure: the command's targets and the `git status` the hook probed decide; the hook probes only the named paths, lock-free and within 1.5 s, and fails open on any probe error (B-240) |
 | What a host's hook payload means, and how its answer is spelled | `lib/hookpayload.js` | pure normaliser for Cursor and Codex payloads (Cursor's `Shell`, `path`, `MCP:<tool>`; Codex's `apply_patch` paths), and each host's answer shape (B-209) |
 | How bytes land in an operator file | `lib/atomicwrite.js` | the ONE writer: temp file beside the target, flush, rename, mode kept, a symlink written through; `test/apply_test.js` fails on a raw write or rename outside it (B-260) |
 | Which other hosts read a global instruction file, and what the hub does for each | `lib/instruction-targets.js` | one table with each host's file, cap, presence rule and decision (written, compact, or reported with the reason); the guard's protected list is derived from it (B-206, B-281) |
-| The three machine habits nothing enforced — the bare skills CLI, shadowing copies, the truncated wiki config | `lib/hygiene.js` | pure; family ids come from `skills.json` so a member that gains a skill does not gain an unguarded one |
-| Which plain copies shadow a plugin | `lib/shadow.js` | pure; compares **skill ids each enabled plugin provides**, never marketplace names — `sheleg-design` ships from `sheleg-design-skill`, and the cheap check reports that machine clean |
+| The three machine habits nothing enforced: the bare skills CLI, shadowing copies, the truncated wiki config | `lib/hygiene.js` | pure; family ids come from `skills.json` so a member that gains a skill does not gain an unguarded one |
+| Which plain copies shadow a plugin | `lib/shadow.js` | pure; compares **skill ids each enabled plugin provides**, never marketplace names: `sheleg-design` ships from `sheleg-design-skill`, and the cheap check reports that machine clean |
 | The terminal sequence a notification becomes | `lib/notify.js` | pure; refuses anything outside the documented OSC allowlist rather than emitting a field Claude Code silently drops |
 | Whether someone overwrote the entries we wired | `lib/displace.js` | pure; the expectation is read from `lib/hooks.js`. `ConfigChange` records and `SessionStart` reports, because that event discards `systemMessage`, delivers no `additionalContext`, and a change it blocks surfaces no message to anyone |
-| Whether the un-routed path should stop and ask | `lib/routegate.js` | pure; `ask` never `deny`, once per turn, and silent only for routes a valid receipt covers — route-scoped, so a pipeline run answers the pipeline route and no other. Also silent for every route once the session's turn record carries a refusal (`optedOut`, sticky; `lib/routegate.js:130`). Every bypass/degraded surface is enumerated in `SURFACES`. A hook cannot make a model invoke a skill — it can refuse the un-routed path and name the route, and the wording says only that |
+| Whether the un-routed path should stop and ask | `lib/routegate.js` | pure; `ask` never `deny`, once per turn, and silent only for routes a valid receipt covers (route-scoped, so a pipeline run answers the pipeline route and no other). Also silent for every route once the session's turn record carries a refusal (`optedOut`, sticky; `lib/routegate.js:130`). Every bypass/degraded surface is enumerated in `SURFACES`. A hook cannot make a model invoke a skill; it can refuse the un-routed path and name the route, and the wording says only that |
 | What one turn decided, for the next hook of the same turn | `lib/turnstate.js` | `~/.sshlg-skills/turns/<session>.json`, pruned at session start. Deliberately not `config.json`: that file's value is that it persists, and this state is worthless tomorrow |
-| Which stages this project has | `pipeline.json` → `stages[]` | the ONLY source for the progress denominator. The example flow's eleven are not a fallback — a host project replaces them, and guessing reproduces the defect with an authoritative-looking number |
+| Which stages this project has | `pipeline.json` → `stages[]` | the ONLY source for the progress denominator. The example flow's eleven are not a fallback: a host project replaces them, and guessing reproduces the defect with an authoritative-looking number |
 | Whether this repository's own gate lets a commit through | `lib/repogate.js` | pure; `npm test` is run by `hooks/repo-gate.js`, wired from a **committed** `.claude/settings.json` so a clone arrives with the gate |
-| The family's map — each member's entry point and what it closes | `lib/inventory.js` + `entry`/`role` in `skills.json` | rendered into the block; a fixture checks every declared entry is a command the family actually ships |
+| The family's map: each member's entry point and what it closes | `lib/inventory.js` + `entry`/`role` in `skills.json` | rendered into the block; a fixture checks every declared entry is a command the family actually ships |
 | Cursor's rule file, which is ours end to end | `lib/cursor.js` | a file at that name without our sentinel is someone else's and is not overwritten |
 | What the launcher hands the skills CLI, and which plain copies are shadows | `lib/plan.js` | `install` and `update` both build from it; a fixture asserts their `add` commands are identical, because the drift between them was invisible in review |
-| The wording adoption replaced | `~/.sshlg-skills/config.json`, key `adopted:<name>` | deliberately not the router's own stash key — the on/off switch must not hand back what adoption replaced |
+| The wording adoption replaced | `~/.sshlg-skills/config.json`, key `adopted:<name>` | deliberately not the router's own stash key: the on/off switch must not hand back what adoption replaced |
 | The block's format and every rule protecting the operator's file | `lib/routers.js` | it touches no filesystem, so the rules are provable without a HOME |
 | Which routers this machine wants | `~/.sshlg-skills/config.json` | not in the repo; deviations only, mode 0600 |
 | Recorded consent | `~/.sshlg-skills/state.json` | not in the repo; a file that cannot be parsed is not consent |
@@ -97,7 +97,7 @@ have. This repository grew its own on 2026-08-10, closing carry-over C-06.
 | What a run decided | `docs/evidence/briefs/…` + `specs/…` | the brief is the record; the spec locks contracts |
 | What a run deferred | `docs/evidence/briefs/…-carryover.md` | read in full at stage 10 |
 | What a run learned | `docs/evidence/retro.md` | standing instructions, capped at ten, read in full at stage 0 |
-| How the family decides the **shape** of multi-step work — node and edge, the fake-edge test, the diamond, the checker node, static versus dynamic, and what the host actually executes when it fans out | `agent-stack` → `plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md` | this repository keeps a **pointer and never a copy** (2026-08-15, D-1). `task-pipeline` applies it at stages 4 and 5 and cites it; `agent-harness` and `agent-evals` each state their own half and point back. Its own source — an article and a vendor changelog — is pinned inside it with a read date, so a reader can tell a description of last month's behaviour from this month's |
+| How the family decides the **shape** of multi-step work: node and edge, the fake-edge test, the diamond, the checker node, static versus dynamic, and what the host actually executes when it fans out | `agent-stack` → `plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md` | this repository keeps a **pointer and never a copy** (2026-08-15, D-1). `task-pipeline` applies it at stages 4 and 5 and cites it; `agent-harness` and `agent-evals` each state their own half and point back. Its own source (an article and a vendor changelog) is pinned inside it with a read date, so a reader can tell a description of last month's behaviour from this month's |
 
 ## The propagation matrix
 
@@ -108,18 +108,18 @@ What a change of each type obliges, in the same change:
 | A router added, removed or reworded | `lib/routers-registry.js` (only) → README routing table → `test/router_texts_test.js` → CHANGELOG. **The site needs nothing**: `scripts/site.js` renders the registry, and `test/site_test.js` fails if a rule or its refusal phrase is missing from the page |
 | A new entry in a recommendation pack | `lib/packs.js` → `assertPack()` accepts it (a dead or shadowing install command is refused there, not in review) → `pack <name> --check` resolves its address, and **CI runs that check on every push as a warning** because an address rots without anyone touching the entry → CHANGELOG. The entry stays in the pack once installed: half the answer is *you already have this* |
 | A new CLI command or flag | `bin/sshlg-skills.js` usage block → README → a fixture asserting its exact output and exit code → CHANGELOG |
-| A new trigger word for the prompt hook | `lib/triggers.js` **only** — and it must already appear in the target skill's own `description`, or `test/triggers_test.js` fails. Inventing one here creates a second routing policy nothing else reads. The one exception is a `PENDING` entry naming the member change that will advertise the word; it is deleted in the change that re-pins that member, or the fixture fails it as stale |
+| A new trigger word for the prompt hook | `lib/triggers.js` **only**, and it must already appear in the target skill's own `description`, or `test/triggers_test.js` fails. Inventing one here creates a second routing policy nothing else reads. The one exception is a `PENDING` entry naming the member change that will advertise the word; it is deleted in the change that re-pins that member, or the fixture fails it as stale |
 | A new hook or status line | `lib/hooks.js` → `WIRED` (the plan, one list) → `hooks/<name>.js` (thin I/O) → a fixture for the planner **and** a process-level fixture in `test/hooks_e2e_test.js` → CHANGELOG. Writing to `settings.json` goes through `protect()`; there is no second write path |
-| A hook that can refuse something | the deciding goes in a pure `lib/*.js` with its own fixture; the hook script only moves bytes and touches the filesystem where a backup happens. Every refusal names its remedy in the same sentence, and every script fails **silent** on a malformed payload — a guard that throws breaks every turn in every session, including sessions of packs that never asked for this one |
+| A hook that can refuse something | the deciding goes in a pure `lib/*.js` with its own fixture; the hook script only moves bytes and touches the filesystem where a backup happens. Every refusal names its remedy in the same sentence, and every script fails **silent** on a malformed payload: a guard that throws breaks every turn in every session, including sessions of packs that never asked for this one |
 | A member's pinned version | `skills.json` → the submodule pointer → README family table (all three checked by the validator) |
-| A member changing its npm package name | `npm` in `skills.json` — the validator compares it with the submodule's `package.json` name in both directions, with a two-plant negative self-test in CI |
-| A file renamed, moved or deleted that a live document cites | the citation, in the **same** change — `check_every_address_these_documents_claim_resolves` refuses the commit otherwise. Two references rotted this way before it existed: a script name that was never in this tree and an `npm run` belonging to a member (UM-03, M-07) |
-| A new test suite | nothing — `npm test` discovers `test/*_test.js`. That is deliberate: a list would need updating in two places |
-| A member gaining or losing a skill | `skills.json` `skillNames` **and** that member's `desc` **and** its README row — the validator catches the first (both directions), the other two are prose nothing can check. `agent-stack` shipped `agent-evals` and advertised orchestrators only, so `list` and the table hid a whole capability |
-| A member gaining or losing a **reference** (not a skill) | nothing here moves until the pin does — but the member's own README states a **count** of its references, and a count is recounted, never incremented. `agent-stack`'s said *eighteen* while nineteen shipped, found by counting at release rather than by a check. The same applies to any number a README states about a member: detector counts, stage counts, guard counts |
+| A member changing its npm package name | `npm` in `skills.json`; the validator compares it with the submodule's `package.json` name in both directions, with a two-plant negative self-test in CI |
+| A file renamed, moved or deleted that a live document cites | the citation, in the **same** change: `check_every_address_these_documents_claim_resolves` refuses the commit otherwise. Two references rotted this way before it existed: a script name that was never in this tree and an `npm run` belonging to a member (UM-03, M-07) |
+| A new test suite | nothing: `npm test` discovers `test/*_test.js`. That is deliberate: a list would need updating in two places |
+| A member gaining or losing a skill | `skills.json` `skillNames` **and** that member's `desc` **and** its README row. The validator catches the first (both directions), the other two are prose nothing can check. `agent-stack` shipped `agent-evals` and advertised orchestrators only, so `list` and the table hid a whole capability |
+| A member gaining or losing a **reference** (not a skill) | nothing here moves until the pin does, but the member's own README states a **count** of its references, and a count is recounted, never incremented. `agent-stack`'s said *eighteen* while nineteen shipped, found by counting at release rather than by a check. The same applies to any number a README states about a member: detector counts, stage counts, guard counts |
 | A new validator guard | a negative self-test in `.github/workflows/validate.yml` that plants the defect and requires a failure |
-| The artifact root's name | `docs/evidence/` here and in six members since 2026-08-13 (v0.46.0), following `task-pipeline` v1.53.0 which made the root RESOLVABLE. The records inside moved with `git mv` and were not rewritten — 155 occurrences of the old name survive inside past-run records on purpose, because a brief describes where things were when it was written. A project still on `docs/superpowers/` is not behind and is never warned |
-| A new session-start claim about another pack | `lib/injectors.js`, and the honest limit stated in its own OUTPUT rather than only in its source — the check cannot tell doctrine from state, and a reader of the report must be told that by the report |
+| The artifact root's name | `docs/evidence/` here and in six members since 2026-08-13 (v0.46.0), following `task-pipeline` v1.53.0 which made the root RESOLVABLE. The records inside moved with `git mv` and were not rewritten: 155 occurrences of the old name survive inside past-run records on purpose, because a brief describes where things were when it was written. A project still on `docs/superpowers/` is not behind and is never warned |
+| A new session-start claim about another pack | `lib/injectors.js`, and the honest limit stated in its own OUTPUT rather than only in its source: the check cannot tell doctrine from state, and a reader of the report must be told that by the report |
 | The repository layout | README → *How it works* file map → this file |
 
 ## The gate
@@ -129,7 +129,7 @@ npm test
 ```
 
 Runs `test/validate.py`, then every discovered `test/*_test.js`. It is the
-same command CI runs, and `validate.py` fails if CI stops calling it — so the
+same command CI runs, and `validate.py` fails if CI stops calling it, so the
 local entry point and the remote one cannot drift.
 
 Two more commands belong to a RELEASE rather than to a commit, and neither is a
@@ -141,7 +141,7 @@ graphify update .              # B-101: the graph stage 0 queries for reach
 ```
 
 `convergence` prints `dormant` for a range where no component pointer moved and exits
-non-zero for one that moved without a record — run it against the base the release is
+non-zero for one that moved without a record. Run it against the base the release is
 cut from, not against `HEAD`. The graph refresh is a release step and **not** a gate,
 because a gate on graph freshness fails every commit until somebody rebuilds it, while a
 stale graph misleads a run quietly; the validator discloses the drift on every run and
@@ -172,19 +172,19 @@ offline with no dependencies. **`check_pins` answers three questions and CI trea
 them differently**: exit 1 means a pin names a version nobody published, which
 makes the commit wrong on its own terms and blocks; exit 2 means every pin is
 real but one is not the newest, which means a member released while this was in
-flight — a warning and a run-summary note, never a failure. Conflating them made
+flight: a warning and a run-summary note, never a failure. Conflating them made
 five runs red in one day for other agents' releases.
 
 **Exit 3 is about this repository rather than its members**, and it exists because
 `release.yml`'s own *"The registry must actually serve it"* step runs inside
-`publish`, which is `needs: release`, which is `needs: validate` — so the case it
+`publish`, which is `needs: release`, which is `needs: validate`, so the case it
 was written for, a run that never reaches `publish`, is the one case it cannot
 report. v0.82.0 sat tagged and unshipped for a day that way. Exit 3 is deliberately
 **not** blocking: a release in flight is indistinguishable from a release that
 failed, and the output says so rather than guessing. `classify` and `repo_slug` are
 pure and their thirteen cases run with no network, including an assertion that the
 verdicts differ from one another. `audit_bundle.py` **refuses to run without one** rather than falling
-back to a chars-per-token ratio — the two disagree by ~40%, and a number from
+back to a chars-per-token ratio: the two disagree by ~40%, and a number from
 the wrong instrument gets quoted as if it were a measurement.
 
 It answers what no other gate does: the ALWAYS-ON budget (every description
@@ -192,10 +192,10 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=156 fixtures=3120 members=11 -->
-**Ratchets.** 156 suites, 3120 fixtures, 11 pinned members; these three numbers are
+<!-- ratchets: suites=157 fixtures=3125 members=11 -->
+**Ratchets.** 157 suites, 3125 fixtures, 11 pinned members; these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
-run it just did and fails when a stated figure and the measured one disagree — and this
+run it just did and fails when a stated figure and the measured one disagree, and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
 and nothing compared the two, so it drifted: on 2026-09-02 it read *780 fixtures* beside
 a marker saying 799, inside its own promise that the figures were derived. Counting
@@ -208,7 +208,7 @@ The line before this one said *32 suites, 562 fixtures* beside its own sentence
 promising the numbers were counted rather than carried. The recount on 2026-08-20 was
 **35 and 602**, and the conformance row that corrected it (34/585) was **17 fixtures
 stale by the time it was written**. Three restatements of one pair of numbers, each
-wrong, each in a document about single homes — which is why the pair is no longer
+wrong, each in a document about single homes, which is why the pair is no longer
 written by hand. The history of the climb is kept because the shape of it is the
 argument: 8/182 when `drift_test.js` landed, 10/228 with `plan_test.js`, 12/247 with the
 map and Cursor, 13/267 when the write path gained a backup, 13/269 with precedence over
@@ -218,26 +218,26 @@ denominator, 32/557 when `apply_test.js` gave the write path fixtures of its own
 when the graph disclosure learned to read the report beside the graph, and 36/615 when
 the repository gate stopped deciding ownership from an index the command could change, the
 route gate stopped reading a closed run as an open one, and the suites stopped leaving
-temp trees on the machine without saying so, 36/620 for the eleventh router — five
+temp trees on the machine without saying so, 36/620 for the eleventh router (five
 fixtures and no new suite, because `project-audit`'s own 43 cases are a gate in
-`task-pipeline`, where the code it exercises ships — 37/648 when the family got a
+`task-pipeline`, where the code it exercises ships), 37/648 when the family got a
 public site and the site got a suite, 38/661 when the site stopped promising a
 social card it did not carry and started encoding one, 38/662 when an
-`extraLink` stopped writing a count by hand — a suite that reads the manifest, plus one
+`extraLink` stopped writing a count by hand (a suite that reads the manifest, plus one
 fixture in `site_test.js` that reads the built page against the tree, because the label
-said 34 while the directory held 35 and only the second reading catches that, and
-38/667 for the ninth member — five fixtures across the router, trigger and site
+said 34 while the directory held 35 and only the second reading catches that), and
+38/667 for the ninth member (five fixtures across the router, trigger and site
 suites, and no new suite, because `telegram-dev`'s own 12 checks and 8 plants are
-a gate in `telegram-dev`, where the code they exercise ships, 38/671 with the brand
+a gate in `telegram-dev`, where the code they exercise ships), 38/671 with the brand
 pack and the social preview (937566a, which moved this marker and left the front
-page's own copy of the pair at 667 — the drift below), and 38/678 when the front
+page's own copy of the pair at 667, the drift below), and 38/678 when the front
 page's routing table stopped leaving two rows unclickable and the pack pages'
 entry points stopped being pills that do nothing.
 
 **Five fixtures for one unclickable cell, and the reason is the class.** The reported
 defect was two rows: `seo-llmo` and `evidence-docs` ship in no pack, so the Router
 column had no member page to point them at and rendered them as bare names beside ten
-links. No guard could have caught it — every check on this site asks whether an address
+links. No guard could have caught it: every check on this site asks whether an address
 RESOLVES, and this was an address never written. What the reading turned up beside it:
 `color:var(--dim)` on two pages against a token layer defining `--muted`, so the cell
 meant to be played down rendered at full ink brightness; and the evidence panel's
@@ -246,16 +246,16 @@ meant to be played down rendered at full ink brightness; and the evidence panel'
 and the guards were each watched refusing their own planted defect.
 
 **The second half was a choice, not a finding.** *"What it ships"* rendered its 28 entry
-points as pills — bordered, monospace, the shape the web uses for a tag you click — that
+points as pills (bordered, monospace, the shape the web uses for a tag you click) that
 did nothing, and a pill is a weaker promise than a cell in a column of links, so it was
 put to the operator rather than decided here. Each now links to its own `SKILL.md`
 directory, at a path READ from the tree: a name with nothing behind it fails the build
-instead of shipping as a link that 404s. One plant written for it did **not** refuse —
-composing `plugins/<member>/skills/<name>` produces the same nine URLs today — and that
+instead of shipping as a link that 404s. One plant written for it did **not** refuse
+(composing `plugins/<member>/skills/<name>` produces the same nine URLs today), and that
 is recorded rather than quietly dropped; the plant that does refuse composes the
 repository name, where `sheleg-design`/`sheleg-design-skill` is a real divergence.
 
-That jump is not eight new suites. **24/469 was wrong when it was written** — the
+That jump is not eight new suites. **24/469 was wrong when it was written**: the
 2026-08-16 audit recounted the same command at 26 node suites and 542 fixtures,
 against a line whose own next sentence says the numbers are counted rather than
 carried. A ratchet 73 fixtures below the truth cannot detect the loss of two
@@ -265,7 +265,7 @@ would otherwise be counted as fixtures.
 
 <!-- routing-registry-total: 11750 -->
 **Routing text total (2026-10-15; 11902 → 11750 on 2026-10-20, the Fabric router lost its Linux and Windows paths).** The characters of every string field in `lib/routers-registry.js`
-(each router's text, answers and when; `requires` is a list and not counted) — about 60% of the
+(each router's text, answers and when; `requires` is a list and not counted), about 60% of the
 routing block the hub writes into every host's instruction file (headings, tables and markers in
 `lib/routers.js` are the rest), which `npx sshlg-skills context` measured at 18–22 KB per host.
 `test/context_test.js` computes the sum on every run and compares it with the marker above: it
@@ -274,7 +274,7 @@ accident. A cut still needs the paired routing evaluation before it ships.
 
 <!-- description-total: 11470 -->
 **Family description total (R32, 2026-10-12).** The characters of every family skill
-description — whitespace collapsed, the figure the 970 cap is quoted in — summed over the
+description (whitespace collapsed, the figure the 970 cap is quoted in), summed over the
 pinned submodules. Measured at the pins of this revision: **11470 characters over 39
 skills** (16102 before the 1.79.0 re-pins, B-255's 300-character budget; 32495 before the cap moved to 500; 32498 before the 1.67.0 re-pins, 32501 before the 1.63.0 re-pins, 32635 before the 1.57.0 re-pins), by `check_the_family_description_total_only_falls` in `test/validate.py`, which
 computes the sum on every run and compares it with the marker above. **It may fall and
@@ -286,14 +286,14 @@ much text there is, and a member can improve the first while worsening the secon
 the failing plant (+1 character in one description) and the accepted trim (−1) are run
 against a copy of the tree by `test/family_plants_test.py`.
 
-## Release tags are annotated — decided 2026-08-17 (B-69)
+## Release tags are annotated (decided 2026-08-17, B-69)
 
 `git tag -a`, never a bare `git tag`. **`git describe` without `--tags` sees annotated
-tags only, and that is what `git submodule status` prints** — the one line a maintainer
+tags only, and that is what `git submodule status` prints**: the one line a maintainer
 glances at to decide whether a member is current. Measured 2026-08-16: `task-pipeline`'s
 last seven releases were lightweight and the umbrella reported it as **v1.60.0**, seven
 releases stale; `sheleg-design` as v1.36.1, `agent-sync` as v1.11.0. Nothing was wrong in
-any of those repositories — the reading instrument was. A lightweight tag also carries no
+any of those repositories; the reading instrument was. A lightweight tag also carries no
 tagger, date or message, so a release has no signed-off record.
 
 **Re-cutting a published tag is not the remedy.** Force-moving it re-triggers the release
@@ -304,7 +304,7 @@ they do.
 
 ## What proves a claim here
 
-Numbers are counted by running something, never carried across a document —
+Numbers are counted by running something, never carried across a document:
 the release notes for v0.22.0 said 71 fixtures, its acceptance record said 74,
 and the count at that commit is 75. Every named command must be runnable and
 every named file resolvable. This is the `evidence-docs` router applied to the
