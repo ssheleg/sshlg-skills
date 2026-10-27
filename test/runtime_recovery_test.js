@@ -27,6 +27,13 @@ function crash(base, runtimeRoot) {
   assert.equal(r.signal, 'SIGKILL');
   return { pkg, rt };
 }
+// B-228: a child publishes its result by temp file and rename in the same directory, so the
+// parent, which polls for the name, never parses a file that exists but is not yet written
+// (once: "Unexpected end of JSON input" on a loaded machine).
+function publish(file, expr) {
+  const tmp = JSON.stringify(file + '.tmp-'), dest = JSON.stringify(file);
+  return `{const t=${tmp}+process.pid;require('fs').writeFileSync(t,JSON.stringify(${expr}));require('fs').renameSync(t,${dest});}`;
+}
 function until(fn) {
   const end = Date.now() + 10000;
   while (!fn()) { if (Date.now() > end) throw Error('owned child barrier timed out'); Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 15); }
@@ -36,7 +43,7 @@ function paused(base, rt, stage, pkg) {
   const preloader = marker + '.js';
   write(preloader, `const fs=require('fs');
 const worker=process.argv[2]==='--worker', rt=${JSON.stringify(rt)}, stage=${JSON.stringify(stage)};
-let used=false; function stop(){if(used)return;used=true;fs.writeFileSync(${JSON.stringify(marker)},String(process.pid));while(!fs.existsSync(${JSON.stringify(resume)}))Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,15);}
+let used=false; function stop(){if(used)return;used=true;fs.writeFileSync(${JSON.stringify(marker + '.tmp')},String(process.pid));fs.renameSync(${JSON.stringify(marker + '.tmp')},${JSON.stringify(marker)});while(!fs.existsSync(${JSON.stringify(resume)}))Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,15);}
 if(worker||stage==='writer'){
 const lstat=fs.lstatSync;let seen=0;fs.lstatSync=function(p){if(p===rt+'/.recovery-coordinator'&&stage==='coordinator'&&++seen===3)stop();return lstat.apply(this,arguments);};
 const unlink=fs.unlinkSync;fs.unlinkSync=function(p){if(p===rt+'/.sync.lock'&&stage==='before-retire')stop();const r=unlink.apply(this,arguments);if(p===rt+'/.sync.lock'&&stage==='after-retire'||p===rt+'/.switch-journal.json'&&stage==='committed')stop();return r;};
@@ -44,11 +51,13 @@ const read=fs.readFileSync;fs.readFileSync=function(p){if(p===rt+'/.switch-journ
 }
 `);
   const operation = pkg ? `require(${JSON.stringify(MODULE)}).sync(${JSON.stringify(pkg)},${JSON.stringify(rt)})` : `require(${JSON.stringify(path.resolve(__dirname, '../lib/runtime-recovery'))}).recover(${JSON.stringify(rt)},${JSON.stringify(R.inspect(rt).expected)})`;
-  const code = `const fs=require('fs'); const result=${operation};fs.writeFileSync(${JSON.stringify(done)},JSON.stringify(result));`;
+  const code = `const fs=require('fs'); const result=${operation};${publish(done, 'result')}`;
   const child = spawn(process.execPath, ['-e', code], { env: { ...process.env, NODE_OPTIONS: '--require=' + preloader }, stdio: 'ignore' });
   try { until(() => fs.existsSync(marker)); }
   catch (e) { try { child.kill('SIGKILL'); } catch (_) {} throw e; }
   const pid = Number(fs.readFileSync(marker));
+  // A torn marker would read as pid 0, and kill(0) signals the whole process group.
+  if (!Number.isSafeInteger(pid) || pid < 2) { try { child.kill('SIGKILL'); } catch (_) {} throw Error('barrier marker holds no pid: ' + pid); }
   return {
     pid, resume() { fs.writeFileSync(resume, ''); },
     finish() { until(() => fs.existsSync(done)); return JSON.parse(fs.readFileSync(done)); },
@@ -144,12 +153,22 @@ it('normal writer winning retirement gap is never removed by recovery', base => 
     assert.equal(fs.readFileSync(path.join(rt, 'hooks/a.js'), 'utf8'), 'new');
   } finally { reclaimer.close(); if (writer) writer.close(); }
 });
+it('B-228: a polled result published by rename is never read half-written', base => {
+  // Large bodies widen the window an in-place write leaves open (in-place: 11 torn reads of
+  // 120 measured on 2026-10-27; by rename: none).
+  for (let round = 0; round < 8; round++) {
+    const files = [0, 1, 2].map(i => path.join(base, `r${round}-${i}`));
+    for (const file of files) spawn(process.execPath, ['-e', publish(file, `{ok:true,pad:'x'.repeat(1<<20)}`)], { stdio: 'ignore' });
+    until(() => files.every(file => fs.existsSync(file)));
+    for (const file of files) assert.equal(JSON.parse(fs.readFileSync(file)).ok, true);
+  }
+});
 it('two concurrent recovery requests cannot both retire the same lock', base => {
   const { rt } = crash(base), expected = R.inspect(rt).expected, children = [], results = [];
   try {
     for (let i = 0; i < 2; i++) {
       const done = path.join(base, 'race-' + i); results.push(done);
-      children.push(spawn(process.execPath, ['-e', `const fs=require('fs'),r=require(${JSON.stringify(path.resolve(__dirname, '../lib/runtime-recovery'))});fs.writeFileSync(${JSON.stringify(done)},JSON.stringify(r.recover(${JSON.stringify(rt)},${JSON.stringify(expected)})));`], { stdio: 'ignore' }));
+      children.push(spawn(process.execPath, ['-e', `const r=require(${JSON.stringify(path.resolve(__dirname, '../lib/runtime-recovery'))});${publish(done, `r.recover(${JSON.stringify(rt)},${JSON.stringify(expected)})`)}`], { stdio: 'ignore' }));
     }
     until(() => results.every(file => fs.existsSync(file)));
     const values = results.map(file => JSON.parse(fs.readFileSync(file)));
