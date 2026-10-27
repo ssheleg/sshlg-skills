@@ -33,10 +33,15 @@ const { execSync } = require('child_process');
 
 const LIB = path.join(__dirname, '..', 'lib');
 
+/** Which host ran this hook; Cursor reads its answer in its own shape (B-274). */
+let HOST = 'claude';
+
 function say(text) {
-  process.stdout.write(JSON.stringify({
-    hookSpecificOutput: { hookEventName: 'PostToolUse', additionalContext: text },
-  }) + '\n');
+  const out = { hookEventName: 'PostToolUse', additionalContext: text };
+  let bytes = '';
+  try { bytes = require(path.join(LIB, 'hookpayload.js')).eventContext(HOST, out); }
+  catch (e) { bytes = JSON.stringify({ hookSpecificOutput: out }) + '\n'; }
+  if (bytes) process.stdout.write(bytes);
 }
 
 /**
@@ -71,9 +76,16 @@ process.stdin.on('data', (c) => { raw += c; });
 process.stdin.on('end', () => {
   const notes = [];
   try {
-    const data = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
+    const parsed = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
+    // One Claude-shaped payload whichever host ran this (B-209, B-274).
+    let data = parsed;
+    try {
+      const n = require(path.join(LIB, 'hookpayload.js')).normalise(parsed);
+      HOST = n.host;
+      data = n.data;
+    } catch (e) { /* the raw payload stands in */ }
     const home = os.homedir();
-    const command = (data.tool_input && data.tool_input.command) || '';
+    const command = (data.tool_input && typeof data.tool_input.command === 'string' && data.tool_input.command) || '';
 
     // 0. Did this tool PRINT a credential? PreToolUse denies the shapes
     //    somebody thought of; a tool that prints its own configuration was not

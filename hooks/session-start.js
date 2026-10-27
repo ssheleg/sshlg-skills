@@ -193,7 +193,15 @@ process.stdin.on('end', () => {
     }
 
     out.additionalContext = context.join('\n\n');
-    process.stdout.write(JSON.stringify({ hookSpecificOutput: out }) + '\n');
+    // Cursor reads its own shape (B-274): `additional_context` alone.
+    let host = 'claude';
+    try { host = require(path.join(LIB, 'hookpayload.js')).hostOf(data); } catch (e) { /* Claude's shape */ }
+    if (host === 'cursor') {
+      const bytes = require(path.join(LIB, 'hookpayload.js')).eventContext(host, out);
+      if (bytes) process.stdout.write(bytes);
+    } else {
+      process.stdout.write(JSON.stringify({ hookSpecificOutput: out }) + '\n');
+    }
   } catch (e) {
     /* Silence, deliberately: a session must start even when this file is wrong. */
   }

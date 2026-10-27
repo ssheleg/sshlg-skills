@@ -94,6 +94,16 @@ it('Cursor Read of a credential file (`path`, not `file_path`) is refused', () =
   assert.strictEqual(v && v.permission, 'deny');
 });
 
+it('B-275: Cursor Grep of a credential file in its default mode (content) is refused', () => {
+  const v = cursorAccepts(hookRaw('pre-tool-use.js', cursor({ tool_name: 'Grep',
+    tool_input: { pattern: 'KEY', file_path: '/tmp/.env' } })).stdout);
+  assert.strictEqual(v && v.permission, 'deny');
+  assert.strictEqual(hookRaw('pre-tool-use.js', cursor({ tool_name: 'Grep',
+    tool_input: { pattern: 'KEY', file_path: '/tmp/.env', output_mode: 'files_with_matches' } })).stdout, '');
+  assert.strictEqual(hookRaw('pre-tool-use.js', cursor({ tool_name: 'Grep',
+    tool_input: { pattern: 'KEY', file_path: '/tmp/docs' } })).stdout, '');
+});
+
 it('Cursor Read of an ordinary file says nothing', () => {
   assert.strictEqual(hookRaw('pre-tool-use.js', cursor({ tool_name: 'Read', tool_input: { path: '/tmp/docs/readme.md' } })).stdout, '');
 });
@@ -364,6 +374,37 @@ it('protectedWrite creates an absent file when absence was what it read', () => 
 
 // The temporary HOME goes, whatever happened above: nothing of it is evidence once printed.
 try { fs.rmSync(HOME, { recursive: true, force: true }); } catch (e) { /* best effort */ }
+
+// B-274: Cursor's sessionStart and postToolUse read top-level `additional_context`
+// (https://cursor.com/docs/agent/hooks). Their validators (cursor-agent 2026.09.02-c22c1a3)
+// accept an object whose `additional_context` is a string.
+function cursorContext(stdout) {
+  const t = stdout.trim();
+  assert.ok(t, 'nothing said');
+  const v = JSON.parse(t);
+  assert.ok(v && typeof v === 'object' && !Array.isArray(v), 'not an object');
+  assert.deepStrictEqual(Object.keys(v), ['additional_context'], `keys: ${Object.keys(v)}`);
+  assert.strictEqual(typeof v.additional_context, 'string');
+  return v.additional_context;
+}
+
+it('B-274: Cursor sessionStart gets the pointer as additional_context', () => {
+  const r = hookRaw('session-start.js', { hook_event_name: 'sessionStart', conversation_id: 'conv-e2e',
+    generation_id: 'g', model: 'auto', is_background_agent: false, composer_mode: 'agent' });
+  assert.match(cursorContext(r.stdout), /routing block/i);
+});
+
+it('B-274: Cursor postToolUse gets a printed credential as additional_context, never the value', () => {
+  const vendor = 'gh' + 'p_' + crypto.randomBytes(20).toString('hex');
+  const r = hookRaw('post-tool-use.js', cursor({ hook_event_name: 'postToolUse', tool_name: 'Shell',
+    tool_input: { command: 'make' }, tool_output: JSON.stringify({ stdout: `fatal: ${vendor}` }), duration: 1 }));
+  const text = cursorContext(r.stdout);
+  assert.match(text, /CREDENTIAL IN OUTPUT/);
+  assert.ok(!text.includes(vendor), 'the report repeats the value');
+  // A clean output says nothing at all, which Cursor reads as no answer.
+  assert.strictEqual(hookRaw('post-tool-use.js', cursor({ hook_event_name: 'postToolUse', tool_name: 'Shell',
+    tool_input: { command: 'ls' }, tool_output: 'a\nb\n' })).stdout, '');
+});
 
 if (failures.length) {
   process.stderr.write(`hooks_hosts_e2e: ${failures.length}/${checks} failed\n  ${failures.join('\n  ')}\n`);
