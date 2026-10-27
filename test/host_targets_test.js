@@ -141,7 +141,7 @@ it('repeated --agent flags accumulate and reach the child process as separate fl
 it('openclaw is not a default target and stays reachable with --agent openclaw', () => {
   assert.ok(!defaults.includes('openclaw'), 'skills.json defaultAgents still lists openclaw');
   assert.ok(H.snapshot.agents.some(row => row.id === 'openclaw' && row.global));
-  const plain = cli(['install','--no-claude','--member','make-skill']);
+  const plain = cli(['install','--no-claude','--member','make-skill'], { setup: h => fs.mkdirSync(path.join(h,'.cursor')) });
   assert.strictEqual(plain.status,0,plain.stdout+plain.stderr);
   const adds = plain.calls.filter(c=>c.cmd==='npx'&&c.args[2]==='add'); assert.ok(adds.length);
   for (const c of adds) assert.ok(!targets(c.args).includes('openclaw'), c.args.join(' '));
@@ -149,6 +149,47 @@ it('openclaw is not a default target and stays reachable with --agent openclaw',
   assert.strictEqual(opted.status,0,opted.stdout+opted.stderr);
   const optAdds = opted.calls.filter(c=>c.cmd==='npx'&&c.args[2]==='add'); assert.ok(optAdds.length);
   for (const c of optAdds) assert.deepStrictEqual(targets(c.args),['openclaw']);
+});
+
+// B-218 / INST-9: the upstream CLI creates a target's home for every --agent it is
+// given, so a DEFAULT target is passed only when its home exists here (skills@1.7.2's
+// own detectInstalled paths). An explicit --agent or --all is the operator's choice.
+it('every default target has a recorded home, and presence follows HOME, XDG and host variables', () => {
+  for (const id of defaults) assert.ok(H.HOMES[id], `no recorded home for default ${id}`);
+  const have = new Set(['/h/.cursor', '/x/goose', '/hh', '/c/zed']);
+  const ctx = (env) => ({ home: '/h', env, exists: p => have.has(p) });
+  const r = H.presence(defaults, ctx({ XDG_CONFIG_HOME: '/x' }));
+  assert.deepStrictEqual(r.present, ['cursor', 'goose']);
+  assert.deepStrictEqual(r.absent.map(a => a.id), defaults.filter(id => !['cursor', 'goose'].includes(id)));
+  assert.deepStrictEqual(H.presence(['hermes-agent', 'zed', 'codex'], ctx({ HERMES_HOME: ' /hh ', XDG_CONFIG_HOME: '/c' })).present, ['hermes-agent', 'zed']);
+  assert.deepStrictEqual(H.presence(['codex'], { home: '/h', env: {}, exists: p => p === '/etc/codex' }).present, ['codex']);
+  assert.deepStrictEqual(H.presence(['not-recorded'], ctx({})).present, ['not-recorded'], 'unprovable absence is not assumed');
+});
+for (const verb of ['install','update']) {
+  it(`${verb}: default targets whose home is absent are skipped and named, and no home is created`, () => {
+    const none = cli([verb,'--no-claude','--member','make-skill']);
+    assert.strictEqual(none.status,0,none.stdout+none.stderr);
+    assert.deepStrictEqual(none.calls.filter(c=>c.cmd==='npx'&&c.args[2]==='add'),[]);
+    assert.match(none.stdout,/not installed here, skipped: cursor, opencode, kilo/);
+    for (const d of ['.cursor','.kiro','.codeium','.kilo','.hermes','.gemini','.codex','.config']) assert.ok(!none.homeFiles.includes(d), d);
+    const some = cli([verb,'--no-claude','--member','make-skill'],
+      { setup: h => { fs.mkdirSync(path.join(h,'.config','goose'),{recursive:true}); fs.mkdirSync(path.join(h,'.cursor')); } });
+    assert.strictEqual(some.status,0,some.stdout+some.stderr);
+    const adds = some.calls.filter(c=>c.cmd==='npx'&&c.args[2]==='add'); assert.ok(adds.length);
+    for (const c of adds) assert.deepStrictEqual(targets(c.args),['cursor','goose']);
+    assert.ok(!/skipped: [^\n]*\b(cursor|goose)\b/.test(some.stdout), some.stdout);
+    const dry = cli([verb,'--no-claude','--dry-run','--member','make-skill'], { setup: h => fs.mkdirSync(path.join(h,'.cursor')) });
+    assert.strictEqual(dry.status,0,dry.stdout+dry.stderr);
+    assert.match(dry.stdout,/not installed here, skipped: opencode/);
+    assert.ok(!/--agent (opencode|zed|goose)/.test(dry.stdout), dry.stdout);
+  });
+}
+it('an explicit --agent still reaches an absent host (the operator chose it)', () => {
+  const r = cli(['install','--no-claude','--member','make-skill','--agent','zed']);
+  assert.strictEqual(r.status,0,r.stdout+r.stderr);
+  const adds = r.calls.filter(c=>c.cmd==='npx'&&c.args[2]==='add'); assert.ok(adds.length);
+  for (const c of adds) assert.deepStrictEqual(targets(c.args),['zed']);
+  assert.ok(!/not installed here/.test(r.stdout), r.stdout);
 });
 
 // B-213: the Continue `--copy` restore pass joins `update` only when Continue is

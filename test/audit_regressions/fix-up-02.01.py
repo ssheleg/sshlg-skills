@@ -76,6 +76,9 @@ def make_home():
         _json.dump({"plugins": {"task-pipeline@task-pipeline": [
             {"installPath": install_path, "scope": "user", "enabled": True,
              "version": "1.0.0", "gitCommitSha": "a" * 40}]}}, fh)
+    # One default host present: absent default hosts are skipped (B-218 / INST-9),
+    # and these cases need the skills CLI step to be planned.
+    os.makedirs(os.path.join(home, ".cursor"))
     return home
 
 

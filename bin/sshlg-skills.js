@@ -274,8 +274,8 @@ function pruneClaudeShadows() {
  */
 const DISPLACED_STATUSLINE = 'displaced:statusLine';
 
-function usage() {
-  log(`sshlg-skills — install/update the ssheleg skill family everywhere
+function usageText() {
+  return `sshlg-skills — install/update the ssheleg skill family everywhere
 
 Skills: ${SKILLS.map(s => s.name).join(', ')}
 
@@ -327,16 +327,20 @@ Usage:
                                                       # xr-dev, web3d-dev, telegram-dev; hook-bearing members stay global
                                                       # load only in projects that call for them
   npx sshlg-skills pack [<name>] [--lane <id>] [--check]
+                                                      # curated recommendations, measured here
   npx sshlg-skills materialised                       # routers this project says live in its tree
   npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface public-web|app-text|internal]
                                                       # this repository's routes: SSHLG:PROJECT block in its
                                                       # CLAUDE.md/AGENTS.md, routers.json for existing material
-                                                      # curated recommendations, measured here
-  npx sshlg-skills list
+  npx sshlg-skills list [--verbose | -v]
   npx sshlg-skills agents
+  npx sshlg-skills help [<command>]                   # this text, or one command's part of it
+  npx sshlg-skills <command> --help | -h              # the same; prints only, writes nothing
+  npx sshlg-skills --version | -v                     # the package version
 
 Defaults:
-  - Non-Claude agents (${manifest.defaultAgents.join(', ')}) via the skills CLI.
+  - Non-Claude agents (${manifest.defaultAgents.join(', ')}) via the skills CLI,
+                each only where its home exists here (no home is created).
   - Claude Code via its PLUGIN (not a plain copy) to avoid a shadow duplicate.
   - --all       all globally supported agents in the pinned skills CLI snapshot.
                 Excludes project-only targets and plain Claude while plugins are on.
@@ -358,12 +362,61 @@ Defaults:
   - --dry-run    (install/update) build the full operation plan — every
                  subprocess, prune, router, runtime and settings.json hook-wiring
                  action — render it, and execute NOTHING. The receipt is
-                 complete; the mutations are zero.`);
+                 complete; the mutations are zero.`;
+}
+
+function usage() { log(usageText()); }
+
+/**
+ * B-198: one command's part of the usage above, so `<command> --help` has one
+ * source. The lines are every `npx sshlg-skills <name>` entry with the comment
+ * lines under it; install and update add the Defaults section their flags are
+ * explained in. Returns null for a name the usage does not list.
+ */
+const HELP_ALIASES = { i: 'install', up: 'update', un: 'uninstall', ls: 'list', packs: 'pack', materialized: 'materialised' };
+function commandUsage(cmd) {
+  const name = HELP_ALIASES[cmd] || cmd;
+  if (!/^[a-z]+$/.test(name)) return null;
+  const text = usageText();
+  const head = new RegExp(`^  npx sshlg-skills ${name}(\\s|$)`);
+  const out = [];
+  let taking = false;
+  for (const line of text.split('\n')) {
+    if (/^  npx sshlg-skills /.test(line)) taking = head.test(line);
+    else if (taking && !/^\s+#/.test(line)) taking = false;
+    if (taking) out.push(line);
+  }
+  if (!out.length) return null;
+  const parts = ['Usage:', ...out];
+  if (name === 'install' || name === 'update') parts.push('', text.slice(text.indexOf('Defaults:')));
+  return parts.join('\n');
+}
+
+/** `--help`/`-h` among a command's arguments, before a `--` terminator. */
+function wantsHelp(args) {
+  for (const a of args) {
+    if (a === '--') return false;
+    if (a === '--help' || a === '-h') return true;
+  }
+  return false;
 }
 
 function skillsCliAgents(f) {
   // Never let the skills CLI drop a plain Claude copy while we manage Claude via plugin.
-  return plan.resolveAgents(manifest.defaultAgents, f);
+  const chosen = plan.resolveAgents(manifest.defaultAgents, f);
+  return defaultScope(f) ? defaultPresence(chosen).present : chosen;
+}
+
+/** No --agent and no --all: the run's targets are the manifest defaults. */
+function defaultScope(f) { return !f.all && !(f.agents && f.agents.length); }
+
+/**
+ * B-218 / INST-9: the skills CLI creates the home of every target it is given, so
+ * a default target counts only when its home exists here. An explicit --agent or
+ * --all is the operator's choice and is passed as asked.
+ */
+function defaultPresence(ids) {
+  return require('../lib/host-targets.js').presence(ids, { home: os.homedir(), env: process.env, exists: p => fs.existsSync(p) });
 }
 
 /**
@@ -548,7 +601,7 @@ function cmdInstall(f) {
   let ok = !claude.partial;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
-    log(`\n== Installing to agents via skills CLI: ${agents.join(', ')} ==`);
+    log(`\n== Installing to agents via skills CLI: ${agents.join(', ') || 'none (no target host installed here)'} ==`);
     for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'npx')) {
       ok = runPlanned(step.effect.args) && ok;
     }
@@ -646,7 +699,7 @@ function cmdUpdate(f) {
     // Re-add each repository at the published commit. The upstream add command
     // overwrites existing payloads, so no unpinned `skills update` precedes it.
     const agents = skillsCliAgents(f);
-    log(`\n== Reconciling plain-skills at immutable commits: ${agents.join(', ')} ==`);
+    log(`\n== Reconciling plain-skills at immutable commits: ${agents.join(', ') || 'none (no target host installed here)'} ==`);
     for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'npx')) {
       ok = runPlanned(step.effect.args) && ok;
     }
@@ -4119,7 +4172,20 @@ function resolveProviders(candidates) {
 
 function main(argv) {
   const [cmd, ...rest] = argv.slice(2);
+  if (cmd === '--version' || cmd === '-v') { log(JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version); return 0; }
+  if (cmd === 'help' && rest.length && !wantsHelp(rest.slice(0, 1))) {
+    const u = commandUsage(rest[0]);
+    if (u) { log(u); return 0; }
+    log(`unknown command: ${rest[0]}`); usage(); return 2;
+  }
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
+  // B-198: before dispatch, so no command parses, locks, backs up or spawns on a
+  // help request. `blocks` keeps its own help: it documents each verb in full.
+  if (cmd !== 'blocks' && wantsHelp(rest)) {
+    const u = commandUsage(cmd);
+    if (u) { log(u); return 0; }
+    log(`unknown command: ${cmd}`); usage(); return 2;
+  }
   if (cmd === 'list' || cmd === 'ls') { cmdList(argv); return 0; }
   if (cmd === 'agents') { cmdAgents(); return 0; }
   if (cmd === 'hosts') { cmdHosts(); return 0; }
@@ -4159,6 +4225,10 @@ function main(argv) {
       frozenOperations.set(f, planned);
     }
     catch (e) { log(e.message); return 2; }
+    if (defaultScope(f) && !f.claudeOnly) {
+      const absent = defaultPresence(plan.resolveAgents(manifest.defaultAgents, f)).absent.map(a => a.id);
+      if (absent.length) log(`  default hosts not installed here, skipped: ${absent.join(', ')} (no home created; --agent <id> installs there anyway)`);
+    }
     if (f.all && !f.claudeOnly) {
       const excluded = require('../lib/host-targets.js').excludedGlobal();
       log(`  --all excludes non-global targets (${cliSpec()}): ${excluded.join(', ')}`);
