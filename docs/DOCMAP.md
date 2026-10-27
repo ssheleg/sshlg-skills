@@ -153,8 +153,8 @@ first checked by the release run itself, and a check that reads the tag list (ta
 retro declaration) could only fail there: v1.97.0 burned that way. The script refuses a
 candidate not on `origin`'s default branch, a `plugin.json` or `package.json` version that
 differs from the tag, a missing CHANGELOG section or a dirty tree; then it creates the
-annotated tag locally, runs the member's `npm run test:all` (else `npm test`) with the tag
-present, and pushes only when that is green. A red suite removes the tag this run created.
+annotated tag locally, runs the member's own `test:all` script (else its `test` script) with
+the tag present, and pushes only when that is green. A red suite removes the tag this run created.
 `test/release_member_test.js` runs every branch against a bare remote.
 
 ```bash
