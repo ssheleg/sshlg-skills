@@ -357,7 +357,7 @@ process.stdin.on('end', () => {
     const saved = backup.guard({ file: target, home });
     if (saved.action === 'backup-failed') {
       say('deny',
-        `${target} is an instruction file with no version control behind it, and a ` +
+        `${target} is ${guard.kind(target)} with no version control behind it, and a ` +
         `copy of it could not be taken (${saved.error}). The write was not performed.\n` +
         'Fix the backup directory (~/.sshlg-skills/backups) and try again.');
       return process.exit(0);

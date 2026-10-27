@@ -133,7 +133,18 @@ it('a write whose copy cannot be taken is DENIED, and the file is untouched', ()
     assert.strictEqual(out.hookSpecificOutput.permissionDecision, 'deny',
       'an unbackable write was allowed — this is the defect the module exists for');
     assert.match(out.hookSpecificOutput.permissionDecisionReason, /not performed/);
+    assert.match(out.hookSpecificOutput.permissionDecisionReason, /is an instruction file/);
+    // B-288: the same refusal for settings.json names a settings file, not an instruction file.
+    write(SETTINGS, '{}\n');
+    const settings = runHook('pre-tool-use.js', {
+      hook_event_name: 'PreToolUse', tool_name: 'Write',
+      tool_input: { file_path: SETTINGS, content: 'replaced' },
+    });
+    assert.strictEqual(settings.hookSpecificOutput.permissionDecision, 'deny');
+    assert.match(settings.hookSpecificOutput.permissionDecisionReason, /is a settings file with no version control/);
+    assert.doesNotMatch(settings.hookSpecificOutput.permissionDecisionReason, /instruction file/);
   } finally {
+    fs.rmSync(SETTINGS, { force: true });
     fs.rmSync(dir, { force: true });
     fs.mkdirSync(dir, { recursive: true });
     for (const [n, buf] of saved) fs.writeFileSync(path.join(dir, n), buf);
