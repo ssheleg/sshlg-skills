@@ -1380,6 +1380,9 @@ function cmdList(argv) {
  * hosts exist). Pi additionally gets lib/pi.js's skill-root report, because Pi reads
  * skills from several directories and a duplicate name keeps only the first.
  */
+/** A path's realpath, or the resolved path when it does not resolve. */
+function canonicalPath(p) { try { return fs.realpathSync(p); } catch (_) { return path.resolve(p); } }
+
 function cmdHosts() {
   const apply = require('../lib/apply.js');
   const piLib = require('../lib/pi.js');
@@ -1439,7 +1442,23 @@ function cmdHosts() {
   // B-221: Pi 1.1 reads project roots first and keeps the first name it finds.
   log('  precedence: project roots first (.pi/skills here, then .agents/skills up to the git root), then ~/.pi/agent/skills, then ~/.agents/skills;'
     + ' the first copy of a name wins. Project roots load only in a project Pi trusts.');
-  for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)`);
+  // B-263: what Pi's own trust store says about this project, and about every project in it.
+  const t = r.trust;
+  const where = t.entry ? `by ${t.file} entry ${t.entry}` : t.store === 'invalid' ? '' : `no entry in ${t.file}; defaultProjectTrust is ${t.default}`;
+  const here = {
+    'not-needed': 'not needed (no .pi resource and no project .agents/skills here); nothing to gate',
+    trusted: `trusted (${where}); Pi loads this project's roots`,
+    untrusted: `not trusted (${where}); Pi does not load this project's roots, so they are left out below`,
+    asks: `not decided (${where}); an interactive Pi asks at start and loads the roots if you trust it, a headless run (-p) does not`,
+    unknown: `unknown: ${t.reason} (Pi refuses to read it either)`,
+  }[t.verdict];
+  log(`  project trust here (${canonicalPath(process.cwd())}): ${here}`);
+  if (t.verdict !== 'not-needed') log('  (`pi --approve` or `--no-approve`, and an extension that answers project_trust, decide per run and are not read here)');
+  if (t.entries.length) {
+    log(`  projects in ${t.file} (${t.entries.length}):`);
+    for (const e of t.entries) log(`    ${e.path}: ${e.trusted ? 'trusted, project roots load' : 'not trusted, project roots not loaded'} (and in folders below without their own entry)`);
+  }
+  for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)${root.loaded ? '' : ' (not loaded: project not trusted)'}`);
   log(`  family skills visible to Pi (by name): ${r.family.visible.length} of ${r.family.total}` +
       (r.family.missing.length ? `; not visible: ${r.family.missing.join(', ')}` : ''));
   log(`  duplicate names across Pi's roots: ${r.duplicates.harmless} harmless (one realpath), ` +

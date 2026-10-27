@@ -555,7 +555,14 @@ the hub gains an OpenCode 2 target.
 up to the repository root. Project roots come first, in a project Pi trusts, and a name found
 twice keeps the first and warns, so a project copy of a family skill wins over the user copy
 (Pi 1.1.0 `dist/core/package-manager.js`, `addAutoDiscoveredResources`; B-221). `hosts` lists the
-roots in that order and names the copy Pi keeps. Pi loads no Claude Code plugins, so the family
+roots in that order and names the copy Pi keeps. It also reads Pi's own trust store
+(`<agent dir>/trust.json`, the nearest entry for the working directory by realpath, else
+`defaultProjectTrust` in Pi's `settings.json`) and says whether Pi loads this project's roots:
+a project the store does not trust is reported as such and its copies are left out of the
+counts, a project with no entry under the default `ask` is one an interactive Pi asks about
+first, and every project in the store is listed with its decision. `--approve`/`--no-approve`
+and an extension's trust answer decide per run and are not read (Pi 1.1.0
+`dist/core/trust-manager.js`, `dist/core/project-trust.js`; B-263). Pi loads no Claude Code plugins, so the family
 reaches it as plain skill directories plus the block above. `npx sshlg-skills hosts` reports,
 read-only, whether Pi is here, where the 39 family skills are visible to it, and how many names
 repeat across its roots: the same realpath twice (a symlink into `~/.agents/skills`) is counted

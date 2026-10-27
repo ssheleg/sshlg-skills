@@ -277,6 +277,125 @@ it('uninstall removes the managed block from the Pi file and keeps the rest', ()
   assert.ok(after.includes('# mine'), 'uninstall took the operator text with it');
 });
 
+// --- B-263: Pi's trust store decides whether project roots load ------------------------
+//
+// Pi 1.1.0 (dist/core/trust-manager.js, dist/core/project-trust.js, dist/main.js): a project
+// with trust-requiring resources (`.pi/{settings.json,mcp.json,extensions,skills,prompts,
+// themes,SYSTEM.md,APPEND_SYSTEM.md}`, or `.agents/skills` in cwd or any ancestor other than
+// ~/.agents/skills) loads its project roots only when trusted. The decision is the nearest
+// entry (cwd, then its ancestors, by realpath) in `<agent-dir>/trust.json` (true, false; null
+// is no entry); without one, `defaultProjectTrust` in `<agent-dir>/settings.json` (`always`,
+// `never`, otherwise `ask`); `ask` prompts in an interactive session and is false headless.
+// `--approve`/`--no-approve` and an extension's `project_trust` handler override it per run.
+const real = (p) => fs.realpathSync(p);
+function trustRepo() {
+  const h = tmp(); const repo = path.join(h, 'work', 'repo');
+  fs.mkdirSync(path.join(repo, '.git'), { recursive: true });
+  fs.mkdirSync(path.join(h, '.pi', 'agent'), { recursive: true });
+  skill(path.join(h, '.agents', 'skills'), 'ux-flows');
+  skill(path.join(repo, '.agents', 'skills'), 'ux-flows');
+  skill(path.join(repo, '.agents', 'skills'), 'make-skill');
+  return { h, repo };
+}
+const writeTrust = (h, data) => fs.writeFileSync(path.join(h, '.pi', 'agent', 'trust.json'), JSON.stringify(data, null, 2) + '\n');
+
+it('B-263: a project the store does not trust loads no project root: its copies are not counted', () => {
+  const { h, repo } = trustRepo();
+  writeTrust(h, { [real(repo)]: false });
+  const r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  assert.strictEqual(r.trust.verdict, 'untrusted');
+  assert.strictEqual(r.trust.entry, real(repo));
+  assert.deepStrictEqual(r.roots.map((x) => [x.kind, x.loaded]), [['project', false], ['user', true]]);
+  assert.deepStrictEqual(r.family.visible, ['ux-flows'], 'a copy Pi will not load was counted as visible');
+  assert.deepStrictEqual(r.duplicates.conflicts, [], 'a copy Pi will not load was named in a conflict');
+});
+
+it('B-263: the nearest entry decides, by realpath; a trusted parent covers the project', () => {
+  const { h, repo } = trustRepo();
+  writeTrust(h, { [real(path.join(h, 'work'))]: true });
+  let r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  assert.deepStrictEqual([r.trust.verdict, r.trust.entry], ['trusted', real(path.join(h, 'work'))]);
+  assert.ok(r.duplicates.conflicts.some((c) => c.name === 'ux-flows'), 'a trusted project copy still wins the collision');
+  writeTrust(h, { [real(path.join(h, 'work'))]: true, [real(repo)]: false, [real(h)]: null });
+  r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  assert.strictEqual(r.trust.verdict, 'untrusted', 'the nearer entry did not win');
+  const link = path.join(h, 'link');
+  fs.symlinkSync(repo, link);
+  r = pi.inspect({ home: h, env: {}, cwd: link, which: none, family: FAMILY });
+  assert.strictEqual(r.trust.verdict, 'untrusted', 'a symlinked cwd is matched by its realpath');
+});
+
+it('B-263: with no entry, defaultProjectTrust decides; ask is reported as a prompt', () => {
+  const { h, repo } = trustRepo();
+  const settings = (v) => fs.writeFileSync(path.join(h, '.pi', 'agent', 'settings.json'), JSON.stringify(v));
+  let r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  assert.deepStrictEqual([r.trust.verdict, r.trust.default, r.trust.store], ['asks', 'ask', 'absent']);
+  assert.ok(r.roots[0].loaded, 'an interactive session that accepts loads the project roots');
+  settings({ defaultProjectTrust: 'never' });
+  r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  assert.deepStrictEqual([r.trust.verdict, r.trust.default], ['untrusted', 'never']);
+  assert.strictEqual(r.roots[0].loaded, false);
+  settings({ defaultProjectTrust: 'always' });
+  r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  assert.strictEqual(r.trust.verdict, 'trusted');
+  settings({ defaultProjectTrust: 'sometimes' });
+  assert.strictEqual(pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY }).trust.default, 'ask');
+});
+
+it('B-263: a folder with no trust-requiring resources needs no trust; ~/.agents/skills is not one', () => {
+  const h = tmp(); const dir = path.join(h, 'plain');
+  fs.mkdirSync(dir, { recursive: true });
+  skill(path.join(h, '.agents', 'skills'), 'ux-flows');
+  const r = pi.inspect({ home: h, env: {}, cwd: dir, which: none, family: FAMILY });
+  assert.strictEqual(r.trust.verdict, 'not-needed');
+  const p = tmp();
+  fs.mkdirSync(path.join(p, '.pi'), { recursive: true });
+  fs.writeFileSync(path.join(p, '.pi', 'SYSTEM.md'), 'x');
+  assert.strictEqual(pi.projectTrust({ home: h, env: {}, cwd: p }).needed, true, '.pi/SYSTEM.md needs trust');
+});
+
+it('B-263: a malformed store is reported as Pi reports it, never guessed; PI_CODING_AGENT_DIR moves it', () => {
+  const { h, repo } = trustRepo();
+  writeTrust(h, { [real(repo)]: 'yes' });
+  let r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  assert.strictEqual(r.trust.verdict, 'unknown');
+  assert.match(r.trust.reason, /must be true, false, or null/);
+  const other = tmp();
+  fs.writeFileSync(path.join(other, 'trust.json'), JSON.stringify({ [real(repo)]: true }));
+  r = pi.inspect({ home: h, env: { PI_CODING_AGENT_DIR: other }, cwd: repo, which: none, family: FAMILY });
+  assert.deepStrictEqual([r.trust.verdict, r.trust.file], ['trusted', path.join(other, 'trust.json')]);
+});
+
+it('B-263: every project in the store is listed with whether Pi loads its project roots', () => {
+  const { h, repo } = trustRepo();
+  writeTrust(h, { '/a/yes': true, '/b/no': false, '/c/cleared': null });
+  const t = pi.projectTrust({ home: h, env: {}, cwd: repo });
+  assert.deepStrictEqual(t.entries, [{ path: '/a/yes', trusted: true }, { path: '/b/no', trusted: false }]);
+});
+
+it('B-263: `hosts` says per project whether Pi loads its project roots, read-only', () => {
+  const home = sandboxWithPi();
+  const repo = path.join(home, 'repo');
+  fs.mkdirSync(path.join(repo, '.git'), { recursive: true });
+  skill(path.join(home, '.agents', 'skills'), 'ux-flows');
+  skill(path.join(repo, '.agents', 'skills'), 'ux-flows');
+  const trust = path.join(home, '.pi', 'agent', 'trust.json');
+  fs.writeFileSync(trust, JSON.stringify({ [real(repo)]: false, '/elsewhere/proj': true }, null, 2) + '\n');
+  const before = sha(trust);
+  const env = Object.assign({}, process.env, { HOME: home });
+  delete env.PI_CODING_AGENT_DIR;
+  const r = spawnSync(process.execPath, [BIN, 'hosts'], { cwd: repo, encoding: 'utf8', env });
+  const out = `${r.stdout}${r.stderr}`;
+  assert.strictEqual(r.status, 0, out);
+  assert.ok(out.includes(`project trust here (${real(repo)}): not trusted`), out);
+  assert.ok(/Pi does not load this project's roots/.test(out), out);
+  assert.ok(!/conflict: ux-flows/.test(out), 'a copy Pi will not load was named in a conflict');
+  assert.ok(out.includes(`${real(repo)}: not trusted, project roots not loaded`), out);
+  assert.ok(out.includes('/elsewhere/proj: trusted, project roots load'), out);
+  assert.ok(!out.includes('—'), 'the report carries an em dash');
+  assert.strictEqual(sha(trust), before, 'hosts wrote the trust store');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
