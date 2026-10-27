@@ -827,6 +827,34 @@ it('`update --no-claude` leaves the wired runtime copy alone too, and says so (L
   }
 });
 
+// B-277: Codex's hooks.json runs the same runtime copy. When only Codex is in the run's
+// scope and its hooks are wired, `update` refreshes the copy Codex executes.
+it('`update --agent codex` refreshes the runtime copy when Codex\'s hooks run it (B-277)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const root = path.join(HOME, '.sshlg-skills', 'runtime');
+  const codexFile = path.join(HOME, '.codex', 'hooks.json');
+  const entries = require('../lib/hooks.js').codexEntries(root);
+  for (const k of Object.keys(entries)) entries[k] = [entries[k]];
+  write(codexFile, JSON.stringify({ hooks: entries }, null, 2) + '\n');
+  const rt = path.join(root, 'hooks', 'notification.js');
+  const original = fs.readFileSync(rt, 'utf8');
+  fs.writeFileSync(rt, original + '\n// stale\n');
+  try {
+    const dry = updateWith(env, ['--agent', 'codex', '--dry-run']);
+    assert.ok(/runtime-sync:[^\n]*refresh the wired hook runtime copy[^\n]*codex/i.test(dry.out),
+      `the preview does not refresh the runtime for Codex:\n${dry.out.slice(-900)}`);
+    const r = updateWith(env, ['--agent', 'codex']);
+    assert.strictEqual(fs.readFileSync(rt, 'utf8'), original,
+      `\`update --agent codex\` left the runtime Codex runs stale:\n${r.out.slice(-700)}`);
+    assert.ok(/Wired hook runtime[\s\S]*for: codex/.test(r.out), `the run does not say which host it refreshed for:\n${r.out.slice(-700)}`);
+    assert.ok(/Hook wiring[\s\S]*skipped: --agent codex/.test(r.out), 'settings.json wiring is still Claude-scoped');
+  } finally {
+    fs.writeFileSync(rt, original);
+    fs.rmSync(codexFile, { force: true });
+  }
+});
+
 // Final polish, item 8. An `--agent` list skipped the routing block, the wiring and the
 // runtime copy (the Claude host is out of its scope) but still ran `claude plugin update`
 // for every member. Decided: the Claude plugin step follows the same scope (`claudeScope`).

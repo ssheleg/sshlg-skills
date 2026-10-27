@@ -343,7 +343,10 @@ The scope flags scope the Claude host's files too: under `--no-claude`, or any
 `--agent` list, neither the routing block in `CLAUDE.md`, nor the hook wiring in
 `settings.json`, nor the runtime copy those hooks execute
 (`~/.sshlg-skills/runtime`) is touched, nor is `claude plugin update` run, and the run
-says `skipped: <flag>` (since v1.56.0). No `--agent` value selects the Claude host: `--agent claude` exits 2
+says `skipped: <flag>` (since v1.56.0). The runtime copy is the one exception: Codex's
+`hooks.json` runs it too, so when Codex is in the run's scope (no `--claude-only`, and no
+`--agent` list or one naming `codex`) and an entry of ours is in that file, `update` refreshes the
+copy and says `for: codex`. No `--agent` value selects the Claude host: `--agent claude` exits 2
 (the pinned skills CLI has no such agent id), and `--agent claude-code` names the
 plain-copy target the plugin channel leaves out, so to scope a run to Claude use
 `--claude-only`, or no scope flag at all.

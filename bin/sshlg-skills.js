@@ -628,9 +628,9 @@ function planUpdate(f) {
       { mode: 'update' }));
   }
   try {
-    const rtScope = claudeScope(f);
+    const rtScope = runtimeScopeFor(f);
     steps.push(opres.step('runtime-sync', 'runtime',
-      rtScope.inScope ? 'refresh the wired hook runtime copy (create: false)'
+      rtScope.inScope ? `refresh the wired hook runtime copy (create: false) for ${rtScope.hosts.join(', ')}`
         : `wired hook runtime copy: out of scope (skipped: ${rtScope.skippedBy}), moves with its wiring`,
       { root: require('../lib/hooks.js').runtimeDir(os.homedir()) }));
   } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
@@ -802,11 +802,12 @@ function cmdUpdate(f) {
   // 24 modules against the package's 25, and the missing one was that release's whole
   // point (`B-22`). Refresh only: `create` stays false, because a machine with no
   // runtime has not consented to hooks and an update is not the moment to ask. Scoped like
-  // the wiring below (fix round 2, L): a run that leaves the Claude host alone leaves both.
+  // the wiring below (fix round 2, L): a run that leaves the Claude host alone leaves both,
+  // unless Codex's hooks run the same copy and Codex is in scope (B-277).
   let runtimeReady = true;
-  const rtScope = claudeScope(f);
+  const rtScope = runtimeScopeFor(f);
   if (!rtScope.inScope) {
-    log(`\n== Wired hook runtime ==\n  skipped: ${rtScope.skippedBy} (the Claude host is outside this run's scope; `
+    log(`\n== Wired hook runtime ==\n  skipped: ${rtScope.skippedBy} (no host whose hooks run it is in this run's scope; `
       + 'the copy its hooks execute moves with their wiring)');
   } else {
     try {
@@ -820,7 +821,7 @@ function cmdUpdate(f) {
       } else {
         const moved = before.missing.length + before.differing.length;
         log(`\n== Wired hook runtime ==`);
-        log(`  ${root}`);
+        log(`  ${root} (for: ${rtScope.hosts.join(', ')})`);
         log(moved
           ? `  refreshed ${r.copied.length} file(s): ${before.missing.length} new, `
             + `${before.differing.length} changed`
@@ -972,6 +973,24 @@ function claudeScope(f) {
   });
   if (scope.hostTargets.some((h) => h.agent === 'claude')) return { inScope: true };
   return { inScope: false, skippedBy: flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}` };
+}
+
+/**
+ * B-277: the runtime copy's scope: every host whose hooks execute it (Claude while its host
+ * is in scope; Codex while in scope with an entry of ours in its hooks.json). Decided by
+ * `lib/hooks.js runtimeScope`; this only reads Codex's hooks file (an unreadable one is
+ * no consent).
+ */
+function runtimeScopeFor(f) {
+  const hooksLib = require('../lib/hooks.js');
+  const home = os.homedir();
+  let codexHooks = null;
+  try {
+    codexHooks = JSON.parse(fs.readFileSync(path.join(hooksLib.codexRoot(home), 'hooks.json'), 'utf8'));
+  } catch (_) { /* absent or unparseable: Codex has not consented here */ }
+  return hooksLib.runtimeScope({
+    claude: claudeScope(f), codex: codexScope(f), codexHooks, root: hooksLib.runtimeDir(home),
+  });
 }
 
 /**
