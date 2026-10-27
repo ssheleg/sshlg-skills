@@ -201,4 +201,33 @@ test('B-242: an aliased local path is left as recorded and read back unchanged',
  const x=multi(f,{alias:true});const p=f.plan();assert.equal(p.jobs[0].aliases.length,1);const r=x.execute();assert(r.ok,JSON.stringify(r));
  const al=x.regs().find(r=>r.projectPath===x.link);assert.equal(al.version,'0.9.0');assert.equal(x.calls.filter(c=>c.args[1]==='update').length,3);
 });
+// B-224: every update that moved a plugin left a transaction directory for good (48 of them,
+// 5,642 files, 128 MB on the operator's machine by 2026-10-27). The newest KEEP finished ones
+// stay, every unfinished one stays, and the older finished ones retire their copies of the
+// operator's files into ~/.sshlg-skills/backups/, where ordinary retention keeps ten per file.
+function txDirs(f){const root=f.plan().transactionRoot;return fs.readdirSync(root).filter(n=>/^\d+-[a-f0-9]{12}$/.test(n)).sort();}
+test('B-224: KEEP+2 updates leave the newest KEEP finished transactions and retire the rest',f=>{
+ const N=T.KEEP_FINISHED;assert(Number.isSafeInteger(N)&&N>=1,'KEEP_FINISHED is exported');
+ const results=[];for(let i=0;i<N+2;i++){const r=f.execute();assert(r.ok,JSON.stringify(r));results.push(r);}
+ const dirs=txDirs(f);assert.equal(dirs.length,N,`kept ${dirs.length} transactions`);
+ assert.deepEqual(dirs,results.slice(-N).map(r=>path.basename(path.dirname(r.receipt))),'the newest ones are kept');
+ assert.equal(results[N+1].retention.retired.length,1,JSON.stringify(results[N+1].retention));
+ const main=f.home+'/.sshlg-skills/backups',names=fs.readdirSync(main);
+ const settingsCopies=names.filter(n=>n.startsWith('settings.json--v2-'));
+ assert(settingsCopies.length>=1 && settingsCopies.length<=10,`retired settings copies under ordinary retention: ${settingsCopies.length}`);
+ assert(!names.some(n=>n.startsWith('receipt.json--v2-')||n.startsWith('latest.json--v2-')||n.startsWith('plan.json--v2-')),'the transaction\'s own records are not retired into the operator backups');
+ for(const n of names)if(!n.startsWith('.'))assert.equal(fs.statSync(path.join(main,n)).mode&0o777,0o600);
+ // the latest receipt still resolves
+ assert.equal(JSON.parse(fs.readFileSync(f.plan().transactionRoot+'/latest.json')).status,'complete');
+});
+test('B-224: an unfinished transaction is never retired, however old',f=>{
+ f.setHook(a=>a[1]==='install'?{status:1}:null);const bad=f.execute();assert(!bad.ok);assert.match(bad.results[0].rollback,/failed/);f.setHook(null);
+ const N=T.KEEP_FINISHED;for(let i=0;i<N+2;i++)assert(f.execute().ok);
+ const dirs=txDirs(f);assert.equal(dirs.length,N+1);assert(dirs.includes(path.basename(path.dirname(bad.receipt))),'the unfinished transaction was retired');
+});
+test('B-224: an unreadable receipt counts as unfinished and is kept',f=>{
+ assert(f.execute().ok);const root=f.plan().transactionRoot,first=txDirs(f)[0];fs.writeFileSync(path.join(root,first,'receipt.json'),'{');
+ for(let i=0;i<T.KEEP_FINISHED+1;i++)assert(f.execute().ok);
+ assert(txDirs(f).includes(first));assert.equal(txDirs(f).length,T.KEEP_FINISHED+1);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);

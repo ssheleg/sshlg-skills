@@ -80,6 +80,12 @@ version, requested refs and observed catalog versions. Raw config and file bodie
 are excluded. The content hash names the file. The task directory is owner-only;
 existing unsafe permissions or ownership refuse without chmod or replacement.
 
+A newer receipt supersedes a member's older ones (B-224): each member keeps its newest
+receipt (`KEEP_PER_MEMBER`, 1), a removed receipt takes its observations and exhaustion record
+with it, and a kept receipt keeps its newest ten observations (`KEEP_OBSERVATIONS`). Saving the
+same intent again makes that receipt the newest; its bytes never change. Only names this
+namespace writes, as private plain files, are removed (`test/codex_pending_test.js`).
+
 `lib/codex-deferred-watch.js` accepts that private, identity-bound receipt, reads
 only the native catalog and writes immutable observations beside it. Profile or
 config drift stops observation. Exhaustion preserves intent and records an explicit
