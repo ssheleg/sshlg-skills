@@ -333,6 +333,37 @@ it('the backup that protects the migration is actually on disk afterwards', () =
   assert.ok(restorable, 'a copy exists but none of them is the text that was replaced');
 });
 
+it('B-260: a crash between write and rename leaves CLAUDE.md byte for byte, with its copy', () => {
+  const home = seededHome();
+  const file = path.join(home, '.claude', 'CLAUDE.md');
+  const before = '# mine\n\nhand-written rules\n';
+  fs.writeFileSync(file, before);
+  fs.chmodSync(file, 0o640);
+  const rename = fs.renameSync;
+  fs.renameSync = () => { throw Object.assign(new Error('simulated crash'), { code: 'EIO' }); };
+  try {
+    assert.throws(() => apply.applyOne(file, {}, { home, mode: 'install', consent: 'yes' }), /simulated crash/);
+  } finally { fs.renameSync = rename; }
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), before, 'the original was touched before the rename');
+  assert.strictEqual(fs.statSync(file).mode & 0o777, 0o640);
+  assert.deepStrictEqual(fs.readdirSync(path.dirname(file)).filter((n) => n.endsWith('.tmp')), [], 'a temp file was left beside CLAUDE.md');
+  const dir = path.join(home, '.sshlg-skills', 'backups');
+  assert.ok(fs.readdirSync(dir).some((n) => n.includes('CLAUDE.md')), 'no copy was taken before the attempt');
+});
+
+it('B-260: a symlinked CLAUDE.md stays a symlink after the routing write', () => {
+  const home = seededHome();
+  const real = path.join(home, 'dotfiles', 'CLAUDE.md');
+  fs.mkdirSync(path.dirname(real), { recursive: true });
+  fs.writeFileSync(real, '# mine\n');
+  const link = path.join(home, '.claude', 'CLAUDE.md');
+  fs.symlinkSync(real, link);
+  const r = apply.applyOne(link, {}, { home, mode: 'install', consent: 'yes' });
+  assert.strictEqual(r.action, 'updated');
+  assert.ok(fs.lstatSync(link).isSymbolicLink(), 'the link was replaced by a regular file');
+  assert.ok(fs.readFileSync(real, 'utf8').includes(R.BEGIN), 'the block did not reach the link target');
+});
+
 // ---------------------------------------------------------------------------
 // The invariant itself: one write path
 // ---------------------------------------------------------------------------
@@ -381,15 +412,26 @@ it('every write to a protected file goes through protect()', () => {
   //                    sync/recover never write host settings or instruction files.
   // These exact exceptions do not change the detection of protected user-file writes
   // in other modules. Moving a config writer here requires re-review of this claim.
+  //   atomicwrite.js   the ONE helper that lands operator bytes (B-260); its callers are
+  //                    what the protect() window below is checked on.
   const OWN_STATE = ['lib/backup.js', 'lib/store.js', 'lib/turnstate.js', 'lib/quarantine.js',
-    'lib/updatelock.js', 'lib/backup-retention.js', 'lib/codex-pending.js', 'lib/runtime.js'];
+    'lib/updatelock.js', 'lib/backup-retention.js', 'lib/codex-pending.js', 'lib/runtime.js',
+    'lib/atomicwrite.js'];
   for (const rel of corpus.filter((f) => !OWN_STATE.includes(f))) {
     const src = fs.readFileSync(path.join(__dirname, '..', rel), 'utf8').split('\n');
     src.forEach((line, i) => {
-      if (!/fs\.writeFileSync\(/.test(line)) return;
-      // Writes to the launcher's own state are not the operator's files.
-      if (/sshlg-skills|state\.json|config\.json|settings\.json|\.json'/.test(line)) return;
-      const window = src.slice(Math.max(0, i - 14), i).join('\n');
+      // B-260: an operator file is replaced through atomic.write, never written in place.
+      // A raw writeFileSync left outside the pack's own state is the defect itself: a crash
+      // mid-write truncates the file and only the backup can bring it back.
+      if (/fs\.writeFileSync\(/.test(line)
+          && !/sshlg-skills|state\.json|config\.json|settings\.json|\.json'/.test(line)) {
+        assert.fail(`${rel}:${i + 1} writes an operator file in place; use atomic.write after protect(): ${line.trim()}`);
+      }
+      if (/fs\.renameSync\(/.test(line)) {
+        assert.fail(`${rel}:${i + 1} renames outside lib/atomicwrite.js; a second atomic writer is a second write path: ${line.trim()}`);
+      }
+      if (!/\batomic\.write\(/.test(line)) return;
+      const window = src.slice(Math.max(0, i - 30), i + 1).join('\n');
       assert.ok(/protect\(|saved\.action|OPTOUT/.test(window),
         `${rel}:${i + 1} writes without a protect() above it — ${line.trim()}`);
     });
@@ -417,8 +459,8 @@ it('THE PROTECT EXEMPTIONS ARE EXACTLY THE MODULES THAT WRITE THE PACK\'S OWN ST
     }
   }
   assert.deepStrictEqual([...new Set(unguarded)].sort(),
-    ['lib/backup-retention.js', 'lib/backup.js', 'lib/codex-pending.js', 'lib/quarantine.js',
-      'lib/runtime.js', 'lib/store.js', 'lib/turnstate.js', 'lib/updatelock.js'],
+    ['lib/atomicwrite.js', 'lib/backup-retention.js', 'lib/backup.js', 'lib/codex-pending.js',
+      'lib/quarantine.js', 'lib/runtime.js', 'lib/store.js', 'lib/turnstate.js', 'lib/updatelock.js'],
     'a module writes outside protect() and is not explicitly declared to write '
     + 'only the pack\'s own state — argue for it in the exemption list or route it '
     + 'through protect()');

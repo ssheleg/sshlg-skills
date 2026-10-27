@@ -84,5 +84,25 @@ it('the routing registry total only falls (DOCMAP ratchet)', () => {
   if (total < recorded) console.log(`  record ${total} as the new routing-registry-total in docs/DOCMAP.md`);
 });
 
+// B-206: a host that caps its global rules file (Windsurf 6,000 characters) is an error
+// past the cap; Kimi's two global files are measured together against its 32 KiB warning.
+it('a file over its host cap is an error naming the cap', () => {
+  const r = C.report([{ agent: 'windsurf', file: '/h/global_rules.md', text: 'x'.repeat(6001), cap: 6000 }], null);
+  assert.ok(r.findings.some(f => f.severity === 'error' && /6000-character cap/.test(f.message)), JSON.stringify(r.findings));
+  assert.equal(r.rows[0].cap, 6000);
+  assert.ok(!C.report([{ agent: 'windsurf', file: 'g', text: 'x'.repeat(6000), cap: 6000 }], null).findings.length);
+});
+it('Kimi over 32 KiB across its two global files is a note naming both', () => {
+  const r = C.report([{ agent: 'kimi', file: '/h/.kimi-code/AGENTS.md', text: 'x'.repeat(20000), kimiChain: true },
+    { agent: 'agents', file: '/h/.agents/AGENTS.md', text: 'y'.repeat(13000), kimiChain: true }], null);
+  const n = r.findings.filter(f => f.agent === 'kimi');
+  assert.equal(n.length, 1, JSON.stringify(r.findings)); assert.equal(n[0].severity, 'note');
+  assert.match(n[0].message, /33000 bytes/); assert.match(n[0].message, /\.agents\/AGENTS\.md/);
+});
+it('a fallback reliance is a note: OpenCode and Copilot read CLAUDE.md', () => {
+  const r = C.report([{ agent: 'opencode', file: '/h/.config/opencode/AGENTS.md', text: null, fallback: '/h/.claude/CLAUDE.md', fallbackActive: true }], null);
+  assert.ok(r.findings.some(f => f.agent === 'opencode' && f.severity === 'note' && /CLAUDE\.md/.test(f.message)), JSON.stringify(r.findings));
+});
+
 if (failures.length) { failures.forEach(f => console.log('FAIL: ' + f)); console.log(`${failures.length} failure(s) out of ${checks} checks`); process.exit(1); }
 console.log(`PASS: context — ${checks} checks`);
