@@ -495,7 +495,7 @@ one, in any language; the grammatical Russian dash survives only where no rewrit
 reads naturally. Product copy gets the same rule from super-ux (`copywriting`,
 lint code `B067`).
 
-Five channels get it, and each only where that agent is actually installed:
+These channels get it, and each only where that agent is actually installed:
 
 | Agent | Where |
 |---|---|
@@ -504,11 +504,30 @@ Five channels get it, and each only where that agent is actually installed:
 | Gemini CLI | `~/.gemini/GEMINI.md` (or `$GEMINI_CLI_HOME/.gemini/GEMINI.md`) |
 | Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md` — the writer, `uninstall` and the write guard all follow it) |
 | Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true`. Cursor finds it by walking up from the workspace, so it loads only for workspaces under `$HOME` |
+| Kimi, Goose, Warp, Droid | `~/.agents/AGENTS.md`, one shared file all four read. Written as a regular file only; if it is a symlink the hub reports where it points and writes nothing (a link to a file the hub already manages is "already served") |
+| ZCode | `~/.zcode/AGENTS.md` (ZCode 3.14.4's user default) |
+| Qwen Code | `~/.qwen/QWEN.md` (or `$QWEN_HOME/QWEN.md`) |
+| Kiro | `~/.kiro/steering/sshlg-routing.md`, only where `~/.kiro/steering` already exists; no front matter, so Kiro's default "always included" applies |
+| Windsurf (Cascade) | `~/.codeium/windsurf/memories/global_rules.md`, only where that directory exists. Windsurf reads 6,000 characters of it, so this host gets a **compact** block: the map, the protocol and the router table without the per-router sections (about 4,600 characters). A file that would cross the cap is refused, never cut |
 
-Other hosts read these files without the hub writing for them. OpenCode and VS Code
-Copilot read `~/.claude/CLAUDE.md` as a fallback; OpenCode stops as soon as a
-`~/.config/opencode/AGENTS.md` exists. `~/.agents/AGENTS.md` is read by Kimi, Goose,
-Warp and Droid; the hub does not write it, so today it holds what you put there.
+A host counts as installed when its binary is on `PATH` or its home holds anything
+besides `skills/`: the skills CLI creates `<home>/skills` for every agent it installs
+to, so that directory alone proves nothing. Homes of absent hosts are never created.
+`npx sshlg-skills hosts` lists every row with its decision and source.
+
+Some hosts are named but not written for, each for a stated reason. Kimi also reads
+`~/.kimi-code/AGENTS.md` and Goose `~/.config/goose/.goosehints`; the block lives
+once in `~/.agents/AGENTS.md` so neither reads it twice. Hermes has no global
+instruction file (its `SOUL.md` is the agent's persona), so `hosts` gives the manual
+step instead. OpenCode and VS Code Copilot read `~/.claude/CLAUDE.md` as a fallback;
+OpenCode stops as soon as a `~/.config/opencode/AGENTS.md` exists, and `hosts` and
+`context` say which state this machine is in.
+
+Every one of these writes, and every other write to a file you own, goes through one
+helper (`lib/atomicwrite.js`): a copy first, then a temp file in the same directory,
+flushed to disk and renamed over the original. A crash leaves the old file or the new
+one, never half of either; the file's mode is kept, and a symlink stays a symlink
+(the bytes go to the file it points to).
 
 Upstream watch (no code yet, report 2026-10-16, CLAUDE-5 and OPENCODE-2): Claude Code's
 headless docs say `--bare` will become the default for `claude -p`, and `--bare` skips

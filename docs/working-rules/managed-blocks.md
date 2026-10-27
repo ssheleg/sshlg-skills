@@ -166,6 +166,16 @@ itself still succeeds. The failure record (`REFUSED`, `RECOVERY_REQUIRED`) carri
 name and hash too, and `blocks resolve` names that copy when it leaves an operation open.
 Tests: `test/blockwriter_test.js`, the two `B-199` cases.
 
+### Atomic replacement
+
+The new bytes land through `lib/atomicwrite.js`, the one helper every write to an
+operator-owned file in the hub uses (B-260; `test/apply_test.js` fails on a raw
+`fs.writeFileSync` or `fs.renameSync` outside it): a temp file in the target's own
+directory, flushed to disk, then renamed over the target. The re-checks this writer
+makes before replacing (temp readback, `TARGET_CHANGED`) run between the flush and the
+rename, so a refusal there replaces nothing. The file keeps its mode; a symlink stays a
+symlink and the bytes go to the file it resolves to; a dangling symlink is refused.
+
 ### Journal
 
 `~/.sshlg-skills/managed-blocks/journal.jsonl` (directory 0700, file 0600) is

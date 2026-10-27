@@ -182,7 +182,9 @@ process.stdin.on('end', () => {
               `is ${snap} — fix the backup directory (~/.sshlg-skills/backups) and re-apply ` +
               `the missing keys from it.`);
           } else {
-            fs.writeFileSync(real, text, 'utf8');
+            // B-260: temp file, flush, rename; never the in-place write.
+            const atomic = require(path.join(LIB, 'atomicwrite.js'));
+            atomic.write(real, text);
             notes.push(
               `[sshlg-skills] \`obsidian-wiki setup\` dropped ${restored.length} key(s) from ` +
               `${real}; they were restored from the snapshot taken before it ran: ` +

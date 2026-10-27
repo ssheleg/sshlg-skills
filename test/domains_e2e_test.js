@@ -450,10 +450,11 @@ it('install plans an immutable native update without re-enabling an installed do
 
 it('a failed ownership write prevents configuration mutation and leaves no unowned entry', () => {
   const inject = w(path.join(home, 'fault-record.cjs'), `
-    const fs = require('fs'); const original = fs.writeFileSync;
-    fs.writeFileSync = function(file, ...rest) {
-      if (String(file).includes('domains.json')) throw Object.assign(new Error('injected record failure'), {code:'EIO'});
-      return original.call(this, file, ...rest);
+    // B-260: writes land by rename (lib/atomicwrite.js), so the fault is injected there.
+    const fs = require('fs'); const original = fs.renameSync;
+    fs.renameSync = function(from, to) {
+      if (String(to).includes('domains.json')) throw Object.assign(new Error('injected record failure'), {code:'EIO'});
+      return original.call(this, from, to);
     };
   `);
   const before = snapshot();
@@ -465,11 +466,11 @@ it('a failed ownership write prevents configuration mutation and leaves no unown
 
 it('a failed global intent keeps project ownership durable and global values unchanged', () => {
   const inject = w(path.join(home, 'fault-global-intent.cjs'), `
-    const fs = require('fs'); const original = fs.writeFileSync;
-    fs.writeFileSync = function(file, data, ...rest) {
-      if (String(file).includes('domains.json') && Object.keys(JSON.parse(data).user || {}).length)
+    const fs = require('fs'); const original = fs.renameSync;
+    fs.renameSync = function(from, to) {
+      if (String(to).includes('domains.json') && Object.keys(JSON.parse(fs.readFileSync(from, 'utf8')).user || {}).length)
         throw Object.assign(new Error('injected global intent failure'), {code:'ENOSPC'});
-      return original.call(this, file, data, ...rest);
+      return original.call(this, from, to);
     };
   `);
   const r = spawnSync(process.execPath, ['--require', inject, BIN, 'domains', '--apply'], { env, encoding:'utf8', cwd:home });
@@ -483,10 +484,11 @@ it('a failed global intent keeps project ownership durable and global values unc
 
 it('interruption after a global write leaves sufficient durable intent for revert', () => {
   const inject = w(path.join(home, 'interrupt-after-write.cjs'), `
-    const fs = require('fs'); const original = fs.writeFileSync;
-    fs.writeFileSync = function(file, data, ...rest) {
-      const result = original.call(this, file, data, ...rest);
-      if (String(file) === ${JSON.stringify(settings)} && JSON.parse(data).enabledPlugins['xr-dev@xr-dev'] === false)
+    const fs = require('fs'); const original = fs.renameSync;
+    fs.renameSync = function(from, to) {
+      const data = fs.readFileSync(from, 'utf8');
+      const result = original.call(this, from, to);
+      if (String(to) === ${JSON.stringify(settings)} && JSON.parse(data).enabledPlugins['xr-dev@xr-dev'] === false)
         process.exit(86);
       return result;
     };

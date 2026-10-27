@@ -23,6 +23,8 @@ const { spawnSync } = require('child_process');
 
 const plan = require('../lib/plan.js');
 const opres = require('../lib/operation-result.js');
+// B-260: every operator-file write lands through this one temp-file-and-rename helper.
+const atomic = require('../lib/atomicwrite.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'skills.json'), 'utf8'));
@@ -742,7 +744,9 @@ function scopedRoutingTargets(f) {
   if (f.claudeOnly) includeCursor = false;
   else if (selected) includeCursor = selected.has('cursor');
   else includeCursor = true;
-  return { hostTargets: scope.hostTargets, includeCursor };
+  // B-206: the other global instruction files, by the same selection.
+  const extraTargets = require('../lib/instruction-targets.js').select(f);
+  return { hostTargets: scope.hostTargets, includeCursor, extraTargets };
 }
 
 function cmdUpdate(f) {
@@ -1362,6 +1366,7 @@ function cmdHosts() {
     const file = v.supported ? path.join(v.root, t.file) : '(unsupported platform)';
     log(`  ${t.agent.padEnd(8)} ${present ? 'detected' : 'absent  '}  ${file}`);
   }
+  hostsInstructionTargets(home);
   // B-167: Codex will not start while its config defines one table twice.
   const codexT = apply.TARGETS.find((t) => t.agent === 'codex');
   const cv = codexT && apply.hostRootVerdict(codexT, home, {});
@@ -1441,6 +1446,43 @@ function reportStaleLocalRecords() {
   log('  and `update` leaves them as recorded:');
   for (const a of found) log(`    ${a.plugin}: ${a.projectPath} (now ${a.real}, which has its own record)`);
   for (const line of L.remedy(file, found)) log(`  ${line}`);
+}
+
+/**
+ * B-206: every other host with a global instruction file, what the routing writer does
+ * for it, and why. Read-only; the same `describe()` the writer's presence rule uses.
+ */
+function hostsInstructionTargets(home) {
+  const IT = require('../lib/instruction-targets.js');
+  const rows = IT.describe(home);
+  log('\nOther hosts with a global instruction file (B-206):\n');
+  for (const r of rows.filter((x) => x.kind !== 'reported')) {
+    const what = r.kind === 'compact' ? `compact block, cap ${r.cap} characters` : 'full block';
+    const who = r.serves ? ` (serves ${r.serves.join(', ')})` : '';
+    let state = r.present ? 'detected' : 'absent  ';
+    try {
+      if (r.present && fs.lstatSync(r.file).isSymbolicLink()) {
+        const real = fs.realpathSync(r.file);
+        state = require('../lib/apply.js').managedFiles(home, {}).includes(real)
+          ? `symlink to ${real} (hub-managed: already served, nothing written)`
+          : `symlink to ${real} (not hub-managed: left alone; replace the link with a regular file to let the hub manage it)`;
+      }
+    } catch (e) { /* absent or dangling: said below */ }
+    log(`  ${r.agent.padEnd(8)} ${state}  ${r.file}  ${what}${who}${r.present ? '' : `; ${r.why}`}`);
+  }
+  for (const r of rows.filter((x) => x.kind === 'reported')) {
+    if (!r.present) { log(`  ${r.agent.padEnd(8)} absent    not written: ${r.why}`); continue; }
+    let line = `  ${r.agent.padEnd(8)} detected  not written: ${r.why}`;
+    if (r.servedBy) line += ` Served through the ${r.servedBy === 'agents' ? '~/.agents/AGENTS.md' : r.servedBy} row above.`;
+    log(line);
+    if (r.fallback) {
+      log(!r.file ? `           relies on ${r.fallback}.`
+        : r.fallbackActive
+        ? `           relies on ${r.fallback} as a fallback; it stops the day ${r.file} appears.`
+        : `           ${r.file} exists, so ${r.fallback} is NOT read: carry the routing block there or remove the file.`);
+    }
+    if (r.manual) log(`           ${r.manual}`);
+  }
 }
 
 function cmdAgents() {
@@ -1654,7 +1696,7 @@ function cmdRouters(f) {
             `(${saved.error}). Файл не изменён. Освободи ` +
             `~/.sshlg-skills/backups/ и повтори.`);
       } else {
-        fs.writeFileSync(file, moved.text, 'utf8');
+        atomic.write(file, moved.text);
         wrote = true;
       }
     }
@@ -1697,6 +1739,7 @@ function cmdRouters(f) {
     home, mode, consent: decision, routers: packaged,
     // Only the selected host files are written; the rest stay byte-identical.
     hostTargets: scoped.hostTargets, includeCursor: scoped.includeCursor,
+    extraTargets: scoped.extraTargets,
     // What the operator decided once, so a target added in a later release
     // reaches a machine that already said yes.
     consentRecorded: consent.readState(home).routers,
@@ -1772,6 +1815,8 @@ function cmdRouters(f) {
   for (const r of res.targets) {
     if (r.action === 'agent-absent') continue;
     log(`routers: ${r.file} — ${r.action}`);
+    // B-206: a refusal or a symlink the hub will not write through says why, and what to do.
+    if (r.reason) log(`  ${r.reason}`);
     if (r.diff) log(r.diff);
   }
   if (saved.length) {
@@ -2785,7 +2830,7 @@ function cmdVisibilityMarks(argv) {
   const saved = apply.protect(file, { home });
   if (saved.action === 'backup-failed') { log(`  NOT written — backup failed (${saved.error})`); return 1; }
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n', 'utf8');
+  atomic.write(file, JSON.stringify(data, null, 2) + '\n');
   log(`  written${saved.path ? ` (backup ${saved.path})` : ''}. Preview the hosts: npx sshlg-skills visibility`);
   return 0;
 }
@@ -2966,7 +3011,7 @@ function domainsWriteFile(apply, home, file, before, after, label) {
     const saved = apply.protect(file, { home });
     if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); return false; }
   }
-  try { fs.writeFileSync(file, after, { encoding: 'utf8', mode: 0o600 }); return true; }
+  try { atomic.write(file, after, { mode: 0o600 }); return true; }
   catch (e) { log(`  ${label}: NOT written — ${e.code || e.message}`); return false; }
 }
 
@@ -3308,7 +3353,7 @@ function domainsUnsetProject(I, apply, home, dir, rec, keys) {
       if (rec.createdDir) { try { fs.rmdirSync(path.dirname(file)); } catch (e) { /* not empty: something else lives there */ } }
       log(`  ${label}: removed (this command created it)`);
     } else {
-      fs.writeFileSync(file, r.text, 'utf8');
+      atomic.write(file, r.text);
       log(`  ${label}: ${keys.join(', ')} removed`);
     }
     return { ok: true };
@@ -3325,7 +3370,6 @@ function writeRecord(I, owned, apply, home) {
   }, null, 2) + '\n';
   // Keep the old valid record if disk-full/permissions/interruption prevents a new one.
   // Update the in-memory text after EACH intent, not only after the whole command.
-  let tmp;
   try {
     const current = I.readLocal(I.recordPath);
     if (current.error) throw new Error(`cannot read ownership record (${current.error})`);
@@ -3337,17 +3381,13 @@ function writeRecord(I, owned, apply, home) {
     if (text === null) fs.rmSync(I.recordPath, { force: true });
     else {
       fs.mkdirSync(path.dirname(I.recordPath), { recursive: true });
-      tmp = `${I.recordPath}.${process.pid}.tmp`;
-      fs.writeFileSync(tmp, text, { encoding: 'utf8', mode: 0o600, flag: 'wx' });
-      fs.renameSync(tmp, I.recordPath);
+      atomic.write(I.recordPath, text, { mode: 0o600, tmpName: `${path.basename(I.recordPath)}.${process.pid}.tmp` });
     }
     I.recordText = text;
     return true;
   } catch (e) {
     log(`  ownership record NOT updated — ${e.code || e.message}; existing recovery record kept`);
     return false;
-  } finally {
-    if (tmp) { try { fs.rmSync(tmp, { force: true }); } catch (e) { /* retained for recovery */ } }
   }
 }
 
@@ -3682,7 +3722,7 @@ function cmdEnroll(argv) {
       return refuse([{ code: 'BACKUP_FAILED', file: w.file, reason: `no verified backup (${saved.error || 'copy failed'}), so nothing was written` }]);
     }
     fs.mkdirSync(path.dirname(target), { recursive: true });
-    fs.writeFileSync(target, w.after, 'utf8');
+    atomic.write(target, w.after);
     if (fs.readFileSync(target, 'utf8') !== w.after) {
       return refuse([{ code: 'WRITE_UNVERIFIED', file: w.file, reason: 'the bytes read back differ from the bytes written; restore from the backup' }]);
     }
@@ -3741,6 +3781,20 @@ function cmdContext(argv) {
   const override = C.host('codex', pathMod.join(codexRoot, 'AGENTS.override.md'));
   if (override.text != null || override.error) { const main = hosts.find(h => h.agent === 'codex'); if (main && override.text != null) main.shadowed = true; hosts.push(override); }
   for (const name of ['sshlg-routing.mdc', 'sshlg-wait.mdc']) hosts.push(C.host('cursor', pathMod.join(home, '.cursor', 'rules', name)));
+  // B-206: the other hosts' global files, installed hosts only; capped ones carry their cap,
+  // Kimi's two files are summed, and a CLAUDE.md fallback is named.
+  for (const d of require('../lib/instruction-targets.js').describe(home)) {
+    if (!d.present) continue;
+    if (d.file) {
+      const h = C.host(d.agent, d.file);
+      if (d.cap && d.kind === 'compact') h.cap = d.cap;
+      if (d.agent === 'kimi' || (d.agent === 'agents' && (d.via || []).includes('kimi'))) h.kimiChain = true;
+      if (d.fallback) { h.fallback = d.fallback; h.fallbackActive = d.fallbackActive; }
+      hosts.push(h);
+    } else if (d.fallback) {
+      hosts.push({ agent: d.agent, file: null, text: null, fallback: d.fallback, fallbackActive: true });
+    }
+  }
   // B-212: the project files a session started here also loads; Codex caps only these.
   const cwd = process.cwd();
   for (const f of C.codexProjectFiles(cwd)) hosts.push(C.host('codex', f, 'project'));
@@ -3751,7 +3805,7 @@ function cmdContext(argv) {
   log('Always-loaded instruction files (' + r.estimate + '); project rows are for ' + cwd + ':');
   for (const row of r.rows) {
     if (!row.present) { log(`  ${row.agent.padEnd(7)} ${(row.scope === 'project' ? 'project' : 'global ').padEnd(7)} ${row.error ? 'unreadable (' + row.error + ')' : 'absent'}  ${row.file}`); continue; }
-    log(`  ${row.agent.padEnd(7)} ${(row.scope === 'project' ? 'project' : 'global ').padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.shadowed ? '  (shadowed by AGENTS.override.md)' : row.cap ? `  cap ${row.cap} combined (${row.capSource})` : row.agent === 'codex' ? '  read in full' : ''}${row.scope === 'project' ? '  ' + row.file : ''}`);
+    log(`  ${row.agent.padEnd(7)} ${(row.scope === 'project' ? 'project' : 'global ').padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.shadowed ? '  (shadowed by AGENTS.override.md)' : row.cap ? (row.capSource === 'host documentation (characters)' ? `  cap ${row.cap} characters` : `  cap ${row.cap} combined (${row.capSource})`) : row.agent === 'codex' ? '  read in full' : ''}${row.scope === 'project' ? '  ' + row.file : ''}`);
   }
   for (const f of r.findings) log(`  ${f.severity}: ${f.message}`);
   if (!r.findings.length) log('  no host is over a documented cap');
@@ -4100,6 +4154,11 @@ function planUninstall(f) {
       `remove the managed routing block from ${path.join(apply.hostRoot(t, os.homedir()), t.file)} (backup first; bytes outside the sentinels untouched)`,
       { file: path.join(apply.hostRoot(t, os.homedir()), t.file) }));
   }
+  for (const t of require('../lib/instruction-targets.js').EXTRA_TARGETS) {
+    const file = t.file(os.homedir(), process.env);
+    steps.push(opres.step('router-block', 'home',
+      `remove the managed routing block from ${file} if present (backup first; a symlink is left alone)`, { file }));
+  }
   steps.push(opres.step('prune', 'home', 'remove the Cursor rules file (backup first)',
     { paths: [path.join(os.homedir(), '.cursor', 'rules', cursor.FILENAME)] }));
   steps.push(opres.step('runtime-sync', 'home', 'hooks remove (returns any displaced statusLine)', {}));
@@ -4146,7 +4205,7 @@ function cmdUninstall(f) {
         const j = JSON.parse(fs.readFileSync(lockFile, 'utf8'));
         let hits = 0;
         for (const id of dropped) if (j.skills && j.skills[id]) { delete j.skills[id]; hits += 1; }
-        fs.writeFileSync(lockFile, JSON.stringify(j, null, 2) + '\n', 'utf8');
+        atomic.write(lockFile, JSON.stringify(j, null, 2) + '\n');
         log(`  lock: dropped ${hits} entr(ies); copy at ${savedLock.path}`);
       } catch (e) { log(`  ! lock not rewritten: ${e.message}`); ok = false; }
     }
@@ -4162,8 +4221,10 @@ function cmdUninstall(f) {
   }
 
   log(`\n== Removing the managed routing block ==`);
-  for (const t of apply.TARGETS) {
-    const file = path.join(apply.hostRoot(t, home), t.file);   // honours CODEX_HOME & co. (B-165)
+  // B-206: the other hosts' files too; a symlinked shared file is not ours to write through.
+  const extraFiles = require('../lib/instruction-targets.js').EXTRA_TARGETS.map((t) => t.file(home, process.env))
+    .filter((f) => { try { return !fs.lstatSync(f).isSymbolicLink(); } catch (e) { return false; } });
+  for (const file of apply.TARGETS.map((t) => path.join(apply.hostRoot(t, home), t.file)).concat(extraFiles)) {   // honours CODEX_HOME & co. (B-165)
     if (!fs.existsSync(file)) { log(`  routers: ${file} — absent`); continue; }
     const before = fs.readFileSync(file, 'utf8');
     const res = R.removeBlock(before);
@@ -4173,7 +4234,7 @@ function cmdUninstall(f) {
       log(`  ! ${file} NOT written — the backup failed (${saved.error}); the file is unchanged`);
       ok = false; continue;
     }
-    fs.writeFileSync(file, res.text, 'utf8');
+    atomic.write(file, res.text);
     log(`  routers: block removed from ${file} (copy: ${saved.path})`);
   }
   const mdc = path.join(home, '.cursor', 'rules', cursor.FILENAME);
