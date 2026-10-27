@@ -275,6 +275,78 @@ it('three `routers --update` runs leave every extra target byte-identical', () =
   assert.ok(fs.readFileSync(files[1], 'utf8').length <= 6000);
 });
 
+// B-283: `sshlg-routing.md` in Kiro's steering directory is a file the hub names and
+// creates. Uninstall removes it (backup first) when the block was all it held; a file
+// the operator added text to keeps that text.
+it('afterRemoval: an own file left empty is deleted, any other text is written back', () => {
+  const kiro = target('kiro');
+  const block = `${R.BEGIN}\n## routing\nbody\n${R.END}\n`;
+  assert.strictEqual(kiro.ownFile, true);
+  assert.strictEqual(IT.afterRemoval(kiro, block).action, 'delete');
+  assert.strictEqual(IT.afterRemoval(kiro, block + '\n\n').action, 'delete');
+  const mine = IT.afterRemoval(kiro, block + '\n# mine\n');
+  assert.strictEqual(mine.action, 'write');
+  assert.strictEqual(mine.text.trim(), '# mine');
+  assert.strictEqual(IT.afterRemoval(kiro, '# no block here\n').action, 'none');
+  for (const t of IT.EXTRA_TARGETS.filter((x) => x.agent !== 'kiro')) {
+    assert.ok(!t.ownFile, `${t.agent}: a host-named file is never the hub's to delete`);
+    assert.strictEqual(IT.afterRemoval(t, block).action, 'write', t.agent);
+  }
+});
+
+function kiroHome() {
+  const h = home();
+  mk(h, '.claude');
+  fs.writeFileSync(path.join(h, '.claude', 'CLAUDE.md'), '# mine\n');
+  mk(h, '.sshlg-skills');
+  fs.writeFileSync(path.join(h, '.sshlg-skills', 'state.json'), JSON.stringify({ routers: 'yes' }) + '\n');
+  mk(h, '.kiro', 'steering');
+  return h;
+}
+const runIn = (h, args) => spawnSync(process.execPath, [BIN].concat(args), { encoding: 'utf8', env: { HOME: h, PATH: path.dirname(process.execPath) } });
+
+it('uninstall removes the Kiro steering file the hub created when the block was its only content', () => {
+  const h = kiroHome();
+  const file = path.join(h, '.kiro', 'steering', 'sshlg-routing.md');
+  assert.strictEqual(runIn(h, ['routers', '--update']).status, 0);
+  assert.ok(fs.readFileSync(file, 'utf8').includes(R.BEGIN), 'the block was not written');
+  const before = fs.readFileSync(file, 'utf8');
+  const dry = runIn(h, ['uninstall', '--no-claude', '--dry-run']);
+  assert.ok(/sshlg-routing\.md/.test(dry.stdout), dry.stdout.slice(0, 400));
+  assert.ok(fs.existsSync(file), 'the dry run removed it');
+  const r = runIn(h, ['uninstall', '--no-claude']);
+  assert.ok(!fs.existsSync(file), (r.stdout || '') + (r.stderr || ''));
+  assert.match(r.stdout, /routers: removed .*sshlg-routing\.md \(the hub created it and the block was all it held; copy: /);
+  const backups = fs.readdirSync(path.join(h, '.sshlg-skills', 'backups')).filter((n) => n.startsWith('sshlg-routing.md--v2-'));
+  assert.ok(backups.some((n) => fs.readFileSync(path.join(h, '.sshlg-skills', 'backups', n), 'utf8') === before), 'no backup of the file');
+  assert.ok(fs.existsSync(path.join(h, '.kiro', 'steering')), 'the steering directory is Kiro\'s and stays');
+});
+
+it('uninstall keeps a Kiro steering file the operator added text to, without the block', () => {
+  const h = kiroHome();
+  const file = path.join(h, '.kiro', 'steering', 'sshlg-routing.md');
+  assert.strictEqual(runIn(h, ['routers', '--update']).status, 0);
+  fs.appendFileSync(file, '\n# my own steering\n');
+  runIn(h, ['uninstall', '--no-claude']);
+  assert.ok(fs.existsSync(file), 'a file holding operator text was deleted');
+  const after = fs.readFileSync(file, 'utf8');
+  assert.ok(!after.includes(R.BEGIN));
+  assert.ok(after.includes('# my own steering'));
+});
+
+// B-282: ZCode's onboarding can migrate ~/.claude/CLAUDE.md over ~/.zcode/AGENTS.md.
+it('the ZCode row names the onboarding migration and its remedy in hosts', () => {
+  const z = target('zcode');
+  assert.match(z.note, /onboarding/);
+  assert.match(z.note, /~\/\.claude\/CLAUDE\.md/);
+  assert.match(z.note, /npx sshlg-skills update/);
+  const h = home();
+  mk(h, '.zcode', 'cli');
+  assert.strictEqual(IT.describe(h, { env: ENV, which: NOBIN }).find((r) => r.agent === 'zcode').note, z.note);
+  const r = runIn(h, ['hosts']);
+  assert.ok(r.stdout.includes(z.note), r.stdout.slice(-1500));
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

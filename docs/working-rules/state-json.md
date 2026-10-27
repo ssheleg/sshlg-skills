@@ -140,6 +140,23 @@ runtime copy and this file.
 - `update --dry-run` writes nothing and takes no lock.
 - If the lock file cannot be created at all (read-only home), `update` runs without it and says so.
 
+## Modules the package no longer ships
+
+`runtime/.managed.json` records the sha256 and mode of every file the hub copied into
+the runtime (B-193). After each sync, a `lib/` module the package dropped moves to
+`runtime/.retired/<stamp>/` when its bytes still equal that record; an edited or foreign
+file stays, and a hook script never moves (a host may still have it wired). Nothing is
+deleted.
+
+A module older than the record itself was never recorded, so B-193 alone keeps it for
+good. The package therefore also ships `lib/runtime-retired.js`: every `lib/` path it
+once shipped and no longer does, with the sha256 of each blob that path held in Git
+history (B-259). An unrecorded runtime file whose bytes match one of those exactly is
+retired the same way; a byte of difference keeps it. `node scripts/retired-runtime.js
+--write` regenerates the table, and `test/runtime_retired_test.js` fails when the
+committed table and the history disagree. Today it lists one path,
+`lib/router-texts.js` (four blobs).
+
 ## The runtime lock and failed refresh
 
 `~/.sshlg-skills/runtime/.sync.lock` protects the runtime file writer used by both

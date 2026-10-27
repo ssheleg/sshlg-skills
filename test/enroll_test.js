@@ -359,6 +359,121 @@ it('a routers.json that does not parse, or is not an object, is refused', () => 
   }
 });
 
+/* -- authorship and --prune (B-229) ------------------------------------------ */
+
+// routers.json admits router names only (`materialised` reports any other top-level key
+// FALSE), so enroll's record of the entries it wrote lives beside it, in its own file.
+const AUTH = E.AUTH_PATH;
+const auth = (p) => { const w = write(p, AUTH); return w && JSON.parse(w.after); };
+
+it('enroll records the entries it wrote, as written, in its own file under .claude/', () => {
+  assert.strictEqual(AUTH, '.claude/sshlg-enroll.json');
+  const p = E.plan(tree(PACK));
+  const a = auth(p);
+  assert.strictEqual(a.schema, 'sshlg-enroll-authorship/1');
+  assert.deepStrictEqual(a.wrote, JSON.parse(write(p, M.DECL_PATH).after));
+  assert.ok(!JSON.parse(write(p, M.DECL_PATH).after).$sshlg, 'routers.json itself carries no foreign key');
+});
+
+it('an entry enroll did not add is never recorded as its own', () => {
+  const foreign = '{\n  "task-pipeline": { "materialised": ["docs/OTHER.md"] }\n}\n';
+  const a = auth(E.plan(tree(Object.assign({ [M.DECL_PATH]: foreign }, PACK))));
+  assert.deepStrictEqual(Object.keys(a.wrote).sort(), ['copywriting', 'super-ux']);
+});
+
+it('nothing written means no authorship file; a re-run with the record in place is unchanged', () => {
+  assert.strictEqual(write(E.plan(tree({ 'docs/brand/voice.md': 'v' })), AUTH), undefined);
+  const first = E.plan(tree(PACK));
+  const files = Object.assign({}, PACK, { [M.DECL_PATH]: write(first, M.DECL_PATH).after, [AUTH]: write(first, AUTH).after });
+  const again = E.plan(tree(files));
+  assert.strictEqual(write(again, AUTH).action, 'unchanged');
+  assert.strictEqual(write(again, M.DECL_PATH).action, 'unchanged');
+});
+
+it('a record entry the operator edited or removed is dropped from the record on the next run', () => {
+  const first = E.plan(tree(PACK));
+  const decl = JSON.parse(write(first, M.DECL_PATH).after);
+  decl.copywriting.guards = ['docs/brand/mine.py'];
+  delete decl['task-pipeline'];
+  // DOCMAP gone too, so enroll does not add task-pipeline back on this run.
+  const files = Object.assign({}, PACK, { [M.DECL_PATH]: JSON.stringify(decl, null, 2) + '\n', [AUTH]: write(first, AUTH).after });
+  delete files['docs/DOCMAP.md'];
+  const a = auth(E.plan(tree(files)));
+  assert.deepStrictEqual(Object.keys(a.wrote), ['super-ux'], JSON.stringify(a));
+});
+
+it('a malformed or symlinked authorship file is refused, nothing written', () => {
+  for (const bad of ['{ nope', '[]', '{"schema":"other/1","wrote":{}}', '{"schema":"sshlg-enroll-authorship/1","wrote":[]}']) {
+    const p = E.plan(tree(Object.assign({ [AUTH]: bad }, PACK)));
+    assert.strictEqual(p.ok, false, bad);
+    assert.ok(p.refusals.some((r) => r.code === 'MALFORMED' && r.file === AUTH), JSON.stringify(p.refusals));
+    assert.deepStrictEqual(p.writes, []);
+  }
+  const p = E.plan(tree(Object.assign({ [AUTH]: '{}' }, PACK), [AUTH]));
+  assert.ok(p.refusals.some((r) => r.code === 'SYMLINK' && r.file === AUTH), JSON.stringify(p.refusals));
+});
+
+/** A tree after one enroll run, then with `drop` deleted from it. */
+function enrolled(drop, extra) {
+  const first = E.plan(tree(PACK));
+  const files = Object.assign({}, PACK, extra || {}, { [M.DECL_PATH]: write(first, M.DECL_PATH).after, [AUTH]: write(first, AUTH).after });
+  for (const f of drop) delete files[f];
+  return files;
+}
+
+it('--prune removes an entry enroll wrote whose material is gone, and only that one', () => {
+  const files = enrolled(['docs/brand/facts.md']);
+  const p = E.prune(tree(files));
+  assert.strictEqual(p.ok, true, JSON.stringify(p.refusals));
+  assert.deepStrictEqual(p.removed.map((r) => r.router), ['copywriting']);
+  assert.match(p.removed[0].why, /docs\/brand\/facts\.md/);
+  const decl = JSON.parse(write(p, M.DECL_PATH).after);
+  assert.deepStrictEqual(Object.keys(decl), ['super-ux', 'task-pipeline']);
+  assert.deepStrictEqual(Object.keys(JSON.parse(write(p, AUTH).after).wrote), ['super-ux', 'task-pipeline']);
+  assert.ok(M.check(decl, REG.order(), tree(files).read).every((r) => r.satisfied), 'what is left resolves');
+});
+
+it('--prune never removes an operator-written entry, even when its material is gone', () => {
+  const files = enrolled(['docs/brand/facts.md']);
+  const decl = JSON.parse(files[M.DECL_PATH]);
+  decl.zeta = { materialised: ['gone.md'] };
+  files[M.DECL_PATH] = JSON.stringify(decl, null, 2) + '\n';
+  const p = E.prune(tree(files));
+  assert.deepStrictEqual(p.removed.map((r) => r.router), ['copywriting']);
+  assert.ok(JSON.parse(write(p, M.DECL_PATH).after).zeta, 'an entry enroll never wrote was removed');
+});
+
+it('--prune keeps an entry enroll wrote that the operator edited since, and says why', () => {
+  const files = enrolled(['docs/brand/facts.md']);
+  const decl = JSON.parse(files[M.DECL_PATH]);
+  decl.copywriting.materialised.push('docs/brand/extra.md');
+  files[M.DECL_PATH] = JSON.stringify(decl, null, 2) + '\n';
+  const p = E.prune(tree(files));
+  assert.deepStrictEqual(p.removed, []);
+  assert.ok(p.kept.some((k) => k.router === 'copywriting' && /edited/.test(k.why)), JSON.stringify(p.kept));
+});
+
+it('--prune keeps foreign bytes and order, and with nothing to remove writes nothing', () => {
+  const files = enrolled(['docs/ux/lint.py']);
+  files[M.DECL_PATH] = files[M.DECL_PATH].replace('{\n', '{\n  "alpha": {"materialised": ["robots.txt"]},\n');
+  const p = E.prune(tree(files));
+  const after = write(p, M.DECL_PATH).after;
+  assert.ok(after.startsWith('{\n  "alpha": {"materialised": ["robots.txt"]},\n'), after);
+  assert.deepStrictEqual(Object.keys(JSON.parse(after)), ['alpha', 'copywriting', 'task-pipeline']);
+  const clean = E.prune(tree(enrolled([])));
+  assert.deepStrictEqual(clean.removed, []);
+  assert.ok(clean.writes.every((w) => w.action === 'unchanged'), JSON.stringify(clean.writes.map((w) => w.action)));
+});
+
+it('--prune with no authorship record removes nothing and says so', () => {
+  const files = enrolled(['docs/brand/facts.md']);
+  delete files[AUTH];
+  const p = E.prune(tree(files));
+  assert.strictEqual(p.ok, true);
+  assert.deepStrictEqual(p.removed, []);
+  assert.strictEqual(p.record, 'absent');
+});
+
 /* -- purity and registration ----------------------------------------------- */
 
 it('the module never reaches the filesystem: it is handed a reader', () => {
@@ -369,7 +484,10 @@ it('the module never reaches the filesystem: it is handed a reader', () => {
   const saved = names.map((n) => fs[n]);
   const touched = [];
   names.forEach((n) => { fs[n] = (...a) => { touched.push(`${n}(${a[0]})`); throw new Error('filesystem reached'); }; });
-  try { E.plan(tree(Object.assign({ 'CLAUDE.md': ABOVE, 'package.json': pkg({ next: '1', three: '1' }) }, PACK))); }
+  try {
+    E.plan(tree(Object.assign({ 'CLAUDE.md': ABOVE, 'package.json': pkg({ next: '1', three: '1' }) }, PACK)));
+    E.prune(tree(enrolled(['docs/brand/facts.md'])));
+  }
   finally { names.forEach((n, i) => { fs[n] = saved[i]; }); }
   assert.deepStrictEqual(touched, []);
 });
@@ -497,6 +615,53 @@ it('--surface prints the override, and the usage text names the command', () => 
   assert.match(r.out, /surface: internal \(override; detected public-web\)/);
   const help = spawnSync(process.execPath, [BIN, '--help'], { encoding: 'utf8' });
   assert.match(help.stdout, /npx sshlg-skills enroll \[--root DIR\] \[--dry-run\] \[--json\] \[--surface public-web\|app-text\|internal\]/);
+});
+
+it('three runs over a full pack leave one tree, the authorship record included', () => {
+  const dir = repo('three-full', Object.assign({ 'CLAUDE.md': '# mine\n' }, PACK));
+  const snaps = [];
+  for (let i = 0; i < 3; i += 1) {
+    const r = cli(['--root', dir]);
+    assert.strictEqual(r.status, 0, r.out);
+    if (i > 0) assert.match(r.out, /^enroll: unchanged$/m, r.out);
+    snaps.push(JSON.stringify(snapshot(dir)));
+  }
+  assert.ok(snaps[0].includes('sshlg-enroll.json'), 'no authorship record was written');
+  assert.strictEqual(new Set(snaps).size, 1, 'the tree moved between runs');
+});
+
+it('enroll --prune previews by default and writes only with --apply, backup first, three runs one hash', () => {
+  const dir = repo('prune', Object.assign({ 'CLAUDE.md': '# mine\n' }, PACK));
+  assert.strictEqual(cli(['--root', dir]).status, 0);
+  assert.ok(fs.existsSync(path.join(dir, AUTH)), 'enroll recorded nothing');
+  fs.unlinkSync(path.join(dir, 'docs', 'brand', 'facts.md'));
+  const before = snapshot(dir);
+  const preview = cli(['--root', dir, '--prune']);
+  assert.strictEqual(preview.status, 0, preview.out);
+  assert.deepStrictEqual(snapshot(dir), before, 'the preview wrote');
+  assert.match(preview.out, /would remove copywriting/);
+  assert.match(preview.out, /^-  "copywriting": \{$/m, 'the removal is not shown');
+  assert.match(preview.out, /Preview: nothing written\. Run again with --apply/);
+  const hashes = [];
+  for (let i = 0; i < 3; i += 1) {
+    const r = cli(['--root', dir, '--prune', '--apply']);
+    assert.strictEqual(r.status, 0, r.out);
+    if (i > 0) assert.match(r.out, /^enroll --prune: unchanged$/m, r.out);
+    hashes.push(sha(fs.readFileSync(path.join(dir, M.DECL_PATH))) + sha(fs.readFileSync(path.join(dir, AUTH))));
+  }
+  assert.strictEqual(new Set(hashes).size, 1, 'prune is not idempotent');
+  assert.ok(!JSON.parse(fs.readFileSync(path.join(dir, M.DECL_PATH), 'utf8')).copywriting);
+  const backups = fs.readdirSync(path.join(HOME, '.sshlg-skills', 'backups')).filter((n) => n.startsWith('routers.json--v2-'));
+  const copies = backups.map((n) => fs.readFileSync(path.join(HOME, '.sshlg-skills', 'backups', n), 'utf8'));
+  assert.ok(copies.some((c) => JSON.parse(c).copywriting), 'no backup holds the entry before the prune');
+  const j = JSON.parse(cli(['--root', dir, '--prune', '--json']).out);
+  assert.strictEqual(j.state, 'UNCHANGED');
+});
+
+it('--prune usage: --apply needs --prune, --surface and --dry-run --apply do not mix with it', () => {
+  assert.strictEqual(cli(['--apply']).status, 2);
+  assert.strictEqual(cli(['--prune', '--surface', 'internal']).status, 2);
+  assert.strictEqual(cli(['--prune', '--apply', '--dry-run']).status, 2);
 });
 
 fs.rmSync(tmp, { recursive: true, force: true });

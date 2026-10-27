@@ -361,7 +361,7 @@
       "id": "hermes-agent",
       "channel": "skills CLI",
       "reads": "$HERMES_HOME/skills (default ~/.hermes/skills)",
-      "note": "Profile-local installation; ~/.agents/skills requires skills.external_dirs. Project skills require trust; copying a skill does not register native plugins or hooks."
+      "note": "Profile-local installation; ~/.agents/skills requires skills.external_dirs. Family skills are installed as a copy (--copy), never a link into ~/.agents/skills, so a skill_manage(patch) changes Hermes' copy only and the next update restores the pinned bytes (B-217). Project skills require trust; copying a skill does not register native plugins or hooks."
     },
     {
       "name": "OpenClaw",

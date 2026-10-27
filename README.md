@@ -290,6 +290,11 @@ inventory before starting; missing or malformed pins refuse the run. A pinned ad
 replaces existing bytes as well as installing missing skills, so no floating
 `skills update` runs first. Continue copies are restored as real directories with
 `--copy`, including previously installed copies outside the selected default set.
+Hermes gets its own copy the same way (B-217): `skill_manage(patch)` rewrites a skill
+in place, and through a link that place was the shared `~/.agents/skills` copy every
+other host reads. With `--copy` a Hermes self-patch stays in `~/.hermes/skills` and
+the next `update` restores the pinned bytes there. A plain `npx skills update` may
+re-link Hermes; the next `npx sshlg-skills update` copies it again.
 The selected agent list and shared-store effects still apply.
 
 **Family links in other host roots** (B-216). An interactive `skills add` can link the family
@@ -505,9 +510,9 @@ These channels get it, and each only where that agent is actually installed:
 | Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md` — the writer, `uninstall` and the write guard all follow it) |
 | Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true`. Cursor finds it by walking up from the workspace, so it loads only for workspaces under `$HOME` |
 | Kimi, Goose, Warp, Droid | `~/.agents/AGENTS.md`, one shared file all four read. Written as a regular file only; if it is a symlink the hub reports where it points and writes nothing (a link to a file the hub already manages is "already served") |
-| ZCode | `~/.zcode/AGENTS.md` (ZCode 3.14.4's user default) |
+| ZCode | `~/.zcode/AGENTS.md` (ZCode 3.14.4's user default). ZCode onboarding offers to migrate `~/.claude/CLAUDE.md` into this file, overwriting it, which duplicates or replaces the block: decline it, or run `npx sshlg-skills update` after it (B-282; `hosts` prints this note) |
 | Qwen Code | `~/.qwen/QWEN.md` (or `$QWEN_HOME/QWEN.md`) |
-| Kiro | `~/.kiro/steering/sshlg-routing.md`, only where `~/.kiro/steering` already exists; no front matter, so Kiro's default "always included" applies |
+| Kiro | `~/.kiro/steering/sshlg-routing.md`, only where `~/.kiro/steering` already exists; no front matter, so Kiro's default "always included" applies. The file name is the hub's, so `uninstall` deletes the file (backup first) when the block was all it held, and keeps any text the operator added (B-283) |
 | Windsurf (Cascade) | `~/.codeium/windsurf/memories/global_rules.md`, only where that directory exists. Windsurf reads 6,000 characters of it, so this host gets a **compact** block: the map, the protocol and the router table without the per-router sections (about 4,600 characters). A file that would cross the cap is refused, never cut |
 
 A host counts as installed when its binary is on `PATH` or its home holds anything
@@ -1135,14 +1140,26 @@ Each route carries its setup state, read from the tree, and the command that see
 is missing: the brand pack (`<project>/docs/brand/{voice,terminology,facts}.md`,
 `/brand-init`), scenarios with their linter (`<project>/docs/ux/{scenarios.md,lint.py}`,
 `/ux-init`), a DOCMAP (`/task-pipeline setup`), an SEO brief or audit
-(`/seo-aeo-audit brief`). It writes two things and only two:
+(`/seo-aeo-audit brief`). It writes these and nothing else:
 
 - one `SSHLG:PROJECT` block in the project's `CLAUDE.md` and `AGENTS.md` where each
   exists (with neither, a new `CLAUDE.md` holding only the block), listing the routes,
   the surface and its signals, and the setup still owed;
 - `.claude/routers.json` entries for routers whose material already exists, so
   `npx sshlg-skills materialised` reports them true. Existing entries and keys are kept
-  in their order; an entry `enroll` did not add is never rewritten.
+  in their order; an entry `enroll` did not add is never rewritten;
+- `.claude/sshlg-enroll.json`, the record of the routers.json entries `enroll` wrote,
+  as it wrote them (B-229). routers.json admits router names only (`materialised`
+  reports any other key false), so the record lives beside it. An entry the operator
+  edits or removes leaves the record on the next run: it is the operator's now.
+
+When material is deleted later, the entry stays and `materialised` reports it false,
+which is the intended signal. `npx sshlg-skills enroll --prune` removes such an entry
+only when the record says `enroll` wrote it, routers.json still holds exactly those
+bytes, and a file it declares is gone; it never removes an operator-written or edited
+entry, and with no record it removes nothing. It previews (diff included) unless
+`--apply` is given; `--apply` backs up each file first, and a repeat prints
+`enroll --prune: unchanged`.
 
 Every byte outside the block is preserved and each file is copied to
 `~/.sshlg-skills/backups/` before the write. A malformed file, an
@@ -1167,7 +1184,7 @@ bin/sshlg-skills.js          the launcher (install / update / routers / config /
 lib/routers-registry.js      the fifteen routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
-lib/plan.js                  shared skills-CLI argv and Continue copy grouping
+lib/plan.js                  shared skills-CLI argv and Continue/Hermes copy grouping
 lib/installer-pins.js        production immutable member admission and pinned add plan
 lib/codexplugins.js          native Codex catalog inspection and unsafe transition deferral
 lib/inventory.js             the family's map — entry points, not a catalogue

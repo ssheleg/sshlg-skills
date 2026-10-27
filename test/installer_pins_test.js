@@ -29,6 +29,8 @@ test('production update is only pinned adds, preserves target order and Continue
   const restore = pins.build(members, ['codex'], {continueCopies:true});
   assert.equal(restore.length,2); assert(restore[1].includes('--copy'));
   assert.deepEqual(pins.build(members, []), []);
+  const hermes = pins.build(members, ['codex','hermes-agent']);
+  assert.equal(hermes.length, 2); assert(hermes[1].includes('--copy')); assert.equal(hermes[1][5], 'hermes-agent');
 });
 test('duplicate and missing members cannot form a partial production set', () => {
   const pins=require('../lib/installer-pins');

@@ -122,8 +122,9 @@ for (const verb of ['install','update']) {
         for (const call of adds) {
           assert.strictEqual(call.args[1],spec);
           const ids=targets(call.args); assert.ok(ids.length);
-          assert.strictEqual(call.args.includes('--copy'),ids.includes('continue'));
-          if(ids.includes('continue')) assert.deepStrictEqual(ids,['continue']);
+          const copy=ids.filter(id=>P.COPY_AGENTS.includes(id));
+          assert.strictEqual(call.args.includes('--copy'),copy.length>0);
+          if(copy.length) assert.deepStrictEqual(ids,copy.slice(0,1));
         }
       }
     }

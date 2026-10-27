@@ -335,6 +335,9 @@ Usage:
   npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface public-web|app-text|internal]
                                                       # this repository's routes: SSHLG:PROJECT block in its
                                                       # CLAUDE.md/AGENTS.md, routers.json for existing material
+  npx sshlg-skills enroll --prune [--apply] [--root DIR] [--json]
+                                                      # drop routers.json entries enroll wrote whose material
+                                                      # is gone; preview unless --apply
   npx sshlg-skills list [--verbose | -v]
   npx sshlg-skills agents
   npx sshlg-skills help [<command>]                   # this text, or one command's part of it
@@ -1469,6 +1472,7 @@ function hostsInstructionTargets(home) {
       }
     } catch (e) { /* absent or dangling: said below */ }
     log(`  ${r.agent.padEnd(8)} ${state}  ${r.file}  ${what}${who}${r.present ? '' : `; ${r.why}`}`);
+    if (r.note) log(`           note: ${r.note}`);
   }
   for (const r of rows.filter((x) => x.kind === 'reported')) {
     if (!r.present) { log(`  ${r.agent.padEnd(8)} absent    not written: ${r.why}`); continue; }
@@ -3591,18 +3595,20 @@ function checkAddresses(pack) {
  * reader; this function lists the tree through Git, takes the backup through
  * `apply.protect()` and writes. Two things only: the `SSHLG:PROJECT` block in the
  * project's CLAUDE.md / AGENTS.md, and `.claude/routers.json` entries for material that
- * already exists. Exit 0 written or unchanged, 1 refused, 2 usage.
+ * already exists, plus `.claude/sshlg-enroll.json`, the record of the entries it wrote
+ * (B-229). `--prune` removes recorded entries whose material is gone, previewing unless
+ * `--apply`. Exit 0 written, previewed or unchanged, 1 refused, 2 usage.
  */
 function cmdEnroll(argv) {
   const E = require(path.join(ROOT, 'lib', 'enroll.js'));
   const Bk = require(path.join(ROOT, 'lib', 'blocks.js'));
   const A = require(path.join(ROOT, 'lib', 'apply.js'));
   const rest = argv.slice(3);
-  const f = { root: null, dryRun: false, json: false, surface: null };
+  const f = { root: null, dryRun: false, json: false, surface: null, prune: false, apply: false };
   const seen = new Set();
   const usageError = (reason) => {
     if (rest.includes('--json')) log(JSON.stringify({ schema: 'sshlg-enroll/1', state: 'USAGE', reason }));
-    else log(`enroll: ${reason}\nusage: npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface ${E.SURFACES.join('|')}]`);
+    else log(`enroll: ${reason}\nusage: npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface ${E.SURFACES.join('|')}]\n       npx sshlg-skills enroll --prune [--apply] [--root DIR] [--json]`);
     return 2;
   };
   for (let i = 0; i < rest.length; i += 1) {
@@ -3611,6 +3617,8 @@ function cmdEnroll(argv) {
     seen.add(a);
     if (a === '--dry-run') f.dryRun = true;
     else if (a === '--json') f.json = true;
+    else if (a === '--prune') f.prune = true;
+    else if (a === '--apply') f.apply = true;
     else if (a === '--root' || a === '--surface') {
       const v = rest[i + 1];
       if (!v || v.startsWith('--')) return usageError(`${a} needs a value`);
@@ -3620,6 +3628,9 @@ function cmdEnroll(argv) {
       else f.surface = v;
     } else return usageError(`unknown flag: ${a}`);
   }
+  if (f.apply && !f.prune) return usageError('--apply belongs to --prune (enroll itself writes unless --dry-run)');
+  if (f.prune && f.surface) return usageError('--surface does not apply to --prune');
+  if (f.prune && f.apply && f.dryRun) return usageError('--apply and --dry-run contradict each other');
 
   const root = path.resolve(f.root || process.cwd());
   const refuse = (refusals) => {
@@ -3678,6 +3689,59 @@ function cmdEnroll(argv) {
     if (!(real === realRoot || real.startsWith(realRoot + path.sep))) return null;
     return path.relative(realRoot, real).split(path.sep).join('/');
   };
+  // Each changed file: the bytes the plan was computed from are still there, a verified
+  // backup through apply.protect(), then the atomic write and a read-back.
+  const home = process.env.HOME || os.homedir();
+  const commit = (writes) => {
+    const files = [];
+    for (const w of writes) {
+      if (w.action === 'unchanged') { files.push({ file: w.file, action: 'unchanged' }); continue; }
+      const target = under(w.file);
+      const now = kind(w.file) === 'absent' ? null : read(w.file);
+      if (now !== w.before) return { refusal: { code: 'TARGET_CHANGED', file: w.file, reason: 'changed while enroll was planning; run it again' } };
+      const saved = A.protect(target, { home });
+      if (saved.action === 'backup-failed') {
+        return { refusal: { code: 'BACKUP_FAILED', file: w.file, reason: `no verified backup (${saved.error || 'copy failed'}), so nothing was written` } };
+      }
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      atomic.write(target, w.after);
+      if (fs.readFileSync(target, 'utf8') !== w.after) {
+        return { refusal: { code: 'WRITE_UNVERIFIED', file: w.file, reason: 'the bytes read back differ from the bytes written; restore from the backup' } };
+      }
+      files.push({ file: w.file, action: w.action, backup: saved.path ? path.basename(saved.path) : saved.action });
+    }
+    return { files };
+  };
+
+  if (f.prune) {
+    const q = E.prune({ paths, read, kind, alias });
+    if (!q.ok) return refuse(q.refusals);
+    const changed = q.writes.filter((w) => w.action !== 'unchanged');
+    const state = !changed.length ? 'UNCHANGED' : f.apply ? 'PRUNED' : 'PREVIEW';
+    let files = q.writes.map((w) => ({ file: w.file, action: w.action, diff: w.diff }));
+    if (f.apply && changed.length) {
+      const c = commit(q.writes);
+      if (c.refusal) return refuse([c.refusal]);
+      files = c.files;
+    }
+    if (f.json) {
+      log(JSON.stringify({ schema: 'sshlg-enroll/1', state, mode: 'prune', root, record: q.record, removed: q.removed, kept: q.kept, files }, null, 2));
+      return 0;
+    }
+    log(`enroll --prune: ${root}`);
+    if (q.record === 'absent') log(`  no ${E.AUTH_PATH}: enroll has no record of writing any entry, so it removes none`);
+    for (const r of q.removed) log(`  ${f.apply ? 'removed' : 'would remove'} ${r.router}: ${r.why}`);
+    for (const k of q.kept) log(`  kept ${k.router}: ${k.why}`);
+    if (!f.apply) {
+      for (const w of changed) { log(`--- ${w.file}`); log(`+++ ${w.file} (after enroll --prune)`); log(w.diff); }
+      log(changed.length ? 'Preview: nothing written. Run again with --apply to write it (backup first).' : 'enroll --prune: unchanged');
+      return 0;
+    }
+    for (const x of files) log(`  ${x.file}: ${x.action}`);
+    log(changed.length ? `enroll --prune: written (${changed.length} file${changed.length === 1 ? '' : 's'}; backups in ~/.sshlg-skills/backups/)` : 'enroll --prune: unchanged');
+    return 0;
+  }
+
   const p = E.plan({ paths, read, kind, alias }, { surface: f.surface });
   if (!p.ok) return refuse(p.refusals);
 
@@ -3709,25 +3773,9 @@ function cmdEnroll(argv) {
     return 0;
   }
 
-  const home = process.env.HOME || os.homedir();
-  const files = [];
-  for (const w of p.writes) {
-    if (w.action === 'unchanged') { files.push({ file: w.file, action: 'unchanged' }); continue; }
-    const target = under(w.file);
-    // The file must still hold what the plan was computed from.
-    const now = kind(w.file) === 'absent' ? null : read(w.file);
-    if (now !== w.before) return refuse([{ code: 'TARGET_CHANGED', file: w.file, reason: 'changed while enroll was planning; run it again' }]);
-    const saved = A.protect(target, { home });
-    if (saved.action === 'backup-failed') {
-      return refuse([{ code: 'BACKUP_FAILED', file: w.file, reason: `no verified backup (${saved.error || 'copy failed'}), so nothing was written` }]);
-    }
-    fs.mkdirSync(path.dirname(target), { recursive: true });
-    atomic.write(target, w.after);
-    if (fs.readFileSync(target, 'utf8') !== w.after) {
-      return refuse([{ code: 'WRITE_UNVERIFIED', file: w.file, reason: 'the bytes read back differ from the bytes written; restore from the backup' }]);
-    }
-    files.push({ file: w.file, action: w.action, backup: saved.path ? path.basename(saved.path) : saved.action });
-  }
+  const c = commit(p.writes);
+  if (c.refusal) return refuse([c.refusal]);
+  const files = c.files;
   if (f.json) { log(JSON.stringify(report(changed.length ? 'WRITTEN' : 'UNCHANGED', files), null, 2)); return 0; }
   summary();
   for (const x of files) log(`  ${x.file}: ${x.action}`);
@@ -4157,7 +4205,8 @@ function planUninstall(f) {
   for (const t of require('../lib/instruction-targets.js').EXTRA_TARGETS) {
     const file = t.file(os.homedir(), process.env);
     steps.push(opres.step('router-block', 'home',
-      `remove the managed routing block from ${file} if present (backup first; a symlink is left alone)`, { file }));
+      `remove the managed routing block from ${file} if present (backup first; a symlink is left alone`
+        + `${t.ownFile ? '; the file itself when the hub created it and the block was all it held' : ''})`, { file }));
   }
   steps.push(opres.step('prune', 'home', 'remove the Cursor rules file (backup first)',
     { paths: [path.join(os.homedir(), '.cursor', 'rules', cursor.FILENAME)] }));
@@ -4222,19 +4271,26 @@ function cmdUninstall(f) {
 
   log(`\n== Removing the managed routing block ==`);
   // B-206: the other hosts' files too; a symlinked shared file is not ours to write through.
-  const extraFiles = require('../lib/instruction-targets.js').EXTRA_TARGETS.map((t) => t.file(home, process.env))
-    .filter((f) => { try { return !fs.lstatSync(f).isSymbolicLink(); } catch (e) { return false; } });
-  for (const file of apply.TARGETS.map((t) => path.join(apply.hostRoot(t, home), t.file)).concat(extraFiles)) {   // honours CODEX_HOME & co. (B-165)
+  const IT = require('../lib/instruction-targets.js');
+  const extraFiles = IT.EXTRA_TARGETS.map((t) => ({ file: t.file(home, process.env), row: t }))
+    .filter((x) => { try { return !fs.lstatSync(x.file).isSymbolicLink(); } catch (e) { return false; } });
+  for (const { file, row } of apply.TARGETS.map((t) => ({ file: path.join(apply.hostRoot(t, home), t.file), row: null })).concat(extraFiles)) {   // honours CODEX_HOME & co. (B-165)
     if (!fs.existsSync(file)) { log(`  routers: ${file} — absent`); continue; }
     const before = fs.readFileSync(file, 'utf8');
-    const res = R.removeBlock(before);
-    if (!res.removed) { log(`  routers: ${file} — no managed block`); continue; }
+    // B-283: a file the hub created and filled with the block alone goes with the block.
+    const next = IT.afterRemoval(row, before);
+    if (next.action === 'none') { log(`  routers: ${file}: no managed block`); continue; }
     const saved = apply.protect(file, { home });
     if (saved.action === 'backup-failed') {
       log(`  ! ${file} NOT written — the backup failed (${saved.error}); the file is unchanged`);
       ok = false; continue;
     }
-    atomic.write(file, res.text);
+    if (next.action === 'delete') {
+      fs.unlinkSync(file);
+      log(`  routers: removed ${file} (the hub created it and the block was all it held; copy: ${saved.path})`);
+      continue;
+    }
+    atomic.write(file, next.text);
     log(`  routers: block removed from ${file} (copy: ${saved.path})`);
   }
   const mdc = path.join(home, '.cursor', 'rules', cursor.FILENAME);
