@@ -33,8 +33,7 @@ const bash = (command) => ({ tool_name: 'Bash', tool_input: { command } });
 
 it('every documented target is protected, and each one is reachable', () => {
   const list = G.targets(HOME);
-  assert.strictEqual(list.length, 6, `expected six targets, got ${list.length}`);
-  for (const f of [CLAUDE, CURSOR, SETTINGS,
+  for (const f of [CLAUDE, CURSOR, SETTINGS, path.join(HOME, '.codex', 'hooks.json'),
                    path.join(HOME, '.codex', 'AGENTS.md'),
                    path.join(HOME, '.gemini', 'GEMINI.md'),
                    path.join(HOME, '.pi', 'agent', 'AGENTS.md')]) {
@@ -127,6 +126,14 @@ it('a payload with no input at all is silence, not a throw', () => {
   assert.strictEqual(hit({}), null);
   assert.strictEqual(hit({ tool_name: 'Bash' }), null);
   assert.strictEqual(G.decide(undefined, HOME), null);
+});
+
+it('a read-only tool naming a protected file is silence: the guard decides writes only', () => {
+  for (const t of ['Read', 'Grep', 'Glob', 'NotebookRead']) {
+    assert.strictEqual(G.decide({ tool_name: t, tool_input: { file_path: CLAUDE } }, HOME), null, t);
+  }
+  assert.strictEqual(G.decide({ tool_name: 'Write', tool_input: { file_path: CLAUDE } }, HOME), CLAUDE);
+  assert.strictEqual(G.decide({ tool_input: { file_path: CLAUDE } }, HOME), CLAUDE, 'no tool name keeps the old reading');
 });
 
 it('the matcher list covers every tool that can write', () => {
@@ -258,6 +265,145 @@ it('the heredoc treatment is imported, not a second parser', () => {
     'guard.js no longer imports the treatment');
   assert.ok(!/function executablePart/.test(src),
     'guard.js grew its own copy of executablePart');
+});
+
+// Codex apply_patch (B-209): lib/hookpayload.js hands the patch's paths over as a list.
+it('a list of paths hits the first protected one, and misses when none is', () => {
+  assert.strictEqual(hit({ tool_name: 'apply_patch', tool_input: { file_paths: ['/w/a.js', CLAUDE] } }), CLAUDE);
+  assert.strictEqual(hit({ tool_name: 'apply_patch', tool_input: { file_paths: ['/w/a.js', CLAUDE + '.bak', 7] } }), null);
+  assert.strictEqual(hit({ tool_name: 'apply_patch', tool_input: { file_paths: [] } }), null);
+});
+
+// B-218 CLAUDE-8: the hooks wiring follows CLAUDE_CONFIG_DIR, so does its settings file.
+it('a relocated Claude profile protects its settings.json too', () => {
+  const env = { CLAUDE_CONFIG_DIR: '/profiles/work' };
+  assert.ok(G.targets(HOME, env).includes('/profiles/work/settings.json'));
+  assert.strictEqual(G.decide({ tool_name: 'Write', tool_input: { file_path: '/profiles/work/settings.json' } }, HOME, env),
+    '/profiles/work/settings.json');
+});
+
+// ---- B-273: Codex's hooks.json -------------------------------------------------
+// `hooks install --codex` writes it (B-209), and like settings.json it has no version
+// control behind it. CODEX_HOME relocates it, as it relocates AGENTS.md.
+
+const CODEX_HOOKS = path.join(HOME, '.codex', 'hooks.json');
+
+it('B-273: Codex hooks.json is protected at ~/.codex and under CODEX_HOME', () => {
+  assert.ok(G.targets(HOME).includes(CODEX_HOOKS));
+  const env = { CODEX_HOME: '/profiles/codex' };
+  assert.ok(G.targets(HOME, env).includes('/profiles/codex/hooks.json'));
+  assert.strictEqual(G.decide({ tool_name: 'Write', tool_input: { file_path: '/profiles/codex/hooks.json' } }, HOME, env),
+    '/profiles/codex/hooks.json');
+});
+
+it('B-273: writes to Codex hooks.json are caught (Edit, apply_patch paths, shell redirect)', () => {
+  assert.strictEqual(hit({ tool_name: 'Edit', tool_input: { file_path: CODEX_HOOKS } }), CODEX_HOOKS);
+  assert.strictEqual(hit({ tool_name: 'apply_patch', tool_input: { file_paths: ['/repo/x.js', CODEX_HOOKS] } }), CODEX_HOOKS);
+  assert.strictEqual(hit(bash('echo {} > ~/.codex/hooks.json')), CODEX_HOOKS);
+});
+
+it('B-273: reading or copying Codex hooks.json, or a neighbouring file, is silence', () => {
+  assert.strictEqual(hit({ tool_name: 'Read', tool_input: { file_path: CODEX_HOOKS } }), null);
+  assert.strictEqual(hit(bash('cat ~/.codex/hooks.json')), null);
+  assert.strictEqual(hit(bash('cp ~/.codex/hooks.json /tmp/h.json')), null);
+  assert.strictEqual(hit(bash('echo x > ~/.codex/hooks.json.bak')), null);
+  assert.strictEqual(hit({ tool_name: 'Write', tool_input: { file_path: '/repo/hooks/hooks.json' } }), null);
+  // CODEX_HOME set: the relocated file is the one, and an unrelated hooks.json is not.
+  assert.strictEqual(G.decide({ tool_name: 'Write', tool_input: { file_path: '/elsewhere/hooks.json' } }, HOME,
+    { CODEX_HOME: '/profiles/codex' }), null);
+});
+
+// ---- B-281: the instruction targets beyond apply.TARGETS ------------------------
+// lib/instruction-targets.js is the one list of those files (B-206); the guard reads it
+// rather than keeping a second hand list that drifts the day a host is added.
+
+const IT = require('../lib/instruction-targets.js');
+const QWEN = path.join(HOME, '.qwen', 'QWEN.md');
+const NEW_FILES = [
+  path.join(HOME, '.agents', 'AGENTS.md'),
+  path.join(HOME, '.zcode', 'AGENTS.md'),
+  QWEN,
+  path.join(HOME, '.kiro', 'steering', 'sshlg-routing.md'),
+  path.join(HOME, '.codeium', 'windsurf', 'memories', 'global_rules.md'),
+];
+
+it('B-281: every new instruction target is protected', () => {
+  const list = G.targets(HOME);
+  for (const f of NEW_FILES) assert.ok(list.includes(f), `not protected: ${f}`);
+});
+
+it('B-281: the list is DERIVED from lib/instruction-targets.js, every row, both env states', () => {
+  for (const env of [{}, { QWEN_HOME: '/profiles/qwen' }]) {
+    const list = G.targets(HOME, env);
+    for (const t of IT.EXTRA_TARGETS) {
+      const f = t.file(HOME, env);
+      assert.ok(list.includes(f), `${t.agent}: ${f} is written by the hub and not protected`);
+    }
+  }
+  // One source: guard.js names none of these hosts' paths by hand.
+  const src = fs.readFileSync(path.join(__dirname, '..', 'lib', 'guard.js'), 'utf8');
+  for (const word of ['.zcode', '.qwen', '.kiro', '.codeium', 'QWEN.md', 'global_rules.md']) {
+    assert.ok(!src.includes(`'${word}'`), `guard.js hand-lists ${word}; read it from lib/instruction-targets.js`);
+  }
+});
+
+it('B-281: every apply.TARGETS file is protected, at home and relocated by its variable', () => {
+  const A = require('../lib/apply.js');
+  for (const t of A.TARGETS) {
+    assert.ok(G.targets(HOME).includes(path.join(HOME, t.dir, t.file)), `${t.agent} default`);
+    const env = { [t.env]: '/moved' };
+    const moved = t.envIsHome ? path.join('/moved', t.dir, t.file) : path.join('/moved', t.file);
+    assert.ok(G.targets(HOME, env).includes(moved), `${t.agent} under ${t.env}`);
+  }
+});
+
+it('B-281: QWEN_HOME relocates QWEN.md, and the default stays protected', () => {
+  const env = { QWEN_HOME: '/profiles/qwen' };
+  assert.ok(G.targets(HOME, env).includes('/profiles/qwen/QWEN.md'));
+  assert.ok(G.targets(HOME, env).includes(QWEN));
+  assert.strictEqual(G.decide({ tool_name: 'Edit', tool_input: { file_path: '/profiles/qwen/QWEN.md' } }, HOME, env),
+    '/profiles/qwen/QWEN.md');
+});
+
+it('B-281: writes to the new targets are caught, by file tool and by shell', () => {
+  for (const f of NEW_FILES) {
+    assert.strictEqual(hit({ tool_name: 'Write', tool_input: { file_path: f } }), f, f);
+    assert.strictEqual(hit(bash(`echo x >> ~/${path.relative(HOME, f)}`)), f, `redirect into ${f}`);
+  }
+  assert.strictEqual(hit(bash('rm ~/.kiro/steering/sshlg-routing.md')), NEW_FILES[3]);
+});
+
+it('B-281: neighbours of the new targets are silence', () => {
+  assert.strictEqual(hit({ tool_name: 'Write', tool_input: { file_path: path.join(HOME, '.kiro', 'steering', 'product.md') } }), null);
+  assert.strictEqual(hit({ tool_name: 'Write', tool_input: { file_path: path.join(HOME, '.agents', 'skills', 'x', 'SKILL.md') } }), null);
+  assert.strictEqual(hit({ tool_name: 'Read', tool_input: { file_path: QWEN } }), null);
+  assert.strictEqual(hit(bash('cat ~/.zcode/AGENTS.md')), null);
+  assert.strictEqual(hit(bash('cp ~/.qwen/QWEN.md ~/.qwen/QWEN.md.2026-10-27')), null);
+});
+
+it('B-273/B-281: the real hook takes the copy before a write to the new files', () => {
+  const os = require('os');
+  const { spawnSync } = require('child_process');
+  const home = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-guard-e2e-')));
+  try {
+    const files = [path.join(home, '.codex', 'hooks.json'), path.join(home, '.qwen', 'QWEN.md')];
+    for (const f of files) { fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, `operator text in ${path.basename(f)}\n`); }
+    const env = Object.assign({}, process.env, { HOME: home, USERPROFILE: home, SSHLG_SKILLS_NO_PROBE: '1' });
+    for (const k of ['CLAUDE_CONFIG_DIR', 'CODEX_HOME', 'QWEN_HOME', 'GEMINI_CLI_HOME', 'PI_CODING_AGENT_DIR']) delete env[k];
+    for (const f of files) {
+      const r = spawnSync(process.execPath, [path.join(__dirname, '..', 'hooks', 'pre-tool-use.js')], {
+        input: JSON.stringify({ hook_event_name: 'PreToolUse', tool_name: 'Write', tool_input: { file_path: f }, cwd: home }),
+        encoding: 'utf8', env, timeout: 15000,
+      });
+      assert.strictEqual(r.status, 0, r.stderr);
+      assert.ok(/copy taken before the write/.test(r.stderr || ''), `${f}: ${r.stderr}`);
+    }
+    const copies = fs.readdirSync(path.join(home, '.sshlg-skills', 'backups')).filter((n) => !n.startsWith('.'));
+    const bodies = copies.map((n) => fs.readFileSync(path.join(home, '.sshlg-skills', 'backups', n), 'utf8'));
+    for (const f of files) assert.ok(bodies.includes(`operator text in ${path.basename(f)}\n`), `no copy of ${f}: ${copies}`);
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
 });
 
 if (failures.length) {

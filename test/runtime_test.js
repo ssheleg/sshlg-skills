@@ -204,6 +204,70 @@ it('retirement never follows a symlinked .retired and never retires a hook scrip
   assert.ok(fs.existsSync(path.join(rt, 'hooks', 'gone.js')), 'a hook script may still be wired; it stays');
 });
 
+// B-259: a module older than the ownership record (`lib/router-texts.js` predates
+// `.managed.json`) is unrecorded, so B-193 alone could never retire it. The package
+// ships the path and sha256 of every blob that path ever held; an unrecorded file
+// with one of those exact bytes is the hub's and retires like a recorded one.
+const shaOf = (text) => require('crypto').createHash('sha256').update(text).digest('hex');
+it('an unrecorded module whose bytes match a retired blob of that path is retired', () => {
+  const pkg = seedPackage(tmp()), rt = tmp();
+  R.sync(pkg, rt, { create: true });
+  fs.writeFileSync(path.join(rt, 'lib', 'router-texts.js'), '// an old release\n');
+  fs.writeFileSync(path.join(pkg, 'lib', 'guard.js'), '// v3\n');
+  const table = { 'lib/router-texts.js': [shaOf('// older still\n'), shaOf('// an old release\n')] };
+  const r = R.sync(pkg, rt, { retiredBlobs: table });
+  assert.equal(r.ok, true, r.reason);
+  assert.deepEqual(r.retired, ['lib/router-texts.js']);
+  assert.ok(!fs.existsSync(path.join(rt, 'lib', 'router-texts.js')));
+  const kept = fs.readdirSync(path.join(rt, '.retired')).map(d => path.join(rt, '.retired', d, 'lib', 'router-texts.js'));
+  assert.ok(kept.some(f => fs.existsSync(f) && fs.readFileSync(f, 'utf8') === '// an old release\n'), 'retired bytes kept');
+  assert.ok(!('lib/router-texts.js' in JSON.parse(fs.readFileSync(path.join(rt, '.managed.json'), 'utf8')).files));
+});
+it('an unchanged runtime still retires a history-matched module (the update most machines see)', () => {
+  const pkg = seedPackage(tmp()), rt = tmp();
+  R.sync(pkg, rt, { create: true });
+  fs.writeFileSync(path.join(rt, 'lib', 'router-texts.js'), '// an old release\n');
+  const r = R.sync(pkg, rt, { retiredBlobs: { 'lib/router-texts.js': [shaOf('// an old release\n')] } });
+  assert.equal(r.status, 'unchanged'); assert.deepEqual(r.retired, ['lib/router-texts.js']);
+});
+it('an edited, foreign or still-shipped file is never retired by the history table', () => {
+  const pkg = seedPackage(tmp()), rt = tmp();
+  R.sync(pkg, rt, { create: true });
+  fs.writeFileSync(path.join(rt, 'lib', 'router-texts.js'), '// edited by hand\n');
+  fs.writeFileSync(path.join(rt, 'lib', 'foreign.js'), '// not ours\n');
+  fs.writeFileSync(path.join(rt, 'hooks', 'old-hook.js'), '// hook\n');
+  const table = {
+    'lib/router-texts.js': [shaOf('// an old release\n')],
+    'lib/foreign.js': [shaOf('// something else\n')],
+    'lib/guard.js': [shaOf('// v1\n')],               // still shipped: never retired
+    'hooks/old-hook.js': [shaOf('// hook\n')],        // a hook may still be wired
+  };
+  const r = R.sync(pkg, rt, { retiredBlobs: table });
+  assert.equal(r.ok, true, r.reason); assert.deepEqual(r.retired, []);
+  for (const f of ['lib/router-texts.js', 'lib/foreign.js', 'lib/guard.js', 'hooks/old-hook.js']) {
+    assert.ok(fs.existsSync(path.join(rt, f)), `${f} was moved`);
+  }
+});
+it('a malformed history table retires nothing and the sync still succeeds', () => {
+  const pkg = seedPackage(tmp()), rt = tmp();
+  R.sync(pkg, rt, { create: true });
+  fs.writeFileSync(path.join(rt, 'lib', 'router-texts.js'), '// an old release\n');
+  for (const bad of [null, [], { 'lib/router-texts.js': 'nope' }, { '../escape.js': [shaOf('x')] }, { 'lib/router-texts.js': ['short'] }]) {
+    const r = R.sync(pkg, rt, { retiredBlobs: bad });
+    assert.equal(r.ok, true, JSON.stringify(bad)); assert.deepEqual(r.retired, [], JSON.stringify(bad));
+  }
+  assert.ok(fs.existsSync(path.join(rt, 'lib', 'router-texts.js')));
+});
+it('the shipped table is the default, and names lib/router-texts.js', () => {
+  const T = require('../lib/runtime-retired.js');
+  assert.ok(Array.isArray(T.BLOBS['lib/router-texts.js']) && T.BLOBS['lib/router-texts.js'].length >= 1);
+  const pkg = seedPackage(tmp()), rt = tmp();
+  R.sync(pkg, rt, { create: true });
+  // No fixture bytes match a real release blob, so the default table moves nothing here.
+  fs.writeFileSync(path.join(rt, 'lib', 'router-texts.js'), '// not a release\n');
+  assert.deepEqual(R.sync(pkg, rt).retired, []);
+});
+
 if (failures.length) {
   for (const f of failures) console.error(`FAIL: ${f}`);
   console.error(`\n${failures.length} of ${checks} failed`);

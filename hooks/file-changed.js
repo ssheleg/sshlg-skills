@@ -81,7 +81,7 @@ process.stdin.on('end', () => {
     if (ledger.awaitingOperator(summary)) {
       const last = summary.stages[summary.stages.length - 1];
       seq += `${notify.ESC}]777;notify;task-pipeline;` +
-        `${notify.sanitise(`stage ${last.id} ${last.name} needs you — manual gate`)}${notify.BEL}`;
+        `${notify.sanitise(`stage ${last.id} ${last.name} needs you: manual gate`)}${notify.BEL}`;
     }
     if (seq && notify.isAllowed(seq)) out.terminalSequence = seq;
 

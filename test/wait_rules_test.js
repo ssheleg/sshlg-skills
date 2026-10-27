@@ -27,6 +27,22 @@ test('an applied wait-v1 rule upgrades in place to the current revision',h=>{
  assert.equal(Object.values(W.receipt(h).data.records)[0].sourceRevision,T.REVISION);
  const again=fs.readFileSync(f);apply(h,{automatic:true});assert(fs.readFileSync(f).equals(again),'a second update changes nothing');
 });
+// B-226: wait-v3 takes the em dash out of the finish line. Every host that applied wait-v2
+// (1.64.0 to 1.80.0) must be reworded by update, not refused as an edited block.
+test('an applied wait-v2 rule upgrades in place to wait-v3, which carries no em dash',h=>{
+ const crypto=require('crypto'),dg=s=>crypto.createHash('sha256').update(s).digest('hex');
+ assert.equal(T.REVISION,'wait-v3');assert(T.PREVIOUS['wait-v2'].includes('—'),'wait-v2 is not the 1.80.0 wording');
+ const f=host(h,'claude');P.set(h,'on');apply(h);
+ const rec=W.receipt(h),r=Object.values(rec.data.records)[0],v2=r.segment.replace(T.render('claude'),T.render('claude',T.PREVIOUS['wait-v2']));
+ assert.notEqual(v2,r.segment,'the fixture did not rebuild wait-v2');
+ fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace(r.segment,v2));Object.assign(r,{segment:v2,sourceRevision:'wait-v2',sourceHash:dg(v2)});fs.writeFileSync(rec.file,JSON.stringify(rec.data));
+ const p=apply(h,{automatic:true});assert.equal(p.rows.find(x=>x.agent==='claude').action,'write');
+ const text=fs.readFileSync(f,'utf8');assert(!text.includes('—'),'an em dash survived the upgrade');assert(text.includes('A finding that blocks nothing (no exit check red'));
+ assert(text.startsWith('FOREIGN\n'));assert.equal(text.split(T.BEGIN).length,2);
+ assert.equal(Object.values(W.receipt(h).data.records)[0].sourceRevision,'wait-v3');
+ const hashes=[];for(let i=0;i<3;i++){apply(h,{automatic:true});hashes.push(dg(fs.readFileSync(f)));}
+ assert(hashes[0]===hashes[1]&&hashes[1]===hashes[2],'a later update changed the file again');
+});
 for(const raw of [T.BEGIN+'\n',T.BEGIN+'\n'+T.END+'\n',T.BEGIN+T.END+T.BEGIN+T.END])test('unknown or malformed markers refuse before write',h=>{const f=host(h,'codex',raw);P.set(h,'on');assert.throws(()=>W.plan(h,opts));assert.equal(fs.readFileSync(f,'utf8'),raw);});
 test('edited owned region refuses even off',h=>{const f=host(h,'codex');P.set(h,'on');apply(h);fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace('Finish a unit','CUSTOM unit'));const before=fs.readFileSync(f,'utf8');P.set(h,'off');assert.throws(()=>W.plan(h,opts));assert.equal(fs.readFileSync(f,'utf8'),before);});
 test('foreign Cursor filename refuses',h=>{const d=path.join(h,'.cursor','rules');fs.mkdirSync(d,{recursive:true});fs.writeFileSync(path.join(d,'sshlg-wait.mdc'),'foreign');P.set(h,'on');assert.throws(()=>W.plan(h,{...opts,cursor:true}),/foreign Cursor/);});

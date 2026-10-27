@@ -154,7 +154,7 @@ it('no run, no block', () => {
 
 it('a missing holds line reads as unreported, never as zero', () => {
   const without = LEDGER.split('\n').filter((l) => !l.startsWith('holds:')).join('\n');
-  assert.ok(L.render(without).includes('holds —'), L.render(without));
+  assert.ok(L.render(without).includes('holds n/a'), L.render(without));
   assert.ok(!L.render(without).includes('holds 0'),
     'an unreported holds line rendered as a clean zero — a silent stage now looks safe');
 });

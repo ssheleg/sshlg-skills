@@ -206,14 +206,14 @@ t('a family-named marketplace from another source is not touched', () => {
   const r = runUpdate(sb, ['--agent', 'codex']);
   assert.strictEqual(r.status, 0, r.out.slice(-1500));
   assert.deepStrictEqual(mutating(sb), []);
-  assert.ok(/agent-sync@agent-sync: left alone — marketplace source is \/Users\/dev\/agent-sync/.test(r.out));
+  assert.ok(/agent-sync@agent-sync: left alone: marketplace source is \/Users\/dev\/agent-sync/.test(r.out));
 });
 
 t('a plugin the operator disabled is not refreshed', () => {
   const sb = sandbox({ edit: (s) => { s.enabled['agent-sync@agent-sync'] = false; } });
   const r = runUpdate(sb, ['--agent', 'codex']);
   assert.deepStrictEqual(mutating(sb), []);
-  assert.ok(/agent-sync@agent-sync: left alone — disabled in Codex/.test(r.out));
+  assert.ok(/agent-sync@agent-sync: left alone: disabled in Codex/.test(r.out));
 });
 
 t('Codex absent: skipped with a named reason, exit 0', () => {

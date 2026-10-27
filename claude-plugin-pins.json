@@ -1073,8 +1073,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "ce33d5d4134b0c61df2bbe41574b5021ca476e91",
-      "version": "1.102.2",
+      "commit": "64e28dfa1aa860780072da867c7dea41c3099edd",
+      "version": "1.102.3",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1082,7 +1082,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.102.2",
+        "version": "1.102.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1105,7 +1105,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "6eb4f458d7dbaf33583f4eb3e3c1c8e938c592e01d78ae4c53a57a80903f082b",
+          "sha256": "640594333e8fa88d465455fe0119a72d0fcef9a8379a58d86de0c181e417c9dd",
           "bytes": 1529
         },
         {
@@ -1150,8 +1150,8 @@
         },
         {
           "path": "hooks/build-gate.sh",
-          "sha256": "f6e8cd6ce4a61245867947d31c0a4f256c4a93378beb7e8a6296b0ae55de45ee",
-          "bytes": 5115
+          "sha256": "b581b46cc485ca01b98041151ef46cfc65f0745138bc28109bad60faef71dc40",
+          "bytes": 5912
         },
         {
           "path": "hooks/gate-observer.sh",
@@ -1160,8 +1160,8 @@
         },
         {
           "path": "hooks/hooks.json",
-          "sha256": "ca92ec4b8d3ed4c287a4d38ea9b11c02ca2b812af191a59231bcc97b0dbb6ba3",
-          "bytes": 2532
+          "sha256": "d86584ab1012a4cd0b757462c16ed9cf48b89bb91be8bb1b1c3e38a88e87ca94",
+          "bytes": 2556
         },
         {
           "path": "hooks/memory-nudge.sh",
@@ -1195,8 +1195,8 @@
         },
         {
           "path": "skills/evidence-docs/references/hooks.md",
-          "sha256": "eda19fbdc8c9173ebfcdf1d640c047ab464b791adb9ba3158ba5e12bea02eeb3",
-          "bytes": 14828
+          "sha256": "908e929f98f01e26753e6a2a3eb3aaacc5b334b77b39462a3db1259304000aa7",
+          "bytes": 15512
         },
         {
           "path": "skills/evidence-docs/references/learned.md",
@@ -1420,8 +1420,8 @@
         },
         {
           "path": "skills/task-pipeline/references/hooks.md",
-          "sha256": "25f647e5c1881de8272accb50b999f721710c10611259ca001c7d09f06ff1188",
-          "bytes": 14527
+          "sha256": "5839bd150506fadd85713d18e2439e958f5826bc4e512beab00e9d3014e0bc78",
+          "bytes": 15211
         },
         {
           "path": "skills/task-pipeline/references/iteration.md",
@@ -1490,8 +1490,8 @@
         },
         {
           "path": "skills/task-pipeline/references/retrospective.md",
-          "sha256": "17ed4553e12902fe67b6dfc1e345864e77dc686a1fbfc7cc0bd026ae2b4ae974",
-          "bytes": 37823
+          "sha256": "d31eba5f2c5ac6ce55ac881f5236b369c80a93104ea92adc57c45d4f5f20cf2e",
+          "bytes": 38233
         },
         {
           "path": "skills/task-pipeline/references/review.md",
@@ -1640,8 +1640,8 @@
         },
         {
           "path": "skills/task-pipeline/scripts/retro_budget.py",
-          "sha256": "1e6f7243e35f99c1fbb4a538cced47440c4f7ea6609ef075f57dc3163fdd64e9",
-          "bytes": 25922
+          "sha256": "fb45b09f55b86c029b0968c54373a8e26f0d6261ad06b5bfdd6158a2e086fb7a",
+          "bytes": 31412
         },
         {
           "path": "skills/task-pipeline/scripts/short_path.py",
@@ -1665,8 +1665,8 @@
         },
         {
           "path": "skills/task-pipeline/SKILL.md",
-          "sha256": "5969c59fae9eca17ba83ae265857f8498ab7861da093bbcefdd23d41c7665acb",
-          "bytes": 16081
+          "sha256": "5a09192e9fd7f132a5eaacaf4ff39688457df3bd423e7a1fd330d0f8018816fb",
+          "bytes": 16336
         },
         {
           "path": "skills/task-pipeline/templates/adr.md",
@@ -1818,8 +1818,8 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "f3828c5f4fa60eacdf5a1da1516f523f9a54e09c",
-      "version": "1.23.2",
+      "commit": "6a30f41482d0586523b165147d2bff55810144e5",
+      "version": "1.23.3",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
       "entry": {
@@ -1827,7 +1827,7 @@
         "displayName": "Agent Sync",
         "source": "./plugins/agent-sync",
         "description": "Coordination layer for multi-agent repositories. Gives task-pipeline runs leases with a TTL, race-free ID reservation, a cross-repo signal feed, an append-only run journal and a machine-generated read-only board. A lease is decided by a primitive that genuinely has compare-and-swap — an atomic file create on one machine, a pushed git ref across machines — never by the knowledge base, which loses concurrent writes; the store carries the record and the ID allocation, which is positional over the merged log. The knowledge backend is a pluggable adapter (Outline, filesystem) declaring its own capabilities and degrading out loud. Ships Claude Code hooks that deny edits to guarded registry files without a live lease.",
-        "version": "1.23.2",
+        "version": "1.23.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1850,7 +1850,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "32e65bf57499b1820ed6393481edd6f350e81e5d1bb8dc47584a4ba54d693b60",
+          "sha256": "875867bd67720eb44601e16343e40bd378e75ec56846460520c354f9056190c9",
           "bytes": 695
         },
         {
@@ -1865,13 +1865,13 @@
         },
         {
           "path": "hooks/guard.sh",
-          "sha256": "4a1cd3351e4bdb7c6f3bc22230115208d26eafa128a9c94120d7d77ee1ae0539",
-          "bytes": 14747
+          "sha256": "099d419b784d2ace58b2a7b6bfa064c58d2649b518f0443ca3ad6c2d51b05009",
+          "bytes": 16926
         },
         {
           "path": "hooks/hooks.json",
-          "sha256": "bc52f071cd8f7f43161aacd2353f0dd0c94103edf98fb9654484b963d2e9f785",
-          "bytes": 3146
+          "sha256": "2aecb5973dd5d1741b8c3854ca7a775cfac9b0ee412a5c96e223ed72128d5587",
+          "bytes": 3256
         },
         {
           "path": "hooks/renew.sh",
@@ -1925,8 +1925,8 @@
         },
         {
           "path": "skills/agent-sync/references/hooks.md",
-          "sha256": "fb24a1c7e30e9af67a80c6cedbaa7de34673afb315555bddf09d7b5ede4c2348",
-          "bytes": 14994
+          "sha256": "e4e58e33a43ed5984b3a3d68170676335a7b5ea51dacb4eac1e288a5bfb19271",
+          "bytes": 15780
         },
         {
           "path": "skills/agent-sync/references/lease-protocol.md",
@@ -1950,7 +1950,7 @@
         },
         {
           "path": "skills/agent-sync/scripts/agent_sync.py",
-          "sha256": "cecb9b9629bc53f94cf9d58de7a561a0dda2bfc2013ceb374de923d1f7a4440a",
+          "sha256": "7125ec1c21541910a51b658e713b7ab15f021ebfea41205c659471a7cc274b41",
           "bytes": 376420
         },
         {
@@ -1960,7 +1960,7 @@
         },
         {
           "path": "skills/agent-sync/SKILL.md",
-          "sha256": "e8a552d7752d1bcffb15bbbf0aa3c083f8f444ff3ca1d0ca85da8b2d0b77df98",
+          "sha256": "2b2071cec526c7b9b6e6a2f414371425a808d1a85a82b34c75d935e37672f6dc",
           "bytes": 20070
         }
       ]
@@ -1968,8 +1968,8 @@
     {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
-      "commit": "faabd1265b4c5ef4e6af0f2423e072dbecdfd26e",
-      "version": "0.33.3",
+      "commit": "1bd8c0e128e99b7c20e78a26d433b840e6c2ebbe",
+      "version": "0.33.4",
       "pluginInstall": "make-skill@make-skill",
       "pluginPath": "plugins/make-skill",
       "entry": {
@@ -1977,7 +1977,7 @@
         "displayName": "Make Skill",
         "source": "./plugins/make-skill",
         "description": "Encodes the Agent Skills open standard AND Anthropic's platform rules (front-matter limits, disclosure budgets, per-surface runtime limits, the Skills API, evaluation-driven authoring) plus the Claude Code plugin reference (manifest schemas, component layout, `claude plugin validate --strict`) and the proven ssheleg pipeline: marketplace repo layout, version sync, validator + CI, multi-channel distribution (Claude Code plugin, vercel skills CLI, npx, Cursor), npm gotchas, end-to-end first publish, the review checklist for third-party skills, and MCP / A2A rules for protocol-connected skills.",
-        "version": "0.33.3",
+        "version": "0.33.4",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2005,7 +2005,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "7bacfcbe236a38b15b4ea66f799bf58585cd40d1aa3b7e749ee0fa864fe50bf4",
+          "sha256": "1791f4db62132e852ef7972d902c7de618871c38ea9e0d82395c7c3cd4d8c915",
           "bytes": 1093
         },
         {
@@ -2025,13 +2025,13 @@
         },
         {
           "path": "hooks/hooks.json",
-          "sha256": "292f4eeb4431899b68c12b11016e3c482a7736e40325ddc5e759ab5018015f87",
-          "bytes": 839
+          "sha256": "2e56fa3a0ecc73b0cc2a757b1bb615fe1aa6fca170160a6ee8b90509815e5f13",
+          "bytes": 946
         },
         {
           "path": "hooks/skill-md-audit.sh",
-          "sha256": "e4e13768851fecd9689d14775b1fb932258ce951c14fb75ba16a5ca9496c416a",
-          "bytes": 1885
+          "sha256": "cccecc355e7cb84fce2e024c025586b4e6b0a96ad79d8845328ad86a50be2414",
+          "bytes": 3722
         },
         {
           "path": "skills/make-skill/assets/agent.template.md",
@@ -2125,12 +2125,12 @@
         },
         {
           "path": "skills/make-skill/SKILL.md",
-          "sha256": "182311e7758c2bee862292cb58d3b0f4cc38e30b4a27c92d253a1935368ac1f9",
-          "bytes": 19500
+          "sha256": "64103632e97cc369e9818b6d44e1002facc97f3d4b037b01fbe8925f9bf243e9",
+          "bytes": 19552
         },
         {
           "path": "skills/skill-search/SKILL.md",
-          "sha256": "3f82be732c02b5652b2ef5e725cbbe4fb68727f077e3a2e9016c24bcb5ba716c",
+          "sha256": "b651f78f49ec31995f81a38d3af38a5fa6f9aed0be29d57d0c6890dd8a882202",
           "bytes": 3531
         }
       ]
@@ -2697,8 +2697,8 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "478d5568489b95d38b8ac5904965165273577a15",
-      "version": "0.32.3",
+      "commit": "993aa5135c29feb3dfac5df671dde3cc94889c7c",
+      "version": "0.32.4",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
       "entry": {
@@ -2706,7 +2706,7 @@
         "displayName": "SEO + AEO Audit",
         "source": "./plugins/seo-aeo-audit",
         "description": "Audits a website across ten evidence-based tracks (access & indexation, canonicalization, architecture & link equity, intent, content value, extractability/AEO, entity consensus, experience signals, risk, measurement) and outputs a findings report plus a prioritized change plan with verification steps. Includes a stdlib-only page auditor with answer-engine read-budget analysis.",
-        "version": "0.32.3",
+        "version": "0.32.4",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2731,7 +2731,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "c15530828508049553fd7b24664f6112be4270a0429abcb4c3f349b17fe4b461",
+          "sha256": "f278b849f02cc8447df14d6f25420819f363cb158e0b89cdf3f27f2fcf623ab6",
           "bytes": 766
         },
         {
@@ -2861,8 +2861,8 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/scripts.md",
-          "sha256": "cb26823aeb51f7cc8660dae71474dc59fd50ded161f106b350dfd427a1df0d76",
-          "bytes": 26377
+          "sha256": "45e827d359126783c2cb99266401278d3891b8356fb3776b2b14c9c2fd8152b3",
+          "bytes": 26884
         },
         {
           "path": "skills/seo-aeo-audit/references/technical-checks.md",
@@ -2881,53 +2881,53 @@
         },
         {
           "path": "skills/seo-aeo-audit/scripts/agent_surface.py",
-          "sha256": "a70c24d60747b6c2d6cc85a62e3c867779f001bc93d226c7eaca579eade09e53",
+          "sha256": "53231dc1fb4c11b7b1903e3f7f9a9e666c9bc2616b80803e86c1b9e8a94ada83",
           "bytes": 97372
         },
         {
           "path": "skills/seo-aeo-audit/scripts/ai_panel.py",
-          "sha256": "747427bd3c4f62de742cf90c350ad34c7d037d78ebd17a9d2571608f305543ca",
+          "sha256": "d975dca25b021619555c49b20ce609efd3c9619ed1ebb6887ca0d94d2f8f778c",
           "bytes": 25268
         },
         {
           "path": "skills/seo-aeo-audit/scripts/bwt_pull.py",
-          "sha256": "ab3b641d32167e21a0eafd526b300e35e14b51af5251bfc3023437739720ae16",
+          "sha256": "2f80ccb00f8b8d1200103cd57ad8cdef4a151deed9487f791b358a858189f480",
           "bytes": 25409
         },
         {
           "path": "skills/seo-aeo-audit/scripts/gsc_pull.py",
-          "sha256": "2d1444e889805fe3933211bf4054c802a3f0c840e1f498b6b94caba80c1a8993",
+          "sha256": "971050cefdd5625701c4678d60d1c46dcecaaf43241b695b7082f41fb7ca1890",
           "bytes": 61132
         },
         {
           "path": "skills/seo-aeo-audit/scripts/page_audit.py",
-          "sha256": "fc056544bcdd77c41a319cd80fd34cc1cd0a241dc9e704d0147099a51093f77f",
+          "sha256": "54429be22ed8ae82c0afb2e693e47c42b7ba8c6a3217c33c5e8e82d654227521",
           "bytes": 80703
         },
         {
           "path": "skills/seo-aeo-audit/scripts/preflight.py",
-          "sha256": "537f294f09876256ef1f7f4f6f03f5394a638f68c072c3201020e75a5e090fbb",
+          "sha256": "c814f1c0a252a4c7c899eac320aeac66d9cdc963efc49b70e5b0488482565315",
           "bytes": 65317
         },
         {
           "path": "skills/seo-aeo-audit/scripts/psi_pull.py",
-          "sha256": "ed7af5cf7f1a211eff182d11eafda6ffeeee24547595010a8ffce0eaf1727f13",
+          "sha256": "7ca46f174b61e79a56f767fb5d1dc6eb4a94f6cd8a31bba165ff01c8885d166d",
           "bytes": 28522
         },
         {
           "path": "skills/seo-aeo-audit/scripts/sitemap_audit.py",
-          "sha256": "16322d8032ae08108a3ef6145765564964be4f243613bfa7b51f9903cfa184f7",
+          "sha256": "ac3556d932f02abf21112c2e99aec329f50f1905bb4e5bd51a9e60687a4bf624",
           "bytes": 44650
         },
         {
           "path": "skills/seo-aeo-audit/scripts/url_inspection.py",
-          "sha256": "4924db4e7a7fe28b8fd87530128179f944b178a91f415b138f8c9989dacbe4d5",
+          "sha256": "de1400674d98b0d339a53bccc5503a8da792c5d63dc7c50025e1309dce4f89a1",
           "bytes": 36543
         },
         {
           "path": "skills/seo-aeo-audit/SKILL.md",
-          "sha256": "3e61536fae330035d7a2c3093a1de037ce1812c25adc9b172f889e6131cc87a0",
-          "bytes": 20514
+          "sha256": "3de395e4d1da86ac280f1f5e6a18b1e1589e4107f459457aa8d4d7b7e048a111",
+          "bytes": 20447
         }
       ]
     },

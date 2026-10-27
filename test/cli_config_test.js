@@ -349,7 +349,7 @@ it('`list` NAMES EACH MEMBER\'S ENTRY POINT AND ROLE', () => {
   // A member with no entry says so rather than leaving the column blank — three of nine
   // genuinely have none, and an empty cell reads as an omission.
   const noEntry = manifest.skills.filter((m) => !m.entry);
-  if (noEntry.length) assert.ok(/—/.test(out), 'a member with no entry point shows nothing at all');
+  if (noEntry.length) assert.ok(/\(none\)/.test(out), 'a member with no entry point shows nothing at all');
 });
 
 it('`list` is a roster by default and the paragraphs are behind a flag', () => {

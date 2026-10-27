@@ -18,9 +18,20 @@
  * Between 2 and 3, two shell-shape refusals from the same pure module: a gate piped
  * into a filter and chained into `git`, and a host self-update (`pi update`,
  * `brew upgrade codex`, `npm i -g @openai/codex`) inside `$(…)` or backticks (B-223).
+ * Then a destructive git command (`checkout -- <paths>`, `restore`, `reset --hard`,
+ * `stash`, `clean -f`) over uncommitted work (B-240): `lib/gitdiscard.js` reads the
+ * command, this file runs one bounded `git status` for exactly the named paths, and the
+ * module decides. A probe that errs or times out allows.
  *
- * All deciding is in `lib/guard.js` and `lib/hygiene.js`, both pure and fixtured.
- * This file moves bytes and touches the filesystem exactly where a backup happens.
+ * All deciding is in `lib/guard.js`, `lib/hygiene.js` and `lib/gitdiscard.js`, pure and
+ * fixtured. This file moves bytes and touches the filesystem exactly where a backup
+ * happens, and runs git only for a command `lib/gitdiscard.js` names.
+ *
+ * **Every call pays node's start, so modules load on demand (B-236).** A `Read` loads the
+ * credential-read check and nothing else; the shell guards load only for a command; the
+ * family manifest is read only when the command names the skills CLI; the route gate's
+ * receipt and trigger readers load only when the turn has a route to escalate.
+ * `node scripts/hook-bench.js` measures it.
  *
  * **It fails silent.** A guard that throws on an unfamiliar payload would break
  * every tool call in every session, including sessions of packs that never asked
@@ -33,15 +44,20 @@ const fs = require('fs');
 
 const LIB = path.join(__dirname, '..', 'lib');
 
-/** The one output shape this event accepts. */
+/**
+ * The host that sent this payload (lib/hookpayload.js): Claude Code, Cursor (which
+ * imports this entry from settings.json) or Codex. Set once, at the payload entry.
+ */
+let HOST = 'claude';
+
+/**
+ * The answer, spelled for the host that asked. Cursor blocks every call on output that is
+ * not JSON and reads `permission`, not `hookSpecificOutput`; `render` returns '' for what a
+ * host does not enforce (Cursor's `ask`), so nothing is written then.
+ */
 function say(decision, reason) {
-  process.stdout.write(JSON.stringify({
-    hookSpecificOutput: {
-      hookEventName: 'PreToolUse',
-      permissionDecision: decision,
-      permissionDecisionReason: reason,
-    },
-  }) + '\n');
+  const text = require(path.join(LIB, 'hookpayload.js')).render(HOST, decision, reason);
+  if (text) process.stdout.write(text);
 }
 
 /**
@@ -66,6 +82,10 @@ function routeGate(data, home) {
     const sessionId = turnstate.sessionKey(data.session_id);
     if (!sessionId) return process.exit(0);
     const state = turnstate.read(home, sessionId);
+    // Receipts only ever ADD silence (routegate.decide filters routes by them), so a turn
+    // that stays silent with none stays silent with any: decide that first, and skip the
+    // ledger, the receipts file, the trigger table and the config on every ordinary write.
+    if (!routegate.decide(data, state, { receipts: [], effect: data.tool_name })) return process.exit(0);
 
     const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
     // The hook only GATHERS receipts; what covers what is routegate's judgement.
@@ -133,12 +153,52 @@ function routeGate(data, home) {
   return process.exit(0);
 }
 
+/** Tools this hook sees that write nothing (the matcher in lib/hooks.js adds them). */
+const READ_ONLY = new Set(['Read', 'Grep']);
+
+/** One budget for every probe a payload needs, well inside the host's hook timeout. */
+const PROBE_BUDGET_MS = 1500;
+const MAX_PROBES = 8;
+
+/**
+ * B-240: the dirty state of exactly the paths a destructive git command names.
+ *
+ * Bounded (one budget across the payload's probes), lock-free (`GIT_OPTIONAL_LOCKS=0`, so
+ * the probe never takes the index lock from a git command running beside it) and silent:
+ * a probe that errs, times out or finds no repository is `null`, which the module allows.
+ */
+function probeDirty(list, base, home) {
+  const { execFileSync } = require('child_process');
+  const deadline = Date.now() + PROBE_BUDGET_MS;
+  return list.slice(0, MAX_PROBES).map((t) => {
+    const left = deadline - Date.now();
+    if (left <= 50) return null;
+    const dir = t.dir.startsWith('~') ? path.join(home, t.dir.slice(1)) : path.resolve(base, t.dir);
+    try {
+      const out = execFileSync('git', ['-C', dir, 'status', '--porcelain=v1', '-z',
+        '--ignore-submodules=all', `--untracked-files=${t.lose.untracked ? 'normal' : 'no'}`,
+        '--', ...t.pathspecs], {
+        encoding: 'utf8', timeout: left, maxBuffer: 4 * 1024 * 1024,
+        stdio: ['ignore', 'pipe', 'ignore'],
+        env: Object.assign({}, process.env, { GIT_OPTIONAL_LOCKS: '0' }),
+      });
+      return { dir, out };
+    } catch (e) {
+      return null;
+    }
+  });
+}
+
 let raw = '';
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', (c) => { raw += c; });
 process.stdin.on('end', () => {
   try {
-    const data = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
+    // One Claude-shaped payload for every guard below, whichever host ran this (B-209).
+    const normalised = require(path.join(LIB, 'hookpayload.js'))
+      .normalise(raw.trim().startsWith('{') ? JSON.parse(raw) : {});
+    HOST = normalised.host;
+    const data = normalised.data;
     const home = os.homedir();
     const command = (data.tool_input && data.tool_input.command) || '';
 
@@ -177,9 +237,11 @@ process.stdin.on('end', () => {
       return process.exit(0);
     }
 
-    // 1. The command that quietly pins a skill at an old version.
-    const hygiene = require(path.join(LIB, 'hygiene.js'));
-    if (command) {
+    // 1. The command that quietly pins a skill at an old version. Only a command can
+    //    carry one, and only a command that names `skills` can be the skills CLI, so the
+    //    shell guards load for a command and the manifest is read only for that word.
+    const hygiene = command ? require(path.join(LIB, 'hygiene.js')) : null;
+    if (command && String(command).includes('skills')) {
       let ids = new Set();
       try {
         const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'skills.json'), 'utf8'));
@@ -192,7 +254,7 @@ process.stdin.on('end', () => {
         // a diagnostic, and a hook that answered `allow` to it would be deciding
         // something it cannot know.
         process.stderr.write(
-          '[sshlg-skills] no skills.json beside the hook — the shadow guard is '
+          '[sshlg-skills] no skills.json beside the hook: the shadow guard is '
           + 'inert this turn; reinstall with `npx sshlg-skills hooks install`\n');
       }
       const bare = hygiene.bareFamilyInstall(command, ids);
@@ -218,7 +280,7 @@ process.stdin.on('end', () => {
           '~/.claude/skills/' + bare.target + ', a plain copy that shadows the plugin of the ' +
           'same name and serves the version it was copied from forever.\n' +
           `Use the family launcher instead: ${bare.remedy}\n` +
-          'If this text is QUOTED rather than run — a search, a document, a pasted log — ' +
+          'If this text is QUOTED rather than run (a search, a document, a pasted log), ' +
           'this refusal is wrong about it. The guard reads what could execute and cannot ' +
           'tell an example from an invocation. Break the phrase (`skills up\u200bdate`), ' +
           'pass the body through a file, or run the search with the pattern split.');
@@ -253,6 +315,23 @@ process.stdin.on('end', () => {
       return process.exit(0);
     }
 
+    // 1d. A git command that throws away uncommitted work (B-240). Parsed first, probed
+    //     only when the parse names a destructive form, decided by the pure module. The
+    //     word test is the module's own `mightDiscard`, inlined so a command that never
+    //     says `git` does not load it.
+    if (typeof command === 'string' && /\bgit\b/.test(command)) {
+      const gitdiscard = require(path.join(LIB, 'gitdiscard.js'));
+      const list = gitdiscard.targets(command);
+      if (list.length) {
+        const base = typeof data.cwd === 'string' && data.cwd ? data.cwd : process.cwd();
+        const discard = gitdiscard.decide(list, probeDirty(list, base, home));
+        if (discard) {
+          say('deny', discard.why);
+          return process.exit(0);
+        }
+      }
+    }
+
     // 2. The config `setup` is about to truncate.
     if (command && hygiene.isObsidianSetup(command)) {
       try {
@@ -265,7 +344,11 @@ process.stdin.on('end', () => {
       } catch (e) { /* a missing wiki config is the normal case on most machines */ }
     }
 
-    // 3. The write that cannot be undone.
+    // 3. The write that cannot be undone. Read and Grep share this hook's matcher for
+    //    the credential-read check above, and they write nothing: a Read of
+    //    ~/.claude/CLAUDE.md took a backup copy and said "copy taken before the write"
+    //    (found measuring B-236). A payload with no tool name keeps the old path.
+    if (READ_ONLY.has(data.tool_name)) return process.exit(0);
     const guard = require(path.join(LIB, 'guard.js'));
     const target = guard.decide(data, home, process.env);
     if (!target) return routeGate(data, home);
@@ -296,7 +379,7 @@ process.stdin.on('end', () => {
     // copy, say where it went on stderr, emit no decision, and let the normal
     // permission flow run.
     process.stderr.write(saved.action === 'no-file'
-      ? `[sshlg-skills] ${target} does not exist yet — creating it destroys nothing.\n`
+      ? `[sshlg-skills] ${target} does not exist yet: creating it destroys nothing.\n`
       : `[sshlg-skills] copy taken before the write: ${saved.path}\n`);
   } catch (e) {
     /* Silence, deliberately. See the header. */

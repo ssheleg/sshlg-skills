@@ -357,6 +357,9 @@ const iv = setInterval(() => {
 for (const [sig, group] of [['SIGTERM', '0'], ['SIGINT', '1']]) {
   it(`${sig} to the ${group === '1' ? 'process group' : 'pid'} stops a running \`update\` within 2 s; the next run takes the lock over (#1)`, () => {
     const home = sandbox();
+    // A default host must be present for update to run the (sleeping) skills CLI step:
+    // absent default hosts are skipped since B-218 / INST-9.
+    fs.mkdirSync(path.join(home, '.cursor'), { recursive: true });
     const mark = path.join(home, 'npx-started');
     const env = stubEnv(home, { npx: `#!/bin/sh\ntouch "${mark}"\nsleep 5\nexit 0\n` });
     const r = spawnSync(process.execPath, ['-e', SIGNAL_DRIVER, path.join(ROOT, 'bin', 'sshlg-skills.js'), mark, sig, group],
@@ -369,7 +372,7 @@ for (const [sig, group] of [['SIGTERM', '0'], ['SIGINT', '1']]) {
     assert.ok(res.ms >= 0 && res.ms < 2000, `update took ${res.ms} ms to stop after ${sig}`);
     assert.ok(fs.existsSync(L.lockPath(home)), 'the killed run left no lock — the takeover below proves nothing');
     const next = update(stubEnv(home));
-    assert.ok(new RegExp(`took over update\\.lock — holder pid ${res.pid} is not running`).test(next.out),
+    assert.ok(new RegExp(`took over update\\.lock: holder pid ${res.pid} is not running`).test(next.out),
       `the next update did not take over the dead holder's lock:\n${next.out.slice(0, 400)}`);
     assert.strictEqual(next.status, 0, `the next update failed: ${next.status}`);
     fs.rmSync(home, { recursive: true, force: true });

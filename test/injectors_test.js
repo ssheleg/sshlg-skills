@@ -262,7 +262,7 @@ it('the MCP report calls rows candidates and counts what it could not read', () 
   assert.ok(/none among the instructions read here/.test(r));
   assert.ok(/1 not read \(x\)/.test(r), 'an unread server was not counted');
   assert.ok(/CANDIDATES, not offenders/.test(r));
-  assert.ok(/not clean — it is unknown/.test(r));
+  assert.ok(/not clean: it is unknown/.test(r));
 });
 
 it('`sshlg-skills injectors` prints the MCP half even when the plugin registry is unreadable', () => {
@@ -270,12 +270,75 @@ it('`sshlg-skills injectors` prints the MCP half even when the plugin registry i
   const home = mcpHome();
   try {
     fs.rmSync(path.join(home, '.claude', 'settings.json'));
+    const env = Object.assign({}, process.env, { HOME: home });
+    delete env.CLAUDE_CONFIG_DIR;   // the fixture HOME is the profile; a caller's variable must not win
     const out = spawnSync(process.execPath, [path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'injectors'],
-      { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home }) });
+      { encoding: 'utf8', env });
     const text = `${out.stdout}${out.stderr}`;
     assert.ok(/cannot read the plugin registry/.test(text), text);
     assert.ok(/MCP servers whose instructions carry routing language/.test(text), text);
     assert.ok(/context7/.test(text), text);
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
+// B-272: a relocated Claude profile (CLAUDE_CONFIG_DIR) is where Claude Code reads its
+// settings, plugin cache, registry, transcripts and `.claude.json`. Both readers follow it,
+// the way the hooks have since B-218; a decoy under <home>/.claude must not answer.
+function relocatedHome() {
+  const home = mcpHome();
+  const profile = path.join(home, 'profiles', 'work');
+  fs.mkdirSync(path.dirname(profile), { recursive: true });
+  fs.renameSync(path.join(home, '.claude'), profile);
+  fs.renameSync(path.join(home, '.claude.json'), path.join(profile, '.claude.json'));
+  const w = (rel, body) => {
+    fs.mkdirSync(path.dirname(path.join(home, rel)), { recursive: true });
+    fs.writeFileSync(path.join(home, rel), JSON.stringify(body));
+  };
+  w('.claude/settings.json', { enabledPlugins: { 'decoy@official': true } });
+  w('.claude/plugins/cache/official/decoy/1.0.0/hooks/hooks.json', { hooks: { SessionStart: [] } });
+  w('.claude/plugins/cache/official/decoy/1.0.0/.mcp.json', { mcpServers: { decoy: { type: 'http' } } });
+  w('.claude.json', { mcpServers: { decoyglobal: { type: 'http' } } });
+  w('profiles/work/plugins/cache/official/figma/2.0.0/hooks/hooks.json', { hooks: { SessionStart: [] } });
+  return { home, profile };
+}
+
+it('B-272: readRegistry follows CLAUDE_CONFIG_DIR, not <home>/.claude', () => {
+  const { home, profile } = relocatedHome();
+  try {
+    const [enabled, map] = I.readRegistry(home, { CLAUDE_CONFIG_DIR: profile });
+    assert.deepStrictEqual(enabled, ['figma@official'], `read the decoy profile: ${enabled}`);
+    assert.ok(map['figma@official'] && map['figma@official'].path.startsWith(profile), JSON.stringify(map));
+    // Without the variable the default profile answers, as before.
+    assert.deepStrictEqual(I.readRegistry(home, {})[0], ['decoy@official']);
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
+it('B-272: readMcp follows CLAUDE_CONFIG_DIR for settings, cache, transcripts and .claude.json', () => {
+  const { home, profile } = relocatedHome();
+  try {
+    const r = I.readMcp(home, { CLAUDE_CONFIG_DIR: profile });
+    const names = r.servers.map((s) => s.name).sort();
+    assert.deepStrictEqual(names, ['context7', 'localdb', 'plugin:figma:figma', 'quiet'], names.join(','));
+    assert.ok(r.transcript && r.transcript.startsWith(profile), String(r.transcript));
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
+it('B-272: `sshlg-skills injectors` reads the relocated profile', () => {
+  const { spawnSync } = require('child_process');
+  const { home, profile } = relocatedHome();
+  try {
+    const env = Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: profile });
+    const out = spawnSync(process.execPath, [path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'injectors'],
+      { encoding: 'utf8', env });
+    const text = `${out.stdout}${out.stderr}`;
+    assert.ok(/figma@official/.test(text), text);
+    assert.ok(!/decoy/.test(text), `the default profile answered:\n${text}`);
   } finally {
     fs.rmSync(home, { recursive: true, force: true });
   }

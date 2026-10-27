@@ -47,11 +47,11 @@ scripts. No services, no telemetry, no API keys.
 | Skill | Version | What it does |
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.66.2 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.102.2 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
-| **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.23.2 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
-| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.33.3 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.102.3 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
+| **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.23.3 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
+| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.33.4 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.66.4 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
-| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.32.3 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief, not a score. Before a site is built, `/seo-aeo-audit brief` writes the build-time brief that the audit later verifies. |
+| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.32.4 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief, not a score. Before a site is built, `/seo-aeo-audit brief` writes the build-time brief that the audit later verifies. |
 | **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.16.2 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
 | **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.31.3 | Production patterns for agent systems, in four skills. **The orchestrator** — tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, memory architecture — form, function and dynamics, the four-stage retrieval pipeline, and what a layer table alone cannot say, and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness** — what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals** — suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer** — MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
 | **[telegram-dev](https://github.com/ssheleg/telegram-dev)** | 0.5.4 | Telegram, split by the API each surface actually speaks. **`telegram-bots`** — the official HTTP Bot API: `update_id` as the only idempotency key an update carries, the `allowed_updates` default that subscribes you to everything *except* `chat_member` and the two reaction types while answering `ok: true`, the webhook secret header that is the real check, rate limits as a design constraint (1/sec per chat, 20/min per group, ~30/sec bulk), and Telegram Stars with a **ten-second** pre-checkout window and a grant that belongs to `successful_payment`. **`telegram-userbots`** — MTProto and Telethon: the session file as a credential equal to the password, `FloodWaitError` as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — the skill opens with whether a user account is needed at all. **`telegram-miniapps`** — the web layer, whose entire security model is one signed query string: verifying `initData` server-side, the `auth_date` window, the Ed25519 path for a third party, and the SDK package whose name moved while the organisation's own page still fronts the old one. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants, and a bot under load has its own reference: a poll that never waits on a handler, a queue per chat under one ceiling, payments outside it, guards measured from arrival, a bounded shutdown, with a discrete-event simulation whose nine invariants each go red without their rule. |
@@ -134,6 +134,13 @@ cd sshlg-skills && ./install.sh
 Flags: `--agent a,b` picks valid global targets, `--all` selects the pinned CLI’s
 77 globally supported targets (76 while Claude uses plugins),
 `--no-claude` skips the plugin step, `--claude-only` does nothing else.
+
+**Absent default hosts are skipped, not created.** The skills CLI creates a target's
+skills folder, and with it the host's home, for every target it is given. So a plain
+`install` or `update` passes a default target only when its home exists here (the
+folder skills@1.7.2's own detection reads, recorded in `lib/host-targets.js` `HOMES`)
+and names the rest: `default hosts not installed here, skipped: zed, …`. An explicit
+`--agent <id>` or `--all` still installs where asked.
 
 **OpenClaw is opt-in:** `--agent openclaw` (or `--all`) installs for it; a plain
 `install` or `update` does not. The skills CLI counts OpenClaw as present whenever
@@ -267,7 +274,8 @@ this launcher to replace native payloads.
 
 The hub records immutable private pending intent under
 `~/.sshlg-skills/codex-deferred/`, bound to the canonical profile, config fingerprint
-and desired source. It prints a safely quoted POSIX watcher command. The observer
+and desired source; each member keeps only its newest receipt, which goes together with its
+observations. It prints a safely quoted POSIX watcher command. The observer
 reads native state and records private observations, with a two-minute cadence,
 60-observation limit and two-hour deadline; it never installs or stops Codex.
 Catalog agreement ends observation without claiming old threads reloaded. Other
@@ -282,7 +290,27 @@ inventory before starting; missing or malformed pins refuse the run. A pinned ad
 replaces existing bytes as well as installing missing skills, so no floating
 `skills update` runs first. Continue copies are restored as real directories with
 `--copy`, including previously installed copies outside the selected default set.
+Hermes gets its own copy the same way (B-217): `skill_manage(patch)` rewrites a skill
+in place, and through a link that place was the shared `~/.agents/skills` copy every
+other host reads. With `--copy` a Hermes self-patch stays in `~/.hermes/skills` and
+the next `update` restores the pinned bytes there. A plain `npx skills update` may
+re-link Hermes; the next `npx sshlg-skills update` copies it again.
 The selected agent list and shared-store effects still apply.
+
+**Family links in other host roots** (B-216). An interactive `skills add` can link the family
+into hosts outside the default set: `~/.qwen/skills` (`qwen-code`), `$XDG_CONFIG_HOME/devin/skills`
+(`devin`), `~/.factory/skills` (`droid`) and `$GROK_HOME/skills` (`grok`), the skills CLI 1.7.2's
+own roots. `update` reads each one that holds a family entry. When that host is installed (its
+command on PATH, or its folder holds more than `skills`), the same pinned `skills add` steps carry
+one more `--agent` and refresh it. When it is not, `update` writes nothing there and prints the
+count, the missing skill ids and the exact remedy: `npx sshlg-skills update --agent <id>` keeps it
+current, and a `cd <root> && rm -- <ids>` line drops the family links (`rm` without `-r` removes a
+symlink and refuses a directory, so a copy is never removed). Either way it removes a dangling link
+the family owns (a family id, or a skills-lock row from an `ssheleg/` repository, pointing into
+`~/.agents/skills`), only if the frozen plan named it, and prints the `ln -s` that recreates it.
+A live link, a real directory and a link nobody can attribute to the family stay as they are.
+`--dry-run` shows the plan; `--agent` lists that do not name a root, and `--claude-only`, leave
+it alone (`test/extraroots_test.js`).
 
 **Claude Code plugins use exact member sources through the native CLI.** The shipped
 `claude-plugin-pins.json` records each plugin's commit, relative source and file
@@ -293,9 +321,15 @@ a verified prior source; it keeps plugin data and restores disabled state. A ver
 update moves the user scope and every local (per-project) scope together: each local
 scope is updated inside its own project, every step is read back record by record,
 and a failure rolls the moved scopes back. A local record under an old path that
-resolves to another recorded project is left as recorded. Project and managed scopes
+resolves to another recorded project is left as recorded: Claude matches a local scope by
+the physical folder, so no `claude plugin` command can reach it. `npx sshlg-skills hosts` names
+every such record in `installed_plugins.json` (all plugins, not only the family's) with one
+command that backs the file up and drops exactly those records, and the undo; nothing in the
+hub writes that file for this (B-243, `test/localrecords_test.js`). Project and managed scopes
 and other repair shapes block that member, by name, and the run reports partial. Interrupted or uncertain execution leaves a recovery
-receipt and blocks blind retry. Native activation and task quality require their
+receipt and blocks blind retry. The newest five finished transactions are kept whole, and
+every unfinished one too; an older finished one moves its copies of Claude's files into
+`~/.sshlg-skills/backups/` (ten per file) and its directory goes. Native activation and task quality require their
 own observations even after installed bytes match.
 
 Flags: `--no-claude`, `--claude-only`, `--agent a,b`, `--all`, and
@@ -438,8 +472,14 @@ oblige. So the pack writes a **managed routing block** into your global agent
 instructions, and the rules engage in every project instead of only when
 someone remembers to ask.
 
-The block is headed `## Work routing — the ssheleg family` (until 1.58.0 the
-heading was Russian; a block that still carries it is retitled on its next write).
+The block is headed `## Work routing: the ssheleg family`. Older headings (the Russian
+one until 1.58.0, then `## Work routing — the ssheleg family` with an em dash) are
+recognised and retitled on the next write. The router sections, the table, the block's
+opening comment, the Cursor rule's description and the wait rule follow the same
+no-em-dash rule as the protocol below (B-226): `update` rewords a block the pack wrote,
+even on a machine with no record of what it wrote, because the earlier packaged lines are
+known to the hand-edit guard. A section you edited by hand is kept as it is, recorded as
+your authored text and reported as drift (`routers --diff <name>`, `routers --update --adopt <name>`).
 It opens with the **map**: eleven members, the single command that starts
 each, and one line saying what it closes. It is generated from `skills.json`,
 so a release moves it — and `install` and `update` refresh it, which is what
@@ -460,7 +500,7 @@ one, in any language; the grammatical Russian dash survives only where no rewrit
 reads naturally. Product copy gets the same rule from super-ux (`copywriting`,
 lint code `B067`).
 
-Five channels get it, and each only where that agent is actually installed:
+These channels get it, and each only where that agent is actually installed:
 
 | Agent | Where |
 |---|---|
@@ -469,15 +509,45 @@ Five channels get it, and each only where that agent is actually installed:
 | Gemini CLI | `~/.gemini/GEMINI.md` (or `$GEMINI_CLI_HOME/.gemini/GEMINI.md`) |
 | Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md` — the writer, `uninstall` and the write guard all follow it) |
 | Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true`. Cursor finds it by walking up from the workspace, so it loads only for workspaces under `$HOME` |
+| Kimi, Goose, Warp, Droid | `~/.agents/AGENTS.md`, one shared file all four read. Written as a regular file only; if it is a symlink the hub reports where it points and writes nothing (a link to a file the hub already manages is "already served") |
+| ZCode | `~/.zcode/AGENTS.md` (ZCode 3.14.4's user default). ZCode onboarding offers to migrate `~/.claude/CLAUDE.md` into this file, overwriting it, which duplicates or replaces the block: decline it, or run `npx sshlg-skills update` after it (B-282; `hosts` prints this note) |
+| Qwen Code | `~/.qwen/QWEN.md` (or `$QWEN_HOME/QWEN.md`) |
+| Kiro | `~/.kiro/steering/sshlg-routing.md`, only where `~/.kiro/steering` already exists; no front matter, so Kiro's default "always included" applies. The file name is the hub's, so `uninstall` deletes the file (backup first) when the block was all it held, and keeps any text the operator added (B-283) |
+| Windsurf (Cascade) | `~/.codeium/windsurf/memories/global_rules.md`, only where that directory exists. Windsurf reads 6,000 characters of it, so this host gets a **compact** block: the map, the protocol and the router table without the per-router sections (about 4,600 characters). A file that would cross the cap is refused, never cut |
 
-Other hosts read these files without the hub writing for them. OpenCode and VS Code
-Copilot read `~/.claude/CLAUDE.md` as a fallback; OpenCode stops as soon as a
-`~/.config/opencode/AGENTS.md` exists. `~/.agents/AGENTS.md` is read by Kimi, Goose,
-Warp and Droid; the hub does not write it, so today it holds what you put there.
+A host counts as installed when its binary is on `PATH` or its home holds anything
+besides `skills/`: the skills CLI creates `<home>/skills` for every agent it installs
+to, so that directory alone proves nothing. Homes of absent hosts are never created.
+`npx sshlg-skills hosts` lists every row with its decision and source.
+
+Some hosts are named but not written for, each for a stated reason. Kimi also reads
+`~/.kimi-code/AGENTS.md` and Goose `~/.config/goose/.goosehints`; the block lives
+once in `~/.agents/AGENTS.md` so neither reads it twice. Hermes has no global
+instruction file (its `SOUL.md` is the agent's persona), so `hosts` gives the manual
+step instead. OpenCode and VS Code Copilot read `~/.claude/CLAUDE.md` as a fallback;
+OpenCode stops as soon as a `~/.config/opencode/AGENTS.md` exists, and `hosts` and
+`context` say which state this machine is in.
+
+Every one of these writes, and every other write to a file you own, goes through one
+helper (`lib/atomicwrite.js`): a copy first, then a temp file in the same directory,
+flushed to disk and renamed over the original. A crash leaves the old file or the new
+one, never half of either; the file's mode is kept, and a symlink stays a symlink
+(the bytes go to the file it points to).
+
+Upstream watch (no code yet, report 2026-10-16, CLAUDE-5 and OPENCODE-2): Claude Code's
+headless docs say `--bare` will become the default for `claude -p`, and `--bare` skips
+hooks, plugins and CLAUDE.md discovery, so a headless agent would then run with no routing
+block and no guard unless it passes `--append-system-prompt-file` or `--settings`.
+OpenCode 2 reads `AGENTS.md` only (no CLAUDE.md fallback) and has a new permissions
+schema, so upgrading to it drops the routing block above and the visibility write until
+the hub gains an OpenCode 2 target.
 
 **Pi** (`@earendil-works/pi-coding-agent`, command `pi`) reads skills from `~/.pi/agent/skills`,
-`~/.agents/skills` and, per project, `.pi/skills` and `.agents/skills` up to the repository root;
-a name found twice keeps the first and warns; it loads no Claude Code plugins, so the family
+`~/.agents/skills` and, per project, `.pi/skills` (the working directory) and `.agents/skills`
+up to the repository root. Project roots come first, in a project Pi trusts, and a name found
+twice keeps the first and warns, so a project copy of a family skill wins over the user copy
+(Pi 1.1.0 `dist/core/package-manager.js`, `addAutoDiscoveredResources`; B-221). `hosts` lists the
+roots in that order and names the copy Pi keeps. Pi loads no Claude Code plugins, so the family
 reaches it as plain skill directories plus the block above. `npx sshlg-skills hosts` reports,
 read-only, whether Pi is here, where the 39 family skills are visible to it, and how many names
 repeat across its roots — the same realpath twice (a symlink into `~/.agents/skills`) is counted
@@ -504,19 +574,19 @@ priorities** — a landing page passes several, an internal script passes none:
 |---|---|---|---|
 | `super-ux` | what the interface must do | there is user-facing behaviour | super-ux |
 | `sheleg-design` | how it looks and moves | there is a visual layer | sheleg-design |
-| `copywriting` | how it sounds | text a product user will read | super-ux |
+| `copywriting` | how it sounds | text a user of the product will read | super-ux |
 | `sheleg-dev` | what it runs on to charge, track and sign in | money, tracking, errors, sign-in or speed is being wired | sheleg-dev |
-| `agent-stack` | how an agent system is built, judged and metered | the thing being built is an agent | agent-stack |
+| `agent-stack` | how an agent system is built, judged and metered, and the wire it speaks outward | the thing being built is an agent, or a server one connects to | agent-stack |
 | `telegram-dev` | which Telegram API a surface speaks, and what it costs | the thing being built lives inside Telegram | telegram-dev |
 | `xr-dev` | how a Quest product moves from platform choice to launch and operation | the thing being built runs on a Meta Quest headset | xr-dev |
 | `web3d-dev` | how a realtime 3D scene on the web runs, ships its assets and moves | a three.js or React Three Fiber scene renders in the page | web3d-dev |
-| `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
-| `evidence-docs` | what proves it | something is stated as true | — |
-| `fabric` | what runs on this machine and how its Fabric services are read | the subject is a local agent service or the Fabric network | — |
-| `task-pipeline` | how the change reaches the repo | the repository changes | task-pipeline |
+| `seo-llmo` | whether a machine will find it | a logged-out reader can see the surface | none |
+| `evidence-docs` | what proves it | something is stated as true | none |
+| `fabric` | what runs on this machine and how its Fabric services are read | the subject is a local agent service or the Fabric network | none |
+| `task-pipeline` | how the change reaches the repository | the change touches the repository | task-pipeline |
 | `project-audit` | what is actually true of this project right now | the question is the whole project, not one change | task-pipeline |
 | `make-skill` | how the skill itself is built | a skill or plugin changes shape | make-skill |
-| `agent-sync` | who is holding this file | the project has coordination on | agent-sync |
+| `agent-sync` | who is holding this file | the project has agent coordination on | agent-sync |
 
 Three of them need no skill behind them. `seo-llmo`, `evidence-docs` and
 `fabric` are rules, not tools, so they hold whether or not anything is
@@ -591,6 +661,8 @@ names each such host's instruction file and the command that applies it there
 (`npx sshlg-skills rules --apply --agent pi`; `--claude-only` for Claude Code).
 That stays a named gap rather than an automatic write because consent to the rule
 is recorded per host, and an update never creates it for a new one.
+The current text is revision `wait-v3` (no em dash, B-226); a host that applied
+`wait-v2` or `wait-v1` is upgraded in place by the next `update`.
 Set `rules.wait off` and apply the same scope to remove its owned text. Surrounding
 content is preserved; malformed, edited or retargeted state stops for recovery.
 Text placed inside an applied block refuses that block on that host only:
@@ -717,10 +789,10 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 |---|---|---|---|
 | Claude Code | `skillOverrides: "user-invocable-only"` (hidden) or `"name-only"` (quiet core) in `~/.claude/settings.json`; plugin skills are out of its reach | since v1.55.0; Claude Code settings reference: overrides do not apply to plugin skills | be run from the `/` menu by a person |
 | Codex | `enabled = false` entries in `~/.codex/config.toml` `[skills] config` | since v1.55.0 | be read from its SKILL.md path when asked |
-| Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
+| Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`). The entry is the name Gemini loads: it turns `:` `\` `/` `<` `>` `*` `?` `"` `\|` in a skill's name into `-`, so `ui-toolkit/web` is written as `ui-toolkit-web` (B-214) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
 | Pi 1.1.0 | `-<path>` exact exclusions in the `skills` array of `~/.pi/agent/settings.json`, one per folder holding the skill (`~/.agents/skills`, `~/.pi/agent/skills`); the file is created if absent and removed again by `--revert` | Pi's own docs, settings → Resources; `isEnabledByOverrides` in its `dist/core/package-manager.js` | be loaded for one session with `pi --skill <path>` |
 | Hermes 0.21.4 | `skills.disabled` in its config.yaml, written by its own CLI (`hermes config set skills.disabled '<json list>'`, read back with `hermes config get --json`); `hermes skills list` shows `disabled`. A config.yaml Hermes created during the write keeps `{}` after `--revert` unsets the key | `hermes_cli/skills_config.py`; `tools/skills_tool.py` `_find_all_skills` | come back through `hermes skills config` |
-| OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config`. An `opencode.jsonc` is refused | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission | be read as a plain file |
+| OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config`. An `opencode.jsonc` is refused. Its roots are walked to any depth, as OpenCode 1.19.0 globs `skills/**/SKILL.md`; a nested skill takes the pack of the installed skill that holds it (B-214) | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission | be read as a plain file |
 | Cursor agent CLI 2026.09.02 | **cannot hide on cursor**: no setting switches a skill off. The only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) | (not hidden) |
 | Kimi 2.1.1 | **cannot hide on kimi**: `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) | (not hidden) |
 | Goose 1.44.0 | **cannot hide on goose**: `~/.config/goose/config.yaml` can only turn the whole `skills` extension off (`extensions.skills.enabled`), and `goose skills` only lists | `goose --version` 1.44.0, `goose skills --help` (only `list`), the operator machine's config.yaml, 2026-10-26 | (not hidden) |
@@ -751,7 +823,8 @@ count can exceed the skill count.
 **`update` re-applies only with consent.** `--apply` records `applied: true` and the hosts
 it covered; `update`, including the unattended idle run, re-applies only then, only on
 those hosts and only within its own scope (`--claude-only`, `--no-claude`, and
-`--agent <id>` with the skills-CLI ids `gemini-cli`, `pi`, `opencode`, `hermes-agent`).
+`--agent <id>` with the skills-CLI ids `gemini-cli`, `pi`, `opencode`, `hermes-agent`; Kimi's id is
+`kimi-code-cli`, B-214).
 `--revert` withdraws consent. A record from before consent was recorded (1.55.x) is
 never extended: `update` prints one line asking for one `visibility --apply [--keep …]`.
 `uninstall` leaves visibility in place, names what it still holds and gives the
@@ -764,16 +837,33 @@ The routing block loads in every session and is still routed around, because
 prose in a long file loses to whatever spoke last. Hooks are what speak first —
 and, since v0.42.0, what **holds**.
 
-The hub wires hooks into one target: Claude Code's `~/.claude/settings.json`. Two
-other hosts can import them from that file: Cursor (its third-party hooks import,
-on by default) and the Continue CLI. Neither is tested here, so the family claims
-nothing about how its hooks behave there:
+The hub wires hooks into Claude Code's settings file: `$CLAUDE_CONFIG_DIR/settings.json`
+when that variable is set, else `~/.claude/settings.json` (the profile the routing block,
+pins and visibility already follow). Every write to it, and to Codex's `hooks.json`,
+compares the file with the bytes the plan was made from, takes the copy, replaces the
+file atomically (through a symlink, keeping its mode) and reads it back. A file that
+changed in between is left alone, and the command says so.
+
+Which host runs which hook:
+
+| Host | How it gets them | What holds there |
+|---|---|---|
+| Claude Code | `hooks install` | every hook below |
+| Cursor (cursor-agent 2026.09.02) | imports the same `settings.json` entries (third-party hooks, on by default) | `PreToolUse`: the credential-reader, shell-hygiene and MCP-credential refusals, and the copy before a `Write` or `Delete` of a protected file, answered in Cursor's `permission` shape; the prompt hook's route note arrives as `additional_context`. The route escalation does not run there: Cursor accepts `ask` from `preToolUse` but does not enforce it. `test/hooks_hosts_e2e_test.js` feeds Cursor-shaped payloads through the real scripts and checks every answer against Cursor's validator |
+| Codex 0.163 | `hooks install --codex` adds one `PreToolUse` entry to `$CODEX_HOME/hooks.json` (else `~/.codex/hooks.json`) | the same refusals on `Bash` and MCP tools, and the copy before an `apply_patch` that touches a protected file (its paths are read out of the patch). Codex runs a hook only after you trust it in `/hooks`, and asks again when the entry changes, so `update` never rewrites this entry; `hooks` says when it is stale |
+| Continue CLI | reads `~/.claude/settings.json` | untested |
+| Gemini CLI, Kimi, OpenCode, Hermes, Pi | not wired | each has a blocking hook surface (Gemini `BeforeTool`, Kimi `[[hooks]]`, OpenCode `tool.execute.before`, Hermes plugin and shell hooks, Pi extension `tool_call`) and none has an adapter yet. Gemini CLI was succeeded by Antigravity CLI on 2026-06-18 (geminicli.com, hooks reference), so its adapter waits on which of the two stays. Hermes plugin hooks and Pi extension handlers fail closed, against this pack's fail-silent rule, so they need Hermes shell hooks or a wrapper that catches every error |
+
+Cursor and Codex payloads become Claude's shape in one pure module, `lib/hookpayload.js`,
+before any guard reads them (Cursor's `Shell`, `path`, `MCP:<tool>` and
+`conversation_id`; Codex's `apply_patch`), and the answer is spelled for the host that asked.
 
 ```bash
 npx sshlg-skills hooks                    # what would be wired, and what holds it now
 npx sshlg-skills hooks install            # wire it (refuses to take someone else's status line)
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
-npx sshlg-skills hooks remove             # unwire, and give the displaced one back
+npx sshlg-skills hooks install --codex    # also the guard in Codex's hooks.json; then trust it once in Codex /hooks
+npx sshlg-skills hooks remove             # unwire (Claude and Codex), and give the displaced one back
 npx sshlg-skills hooks recovery inspect --json                 # after a hard stop: is the runtime writer provably dead?
 npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only that dead lock, then roll back
 # `npx sshlg-skills update` re-wires a machine that already has one of these entries (since v1.56.0), through the
@@ -802,7 +892,7 @@ npx sshlg-skills humanizers               # anti-AI-writing skills here, with th
 |---|---|---|
 | `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch; **and, since v0.48.0, one line naming any other enabled plugin that also injects here** — silent when there is none, and since v1.56.0 printed only when that set differs from the one recorded in `state.json` — a machine-wide record, so a second session with the same set is not told again | ~90 tokens per session |
 | `UserPromptSubmit` | names the route this prompt asks for — **once per route per session** since v1.56.0 (a route already named is not repeated; `clear` and `compact` reset the record, `resume` keeps it, a fork is a new session id and starts without one; a payload with no session id keeps no turn record at all — its note always prints and it is never escalated). One exception: a facet route printed for the first time on a prompt that writes brings the `task-pipeline` line with it, even when delivery was named earlier | nothing on the turns that don't need it |
-| `PreToolUse` | **copies before any write** to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.pi/agent/AGENTS.md`, `~/.cursor/rules/sshlg-routing.mdc` and `~/.claude/settings.json` — and **refuses the write** if the copy cannot be taken. Also refuses a bare `npx skills update <member>`, a gate piped into a filter and chained into `git`, and a host self-update (`pi update`, `brew upgrade codex`, `npm i -g @openai/codex`) inside `$(…)` or backticks, even in double quotes or nested, with the remedy (single quotes, escaped backticks or a file); single-quoted text runs nothing and passes | nothing until one of those files is touched |
+| `PreToolUse` | **copies before any write** to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.pi/agent/AGENTS.md`, `~/.cursor/rules/sshlg-routing.mdc`, `~/.claude/settings.json` and Codex's `~/.codex/hooks.json` (each at its relocated path too: `CLAUDE_CONFIG_DIR`, `CODEX_HOME`, `GEMINI_CLI_HOME`, `PI_CODING_AGENT_DIR`), and to every instruction file `lib/instruction-targets.js` lists: `~/.agents/AGENTS.md`, `~/.zcode/AGENTS.md`, `~/.qwen/QWEN.md` (or `$QWEN_HOME/QWEN.md`), `~/.kiro/steering/sshlg-routing.md` and `~/.codeium/windsurf/memories/global_rules.md`. It **refuses the write** if the copy cannot be taken. Also refuses a bare `npx skills update <member>`, a gate piped into a filter and chained into `git`, and a host self-update (`pi update`, `brew upgrade codex`, `npm i -g @openai/codex`) inside `$(…)` or backticks, even in double quotes or nested, with the remedy (single quotes, escaped backticks or a file); single-quoted text runs nothing and passes. **Refuses a git command that would throw away uncommitted work** (`git checkout -- <paths>`, `git checkout <ref> -- <paths>`, `git checkout .`, `git restore` without `--staged` only, `git reset --hard`, `git stash` and `git stash push`/`save`, `git clean -f`), also inside `bash -c '…'`, after `cd` and with `git -C`: it runs one `git status --porcelain` for exactly the named paths (1.5 s budget, no index lock) and refuses only when a change that form would lose is there, naming the paths and the remedy (commit the work, or copy it out of the tree). Benign forms (`checkout -b`, `restore --staged`, `stash list`/`pop`, `clean -n`) and a heredoc body or comment pass without a probe; a probe that fails or times out allows. To discard on purpose, put `SSHLG_DISCARD_OK=1` in front of that git command | nothing until one of those files is touched; one `git status` for a destructive git command; a `Read` or `Grep` loads only the credential-read check (`node scripts/hook-bench.js` measures each hook) |
 | `PostToolUse` | on `Bash`, `Read` and `Grep`: names a credential the tool printed — a vendor-shaped key, or a generated-looking value under a label that names one (`x-api-key: …`, `FOO_API_KEY=…`, `Authorization: Bearer …`, `.netrc`, a URL's `user:password@`) — by its label, the tool and the file or program, **never the value**, with the rotation remedy; hashes, ids and fingerprints under neutral names, placeholders, paths and code stay silent. After any skills-CLI run, names the plain copies shadowing a plugin; after `obsidian-wiki setup`, puts back the config keys it truncates | one scan of the output (each field whole up to 1 MiB, else its first 768 KiB and last 256 KiB; it says when a scan was partial), silent when it finds nothing; a local proxy's token (an active loopback `*_BASE_URL` of the same prefix, in the same file, with no other) is not reported; MCP results are not read |
 | `Notification` | a desktop ping when a long run goes idle or a background agent finishes | nothing — it emits a terminal sequence |
 | `ConfigChange` | notices when something else rewrites these entries (a field this pack writes changed; a field you added is not a change, and an entry that is gone looks like one you removed, so `hooks` lists it on demand instead) | nothing — it records; `SessionStart` reports |
@@ -822,11 +912,19 @@ The matching is done inside the hook rather than by the entry's `if` filter,
 because the hooks reference states that filter is best-effort and **fails open**
 on a command it cannot parse. A guard with a documented bypass is not a guard.
 
+The `PreToolUse` matcher only decides which calls start the hook, and it is anchored:
+`^(?:Edit|Write|NotebookEdit|Bash|Read|Grep|Delete|<the MCP credential tools>)$`. The MCP
+part makes it a regular expression, which Claude Code tests unanchored, so unanchored it
+also started the hook for `TodoWrite` (as `Write`) and `ReadMcpResourceTool` (as `Read`). Each
+name is a tool of Claude Code or of Cursor, which imports this entry; `MultiEdit` is gone
+because no current host has it. The order keeps `Bash` whole in the middle, because Cursor
+maps each `|`-separated piece by exact name (`Bash` to `Shell`).
+
 The status line reads `.task-pipeline/run.md`, the ledger a pipeline run already
 keeps:
 
 ```
-0✓ 1✓ 2✓ 3✓ 4✓ 5· 6· 7· 8· 9· 10· · 45% · ▶ 4 Plan auto · gates 5/11 · iter 0 · holds — · 40m
+0✓ 1✓ 2✓ 3✓ 4✓ 5· 6· 7· 8· 9· 10· · 45% · ▶ 4 Plan auto · gates 5/11 · iter 0 · holds n/a · 40m
 ```
 
 **The denominator comes from your `pipeline.json` → `stages[]`, and from nowhere
@@ -850,7 +948,7 @@ write one from memory.
 
 Every number is borrowed rather than computed — the iteration count is the
 number of `iter:` lines, the gates come from `stage:` verdicts — and an
-**unreported** `holds:` prints `holds —`, not `holds 0`, because a silent stage
+**unreported** `holds:` prints `holds n/a`, not `holds 0`, because a silent stage
 must not look like a clean one. In a directory with no run it prints nothing.
 
 ### Routing that acts, not only reminds
@@ -892,8 +990,13 @@ derived exception: a trigger that is *itself* phrased as a question wins, becaus
 silencing it on the words it owns. Any refusal phrase drops every note on that
 prompt, not only its own route's; later prompts still get the notes not yet given.
 A prompt with no signal costs nothing.
-Every word it fires on must already appear in the target skill's own
-`description`; a fixture reads the shipped descriptions and fails on any trigger
+A report is not an order: a clause that asks whether something happened («миграция
+прошла?», "did the migration pass?") or a turn that only looks («посмотри логи
+миграции», "look at the migration logs") does not name delivery, while a verb that
+orders the work in the same clause («миграция упала? почини её») still does.
+Every word it fires on must already appear in the target skill's own `SKILL.md`
+(its `description`, or since 2026-10-20 the `Triggers` section the full list moved
+to); a fixture reads the shipped files and fails on any trigger
 the skill does not itself advertise, so this cannot become a second routing
 policy that drifts from the skills it routes to. A word a member is still being
 asked to advertise is declared in `PENDING` in `lib/triggers.js`, with the member
@@ -977,6 +1080,9 @@ npx sshlg-skills signature --used "<skill>=<what it did>,…"
                              # a report's one-line header and short footer — every
                              # address looked up from the manifest, never typed
 npx sshlg-skills enroll      # this repository's routes, written into its own CLAUDE.md
+npx sshlg-skills rules --help   # any command's usage (also -h, or help <command>);
+                                # prints only: no backup, no install, no network
+npx sshlg-skills --version   # the package version (also -v)
 ```
 
 `pack` is the one command here that can answer about **absence**. `toolkit`
@@ -1034,14 +1140,26 @@ Each route carries its setup state, read from the tree, and the command that see
 is missing: the brand pack (`<project>/docs/brand/{voice,terminology,facts}.md`,
 `/brand-init`), scenarios with their linter (`<project>/docs/ux/{scenarios.md,lint.py}`,
 `/ux-init`), a DOCMAP (`/task-pipeline setup`), an SEO brief or audit
-(`/seo-aeo-audit brief`). It writes two things and only two:
+(`/seo-aeo-audit brief`). It writes these and nothing else:
 
 - one `SSHLG:PROJECT` block in the project's `CLAUDE.md` and `AGENTS.md` where each
   exists (with neither, a new `CLAUDE.md` holding only the block), listing the routes,
   the surface and its signals, and the setup still owed;
 - `.claude/routers.json` entries for routers whose material already exists, so
   `npx sshlg-skills materialised` reports them true. Existing entries and keys are kept
-  in their order; an entry `enroll` did not add is never rewritten.
+  in their order; an entry `enroll` did not add is never rewritten;
+- `.claude/sshlg-enroll.json`, the record of the routers.json entries `enroll` wrote,
+  as it wrote them (B-229). routers.json admits router names only (`materialised`
+  reports any other key false), so the record lives beside it. An entry the operator
+  edits or removes leaves the record on the next run: it is the operator's now.
+
+When material is deleted later, the entry stays and `materialised` reports it false,
+which is the intended signal. `npx sshlg-skills enroll --prune` removes such an entry
+only when the record says `enroll` wrote it, routers.json still holds exactly those
+bytes, and a file it declares is gone; it never removes an operator-written or edited
+entry, and with no record it removes nothing. It previews (diff included) unless
+`--apply` is given; `--apply` backs up each file first, and a repeat prints
+`enroll --prune: unchanged`.
 
 Every byte outside the block is preserved and each file is copied to
 `~/.sshlg-skills/backups/` before the write. A malformed file, an
@@ -1066,7 +1184,7 @@ bin/sshlg-skills.js          the launcher (install / update / routers / config /
 lib/routers-registry.js      the fifteen routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
-lib/plan.js                  shared skills-CLI argv and Continue copy grouping
+lib/plan.js                  shared skills-CLI argv and Continue/Hermes copy grouping
 lib/installer-pins.js        production immutable member admission and pinned add plan
 lib/codexplugins.js          native Codex catalog inspection and unsafe transition deferral
 lib/inventory.js             the family's map — entry points, not a catalogue

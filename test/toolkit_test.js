@@ -323,6 +323,31 @@ it('readSkills: effective enablement for the cwd; a disabled family member is ma
   fs.rmSync(home, { recursive: true, force: true });
 });
 
+// B-272: `toolkit --find` reads skillOverrides from the profile Claude Code reads
+// (CLAUDE_CONFIG_DIR), the same resolver the hooks use; <home>/.claude is a decoy here.
+it('B-272: toolkit --find reads skillOverrides from CLAUDE_CONFIG_DIR', () => {
+  const fs = require('fs'); const os = require('os'); const path = require('path');
+  const { spawnSync } = require('child_process');
+  const home = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-tk-ccd-')));
+  try {
+    const profile = path.join(home, 'profiles', 'work');
+    const put = (p, text) => { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, text); };
+    put(path.join(profile, 'skills', 'zebra-ledger', 'SKILL.md'),
+      '---\nname: zebra-ledger\ndescription: Keep a zebra ledger.\n---\n# zebra-ledger\n');
+    put(path.join(profile, 'settings.json'), JSON.stringify({ skillOverrides: { 'zebra-ledger': 'off' } }));
+    put(path.join(home, '.claude', 'settings.json'), JSON.stringify({ skillOverrides: { 'zebra-ledger': 'on' } }));
+    const env = Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: profile });
+    const r = spawnSync(process.execPath, [path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'toolkit', '--find', 'zebra ledger'],
+      { encoding: 'utf8', env, timeout: 30000 });
+    const out = `${r.stdout}${r.stderr}`;
+    const row = out.split('\n').find((l) => l.includes('zebra-ledger') && !l.includes('skills for'));
+    assert.ok(row, out);
+    assert.ok(/hidden/.test(row), `the override in the relocated profile was not read: ${row}`);
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

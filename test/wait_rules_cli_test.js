@@ -55,7 +55,7 @@ test('foreign text inside one owned wait block refuses that block only: file:lin
  const up=packaged(h,env),hashes=[];
  for(let i=0;i<3;i++){
   const r=up(['update','--no-claude']);assert.equal(r.status,1,r.stdout+r.stderr);
-  assert(r.stdout.includes(`rules.wait: codex refused — ${x}:${line}`),r.stdout);assert(/outside the markers/.test(r.stdout),r.stdout);
+  assert(r.stdout.includes(`rules.wait: codex refused: ${x}:${line}`),r.stdout);assert(/outside the markers/.test(r.stdout),r.stdout);
   assert(r.stdout.includes('rules.wait: gemini unchanged'),r.stdout);assert(r.stdout.includes('== Refreshing the routing block =='),r.stdout);
   hashes.push(sha(x));
  }
@@ -72,7 +72,7 @@ test('the explicit rules command names the file and line of foreign text and wri
 test('update names a policy-on host without a receipt with the exact command and writes nothing there',(h,run,env)=>{
  const x=host(h,'.codex','AGENTS.md'),p=host(h,path.join('.pi','agent'),'AGENTS.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply','--agent','codex']));
  const up=packaged(h,env);
- for(let i=0;i<3;i++){const r=up(['update','--no-claude']);ok(r);assert(r.stdout.includes(`rules.wait: pi not applied — ${p}`),r.stdout);assert(r.stdout.includes('npx sshlg-skills rules --apply --agent pi'),r.stdout);assert(!/cursor: not-applied|cursor not applied/.test(r.stdout),r.stdout);}
+ for(let i=0;i<3;i++){const r=up(['update','--no-claude']);ok(r);assert(r.stdout.includes(`rules.wait: pi not applied: ${p}`),r.stdout);assert(r.stdout.includes('npx sshlg-skills rules --apply --agent pi'),r.stdout);assert(!/cursor: not-applied|cursor not applied/.test(r.stdout),r.stdout);}
  assert.equal(fs.readFileSync(p,'utf8'),'USER TEXT\n');
  ok(run(['rules','--apply','--agent','pi']));const r=up(['update','--no-claude']);ok(r);assert(!r.stdout.includes('rules.wait: pi not applied'),r.stdout);assert(r.stdout.includes('rules.wait: pi unchanged'),r.stdout);
  // Off: a host never applied is not a gap.

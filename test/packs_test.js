@@ -273,7 +273,7 @@ it('presence on an empty machine reports everything missing rather than throwing
 
 it('a machine that has everything says so instead of printing an empty section', () => {
   const out = P.report(pack(), INSTALLED, {});
-  assert.ok(out.includes('none — everything this pack declares is installed here.'),
+  assert.ok(out.includes('none: everything this pack declares is installed here.'),
     'the empty missing section printed nothing, which reads as an error');
 });
 
@@ -459,7 +459,7 @@ it('a lane the family delegates says so, at length, and cannot be owned at once'
   assert.ok(a11y.standing.length >= 120, 'a delegation stated in one line is a gap renamed');
   // and the standing decision must REACH the reader, not just sit in the data
   const out = P.report(P.PACKS.design, { present: [], missing: [] });
-  assert.ok(/a11y — DELEGATED/.test(out), 'the standing decision never prints');
+  assert.ok(/a11y: DELEGATED/.test(out), 'the standing decision never prints');
 });
 
 it('a delegated lane with no standing statement is refused', () => {

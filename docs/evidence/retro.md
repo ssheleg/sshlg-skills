@@ -119,11 +119,11 @@ used.)*
 
 ## Run stamps
 
-Rotated out: 1 oldest run stamps, verbatim in retro/2026-Q4.md sha256:45c2a3f531b3
-
-Rotated out: 79 oldest run stamps, verbatim in retro/2026-Q4.md sha256:234e1f2d9fde
+Rotated out: 81 oldest run stamps, verbatim in retro/2026-Q4.md sha256:f7e73e0bd98b
 
 Moved out: 14 loose paragraphs, verbatim in retro/2026-Q4.md sha256:b1964f7ebcc7
+
+- **2026-10-27: the hub board closed in waves as 1.81.0; nine parallel nodes, one integrator, four member releases** (instruction #11 fired: a helper I wrote refused a member's real CHANGELOG heading; a member run found it, not my fixture)
 
 - **2026-10-22: B-242 multi-scope Claude repair shipped as 1.72.1; B-244 fixed upstream as task-pipeline 1.99.1 and this floor migrated from 103,737 to 6,446 bytes** (instruction #8 fired: a green summary over a partial run)
 
@@ -142,5 +142,3 @@ Moved out: 14 loose paragraphs, verbatim in retro/2026-Q4.md sha256:b1964f7ebcc7
 - **2026-09-06 — the audit found the block, and the block was the thing nobody had measured** moved: retro/2026-Q4.md sha256:fc1c57826d72
 
 - **2026-09-06 — the constraint was one layer over from where the split was looking** moved: retro/2026-Q4.md sha256:43d1b716c363
-
-- **2026-09-06 — three members, and the pin refused the half I had shipped** moved: retro/2026-Q4.md sha256:3ea5d85b233b

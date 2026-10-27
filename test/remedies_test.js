@@ -129,6 +129,7 @@ const HOOK_DENY_SITES = {
   '`${target} is an instruction file': 'not a credential refusal: a backup could not be taken',
   '`\\`${masked.gate}': 'not a credential refusal: a gate read through a pipe would let git run on a red gate',
   '`\\`${selfUpdate.command}': 'not a credential refusal: a host self-update inside a substitution (B-223)',
+  'discard.why': 'not a credential refusal: a git command over uncommitted work (B-240); the module names the remedy',
 };
 function hookDenySites() {
   const src = codeOf(fs.readFileSync(path.join(ROOT, 'hooks', 'pre-tool-use.js'), 'utf8'));

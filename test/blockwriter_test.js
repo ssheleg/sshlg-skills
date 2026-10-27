@@ -185,6 +185,48 @@ try {
     assert.strictEqual(fs.readFileSync(f.file, 'utf8'), PROSE);
   });
 
+  t('B-199: a backup an unfinished operation names survives eleven later backups and is released once resolved', () => {
+    const A = require('../lib/apply.js');
+    const rename = fs.renameSync;
+    const f = fixture(PROSE);
+    fs.renameSync = () => { throw Object.assign(new Error('simulated crash'), { code: 'EIO' }); };
+    try { assert.strictEqual(code(() => W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home })), 'EIO'); }
+    finally { fs.renameSync = rename; }
+    const records = W.readJournal(f.home);
+    assert.strictEqual(records[records.length - 1].state, 'RECOVERY_REQUIRED');
+    const named = records.filter((r) => r.backup && r.backup.name).pop().backup;
+    assert.strictEqual(records[records.length - 1].backup.name, named.name, 'the RECOVERY_REQUIRED record names its backup');
+    const pinned = path.join(f.home, '.sshlg-skills', 'backups', named.name);
+    for (let i = 0; i < 11; i++) assert.strictEqual(A.protect(f.file, { home: f.home }).action, 'saved');
+    assert.ok(fs.existsSync(pinned), 'ordinary retention removed the backup an unfinished operation points at');
+    assert.strictEqual(sha(fs.readFileSync(pinned)), named.sha256);
+    // a person resolving by hand is told which copy to compare with
+    const before = fs.readFileSync(f.file);
+    fs.appendFileSync(f.file, 'someone else\n');
+    let said = '';
+    try { W.resolve(f.home, records[0].operationId); } catch (e) { said = e.message; }
+    assert.ok(said.includes(named.name), `the unresolved refusal does not name the backup: ${said}`);
+    fs.writeFileSync(f.file, before);
+    assert.strictEqual(W.resolve(f.home, records[0].operationId).state, 'RECOVERED_NO_WRITE');
+    A.protect(f.file, { home: f.home });
+    assert.ok(!fs.existsSync(pinned), 'a resolved operation still pins its backup');
+    const mine = fs.readdirSync(path.dirname(pinned)).filter((x) => x.startsWith(named.name.split('.').slice(0, -1).join('.')));
+    assert.strictEqual(mine.length, 10, `ordinary retention keeps ten, kept ${mine.length}`);
+  });
+
+  t('B-199: a journal that cannot be read prunes nothing, and the backup itself still succeeds', () => {
+    const A = require('../lib/apply.js');
+    const f = fixture(PROSE);
+    for (let i = 0; i < 10; i++) A.protect(f.file, { home: f.home });
+    fs.mkdirSync(path.dirname(W.journalPath(f.home)), { recursive: true, mode: 0o700 });
+    fs.writeFileSync(W.journalPath(f.home), '{"torn":');
+    const r = A.protect(f.file, { home: f.home });
+    assert.strictEqual(r.action, 'saved');
+    assert.deepStrictEqual(r.pruned, []);
+    assert.match(r.pruneSkipped, /journal/);
+    assert.strictEqual(fs.readdirSync(path.join(f.home, '.sshlg-skills', 'backups')).filter((x) => x.startsWith('CLAUDE.md--v2-')).length, 11);
+  });
+
   t('an interrupted write is RECOVERY_REQUIRED, blocks the next write, and resolve classifies it', () => {
     const rename = fs.renameSync;
     // (a) crash before the rename landed → before bytes → RECOVERED_NO_WRITE
@@ -354,7 +396,7 @@ try {
     fs.renameSync = () => { throw Object.assign(new Error('simulated disk error'), { code: 'EIO' }); };
     try { W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'claude', '--from', f.from, '--apply'], { home: f.home, env: {} }, (x) => { said += x; }); }
     finally { fs.renameSync = rename; }
-    assert.match(said, /refused — RECOVERY_REQUIRED/, 'the next write names the open operation');
+    assert.match(said, /refused: RECOVERY_REQUIRED/, 'the next write names the open operation');
   });
 
   t('the journal head covers the last record: an edited or deleted last line is refused', () => {
@@ -551,7 +593,7 @@ try {
     fs.writeFileSync(path.join(f.home, '.codex', 'AGENTS.md'), PROSE + `<!-- ${ID}:OPTOUT -->\n`);
     let said = '';
     assert.strictEqual(W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'all', '--from', f.from], { home: f.home, env: {} }, (x) => { said += x; }), 1);
-    assert.match(said, /== codex\nblocks install: refused .*OPTED_OUT/);
+    assert.match(said, /== codex\nblocks install: refused: .*OPTED_OUT/);
     said = '';
     assert.strictEqual(W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'cursor', '--from', f.from], { home: f.home, env: {} }, (x) => { said += x; }), 2);
   });

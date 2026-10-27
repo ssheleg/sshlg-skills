@@ -23,6 +23,8 @@ const { spawnSync } = require('child_process');
 
 const plan = require('../lib/plan.js');
 const opres = require('../lib/operation-result.js');
+// B-260: every operator-file write lands through this one temp-file-and-rename helper.
+const atomic = require('../lib/atomicwrite.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'skills.json'), 'utf8'));
@@ -115,7 +117,7 @@ function reportProgress(ok = true) {
   }
   log(`\n== FAILED ${progress.failed.length} of ${progress.total} steps ==`);
   for (const cmd of progress.failed) log(`  ✗ ${cmd}`);
-  log('\nRe-run just these rather than the whole pass — each line above is the exact');
+  log('\nRe-run just these rather than the whole pass: each line above is the exact');
   log('command, and a repeat of the full run costs about a quarter of an hour.');
 }
 
@@ -274,8 +276,8 @@ function pruneClaudeShadows() {
  */
 const DISPLACED_STATUSLINE = 'displaced:statusLine';
 
-function usage() {
-  log(`sshlg-skills — install/update the ssheleg skill family everywhere
+function usageText() {
+  return `sshlg-skills: install/update the ssheleg skill family everywhere
 
 Skills: ${SKILLS.map(s => s.name).join(', ')}
 
@@ -300,7 +302,8 @@ Usage:
                                                       # override this machine's pack mark (Gemini,
                                                       # Pi, OpenCode, Hermes; not Claude/Codex)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
-  npx sshlg-skills hooks   install [--force] [--dry-run]
+  npx sshlg-skills hooks   install [--force] [--dry-run] [--codex]
+                                                      # --codex: also the guard in Codex's hooks.json
   npx sshlg-skills context [--json]                    # what each host loads before the first word; caps
   npx sshlg-skills hooks   recovery inspect [--json]
   npx sshlg-skills hooks   recovery recover --expect <digest|absent> [--json]
@@ -327,16 +330,23 @@ Usage:
                                                       # xr-dev, web3d-dev, telegram-dev; hook-bearing members stay global
                                                       # load only in projects that call for them
   npx sshlg-skills pack [<name>] [--lane <id>] [--check]
+                                                      # curated recommendations, measured here
   npx sshlg-skills materialised                       # routers this project says live in its tree
   npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface public-web|app-text|internal]
                                                       # this repository's routes: SSHLG:PROJECT block in its
                                                       # CLAUDE.md/AGENTS.md, routers.json for existing material
-                                                      # curated recommendations, measured here
-  npx sshlg-skills list
+  npx sshlg-skills enroll --prune [--apply] [--root DIR] [--json]
+                                                      # drop routers.json entries enroll wrote whose material
+                                                      # is gone; preview unless --apply
+  npx sshlg-skills list [--verbose | -v]
   npx sshlg-skills agents
+  npx sshlg-skills help [<command>]                   # this text, or one command's part of it
+  npx sshlg-skills <command> --help | -h              # the same; prints only, writes nothing
+  npx sshlg-skills --version | -v                     # the package version
 
 Defaults:
-  - Non-Claude agents (${manifest.defaultAgents.join(', ')}) via the skills CLI.
+  - Non-Claude agents (${manifest.defaultAgents.join(', ')}) via the skills CLI,
+                each only where its home exists here (no home is created).
   - Claude Code via its PLUGIN (not a plain copy) to avoid a shadow duplicate.
   - --all       all globally supported agents in the pinned skills CLI snapshot.
                 Excludes project-only targets and plain Claude while plugins are on.
@@ -345,25 +355,74 @@ Defaults:
                 settings.json, no refresh of the runtime copy those hooks run.
                 Any --agent list does the same for those three, and in update
                 also skips the Claude plugin step: no --agent value selects
-                Claude (--agent claude exits 2) — scope a run to Claude with
+                Claude (--agent claude exits 2). Scope a run to Claude with
                 --claude-only, or pass no scope flag.
   - update exits 75 when another update holds ~/.sshlg-skills/update.lock
                 (retry later; nothing failed) and 2 on a usage error.
   - update never ADDS a hook entry: one removed by hand stays removed, and an
                 event a later release introduces arrives through
-                \`hooks install\` — update names each one not wired here.
+                \`hooks install\`; update names each one not wired here.
   - --claude-only install/update only the Claude plugins.
   - --bump-pins  (update only) also fast-forward the pinned submodules to their
-                 upstream tips — off by default so pins stay reproducible.
-  - --dry-run    (install/update) build the full operation plan — every
+                 upstream tips (off by default so pins stay reproducible).
+  - --dry-run    (install/update) build the full operation plan (every
                  subprocess, prune, router, runtime and settings.json hook-wiring
-                 action — render it, and execute NOTHING. The receipt is
-                 complete; the mutations are zero.`);
+                 action), render it, and execute NOTHING. The receipt is
+                 complete; the mutations are zero.`;
+}
+
+function usage() { log(usageText()); }
+
+/**
+ * B-198: one command's part of the usage above, so `<command> --help` has one
+ * source. The lines are every `npx sshlg-skills <name>` entry with the comment
+ * lines under it; install and update add the Defaults section their flags are
+ * explained in. Returns null for a name the usage does not list.
+ */
+const HELP_ALIASES = { i: 'install', up: 'update', un: 'uninstall', ls: 'list', packs: 'pack', materialized: 'materialised' };
+function commandUsage(cmd) {
+  const name = HELP_ALIASES[cmd] || cmd;
+  if (!/^[a-z]+$/.test(name)) return null;
+  const text = usageText();
+  const head = new RegExp(`^  npx sshlg-skills ${name}(\\s|$)`);
+  const out = [];
+  let taking = false;
+  for (const line of text.split('\n')) {
+    if (/^  npx sshlg-skills /.test(line)) taking = head.test(line);
+    else if (taking && !/^\s+#/.test(line)) taking = false;
+    if (taking) out.push(line);
+  }
+  if (!out.length) return null;
+  const parts = ['Usage:', ...out];
+  if (name === 'install' || name === 'update') parts.push('', text.slice(text.indexOf('Defaults:')));
+  return parts.join('\n');
+}
+
+/** `--help`/`-h` among a command's arguments, before a `--` terminator. */
+function wantsHelp(args) {
+  for (const a of args) {
+    if (a === '--') return false;
+    if (a === '--help' || a === '-h') return true;
+  }
+  return false;
 }
 
 function skillsCliAgents(f) {
   // Never let the skills CLI drop a plain Claude copy while we manage Claude via plugin.
-  return plan.resolveAgents(manifest.defaultAgents, f);
+  const chosen = plan.resolveAgents(manifest.defaultAgents, f);
+  return defaultScope(f) ? defaultPresence(chosen).present : chosen;
+}
+
+/** No --agent and no --all: the run's targets are the manifest defaults. */
+function defaultScope(f) { return !f.all && !(f.agents && f.agents.length); }
+
+/**
+ * B-218 / INST-9: the skills CLI creates the home of every target it is given, so
+ * a default target counts only when its home exists here. An explicit --agent or
+ * --all is the operator's choice and is passed as asked.
+ */
+function defaultPresence(ids) {
+  return require('../lib/host-targets.js').presence(ids, { home: os.homedir(), env: process.env, exists: p => fs.existsSync(p) });
 }
 
 /**
@@ -386,8 +445,71 @@ function runPlanned(argv) {
 function plainSkillsPlan(f, update = false) {
   if (f.claudeOnly) return [];
   if (cliSpec() !== 'skills@1.7.2') throw new Error('immutable source contract requires verified skills@1.7.2');
-  return require('../lib/installer-pins').build(SKILLS, skillsCliAgents(f),
+  return require('../lib/installer-pins').build(SKILLS, update ? updateAgents(f) : skillsCliAgents(f),
     { continueCopies: update && continueRestoreWanted(f) });
+}
+
+/**
+ * B-216: family links in host roots outside the default set (Qwen Code, Devin, Droid,
+ * Grok). Read here; every decision is lib/extraroots.js's. One `decide()` row per root.
+ */
+function extraRootPlans(f) {
+  const X = require('../lib/extraroots.js');
+  const home = process.env.HOME || os.homedir();
+  const sharedRoot = path.join(home, '.agents', 'skills');
+  const familyIds = SKILLS.flatMap((s) => plan.skillIds(s));
+  const lock = lockSources();
+  const scope = { agents: f.agents && f.agents.length ? f.agents : null, claudeOnly: !!f.claudeOnly };
+  const which = require('../lib/pi.js').whichBin;
+  return X.hosts(home, process.env).map((h) => {
+    const entries = [];
+    for (const name of channelEntries(h.dir)) {
+      if (name.startsWith('.')) continue;
+      const full = path.join(h.dir, name);
+      let st;
+      try { st = fs.lstatSync(full); } catch (_) { continue; }
+      const isSymlink = st.isSymbolicLink();
+      let target = null;
+      if (isSymlink) { try { target = path.resolve(h.dir, fs.readlinkSync(full)); } catch (_) { target = null; } }
+      let isDir = false, live = true;
+      try { isDir = fs.statSync(full).isDirectory(); } catch (_) { live = false; }
+      entries.push({ name, path: full, isSymlink, target, live, isDir });
+    }
+    const installed = !!which(h.bin) || channelEntries(h.base).some((n) => n !== 'skills' && !n.startsWith('.'));
+    return X.decide({ host: h, assessed: X.assess({ entries, familyIds, lock, sharedRoot }), installed, scope });
+  });
+}
+
+/** The agents `update` hands the skills CLI: the run's set plus the extra roots to refresh (B-216). */
+function updateAgents(f) {
+  const base = skillsCliAgents(f);
+  if (f.claudeOnly) return base;
+  return [...new Set(base.concat(extraRootPlans(f).map((d) => d.addAgent).filter(Boolean)))];
+}
+
+/** Report the extra roots and remove the dangling family links the frozen plan named (B-216). */
+function reconcileExtraRoots(f, planned) {
+  const step = planned.steps.find((s) => s.kind === 'prune' && s.effect.extraRoots);
+  if (!step) return true;
+  const allowed = new Set(step.effect.paths || []);
+  const q = require('../lib/extraroots.js').q;
+  let ok = true;
+  log('\n== Family links in other host roots (B-216) ==');
+  for (const d of extraRootPlans(f)) {
+    if (d.action === 'out-of-scope') continue;
+    for (const line of d.lines) log(`  ${line}`);
+    for (const p of d.prune) {
+      if (!allowed.has(p)) { log(`  not removed (found after the plan was frozen; the next update takes it): ${p}`); continue; }
+      let target;
+      try { if (!fs.lstatSync(p).isSymbolicLink()) continue; target = fs.readlinkSync(p); } catch (_) { continue; }
+      if (fs.existsSync(p)) continue;  // its target came back: live again, kept
+      try {
+        fs.unlinkSync(p);
+        log(`  removed dangling family link ${p} -> ${target} (to recreate: ln -s ${q(target)} ${q(p)})`);
+      } catch (e) { ok = false; log(`  NOT removed ${p}: ${e.code || e.message}`); }
+    }
+  }
+  return ok;
 }
 
 function planInstall(f) {
@@ -414,7 +536,10 @@ function scopesNote(j) {
   if (!local.length && !(j.aliases || []).length) return '';
   const moving = t.filter(x => !x.exact).length;
   return `; scopes: ${t.some(x => x.scope === 'user') ? 'user + ' : ''}${local.length} local, ${moving} to move`
-    + ((j.aliases || []).length ? `; left as recorded: ${j.aliases.map(a => `${a.projectPath} (alias of ${a.real})`).join(', ')}` : '');
+    + ((j.aliases || []).length ? `; left as recorded: ${j.aliases.map(a => `${a.projectPath} (alias of ${a.real})`).join(', ')}`
+      // B-243: an old path that is a symlink to the renamed folder has a reported remedy.
+      + (j.aliases.some(a => { try { return a.projectPath !== a.real && fs.realpathSync(a.projectPath) === a.real; } catch (_) { return false; } })
+        ? ' (an old path Claude cannot address; remedy: `npx sshlg-skills hosts`)' : '') : '');
 }
 // Private snapshots contain settings values and never enter printable effects.
 const claudePlans = new WeakMap();
@@ -429,8 +554,8 @@ function withClaudePlan(steps, f) {
       'native immutable source transaction; protected catalogs/settings, scoped repair, rollback on failure, payload readback',
       { fingerprint: native.fingerprint, profile: native.profile,
         members: native.jobs.filter(j => j.action !== 'rebind').map(j => `${j.pluginInstall}: ${j.action} @ ${j.row.commit}; ${j.row.files.length} files${scopesNote(j)}`)
-          .concat(native.equivalent.map(e => `${e.pluginInstall}: payload-equivalent (installed ${String(e.installed).slice(0, 7)}, pin ${e.pin.slice(0, 7)}; ${e.files} files equal) — source rebind, no reinstall`))
-          .concat(native.blocked.map(b => `${b.pluginInstall}: blocked, left as installed — ${b.reason}`)),
+          .concat(native.equivalent.map(e => `${e.pluginInstall}: payload-equivalent (installed ${String(e.installed).slice(0, 7)}, pin ${e.pin.slice(0, 7)}; ${e.files} files equal): source rebind, no reinstall`))
+          .concat(native.blocked.map(b => `${b.pluginInstall}: blocked, left as installed: ${b.reason}`)),
         journal: path.join(native.transactionRoot, 'latest.json') }));
   }
   const result = attachWaitPlan(steps, f);
@@ -443,8 +568,8 @@ function runClaudePlan(planned, f) {
     log(`\n== Updating Claude Code plugins ==\n  skipped: ${claudeScope(f).skippedBy} (the Claude host is outside this run's scope)`);
     return { ok: true, partial: false };
   }
-  for (const e of saved.native.equivalent) log(`    ${e.member || e.name}: payload equals pin ${e.pin.slice(0, 7)} (${e.files} files); no reinstall — only its marketplace source moves to the pin catalog`);
-  for (const b of saved.native.blocked) log(`    ${b.name}: blocked, left as installed — ${b.reason}`);
+  for (const e of saved.native.equivalent) log(`    ${e.member || e.name}: payload equals pin ${e.pin.slice(0, 7)} (${e.files} files); no reinstall: only its marketplace source moves to the pin catalog`);
+  for (const b of saved.native.blocked) log(`    ${b.name}: blocked, left as installed: ${b.reason}`);
   const clean = !saved.native.blocked.length;
   if (!saved.native.jobs.length) {
     // Nothing is written; still describe the state at apply time, not at preview.
@@ -452,7 +577,7 @@ function runClaudePlan(planned, f) {
     try { again = require('../lib/claude-pinned').prepare(SKILLS, saved.inventory, { home: os.homedir(), profileRoot: claudeRoot() }); }
     catch (e) { log(`  Claude native transaction refused before execution: ${e.message}`); return { ok: false, partial: false }; }
     if (again.fingerprint !== saved.native.fingerprint) { log('  Claude native state changed since the preview; run update again'); return { ok: false, partial: false }; }
-    log(clean ? '  Claude native transaction: not needed — every member already carries its pinned payload'
+    log(clean ? '  Claude native transaction: not needed: every member already carries its pinned payload'
       : '  Claude native transaction: nothing else to do; blocked members above keep their installed version (partial)');
     return { ok: true, partial: !clean };
   }
@@ -460,10 +585,10 @@ function runClaudePlan(planned, f) {
   let result;
   try { result = require('../lib/claude-pin-transaction').execute(saved.native, SKILLS, saved.inventory); }
   catch(e) { log(`  Claude native transaction refused before execution: ${e.message}`); return { ok: false, partial: false }; }
-  log(`  Claude native transaction: ${result.ok ? 'verified immutable payloads' : 'failed; inspect recovery receipt'} — ${result.receipt}`);
+  log(`  Claude native transaction: ${result.ok ? 'verified immutable payloads' : 'failed; inspect recovery receipt'}, receipt ${result.receipt}`);
   for (const r of result.results) log(`    ${r.member}: ${r.status}${r.rollback ? '; rollback: ' + r.rollback : ''}`);
   if (result.error) log(`  ${result.error}`);
-  if (!clean) log('  Claude: partial — blocked members above keep their installed version');
+  if (!clean) log('  Claude: partial, blocked members above keep their installed version');
   // A blocked member makes the result partial; the other channels still run.
   return { ok: result.ok, partial: !clean };
 }
@@ -486,6 +611,16 @@ function planUpdate(f) {
     steps.push(opres.step('prune', 'home',
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
+    // B-216: roots outside the default set that hold family entries.
+    const extra = extraRootPlans(f).filter((d) => d.action === 'refresh' || d.action === 'report' || d.prune.length);
+    if (extra.length) {
+      const of = (a) => extra.filter((d) => d.action === a).map((d) => d.agent);
+      const paths = extra.flatMap((d) => d.prune);
+      steps.push(opres.step('prune', 'home',
+        `family links in host roots outside the default set: refresh ${of('refresh').join(', ') || 'none'}; `
+          + `report ${of('report').join(', ') || 'none'}; remove ${paths.length} dangling family link(s)`,
+        { paths, extraRoots: 'B-216' }));
+    }
   }
   if (!f.member) {
     steps.push(opres.step('router-block', 'home',
@@ -496,7 +631,7 @@ function planUpdate(f) {
     const rtScope = claudeScope(f);
     steps.push(opres.step('runtime-sync', 'runtime',
       rtScope.inScope ? 'refresh the wired hook runtime copy (create: false)'
-        : `wired hook runtime copy — out of scope (skipped: ${rtScope.skippedBy}), moves with its wiring`,
+        : `wired hook runtime copy: out of scope (skipped: ${rtScope.skippedBy}), moves with its wiring`,
       { root: require('../lib/hooks.js').runtimeDir(os.homedir()) }));
   } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
   // The one write to an operator file this run can make outside the routing block.
@@ -508,7 +643,7 @@ function planUpdate(f) {
     const rec = path.join(os.homedir(), '.sshlg-skills', 'domains.json');
     steps.push(opres.step('domain-members', 'home', fs.existsSync(rec)
       ? 'give projects that gained a domain dependency their member (project entries first, read back; through protect())'
-      : 'domain members — `domains --apply` never ran here: one line if a project calls for one, nothing written',
+      : 'domain members: `domains --apply` never ran here: one line if a project calls for one, nothing written',
     { file: rec }));
   }
   return withClaudePlan(steps, f);
@@ -522,7 +657,7 @@ function sourceContract(planned) {
 }
 
 function renderDryRun(planned, mode) {
-  log(`\n== --dry-run: the ${mode} plan, rendered — nothing executed ==`);
+  log(`\n== --dry-run: the ${mode} plan, rendered: nothing executed ==`);
   sourceContract(planned);
   for (const line of opres.render(planned)) log(line);
   if (mode === 'update') {
@@ -536,7 +671,7 @@ function renderDryRun(planned, mode) {
     scope: 'home', status: 'dry-run',
     evidence: `${planned.steps.length} action(s) planned; 0 mutations`,
   });
-  log(`\nresult: ${res.status} — ${res.evidence}`);
+  log(`\nresult: ${res.status} (${res.evidence})`);
   return opres.exitCode(res) === 0;
 }
 
@@ -548,7 +683,7 @@ function cmdInstall(f) {
   let ok = !claude.partial;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
-    log(`\n== Installing to agents via skills CLI: ${agents.join(', ')} ==`);
+    log(`\n== Installing to agents via skills CLI: ${agents.join(', ') || 'none (no target host installed here)'} ==`);
     for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'npx')) {
       ok = runPlanned(step.effect.args) && ok;
     }
@@ -612,7 +747,9 @@ function scopedRoutingTargets(f) {
   if (f.claudeOnly) includeCursor = false;
   else if (selected) includeCursor = selected.has('cursor');
   else includeCursor = true;
-  return { hostTargets: scope.hostTargets, includeCursor };
+  // B-206: the other global instruction files, by the same selection.
+  const extraTargets = require('../lib/instruction-targets.js').select(f);
+  return { hostTargets: scope.hostTargets, includeCursor, extraTargets };
 }
 
 function cmdUpdate(f) {
@@ -645,12 +782,13 @@ function cmdUpdate(f) {
   if (!f.claudeOnly) {
     // Re-add each repository at the published commit. The upstream add command
     // overwrites existing payloads, so no unpinned `skills update` precedes it.
-    const agents = skillsCliAgents(f);
-    log(`\n== Reconciling plain-skills at immutable commits: ${agents.join(', ')} ==`);
+    const agents = updateAgents(f);
+    log(`\n== Reconciling plain-skills at immutable commits: ${agents.join(', ') || 'none (no target host installed here)'} ==`);
     for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'npx')) {
       ok = runPlanned(step.effect.args) && ok;
     }
     pruneClaudeShadows();
+    ok = reconcileExtraRoots(f, planned) && ok;
   }
   // `update`, never `install`: a machine that has no block has not consented
   // to one, and an update is not the moment to ask.
@@ -684,7 +822,7 @@ function cmdUpdate(f) {
         log(`\n== Wired hook runtime ==`);
         log(`  ${root}`);
         log(moved
-          ? `  refreshed ${r.copied.length} file(s) — ${before.missing.length} new, `
+          ? `  refreshed ${r.copied.length} file(s): ${before.missing.length} new, `
             + `${before.differing.length} changed`
           : '  already level with this package');
         for (const m of before.missing) log(`    + ${m}`);
@@ -733,9 +871,9 @@ function cmdUpdate(f) {
  * keep the Claude host out, keep it out here too); the other hosts are in scope with no
  * `--agent` list, or when the list names their skills-CLI agent id.
  */
-const VIS_AGENT = { gemini: 'gemini-cli', pi: 'pi', opencode: 'opencode', hermes: 'hermes-agent', cursor: 'cursor', kimi: 'kimi' };
-
 function visibilityScope(f) {
+  // Host id -> skills-CLI agent id, owned by lib/hostvis.js (B-214: Kimi is kimi-code-cli).
+  const VIS_AGENT = require('../lib/hostvis.js').AGENT;
   const flags = f || {};
   const out = new Set();
   if (claudeScope(flags).inScope) out.add('claude');
@@ -764,7 +902,7 @@ function reapplyVisibility(f) {
     return true;
   }
   if (!Object.prototype.hasOwnProperty.call(rec, 'applied')) {
-    log('\n== Skill visibility ==\n  not re-applied: the record predates explicit consent — run `npx sshlg-skills visibility --apply [--keep …]` once to re-arm');
+    log('\n== Skill visibility ==\n  not re-applied, the record predates explicit consent. Run `npx sshlg-skills visibility --apply [--keep …]` once to re-arm');
     return true;
   }
   if (rec.applied !== true) return true;
@@ -803,12 +941,12 @@ function runUpdateLocked(f) {
   const got = lock.acquire(home);
   if (!got.ok) {
     const h = got.holder || {};
-    log(`update: refused — ${got.message}${h.host ? ` on ${h.host}` : ''}.`);
+    log(`update: refused: ${got.message}${h.host ? ` on ${h.host}` : ''}.`);
     log(`  lock: ${lock.lockPath(home)} (taken over once its process is gone; a lock from another host after 30 minutes)`);
     return lock.BUSY_EXIT;
   }
-  if (got.tookOver) log(`update: took over update.lock — ${got.tookOver}`);
-  if (got.degraded) log(`update: running without a lock — ${got.degraded}`);
+  if (got.tookOver) log(`update: took over update.lock: ${got.tookOver}`);
+  if (got.degraded) log(`update: running without a lock: ${got.degraded}`);
   const free = () => { lock.release(home, got.token); };
   process.on('exit', free);
   try {
@@ -923,16 +1061,16 @@ function refreshCodexPlugins(f) {
     const u = lc.planHostLifecycle({ name: 'Codex', api: null,
       manualStep: `this Codex has no \`codex plugin\` marketplace CLI (${out.why}). Update the family `
         + 'plugins through Codex\'s own plugin manager and reload the session. No Codex native files were touched.' });
-    log(`  ${u.host}: UNSUPPORTED_UPDATE — ${u.manualStep}`);
+    log(`  ${u.host}: UNSUPPORTED_UPDATE: ${u.manualStep}`);
     return true;
   }
   if (out.status === 'unread') {
-    log(`  not read: codex plugin list failed — ${out.why}. Nothing in Codex was touched.`);
+    log(`  not read: codex plugin list failed: ${out.why}. Nothing in Codex was touched.`);
     // Not looked is not green: the summary reads PARTIAL and names this section.
     return false;
   }
   for (const it of out.items) {
-    if (it.action === 'skip') log(`  ${it.pluginId}: left alone — ${it.why}`);
+    if (it.action === 'skip') log(`  ${it.pluginId}: left alone: ${it.why}`);
   }
   if (out.results.some((r) => r.status === 'deferred')) {
     try {
@@ -983,9 +1121,9 @@ function planCodexSteps(f) {
  */
 function notWiredLines(skipped) {
   const lines = (skipped || []).filter((x) => !/held by/.test(x.why)).map((x) =>
-    `${x.event}: not wired here (removed by hand, or new in this release) — \`npx sshlg-skills hooks install\` adds it`);
+    `${x.event}: not wired here (removed by hand, or new in this release): \`npx sshlg-skills hooks install\` adds it`);
   if (lines.length) {
-    lines.push('note: `hooks install` re-adds every removed family entry, not only the new ones — '
+    lines.push('note: `hooks install` re-adds every removed family entry, not only the new ones: '
       + 'skip it if you removed these on purpose');
   }
   return lines;
@@ -1006,18 +1144,29 @@ function notWiredLines(skipped) {
  * `skipped` lists entries the refresh leaves alone: removed by hand, or a status line
  * somebody else holds (`hooks.plan` with `refreshOnly`).
  */
+/**
+ * The settings file the hooks are wired into: the Claude profile Claude Code reads,
+ * `$CLAUDE_CONFIG_DIR/settings.json` or `~/.claude/settings.json` (B-218, CLAUDE-8). The
+ * same resolution the routing block, pins and visibility use (lib/apply.js `hostRoot`).
+ */
+function hooksSettingsFile(home) {
+  return path.join(require('../lib/enablement.js').claudeRoot(home), 'settings.json');
+}
+
 function planRewire(f) {
   const hooksLib = require('../lib/hooks.js');
   const home = os.homedir();
-  const file = path.join(home, '.claude', 'settings.json');
+  const file = hooksSettingsFile(home);
   const root = hooksLib.runtimeDir(home);
   const base = { file, changed: [], reasons: [], skipped: [] };
   const scoped = claudeScope(f);
   if (!scoped.inScope) return Object.assign(base, { status: 'out of scope', skippedBy: scoped.skippedBy });
   let current;
+  let text;
   try {
     if (!fs.existsSync(file)) return Object.assign(base, { status: 'no settings' });
-    current = JSON.parse(fs.readFileSync(file, 'utf8'));
+    text = fs.readFileSync(file, 'utf8');
+    current = JSON.parse(text);
   } catch (e) {
     return Object.assign(base, { status: 'unparseable', error: e.message });
   }
@@ -1025,7 +1174,7 @@ function planRewire(f) {
   const p = hooksLib.plan(current, root, { refreshOnly: true });
   return Object.assign(base, {
     status: p.changed.length ? 'changes' : 'current',
-    settings: p.settings, changed: p.changed, reasons: p.reasons, skipped: p.skipped,
+    settings: p.settings, changed: p.changed, reasons: p.reasons, skipped: p.skipped, text,
   });
 }
 
@@ -1035,14 +1184,14 @@ function rewireStep(f) {
   const changes = r.status === 'changes'
     ? r.reasons.map((x) => `${x.event}: ${x.reason}`)
     : [r.status === 'out of scope' ? `out of scope (skipped: ${r.skippedBy})`
-      : r.status === 'unparseable' ? `does not parse (${r.error}) — nothing written`
+      : r.status === 'unparseable' ? `does not parse (${r.error}): nothing written`
         : r.status === 'current' ? 'already matches this package' : r.status];
   for (const s of r.skipped) if (s.event === 'statusLine' && /held by/.test(s.why)) changes.push(`statusLine: ${s.why}`);
   changes.push(...notWiredLines(r.skipped));
   return opres.step('hooks-wiring', 'home',
     r.status === 'changes'
       ? 're-wire the consented hook entries (copy before write, through protect())'
-      : 'hook entries in settings.json — nothing to write',
+      : 'hook entries in settings.json: nothing to write',
     { file: r.file, changes });
 }
 
@@ -1070,7 +1219,7 @@ function rewireConsentedHooks(f) {
   if (r.status === 'no settings' || r.status === 'no consent') return true;
   log('\n== Hook wiring ==');
   if (r.status === 'unparseable') {
-    log(`  ${r.file} does not parse (${r.error}) — nothing written`);
+    log(`  ${r.file} does not parse (${r.error}): nothing written`);
     return false;
   }
   for (const s of r.skipped) if (s.event === 'statusLine' && /held by/.test(s.why)) log(`  statusLine: ${s.why}`);
@@ -1078,16 +1227,20 @@ function rewireConsentedHooks(f) {
   // release introduced arrives only through `hooks install` — said, not left to be noticed.
   for (const line of notWiredLines(r.skipped)) log(`  ${line}`);
   if (r.status === 'current') { log('  settings.json already matches this package'); return true; }
-  const saved = apply.protect(r.file, { home: os.homedir() });
-  if (saved.action === 'backup-failed') {
-    log(`  NOT written: no backup could be taken (${saved.error}); ${r.file} unchanged`);
+  // Compare before replace (B-218, CLAUDE-7): written only if the file still holds the
+  // bytes the plan was made from, so a concurrent edit is never lost to this refresh.
+  const saved = apply.protectedWrite(r.file, JSON.stringify(r.settings, null, 2) + '\n',
+    { home: os.homedir(), expected: r.text });
+  if (!saved.ok) {
+    log(saved.action === 'changed'
+      ? `  NOT written: ${r.file} changed after it was read; nothing overwritten, run update again`
+      : `  NOT written: ${saved.action}${saved.error ? ` (${saved.error})` : ''}; ${r.file} unchanged`);
     return false;
   }
-  fs.writeFileSync(r.file, JSON.stringify(r.settings, null, 2) + '\n', 'utf8');
   for (const x of r.reasons) log(`  ${x.event}: ${x.reason}`);
   log(`  re-wired ${r.changed.join(', ')}`);
-  log(`  copy before write: ${saved.path}`);
-  log('  restart Claude Code — hooks are read at session start');
+  log(`  copy before write: ${saved.backup}`);
+  log('  restart Claude Code: hooks are read at session start');
   return true;
 }
 
@@ -1160,7 +1313,7 @@ function cmdHumanizers(argv) {
   try {
     skills = conflicts.readSkills(process.env.HOME || os.homedir());
   } catch (e) {
-    log(`cannot read the installed skills (${e.message}) — no answer rather than a wrong one`);
+    log(`cannot read the installed skills (${e.message}): no answer rather than a wrong one`);
     return 1;
   }
   log(hum.report(skills, { contribute: !argv.includes('--quiet') }));
@@ -1189,7 +1342,7 @@ function cmdList(argv) {
     let ver = s.version || '?';
     const pj = path.join(ROOT, s.dir, 'plugins', s.name, '.claude-plugin', 'plugin.json');
     try { ver = JSON.parse(fs.readFileSync(pj, 'utf8')).version; } catch (_) {}
-    const entry = s.entry || '—';
+    const entry = s.entry || '(none)';
     log(`  ${s.name.padEnd(16)} v${String(ver).padEnd(9)} ${String(entry).padEnd(16)} ${s.role || ''}`);
     if (verbose) log(`  ${' '.repeat(16)} ${s.repo}\n  ${' '.repeat(16)} ${s.desc}\n`);
   }
@@ -1216,6 +1369,7 @@ function cmdHosts() {
     const file = v.supported ? path.join(v.root, t.file) : '(unsupported platform)';
     log(`  ${t.agent.padEnd(8)} ${present ? 'detected' : 'absent  '}  ${file}`);
   }
+  hostsInstructionTargets(home);
   // B-167: Codex will not start while its config defines one table twice.
   const codexT = apply.TARGETS.find((t) => t.agent === 'codex');
   const cv = codexT && apply.hostRootVerdict(codexT, home, {});
@@ -1224,7 +1378,7 @@ function cmdHosts() {
     const dups = require('../lib/codexconfig.js').duplicateTables(fs.readFileSync(codexCfg, 'utf8'));
     const show = require('../lib/codexconfig.js').show;
     if (dups.length) {
-      log(`\nCodex config ${codexCfg}: ${dups.length} duplicate table(s) — Codex refuses to start (\`duplicate key\`):`);
+      log(`\nCodex config ${codexCfg}: ${dups.length} duplicate table(s), so Codex refuses to start (\`duplicate key\`):`);
       for (const d of dups) log(`  ${show(d.key)} at lines ${d.lines.join(' and ')}`);
       log('  Copy the file, then delete the later entry if both say the same; nothing here was changed.');
     } else {
@@ -1243,7 +1397,7 @@ function cmdHosts() {
       const res = reach.probe(reach.configured(cfg), 1500);
       if (res.length) {
         log(`\nClaude Code MCP servers on this machine (${res.length}, TCP connect only):`);
-        for (const s of res) log(`  ${s.name.padEnd(24)} ${s.answers ? 'answers' : 'refused'}  ${s.host}:${s.port}  (${s.scope})${s.answers ? '' : ` — ${s.why}`}`);
+        for (const s of res) log(`  ${s.name.padEnd(24)} ${s.answers ? 'answers' : 'refused'}  ${s.host}:${s.port}  (${s.scope})${s.answers ? '' : `: ${s.why}`}`);
         if (res.some((s) => !s.answers)) {
           log('  A session started while a server refused has none of its tools until `/mcp` → reconnect');
           log('  (or a new session). Do not work around it by calling the service directly with its token.');
@@ -1253,12 +1407,16 @@ function cmdHosts() {
   }
   // L5: which domain members load where. Counts only — a project's name stays in `domains`.
   try { domainsSummary(home); } catch (e) { log(`\nDomain members per project: not read (${e.message})`); }
+  reportStaleLocalRecords();
   const family = new Set(SKILLS.flatMap((s) => s.skillNames || []));
   const r = piLib.inspect({ home, env: process.env, cwd: process.cwd(), which: (b) => piLib.whichBin(b), family });
   log('\nPi (@earendil-works/pi-coding-agent):');
   if (!r.detected) { log('  pi      absent    no ~/.pi/agent and no `pi` on PATH'); return; }
   log(`  pi      detected  via ${r.via.join(', ')}; agent dir ${r.agentDir}`);
   log('  Pi does not load Claude Code plugins: the family reaches it as plain skill directories and through AGENTS.md.');
+  // B-221: Pi 1.1 reads project roots first and keeps the first name it finds.
+  log('  precedence: project roots first (.pi/skills here, then .agents/skills up to the git root), then ~/.pi/agent/skills, then ~/.agents/skills;'
+    + ' the first copy of a name wins. Project roots load only in a project Pi trusts.');
   for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)`);
   log(`  family skills visible to Pi (by name): ${r.family.visible.length} of ${r.family.total}` +
       (r.family.missing.length ? `; not visible: ${r.family.missing.join(', ')}` : ''));
@@ -1266,7 +1424,68 @@ function cmdHosts() {
       `${r.duplicates.conflicts.length} conflict(s) (different realpaths) of ${r.names} names`);
   for (const c of r.duplicates.conflicts) {
     const mark = r.duplicates.familyConflicts.includes(c.name) ? ' [family]' : '';
-    log(`  conflict: ${c.name}${mark} — Pi keeps ${c.locations[0].path}; shadowed: ${c.locations.slice(1).map((l) => l.path).join(', ')}`);
+    log(`  conflict: ${c.name}${mark}: Pi keeps ${c.locations[0].path}; shadowed: ${c.locations.slice(1).map((l) => l.path).join(', ')}`);
+  }
+}
+
+/**
+ * B-243: Claude Code local install records under a project's old path (a symlink to the
+ * renamed folder) beside the live record. Claude cannot address them; read-only report
+ * with the exact remedy from lib/localrecords.js.
+ */
+function reportStaleLocalRecords() {
+  const L = require('../lib/localrecords.js');
+  const file = path.join(claudeRoot(), 'plugins', 'installed_plugins.json');
+  let registry;
+  try { registry = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) {
+    if (e.code !== 'ENOENT') log(`\nClaude Code install records: ${file} not read (${e.code || 'invalid JSON'})`);
+    return;
+  }
+  const real = (p) => { try { return fs.realpathSync(p); } catch (_) { return null; } };
+  const found = L.staleAliases(registry, real);
+  if (!found.length) { log(`\nClaude Code install records (${file}): no local install record under an old project path.`); return; }
+  log(`\nClaude Code install records (${file}): ${found.length} local install record(s) under an old project path.`);
+  log('  Claude matches a local scope by the physical folder, so `claude plugin update|uninstall --scope local` cannot reach them');
+  log('  and `update` leaves them as recorded:');
+  for (const a of found) log(`    ${a.plugin}: ${a.projectPath} (now ${a.real}, which has its own record)`);
+  for (const line of L.remedy(file, found)) log(`  ${line}`);
+}
+
+/**
+ * B-206: every other host with a global instruction file, what the routing writer does
+ * for it, and why. Read-only; the same `describe()` the writer's presence rule uses.
+ */
+function hostsInstructionTargets(home) {
+  const IT = require('../lib/instruction-targets.js');
+  const rows = IT.describe(home);
+  log('\nOther hosts with a global instruction file (B-206):\n');
+  for (const r of rows.filter((x) => x.kind !== 'reported')) {
+    const what = r.kind === 'compact' ? `compact block, cap ${r.cap} characters` : 'full block';
+    const who = r.serves ? ` (serves ${r.serves.join(', ')})` : '';
+    let state = r.present ? 'detected' : 'absent  ';
+    try {
+      if (r.present && fs.lstatSync(r.file).isSymbolicLink()) {
+        const real = fs.realpathSync(r.file);
+        state = require('../lib/apply.js').managedFiles(home, {}).includes(real)
+          ? `symlink to ${real} (hub-managed: already served, nothing written)`
+          : `symlink to ${real} (not hub-managed: left alone; replace the link with a regular file to let the hub manage it)`;
+      }
+    } catch (e) { /* absent or dangling: said below */ }
+    log(`  ${r.agent.padEnd(8)} ${state}  ${r.file}  ${what}${who}${r.present ? '' : `; ${r.why}`}`);
+    if (r.note) log(`           note: ${r.note}`);
+  }
+  for (const r of rows.filter((x) => x.kind === 'reported')) {
+    if (!r.present) { log(`  ${r.agent.padEnd(8)} absent    not written: ${r.why}`); continue; }
+    let line = `  ${r.agent.padEnd(8)} detected  not written: ${r.why}`;
+    if (r.servedBy) line += ` Served through the ${r.servedBy === 'agents' ? '~/.agents/AGENTS.md' : r.servedBy} row above.`;
+    log(line);
+    if (r.fallback) {
+      log(!r.file ? `           relies on ${r.fallback}.`
+        : r.fallbackActive
+        ? `           relies on ${r.fallback} as a fallback; it stops the day ${r.file} appears.`
+        : `           ${r.file} exists, so ${r.fallback} is NOT read: carry the routing block there or remove the file.`);
+    }
+    if (r.manual) log(`           ${r.manual}`);
   }
 }
 
@@ -1325,12 +1544,12 @@ function cmdRouters(f) {
         // A preview must not report an adoption that would not happen: with no
         // authored entry there is nothing to take over.
         if (configLib.authoredGet(configLib.readConfig(home), name) !== undefined) adopted.push(name);
-        else log(`routers: "${name}" и так на пакетном тексте — принимать нечего`);
+        else log(`routers: "${name}" и так на пакетном тексте: принимать нечего`);
         continue;
       }
       const previous = configLib.authoredClear(home, name);
       if (previous === undefined) {
-        log(`routers: "${name}" и так на пакетном тексте — принимать нечего`);
+        log(`routers: "${name}" и так на пакетном тексте: принимать нечего`);
         continue;
       }
       // Parked, not dropped: the one act that overwrites a person's words
@@ -1383,11 +1602,11 @@ function cmdRouters(f) {
     const mine = configLib.authoredGet(config, f.diff);
     const theirs = registryText[f.diff];
     if (theirs === undefined) {
-      log(`routers --diff ${f.diff}: этот роутер сейчас не в области действия — его участник не установлен или он выключен настройкой.`);
+      log(`routers --diff ${f.diff}: этот роутер сейчас не в области действия: его участник не установлен или он выключен настройкой.`);
       return true;
     }
     if (mine === undefined) {
-      log(`routers --diff ${f.diff}: раздел идёт пакетным текстом — расходиться не с чем.`);
+      log(`routers --diff ${f.diff}: раздел идёт пакетным текстом: расходиться не с чем.`);
       return true;
     }
     if (!drift.diverged({ packaged: { [f.diff]: theirs }, authored: { [f.diff]: mine } }).length) {
@@ -1429,7 +1648,7 @@ function cmdRouters(f) {
   }
 
   if (!Object.keys(packaged).length && !remove.length) {
-    log('routers: ни один установленный участник не даёт роутера — нечего писать');
+    log('routers: ни один установленный участник не даёт роутера: нечего писать');
     return true;
   }
 
@@ -1477,11 +1696,11 @@ function cmdRouters(f) {
       // shape — there is no second write path — and this was the second one.
       const saved = apply.protect(file, { home });
       if (saved.action === 'backup-failed') {
-        log(`${file} — НЕ записан: не удалось сделать резервную копию ` +
+        log(`${file}: НЕ записан: не удалось сделать резервную копию ` +
             `(${saved.error}). Файл не изменён. Освободи ` +
             `~/.sshlg-skills/backups/ и повтори.`);
       } else {
-        fs.writeFileSync(file, moved.text, 'utf8');
+        atomic.write(file, moved.text);
         wrote = true;
       }
     }
@@ -1524,6 +1743,7 @@ function cmdRouters(f) {
     home, mode, consent: decision, routers: packaged,
     // Only the selected host files are written; the rest stay byte-identical.
     hostTargets: scoped.hostTargets, includeCursor: scoped.includeCursor,
+    extraTargets: scoped.extraTargets,
     // What the operator decided once, so a target added in a later release
     // reaches a machine that already said yes.
     consentRecorded: consent.readState(home).routers,
@@ -1566,14 +1786,14 @@ function cmdRouters(f) {
   for (const r of res.targets) {
     for (const k of r.kept || []) {
       if (k.kind === 'section') {
-        log(`routers: ${r.file}:${lines(k)} — section "${k.name}" holds text the pack did not write; kept as it is and ${f.dryRun ? 'would be ' : ''}recorded as your authored text for ${k.name}.`);
+        log(`routers: ${r.file}:${lines(k)}: section "${k.name}" holds text the pack did not write; kept as it is and ${f.dryRun ? 'would be ' : ''}recorded as your authored text for ${k.name}.`);
         log(`  Compare: npx sshlg-skills routers --diff ${k.name}   Take the packaged text: npx sshlg-skills routers --update --adopt ${k.name}`);
         if (!f.dryRun && decision === 'yes' && configLib.authoredGet(configLib.readConfig(home), k.name) === undefined) {
           configLib.authoredSet(home, k.name, k.body);
         }
       } else {
         keptRegions.push(k);
-        log(`routers: ${r.file}:${lines(k)} — the ${k.name} region holds text the pack did not write; the region was left as it is, not refreshed.`);
+        log(`routers: ${r.file}:${lines(k)}: the ${k.name} region holds text the pack did not write; the region was left as it is, not refreshed.`);
         log('  Move those lines outside the block (above its BEGIN or below its END marker), then run: npx sshlg-skills routers --update');
       }
     }
@@ -1598,29 +1818,31 @@ function cmdRouters(f) {
 
   for (const r of res.targets) {
     if (r.action === 'agent-absent') continue;
-    log(`routers: ${r.file} — ${r.action}`);
+    log(`routers: ${r.file}: ${r.action}`);
+    // B-206: a refusal or a symlink the hub will not write through says why, and what to do.
+    if (r.reason) log(`  ${r.reason}`);
     if (r.diff) log(r.diff);
   }
   if (saved.length) {
-    log(`routers: копии до записи — ${path.dirname(saved[0].backup.path)} (${saved.length})`);
+    log(`routers: копии до записи: ${path.dirname(saved[0].backup.path)} (${saved.length})`);
   }
   for (const b of blocked) {
     // The write did not happen. Saying only "backup-failed" leaves the operator
     // to guess whether their file was touched, which is the one thing they need
     // to know for certain.
-    log(`routers: ${b.file} — НЕ записан: не удалось сделать резервную копию ` +
+    log(`routers: ${b.file}: НЕ записан: не удалось сделать резервную копию ` +
         `(${b.backup && b.backup.error}). Файл не изменён.`);
   }
-  if (switchedOff.length) log(`routers: выключены настройкой — ${switchedOff.join(', ')}`);
+  if (switchedOff.length) log(`routers: выключены настройкой: ${switchedOff.join(', ')}`);
   for (const name of offMachine) {
     const what = machine.PREDICATES[registry.REGISTRY[name].machine];
-    log(`routers: ${name} — not on this machine: ${what ? what.what : 'its machine predicate does not hold'}`);
+    log(`routers: ${name}: not on this machine: ${what ? what.what : 'its machine predicate does not hold'}`);
   }
   for (const id of Object.keys(superseded)) {
-    log(`routers: вытеснен рукописный раздел "${id}" — тело сохранено в ${configLib.configPath(home)}`);
+    log(`routers: вытеснен рукописный раздел "${id}": тело сохранено в ${configLib.configPath(home)}`);
   }
   if (adopted.length) {
-    log(`routers: принят пакетный текст — ${adopted.join(', ')}` +
+    log(`routers: принят пакетный текст: ${adopted.join(', ')}` +
         (f.dryRun ? ' (--dry-run: ничего не записано)'
                   : `; прежние формулировки сохранены в ${configLib.configPath(home)}`));
   }
@@ -1638,7 +1860,7 @@ function cmdRouters(f) {
   });
   if (diverging.length) {
     log('');
-    log(`routers: твой текст расходится с пакетным — ${diverging.map((e) => e.name).join(', ')}`);
+    log(`routers: твой текст расходится с пакетным: ${diverging.map((e) => e.name).join(', ')}`);
     log('  Твоё слово по-прежнему выигрывает: блок записан с твоими формулировками.');
     log('  Посмотреть разницу:  npx sshlg-skills routers --diff <имя>');
     log('  Принять пакетный:    npx sshlg-skills routers --update --adopt <имя>');
@@ -1674,8 +1896,8 @@ function attachWaitPlan(steps, f, options = {}) {
 // One wording for the plan and the run. A refused block names `file:line` and its remedy
 // (B-201); a host the enabled rule has not reached names the command that applies it (B-208).
 function waitRowLine(r) {
-  if (r.action === 'refused') return `${r.agent}: refused — ${r.reason}; ${r.remedy}`;
-  if (r.command) return `${r.agent}: not applied — ${r.file}: rules.wait is on, this host has no ownership receipt; apply it here: ${r.command}`;
+  if (r.action === 'refused') return `${r.agent}: refused: ${r.reason}; ${r.remedy}`;
+  if (r.command) return `${r.agent}: not applied: ${r.file}: rules.wait is on, this host has no ownership receipt; apply it here: ${r.command}`;
   return `${r.agent}: ${r.action} (${r.file})`;
 }
 function executeWaitPlan(planned) {
@@ -1683,8 +1905,8 @@ function executeWaitPlan(planned) {
   if (!pending) return true;
   const result = require('../lib/wait-rules.js').execute(pending);
   for (const r of result.results) {
-    if (r.action === 'refused') log(`rules.wait: ${r.agent} refused — ${r.error}; ${r.remedy}. Every other step of this run continues; the run reports partial (exit 1).`);
-    else if (r.command) log(`rules.wait: ${r.agent} not applied — ${r.file}: rules.wait is on and this host has no ownership receipt (an update never extends it to a new host); apply it here: ${r.command}`);
+    if (r.action === 'refused') log(`rules.wait: ${r.agent} refused: ${r.error}; ${r.remedy}. Every other step of this run continues; the run reports partial (exit 1).`);
+    else if (r.command) log(`rules.wait: ${r.agent} not applied: ${r.file}: rules.wait is on and this host has no ownership receipt (an update never extends it to a new host); apply it here: ${r.command}`);
     else if (r.action === 'agent-absent') continue;
     else log(`rules.wait: ${r.agent} ${r.action}${r.error ? ': ' + r.error : ''}`);
   }
@@ -1715,7 +1937,7 @@ function cmdRules(f) {
     const pending = waitPlan(f);
     log(`rules.wait: ${pending.policy.enabled ? 'on' : 'off'}; ${f.apply && !f.dryRun ? 'apply' : 'preview'}`);
     for (const r of pending.rows) {
-      log(`  ${r.agent}: ${r.action} — ${r.file}`);
+      log(`  ${r.agent}: ${r.action} (${r.file})`);
       if (['write', 'remove'].includes(r.action)) {
         if (r.owned) log(r.owned.segment.split('\n').map(line => '- ' + line).join('\n'));
         if (r.segment) log(r.segment.split('\n').map(line => '+ ' + line).join('\n'));
@@ -1736,14 +1958,14 @@ function cmdConfig(argv) {
 
   if (!sub || sub === 'list') {
     const config = configLib.readConfig(home);
-    log(`Настройки пака — ${configLib.configPath(home)}\n`);
+    log(`Настройки пака: ${configLib.configPath(home)}\n`);
     for (const name of registry.order()) {
       log(`  routers.${name.padEnd(16)} ${configLib.isEnabled(config, name) ? 'on' : 'off'}`);
     }
     log(`  update.auto${' '.repeat(11)} ${configLib.autoUpdateEnabled(config) ? 'on' : 'off'}`);
     log(`  rules.star${' '.repeat(12)} ${configLib.starEnabled(config) ? 'on' : 'off'}`);
     try { log(`  rules.wait             ${require('../lib/wait-rule-policy.js').read(home).enabled ? 'on' : 'off'}`); }
-    catch (e) { log(`  rules.wait             unknown — ${e.message}`); return 2; }
+    catch (e) { log(`  rules.wait             unknown: ${e.message}`); return 2; }
     const declared = configLib.externalGet(config);
     const names = Object.keys(declared).sort();
     log(names.length ? '\nОбъявленные маршруты (не участники семьи):' : '\nОбъявленных маршрутов нет.');
@@ -1769,7 +1991,7 @@ function cmdConfig(argv) {
   }
 
   if (sub !== 'set') {
-    log(`config: неизвестная подкоманда "${sub}" — есть list и set`);
+    log(`config: неизвестная подкоманда "${sub}": есть list и set`);
     return 2;
   }
 
@@ -1788,7 +2010,7 @@ function cmdConfig(argv) {
 
   if (key === 'rules.star') {
     if (configLib.STATES.indexOf(value) === -1) {
-      log(`config set: состояние должно быть on или off — получено "${value === undefined ? '' : value}"`);
+      log(`config set: состояние должно быть on или off: получено "${value === undefined ? '' : value}"`);
       return 2;
     }
     const was = configLib.starEnabled(configLib.readConfig(home)) ? 'on' : 'off';
@@ -1801,7 +2023,7 @@ function cmdConfig(argv) {
 
   if (key === 'update.auto') {
     if (configLib.STATES.indexOf(value) === -1) {
-      log(`config set: состояние должно быть on или off — получено "${value === undefined ? '' : value}"`);
+      log(`config set: состояние должно быть on или off: получено "${value === undefined ? '' : value}"`);
       return 2;
     }
     const wasAuto = configLib.autoUpdateEnabled(configLib.readConfig(home)) ? 'on' : 'off';
@@ -1813,7 +2035,7 @@ function cmdConfig(argv) {
     log(`update.auto: ${wasAuto} → ${value}`);
     log(value === 'off'
       ? 'Набор больше не обновляется сам. Обновить вручную: npx sshlg-skills@latest update'
-      : 'Набор будет обновляться, когда ты отойдёшь — целиком, все девять паков.');
+      : 'Набор будет обновляться, когда ты отойдёшь: целиком, все девять паков.');
     return 0;
   }
 
@@ -1830,7 +2052,7 @@ function cmdConfig(argv) {
     log(`visibility.pack.${pack}: ${was} → ${value}${was === value ? ' (без изменений)' : ''}`);
     log('Действует на Gemini, Pi, OpenCode и Hermes. На Claude и Codex переопределение пака ничего не меняет:');
     log('там скрыто всё вне ядра, а оставить скил в списке можно через `visibility --apply --keep <скил>`.');
-    log('Применить: npx sshlg-skills visibility --apply (предпросмотр — без --apply).');
+    log('Применить: npx sshlg-skills visibility --apply (предпросмотр: без --apply).');
     return 0;
   }
 
@@ -1847,7 +2069,7 @@ function cmdConfig(argv) {
   }
 
   if (configLib.STATES.indexOf(value) === -1) {
-    log(`config set: состояние должно быть on или off — получено "${value === undefined ? '' : value}"`);
+    log(`config set: состояние должно быть on или off: получено "${value === undefined ? '' : value}"`);
     return 2;
   }
 
@@ -1879,18 +2101,18 @@ function configExternal(home, key, rest) {
   const m = /^routes\.external\.([^.]+)(?:\.(triggers|skill|line))?$/.exec(key);
   const value = rest.join(' ').trim();
   if (!m) {
-    log(`config set: не понял ключ "${key}" — routes.external.<имя>.triggers|skill|line или routes.external.<имя> off`);
+    log(`config set: не понял ключ "${key}": routes.external.<имя>.triggers|skill|line или routes.external.<имя> off`);
     return 2;
   }
   const [, name, field] = m;
   if (!field) {
     if (value !== 'off') {
-      log(`config set ${key}: без поля принимается только off — получено "${value}"`);
+      log(`config set ${key}: без поля принимается только off: получено "${value}"`);
       return 2;
     }
     const was = configLib.externalClear(home, name);
     log(was === undefined ? `routes.external.${name}: не объявлен (без изменений)`
-                          : `routes.external.${name}: удалён — ${configLib.configPath(home)}`);
+                          : `routes.external.${name}: удалён: ${configLib.configPath(home)}`);
     return 0;
   }
   if (!value) {
@@ -1905,7 +2127,7 @@ function configExternal(home, key, rest) {
   const problems = T.routeProblems(name, next)
     .filter((p) => field === 'triggers' || !/^no triggers/.test(p));
   if (problems.length) {
-    log(`config set ${key}: не записано —`);
+    log(`config set ${key}: не записано:`);
     for (const p of problems) log(`  - ${p}`);
     return 2;
   }
@@ -1961,7 +2183,7 @@ function cmdInjectors() {
   } catch (e) {
     // The registry is the input. Saying "nothing else injects" because a file could
     // not be read would be the false-clear this module exists to refuse.
-    log(`cannot read the plugin registry (${e.message}) — no answer rather than a wrong one`);
+    log(`cannot read the plugin registry (${e.message}): no answer rather than a wrong one`);
     read = null;
   }
   if (read) log(inj.report(inj.injectors(...read)));
@@ -1971,7 +2193,7 @@ function cmdInjectors() {
   try {
     mcp = inj.readMcp(home);
   } catch (e) {
-    log(`\ncannot read the MCP declarations (${e.message}) — no answer rather than a wrong one`);
+    log(`\ncannot read the MCP declarations (${e.message}): no answer rather than a wrong one`);
     return;
   }
   log('');
@@ -1996,7 +2218,7 @@ function cmdConflicts() {
   try {
     skills = conflicts.readSkills(home);
   } catch (e) {
-    log(`cannot read the installed skills (${e.message}) — no answer rather than a wrong one`);
+    log(`cannot read the installed skills (${e.message}): no answer rather than a wrong one`);
     return;
   }
   const owned = manifest.skills.map((s) => s.pluginInstall).filter(Boolean);
@@ -2033,7 +2255,7 @@ function cmdToolkit(argv) {
   try {
     skills = toolkit.readSkills(home);
   } catch (e) {
-    log(`cannot read the installed skills (${e.message}) — no answer rather than a wrong one`);
+    log(`cannot read the installed skills (${e.message}): no answer rather than a wrong one`);
     return;
   }
   const family = manifest.skills.reduce(
@@ -2048,7 +2270,8 @@ function cmdToolkit(argv) {
     // exactly the one this search exists to reach.
     let overrides = {};
     try {
-      overrides = JSON.parse(fs.readFileSync(path.join(home, '.claude', 'settings.json'), 'utf8')).skillOverrides || {};
+      // The profile Claude Code reads: CLAUDE_CONFIG_DIR, else ~/.claude (B-272, as the hooks since B-218).
+      overrides = JSON.parse(fs.readFileSync(path.join(require('../lib/enablement.js').claudeRoot(home), 'settings.json'), 'utf8')).skillOverrides || {};
     } catch (e) { overrides = {}; }
     const additional = toolkit.readShared(home, skills);
     const all = skills.concat(additional)
@@ -2169,10 +2392,10 @@ function runVisibility(opts) {
   const home = process.env.HOME || os.homedir();
   const got = lock.acquire(home);
   if (!got.ok || got.degraded) {
-    log(`visibility: refused — ${got.message || got.degraded}`);
+    log(`visibility: refused: ${got.message || got.degraded}`);
     return got.ok ? 1 : lock.BUSY_EXIT;
   }
-  if (got.tookOver) log(`visibility: took over update.lock — ${got.tookOver}`);
+  if (got.tookOver) log(`visibility: took over update.lock: ${got.tookOver}`);
   try { return runVisibilityUnlocked(opts); }
   finally { lock.release(home, got.token); }
 }
@@ -2227,7 +2450,7 @@ function runVisibilityUnlocked(opts) {
     const recovered = S.recover(stored, process.env);
     if (stored.pending) log(`  recovered pending ${stored.pending.host} write from its fingerprint${!doApply && !doRevert ? ' (preview only)' : ''}`);
     owned = Object.assign(owned, recovered);
-  } catch (e) { log(`visibility: ownership record not usable — ${e.message}; nothing written`); return 1; }
+  } catch (e) { log(`visibility: ownership record not usable: ${e.message}; nothing written`); return 1; }
   const createdOf = (id) => (owned.created && Array.isArray(owned.created[id]) ? owned.created[id] : []);
 
   const policyErrors = [];
@@ -2333,7 +2556,7 @@ function runVisibilityUnlocked(opts) {
     try { lock = HV.readLock(home, { strict: true }); } catch (e) { policyErrors.push(e.message); }
   }
   if (policyErrors.length) {
-    log(`visibility: policy not usable — ${policyErrors.join('; ')}; settings and ownership unchanged`); return 1;
+    log(`visibility: policy not usable: ${policyErrors.join('; ')}; settings and ownership unchanged`); return 1;
   }
   const hostList = HV.hosts(home, process.env);
   let files;
@@ -2372,20 +2595,20 @@ function runVisibilityUnlocked(opts) {
   const ov = config.visibility || {};
 
   log('Host-wide fallback for sessions Fabric does not start. Fabric\'s RM-23 (open) is to read ~/.sshlg-skills/pack-marks.json and own visibility in the sessions it starts.');
-  log(`Skill visibility — core = family + used within ${days} days (by Claude Code usage) + named in ${instructionsPath}${keep.length ? ' + --keep' : ''}`);
+  log(`Skill visibility: core = family + used within ${days} days (by Claude Code usage) + named in ${instructionsPath}${keep.length ? ' + --keep' : ''}`);
   log(`  core: ${coreSet.size} skills (Claude, Codex); ${coreAll.size} across every host's roots`);
   if (doRevert) {
-    log('  pack marks: not needed for revert — undo uses the ownership record');
+    log('  pack marks: not needed for revert (undo uses the ownership record)');
   } else if (marksText === null) {
-    log('  pack marks: no pack marks on this machine (~/.sshlg-skills/pack-marks.json) — no pack is hidden by mark.');
+    log('  pack marks: no pack marks on this machine (~/.sshlg-skills/pack-marks.json): no pack is hidden by mark.');
     log('    Write them: `npx sshlg-skills visibility marks --init --show <owner/repo,…>` (preview), then add --apply.');
   } else if (markProblems.length) {
-    log(`  pack marks: ~/.sshlg-skills/pack-marks.json NOT read — ${markProblems[0]}; no pack is hidden by mark`);
+    log(`  pack marks: ~/.sshlg-skills/pack-marks.json NOT read: ${markProblems[0]}; no pack is hidden by mark`);
   } else {
     log(`  pack marks: ~/.sshlg-skills/pack-marks.json revision ${marksData.revision}; ${hiddenPacks.length} of ${installedPacks.size} installed packs hidden`);
   }
   if ((ov.hidePacks || []).length || (ov.showPacks || []).length) {
-    log(`  overrides (config.json): hidePacks ${(ov.hidePacks || []).length}, showPacks ${(ov.showPacks || []).length} — Gemini, Pi, OpenCode and Hermes only`);
+    log(`  overrides (config.json): hidePacks ${(ov.hidePacks || []).length}, showPacks ${(ov.showPacks || []).length}: Gemini, Pi, OpenCode and Hermes only`);
   }
   if (inScope('claude')) {
     const newHides = claudeSet.filter((n) => claudeSetMap[n] === V.HIDE).length;
@@ -2406,7 +2629,7 @@ function runVisibilityUnlocked(opts) {
   }
   if (inScope('codex')) {
     log(`  Codex: ${shared.length} shared skills; disable up to ${codexAdd.length} more (entries already present are left as they are), re-enable ${codexDrop.length}` +
-        (codexText === null ? ` (${codexPath}: ${readErrors.get(codexPath) || 'absent'} — skipped)` : ''));
+        (codexText === null ? ` (${codexPath}: ${readErrors.get(codexPath) || 'absent'}: skipped)` : ''));
   }
   log('  Claude and Codex hide everything outside the core (pack marks and overrides do not change them; --keep does).');
 
@@ -2414,8 +2637,8 @@ function runVisibilityUnlocked(opts) {
   const hostPlans = [];
   for (const h of hostList) {
     if (!inScope(h.id)) continue;
-    if (!h.present) { log(`  ${h.id}: not installed here — skipped`); continue; }
-    if (h.cannot) { log(`  ${h.id}: cannot hide on ${h.id} — ${h.cannot}`); continue; }
+    if (!h.present) { log(`  ${h.id}: not installed here: skipped`); continue; }
+    if (h.cannot) { log(`  ${h.id}: cannot hide on ${h.id} (${h.cannot})`); continue; }
     const list = inv[h.id];
     const names = doRevert ? [] : V.hostHide({ skills: list, host: h.id, marks, config, core: coreAll });
     const marked = list.filter((s) => s.pack && V.packHidden(s.pack, h.id, { marks, config })).length;
@@ -2450,13 +2673,13 @@ function runVisibilityUnlocked(opts) {
         ? V.editJsonList(p.text, { keys: h.keys, add, remove: drop, create: h.create, newline: h.newline, prunable })
         : V.editJsonMap(p.text, { keys: h.keys, set: add, value: h.value, unset: drop, prunable });
       if (!edit.ok) p.reason = `${h.file} ${edit.reason}`;
-      else if (edit.skipped && want.length) p.reason = `no ${path.basename(h.file)} — create it, or run the host once`;
+      else if (edit.skipped && want.length) p.reason = `no ${path.basename(h.file)}: create it, or run the host once`;
       else { p.edit = edit; p.added = edit.added; p.changed = edit.text !== p.text; }
     }
     log(`  ${h.id}: ${list.length} skills in its roots, ${marked} in hidden packs` +
         `${doRevert ? '' : ` (${marked - names.length} kept by the core)`}; hide ${names.length}; ` +
-        (p.reason ? `DEGRADED — ${p.reason}`
-          : `write ${p.added.length} new entr${p.added.length === 1 ? 'y' : 'ies'}, remove ${drop.length} — ${h.label}`));
+        (p.reason ? `DEGRADED: ${p.reason}`
+          : `write ${p.added.length} new entr${p.added.length === 1 ? 'y' : 'ies'}, remove ${drop.length} (${h.label})`));
     hostPlans.push(p);
   }
   log('  A hidden skill stays installed: no file is deleted or moved, the SKILL.md is still readable,');
@@ -2484,7 +2707,7 @@ function runVisibilityUnlocked(opts) {
   }
   const journal = S.journal(recordPath, home, record, process.env);
   const clone = () => JSON.parse(JSON.stringify(journal.current));
-  const degrade = (id, reason) => { log(`  ${id}: DEGRADED, not written — ${reason}`); degraded.push(id); };
+  const degrade = (id, reason) => { log(`  ${id}: DEGRADED, not written: ${reason}`); degraded.push(id); };
   const transact = (id, file, before, after, next, action, kind = 'file') => {
     const result = journal.transact({ host: id, file: files[id] || file, kind, before: S.hash(before), after: S.hash(after) }, next, action);
     if (!result.landed) { degrade(id, result.error ? result.error.message : 'write did not take effect'); return; }
@@ -2583,7 +2806,7 @@ function cmdVisibilityMarks(argv) {
   if (!flag('--init')) {
     if (text === null) { log(`No pack marks on this machine (${file}).`); log('Write them: npx sshlg-skills visibility marks --init --show <owner/repo,…> [--apply]'); return 0; }
     const problems = cur ? V.marksProblems(cur) : ['does not parse'];
-    if (problems.length) { log(`${file}: NOT valid pack-marks/1 — ${problems.join('; ')}`); return 1; }
+    if (problems.length) { log(`${file}: NOT valid pack-marks/1: ${problems.join('; ')}`); return 1; }
     log(`${file}: revision ${cur.revision}; ${cur.packs.length} packs, ${cur.packs.filter((m) => m.hidden).length} hidden`);
     for (const m of cur.packs) log(`  ${m.hidden ? 'hide' : 'show'}  ${m.pack}${m.host.includes('*') ? '' : ` (${m.host.join(', ')})`}`);
     return 0;
@@ -2592,11 +2815,11 @@ function cmdVisibilityMarks(argv) {
   let packs;
   try { packs = [...new Set(HV.readLock(home, { strict: true }).values())]; }
   catch (e) { log(`visibility marks: ${e.message}; nothing written`); return 1; }
-  if (!packs.length) { log('visibility marks: no installed packs (~/.agents/.skill-lock.json) — nothing to mark'); return 2; }
+  if (!packs.length) { log('visibility marks: no installed packs (~/.agents/.skill-lock.json): nothing to mark'); return 2; }
   const known = new Set(packs.map((p) => p.toLowerCase()));
   for (const p of show) if (!known.has(p.toLowerCase())) log(`  note: ${p} is not installed here; marked listed anyway`);
   if (text !== null && !flag('--replace')) {
-    log(`visibility marks: ${file} exists — pass --replace to write a new revision (a backup is taken first)`);
+    log(`visibility marks: ${file} exists: pass --replace to write a new revision (a backup is taken first)`);
     return 2;
   }
   const d = new Date();
@@ -2610,9 +2833,9 @@ function cmdVisibilityMarks(argv) {
   for (const m of hidden) log(`  hide  ${m.pack}`);
   if (!flag('--apply')) { log('\n  Nothing written. Add --apply to write it (a backup is taken first).'); return 0; }
   const saved = apply.protect(file, { home });
-  if (saved.action === 'backup-failed') { log(`  NOT written — backup failed (${saved.error})`); return 1; }
+  if (saved.action === 'backup-failed') { log(`  NOT written: backup failed (${saved.error})`); return 1; }
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n', 'utf8');
+  atomic.write(file, JSON.stringify(data, null, 2) + '\n');
   log(`  written${saved.path ? ` (backup ${saved.path})` : ''}. Preview the hosts: npx sshlg-skills visibility`);
   return 0;
 }
@@ -2781,7 +3004,7 @@ function domainsWritable(dir, lr, D) {
   // counts (.gitignore, info/exclude, the global excludes file): it is git's own rule, and
   // the file is never committed from this machine either way (operator decision 2026-10-13).
   const q = spawnSync('git', ['-C', dir, 'check-ignore', '-q', DOMAINS_LOCAL], { encoding: 'utf8' });
-  if (q.status === 1) return { ok: false, why: 'git does not ignore .claude/settings.local.json (or it is tracked) — add it to .gitignore, then run again' };
+  if (q.status === 1) return { ok: false, why: 'git does not ignore .claude/settings.local.json (or it is tracked): add it to .gitignore, then run again' };
   if (q.status !== 0) return { ok: false, why: `git check-ignore failed: ${String(q.stderr || (q.error && q.error.message) || '').trim()}` };
   const v = spawnSync('git', ['-C', dir, 'check-ignore', '-v', DOMAINS_LOCAL], { encoding: 'utf8' });
   return { ok: true, why: `ignored by ${String(v.stdout).trim().split('\t')[0] || 'git'}` };
@@ -2791,10 +3014,10 @@ function domainsWritable(dir, lr, D) {
 function domainsWriteFile(apply, home, file, before, after, label) {
   if (before !== null) {
     const saved = apply.protect(file, { home });
-    if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); return false; }
+    if (saved.action === 'backup-failed') { log(`  ${label}: NOT written: backup failed (${saved.error})`); return false; }
   }
-  try { fs.writeFileSync(file, after, { encoding: 'utf8', mode: 0o600 }); return true; }
-  catch (e) { log(`  ${label}: NOT written — ${e.code || e.message}`); return false; }
+  try { atomic.write(file, after, { mode: 0o600 }); return true; }
+  catch (e) { log(`  ${label}: NOT written: ${e.code || e.message}`); return false; }
 }
 
 /** The Fabric line, only where Fabric is installed — and with no board id. */
@@ -2815,7 +3038,7 @@ function runDomainsLocked(argv) {
   const home = process.env.HOME || os.homedir();
   const got = lock.acquire(home);
   if (!got.ok || got.degraded) {
-    log(`domains: refused — ${got.message || got.degraded}; configuration not written`);
+    log(`domains: refused: ${got.message || got.degraded}; configuration not written`);
     return got.ok ? 1 : lock.BUSY_EXIT;
   }
   const free = () => lock.release(home, got.token);
@@ -2839,12 +3062,12 @@ function cmdDomains(argv) {
   const { D } = I;
   const name = (dir) => path.basename(dir);
   if (I.recordError) {
-    log(`domains: ~/.sshlg-skills/domains.json ${I.recordError} — it decides what --revert undoes, so nothing acts on it.`);
+    log(`domains: ~/.sshlg-skills/domains.json ${I.recordError}: it decides what --revert undoes, so nothing acts on it.`);
     log('  Restore it from ~/.sshlg-skills/backups/ (newest sshlg-skills_domains.json.*) or move it aside, then run again.');
     if (doApply || doRevert || updateStep || enableArg || disableArg) return 1;
   }
   if (I.profileError) {
-    log(`domains: refused — ${I.profileError}; nothing written`);
+    log(`domains: refused: ${I.profileError}; nothing written`);
     return doApply || doRevert || updateStep || enableArg || disableArg ? 1 : 0;
   }
   if (enableArg || disableArg) return domainsManual(I, apply, home, enableArg ? 'enable' : 'disable');
@@ -2866,7 +3089,7 @@ function cmdDomains(argv) {
   const rootProblem = I.rootErrors.length ? `cannot read ${I.rootErrors.join('; ')}`
     : !I.rootRepos ? `no git repositories under ${I.roots.join(path.delimiter)}` : null;
   if (rootProblem && (doApply || updateStep)) {
-    log(`domains: refused — ${rootProblem}. Point --root (or $SSHLG_PROJECTS_ROOT) at your projects directory.`);
+    log(`domains: refused: ${rootProblem}. Point --root (or $SSHLG_PROJECTS_ROOT) at your projects directory.`);
     return 1;
   }
   const P = D.plan({ projects: I.projects, user: I.user, owned: I.owned, plugins: I.plugins, keepOn: I.keepOn, onlyAdd: updateStep });
@@ -2876,39 +3099,39 @@ function cmdDomains(argv) {
   const say = quiet ? () => {} : log;
   if (quiet) {
     log('\n== Domain members ==');
-    for (const r of P.refused) log(`  ! ${name(r.dir)}: ${r.keys.join(', ')} refused — ${r.why}`);
-    if (P.wouldOff.length) log(`  ${P.wouldOff.join(', ')} could go off at user scope; \`update\` never turns a member off — run \`npx sshlg-skills domains --apply\` to do it`);
+    for (const r of P.refused) log(`  ! ${name(r.dir)}: ${r.keys.join(', ')} refused: ${r.why}`);
+    if (P.wouldOff.length) log(`  ${P.wouldOff.join(', ')} could go off at user scope; \`update\` never turns a member off: run \`npx sshlg-skills domains --apply\` to do it`);
     if (!P.adds.length && !P.userOn.length) {
       log(P.refused.length ? '  nothing written; the projects above are refused' : '  every project with evidence has its member; nothing written');
       return 0;
     }
   }
-  say(`Domain members by project in Claude Code — core and hook-bearing members stay on everywhere; domain members load where a project calls for them`);
+  say(`Domain members by project in Claude Code: core and hook-bearing members stay on everywhere; domain members load where a project calls for them`);
   say(`  projects root: ${I.roots.join(path.delimiter)} (${I.rootRepos} git repositories${partial.length ? `; ${partial.length} not read in full` : ''})`);
-  if (rootProblem) say(`  ! ${rootProblem} — --apply refuses until the root is right`);
+  if (rootProblem) say(`  ! ${rootProblem}: --apply refuses until the root is right`);
   say(`  usage: ${I.usageFile ? `${path.basename(I.usageFile)} (a 60-day call counts as evidence)` : 'none read'}`);
   say(`  ${withEvidence.length} project(s) with evidence`);
-  for (const p of partial) say(`  ? ${name(p.dir)}: not read in full (${p.via}) — ${p.partial.filter((m) => !p.evidence[m]).join(', ') || 'nothing'} not ruled out, so not turned off`);
+  for (const p of partial) say(`  ? ${name(p.dir)}: not read in full (${p.via}): ${p.partial.filter((m) => !p.evidence[m]).join(', ') || 'nothing'} not ruled out, so not turned off`);
   const byDir = new Map(I.projects.map((p) => [p.dir, p]));
   const evOf = (dir, member) => (byDir.get(dir).evidence[member] || []).join('; ');
   for (const member of D.DOMAIN_MEMBERS) {
     const key = I.plugins[member];
     const skip = P.skipped.find((s) => s.member === member);
     const projectsFor = withEvidence.filter((p) => p.evidence[member]);
-    say(`\n  ${member} (${key}) — evidence in ${projectsFor.length} project(s)${skip ? `; not managed: ${skip.why}` : ''}`);
+    say(`\n  ${member} (${key}): evidence in ${projectsFor.length} project(s)${skip ? `; not managed: ${skip.why}` : ''}`);
     if (skip) {
       if (P.userOn.includes(key)) say(`    + ${key}: restore the safety hooks at user scope`);
       continue;
     }
     const gi = (dir) => byDir.get(dir).ignored().why.replace(home, '~');
-    for (const a of P.adds) if (a.keys.includes(key)) say(`    + ${name(a.dir)}: enabledPlugins["${key}"] = true — ${evOf(a.dir, member)} [${gi(a.dir)}]`);
-    for (const x of P.present) if (x.key === key) say(`    = ${name(x.dir)}: already on in the project — ${evOf(x.dir, member)}`);
+    for (const a of P.adds) if (a.keys.includes(key)) say(`    + ${name(a.dir)}: enabledPlugins["${key}"] = true: ${evOf(a.dir, member)} [${gi(a.dir)}]`);
+    for (const x of P.present) if (x.key === key) say(`    = ${name(x.dir)}: already on in the project: ${evOf(x.dir, member)}`);
     for (const x of P.respected) if (x.key === key) say(`    = ${name(x.dir)}: set false in the project by you; left alone`);
-    for (const r of P.refused) if (r.keys.includes(key)) say(`    ! ${name(r.dir)}: refused — ${r.why}`);
+    for (const r of P.refused) if (r.keys.includes(key)) say(`    ! ${name(r.dir)}: refused: ${r.why}`);
     const b = P.blocked.find((x) => x.key === key);
     const u = P.uncertain.find((x) => x.key === key);
     if (P.userOff.includes(key)) say(`    - ${I.settingsLabel} enabledPlugins["${key}"]: true → false`);
-    else if (P.userOn.includes(key)) say(`    + ${I.settingsLabel} enabledPlugins["${key}"]: false → true — ${(b || u).dirs.length} project(s) could not be covered (${(b || u).dirs.map(name).join(', ')})`);
+    else if (P.userOn.includes(key)) say(`    + ${I.settingsLabel} enabledPlugins["${key}"]: false → true: ${(b || u).dirs.length} project(s) could not be covered (${(b || u).dirs.map(name).join(', ')})`);
     else if (P.managed[member] && P.managed[member].off) say(`    = ${I.settingsLabel} enabledPlugins["${key}"]: already false (by domains)`);
     else if (b) say(`    = ${key} stays on at user scope: ${b.dirs.length} project(s) could not get their entry (${b.dirs.map(name).join(', ')})`);
     else if (u) say(`    = ${key} stays on at user scope: ${u.dirs.length} project(s) not read in full (${u.dirs.map(name).join(', ')})`);
@@ -2942,15 +3165,15 @@ function cmdDomains(argv) {
   // Read again now, not at the start: the project writes took time, and the file may have moved.
   const userNow = I.read(I.settingsPath);
   if ((off.length || on.length) && userNow === null) {
-    log(`  ${I.settingsLabel}: cannot read the current file — no global changes written`);
+    log(`  ${I.settingsLabel}: cannot read the current file: no global changes written`);
     failed = true;
   }
   if ((off.length || on.length) && userNow !== null) {
     const set = Object.fromEntries(off.map((k) => [k, false]).concat(on.map((k) => [k, true])));
     const r = D.editEnabled(userNow, { set });
-    if (!r.ok) { log(`  ${I.settingsLabel}: NOT written — the file ${r.reason}`); failed = true; }
+    if (!r.ok) { log(`  ${I.settingsLabel}: NOT written: the file ${r.reason}`); failed = true; }
     else if (!domainsRecordUserIntent(I, owned, off, apply, home)) {
-      log('  global settings NOT written — ownership intent could not be persisted'); failed = true;
+      log('  global settings NOT written: ownership intent could not be persisted'); failed = true;
     } else if (r.text === userNow || domainsWriteFile(apply, home, I.settingsPath, userNow, r.text, I.settingsLabel)) {
       const back = I.enabledOf(I.read(I.settingsPath) || '');
       for (const k of off) {
@@ -2958,7 +3181,7 @@ function cmdDomains(argv) {
         else { log(`  ${I.settingsLabel}: ${k} did not read back false`); failed = true; }
       }
       for (const k of on) {
-        if (back[k] === true) { delete owned.user[k]; delete owned.pendingUser[k]; log(`  ${I.settingsLabel}: ${k} back on at user scope — preserve hooks or coverage for an unverified project (read back)`); }
+        if (back[k] === true) { delete owned.user[k]; delete owned.pendingUser[k]; log(`  ${I.settingsLabel}: ${k} back on at user scope: preserve hooks or coverage for an unverified project (read back)`); }
         else { log(`  ${I.settingsLabel}: ${k} did not read back true`); failed = true; }
       }
     } else failed = true;
@@ -3027,7 +3250,7 @@ function domainsWriteProject(I, apply, home, owned, dir, keys) {
   const { D } = I;
   const file = I.localPath(dir);
   const label = `${path.basename(dir)}/.claude/settings.local.json`;
-  const no = (why) => { log(`  ${label}: NOT written — ${why}`); return { ok: false, keys }; };
+  const no = (why) => { log(`  ${label}: NOT written: ${why}`); return { ok: false, keys }; };
   try {
     const lr = I.readLocal(file);
     const w = domainsWritable(dir, lr, D);
@@ -3062,7 +3285,7 @@ function domainsWriteProject(I, apply, home, owned, dir, keys) {
     }
     const back = I.enabledOf(I.read(file) || '');
     const bad = keys.filter((k) => back[k] !== true);
-    if (bad.length) { log(`  ${label}: read back without ${bad.join(', ')} — not counted`); return { ok: false, keys: bad }; }
+    if (bad.length) { log(`  ${label}: read back without ${bad.join(', ')}: not counted`); return { ok: false, keys: bad }; }
     log(`  ${label}: ${keys.join(', ')} on (read back)`);
     return { ok: true, keys };
   } catch (e) { return no(e.code || e.message); }
@@ -3079,7 +3302,7 @@ function domainsManual(I, apply, home, mode) {
   if (dir) dir = path.resolve(dir.replace(/^~(?=$|\/)/, home));
   else {
     const g = spawnSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8' });
-    if (g.status !== 0) { log(`domains --${mode}: not inside a git repository — pass --project <dir>`); return 2; }
+    if (g.status !== 0) { log(`domains --${mode}: not inside a git repository: pass --project <dir>`); return 2; }
     dir = String(g.stdout).trim();
   }
   if (!fs.existsSync(dir)) { log(`domains --${mode}: ${dir} does not exist`); return 2; }
@@ -3117,7 +3340,7 @@ function domainsUnsetProject(I, apply, home, dir, rec, keys) {
   const label = `${path.basename(dir)}/.claude/settings.local.json`;
   try {
     const lr = I.readLocal(file);
-    if (lr.error) { log(`  ${label}: NOT written — cannot read it (${lr.error})`); return { ok: false }; }
+    if (lr.error) { log(`  ${label}: NOT written: cannot read it (${lr.error})`); return { ok: false }; }
     const current = I.enabledOf(lr.text || '');
     const restore = keys.filter((k) => current[k] === true && (rec.priorValues || {})[k] === false);
     const r = D.editEnabled(lr.text, {
@@ -3125,21 +3348,21 @@ function domainsUnsetProject(I, apply, home, dir, rec, keys) {
       unset: Object.fromEntries(keys.filter((k) => !restore.includes(k)).map((k) => [k, true])),
       keepEmpty: !!rec.hadEnabledPlugins,
     });
-    if (!r.ok) { log(`  ${label}: NOT written — the file ${r.reason}`); return { ok: false }; }
+    if (!r.ok) { log(`  ${label}: NOT written: the file ${r.reason}`); return { ok: false }; }
     if (r.text === lr.text) return { ok: true };
     const saved = apply.protect(file, { home });
-    if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); return { ok: false }; }
+    if (saved.action === 'backup-failed') { log(`  ${label}: NOT written: backup failed (${saved.error})`); return { ok: false }; }
     // A file this command created and left holding nothing else goes, with its directory.
     if (rec.created && JSON.stringify(JSON.parse(r.text)) === '{}') {
       fs.rmSync(file);
       if (rec.createdDir) { try { fs.rmdirSync(path.dirname(file)); } catch (e) { /* not empty: something else lives there */ } }
       log(`  ${label}: removed (this command created it)`);
     } else {
-      fs.writeFileSync(file, r.text, 'utf8');
+      atomic.write(file, r.text);
       log(`  ${label}: ${keys.join(', ')} removed`);
     }
     return { ok: true };
-  } catch (e) { log(`  ${label}: NOT written — ${e.code || e.message}`); return { ok: false }; }
+  } catch (e) { log(`  ${label}: NOT written: ${e.code || e.message}`); return { ok: false }; }
 }
 
 /** The ownership record, written only when it changed — three runs leave the same bytes. */
@@ -3152,7 +3375,6 @@ function writeRecord(I, owned, apply, home) {
   }, null, 2) + '\n';
   // Keep the old valid record if disk-full/permissions/interruption prevents a new one.
   // Update the in-memory text after EACH intent, not only after the whole command.
-  let tmp;
   try {
     const current = I.readLocal(I.recordPath);
     if (current.error) throw new Error(`cannot read ownership record (${current.error})`);
@@ -3164,29 +3386,25 @@ function writeRecord(I, owned, apply, home) {
     if (text === null) fs.rmSync(I.recordPath, { force: true });
     else {
       fs.mkdirSync(path.dirname(I.recordPath), { recursive: true });
-      tmp = `${I.recordPath}.${process.pid}.tmp`;
-      fs.writeFileSync(tmp, text, { encoding: 'utf8', mode: 0o600, flag: 'wx' });
-      fs.renameSync(tmp, I.recordPath);
+      atomic.write(I.recordPath, text, { mode: 0o600, tmpName: `${path.basename(I.recordPath)}.${process.pid}.tmp` });
     }
     I.recordText = text;
     return true;
   } catch (e) {
-    log(`  ownership record NOT updated — ${e.code || e.message}; existing recovery record kept`);
+    log(`  ownership record NOT updated: ${e.code || e.message}; existing recovery record kept`);
     return false;
-  } finally {
-    if (tmp) { try { fs.rmSync(tmp, { force: true }); } catch (e) { /* retained for recovery */ } }
   }
 }
 
 function domainsRevert(I, apply, home) {
   const { D } = I;
-  if (!I.owned) { log('domains --revert: no ~/.sshlg-skills/domains.json — nothing of ours to undo.'); return 0; }
+  if (!I.owned) { log('domains --revert: no ~/.sshlg-skills/domains.json: nothing of ours to undo.'); return 0; }
   const ownedUser = Object.keys(I.owned.user || {});
   // User scope comes back on FIRST. If settings.json cannot be read, nothing is undone:
   // removing project entries now would leave those projects without their member.
   const userKnown = domainsKnownPlugins(I, I.settingsPath).known;
   if (ownedUser.length && (I.userError || I.userText === null || !userKnown)) {
-    log(`  ${I.settingsLabel}: ${I.userError ? `cannot read it (${I.userError})` : I.userText === null ? 'missing' : 'not valid plugin settings'} — nothing undone; the record is kept`);
+    log(`  ${I.settingsLabel}: ${I.userError ? `cannot read it (${I.userError})` : I.userText === null ? 'missing' : 'not valid plugin settings'}: nothing undone; the record is kept`);
     return 1;
   }
   const locals = {};
@@ -3201,12 +3419,12 @@ function domainsRevert(I, apply, home) {
   const owned = { roots: I.owned.roots, profile: I.profile, applied: false, user: {}, projects: {}, manual: {} };
   for (const dir of unreadable) {
     owned.projects[dir] = I.owned.projects[dir];
-    log(`  ${path.basename(dir)}/.claude/settings.local.json: cannot read valid settings — recovery ownership kept`);
+    log(`  ${path.basename(dir)}/.claude/settings.local.json: cannot read valid settings: recovery ownership kept`);
   }
   if (R.userOn.length) {
     const r = D.editEnabled(I.userText, { set: Object.fromEntries(R.userOn.map((k) => [k, true])) });
     if (!r.ok) {
-      log(`  ${I.settingsLabel}: NOT written — the file ${r.reason}`);
+      log(`  ${I.settingsLabel}: NOT written: the file ${r.reason}`);
       return 1;
     }
     if (!domainsWriteFile(apply, home, I.settingsPath, I.userText, r.text, I.settingsLabel)) {
@@ -3280,7 +3498,7 @@ function cmdPack(argv) {
 
   const pack = packs.PACKS[name || 'design'];
   if (!pack) {
-    log(`unknown pack: ${name} — known: ${Object.keys(packs.PACKS).join(', ')}`);
+    log(`unknown pack: ${name}: known: ${Object.keys(packs.PACKS).join(', ')}`);
     return 2;
   }
 
@@ -3296,7 +3514,7 @@ function cmdPack(argv) {
   const li = rest.indexOf('--lane');
   const lane = li !== -1 && rest[li + 1] && !rest[li + 1].startsWith('--') ? rest[li + 1] : '';
   if (lane && !pack.lanes.some((l) => l.id === lane)) {
-    log(`unknown lane: ${lane} — known: ${pack.lanes.map((l) => l.id).join(', ')}`);
+    log(`unknown lane: ${lane}: known: ${pack.lanes.map((l) => l.id).join(', ')}`);
     return 2;
   }
 
@@ -3305,7 +3523,7 @@ function cmdPack(argv) {
   try {
     skills = packs.readSkills(home);
   } catch (e) {
-    log(`cannot read the installed skills (${e.message}) — no answer rather than a wrong one`);
+    log(`cannot read the installed skills (${e.message}): no answer rather than a wrong one`);
     return 1;
   }
   log(packs.report(pack, skills, { lane }));
@@ -3336,7 +3554,7 @@ function checkAddresses(pack) {
 
   const hasGh = spawnSync('gh', ['--version'], { stdio: 'ignore' }).status === 0;
   return targets.map((t) => {
-    if (!t.repo) return { id: t.id, source: t.source, error: 'not a repository address — nothing to resolve' };
+    if (!t.repo) return { id: t.id, source: t.source, error: 'not a repository address: nothing to resolve' };
     if (!hasGh) return { id: t.id, source: t.source, error: 'no `gh` on PATH; the unauthenticated API rate-limits to 60/hour and answers 403, which reads as "gone"' };
     const r = spawnSync('gh', ['api', `repos/${t.source}`,
       '--jq', '[.full_name, .archived, .pushed_at] | @tsv'], { encoding: 'utf8' });
@@ -3378,18 +3596,20 @@ function checkAddresses(pack) {
  * reader; this function lists the tree through Git, takes the backup through
  * `apply.protect()` and writes. Two things only: the `SSHLG:PROJECT` block in the
  * project's CLAUDE.md / AGENTS.md, and `.claude/routers.json` entries for material that
- * already exists. Exit 0 written or unchanged, 1 refused, 2 usage.
+ * already exists, plus `.claude/sshlg-enroll.json`, the record of the entries it wrote
+ * (B-229). `--prune` removes recorded entries whose material is gone, previewing unless
+ * `--apply`. Exit 0 written, previewed or unchanged, 1 refused, 2 usage.
  */
 function cmdEnroll(argv) {
   const E = require(path.join(ROOT, 'lib', 'enroll.js'));
   const Bk = require(path.join(ROOT, 'lib', 'blocks.js'));
   const A = require(path.join(ROOT, 'lib', 'apply.js'));
   const rest = argv.slice(3);
-  const f = { root: null, dryRun: false, json: false, surface: null };
+  const f = { root: null, dryRun: false, json: false, surface: null, prune: false, apply: false };
   const seen = new Set();
   const usageError = (reason) => {
     if (rest.includes('--json')) log(JSON.stringify({ schema: 'sshlg-enroll/1', state: 'USAGE', reason }));
-    else log(`enroll: ${reason}\nusage: npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface ${E.SURFACES.join('|')}]`);
+    else log(`enroll: ${reason}\nusage: npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface ${E.SURFACES.join('|')}]\n       npx sshlg-skills enroll --prune [--apply] [--root DIR] [--json]`);
     return 2;
   };
   for (let i = 0; i < rest.length; i += 1) {
@@ -3398,6 +3618,8 @@ function cmdEnroll(argv) {
     seen.add(a);
     if (a === '--dry-run') f.dryRun = true;
     else if (a === '--json') f.json = true;
+    else if (a === '--prune') f.prune = true;
+    else if (a === '--apply') f.apply = true;
     else if (a === '--root' || a === '--surface') {
       const v = rest[i + 1];
       if (!v || v.startsWith('--')) return usageError(`${a} needs a value`);
@@ -3407,6 +3629,9 @@ function cmdEnroll(argv) {
       else f.surface = v;
     } else return usageError(`unknown flag: ${a}`);
   }
+  if (f.apply && !f.prune) return usageError('--apply belongs to --prune (enroll itself writes unless --dry-run)');
+  if (f.prune && f.surface) return usageError('--surface does not apply to --prune');
+  if (f.prune && f.apply && f.dryRun) return usageError('--apply and --dry-run contradict each other');
 
   const root = path.resolve(f.root || process.cwd());
   const refuse = (refusals) => {
@@ -3465,6 +3690,59 @@ function cmdEnroll(argv) {
     if (!(real === realRoot || real.startsWith(realRoot + path.sep))) return null;
     return path.relative(realRoot, real).split(path.sep).join('/');
   };
+  // Each changed file: the bytes the plan was computed from are still there, a verified
+  // backup through apply.protect(), then the atomic write and a read-back.
+  const home = process.env.HOME || os.homedir();
+  const commit = (writes) => {
+    const files = [];
+    for (const w of writes) {
+      if (w.action === 'unchanged') { files.push({ file: w.file, action: 'unchanged' }); continue; }
+      const target = under(w.file);
+      const now = kind(w.file) === 'absent' ? null : read(w.file);
+      if (now !== w.before) return { refusal: { code: 'TARGET_CHANGED', file: w.file, reason: 'changed while enroll was planning; run it again' } };
+      const saved = A.protect(target, { home });
+      if (saved.action === 'backup-failed') {
+        return { refusal: { code: 'BACKUP_FAILED', file: w.file, reason: `no verified backup (${saved.error || 'copy failed'}), so nothing was written` } };
+      }
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      atomic.write(target, w.after);
+      if (fs.readFileSync(target, 'utf8') !== w.after) {
+        return { refusal: { code: 'WRITE_UNVERIFIED', file: w.file, reason: 'the bytes read back differ from the bytes written; restore from the backup' } };
+      }
+      files.push({ file: w.file, action: w.action, backup: saved.path ? path.basename(saved.path) : saved.action });
+    }
+    return { files };
+  };
+
+  if (f.prune) {
+    const q = E.prune({ paths, read, kind, alias });
+    if (!q.ok) return refuse(q.refusals);
+    const changed = q.writes.filter((w) => w.action !== 'unchanged');
+    const state = !changed.length ? 'UNCHANGED' : f.apply ? 'PRUNED' : 'PREVIEW';
+    let files = q.writes.map((w) => ({ file: w.file, action: w.action, diff: w.diff }));
+    if (f.apply && changed.length) {
+      const c = commit(q.writes);
+      if (c.refusal) return refuse([c.refusal]);
+      files = c.files;
+    }
+    if (f.json) {
+      log(JSON.stringify({ schema: 'sshlg-enroll/1', state, mode: 'prune', root, record: q.record, removed: q.removed, kept: q.kept, files }, null, 2));
+      return 0;
+    }
+    log(`enroll --prune: ${root}`);
+    if (q.record === 'absent') log(`  no ${E.AUTH_PATH}: enroll has no record of writing any entry, so it removes none`);
+    for (const r of q.removed) log(`  ${f.apply ? 'removed' : 'would remove'} ${r.router}: ${r.why}`);
+    for (const k of q.kept) log(`  kept ${k.router}: ${k.why}`);
+    if (!f.apply) {
+      for (const w of changed) { log(`--- ${w.file}`); log(`+++ ${w.file} (after enroll --prune)`); log(w.diff); }
+      log(changed.length ? 'Preview: nothing written. Run again with --apply to write it (backup first).' : 'enroll --prune: unchanged');
+      return 0;
+    }
+    for (const x of files) log(`  ${x.file}: ${x.action}`);
+    log(changed.length ? `enroll --prune: written (${changed.length} file${changed.length === 1 ? '' : 's'}; backups in ~/.sshlg-skills/backups/)` : 'enroll --prune: unchanged');
+    return 0;
+  }
+
   const p = E.plan({ paths, read, kind, alias }, { surface: f.surface });
   if (!p.ok) return refuse(p.refusals);
 
@@ -3496,25 +3774,9 @@ function cmdEnroll(argv) {
     return 0;
   }
 
-  const home = process.env.HOME || os.homedir();
-  const files = [];
-  for (const w of p.writes) {
-    if (w.action === 'unchanged') { files.push({ file: w.file, action: 'unchanged' }); continue; }
-    const target = under(w.file);
-    // The file must still hold what the plan was computed from.
-    const now = kind(w.file) === 'absent' ? null : read(w.file);
-    if (now !== w.before) return refuse([{ code: 'TARGET_CHANGED', file: w.file, reason: 'changed while enroll was planning; run it again' }]);
-    const saved = A.protect(target, { home });
-    if (saved.action === 'backup-failed') {
-      return refuse([{ code: 'BACKUP_FAILED', file: w.file, reason: `no verified backup (${saved.error || 'copy failed'}), so nothing was written` }]);
-    }
-    fs.mkdirSync(path.dirname(target), { recursive: true });
-    fs.writeFileSync(target, w.after, 'utf8');
-    if (fs.readFileSync(target, 'utf8') !== w.after) {
-      return refuse([{ code: 'WRITE_UNVERIFIED', file: w.file, reason: 'the bytes read back differ from the bytes written; restore from the backup' }]);
-    }
-    files.push({ file: w.file, action: w.action, backup: saved.path ? path.basename(saved.path) : saved.action });
-  }
+  const c = commit(p.writes);
+  if (c.refusal) return refuse([c.refusal]);
+  const files = c.files;
   if (f.json) { log(JSON.stringify(report(changed.length ? 'WRITTEN' : 'UNCHANGED', files), null, 2)); return 0; }
   summary();
   for (const x of files) log(`  ${x.file}: ${x.action}`);
@@ -3537,7 +3799,7 @@ function cmdMaterialised(argv) {
   } catch (e) {
     // A declaration that does not parse is not an absent declaration, and reporting it
     // as one would hide the very file the operator is being asked to trust.
-    log(`${M.DECL_PATH} does not parse (${e.message}) — a claim nobody can read is not a`);
+    log(`${M.DECL_PATH} does not parse (${e.message}): a claim nobody can read is not a`);
     log('claim. Fix the JSON or delete the file; it is currently neither.');
     return 1;
   }
@@ -3568,6 +3830,20 @@ function cmdContext(argv) {
   const override = C.host('codex', pathMod.join(codexRoot, 'AGENTS.override.md'));
   if (override.text != null || override.error) { const main = hosts.find(h => h.agent === 'codex'); if (main && override.text != null) main.shadowed = true; hosts.push(override); }
   for (const name of ['sshlg-routing.mdc', 'sshlg-wait.mdc']) hosts.push(C.host('cursor', pathMod.join(home, '.cursor', 'rules', name)));
+  // B-206: the other hosts' global files, installed hosts only; capped ones carry their cap,
+  // Kimi's two files are summed, and a CLAUDE.md fallback is named.
+  for (const d of require('../lib/instruction-targets.js').describe(home)) {
+    if (!d.present) continue;
+    if (d.file) {
+      const h = C.host(d.agent, d.file);
+      if (d.cap && d.kind === 'compact') h.cap = d.cap;
+      if (d.agent === 'kimi' || (d.agent === 'agents' && (d.via || []).includes('kimi'))) h.kimiChain = true;
+      if (d.fallback) { h.fallback = d.fallback; h.fallbackActive = d.fallbackActive; }
+      hosts.push(h);
+    } else if (d.fallback) {
+      hosts.push({ agent: d.agent, file: null, text: null, fallback: d.fallback, fallbackActive: true });
+    }
+  }
   // B-212: the project files a session started here also loads; Codex caps only these.
   const cwd = process.cwd();
   for (const f of C.codexProjectFiles(cwd)) hosts.push(C.host('codex', f, 'project'));
@@ -3578,7 +3854,7 @@ function cmdContext(argv) {
   log('Always-loaded instruction files (' + r.estimate + '); project rows are for ' + cwd + ':');
   for (const row of r.rows) {
     if (!row.present) { log(`  ${row.agent.padEnd(7)} ${(row.scope === 'project' ? 'project' : 'global ').padEnd(7)} ${row.error ? 'unreadable (' + row.error + ')' : 'absent'}  ${row.file}`); continue; }
-    log(`  ${row.agent.padEnd(7)} ${(row.scope === 'project' ? 'project' : 'global ').padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.shadowed ? '  (shadowed by AGENTS.override.md)' : row.cap ? `  cap ${row.cap} combined (${row.capSource})` : row.agent === 'codex' ? '  read in full' : ''}${row.scope === 'project' ? '  ' + row.file : ''}`);
+    log(`  ${row.agent.padEnd(7)} ${(row.scope === 'project' ? 'project' : 'global ').padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.shadowed ? '  (shadowed by AGENTS.override.md)' : row.cap ? (row.capSource === 'host documentation (characters)' ? `  cap ${row.cap} characters` : `  cap ${row.cap} combined (${row.capSource})`) : row.agent === 'codex' ? '  read in full' : ''}${row.scope === 'project' ? '  ' + row.file : ''}`);
   }
   for (const f of r.findings) log(`  ${f.severity}: ${f.message}`);
   if (!r.findings.length) log('  no host is over a documented cap');
@@ -3601,7 +3877,11 @@ function cmdHooks(argv) {
   // would leave hooks that fail silently on every prompt.
   const root = hooksLib.runtimeDir(home);
   const pkgRoot = pathMod.resolve(__dirname, '..');
-  const file = pathMod.join(home, '.claude', 'settings.json');
+  // The profile Claude Code reads: CLAUDE_CONFIG_DIR, else ~/.claude (B-218, CLAUDE-8).
+  const file = hooksSettingsFile(home);
+  const wantCodex = argv.includes('--codex');
+  const codexDir = hooksLib.codexRoot(home);
+  const codexFile = pathMod.join(codexDir, 'hooks.json');
 
   if (sub === 'recovery') {
     const args = argv.slice(1), action = args.shift();
@@ -3644,15 +3924,54 @@ function cmdHooks(argv) {
   }
 
   let current = {};
+  let currentText = null;
   if (fs.existsSync(file)) {
     try {
-      current = JSON.parse(fs.readFileSync(file, 'utf8'));
+      currentText = fs.readFileSync(file, 'utf8');
+      current = JSON.parse(currentText);
     } catch (e) {
       // Refusing beats guessing. A settings.json that does not parse is either
       // mid-edit or damaged, and rewriting it from a partial read is how the
       // rest of it disappears.
-      log(`hooks: ${file} не парсится (${e.message}) — ничего не записано.`);
+      log(`hooks: ${file} не парсится (${e.message}): ничего не записано.`);
       return false;
+    }
+  }
+
+  // Codex's hooks.json (B-209): read the same way, only when Codex is installed here. An
+  // agent's home is never created, so an absent Codex home means nothing to read or write.
+  const codex = { present: fs.existsSync(codexDir), current: {}, text: null, error: null };
+  if (codex.present && fs.existsSync(codexFile)) {
+    try {
+      codex.text = fs.readFileSync(codexFile, 'utf8');
+      codex.current = JSON.parse(codex.text);
+    } catch (e) { codex.error = e.message; }
+  }
+
+  /** One write path for both files: compare, copy, replace, read back (B-218, CLAUDE-7). */
+  function writeHooksFile(target, before, data, label) {
+    const r = apply.protectedWrite(target, JSON.stringify(data, null, 2) + '\n', { home, expected: before });
+    if (r.ok) return r;
+    if (r.action === 'changed') log(`hooks: НЕ записан ${target}: файл изменился после чтения (кто-то ещё пишет его). Ничего не перезаписано; запусти команду ещё раз.`);
+    else if (r.action === 'backup-failed') log(`hooks: НЕ записан ${target}: не удалось сделать копию (${r.error}). Файл не изменён.`);
+    else log(`hooks: НЕ записан ${target} (${label}: ${r.action}).`);
+    return null;
+  }
+
+  /** The Codex lines of `hooks` status. */
+  function codexStatus() {
+    if (!codex.present) { log(`\nhooks codex: Codex здесь не найден (${codexDir}), нечего проверять`); return; }
+    if (codex.error) { log(`\nhooks codex: ${codexFile} не парсится (${codex.error})`); return; }
+    const { reasons } = hooksLib.plan(codex.current, root, { host: 'codex' });
+    const stale = reasons.filter((r) => r.reason !== 'added');
+    if (!reasons.length) {
+      log(`\nhooks codex: подключено и совпадает: ${codexFile}\n  ` + hooksLib.describeCodex(root).join('\n  ')
+        + '\n  Codex запускает хук только после проверки в /hooks (доверие привязано к хешу записи)');
+    } else if (stale.length) {
+      log(`\nhooks codex: устарело: ${codexFile}\n  ` + stale.map((r) => `${r.event}: ${r.reason}`).join('\n  ')
+        + '\n  обновить: npx sshlg-skills hooks install --codex (после записи Codex попросит заново доверить хук в /hooks)');
+    } else {
+      log(`\nhooks codex: не подключено: ${codexFile}\n  добавить: npx sshlg-skills hooks install --codex`);
     }
   }
 
@@ -3665,19 +3984,20 @@ function cmdHooks(argv) {
     const { conflicts, reasons } = hooksLib.plan(current, root, {});
     const stale = reasons.filter((r) => r.reason !== 'added');
     const absent = reasons.filter((r) => r.reason === 'added');
-    log('hooks: что ставит семья\n  ' + hooksLib.describe(root).join('\n  '));
+    log(`hooks: что ставит семья (${file})\n  ` + hooksLib.describe(root).join('\n  '));
     if (stale.length) {
-      log(`\nhooks: устарело — ${stale.map((r) => r.event).join(', ')}\n  ` +
+      log(`\nhooks: устарело: ${stale.map((r) => r.event).join(', ')}\n  ` +
         stale.map((r) => `${r.event}: ${r.reason}`).join('\n  ') + '\n  ' +
         'обновить: npx sshlg-skills hooks install (или update)');
     }
     if (absent.length) {
-      log(`\nhooks: не подключено здесь (снято вручную или ещё не ставилось) — ` +
+      log(`\nhooks: не подключено здесь (снято вручную или ещё не ставилось): ` +
         `${absent.map((r) => r.event).join(', ')}\n  ` +
         'добавить: npx sshlg-skills hooks install (update их не добавляет)');
     }
     if (!reasons.length) log('\nhooks: всё на месте и совпадает');
-    for (const c of conflicts) log(`hooks: ${c.key} держит ${c.held_by} — ${c.note}`);
+    for (const c of conflicts) log(`hooks: ${c.key} держит ${c.held_by} (${c.note})`);
+    codexStatus();
     return true;
   }
 
@@ -3693,24 +4013,50 @@ function cmdHooks(argv) {
         settings.statusLine = JSON.parse(parked);
         changed.push('statusLine (returned to its previous owner)');
       } catch (e) {
-        log(`hooks: припаркованный statusLine не парсится (${e.message}) — оставляю без него`);
+        log(`hooks: припаркованный statusLine не парсится (${e.message}): оставляю без него`);
       }
     }
-    if (!changed.length) { log('hooks: ничего нашего не установлено'); return true; }
-    if (dryRun) { log(`hooks: --dry-run — снял бы ${changed.join(', ')}`); return true; }
-    const saved = apply.protect(file, { home });
-    if (saved.action === 'backup-failed') {
-      log(`hooks: НЕ записан ${file} — не удалось сделать копию (${saved.error}). Файл не изменён.`);
-      return false;
+    const codexOut = codex.present && !codex.error && codex.text !== null
+      ? hooksLib.removal(codex.current, root, { host: 'codex' }) : { changed: [] };
+    if (codex.error) log(`hooks codex: ${codexFile} не парсится (${codex.error}), не трогаю`);
+    if (!changed.length && !codexOut.changed.length) { log('hooks: ничего нашего не установлено'); return true; }
+    if (dryRun) {
+      if (changed.length) log(`hooks: --dry-run: снял бы ${changed.join(', ')}`);
+      if (codexOut.changed.length) log(`hooks codex: --dry-run: снял бы ${codexOut.changed.join(', ')} из ${codexFile}`);
+      return true;
     }
-    fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8');
-    if (parked) configLib.stashClear(home, DISPLACED_STATUSLINE);
-    log(`hooks: снято — ${changed.join(', ')}`);
-    log(`hooks: копия до записи — ${saved.path}`);
+    if (changed.length) {
+      const w = writeHooksFile(file, currentText, settings, 'remove');
+      if (!w) return false;
+      if (parked) configLib.stashClear(home, DISPLACED_STATUSLINE);
+      log(`hooks: снято: ${changed.join(', ')}`);
+      log(`hooks: копия до записи: ${w.backup}`);
+    }
+    if (codexOut.changed.length) {
+      const w = writeHooksFile(codexFile, codex.text, codexOut.settings, 'remove codex');
+      if (!w) return false;
+      log(`hooks codex: снято: ${codexOut.changed.join(', ')} из ${codexFile}`);
+      log(`hooks codex: копия до записи: ${w.backup}`);
+    }
     return true;
   }
 
   if (sub !== 'install') { log(`hooks: неизвестное подкоманда '${sub}'`); return false; }
+
+  // `--codex` is checked before anything is written: an install that cannot do what was
+  // asked of it writes nothing, rather than half of it.
+  let codexPlan = null;
+  if (wantCodex) {
+    if (!codex.present) {
+      log(`hooks codex: Codex здесь не найден (${codexDir}; CODEX_HOME или ~/.codex). Ничего не записано.`);
+      return false;
+    }
+    if (codex.error) {
+      log(`hooks codex: ${codexFile} не парсится (${codex.error}). Ничего не записано.`);
+      return false;
+    }
+    codexPlan = hooksLib.plan(codex.current, root, { host: 'codex' });
+  }
 
   const { settings, changed, conflicts } = hooksLib.plan(current, root, { force });
   const blocking = conflicts.filter(() => !force);
@@ -3723,8 +4069,13 @@ function cmdHooks(argv) {
   }
   if (dryRun) {
     log(changed.length
-      ? `hooks: --dry-run — записал бы ${changed.join(', ')}, скопировав в ${root}`
-      : `hooks: --dry-run — записи не нужны; обновил бы копию в ${root}`);
+      ? `hooks: --dry-run: записал бы ${changed.join(', ')}, скопировав в ${root}`
+      : `hooks: --dry-run: записи не нужны; обновил бы копию в ${root}`);
+    if (codexPlan) {
+      log(codexPlan.changed.length
+        ? `hooks codex: --dry-run: записал бы ${codexPlan.changed.join(', ')} в ${codexFile}`
+        : `hooks codex: --dry-run: ${codexFile} уже на месте`);
+    }
     return true;
   }
 
@@ -3735,35 +4086,45 @@ function cmdHooks(argv) {
     syncRuntime();
     log(`hooks: скрипты синхронизированы в ${root}`);
   } catch (e) {
-    log(`hooks: не удалось скопировать скрипты в ${root} (${e.message}) — настройки не изменены`);
+    log(`hooks: не удалось скопировать скрипты в ${root} (${e.message}): настройки не изменены`);
     return false;
   }
-  if (!changed.length) { log('hooks: настройки уже на месте'); return true; }
 
-  const saved = apply.protect(file, { home });
-  if (saved.action === 'backup-failed') {
-    log(`hooks: НЕ записан ${file} — не удалось сделать копию (${saved.error}). Файл не изменён.`);
-    return false;
-  }
-  // Park what force displaced BEFORE writing over it, and only if nothing is
-  // parked already: a second forced install must not overwrite the original
-  // owner's entry with our own, which is the write-once rule `adopted:<name>`
-  // follows for the same reason.
-  for (const c of conflicts) {
-    if (c.key !== 'statusLine') continue;
-    if (configLib.stashGet(configLib.readConfig(home), DISPLACED_STATUSLINE)) continue;
-    configLib.stashSet(home, DISPLACED_STATUSLINE, JSON.stringify(current.statusLine));
+  if (!changed.length) log(`hooks: настройки уже на месте (${file})`);
+  else {
+    // Park what force displaced BEFORE writing over it, and only if nothing is
+    // parked already: a second forced install must not overwrite the original
+    // owner's entry with our own, which is the write-once rule `adopted:<name>`
+    // follows for the same reason.
+    for (const c of conflicts) {
+      if (c.key !== 'statusLine') continue;
+      if (configLib.stashGet(configLib.readConfig(home), DISPLACED_STATUSLINE)) continue;
+      configLib.stashSet(home, DISPLACED_STATUSLINE, JSON.stringify(current.statusLine));
+    }
+    const w = writeHooksFile(file, currentText, settings, 'install');
+    if (!w) return false;
+    log(`hooks: записано: ${changed.join(', ')}`);
+    log(`hooks: файл: ${file}`);
+    for (const c of conflicts) {
+      log(`hooks: вытеснено: ${c.key} держал ${c.held_by}`);
+      log(`hooks: прежний ${c.key} сохранён в ${configLib.configPath(home)}; ` +
+          `\`hooks remove\` вернёт его на место`);
+    }
+    if (w.backup) log(`hooks: копия до записи: ${w.backup}`);
+    else log('hooks: файла не было, копировать было нечего');
+    log('hooks: перезапусти Claude Code, хуки читаются на старте сессии');
   }
 
-  fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8');
-  log(`hooks: записано — ${changed.join(', ')}`);
-  for (const c of conflicts) {
-    log(`hooks: вытеснено — ${c.key} держал ${c.held_by}`);
-    log(`hooks: прежний ${c.key} сохранён в ${configLib.configPath(home)} — ` +
-        `\`hooks remove\` вернёт его на место`);
+  if (codexPlan) {
+    if (!codexPlan.changed.length) log(`hooks codex: ${codexFile} уже на месте`);
+    else {
+      const w = writeHooksFile(codexFile, codex.text, codexPlan.settings, 'install codex');
+      if (!w) return false;
+      log(`hooks codex: записано: ${codexPlan.changed.join(', ')} (${codexFile})`);
+      log(w.backup ? `hooks codex: копия до записи: ${w.backup}` : 'hooks codex: файла не было, копировать было нечего');
+      log('hooks codex: открой Codex и доверь хук в /hooks. До этого Codex его не запускает (доверие привязано к хешу записи)');
+    }
   }
-  log(`hooks: копия до записи — ${saved.path}`);
-  log('hooks: перезапусти Claude Code — хуки читаются на старте сессии');
   return true;
 }
 
@@ -3842,6 +4203,12 @@ function planUninstall(f) {
       `remove the managed routing block from ${path.join(apply.hostRoot(t, os.homedir()), t.file)} (backup first; bytes outside the sentinels untouched)`,
       { file: path.join(apply.hostRoot(t, os.homedir()), t.file) }));
   }
+  for (const t of require('../lib/instruction-targets.js').EXTRA_TARGETS) {
+    const file = t.file(os.homedir(), process.env);
+    steps.push(opres.step('router-block', 'home',
+      `remove the managed routing block from ${file} if present (backup first; a symlink is left alone`
+        + `${t.ownFile ? '; the file itself when the hub created it and the block was all it held' : ''})`, { file }));
+  }
   steps.push(opres.step('prune', 'home', 'remove the Cursor rules file (backup first)',
     { paths: [path.join(os.homedir(), '.cursor', 'rules', cursor.FILENAME)] }));
   steps.push(opres.step('runtime-sync', 'home', 'hooks remove (returns any displaced statusLine)', {}));
@@ -3872,7 +4239,7 @@ function cmdUninstall(f) {
     try { fs.rmSync(r.path, { recursive: true, force: true }); log(`  - ${r.path} (${r.reason})`); }
     catch (e) { log(`  ! ${r.path}: ${e.message}`); ok = false; }
   }
-  for (const k of kept) log(`  = left in place: ${k.path} — ${k.reason}`);
+  for (const k of kept) log(`  = left in place: ${k.path} (${k.reason})`);
 
   const lockFile = path.join(home, '.agents', '.skill-lock.json');
   const dropped = [...new Set(removals.map((r) => r.name))];
@@ -3881,14 +4248,14 @@ function cmdUninstall(f) {
     // backup, and a copy that cannot be taken cancels the rewrite.
     const savedLock = apply.protect(lockFile, { home });
     if (savedLock.action === 'backup-failed') {
-      log(`  ! lock NOT rewritten — the backup failed (${savedLock.error}); the file is unchanged`);
+      log(`  ! lock NOT rewritten: the backup failed (${savedLock.error}); the file is unchanged`);
       ok = false;
     } else {
       try {
         const j = JSON.parse(fs.readFileSync(lockFile, 'utf8'));
         let hits = 0;
         for (const id of dropped) if (j.skills && j.skills[id]) { delete j.skills[id]; hits += 1; }
-        fs.writeFileSync(lockFile, JSON.stringify(j, null, 2) + '\n', 'utf8');
+        atomic.write(lockFile, JSON.stringify(j, null, 2) + '\n');
         log(`  lock: dropped ${hits} entr(ies); copy at ${savedLock.path}`);
       } catch (e) { log(`  ! lock not rewritten: ${e.message}`); ok = false; }
     }
@@ -3904,24 +4271,33 @@ function cmdUninstall(f) {
   }
 
   log(`\n== Removing the managed routing block ==`);
-  for (const t of apply.TARGETS) {
-    const file = path.join(apply.hostRoot(t, home), t.file);   // honours CODEX_HOME & co. (B-165)
-    if (!fs.existsSync(file)) { log(`  routers: ${file} — absent`); continue; }
+  // B-206: the other hosts' files too; a symlinked shared file is not ours to write through.
+  const IT = require('../lib/instruction-targets.js');
+  const extraFiles = IT.EXTRA_TARGETS.map((t) => ({ file: t.file(home, process.env), row: t }))
+    .filter((x) => { try { return !fs.lstatSync(x.file).isSymbolicLink(); } catch (e) { return false; } });
+  for (const { file, row } of apply.TARGETS.map((t) => ({ file: path.join(apply.hostRoot(t, home), t.file), row: null })).concat(extraFiles)) {   // honours CODEX_HOME & co. (B-165)
+    if (!fs.existsSync(file)) { log(`  routers: ${file}: absent`); continue; }
     const before = fs.readFileSync(file, 'utf8');
-    const res = R.removeBlock(before);
-    if (!res.removed) { log(`  routers: ${file} — no managed block`); continue; }
+    // B-283: a file the hub created and filled with the block alone goes with the block.
+    const next = IT.afterRemoval(row, before);
+    if (next.action === 'none') { log(`  routers: ${file}: no managed block`); continue; }
     const saved = apply.protect(file, { home });
     if (saved.action === 'backup-failed') {
-      log(`  ! ${file} NOT written — the backup failed (${saved.error}); the file is unchanged`);
+      log(`  ! ${file} NOT written: the backup failed (${saved.error}); the file is unchanged`);
       ok = false; continue;
     }
-    fs.writeFileSync(file, res.text, 'utf8');
+    if (next.action === 'delete') {
+      fs.unlinkSync(file);
+      log(`  routers: removed ${file} (the hub created it and the block was all it held; copy: ${saved.path})`);
+      continue;
+    }
+    atomic.write(file, next.text);
     log(`  routers: block removed from ${file} (copy: ${saved.path})`);
   }
   const mdc = path.join(home, '.cursor', 'rules', cursor.FILENAME);
   if (fs.existsSync(mdc)) {
     const saved = apply.protect(mdc, { home });
-    if (saved.action === 'backup-failed') { log(`  ! ${mdc} kept — backup failed (${saved.error})`); ok = false; }
+    if (saved.action === 'backup-failed') { log(`  ! ${mdc} kept: backup failed (${saved.error})`); ok = false; }
     else { fs.unlinkSync(mdc); log(`  routers: removed ${mdc} (copy: ${saved.path})`); }
   }
 
@@ -3941,7 +4317,7 @@ function cmdUninstall(f) {
     }
   } catch (e) { /* no record: visibility never ran here */ }
 
-  log('\n(restart every agent — skills are read at session start)');
+  log('\n(restart every agent: skills are read at session start)');
   log('To reinstall: npx sshlg-skills install');
   return ok;
 }
@@ -3966,18 +4342,18 @@ function cmdBackupAll() {
   const home = os.homedir();
   const channels = discoverChannels().map((p) => ({ path: p, entries: channelEntries(p) }));
   const nonEmpty = channels.filter((c) => c.entries.length);
-  if (!nonEmpty.length) { log('backup: no agent skills directories found — nothing to archive'); return null; }
+  if (!nonEmpty.length) { log('backup: no agent skills directories found: nothing to archive'); return null; }
   const stamp = skillstore.stampName(new Date());
   const man = skillstore.manifest(nonEmpty, stamp);
   const archive = path.join(backupsDir(), `${stamp}.tar.gz`);
   const rel = nonEmpty.map((c) => path.relative(home, c.path));
   log(`\n== Backing up ${man.total} entr(ies) from ${nonEmpty.length} channel(s) ==`);
-  for (const c of nonEmpty) log(`  ${c.path} — ${c.entries.length}`);
+  for (const c of nonEmpty) log(`  ${c.path}: ${c.entries.length}`);
   const r = spawnSync('tar', ['-czf', archive, '-C', home, ...rel], { stdio: 'inherit' });
-  if (r.status !== 0) { log('backup: tar failed — no archive written'); return null; }
+  if (r.status !== 0) { log('backup: tar failed: no archive written'); return null; }
   // Verify against the archive's OWN listing, not the plan.
   const list = spawnSync('tar', ['-tzf', archive], { encoding: 'utf8' });
-  if (list.status !== 0) { log('backup: the archive does not list back — treating as failed'); return null; }
+  if (list.status !== 0) { log('backup: the archive does not list back: treating as failed'); return null; }
   const listed = list.stdout.split('\n').filter(Boolean);
   let verifiedCount = 0;
   for (const c of nonEmpty) {
@@ -4002,7 +4378,7 @@ function cmdWipeAll(f) {
   if (f.dryRun) {
     const channels = discoverChannels().map((p) => ({ path: p, entries: channelEntries(p) })).filter((c) => c.entries.length);
     log(`\n== --dry-run: wipe would back up, verify, then remove ==`);
-    for (const c of channels) log(`  ${c.path} — ${c.entries.length} entr(ies)`);
+    for (const c of channels) log(`  ${c.path}: ${c.entries.length} entr(ies)`);
     log(`(${channels.reduce((n, c) => n + c.entries.length, 0)} entr(ies) total; 0 mutations)`);
     return true;
   }
@@ -4020,7 +4396,7 @@ function cmdWipeAll(f) {
     log(`  cleared ${c.path} (${c.entries.length})`);
   }
   log(`\nTo bring everything back: npx sshlg-skills restore`);
-  log('(restart every agent — skills are read at session start)');
+  log('(restart every agent: skills are read at session start)');
   return ok;
 }
 
@@ -4042,7 +4418,7 @@ function cmdRestoreAll(rest) {
   if (r.status !== 0) { log('restore: tar failed'); return false; }
   const manFile = archive.replace(/\.tar\.gz$/, '.manifest.json');
   if (!fs.existsSync(manFile)) {
-    log('restore: extracted, but no manifest sits beside the archive — counts not verified');
+    log('restore: extracted, but no manifest sits beside the archive: counts not verified');
     return true;
   }
   const man = JSON.parse(fs.readFileSync(manFile, 'utf8'));
@@ -4050,8 +4426,8 @@ function cmdRestoreAll(rest) {
   for (const row of man.channels) observed[row.path] = channelEntries(row.path).length;
   const v = skillstore.restoreVerify(man, observed);
   if (!v.ok) { for (const m of v.mismatches) log(`  ! ${m}`); log('restore: extracted, but the counts above disagree with the manifest'); return false; }
-  log(`restore: verified — ${man.total} entr(ies) across ${man.channels.length} channel(s) match the manifest`);
-  log('(restart every agent — skills are read at session start)');
+  log(`restore: verified: ${man.total} entr(ies) across ${man.channels.length} channel(s) match the manifest`);
+  log('(restart every agent: skills are read at session start)');
   return true;
 }
 
@@ -4119,7 +4495,20 @@ function resolveProviders(candidates) {
 
 function main(argv) {
   const [cmd, ...rest] = argv.slice(2);
+  if (cmd === '--version' || cmd === '-v') { log(JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version); return 0; }
+  if (cmd === 'help' && rest.length && !wantsHelp(rest.slice(0, 1))) {
+    const u = commandUsage(rest[0]);
+    if (u) { log(u); return 0; }
+    log(`unknown command: ${rest[0]}`); usage(); return 2;
+  }
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
+  // B-198: before dispatch, so no command parses, locks, backs up or spawns on a
+  // help request. `blocks` keeps its own help: it documents each verb in full.
+  if (cmd !== 'blocks' && wantsHelp(rest)) {
+    const u = commandUsage(cmd);
+    if (u) { log(u); return 0; }
+    log(`unknown command: ${cmd}`); usage(); return 2;
+  }
   if (cmd === 'list' || cmd === 'ls') { cmdList(argv); return 0; }
   if (cmd === 'agents') { cmdAgents(); return 0; }
   if (cmd === 'hosts') { cmdHosts(); return 0; }
@@ -4159,6 +4548,10 @@ function main(argv) {
       frozenOperations.set(f, planned);
     }
     catch (e) { log(e.message); return 2; }
+    if (defaultScope(f) && !f.claudeOnly) {
+      const absent = defaultPresence(plan.resolveAgents(manifest.defaultAgents, f)).absent.map(a => a.id);
+      if (absent.length) log(`  default hosts not installed here, skipped: ${absent.join(', ')} (no home created; --agent <id> installs there anyway)`);
+    }
     if (f.all && !f.claudeOnly) {
       const excluded = require('../lib/host-targets.js').excludedGlobal();
       log(`  --all excludes non-global targets (${cliSpec()}): ${excluded.join(', ')}`);

@@ -12,11 +12,16 @@ the old one, so a reader sees the old file or the new one, never half of one, an
 0600 whoever wrote it last (since the 1.56.0 fix round; before it, three writers wrote in place
 and a file they created was 0644). **Read-modify-write happens inside the writer** (second fix
 round): the patch may be a function of the file as it is at write time, applied while holding
-`state.json.lock` (created exclusively; a lock older than 2 s is a dead writer's and is removed;
-after 1 s of waiting the write proceeds unlocked rather than hang a hook — and since the final
-polish the 1 s deadline is consulted on every retry path, so a lock that cannot be removed (a
-read-only directory) or whose age cannot be read is waited out, never spun on; the age is
-`lstat`'s, so a dangling symlink at `state.json.lock` has one). Every writer of an
+`state.json.lock` (created exclusively, holding the writer's pid). Since B-227 the lock is
+judged by that pid: a dead pid's lock is removed at once; a live pid's is waited for up to 5 s
+(`LOCK_WAIT_MS`), and then the write is refused with `ELOCKED` rather than written past, because
+writing past a live holder, or removing its lock for being older than 2 s, lost a write under
+load (`test/store_test.js`, "a live holder past the old wait and stale bounds keeps the waiter's
+write"). A lock naming no pid keeps the earlier degrade: older than 2 s it is removed, and at the
+deadline the write proceeds unlocked rather than hang a hook. A holder removes only its own lock
+(same inode). The deadline is consulted on every retry path, so a lock that cannot be removed (a
+read-only directory) or whose age cannot be read is never spun on; the age is `lstat`'s, so a
+dangling symlink at `state.json.lock` has one. Every writer of an
 `updateCheck` sub-key uses `store.nested('updateCheck', …)`, so the probe, the idle updater and
 SessionStart cannot erase each other's keys by merging a copy they read earlier. Every writer stamps `schemaVersion`. Readers must tolerate a
 file without `schemaVersion` (written before 1.56.0) and keys they do not know.
@@ -27,7 +32,8 @@ of `state.json` outside `lib/store.js`.
 sub-objects — `stash`, `authored`, `routes.external`, `routers`, `update` — are each edited as a
 function of the file at write time (`editSub` in `lib/config.js`), never rebuilt from a copy read
 before the lock: four processes making 20 `stashSet` calls each on distinct keys kept 20 of 80
-before, and keep all 80 now (`test/config_test.js`).
+before, and keep all 80 now; eight processes making 50 calls each keep all 400, and the fixture
+names a writer that failed instead of counting its keys as lost (`test/config_test.js`, B-227).
 
 | Key | Meaning | Writers | Readers |
 |---|---|---|---|
@@ -74,6 +80,12 @@ version, requested refs and observed catalog versions. Raw config and file bodie
 are excluded. The content hash names the file. The task directory is owner-only;
 existing unsafe permissions or ownership refuse without chmod or replacement.
 
+A newer receipt supersedes a member's older ones (B-224): each member keeps its newest
+receipt (`KEEP_PER_MEMBER`, 1), a removed receipt takes its observations and exhaustion record
+with it, and a kept receipt keeps its newest ten observations (`KEEP_OBSERVATIONS`). Saving the
+same intent again makes that receipt the newest; its bytes never change. Only names this
+namespace writes, as private plain files, are removed (`test/codex_pending_test.js`).
+
 `lib/codex-deferred-watch.js` accepts that private, identity-bound receipt, reads
 only the native catalog and writes immutable observations beside it. Profile or
 config drift stops observation. Exhaustion preserves intent and records an explicit
@@ -101,7 +113,7 @@ runtime copy and this file.
 
 - Created exclusively (`wx`) with `{"pid", "startedAt", "host"}`, mode 0600.
 - A live lock makes the second `update` print who holds it and how long ago it started
-  (`update: refused — …`), and exit **75** (EX_TEMPFAIL, `BUSY_EXIT` in `lib/updatelock.js`).
+  (`update: refused: …`), and exit **75** (EX_TEMPFAIL, `BUSY_EXIT` in `lib/updatelock.js`).
   A caller that sees 75 should retry later, not treat it as a failed update; the idle updater
   (`lib/updaterun.js`) records it as `busyAt`, never `ok: false`. **Exit 2 is a usage error**
   (an unknown flag, a flag without its value, contradictory flags) — fix the call, do not retry.
@@ -112,7 +124,7 @@ runtime copy and this file.
   is**, and one whose pid is gone is taken over at once. A lock written on **another host** is
   judged by its age alone (its pid means nothing here): taken over after 30 minutes. An
   unreadable lock is refused while fresh and taken over once it is 30 seconds old. Every takeover
-  is logged (`update: took over update.lock — ...`).
+  is logged (`update: took over update.lock: ...`).
 - A takeover removes only the lock it judged, atomically: it RENAMES the lock to a name of its
   own, checks that the renamed file is the lock it judged (pid and `startedAt`), and if another
   update had replaced it in between, puts that one back with `link()` and judges again. The one
@@ -127,6 +139,23 @@ runtime copy and this file.
   by the rule above. Only a lock that is still ours is deleted.
 - `update --dry-run` writes nothing and takes no lock.
 - If the lock file cannot be created at all (read-only home), `update` runs without it and says so.
+
+## Modules the package no longer ships
+
+`runtime/.managed.json` records the sha256 and mode of every file the hub copied into
+the runtime (B-193). After each sync, a `lib/` module the package dropped moves to
+`runtime/.retired/<stamp>/` when its bytes still equal that record; an edited or foreign
+file stays, and a hook script never moves (a host may still have it wired). Nothing is
+deleted.
+
+A module older than the record itself was never recorded, so B-193 alone keeps it for
+good. The package therefore also ships `lib/runtime-retired.js`: every `lib/` path it
+once shipped and no longer does, with the sha256 of each blob that path held in Git
+history (B-259). An unrecorded runtime file whose bytes match one of those exactly is
+retired the same way; a byte of difference keeps it. `node scripts/retired-runtime.js
+--write` regenerates the table, and `test/runtime_retired_test.js` fails when the
+committed table and the history disagree. Today it lists one path,
+`lib/router-texts.js` (four blobs).
 
 ## The runtime lock and failed refresh
 

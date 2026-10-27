@@ -47,7 +47,7 @@ it('a project copy is reported separately, with the consequence a home copy lack
   assert.ok(/inside a git tree/.test(out), 'the git consequence is not stated');
   assert.ok(out.includes('!.claude/skills/'),
     'the allowlist shape is missing — a bare ignore deletes the one correct case');
-  assert.ok(!/~\/\.claude\/skills\/ —/.test(out), 'a project row was reported as a home row');
+  assert.ok(!/~\/\.claude\/skills\/:/.test(out), 'a project row was reported as a home row');
 });
 
 it('a project copy names the tooling consequence, not only the git one', () => {
@@ -64,7 +64,7 @@ it('the consequence COUNT is derived from the list, never restated', () => {
   // It said "two consequences" over a body of three for exactly as long as it took to
   // add one. A restated number is the defect this repository catches most often.
   const out = S.render(S.shadows([{ name: 'task-pipeline', scope: 'project' }], PROVIDED));
-  const claimed = Number(/— (\d+) consequences/.exec(out)[1]);
+  const claimed = Number(/: (\d+) consequences/.exec(out)[1]);
   const listed = (out.match(/^ {2}\d+\. /gm) || []).length;
   assert.strictEqual(claimed, listed, `header claims ${claimed}, body lists ${listed}`);
 });

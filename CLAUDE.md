@@ -51,8 +51,10 @@ to the checked artifact, and a historical receipt is not a current runtime claim
   non-shell heredoc bodies and whole-line comments, but retains shell heredocs and
   quoted invocations, including `bash -c`. Quoting must not bypass `bareName` checks.
 - **Guards decide in pure modules; hooks move bytes.** `lib/guard.js`,
-  `lib/hygiene.js` and `lib/repogate.js` decide from payloads, fixtured without a
-  `HOME`; filesystem access is confined to backup boundaries. A hook entry's `if`
+  `lib/hygiene.js`, `lib/gitdiscard.js` and `lib/repogate.js` decide from payloads,
+  fixtured without a `HOME`; filesystem access is confined to backup boundaries, and
+  the one probe (`git status` for the paths a destructive git command names) is run by
+  the hook, bounded, and fails open. A hook entry's `if`
   filter is best-effort and fails open on unparsed commands; do not rely on it.
 - **Hooks fail silent; refusals name a remedy.** A malformed payload must not break
   other sessions. `test/hooks_e2e_test.js` asserts both through real script processes.
@@ -63,15 +65,21 @@ to the checked artifact, and a historical receipt is not a current runtime claim
 
 Applies to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`,
 `~/.pi/agent/AGENTS.md`, `~/.cursor/rules/sshlg-routing.mdc`, `~/.obsidian-wiki/config`, the
+B-206 targets in `lib/instruction-targets.js` (`~/.agents/AGENTS.md`, `~/.zcode/AGENTS.md`,
+`~/.qwen/QWEN.md`, Kiro steering, Windsurf `global_rules.md`), the
 `visibility` edits to `~/.claude/settings.json`, `~/.codex/config.toml`,
 `~/.gemini/settings.json`, `~/.pi/agent/settings.json`, `~/.config/opencode/opencode.json`
 and Hermes' config.yaml (written by `hermes config set`, after a copy), the machine marks
-`~/.sshlg-skills/pack-marks.json`, including the post-tool-use restore. Copies are 0600
+`~/.sshlg-skills/pack-marks.json`, the hooks wiring in the Claude profile's `settings.json`
+(`$CLAUDE_CONFIG_DIR` or `~/.claude`) and in Codex's `hooks.json` (`apply.protectedWrite`:
+compare before replace, then `protect()`), including the post-tool-use restore. Copies are 0600
 in a 0700 directory: host settings can hold keys.
 
 1. `lib/backup.js` copies before every write; backup failure cancels the write.
    Every new write path goes through `protect()` in `lib/apply.js`. Restore is a
-   write too; `test/hooks_e2e_test.js` covers it. No second write path.
+   write too; `test/hooks_e2e_test.js` covers it. No second write path. The bytes
+   then land through `lib/atomicwrite.js` (temp file, flush, rename), never an
+   in-place write; `test/apply_test.js` fails on a raw one (B-260).
 2. Prove idempotence where repetition happens: run the real command three times
    against a real file and compare hashes, not just pure round-trip fixtures.
 3. Preserve everything outside sentinels byte for byte. Previews show removals

@@ -1140,6 +1140,116 @@ it('the stem prefilter never changes an answer of matches() or objectMatches()',
   assert.strictEqual(wrong.length, 0, `${wrong.length} of ${compared} differ, e.g.\n  ${wrong.slice(0, 5).join('\n  ')}`);
 });
 
+// --- B-84's с/ш case, held on its own -------------------------------------
+//
+// `stemRu` cuts `записать` to `записа-` and cannot reach `запиш-`; the table carries
+// the advertised imperative «запиши решение» instead. Until 2026-10-27 the only
+// fixture that said the imperative routed also carried `decision record`, so the
+// imperative could have gone and the fixture would still pass.
+
+it('B-84: the imperative of an с/ш verb routes on its own, and the stemmer was not widened', () => {
+  for (const p of ['запиши решение', 'запишите решение', 'записать решение']) {
+    assert.deepStrictEqual(T.match(p), ['evidence-docs'], p);
+  }
+  // the alternation was bridged by advertising one phrase, not by teaching the stemmer
+  // a conjugation class: a different object, or the bare verb, stays silent
+  for (const p of ['запиши номер телефона', 'запиши это', 'записал в блокнот']) {
+    assert.deepStrictEqual(T.match(p), [], p);
+  }
+});
+
+// --- B-241: a status question and a look are not orders --------------------
+//
+// «миграция прошла? посмотри логи» read as a write, because `миграция` is a noun in
+// CHANGE_WORDS and a clause that names a migration counted as one being ordered. A
+// clause that asks WHETHER something happened, or a turn that only asks to look, writes
+// nothing; an imperative inside the same clause still does.
+
+const B241_NOT_WRITE = [
+  'миграция прошла? посмотри логи',
+  'миграция прошла?',
+  'прошла ли миграция?',
+  'фикс задеплоился?',
+  'рефактор уже смержили?',
+  'ты сделал миграцию?',
+  'посмотри логи миграции',
+  'миграция прошла, посмотри логи',
+  'проверь логи миграции',
+  'глянь, что сломалось в интеграции',
+  'did the migration pass? check the logs',
+  'did the migration pass?',
+  'is the fix deployed?',
+  'has the refactor been merged?',
+  'did you fix the login bug?',
+  'look at the migration logs',
+  'check the logs of the last migration',
+  'show me the migration logs',
+  // a Latin noun inside a Russian question is not an English imperative
+  'fix в проде прошёл?',
+  'давай посмотрим логи миграции',
+];
+const B241_WRITE = [
+  'проведи миграцию',
+  'смигрируй базу',
+  'запусти миграцию',
+  'запусти миграцию?',
+  'сделай миграцию базы',
+  'миграция упала? почини её',
+  'посмотри логи и почини миграцию',
+  'посмотри логи, почини миграцию',
+  'можешь сделать миграцию?',
+  'фичу логина сделаешь?',
+  // the status clause no longer carries the write for the order beside it
+  'ну что, миграция готова? давай следующую фичу',
+  'migrate the database',
+  'run the migration and fix the logs',
+  'did the migration pass? if not, fix it',
+  'can you add a paywall screen?',
+  'look at the logs and fix the migration',
+  'could you update the migration?',
+  'fix the migration?',
+  'create a migration for users',
+  // English marks an order by position: a state verb ("show") earlier in the clause
+  // does not turn the order after the comma into a look
+  'the paywall does not show up, fix it',
+];
+
+it('B-241: a status question or a look does not write (RU and EN)', () => {
+  const wrong = B241_NOT_WRITE.filter((p) => T.classify(p).effects.write);
+  assert.deepStrictEqual(wrong, [], 'read as an order to change the repository');
+  assert.ok(B241_NOT_WRITE.filter((p) => /[а-я]/.test(p)).length >= 10
+    && B241_NOT_WRITE.filter((p) => !/[а-я]/.test(p)).length >= 8, 'the corpus lost a language');
+});
+
+it('B-241: an order still writes, with or without a question mark (RU and EN)', () => {
+  const wrong = B241_WRITE.filter((p) => !T.classify(p).effects.write);
+  assert.deepStrictEqual(wrong, [], 'an order read as a report');
+  assert.ok(B241_WRITE.filter((p) => /[а-я]/.test(p)).length >= 10
+    && B241_WRITE.filter((p) => !/[а-я]/.test(p)).length >= 8, 'the corpus lost a language');
+});
+
+it('B-241: the hook stops naming delivery for a status question or a look', () => {
+  for (const p of ['миграция прошла? посмотри логи', 'фикс задеплоился?', 'посмотри логи миграции',
+    'глянь, что сломалось в интеграции', 'did the migration pass? check the logs', 'look at the migration logs']) {
+    assert.deepStrictEqual(T.match(p), [], p);
+  }
+  // an audit the pipeline claims keeps its route: checking production is a finding
+  // that lands in the repository, and `проверь`/`check` are its words, not a look
+  assert.deepStrictEqual(T.match('перепроверь прод'), ['task-pipeline']);
+  assert.ok(T.match('check the fix in production').includes('task-pipeline'));
+  for (const p of ['проведи миграцию', 'миграция упала? почини её', 'посмотри логи и почини миграцию']) {
+    assert.deepStrictEqual(T.match(p), ['task-pipeline'], p);
+  }
+});
+
+it('B-241: a status clause keeps its candidates; only the write verdict moves', () => {
+  const c = T.classify('миграция прошла? посмотри логи');
+  assert.deepStrictEqual(c.clauses.map((x) => x.intent), ['question', 'audit']);
+  assert.ok(c.facets.includes('task-pipeline'), 'the shortlist lost the route the clause names');
+  assert.strictEqual(c.effects.report, true);
+  assert.deepStrictEqual(T.splitClauses('миграция прошла? посмотри логи'), ['миграция прошла', 'посмотри логи']);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

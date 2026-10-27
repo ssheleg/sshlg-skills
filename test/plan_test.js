@@ -129,7 +129,8 @@ it('Continue copy groups preserve target coverage and order for install, update 
   const byName = Object.fromEntries(skills.concat({name:'unavailable',repo:'owner/unavailable'}).map(s=>[s.name,s]));
   const selected = args => args.flatMap((arg,i)=>arg==='--agent'?[args[i+1]]:[]);
   for (const agents of [[], ['continue'], ['continue','codex'], ['codex','continue'],
-    ['zed','continue','codex'], ['codex','zed'], P.resolveAgents(DEFAULTS,{all:true})]) {
+    ['zed','continue','codex'], ['codex','zed'], ['codex','hermes-agent','zed'], ['hermes-agent','continue'],
+    P.resolveAgents(DEFAULTS,{all:true})]) {
     const original = agents.slice();
     const install = P.installPlan(skills,agents);
     assert.deepStrictEqual(P.updatePlan(skills,agents).filter(a=>a[2]==='add'),install);
@@ -142,14 +143,27 @@ it('Continue copy groups preserve target coverage and order for install, update 
         for (const args of calls) {
           const ids = selected(args);
           assert.ok(ids.length,'unscoped install group');
-          assert.strictEqual(args.includes('--copy'),ids.includes('continue'));
-          if (ids.includes('continue')) assert.deepStrictEqual(ids,['continue'],'Continue needs an isolated copy');
+          const copy = ids.filter((id) => P.COPY_AGENTS.includes(id));
+          assert.strictEqual(args.includes('--copy'),copy.length > 0);
+          if (copy.length) assert.deepStrictEqual(ids,copy.slice(0,1),'a copy host needs an isolated copy group');
         }
       }
       assert.strictEqual(new Set(plan.map(args=>args[3])).size,agents.length?skills.length:0);
     }
     assert.deepStrictEqual(agents,original);
   }
+});
+
+// B-217 / HERMES-3: Hermes' skill_manage(patch) edits a skill in place. Through a
+// symlink that place is the shared ~/.agents/skills copy every other host reads, so
+// Hermes gets its own copy, isolated with --copy exactly like Continue.
+it('Hermes is installed as its own copy, never a link into the shared store', () => {
+  assert.deepStrictEqual(P.COPY_AGENTS, ['continue', 'hermes-agent']);
+  const plan = P.installPlan([{ name: 'a', repo: 'owner/a' }], ['codex', 'hermes-agent', 'zed']);
+  const groups = plan.map((args) => args.flatMap((a, i) => (a === '--agent' ? [args[i + 1]] : [])));
+  assert.deepStrictEqual(groups, [['codex'], ['hermes-agent'], ['zed']]);
+  assert.ok(plan[1].includes('--copy') && !plan[0].includes('--copy') && !plan[2].includes('--copy'), JSON.stringify(plan));
+  assert.ok(require('../skills.json').defaultAgents.includes('hermes-agent'), 'Hermes is a default target, so every update re-copies it');
 });
 
 it('the refresh runs before the add, so a present skill is not reinstalled first', () => {

@@ -83,7 +83,7 @@ it('B-169: a block 1.58.0 wrote onto a machine without Fabric loses the rule, it
   assert.ok(hasFabric(fs.readFileSync(file, 'utf8')), 'fixture did not write the fabric section');
   const r = run(home, ['routers', '--update'], NO_FABRIC);
   assert.strictEqual(r.code, 0, r.out);
-  assert.match(r.out, /fabric — not on this machine/);
+  assert.match(r.out, /fabric: not on this machine/);
   assert.doesNotMatch(r.out, /выключены настройкой/, 'reported as if the operator had switched it off');
   const body = fs.readFileSync(file, 'utf8');
   assert.ok(!hasFabric(body) && !hasFabricRow(body), 'fabric section or row survived');
