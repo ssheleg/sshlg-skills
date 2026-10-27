@@ -44,10 +44,13 @@ with project rows; `visibility` prints `cannot hide on goose`.
 archive; fabric, research-agent, nicegramappbot and mobile-publisher-agent told on board thread fb5d5d5b;
 the tool defect is B-258 (owner task-pipeline).
 
-**Exact next bounded task:** on or after 2026-10-27T01:43Z, stage 8 for
-`docs/evidence/specs/2026-10-26-v1790-release-impact.md`; on or after 2026-10-27T03:23Z (the 1.79.1 tag plus 24
-hours), stage 8 for `docs/evidence/specs/2026-10-26-v1791-release-impact.md` and, 24 hours after
-its tag, `docs/evidence/specs/2026-10-26-v1800-release-impact.md`; then the highest open board row.
+**2026-10-27 (operator, «проверь пул реквесты и доску»):** stage 8 read for 1.79.0 and 1.79.1, both held
+(Outcome sections in their cards). The operator's one-approval decision (board thread `d9cc16e8`, 2026-10-26)
+adopted in `docs/working-rules/cross-repo-handoff.md`, the only hub rule that said a board message is never an approval.
+
+**Exact next bounded task:** on or after 2026-10-27T04:43Z (the 1.80.0 tag plus 24 hours), stage 8 for
+`docs/evidence/specs/2026-10-26-v1800-release-impact.md` (signals (2), (3) and (5) already read green at
+2026-10-27T03:31Z; re-read (1) and (4)); then the highest open board row.
 
 ## Previous: 2026-10-26 family descriptions within 300 characters (1.79.0)
 
