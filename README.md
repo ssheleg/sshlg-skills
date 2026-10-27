@@ -504,6 +504,14 @@ Copilot read `~/.claude/CLAUDE.md` as a fallback; OpenCode stops as soon as a
 `~/.config/opencode/AGENTS.md` exists. `~/.agents/AGENTS.md` is read by Kimi, Goose,
 Warp and Droid; the hub does not write it, so today it holds what you put there.
 
+Upstream watch (no code yet, report 2026-10-16, CLAUDE-5 and OPENCODE-2): Claude Code's
+headless docs say `--bare` will become the default for `claude -p`, and `--bare` skips
+hooks, plugins and CLAUDE.md discovery, so a headless agent would then run with no routing
+block and no guard unless it passes `--append-system-prompt-file` or `--settings`.
+OpenCode 2 reads `AGENTS.md` only (no CLAUDE.md fallback) and has a new permissions
+schema, so upgrading to it drops the routing block above and the visibility write until
+the hub gains an OpenCode 2 target.
+
 **Pi** (`@earendil-works/pi-coding-agent`, command `pi`) reads skills from `~/.pi/agent/skills`,
 `~/.agents/skills` and, per project, `.pi/skills` (the working directory) and `.agents/skills`
 up to the repository root. Project roots come first, in a project Pi trusts, and a name found
@@ -797,16 +805,33 @@ The routing block loads in every session and is still routed around, because
 prose in a long file loses to whatever spoke last. Hooks are what speak first —
 and, since v0.42.0, what **holds**.
 
-The hub wires hooks into one target: Claude Code's `~/.claude/settings.json`. Two
-other hosts can import them from that file: Cursor (its third-party hooks import,
-on by default) and the Continue CLI. Neither is tested here, so the family claims
-nothing about how its hooks behave there:
+The hub wires hooks into Claude Code's settings file: `$CLAUDE_CONFIG_DIR/settings.json`
+when that variable is set, else `~/.claude/settings.json` (the profile the routing block,
+pins and visibility already follow). Every write to it, and to Codex's `hooks.json`,
+compares the file with the bytes the plan was made from, takes the copy, replaces the
+file atomically (through a symlink, keeping its mode) and reads it back. A file that
+changed in between is left alone, and the command says so.
+
+Which host runs which hook:
+
+| Host | How it gets them | What holds there |
+|---|---|---|
+| Claude Code | `hooks install` | every hook below |
+| Cursor (cursor-agent 2026.09.02) | imports the same `settings.json` entries (third-party hooks, on by default) | `PreToolUse`: the credential-reader, shell-hygiene and MCP-credential refusals, and the copy before a `Write` or `Delete` of a protected file, answered in Cursor's `permission` shape; the prompt hook's route note arrives as `additional_context`. The route escalation does not run there: Cursor accepts `ask` from `preToolUse` but does not enforce it. `test/hooks_hosts_e2e_test.js` feeds Cursor-shaped payloads through the real scripts and checks every answer against Cursor's validator |
+| Codex 0.163 | `hooks install --codex` adds one `PreToolUse` entry to `$CODEX_HOME/hooks.json` (else `~/.codex/hooks.json`) | the same refusals on `Bash` and MCP tools, and the copy before an `apply_patch` that touches a protected file (its paths are read out of the patch). Codex runs a hook only after you trust it in `/hooks`, and asks again when the entry changes, so `update` never rewrites this entry; `hooks` says when it is stale |
+| Continue CLI | reads `~/.claude/settings.json` | untested |
+| Gemini CLI, Kimi, OpenCode, Hermes, Pi | not wired | each has a blocking hook surface (Gemini `BeforeTool`, Kimi `[[hooks]]`, OpenCode `tool.execute.before`, Hermes plugin and shell hooks, Pi extension `tool_call`) and none has an adapter yet. Gemini CLI was succeeded by Antigravity CLI on 2026-06-18 (geminicli.com, hooks reference), so its adapter waits on which of the two stays. Hermes plugin hooks and Pi extension handlers fail closed, against this pack's fail-silent rule, so they need Hermes shell hooks or a wrapper that catches every error |
+
+Cursor and Codex payloads become Claude's shape in one pure module, `lib/hookpayload.js`,
+before any guard reads them (Cursor's `Shell`, `path`, `MCP:<tool>` and
+`conversation_id`; Codex's `apply_patch`), and the answer is spelled for the host that asked.
 
 ```bash
 npx sshlg-skills hooks                    # what would be wired, and what holds it now
 npx sshlg-skills hooks install            # wire it (refuses to take someone else's status line)
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
-npx sshlg-skills hooks remove             # unwire, and give the displaced one back
+npx sshlg-skills hooks install --codex    # also the guard in Codex's hooks.json; then trust it once in Codex /hooks
+npx sshlg-skills hooks remove             # unwire (Claude and Codex), and give the displaced one back
 npx sshlg-skills hooks recovery inspect --json                 # after a hard stop: is the runtime writer provably dead?
 npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only that dead lock, then roll back
 # `npx sshlg-skills update` re-wires a machine that already has one of these entries (since v1.56.0), through the
@@ -854,6 +879,14 @@ and that the file was not touched.
 The matching is done inside the hook rather than by the entry's `if` filter,
 because the hooks reference states that filter is best-effort and **fails open**
 on a command it cannot parse. A guard with a documented bypass is not a guard.
+
+The `PreToolUse` matcher only decides which calls start the hook, and it is anchored:
+`^(?:Edit|Write|NotebookEdit|Bash|Read|Grep|Delete|<the MCP credential tools>)$`. The MCP
+part makes it a regular expression, which Claude Code tests unanchored, so unanchored it
+also started the hook for `TodoWrite` (as `Write`) and `ReadMcpResourceTool` (as `Read`). Each
+name is a tool of Claude Code or of Cursor, which imports this entry; `MultiEdit` is gone
+because no current host has it. The order keeps `Bash` whole in the middle, because Cursor
+maps each `|`-separated piece by exact name (`Bash` to `Shell`).
 
 The status line reads `.task-pipeline/run.md`, the ledger a pipeline run already
 keeps:

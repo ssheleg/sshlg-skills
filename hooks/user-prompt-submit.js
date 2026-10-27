@@ -25,7 +25,13 @@ process.stdin.on('end', () => {
     // hook that knows only one of them goes quiet without saying so. Try each,
     // then fall back to the raw body — which is right when a future version
     // pipes the prompt in plain.
-    const data = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
+    const parsed = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
+    // Cursor runs this as beforeSubmitPrompt (imported from settings.json): no session id,
+    // so no turn record, and the note goes back as `additional_context` JSON, the only
+    // shape Cursor adds to the turn (B-209, lib/hookpayload.js).
+    const payload = require(path.join(__dirname, '..', 'lib', 'hookpayload.js'));
+    const host = payload.hostOf(parsed);
+    const data = payload.normalise(parsed).data;
     const prompt = data.prompt || data.user_prompt || data.userPrompt ||
                    data.message || (raw.trim().startsWith('{') ? '' : raw);
     const triggers = require(path.join(__dirname, '..', 'lib', 'triggers.js'));
@@ -93,7 +99,7 @@ process.stdin.on('end', () => {
 
     const out = triggers.render(prompt, { external, noted, unloaded });
     if (out) {
-      process.stdout.write(out + '\n');
+      process.stdout.write(payload.promptContext(host, out));
       if (sessionId) {
         try {
           turnstate.write(os.homedir(), sessionId,

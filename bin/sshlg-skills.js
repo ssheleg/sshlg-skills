@@ -300,7 +300,8 @@ Usage:
                                                       # override this machine's pack mark (Gemini,
                                                       # Pi, OpenCode, Hermes; not Claude/Codex)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
-  npx sshlg-skills hooks   install [--force] [--dry-run]
+  npx sshlg-skills hooks   install [--force] [--dry-run] [--codex]
+                                                      # --codex: also the guard in Codex's hooks.json
   npx sshlg-skills context [--json]                    # what each host loads before the first word; caps
   npx sshlg-skills hooks   recovery inspect [--json]
   npx sshlg-skills hooks   recovery recover --expect <digest|absent> [--json]
@@ -1136,18 +1137,29 @@ function notWiredLines(skipped) {
  * `skipped` lists entries the refresh leaves alone: removed by hand, or a status line
  * somebody else holds (`hooks.plan` with `refreshOnly`).
  */
+/**
+ * The settings file the hooks are wired into: the Claude profile Claude Code reads,
+ * `$CLAUDE_CONFIG_DIR/settings.json` or `~/.claude/settings.json` (B-218, CLAUDE-8). The
+ * same resolution the routing block, pins and visibility use (lib/apply.js `hostRoot`).
+ */
+function hooksSettingsFile(home) {
+  return path.join(require('../lib/enablement.js').claudeRoot(home), 'settings.json');
+}
+
 function planRewire(f) {
   const hooksLib = require('../lib/hooks.js');
   const home = os.homedir();
-  const file = path.join(home, '.claude', 'settings.json');
+  const file = hooksSettingsFile(home);
   const root = hooksLib.runtimeDir(home);
   const base = { file, changed: [], reasons: [], skipped: [] };
   const scoped = claudeScope(f);
   if (!scoped.inScope) return Object.assign(base, { status: 'out of scope', skippedBy: scoped.skippedBy });
   let current;
+  let text;
   try {
     if (!fs.existsSync(file)) return Object.assign(base, { status: 'no settings' });
-    current = JSON.parse(fs.readFileSync(file, 'utf8'));
+    text = fs.readFileSync(file, 'utf8');
+    current = JSON.parse(text);
   } catch (e) {
     return Object.assign(base, { status: 'unparseable', error: e.message });
   }
@@ -1155,7 +1167,7 @@ function planRewire(f) {
   const p = hooksLib.plan(current, root, { refreshOnly: true });
   return Object.assign(base, {
     status: p.changed.length ? 'changes' : 'current',
-    settings: p.settings, changed: p.changed, reasons: p.reasons, skipped: p.skipped,
+    settings: p.settings, changed: p.changed, reasons: p.reasons, skipped: p.skipped, text,
   });
 }
 
@@ -1208,15 +1220,19 @@ function rewireConsentedHooks(f) {
   // release introduced arrives only through `hooks install` — said, not left to be noticed.
   for (const line of notWiredLines(r.skipped)) log(`  ${line}`);
   if (r.status === 'current') { log('  settings.json already matches this package'); return true; }
-  const saved = apply.protect(r.file, { home: os.homedir() });
-  if (saved.action === 'backup-failed') {
-    log(`  NOT written: no backup could be taken (${saved.error}); ${r.file} unchanged`);
+  // Compare before replace (B-218, CLAUDE-7): written only if the file still holds the
+  // bytes the plan was made from, so a concurrent edit is never lost to this refresh.
+  const saved = apply.protectedWrite(r.file, JSON.stringify(r.settings, null, 2) + '\n',
+    { home: os.homedir(), expected: r.text });
+  if (!saved.ok) {
+    log(saved.action === 'changed'
+      ? `  NOT written: ${r.file} changed after it was read; nothing overwritten, run update again`
+      : `  NOT written: ${saved.action}${saved.error ? ` (${saved.error})` : ''}; ${r.file} unchanged`);
     return false;
   }
-  fs.writeFileSync(r.file, JSON.stringify(r.settings, null, 2) + '\n', 'utf8');
   for (const x of r.reasons) log(`  ${x.event}: ${x.reason}`);
   log(`  re-wired ${r.changed.join(', ')}`);
-  log(`  copy before write: ${saved.path}`);
+  log(`  copy before write: ${saved.backup}`);
   log('  restart Claude Code — hooks are read at session start');
   return true;
 }
@@ -3758,7 +3774,11 @@ function cmdHooks(argv) {
   // would leave hooks that fail silently on every prompt.
   const root = hooksLib.runtimeDir(home);
   const pkgRoot = pathMod.resolve(__dirname, '..');
-  const file = pathMod.join(home, '.claude', 'settings.json');
+  // The profile Claude Code reads: CLAUDE_CONFIG_DIR, else ~/.claude (B-218, CLAUDE-8).
+  const file = hooksSettingsFile(home);
+  const wantCodex = argv.includes('--codex');
+  const codexDir = hooksLib.codexRoot(home);
+  const codexFile = pathMod.join(codexDir, 'hooks.json');
 
   if (sub === 'recovery') {
     const args = argv.slice(1), action = args.shift();
@@ -3801,15 +3821,54 @@ function cmdHooks(argv) {
   }
 
   let current = {};
+  let currentText = null;
   if (fs.existsSync(file)) {
     try {
-      current = JSON.parse(fs.readFileSync(file, 'utf8'));
+      currentText = fs.readFileSync(file, 'utf8');
+      current = JSON.parse(currentText);
     } catch (e) {
       // Refusing beats guessing. A settings.json that does not parse is either
       // mid-edit or damaged, and rewriting it from a partial read is how the
       // rest of it disappears.
       log(`hooks: ${file} не парсится (${e.message}) — ничего не записано.`);
       return false;
+    }
+  }
+
+  // Codex's hooks.json (B-209): read the same way, only when Codex is installed here. An
+  // agent's home is never created, so an absent Codex home means nothing to read or write.
+  const codex = { present: fs.existsSync(codexDir), current: {}, text: null, error: null };
+  if (codex.present && fs.existsSync(codexFile)) {
+    try {
+      codex.text = fs.readFileSync(codexFile, 'utf8');
+      codex.current = JSON.parse(codex.text);
+    } catch (e) { codex.error = e.message; }
+  }
+
+  /** One write path for both files: compare, copy, replace, read back (B-218, CLAUDE-7). */
+  function writeHooksFile(target, before, data, label) {
+    const r = apply.protectedWrite(target, JSON.stringify(data, null, 2) + '\n', { home, expected: before });
+    if (r.ok) return r;
+    if (r.action === 'changed') log(`hooks: НЕ записан ${target}: файл изменился после чтения (кто-то ещё пишет его). Ничего не перезаписано; запусти команду ещё раз.`);
+    else if (r.action === 'backup-failed') log(`hooks: НЕ записан ${target}: не удалось сделать копию (${r.error}). Файл не изменён.`);
+    else log(`hooks: НЕ записан ${target} (${label}: ${r.action}).`);
+    return null;
+  }
+
+  /** The Codex lines of `hooks` status. */
+  function codexStatus() {
+    if (!codex.present) { log(`\nhooks codex: Codex здесь не найден (${codexDir}), нечего проверять`); return; }
+    if (codex.error) { log(`\nhooks codex: ${codexFile} не парсится (${codex.error})`); return; }
+    const { reasons } = hooksLib.plan(codex.current, root, { host: 'codex' });
+    const stale = reasons.filter((r) => r.reason !== 'added');
+    if (!reasons.length) {
+      log(`\nhooks codex: подключено и совпадает: ${codexFile}\n  ` + hooksLib.describeCodex(root).join('\n  ')
+        + '\n  Codex запускает хук только после проверки в /hooks (доверие привязано к хешу записи)');
+    } else if (stale.length) {
+      log(`\nhooks codex: устарело: ${codexFile}\n  ` + stale.map((r) => `${r.event}: ${r.reason}`).join('\n  ')
+        + '\n  обновить: npx sshlg-skills hooks install --codex (после записи Codex попросит заново доверить хук в /hooks)');
+    } else {
+      log(`\nhooks codex: не подключено: ${codexFile}\n  добавить: npx sshlg-skills hooks install --codex`);
     }
   }
 
@@ -3822,7 +3881,7 @@ function cmdHooks(argv) {
     const { conflicts, reasons } = hooksLib.plan(current, root, {});
     const stale = reasons.filter((r) => r.reason !== 'added');
     const absent = reasons.filter((r) => r.reason === 'added');
-    log('hooks: что ставит семья\n  ' + hooksLib.describe(root).join('\n  '));
+    log(`hooks: что ставит семья (${file})\n  ` + hooksLib.describe(root).join('\n  '));
     if (stale.length) {
       log(`\nhooks: устарело — ${stale.map((r) => r.event).join(', ')}\n  ` +
         stale.map((r) => `${r.event}: ${r.reason}`).join('\n  ') + '\n  ' +
@@ -3835,6 +3894,7 @@ function cmdHooks(argv) {
     }
     if (!reasons.length) log('\nhooks: всё на месте и совпадает');
     for (const c of conflicts) log(`hooks: ${c.key} держит ${c.held_by} — ${c.note}`);
+    codexStatus();
     return true;
   }
 
@@ -3853,21 +3913,47 @@ function cmdHooks(argv) {
         log(`hooks: припаркованный statusLine не парсится (${e.message}) — оставляю без него`);
       }
     }
-    if (!changed.length) { log('hooks: ничего нашего не установлено'); return true; }
-    if (dryRun) { log(`hooks: --dry-run — снял бы ${changed.join(', ')}`); return true; }
-    const saved = apply.protect(file, { home });
-    if (saved.action === 'backup-failed') {
-      log(`hooks: НЕ записан ${file} — не удалось сделать копию (${saved.error}). Файл не изменён.`);
-      return false;
+    const codexOut = codex.present && !codex.error && codex.text !== null
+      ? hooksLib.removal(codex.current, root, { host: 'codex' }) : { changed: [] };
+    if (codex.error) log(`hooks codex: ${codexFile} не парсится (${codex.error}), не трогаю`);
+    if (!changed.length && !codexOut.changed.length) { log('hooks: ничего нашего не установлено'); return true; }
+    if (dryRun) {
+      if (changed.length) log(`hooks: --dry-run: снял бы ${changed.join(', ')}`);
+      if (codexOut.changed.length) log(`hooks codex: --dry-run: снял бы ${codexOut.changed.join(', ')} из ${codexFile}`);
+      return true;
     }
-    fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8');
-    if (parked) configLib.stashClear(home, DISPLACED_STATUSLINE);
-    log(`hooks: снято — ${changed.join(', ')}`);
-    log(`hooks: копия до записи — ${saved.path}`);
+    if (changed.length) {
+      const w = writeHooksFile(file, currentText, settings, 'remove');
+      if (!w) return false;
+      if (parked) configLib.stashClear(home, DISPLACED_STATUSLINE);
+      log(`hooks: снято: ${changed.join(', ')}`);
+      log(`hooks: копия до записи: ${w.backup}`);
+    }
+    if (codexOut.changed.length) {
+      const w = writeHooksFile(codexFile, codex.text, codexOut.settings, 'remove codex');
+      if (!w) return false;
+      log(`hooks codex: снято: ${codexOut.changed.join(', ')} из ${codexFile}`);
+      log(`hooks codex: копия до записи: ${w.backup}`);
+    }
     return true;
   }
 
   if (sub !== 'install') { log(`hooks: неизвестное подкоманда '${sub}'`); return false; }
+
+  // `--codex` is checked before anything is written: an install that cannot do what was
+  // asked of it writes nothing, rather than half of it.
+  let codexPlan = null;
+  if (wantCodex) {
+    if (!codex.present) {
+      log(`hooks codex: Codex здесь не найден (${codexDir}; CODEX_HOME или ~/.codex). Ничего не записано.`);
+      return false;
+    }
+    if (codex.error) {
+      log(`hooks codex: ${codexFile} не парсится (${codex.error}). Ничего не записано.`);
+      return false;
+    }
+    codexPlan = hooksLib.plan(codex.current, root, { host: 'codex' });
+  }
 
   const { settings, changed, conflicts } = hooksLib.plan(current, root, { force });
   const blocking = conflicts.filter(() => !force);
@@ -3882,6 +3968,11 @@ function cmdHooks(argv) {
     log(changed.length
       ? `hooks: --dry-run — записал бы ${changed.join(', ')}, скопировав в ${root}`
       : `hooks: --dry-run — записи не нужны; обновил бы копию в ${root}`);
+    if (codexPlan) {
+      log(codexPlan.changed.length
+        ? `hooks codex: --dry-run: записал бы ${codexPlan.changed.join(', ')} в ${codexFile}`
+        : `hooks codex: --dry-run: ${codexFile} уже на месте`);
+    }
     return true;
   }
 
@@ -3895,32 +3986,42 @@ function cmdHooks(argv) {
     log(`hooks: не удалось скопировать скрипты в ${root} (${e.message}) — настройки не изменены`);
     return false;
   }
-  if (!changed.length) { log('hooks: настройки уже на месте'); return true; }
 
-  const saved = apply.protect(file, { home });
-  if (saved.action === 'backup-failed') {
-    log(`hooks: НЕ записан ${file} — не удалось сделать копию (${saved.error}). Файл не изменён.`);
-    return false;
-  }
-  // Park what force displaced BEFORE writing over it, and only if nothing is
-  // parked already: a second forced install must not overwrite the original
-  // owner's entry with our own, which is the write-once rule `adopted:<name>`
-  // follows for the same reason.
-  for (const c of conflicts) {
-    if (c.key !== 'statusLine') continue;
-    if (configLib.stashGet(configLib.readConfig(home), DISPLACED_STATUSLINE)) continue;
-    configLib.stashSet(home, DISPLACED_STATUSLINE, JSON.stringify(current.statusLine));
+  if (!changed.length) log(`hooks: настройки уже на месте (${file})`);
+  else {
+    // Park what force displaced BEFORE writing over it, and only if nothing is
+    // parked already: a second forced install must not overwrite the original
+    // owner's entry with our own, which is the write-once rule `adopted:<name>`
+    // follows for the same reason.
+    for (const c of conflicts) {
+      if (c.key !== 'statusLine') continue;
+      if (configLib.stashGet(configLib.readConfig(home), DISPLACED_STATUSLINE)) continue;
+      configLib.stashSet(home, DISPLACED_STATUSLINE, JSON.stringify(current.statusLine));
+    }
+    const w = writeHooksFile(file, currentText, settings, 'install');
+    if (!w) return false;
+    log(`hooks: записано: ${changed.join(', ')}`);
+    log(`hooks: файл: ${file}`);
+    for (const c of conflicts) {
+      log(`hooks: вытеснено: ${c.key} держал ${c.held_by}`);
+      log(`hooks: прежний ${c.key} сохранён в ${configLib.configPath(home)}; ` +
+          `\`hooks remove\` вернёт его на место`);
+    }
+    if (w.backup) log(`hooks: копия до записи: ${w.backup}`);
+    else log('hooks: файла не было, копировать было нечего');
+    log('hooks: перезапусти Claude Code, хуки читаются на старте сессии');
   }
 
-  fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8');
-  log(`hooks: записано — ${changed.join(', ')}`);
-  for (const c of conflicts) {
-    log(`hooks: вытеснено — ${c.key} держал ${c.held_by}`);
-    log(`hooks: прежний ${c.key} сохранён в ${configLib.configPath(home)} — ` +
-        `\`hooks remove\` вернёт его на место`);
+  if (codexPlan) {
+    if (!codexPlan.changed.length) log(`hooks codex: ${codexFile} уже на месте`);
+    else {
+      const w = writeHooksFile(codexFile, codex.text, codexPlan.settings, 'install codex');
+      if (!w) return false;
+      log(`hooks codex: записано: ${codexPlan.changed.join(', ')} (${codexFile})`);
+      log(w.backup ? `hooks codex: копия до записи: ${w.backup}` : 'hooks codex: файла не было, копировать было нечего');
+      log('hooks codex: открой Codex и доверь хук в /hooks. До этого Codex его не запускает (доверие привязано к хешу записи)');
+    }
   }
-  log(`hooks: копия до записи — ${saved.path}`);
-  log('hooks: перезапусти Claude Code — хуки читаются на старте сессии');
   return true;
 }
 

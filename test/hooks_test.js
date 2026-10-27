@@ -144,11 +144,14 @@ it('every wired event round-trips: install then remove is the identity', () => {
 });
 
 it('the guard covers every tool that can write to a file', () => {
+  // A RegExp (the MCP part needs one), anchored so `TodoWrite` is not `Write` (B-218).
+  // MultiEdit is no longer a Claude Code tool; Delete is Cursor's, which imports this entry.
   const guard = H.entries(ROOT).PreToolUse;
-  for (const tool of ['Edit', 'Write', 'MultiEdit', 'NotebookEdit', 'Bash']) {
-    assert.ok(guard.matcher.split('|').includes(tool),
-      `${tool} can write and is not matched: ${guard.matcher}`);
+  const re = new RegExp(guard.matcher);
+  for (const tool of ['Edit', 'Write', 'NotebookEdit', 'Bash', 'Delete']) {
+    assert.ok(re.test(tool), `${tool} can write and is not matched: ${guard.matcher}`);
   }
+  assert.ok(!re.test('TodoWrite'), `the matcher is not anchored: ${guard.matcher}`);
 });
 
 it('SessionStart runs on resume and fork, or a resumed session gets no pointer', () => {

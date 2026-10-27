@@ -68,7 +68,9 @@ Applies to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`,
 `visibility` edits to `~/.claude/settings.json`, `~/.codex/config.toml`,
 `~/.gemini/settings.json`, `~/.pi/agent/settings.json`, `~/.config/opencode/opencode.json`
 and Hermes' config.yaml (written by `hermes config set`, after a copy), the machine marks
-`~/.sshlg-skills/pack-marks.json`, including the post-tool-use restore. Copies are 0600
+`~/.sshlg-skills/pack-marks.json`, the hooks wiring in the Claude profile's `settings.json`
+(`$CLAUDE_CONFIG_DIR` or `~/.claude`) and in Codex's `hooks.json` (`apply.protectedWrite`:
+compare before replace, then `protect()`), including the post-tool-use restore. Copies are 0600
 in a 0700 directory: host settings can hold keys.
 
 1. `lib/backup.js` copies before every write; backup failure cancels the write.

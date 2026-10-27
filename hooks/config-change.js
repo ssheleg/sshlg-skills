@@ -38,7 +38,9 @@ process.stdin.on('end', () => {
     const displace = require(path.join(LIB, 'displace.js'));
     const configLib = require(path.join(LIB, 'config.js'));
 
-    const file = data.file_path || path.join(home, '.claude', 'settings.json');
+    // The profile Claude Code reads (CLAUDE_CONFIG_DIR, else ~/.claude), as `hooks` wires it.
+    const file = data.file_path
+      || path.join(require(path.join(LIB, 'enablement.js')).claudeRoot(home), 'settings.json');
     // An unparseable settings file is mid-edit, not displaced. Reporting it would
     // fire on every keystroke of a hand edit.
     let settings;
