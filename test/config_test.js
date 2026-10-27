@@ -99,19 +99,28 @@ it('an unknown state is refused rather than guessed', () => {
 // written from a copy taken OUTSIDE config.json's lock, so parallel writers erased each
 // other's keys (measured: 4 processes x 20 stashSet of distinct keys kept 20 of 80). Every
 // sub-object write is now a function of the file at write time.
-it('four processes x 20 stashSet of distinct keys keep all 80 (final polish 3)', () => {
+// B-227: the fixture once kept 78 of 80 on a loaded machine. It ignored the writers' exit
+// codes, so a writer that died (ENOSPC on a full disk) and a lost write read the same. Each
+// writer's failure is now named, and every missing key is listed.
+function parallelStash(procs, per) {
   const home = tmpHome();
   const writer = path.join(home, 'w.js');
   fs.writeFileSync(writer, `const C = require(${JSON.stringify(path.join(__dirname, '..', 'lib', 'config.js'))});
-const [home, id] = process.argv.slice(2);
-for (let i = 0; i < 20; i += 1) C.stashSet(home, 'k' + id + '-' + i, 'v' + i);
+const [home, id, per] = process.argv.slice(2);
+for (let i = 0; i < Number(per); i += 1) C.stashSet(home, 'k' + id + '-' + i, 'v' + i);
 `);
   const { spawnSync } = require('child_process');
-  const cmd = [0, 1, 2, 3].map((i) => `node "${writer}" "${home}" ${i} &`).join(' ') + ' wait';
-  spawnSync('sh', ['-c', cmd], { encoding: 'utf8' });
+  const ids = Array.from({ length: procs }, (_, i) => i);
+  const cmd = ids.map((i) => `(node "${writer}" "${home}" ${i} ${per} || echo "writer ${i} exited $?" >&2) &`).join(' ') + ' wait';
+  const r = spawnSync('sh', ['-c', cmd], { encoding: 'utf8', timeout: 120000 });
+  assert.strictEqual((r.stderr || '').trim(), '', `a writer failed, so its keys say nothing about a race: ${r.stderr}`);
   const stash = C.readConfig(home).stash || {};
-  assert.strictEqual(Object.keys(stash).length, 80, `parallel stashSet lost keys: kept ${Object.keys(stash).length} of 80`);
-});
+  const missing = ids.flatMap((i) => Array.from({ length: per }, (_, k) => `k${i}-${k}`)).filter((k) => !(k in stash));
+  assert.deepStrictEqual(missing, [], `parallel stashSet lost ${missing.length} of ${procs * per} keys`);
+  assert.deepStrictEqual(fs.readdirSync(path.join(home, '.sshlg-skills')), ['config.json'], 'a lock or temp file was left behind');
+}
+it('four processes x 20 stashSet of distinct keys keep all 80 (final polish 3, B-227)', () => parallelStash(4, 20));
+it('eight processes x 50 stashSet of distinct keys keep all 400 (B-227 stress)', () => parallelStash(8, 50));
 
 it('authored, external, router and auto-update writes merge into the file as it is at write time (final polish 3)', () => {
   const home = tmpHome();

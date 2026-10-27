@@ -12,11 +12,16 @@ the old one, so a reader sees the old file or the new one, never half of one, an
 0600 whoever wrote it last (since the 1.56.0 fix round; before it, three writers wrote in place
 and a file they created was 0644). **Read-modify-write happens inside the writer** (second fix
 round): the patch may be a function of the file as it is at write time, applied while holding
-`state.json.lock` (created exclusively; a lock older than 2 s is a dead writer's and is removed;
-after 1 s of waiting the write proceeds unlocked rather than hang a hook — and since the final
-polish the 1 s deadline is consulted on every retry path, so a lock that cannot be removed (a
-read-only directory) or whose age cannot be read is waited out, never spun on; the age is
-`lstat`'s, so a dangling symlink at `state.json.lock` has one). Every writer of an
+`state.json.lock` (created exclusively, holding the writer's pid). Since B-227 the lock is
+judged by that pid: a dead pid's lock is removed at once; a live pid's is waited for up to 5 s
+(`LOCK_WAIT_MS`), and then the write is refused with `ELOCKED` rather than written past, because
+writing past a live holder, or removing its lock for being older than 2 s, lost a write under
+load (`test/store_test.js`, "a live holder past the old wait and stale bounds keeps the waiter's
+write"). A lock naming no pid keeps the earlier degrade: older than 2 s it is removed, and at the
+deadline the write proceeds unlocked rather than hang a hook. A holder removes only its own lock
+(same inode). The deadline is consulted on every retry path, so a lock that cannot be removed (a
+read-only directory) or whose age cannot be read is never spun on; the age is `lstat`'s, so a
+dangling symlink at `state.json.lock` has one. Every writer of an
 `updateCheck` sub-key uses `store.nested('updateCheck', …)`, so the probe, the idle updater and
 SessionStart cannot erase each other's keys by merging a copy they read earlier. Every writer stamps `schemaVersion`. Readers must tolerate a
 file without `schemaVersion` (written before 1.56.0) and keys they do not know.
@@ -27,7 +32,8 @@ of `state.json` outside `lib/store.js`.
 sub-objects — `stash`, `authored`, `routes.external`, `routers`, `update` — are each edited as a
 function of the file at write time (`editSub` in `lib/config.js`), never rebuilt from a copy read
 before the lock: four processes making 20 `stashSet` calls each on distinct keys kept 20 of 80
-before, and keep all 80 now (`test/config_test.js`).
+before, and keep all 80 now; eight processes making 50 calls each keep all 400, and the fixture
+names a writer that failed instead of counting its keys as lost (`test/config_test.js`, B-227).
 
 | Key | Meaning | Writers | Readers |
 |---|---|---|---|
