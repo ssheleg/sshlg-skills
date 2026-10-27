@@ -398,6 +398,19 @@ it('B-253: the guard reads the heredoc substitution as a bare skills install', (
   assert.ok(r, 'a skills update hidden in a heredoc body was not seen');
 });
 
+// B-240: commandGroups is the shared reader of simple commands (lib/gitdiscard.js uses it).
+it('commandGroups: top level, substitutions, bash -c scripts and shell heredoc bodies; data stays data', () => {
+  const words = (c) => H.commandGroups(c).flatMap((g) => g.commands).map((w) => w.join(' '));
+  assert.deepStrictEqual(words('cd x && git stash'), ['cd x', 'git stash']);
+  assert.ok(words("bash -c 'git reset --hard'").includes('git reset --hard'));
+  assert.ok(words('echo "$(git stash)"').includes('git stash'));
+  assert.ok(words("bash <<'EOF'\ngit reset --hard\nEOF").includes('git reset --hard'), 'a shell heredoc body is code');
+  assert.ok(!words("cat > f <<'EOF'\ngit reset --hard\nEOF").includes('git reset --hard'), 'a cat heredoc body is data');
+  assert.ok(!words('# git reset --hard\nls').includes('git reset --hard'), 'a comment is data');
+  assert.deepStrictEqual(words('echo "git reset --hard"'), ['echo git reset --hard'], 'a quoted argument is one word');
+  assert.deepStrictEqual(H.commandGroups(null).flatMap((g) => g.commands), []);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

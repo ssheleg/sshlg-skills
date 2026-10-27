@@ -51,8 +51,10 @@ to the checked artifact, and a historical receipt is not a current runtime claim
   non-shell heredoc bodies and whole-line comments, but retains shell heredocs and
   quoted invocations, including `bash -c`. Quoting must not bypass `bareName` checks.
 - **Guards decide in pure modules; hooks move bytes.** `lib/guard.js`,
-  `lib/hygiene.js` and `lib/repogate.js` decide from payloads, fixtured without a
-  `HOME`; filesystem access is confined to backup boundaries. A hook entry's `if`
+  `lib/hygiene.js`, `lib/gitdiscard.js` and `lib/repogate.js` decide from payloads,
+  fixtured without a `HOME`; filesystem access is confined to backup boundaries, and
+  the one probe (`git status` for the paths a destructive git command names) is run by
+  the hook, bounded, and fails open. A hook entry's `if`
   filter is best-effort and fails open on unparsed commands; do not rely on it.
 - **Hooks fail silent; refusals name a remedy.** A malformed payload must not break
   other sessions. `test/hooks_e2e_test.js` asserts both through real script processes.

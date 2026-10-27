@@ -156,6 +156,21 @@ it('two copies inside one second are two copies, not one overwritten', () => {
   assert.strictEqual(fs.readFileSync(b.path, 'utf8'), 'second');
 });
 
+// B-236: Read and Grep joined the PreToolUse matcher for the credential-read check, and
+// reached the write guard with them, so READING the instruction file took a backup copy
+// and printed "copy taken before the write". A read writes nothing: no copy, no output.
+it('a Read of the operator instruction file takes no copy and says nothing', () => {
+  write(CLAUDE_MD, '# rules\nread, not written\n');
+  const dir = path.join(HOME, '.sshlg-skills', 'backups');
+  const before = fs.existsSync(dir) ? fs.readdirSync(dir).length : 0;
+  const out = runHookRaw('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', tool_name: 'Read', tool_input: { file_path: CLAUDE_MD },
+  });
+  assert.strictEqual(out.stdout, '', `a Read produced a decision: ${out.stdout}`);
+  assert.strictEqual(out.stderr, '', `a Read produced a note: ${out.stderr}`);
+  assert.strictEqual(fs.existsSync(dir) ? fs.readdirSync(dir).length : 0, before, 'a Read took a backup copy');
+});
+
 it('an ordinary file produces no output at all', () => {
   assert.strictEqual(runHook('pre-tool-use.js', {
     hook_event_name: 'PreToolUse', tool_name: 'Edit', tool_input: { file_path: '/tmp/x.js' },
@@ -267,6 +282,68 @@ it('a malformed payload is silence and exit 0, never a broken turn', () => {
     assert.strictEqual(r.status, 0, `${script} exited ${r.status} on garbage input`);
   }
 });
+
+// B-240: a destructive git command over uncommitted work, decided through the real script
+// against a real repository: the hook probes `git status` for exactly the named paths.
+{
+  const repo = path.join(HOME, 'b240-repo');
+  const git = (...args) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@example.invalid',
+    '-c', 'commit.gpgsign=false', ...args], { cwd: repo, env: ENV, stdio: 'pipe' });
+  fs.mkdirSync(repo, { recursive: true });
+  git('init', '-q');
+  fs.writeFileSync(path.join(repo, 'dirty.txt'), 'one\n');
+  fs.writeFileSync(path.join(repo, 'clean.txt'), 'one\n');
+  git('add', '.');
+  git('commit', '-q', '-m', 'init');
+  fs.writeFileSync(path.join(repo, 'dirty.txt'), 'two, uncommitted\n');
+  const bash = (command, cwd = repo) => runHookRaw('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', tool_name: 'Bash', cwd, session_id: 'b240', tool_input: { command },
+  });
+  const decision = (r) => (r.stdout.trim() ? JSON.parse(r.stdout.trim()).hookSpecificOutput : null);
+
+  it('B-240: `git checkout -- <dirty file>` is denied by the real script, naming the path and the remedy', () => {
+    const out = decision(bash('git checkout -- dirty.txt'));
+    assert.ok(out, 'a checkout over an uncommitted change was allowed');
+    assert.strictEqual(out.permissionDecision, 'deny');
+    assert.match(out.permissionDecisionReason, /dirty\.txt \(unstaged\)/);
+    assert.match(out.permissionDecisionReason, /commit it/);
+    assert.match(out.permissionDecisionReason, /SSHLG_DISCARD_OK=1 git checkout -- dirty\.txt/);
+    assert.strictEqual(fs.readFileSync(path.join(repo, 'dirty.txt'), 'utf8'), 'two, uncommitted\n');
+  });
+
+  it('B-240: the same command on a clean file, a benign form and the override pass silently', () => {
+    for (const cmd of ['git checkout -- clean.txt', 'git stash list', 'git restore --staged dirty.txt',
+      'git checkout -b side', 'SSHLG_DISCARD_OK=1 git checkout -- dirty.txt',
+      "cat > n.md <<'EOF'\ngit reset --hard\nEOF"]) {
+      const r = bash(cmd);
+      assert.strictEqual(r.stdout, '', `${cmd} was not allowed: ${r.stdout}`);
+    }
+  });
+
+  it('B-240: `bash -c`, `cd` and `git -C` reach the probe; a stash and a reset over the dirty file are denied', () => {
+    for (const [cmd, cwd] of [["bash -c 'git reset --hard'", repo], ['git stash', repo],
+      ['cd b240-repo && git restore dirty.txt', HOME], ['git -C b240-repo checkout .', HOME]]) {
+      const out = decision(bash(cmd, cwd));
+      assert.ok(out && out.permissionDecision === 'deny', `${cmd} was allowed`);
+      assert.match(out.permissionDecisionReason, /dirty\.txt/);
+    }
+  });
+
+  it('B-240: a probe that cannot run fails open (no repository, a missing directory)', () => {
+    assert.strictEqual(bash('git checkout -- dirty.txt', HOME).stdout, '', 'outside a repository');
+    assert.strictEqual(bash('git -C nowhere reset --hard', HOME).stdout, '', 'a missing directory');
+  });
+
+  it('B-240: malformed payloads are silence and exit 0', () => {
+    for (const input of ['not json', '{"tool_name":"Bash","tool_input":{"command":42}}',
+      '{"tool_name":"Bash","tool_input":{"command":"git checkout -- dirty.txt"},"cwd":42}',
+      '{"tool_name":"Bash"}']) {
+      const r = spawnSync('node', [path.join(ROOT, 'hooks', 'pre-tool-use.js')], { input, encoding: 'utf8', env: ENV, cwd: HOME });
+      assert.strictEqual(r.status, 0, `exit ${r.status} on ${input}`);
+      assert.strictEqual(r.stdout, '', `output on ${input}: ${r.stdout}`);
+    }
+  });
+}
 
 // --- the events that only speak in one way ----------------------------------
 
