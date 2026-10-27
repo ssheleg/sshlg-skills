@@ -48,9 +48,10 @@ the tool defect is B-258 (owner task-pipeline).
 (Outcome sections in their cards). The operator's one-approval decision (board thread `d9cc16e8`, 2026-10-26)
 adopted in `docs/working-rules/cross-repo-handoff.md`, the only hub rule that said a board message is never an approval.
 
-**Exact next bounded task:** on or after 2026-10-27T04:43Z (the 1.80.0 tag plus 24 hours), stage 8 for
-`docs/evidence/specs/2026-10-26-v1800-release-impact.md` (signals (2), (3) and (5) already read green at
-2026-10-27T03:31Z; re-read (1) and (4)); then the highest open board row.
+Stage 8 for 1.80.0 read at 2026-10-27T04:43Z: held (Outcome in its card).
+
+**Exact next bounded task:** the highest open board row in `docs/evidence/backlog.md` (context-related: B-236,
+hook cost; then the P 2.0 rows B-214, B-184, B-162, B-146, B-84). B-258 waits on task-pipeline.
 
 ## Previous: 2026-10-26 family descriptions within 300 characters (1.79.0)
 
