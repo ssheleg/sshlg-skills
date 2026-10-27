@@ -2270,7 +2270,8 @@ function cmdToolkit(argv) {
     // exactly the one this search exists to reach.
     let overrides = {};
     try {
-      overrides = JSON.parse(fs.readFileSync(path.join(home, '.claude', 'settings.json'), 'utf8')).skillOverrides || {};
+      // The profile Claude Code reads: CLAUDE_CONFIG_DIR, else ~/.claude (B-272, as the hooks since B-218).
+      overrides = JSON.parse(fs.readFileSync(path.join(require('../lib/enablement.js').claudeRoot(home), 'settings.json'), 'utf8')).skillOverrides || {};
     } catch (e) { overrides = {}; }
     const additional = toolkit.readShared(home, skills);
     const all = skills.concat(additional)
