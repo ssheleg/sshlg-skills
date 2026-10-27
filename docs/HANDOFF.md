@@ -28,7 +28,17 @@ kept local at `~/.sshlg-skills/reports/2026-10-27-duplicate-clones.json`.
 files across `~/DATA`); B-233 seeding handed to the owning projects; Gemini hook adapter parked
 until the host (Gemini CLI or Antigravity CLI) is chosen (B-280).
 
-**Waits:** B-231, fabric-vr runs `enroll` itself (no JDK here for its pre-push gate; board thread
+**1.81.0 shipped and read back:** PR #282 (CI 40569905268 success; the first run caught a lock
+identity that Linux's inode reuse defeated, fixed in `f2afaf3c`), merge `107d7c1a`, tag `v1.81.0`,
+release run 40570684663 success, npm 1.81.0. `npx --yes sshlg-skills@latest update`: 33 of 33 steps,
+all 11 Claude members verified; the routing block in `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` and
+the new `~/.zcode/AGENTS.md` has 0 em dashes; `lib/router-texts.js` retired; Claude pin
+transactions 48 to 6. Result PARTIAL only because Codex was running: task-pipeline, agent-sync,
+make-skill and seo-aeo-audit are deferred in Codex (receipt under `~/.sshlg-skills/codex-deferred/`).
+
+**Waits:** Codex catch-up: when no Codex process runs, move the four deferred plugins to their pins
+(`codex plugin marketplace remove/add --ref v<ver>`, then `codex plugin add`, backup of
+`~/.codex/config.toml` first) and read back; no watcher. B-231, fabric-vr runs `enroll` itself (no JDK here for its pre-push gate; board thread
 `e23891ab`, request `3fb622c5`); no watcher. Stage 8 of the 1.81.0 card on or after the tag plus 24
 hours. Human gates: B-29 (confirmation), B-146 (Gemini sign-in), B-232 (decision), B-271 (sending
 the Orca ask), B-276 (Cursor and Codex sign-in for live probes).
