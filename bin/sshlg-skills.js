@@ -539,7 +539,10 @@ function scopesNote(j) {
     + ((j.aliases || []).length ? `; left as recorded: ${j.aliases.map(a => `${a.projectPath} (alias of ${a.real})`).join(', ')}`
       // B-243: an old path that is a symlink to the renamed folder has a reported remedy.
       + (j.aliases.some(a => { try { return a.projectPath !== a.real && fs.realpathSync(a.projectPath) === a.real; } catch (_) { return false; } })
-        ? ' (an old path Claude cannot address; remedy: `npx sshlg-skills hosts`)' : '') : '');
+        ? ' (an old path Claude cannot address; remedy: `npx sshlg-skills hosts`)' : '')
+      // B-264: a worktree or subdirectory record beside its repository root's record.
+      + (j.aliases.some(a => { try { return fs.realpathSync(a.projectPath) === a.projectPath; } catch (_) { return false; } })
+        ? ' (a worktree or subdirectory Claude addresses at its repository root; remedy: `npx sshlg-skills hosts`)' : '') : '');
 }
 // Private snapshots contain settings values and never enter printable effects.
 const claudePlans = new WeakMap();
@@ -1462,12 +1465,25 @@ function reportStaleLocalRecords() {
   }
   const real = (p) => { try { return fs.realpathSync(p); } catch (_) { return null; } };
   const found = L.staleAliases(registry, real);
-  if (!found.length) { log(`\nClaude Code install records (${file}): no local install record under an old project path.`); return; }
-  log(`\nClaude Code install records (${file}): ${found.length} local install record(s) under an old project path.`);
-  log('  Claude matches a local scope by the physical folder, so `claude plugin update|uninstall --scope local` cannot reach them');
-  log('  and `update` leaves them as recorded:');
-  for (const a of found) log(`    ${a.plugin}: ${a.projectPath} (now ${a.real}, which has its own record)`);
-  for (const line of L.remedy(file, found)) log(`  ${line}`);
+  // B-264: worktree and subdirectory records, which Claude addresses at the repository root.
+  const rooted = L.rootRecords(registry, real, require('../lib/claude-pinned.js').claudeAddress);
+  if (!found.length) log(`\nClaude Code install records (${file}): no local install record under an old project path.`);
+  else {
+    log(`\nClaude Code install records (${file}): ${found.length} local install record(s) under an old project path.`);
+    log('  Claude matches a local scope by the physical folder, so `claude plugin update|uninstall --scope local` cannot reach them');
+    log('  and `update` leaves them as recorded:');
+    for (const a of found) log(`    ${a.plugin}: ${a.projectPath} (now ${a.real}, which has its own record)`);
+  }
+  if (rooted.length) {
+    log(`  ${rooted.length} local install record(s) Claude addresses at a repository root, not at their own folder,`);
+    log('  so neither Claude nor `update` ever reads or updates them:');
+    for (const a of rooted) {
+      log(`    ${a.plugin}: ${a.projectPath} (a ${a.kind === 'worktree' ? 'git worktree' : 'subdirectory'} of ${a.root}; `
+        + `${a.rootRecord ? 'the root has its own record' : 'the root has no record, so `update` blocks this member'})`);
+    }
+  }
+  // One remedy, one backup, for every record named above.
+  if (found.length || rooted.length) for (const line of L.remedy(file, found.concat(rooted))) log(`  ${line}`);
 }
 
 /**

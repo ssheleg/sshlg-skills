@@ -133,6 +133,106 @@ it('`hosts` with no such record says so in one line', () => {
   assert.ok(/no local install record under an old project path/.test(`${r.stdout}`), r.stdout);
 });
 
+// --- B-264: a git worktree's or a subdirectory's own local record -----------------------
+//
+// Claude addresses a local scope at the root of the git repository the folder sits in, and a
+// linked worktree at its main working tree (measured on 2.1.299, lib/claude-pinned.js
+// `claudeAddress`). A record written under the worktree or the subdirectory itself is never
+// read or updated, and B-242 leaves it as recorded. Its remedy differs from an old path's:
+// with a record at the root, the dead one is dropped; with none, the root gets its own
+// install first, then the dead one is dropped.
+
+/** A repository with a subdirectory and a linked worktree, built without git. */
+function repo() {
+  const base = tmp();
+  const main = path.join(base, 'proj');
+  fs.mkdirSync(path.join(main, '.git', 'worktrees', 'wt'), { recursive: true });
+  const sub = path.join(main, 'packages', 'app');
+  fs.mkdirSync(sub, { recursive: true });
+  const wt = path.join(base, 'proj-wt');
+  fs.mkdirSync(wt);
+  fs.writeFileSync(path.join(wt, '.git'), `gitdir: ${path.join(main, '.git', 'worktrees', 'wt')}\n`);
+  const other = path.join(base, 'other');
+  fs.mkdirSync(path.join(other, '.git'), { recursive: true });
+  const otherSub = path.join(other, 'docs');
+  fs.mkdirSync(otherSub);
+  const rec = (scope, projectPath) => Object.assign({ scope, installPath: '/c/x/1.0.0', version: '1.0.0' }, projectPath ? { projectPath } : {});
+  const registry = { version: 2, plugins: {
+    'a@m': [rec('local', main), rec('local', wt), rec('local', sub)],   // root has a record
+    'b@m': [rec('user'), rec('local', otherSub)],                        // root has none
+    'c@m': [rec('local', main)],                                         // a root record is live
+  } };
+  return { base, main, sub, wt, other, otherSub, registry };
+}
+const address = require('../lib/claude-pinned.js').claudeAddress;
+
+it('B-264: worktree and subdirectory records are reported with the root Claude addresses', () => {
+  const { main, sub, wt, other, otherSub, registry } = repo();
+  const found = L.rootRecords(registry, realOr, address);
+  assert.deepStrictEqual(found.map((r) => [r.plugin, r.projectPath, r.root, r.kind, r.rootRecord]), [
+    ['a@m', wt, main, 'worktree', true],
+    ['a@m', sub, main, 'subdirectory', true],
+    ['b@m', otherSub, other, 'subdirectory', false],
+  ]);
+  assert.deepStrictEqual(L.staleAliases(registry, realOr), [], 'these are not old paths');
+});
+
+it('B-264: a root, a folder outside any repository, a missing path and a malformed registry are not reported', () => {
+  const base = tmp();
+  const loose = path.join(base, 'loose');
+  fs.mkdirSync(loose);
+  const registry = { plugins: { 'x@m': [{ scope: 'local', projectPath: loose }, { scope: 'local', projectPath: path.join(base, 'gone') }, { scope: 'user' }] } };
+  assert.deepStrictEqual(L.rootRecords(registry, realOr, address), []);
+  for (const bad of [null, {}, { plugins: null }, { plugins: { x: 'nope' } }, { plugins: { x: [null, { scope: 'local' }] } }]) {
+    assert.deepStrictEqual(L.rootRecords(bad, realOr, address), []);
+  }
+  assert.deepStrictEqual(L.rootRecords(registry, realOr, () => { throw new Error('boom'); }), [], 'an address probe that throws reports nothing');
+});
+
+it('B-264: the remedy installs at a root that has no record, then drops every dead record from one backup', () => {
+  const { base, main, other, otherSub, registry } = repo();
+  const file = path.join(base, 'installed_plugins.json');
+  fs.writeFileSync(file, JSON.stringify(registry, null, 2));
+  const before = fs.readFileSync(file, 'utf8');
+  const found = L.rootRecords(registry, realOr, address);
+  const lines = L.remedy(file, found);
+  const install = lines.filter((l) => /claude plugin install/.test(l));
+  assert.deepStrictEqual(install, [`cd '${other}' && claude plugin install 'b@m' --scope local`],
+    'only the root with no record is installed first');
+  assert.ok(lines.findIndex((l) => /claude plugin install/.test(l)) < lines.findIndex((l) => l.startsWith('cp ')),
+    'the root install comes before the drop');
+  const cmd = lines.find((l) => l.startsWith('cp '));
+  const r = spawnSync('/bin/sh', ['-c', cmd], { encoding: 'utf8' });
+  assert.strictEqual(r.status, 0, r.stderr);
+  assert.strictEqual(fs.readFileSync(`${file}.bak-b243`, 'utf8'), before);
+  const after = JSON.parse(fs.readFileSync(file, 'utf8'));
+  assert.deepStrictEqual(after.plugins['a@m'].map((x) => x.projectPath), [main]);
+  assert.deepStrictEqual(after.plugins['b@m'].map((x) => x.projectPath || 'user'), ['user']);
+  assert.deepStrictEqual(after.plugins['c@m'], registry.plugins['c@m']);
+  assert.ok(lines.join('\n').includes(otherSub));
+});
+
+it('B-264: `hosts` reports worktree and subdirectory records with the remedy, read-only', () => {
+  const { base, registry } = repo();
+  const home = path.join(base, 'home');
+  const file = path.join(home, '.claude', 'plugins', 'installed_plugins.json');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, JSON.stringify(registry, null, 2));
+  const sha = () => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+  const h0 = sha();
+  const env = Object.assign({}, process.env, { HOME: home, SSHLG_SKILLS_NO_UPDATE_CHECK: '1' });
+  delete env.CLAUDE_CONFIG_DIR;
+  const r = spawnSync(process.execPath, [BIN, 'hosts'], { cwd: base, env, encoding: 'utf8', timeout: 60000 });
+  const out = `${r.stdout}${r.stderr}`;
+  assert.strictEqual(r.status, 0, out);
+  assert.ok(/3 local install record\(s\) Claude addresses at a repository root/.test(out), out);
+  assert.ok(/a git worktree of/.test(out) && /a subdirectory of/.test(out), out);
+  assert.ok(/claude plugin install 'b@m' --scope local/.test(out), out);
+  assert.ok(out.includes(`cp -p '${file}'`), out);
+  assert.ok(!out.includes('—'), 'the report carries an em dash');
+  assert.strictEqual(sha(), h0, 'hosts wrote installed_plugins.json');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
