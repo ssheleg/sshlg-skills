@@ -574,19 +574,19 @@ priorities** — a landing page passes several, an internal script passes none:
 |---|---|---|---|
 | `super-ux` | what the interface must do | there is user-facing behaviour | super-ux |
 | `sheleg-design` | how it looks and moves | there is a visual layer | sheleg-design |
-| `copywriting` | how it sounds | text a product user will read | super-ux |
+| `copywriting` | how it sounds | text a user of the product will read | super-ux |
 | `sheleg-dev` | what it runs on to charge, track and sign in | money, tracking, errors, sign-in or speed is being wired | sheleg-dev |
-| `agent-stack` | how an agent system is built, judged and metered | the thing being built is an agent | agent-stack |
+| `agent-stack` | how an agent system is built, judged and metered, and the wire it speaks outward | the thing being built is an agent, or a server one connects to | agent-stack |
 | `telegram-dev` | which Telegram API a surface speaks, and what it costs | the thing being built lives inside Telegram | telegram-dev |
 | `xr-dev` | how a Quest product moves from platform choice to launch and operation | the thing being built runs on a Meta Quest headset | xr-dev |
 | `web3d-dev` | how a realtime 3D scene on the web runs, ships its assets and moves | a three.js or React Three Fiber scene renders in the page | web3d-dev |
-| `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
-| `evidence-docs` | what proves it | something is stated as true | — |
-| `fabric` | what runs on this machine and how its Fabric services are read | the subject is a local agent service or the Fabric network | — |
-| `task-pipeline` | how the change reaches the repo | the repository changes | task-pipeline |
+| `seo-llmo` | whether a machine will find it | a logged-out reader can see the surface | none |
+| `evidence-docs` | what proves it | something is stated as true | none |
+| `fabric` | what runs on this machine and how its Fabric services are read | the subject is a local agent service or the Fabric network | none |
+| `task-pipeline` | how the change reaches the repository | the change touches the repository | task-pipeline |
 | `project-audit` | what is actually true of this project right now | the question is the whole project, not one change | task-pipeline |
 | `make-skill` | how the skill itself is built | a skill or plugin changes shape | make-skill |
-| `agent-sync` | who is holding this file | the project has coordination on | agent-sync |
+| `agent-sync` | who is holding this file | the project has agent coordination on | agent-sync |
 
 Three of them need no skill behind them. `seo-llmo`, `evidence-docs` and
 `fabric` are rules, not tools, so they hold whether or not anything is

@@ -202,6 +202,34 @@ it('member scope beats installed scope — the flag is the whole point', () => {
   assert.deepStrictEqual(Object.keys(r), ['sheleg-design']);
 });
 
+// B-279: README's router table is a second statement of the registry's cells, so it is
+// derived and checked here rather than trusted. Every row, every cell, in registry
+// order; `Needs installed` is the `requires` list, `none` when a rule needs no member.
+it('B-279: README\'s router table matches lib/routers-registry.js cell for cell', () => {
+  const fs = require('fs');
+  const path = require('path');
+  const readme = fs.readFileSync(path.join(__dirname, '..', 'README.md'), 'utf8').split('\n');
+  const head = readme.findIndex((l) => /^\| Router \| Answers \| When \| Needs installed \|\s*$/.test(l));
+  assert.ok(head !== -1, 'README has no `| Router | Answers | When | Needs installed |` table');
+  const body = [];
+  for (let i = head + 2; i < readme.length && readme[i].startsWith('|'); i += 1) body.push(readme[i]);
+  const cells = (l) => l.split('|').slice(1, -1).map((c) => c.trim());
+  const got = body.map(cells);
+  const want = registry.order().map((name) => {
+    const r = registry.REGISTRY[name];
+    return [`\`${name}\``, r.answers, r.when, r.requires.length ? r.requires.join(', ') : 'none'];
+  });
+  assert.deepStrictEqual(got.map((c) => c[0]), want.map((c) => c[0]), 'rows differ from the registry order');
+  const diffs = [];
+  for (let i = 0; i < want.length; i += 1) {
+    const cols = ['Router', 'Answers', 'When', 'Needs installed'];
+    for (let j = 0; j < 4; j += 1) {
+      if (got[i][j] !== want[i][j]) diffs.push(`${want[i][0]} ${cols[j]}: README "${got[i][j]}", registry "${want[i][j]}"`);
+    }
+  }
+  assert.deepStrictEqual(diffs, []);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
