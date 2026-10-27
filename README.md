@@ -291,6 +291,21 @@ replaces existing bytes as well as installing missing skills, so no floating
 `--copy`, including previously installed copies outside the selected default set.
 The selected agent list and shared-store effects still apply.
 
+**Family links in other host roots** (B-216). An interactive `skills add` can link the family
+into hosts outside the default set: `~/.qwen/skills` (`qwen-code`), `$XDG_CONFIG_HOME/devin/skills`
+(`devin`), `~/.factory/skills` (`droid`) and `$GROK_HOME/skills` (`grok`), the skills CLI 1.7.2's
+own roots. `update` reads each one that holds a family entry. When that host is installed (its
+command on PATH, or its folder holds more than `skills`), the same pinned `skills add` steps carry
+one more `--agent` and refresh it. When it is not, `update` writes nothing there and prints the
+count, the missing skill ids and the exact remedy: `npx sshlg-skills update --agent <id>` keeps it
+current, and a `cd <root> && rm -- <ids>` line drops the family links (`rm` without `-r` removes a
+symlink and refuses a directory, so a copy is never removed). Either way it removes a dangling link
+the family owns (a family id, or a skills-lock row from an `ssheleg/` repository, pointing into
+`~/.agents/skills`), only if the frozen plan named it, and prints the `ln -s` that recreates it.
+A live link, a real directory and a link nobody can attribute to the family stay as they are.
+`--dry-run` shows the plan; `--agent` lists that do not name a root, and `--claude-only`, leave
+it alone (`test/extraroots_test.js`).
+
 **Claude Code plugins use exact member sources through the native CLI.** The shipped
 `claude-plugin-pins.json` records each plugin's commit, relative source and file
 hashes. The launcher prepares the full plan, uses owned catalogues with native
@@ -300,7 +315,11 @@ a verified prior source; it keeps plugin data and restores disabled state. A ver
 update moves the user scope and every local (per-project) scope together: each local
 scope is updated inside its own project, every step is read back record by record,
 and a failure rolls the moved scopes back. A local record under an old path that
-resolves to another recorded project is left as recorded. Project and managed scopes
+resolves to another recorded project is left as recorded: Claude matches a local scope by
+the physical folder, so no `claude plugin` command can reach it. `npx sshlg-skills hosts` names
+every such record in `installed_plugins.json` (all plugins, not only the family's) with one
+command that backs the file up and drops exactly those records, and the undo; nothing in the
+hub writes that file for this (B-243, `test/localrecords_test.js`). Project and managed scopes
 and other repair shapes block that member, by name, and the run reports partial. Interrupted or uncertain execution leaves a recovery
 receipt and blocks blind retry. Native activation and task quality require their
 own observations even after installed bytes match.
@@ -483,8 +502,11 @@ Copilot read `~/.claude/CLAUDE.md` as a fallback; OpenCode stops as soon as a
 Warp and Droid; the hub does not write it, so today it holds what you put there.
 
 **Pi** (`@earendil-works/pi-coding-agent`, command `pi`) reads skills from `~/.pi/agent/skills`,
-`~/.agents/skills` and, per project, `.pi/skills` and `.agents/skills` up to the repository root;
-a name found twice keeps the first and warns; it loads no Claude Code plugins, so the family
+`~/.agents/skills` and, per project, `.pi/skills` (the working directory) and `.agents/skills`
+up to the repository root. Project roots come first, in a project Pi trusts, and a name found
+twice keeps the first and warns, so a project copy of a family skill wins over the user copy
+(Pi 1.1.0 `dist/core/package-manager.js`, `addAutoDiscoveredResources`; B-221). `hosts` lists the
+roots in that order and names the copy Pi keeps. Pi loads no Claude Code plugins, so the family
 reaches it as plain skill directories plus the block above. `npx sshlg-skills hosts` reports,
 read-only, whether Pi is here, where the 39 family skills are visible to it, and how many names
 repeat across its roots — the same realpath twice (a symlink into `~/.agents/skills`) is counted
@@ -724,10 +746,10 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 |---|---|---|---|
 | Claude Code | `skillOverrides: "user-invocable-only"` (hidden) or `"name-only"` (quiet core) in `~/.claude/settings.json`; plugin skills are out of its reach | since v1.55.0; Claude Code settings reference: overrides do not apply to plugin skills | be run from the `/` menu by a person |
 | Codex | `enabled = false` entries in `~/.codex/config.toml` `[skills] config` | since v1.55.0 | be read from its SKILL.md path when asked |
-| Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
+| Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`). The entry is the name Gemini loads: it turns `:` `\` `/` `<` `>` `*` `?` `"` `\|` in a skill's name into `-`, so `ui-toolkit/web` is written as `ui-toolkit-web` (B-214) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
 | Pi 1.1.0 | `-<path>` exact exclusions in the `skills` array of `~/.pi/agent/settings.json`, one per folder holding the skill (`~/.agents/skills`, `~/.pi/agent/skills`); the file is created if absent and removed again by `--revert` | Pi's own docs, settings → Resources; `isEnabledByOverrides` in its `dist/core/package-manager.js` | be loaded for one session with `pi --skill <path>` |
 | Hermes 0.21.4 | `skills.disabled` in its config.yaml, written by its own CLI (`hermes config set skills.disabled '<json list>'`, read back with `hermes config get --json`); `hermes skills list` shows `disabled`. A config.yaml Hermes created during the write keeps `{}` after `--revert` unsets the key | `hermes_cli/skills_config.py`; `tools/skills_tool.py` `_find_all_skills` | come back through `hermes skills config` |
-| OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config`. An `opencode.jsonc` is refused | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission | be read as a plain file |
+| OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config`. An `opencode.jsonc` is refused. Its roots are walked to any depth, as OpenCode 1.19.0 globs `skills/**/SKILL.md`; a nested skill takes the pack of the installed skill that holds it (B-214) | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission | be read as a plain file |
 | Cursor agent CLI 2026.09.02 | **cannot hide on cursor**: no setting switches a skill off. The only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) | (not hidden) |
 | Kimi 2.1.1 | **cannot hide on kimi**: `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) | (not hidden) |
 | Goose 1.44.0 | **cannot hide on goose**: `~/.config/goose/config.yaml` can only turn the whole `skills` extension off (`extensions.skills.enabled`), and `goose skills` only lists | `goose --version` 1.44.0, `goose skills --help` (only `list`), the operator machine's config.yaml, 2026-10-26 | (not hidden) |
@@ -758,7 +780,8 @@ count can exceed the skill count.
 **`update` re-applies only with consent.** `--apply` records `applied: true` and the hosts
 it covered; `update`, including the unattended idle run, re-applies only then, only on
 those hosts and only within its own scope (`--claude-only`, `--no-claude`, and
-`--agent <id>` with the skills-CLI ids `gemini-cli`, `pi`, `opencode`, `hermes-agent`).
+`--agent <id>` with the skills-CLI ids `gemini-cli`, `pi`, `opencode`, `hermes-agent`; Kimi's id is
+`kimi-code-cli`, B-214).
 `--revert` withdraws consent. A record from before consent was recorded (1.55.x) is
 never extended: `update` prints one line asking for one `visibility --apply [--keep …]`.
 `uninstall` leaves visibility in place, names what it still holds and gives the

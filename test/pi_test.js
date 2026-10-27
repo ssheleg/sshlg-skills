@@ -8,6 +8,8 @@
 //   docs/skills.md:59-61   Pi reads ~/.pi/agent/skills, ~/.agents/skills, .pi/skills and
 //                          .agents/skills (cwd up to the repo root), recursively
 //   docs/skills.md:85      a name collision keeps the first discovered skill and warns
+//   dist/core/package-manager.js (1.1.0, addAutoDiscoveredResources)  project roots are
+//                          discovered before user roots, so a project copy wins (B-221)
 //   docs/configuration.md:9,18  <agent-dir> is ~/.pi/agent or $PI_CODING_AGENT_DIR;
 //                          AGENTS.md in it is a user instruction file
 const assert = require('assert');
@@ -102,6 +104,57 @@ it('project roots are read from cwd up to the repository root, and no further', 
   assert.deepStrictEqual(r.family.visible, ['ux-flows']);
 });
 
+// B-221: Pi 1.1.0 discovers project roots BEFORE the user roots, and the first name wins
+// (dist/core/package-manager.js addAutoDiscoveredResources: `<cwd>/.pi/skills`, then
+// `.agents/skills` from cwd up to the git root, then ~/.pi/agent/skills, then ~/.agents/skills).
+it('a project root wins a name collision over both user roots (B-221)', () => {
+  const h = tmp(); const repo = path.join(h, 'work', 'repo');
+  fs.mkdirSync(path.join(repo, '.git'), { recursive: true });
+  skill(path.join(h, '.agents', 'skills'), 'ux-flows');
+  skill(path.join(h, '.pi', 'agent', 'skills'), 'ux-flows');
+  skill(path.join(repo, '.agents', 'skills'), 'ux-flows');
+  const r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  const c = r.duplicates.conflicts.find((x) => x.name === 'ux-flows');
+  assert.ok(c, JSON.stringify(r.duplicates));
+  assert.strictEqual(c.locations[0].path, path.join(repo, '.agents', 'skills', 'ux-flows'), JSON.stringify(c));
+  assert.deepStrictEqual(c.locations.slice(1).map((l) => l.path), [
+    path.join(h, '.pi', 'agent', 'skills', 'ux-flows'), path.join(h, '.agents', 'skills', 'ux-flows')]);
+  assert.deepStrictEqual(r.roots.map((x) => x.kind), ['project', 'user', 'user']);
+});
+
+it('project .pi/skills comes before project .agents/skills, nearest .agents first (B-221)', () => {
+  const h = tmp(); const repo = path.join(h, 'repo'); const sub = path.join(repo, 'pkg');
+  fs.mkdirSync(path.join(repo, '.git'), { recursive: true }); fs.mkdirSync(sub, { recursive: true });
+  skill(path.join(repo, '.agents', 'skills'), 'copywriting');
+  skill(path.join(sub, '.agents', 'skills'), 'copywriting');
+  skill(path.join(sub, '.pi', 'skills'), 'copywriting');
+  const r = pi.inspect({ home: h, env: {}, cwd: sub, which: none, family: FAMILY });
+  const c = r.duplicates.conflicts.find((x) => x.name === 'copywriting');
+  assert.deepStrictEqual(c.locations.map((l) => l.path), [
+    path.join(sub, '.pi', 'skills', 'copywriting'),
+    path.join(sub, '.agents', 'skills', 'copywriting'),
+    path.join(repo, '.agents', 'skills', 'copywriting')]);
+});
+
+it('.pi/skills is read in the working directory only, not in its ancestors (B-221)', () => {
+  const h = tmp(); const repo = path.join(h, 'repo'); const sub = path.join(repo, 'pkg');
+  fs.mkdirSync(path.join(repo, '.git'), { recursive: true }); fs.mkdirSync(sub, { recursive: true });
+  skill(path.join(repo, '.pi', 'skills'), 'make-skill');
+  const r = pi.inspect({ home: h, env: {}, cwd: sub, which: none, family: FAMILY });
+  assert.deepStrictEqual(r.family.visible, []);
+});
+
+it('~/.agents/skills reached as a project ancestor stays a user root, read last (B-221)', () => {
+  const h = tmp();
+  skill(path.join(h, '.agents', 'skills'), 'ux-flows');
+  skill(path.join(h, '.pi', 'agent', 'skills'), 'ux-flows');
+  const r = pi.inspect({ home: h, env: {}, cwd: h, which: none, family: FAMILY });
+  assert.deepStrictEqual(r.roots.map((x) => [x.path, x.kind]), [
+    [path.join(h, '.pi', 'agent', 'skills'), 'user'], [path.join(h, '.agents', 'skills'), 'user']]);
+  const c = r.duplicates.conflicts.find((x) => x.name === 'ux-flows');
+  assert.ok(c.locations[0].path.startsWith(path.join(h, '.pi', 'agent', 'skills')), JSON.stringify(c));
+});
+
 it('TARGETS carries pi at ~/.pi/agent/AGENTS.md and the write guard protects it', () => {
   const t = apply.TARGETS.find((x) => x.agent === 'pi');
   assert.ok(t, 'no pi target');
@@ -194,6 +247,19 @@ it('`hosts` reports Pi: detection, where family skills are visible, duplicates',
   assert.ok(/pi\s+detected/.test(r.out), r.out);
   assert.ok(/conflict.*ux-flows|ux-flows.*conflict/i.test(r.out), r.out);
   assert.ok(/family skills visible to Pi \(by name\): 1 of \d+/.test(r.out), r.out);
+});
+
+it('`hosts` names project-first precedence and that project roots need trust (B-221)', () => {
+  const home = sandboxWithPi();
+  const repo = path.join(home, 'repo');
+  fs.mkdirSync(path.join(repo, '.git'), { recursive: true });
+  skill(path.join(home, '.agents', 'skills'), 'ux-flows');
+  skill(path.join(repo, '.agents', 'skills'), 'ux-flows');
+  const r = spawnSync(process.execPath, [BIN, 'hosts'], { cwd: repo, encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home }) });
+  const out = `${r.stdout}${r.stderr}`;
+  assert.strictEqual(r.status, 0, out);
+  assert.ok(out.includes(`conflict: ux-flows [family] — Pi keeps ${path.join(fs.realpathSync(repo), '.agents', 'skills', 'ux-flows')}`), out);
+  assert.ok(/project roots first/.test(out) && /trust/.test(out), out);
 });
 
 it('uninstall removes the managed block from the Pi file and keeps the rest', () => {
