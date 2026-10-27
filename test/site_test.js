@@ -136,8 +136,10 @@ it('the copy check rejects planted title, accessible-label and FAQ regressions',
 });
 
 it('source doctrine stays verbatim while adjacent authored copy remains checked', () => {
-  const rule = Object.values(registry.REGISTRY).find((item) => /\u2014/.test(item.text));
-  assert.ok(rule, 'the source exception control must contain a literal dash');
+  // B-226 took the em dash out of every router text, so the exemption is exercised by the
+  // other wording the site imports verbatim (member descriptions), not by the registry.
+  assert.ok(sourceFragments.some((text) => /\u2014/.test(text)),
+    'the source exception control must contain a literal dash');
   for (const source of Object.values(registry.REGISTRY)) {
     const literal = source.text.trim().split(/\n\s*\n/)
       .map((paragraph) => `<p>${site.inline(paragraph.replace(/\n/g, ' '))}</p>`).join('\n');
