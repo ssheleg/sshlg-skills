@@ -24,7 +24,7 @@ function git(cwd, args, ok = true) {
 // branch run cannot see and a tag run can.
 const TAG_READING_SUITE = 'node -e "const t=require(\'child_process\').execSync(\'git tag -l v*\').toString();process.exit(t.includes(process.env.WANT)?0:1)"';
 
-function member(name, { version = '1.2.3', plugin = version, suite = TAG_READING_SUITE, changelog = true } = {}) {
+function member(name, { version = '1.2.3', plugin = version, suite = TAG_READING_SUITE, changelog = true, heading = `## v${version}` } = {}) {
   const remote = path.join(base, `${name}.git`), repo = path.join(base, name);
   git(base, ['init', '-q', '--bare', '-b', 'main', remote]);
   fs.mkdirSync(path.join(repo, 'plugins', 'm', '.claude-plugin'), { recursive: true });
@@ -32,7 +32,7 @@ function member(name, { version = '1.2.3', plugin = version, suite = TAG_READING
   git(repo, ['config', 'user.name', 'Fixture']); git(repo, ['config', 'user.email', 'fixture@example.invalid']);
   fs.writeFileSync(path.join(repo, 'package.json'), JSON.stringify({ version, scripts: { test: suite } }) + '\n');
   fs.writeFileSync(path.join(repo, 'plugins', 'm', '.claude-plugin', 'plugin.json'), JSON.stringify({ name: 'm', version: plugin }) + '\n');
-  fs.writeFileSync(path.join(repo, 'CHANGELOG.md'), changelog ? `# Changelog\n\n## v${version}\n\n- a fix\n` : '# Changelog\n');
+  fs.writeFileSync(path.join(repo, 'CHANGELOG.md'), changelog ? `# Changelog\n\n${heading}\n\n- a fix\n` : '# Changelog\n');
   git(repo, ['add', '-A']); git(repo, ['commit', '-q', '-m', 'release']);
   git(repo, ['remote', 'add', 'origin', remote]); git(repo, ['push', '-q', 'origin', 'main']);
   git(repo, ['fetch', '-q', 'origin']);
@@ -91,6 +91,16 @@ try {
     git(repo, ['add', 'x.txt']); git(repo, ['commit', '-q', '-m', 'not on main']);
     assert.throws(() => W.releaseMember(repo, 'v1.2.3', { push: false, env }), /not on origin\/main/);
     assert.strictEqual(localTags(repo), '');
+  });
+
+  test('a `## vX.Y.Z: title` heading is a changelog section, as members write it', () => {
+    const { repo } = member('colon', { heading: '## v1.2.3: routed trigger phrases' });
+    assert.strictEqual(W.releaseMember(repo, 'v1.2.3', { push: false, env: { ...env, WANT: 'v1.2.3' } }).status, 'TAG_CREATED');
+  });
+
+  test('a section for a longer version is not this version\'s section', () => {
+    const { repo } = member('longer', { heading: '## v1.2.30: another release' });
+    assert.throws(() => W.releaseMember(repo, 'v1.2.3', { push: false, env }), /changelog/);
   });
 
   test('a malformed tag refuses', () => {
