@@ -386,8 +386,71 @@ function runPlanned(argv) {
 function plainSkillsPlan(f, update = false) {
   if (f.claudeOnly) return [];
   if (cliSpec() !== 'skills@1.7.2') throw new Error('immutable source contract requires verified skills@1.7.2');
-  return require('../lib/installer-pins').build(SKILLS, skillsCliAgents(f),
+  return require('../lib/installer-pins').build(SKILLS, update ? updateAgents(f) : skillsCliAgents(f),
     { continueCopies: update && continueRestoreWanted(f) });
+}
+
+/**
+ * B-216: family links in host roots outside the default set (Qwen Code, Devin, Droid,
+ * Grok). Read here; every decision is lib/extraroots.js's. One `decide()` row per root.
+ */
+function extraRootPlans(f) {
+  const X = require('../lib/extraroots.js');
+  const home = process.env.HOME || os.homedir();
+  const sharedRoot = path.join(home, '.agents', 'skills');
+  const familyIds = SKILLS.flatMap((s) => plan.skillIds(s));
+  const lock = lockSources();
+  const scope = { agents: f.agents && f.agents.length ? f.agents : null, claudeOnly: !!f.claudeOnly };
+  const which = require('../lib/pi.js').whichBin;
+  return X.hosts(home, process.env).map((h) => {
+    const entries = [];
+    for (const name of channelEntries(h.dir)) {
+      if (name.startsWith('.')) continue;
+      const full = path.join(h.dir, name);
+      let st;
+      try { st = fs.lstatSync(full); } catch (_) { continue; }
+      const isSymlink = st.isSymbolicLink();
+      let target = null;
+      if (isSymlink) { try { target = path.resolve(h.dir, fs.readlinkSync(full)); } catch (_) { target = null; } }
+      let isDir = false, live = true;
+      try { isDir = fs.statSync(full).isDirectory(); } catch (_) { live = false; }
+      entries.push({ name, path: full, isSymlink, target, live, isDir });
+    }
+    const installed = !!which(h.bin) || channelEntries(h.base).some((n) => n !== 'skills' && !n.startsWith('.'));
+    return X.decide({ host: h, assessed: X.assess({ entries, familyIds, lock, sharedRoot }), installed, scope });
+  });
+}
+
+/** The agents `update` hands the skills CLI: the run's set plus the extra roots to refresh (B-216). */
+function updateAgents(f) {
+  const base = skillsCliAgents(f);
+  if (f.claudeOnly) return base;
+  return [...new Set(base.concat(extraRootPlans(f).map((d) => d.addAgent).filter(Boolean)))];
+}
+
+/** Report the extra roots and remove the dangling family links the frozen plan named (B-216). */
+function reconcileExtraRoots(f, planned) {
+  const step = planned.steps.find((s) => s.kind === 'prune' && s.effect.extraRoots);
+  if (!step) return true;
+  const allowed = new Set(step.effect.paths || []);
+  const q = require('../lib/extraroots.js').q;
+  let ok = true;
+  log('\n== Family links in other host roots (B-216) ==');
+  for (const d of extraRootPlans(f)) {
+    if (d.action === 'out-of-scope') continue;
+    for (const line of d.lines) log(`  ${line}`);
+    for (const p of d.prune) {
+      if (!allowed.has(p)) { log(`  not removed (found after the plan was frozen; the next update takes it): ${p}`); continue; }
+      let target;
+      try { if (!fs.lstatSync(p).isSymbolicLink()) continue; target = fs.readlinkSync(p); } catch (_) { continue; }
+      if (fs.existsSync(p)) continue;  // its target came back: live again, kept
+      try {
+        fs.unlinkSync(p);
+        log(`  removed dangling family link ${p} -> ${target} (to recreate: ln -s ${q(target)} ${q(p)})`);
+      } catch (e) { ok = false; log(`  NOT removed ${p}: ${e.code || e.message}`); }
+    }
+  }
+  return ok;
 }
 
 function planInstall(f) {
@@ -414,7 +477,10 @@ function scopesNote(j) {
   if (!local.length && !(j.aliases || []).length) return '';
   const moving = t.filter(x => !x.exact).length;
   return `; scopes: ${t.some(x => x.scope === 'user') ? 'user + ' : ''}${local.length} local, ${moving} to move`
-    + ((j.aliases || []).length ? `; left as recorded: ${j.aliases.map(a => `${a.projectPath} (alias of ${a.real})`).join(', ')}` : '');
+    + ((j.aliases || []).length ? `; left as recorded: ${j.aliases.map(a => `${a.projectPath} (alias of ${a.real})`).join(', ')}`
+      // B-243: an old path that is a symlink to the renamed folder has a reported remedy.
+      + (j.aliases.some(a => { try { return a.projectPath !== a.real && fs.realpathSync(a.projectPath) === a.real; } catch (_) { return false; } })
+        ? ' (an old path Claude cannot address; remedy: `npx sshlg-skills hosts`)' : '') : '');
 }
 // Private snapshots contain settings values and never enter printable effects.
 const claudePlans = new WeakMap();
@@ -486,6 +552,16 @@ function planUpdate(f) {
     steps.push(opres.step('prune', 'home',
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
+    // B-216: roots outside the default set that hold family entries.
+    const extra = extraRootPlans(f).filter((d) => d.action === 'refresh' || d.action === 'report' || d.prune.length);
+    if (extra.length) {
+      const of = (a) => extra.filter((d) => d.action === a).map((d) => d.agent);
+      const paths = extra.flatMap((d) => d.prune);
+      steps.push(opres.step('prune', 'home',
+        `family links in host roots outside the default set: refresh ${of('refresh').join(', ') || 'none'}; `
+          + `report ${of('report').join(', ') || 'none'}; remove ${paths.length} dangling family link(s)`,
+        { paths, extraRoots: 'B-216' }));
+    }
   }
   if (!f.member) {
     steps.push(opres.step('router-block', 'home',
@@ -645,12 +721,13 @@ function cmdUpdate(f) {
   if (!f.claudeOnly) {
     // Re-add each repository at the published commit. The upstream add command
     // overwrites existing payloads, so no unpinned `skills update` precedes it.
-    const agents = skillsCliAgents(f);
+    const agents = updateAgents(f);
     log(`\n== Reconciling plain-skills at immutable commits: ${agents.join(', ')} ==`);
     for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'npx')) {
       ok = runPlanned(step.effect.args) && ok;
     }
     pruneClaudeShadows();
+    ok = reconcileExtraRoots(f, planned) && ok;
   }
   // `update`, never `install`: a machine that has no block has not consented
   // to one, and an update is not the moment to ask.
@@ -733,9 +810,9 @@ function cmdUpdate(f) {
  * keep the Claude host out, keep it out here too); the other hosts are in scope with no
  * `--agent` list, or when the list names their skills-CLI agent id.
  */
-const VIS_AGENT = { gemini: 'gemini-cli', pi: 'pi', opencode: 'opencode', hermes: 'hermes-agent', cursor: 'cursor', kimi: 'kimi' };
-
 function visibilityScope(f) {
+  // Host id -> skills-CLI agent id, owned by lib/hostvis.js (B-214: Kimi is kimi-code-cli).
+  const VIS_AGENT = require('../lib/hostvis.js').AGENT;
   const flags = f || {};
   const out = new Set();
   if (claudeScope(flags).inScope) out.add('claude');
@@ -1253,12 +1330,16 @@ function cmdHosts() {
   }
   // L5: which domain members load where. Counts only — a project's name stays in `domains`.
   try { domainsSummary(home); } catch (e) { log(`\nDomain members per project: not read (${e.message})`); }
+  reportStaleLocalRecords();
   const family = new Set(SKILLS.flatMap((s) => s.skillNames || []));
   const r = piLib.inspect({ home, env: process.env, cwd: process.cwd(), which: (b) => piLib.whichBin(b), family });
   log('\nPi (@earendil-works/pi-coding-agent):');
   if (!r.detected) { log('  pi      absent    no ~/.pi/agent and no `pi` on PATH'); return; }
   log(`  pi      detected  via ${r.via.join(', ')}; agent dir ${r.agentDir}`);
   log('  Pi does not load Claude Code plugins: the family reaches it as plain skill directories and through AGENTS.md.');
+  // B-221: Pi 1.1 reads project roots first and keeps the first name it finds.
+  log('  precedence: project roots first (.pi/skills here, then .agents/skills up to the git root), then ~/.pi/agent/skills, then ~/.agents/skills;'
+    + ' the first copy of a name wins. Project roots load only in a project Pi trusts.');
   for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)`);
   log(`  family skills visible to Pi (by name): ${r.family.visible.length} of ${r.family.total}` +
       (r.family.missing.length ? `; not visible: ${r.family.missing.join(', ')}` : ''));
@@ -1268,6 +1349,29 @@ function cmdHosts() {
     const mark = r.duplicates.familyConflicts.includes(c.name) ? ' [family]' : '';
     log(`  conflict: ${c.name}${mark} — Pi keeps ${c.locations[0].path}; shadowed: ${c.locations.slice(1).map((l) => l.path).join(', ')}`);
   }
+}
+
+/**
+ * B-243: Claude Code local install records under a project's old path (a symlink to the
+ * renamed folder) beside the live record. Claude cannot address them; read-only report
+ * with the exact remedy from lib/localrecords.js.
+ */
+function reportStaleLocalRecords() {
+  const L = require('../lib/localrecords.js');
+  const file = path.join(claudeRoot(), 'plugins', 'installed_plugins.json');
+  let registry;
+  try { registry = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) {
+    if (e.code !== 'ENOENT') log(`\nClaude Code install records: ${file} not read (${e.code || 'invalid JSON'})`);
+    return;
+  }
+  const real = (p) => { try { return fs.realpathSync(p); } catch (_) { return null; } };
+  const found = L.staleAliases(registry, real);
+  if (!found.length) { log(`\nClaude Code install records (${file}): no local install record under an old project path.`); return; }
+  log(`\nClaude Code install records (${file}): ${found.length} local install record(s) under an old project path.`);
+  log('  Claude matches a local scope by the physical folder, so `claude plugin update|uninstall --scope local` cannot reach them');
+  log('  and `update` leaves them as recorded:');
+  for (const a of found) log(`    ${a.plugin}: ${a.projectPath} (now ${a.real}, which has its own record)`);
+  for (const line of L.remedy(file, found)) log(`  ${line}`);
 }
 
 function cmdAgents() {
