@@ -76,9 +76,14 @@ try {
     assert.ok(fs.readFileSync(file).equals(before));
     assert.strictEqual(fs.readdirSync(path.dirname(file)).length, 1);
   });
-  t('changed intent has separate immutable receipt, never overwrites old work', () => {
+  t('changed intent has a separate receipt; the superseded one is retired whole, never rewritten (B-224)', () => {
+    const before = fs.readFileSync(file);
     const second = P.save({ ...args, results: [{ ...result, item: { ...result.item, pin: '3' } }] });
-    assert.notStrictEqual(second, file); assert.strictEqual(P.read(file).items[0].desired, '2');
+    assert.notStrictEqual(second, file); assert.strictEqual(P.read(second).items[0].desired, '3');
+    assert.ok(!fs.existsSync(file), 'the superseded receipt for the same member stayed');
+    // the first intent saved again republishes the same bytes and supersedes the second
+    assert.strictEqual(P.save(args), file); assert.ok(fs.readFileSync(file).equals(before));
+    assert.ok(!fs.existsSync(second));
   });
   t('changed config is refused before creating state in a fresh home', () => {
     const h = path.join(root, 'fresh'); fs.mkdirSync(h); fs.writeFileSync(cfg, 'changed');
@@ -197,6 +202,36 @@ try {
   t('unknown watcher arguments refuse before native calls', () => {
     const r = spawnSync(process.execPath, [path.resolve(__dirname, '../lib/codex-deferred-watch.js'), file, '--force'], { encoding: 'utf8' });
     assert.strictEqual(r.status, 1); assert.ok(r.stderr.includes('usage:'));
+  });
+  // B-224: deferral receipts accumulated (67, then 92 files) while Codex stayed deferred.
+  // Each member keeps only its newest receipt; a receipt goes with its observations.
+  t('B-224: KEEP+2 deferred updates keep the newest receipt per member, with capped observations', () => {
+    const h2 = path.join(root, 'home-cap'); const p2 = path.join(root, 'profile-cap');
+    fs.mkdirSync(h2); fs.mkdirSync(p2);
+    const cfg2 = path.join(p2, 'config.toml');
+    const item = (member) => ({ status: 'deferred', item: { member, pluginId: member + '@' + member, from: '1', pin: '2', ref: 'b'.repeat(40), refKind: 'commit', url: 'https://github.com/fixture/' + member + '.git' } });
+    const saveWith = (n, members) => { const b = Buffer.from('n = ' + n + '\n'); fs.writeFileSync(cfg2, b);
+      return P.save({ home: h2, configPath: cfg2, configBytes: b, results: members.map(item), runtime: 'codex-cli 0.162.1' }); };
+    const other = saveWith(0, ['other']);
+    const both = saveWith(1, ['probe', 'other']);
+    let last;
+    for (let i = 0; i < P.KEEP_OBSERVATIONS + 2; i++) P.immutable(both.replace(/\.json$/, `.observation-${String(i).padStart(64, '0')}.json`), { i });
+    for (let i = 2; i < 2 + 3 + 2; i++) last = saveWith(i, ['probe']);
+    const dir = path.dirname(last);
+    const receipts = fs.readdirSync(dir).filter((x) => /^[a-f0-9]{64}\.json$/.test(x)).sort();
+    // newest probe receipt, and the newest receipt naming `other` (both): `other`'s own older one goes
+    assert.deepStrictEqual(receipts, [path.basename(last), path.basename(both)].sort(), receipts.join(','));
+    assert.ok(!fs.existsSync(other));
+    const obs = fs.readdirSync(dir).filter((x) => x.includes('.observation-'));
+    assert.strictEqual(obs.length, P.KEEP_OBSERVATIONS, `kept ${obs.length} observations`);
+    // a re-saved identical receipt is the newest again, not pruned for its first date
+    const again = saveWith(1, ['probe', 'other']);
+    assert.strictEqual(again, both);
+    const after = fs.readdirSync(dir).filter((x) => /^[a-f0-9]{64}\.json$/.test(x));
+    assert.deepStrictEqual(after, [path.basename(both)], after.join(','));
+    // a file the namespace does not name is left alone
+    fs.writeFileSync(path.join(dir, 'operator-note.txt'), 'mine', { mode: 0o600 }); saveWith(9, ['probe']);
+    assert.ok(fs.existsSync(path.join(dir, 'operator-note.txt')));
   });
 } finally { fs.rmSync(root, { recursive: true, force: true }); }
 console.log(`\nPASS: codex pending — ${n} cases`);

@@ -199,6 +199,61 @@ it('a dangling symlink at <file>.lock: writeJson returns within the wait and wri
   assert.strictEqual(S.readJson(file).a, 1);
 });
 
+// B-227: a live holder is waited for, never written past or broken as stale. A writer that
+// waited LOCK_WAIT_MS (1 s) wrote past a live holder, and a lock older than LOCK_STALE_MS
+// (2 s) was removed while its holder still ran; either way the holder's rename then
+// replaced the file with a version read before the other write, and that write was lost.
+// The holder here keeps the lock for 2.5 s, past both old bounds, deterministically.
+function slowHolder(file, marker, holdMs) {
+  const { spawn } = require('child_process');
+  const code = `const fs=require('fs'),S=require(${JSON.stringify(path.join(__dirname, '..', 'lib', 'store.js'))});
+S.writeJson(${JSON.stringify(file)}, (cur) => { fs.writeFileSync(${JSON.stringify(marker)}, 'held');
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ${holdMs}); return Object.assign({}, cur, { holder: 1 }); });
+fs.writeFileSync(${JSON.stringify(marker + '.done')}, 'done');`;
+  return spawn(process.execPath, ['-e', code], { stdio: ['ignore', 'ignore', 'pipe'] });
+}
+function waitFor(cond, ms) {
+  const end = Date.now() + ms;
+  while (!cond()) { if (Date.now() > end) return false; Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 10); }
+  return true;
+}
+it('B-227: a live holder past the old wait and stale bounds keeps the waiter\'s write', () => {
+  const home = tmpHome();
+  const file = path.join(home, 'config.json');
+  const marker = path.join(home, 'held');
+  S.writeJson(file, { seed: 1 });
+  slowHolder(file, marker, 2500);
+  assert.ok(waitFor(() => fs.existsSync(marker), 10000), 'the holder never took the lock');
+  S.writeJson(file, (cur) => Object.assign({}, cur, { waiter: 1 }));
+  assert.ok(waitFor(() => fs.existsSync(marker + '.done'), 15000), 'the holder did not finish');
+  const got = S.readJson(file);
+  assert.deepStrictEqual([got.seed, got.holder, got.waiter], [1, 1, 1], `a write was lost: ${JSON.stringify(got)}`);
+  assert.ok(!fs.existsSync(`${file}.lock`), 'the lock was left behind');
+});
+it('B-227: a holder whose lock was broken and replaced leaves the successor\'s lock alone', () => {
+  const file = path.join(tmpHome(), 'state.json');
+  S.writeJson(file, (cur) => {
+    fs.unlinkSync(`${file}.lock`);                                   // broken as stale by another …
+    fs.writeFileSync(`${file}.lock`, String(process.ppid || 1));     // … who now holds it
+    return Object.assign({}, cur, { a: 1 });
+  });
+  assert.ok(fs.existsSync(`${file}.lock`), 'the holder removed a lock it no longer owned');
+  fs.unlinkSync(`${file}.lock`);
+});
+it('B-227: a live holder that never lets go makes the waiter fail loudly, not write past', () => {
+  const home = tmpHome();
+  const file = path.join(home, 'state.json');
+  S.writeJson(file, { seed: 1 });
+  fs.writeFileSync(`${file}.lock`, String(process.pid));             // held by a live process (this one)
+  const t0 = Date.now();
+  let code = null;
+  try { S.writeJson(file, { b: 2 }); } catch (e) { code = e.code; }
+  assert.strictEqual(code, 'ELOCKED', 'a write past a live holder can be lost');
+  assert.strictEqual(S.readJson(file).b, undefined);
+  assert.ok(Date.now() - t0 < S.LOCK_WAIT_MS + 2000, `the waiter hung for ${Date.now() - t0} ms`);
+  fs.unlinkSync(`${file}.lock`);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
