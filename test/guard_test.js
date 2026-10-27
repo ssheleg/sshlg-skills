@@ -129,6 +129,14 @@ it('a payload with no input at all is silence, not a throw', () => {
   assert.strictEqual(G.decide(undefined, HOME), null);
 });
 
+it('a read-only tool naming a protected file is silence: the guard decides writes only', () => {
+  for (const t of ['Read', 'Grep', 'Glob', 'NotebookRead']) {
+    assert.strictEqual(G.decide({ tool_name: t, tool_input: { file_path: CLAUDE } }, HOME), null, t);
+  }
+  assert.strictEqual(G.decide({ tool_name: 'Write', tool_input: { file_path: CLAUDE } }, HOME), CLAUDE);
+  assert.strictEqual(G.decide({ tool_input: { file_path: CLAUDE } }, HOME), CLAUDE, 'no tool name keeps the old reading');
+});
+
 it('the matcher list covers every tool that can write', () => {
   for (const t of ['Edit', 'Write', 'MultiEdit', 'NotebookEdit', 'Bash']) {
     assert.ok(G.TOOLS.includes(t), `the hook matcher would miss ${t}`);
