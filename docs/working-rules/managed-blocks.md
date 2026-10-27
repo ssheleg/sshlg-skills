@@ -155,6 +155,17 @@ copy of the file already holds exactly the previewed bytes — a retry of a writ
 failed before it landed — that copy is reused (`backup.state: reused`) instead of a new
 one being taken each time.
 
+**A named backup is pinned while its operation is open** (B-199). Ordinary retention keeps ten
+copies per file. A copy that an unfinished operation names (its last record is not `VERIFIED`,
+`REFUSED`, `RECOVERED_NO_WRITE` or `RECOVERED_COMMITTED`) is left out of that pruning, so ten
+later writes of the same file, by any hub writer, cannot remove the copy a `RECOVERY_REQUIRED`
+operation points at. The pin is read from the journal at each prune and ends with the operation:
+once `blocks resolve` records a terminal state, the copy is ordinary history again. A journal
+that cannot be read prunes nothing at that save (the result carries `pruneSkipped`); the backup
+itself still succeeds. The failure record (`REFUSED`, `RECOVERY_REQUIRED`) carries the backup's
+name and hash too, and `blocks resolve` names that copy when it leaves an operation open.
+Tests: `test/blockwriter_test.js`, the two `B-199` cases.
+
 ### Journal
 
 `~/.sshlg-skills/managed-blocks/journal.jsonl` (directory 0700, file 0600) is
@@ -213,13 +224,26 @@ outside a Git work tree. It writes no journal record: the project's Git history 
 record, and `blocks install` refuses the id as a dedicated block. The contract is
 `docs/evidence/specs/2026-10-19-enroll.md`.
 
+## The hub's own writers keep their own records
+
+`apply.js` (the routing block) and `wait-rules.js` (the wait rule) do not append to this
+journal, by design (B-199, decided 2026-10-27). The journal's job is recovery for a write whose
+outcome is unknown, and its open operations block every further write to that file. Each hub
+writer already has a record built for its own block:
+
+- `wait-rules.js` keeps a pending receipt in `~/.sshlg-skills/wait-rules.json`, recovers it
+  through `lib/wait-recovery.js`, and pins its backup with a retention reference
+  (`lib/backup-retention.js`) until that recovery ends. A second journal would be a second
+  source of truth for the same operation.
+- `apply.js` writes the routing block in one protected step: backup, verified copy, write.
+  There is no intermediate state to resume, and what it wrote is recorded in
+  `~/.sshlg-skills/routers-rendered.json`, which `blocks` already compares against.
+
+Both writers take their backups through the same `apply.protect()`, so the pin above protects
+a managed-block operation's copy from their writes as well.
+
 ## Known limits
 
-- Ordinary backup pruning keeps ten copies per file and does not yet pin a backup a
-  journal record names; ten later writes of the same file can remove it (filed on the
-  board). The journal keeps its hash either way.
-- The hub's own writers (`apply.js`, `wait-rules.js`) keep their existing receipts and do
-  not append to this journal yet.
 - Cursor rule files are read, never written, by this writer.
 
 ## Using it from another tool
