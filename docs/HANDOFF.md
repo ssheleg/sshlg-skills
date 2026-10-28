@@ -21,7 +21,12 @@ is back at 90; the Linux test image was removed. At the operator's request every
 (38) and 48 board projects were told on 2026-10-28 03:23 UTC that there are no limits and to
 continue (board threads `63a6ff24`, `9704470c`, `86fdf06b`, `3eb48d1c`).
 
-**Waits and gates:** Codex catch-up (four plugins deferred while the ChatGPT app's Codex runs;
+**1.82.0 shipped and read back:** PR #284 (CI 40637629476 success), merge `336afb5b`, tag
+`v1.82.0`, release run 40638000970 success, npm 1.82.0. `npx --yes sshlg-skills@latest update`: all
+11 Claude members verified; Codex partial because a Codex process was running (its family plugins
+deferred, receipt under `~/.sshlg-skills/codex-deferred/`).
+
+**Waits and gates:** Codex catch-up (family plugins deferred while the ChatGPT app's Codex runs;
 move them when it is closed, backup of `~/.codex/config.toml` first); B-231 (fabric-vr enrolls
 itself, thread `e23891ab`); B-294 (dead Claude local records: the printed remedy needs every
 Claude Code session closed); stage 8 of 1.81.0 on or after 2026-10-28T19:40Z and of 1.82.0 24
