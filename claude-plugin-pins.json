@@ -3650,15 +3650,15 @@
     {
       "name": "xr-dev",
       "repo": "ssheleg/xr-dev",
-      "commit": "a6ad22ecf63ae4882388822aa8bbdf2d81cc8b87",
-      "version": "0.4.5",
+      "commit": "5a36fc119e03d3a2cab9d40bd232a334b34fa3cc",
+      "version": "0.4.6",
       "pluginInstall": "xr-dev@xr-dev",
       "pluginPath": "plugins/xr-dev",
       "entry": {
         "name": "xr-dev",
         "displayName": "XR Dev",
         "description": "Seven skills for the Meta Quest product lifecycle: platform and engine discovery, immersive design, native OpenXR, Kotlin Spatial and hybrid apps, WebXR/PWA, rendering experiments, tool and source discovery, Store submission, monetization, launch assets and post-launch operation. Agents receive stage-specific next actions, evidence gates and fallbacks when tools or devices are absent. Engine specialists remain separate; live requirements are verified against current Meta documentation.",
-        "version": "0.4.5",
+        "version": "0.4.6",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3696,7 +3696,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "cc732e8258d9cb102fab4598784185497477d05a77e65c33da661708a5190d50",
+          "sha256": "2b0792ad706400194d789d55ee47777c5f19b0260b37cd1b24ec5ff9379e3565",
           "bytes": 1200
         },
         {
@@ -3716,7 +3716,7 @@
         },
         {
           "path": "skills/quest-lifecycle/SKILL.md",
-          "sha256": "b076837043882d5a5b03d66de16340f873ed29ee49821503cc36917588bbb562",
+          "sha256": "daee1810d9bccc55f931eed75aec7ec97c3c52964b1b8f71591e3f0570c78da4",
           "bytes": 6261
         },
         {
@@ -3746,7 +3746,7 @@
         },
         {
           "path": "skills/quest-native/SKILL.md",
-          "sha256": "3a09faf1e113ba17e9db201690f6345dad77729f5860dcba007c98ae29d97a5c",
+          "sha256": "fbc54df8cc3bf7ff514f0789df540402bb9616689e96f93214c377bcf42a816d",
           "bytes": 9689
         },
         {
@@ -3766,7 +3766,7 @@
         },
         {
           "path": "skills/quest-perf/SKILL.md",
-          "sha256": "f4941a09e9a3d31664150f7b0d39db69f03d6af6e4b855dee2862c75c1a29633",
+          "sha256": "379d3c2f1d2ed915befb2c4524b34c7ffe990a56bbecc52061650cd6cc253015",
           "bytes": 7074
         },
         {
@@ -3796,7 +3796,7 @@
         },
         {
           "path": "skills/quest-spatial/SKILL.md",
-          "sha256": "14a0f2392be8439eb0100e085f4c705ac938cc8ea6f2b32241ae8d9315a534c1",
+          "sha256": "9059dc04b2ab80d1701af1e7052169b730c84f2f3af22f5d1884b16770ccba29",
           "bytes": 8841
         },
         {
@@ -3821,7 +3821,7 @@
         },
         {
           "path": "skills/quest-store/SKILL.md",
-          "sha256": "d4c11d02f601d3a3e6d0eea07f5dd754313c163715c3f912b82910f47d2c330c",
+          "sha256": "ca79ad032a7e130defc704ab64daf95d9ae472ea62d062f26fb282378b0772c6",
           "bytes": 8826
         },
         {
@@ -3841,7 +3841,7 @@
         },
         {
           "path": "skills/quest-tooling/SKILL.md",
-          "sha256": "feace7c8cf9daf96fc9624588b6487a5ccbb093562f15f7d2702c7b4614bd32e",
+          "sha256": "b01191d51de738eaf6021bb0d3ccc5e25f1529358886d6e84e634daf6691b3a5",
           "bytes": 8868
         },
         {
@@ -3856,7 +3856,7 @@
         },
         {
           "path": "skills/quest-webxr/SKILL.md",
-          "sha256": "e02947928985f4e8b03f752be11fa69225e0b9655fb1c5b034c4f68c32ebe718",
+          "sha256": "9de7113b2a46997dcae38cece6254bf49c3bfadca92baf14090ff6541ee0e251",
           "bytes": 6480
         }
       ]
@@ -3864,15 +3864,15 @@
     {
       "name": "web3d-dev",
       "repo": "ssheleg/web3d-dev",
-      "commit": "d9e4b24d5d842223e350dc1eab9ef37f12345f10",
-      "version": "0.2.6",
+      "commit": "70614f3ead494f8242a4a3757cdb1cd9c588d70c",
+      "version": "0.2.7",
       "pluginInstall": "web3d-dev@web3d-dev",
       "pluginPath": "plugins/web3d-dev",
       "entry": {
         "name": "web3d-dev",
         "displayName": "Web3D Dev",
         "description": "Three skills for realtime 3D on the web: the three.js WebGPU runtime with TSL, compute, post-processing and a WebGL2 fallback; the glTF asset pipeline from source to frame, with compression, budgets, sourcing and optional asset-service ordering; and a 3D animation protocol covering rigs, clip conventions, blending, GPU and instanced animation, and reduced motion. Every API fact is pinned to a verified three.js release.",
-        "version": "0.2.6",
+        "version": "0.2.7",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3906,7 +3906,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "278d2389de46630103445ef1252c072075a05c5ebe0c4971754192a1e54867ed",
+          "sha256": "2739dfdf2c21ab1550bf3561fad4abfb1c9331f65f83670f680b884e3de33f68",
           "bytes": 1092
         },
         {
@@ -3926,7 +3926,7 @@
         },
         {
           "path": "skills/web3d-animation/SKILL.md",
-          "sha256": "2949d89c56b57e6578afbd42c7565b8ff8c98e16a26cb70d4d0155649d11257d",
+          "sha256": "8256f150a7d3f2663a54c4322ff4022d86c9b55660c5a5483d0e8d3e716d99e5",
           "bytes": 10229
         },
         {
@@ -3951,7 +3951,7 @@
         },
         {
           "path": "skills/web3d-assets/SKILL.md",
-          "sha256": "50f3f7421f1a2854fdf9610d126d51fa21e10aa2fa98202940fd173cba00c38e",
+          "sha256": "17f42a4536a9764072d15d841e2f5548d099e5c6a66369b8d545732db0f23fba",
           "bytes": 8685
         },
         {
@@ -3971,7 +3971,7 @@
         },
         {
           "path": "skills/web3d-runtime/SKILL.md",
-          "sha256": "3c693fbfa4bec03ddd534e505d30ddc56dc06bbbc06fd7b92a98096faa2dfe32",
+          "sha256": "c4833fbe81af0c232041a22363d20ae02ed85edfb8ae028993b8cb0f168d3b3d",
           "bytes": 7636
         }
       ]

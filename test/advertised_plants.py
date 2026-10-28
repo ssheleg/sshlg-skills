@@ -64,12 +64,7 @@ def groups():
 # member's `test/validate.py` calls `test/advertised_check.js` yet. A plant there would
 # assert a refusal the member cannot make. The entry turns STALE — and fails this sweep —
 # the moment the member's validator names the check, so it cannot outlive its reason.
-AWAITING_MEMBER_GATE = {
-    "xr-dev": "xr-dev: test/validate.py calling the umbrella's test/advertised_check.js "
-              "(routes added by the 2026-10-08 routing-coverage change)",
-    "web3d-dev": "web3d-dev: test/validate.py calling the umbrella's test/advertised_check.js "
-                 "(routes added by the 2026-10-08 routing-coverage change)",
-}
+AWAITING_MEMBER_GATE: dict = {}  # emptied 2026-10-28: xr-dev 0.4.6 and web3d-dev 0.2.7 ask (B-305)
 
 
 def main():

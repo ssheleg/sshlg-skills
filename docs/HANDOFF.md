@@ -36,8 +36,12 @@ hours after its tag; human gates B-29, B-146, B-232, B-271, B-276.
 web3d-dev 0.2.6 and xr-dev 0.4.5; 18 rows open. Card:
 [`2026-10-28-v1830-release-impact.md`](evidence/specs/2026-10-28-v1830-release-impact.md).
 
-**Exact next bounded task:** stage 8 of the 1.81.0 card after 2026-10-28T19:40Z, then of 1.82.0 and
-1.83.0 after their windows; then the highest open board row (B-268 and B-303 lead at P 1.0).
+**1.84.0 (fourth pass):** B-261, B-268, B-286, B-302, B-303, B-305, B-306, B-309 closed; members
+xr-dev 0.4.6 and web3d-dev 0.2.7; 15 rows open. Card:
+[`2026-10-28-v1840-release-impact.md`](evidence/specs/2026-10-28-v1840-release-impact.md).
+
+**Exact next bounded task:** stage 8 of the 1.81.0 card after 2026-10-28T19:40Z, then of 1.82.0,
+1.83.0 and 1.84.0 after their windows; then the highest open board row (B-280, B-284, B-310, B-311).
 
 ## Previous: 2026-10-27 the hub board closed in waves (1.81.0)
 
