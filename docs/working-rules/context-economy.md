@@ -1,4 +1,4 @@
-# Context economy — what every agent loads, and what it should not
+# Context economy: what every agent loads, and what it should not
 
 Measured on the operator machine 2026-10-15 (research by a non-author reviewer; tiktoken o200k,
 Claude counts within ±15%). Before the first user word a Claude Code session here loaded about
@@ -64,7 +64,7 @@ What 1.70.1 and the same-day member releases changed, and the rules they add:
 
 ## What the hub enforces
 
-- `npx sshlg-skills context` — sizes per host, hub-managed versus other text, documented caps.
-- `routing-registry-total` in `docs/DOCMAP.md` — the routing text may fall, never grow by
+- `npx sshlg-skills context`: sizes per host, hub-managed versus other text, documented caps.
+- `routing-registry-total` in `docs/DOCMAP.md`: the routing text may fall, never grow by
   accident. Cutting it still needs the paired routing evaluation (descriptions and router
   paragraphs are not shortened on synthetic scores alone).

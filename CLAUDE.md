@@ -1,4 +1,4 @@
-# CLAUDE.md — sshlg-skills
+# CLAUDE.md: sshlg-skills
 
 House rules for this repository. Global language, quality, autonomy and routing
 belong to the host's instruction files; do not duplicate them here.
@@ -59,7 +59,7 @@ to the checked artifact, and a historical receipt is not a current runtime claim
 - **Hooks fail silent; refusals name a remedy.** A malformed payload must not break
   other sessions. `test/hooks_e2e_test.js` asserts both through real script processes.
   Claude Code 2.1.295 added `onFailure: "block"`; family hooks keep the default
-  `continue` on purpose — adding `block` is not hardening, it breaks this rule.
+  `continue` on purpose: adding `block` is not hardening, it breaks this rule.
 
 ## Writing to operator files
 

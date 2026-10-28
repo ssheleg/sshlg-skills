@@ -8,7 +8,29 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-27 the hub board closed in waves (1.81.0)
+## Current: 2026-10-28 the board's second pass (1.82.0)
+
+**Objective (operator, 2026-10-27/28, «доделай все сам», «до конца»):** the open rows left after
+1.81.0, plus the waits. **Done:** 17 rows closed (B-262, B-263, B-264, B-265, B-266, B-267, B-270,
+B-274, B-275, B-277, B-285, B-287, B-288, B-289, B-290, B-299, B-300) with receipts in the
+[backlog](evidence/backlog.md); new rows B-291 to B-300 filed. Members released: super-ux 0.66.3,
+sheleg-design 1.66.5, sheleg-dev 0.16.3, make-skill 0.33.5, agent-stack 0.31.4, agent-sync 1.23.4.
+Machine: disk was 5.6 GB free, so `cleanupPeriodDays` went to 14 (backup in
+`~/.sshlg-skills/backups/`), the sweep ran (`~/.claude/.last-cleanup` 2026-10-27T22:05Z) and it
+is back at 90; the Linux test image was removed. At the operator's request every active session
+(38) and 48 board projects were told on 2026-10-28 03:23 UTC that there are no limits and to
+continue (board threads `63a6ff24`, `9704470c`, `86fdf06b`, `3eb48d1c`).
+
+**Waits and gates:** Codex catch-up (four plugins deferred while the ChatGPT app's Codex runs;
+move them when it is closed, backup of `~/.codex/config.toml` first); B-231 (fabric-vr enrolls
+itself, thread `e23891ab`); B-294 (dead Claude local records: the printed remedy needs every
+Claude Code session closed); stage 8 of 1.81.0 on or after 2026-10-28T19:40Z and of 1.82.0 24
+hours after its tag; human gates B-29, B-146, B-232, B-271, B-276.
+
+**Exact next bounded task:** stage 8 of the 1.81.0 card after 2026-10-28T19:40Z; then the highest
+open board row (B-268 and B-295 lead at P 1.0; B-200 graph refresh at the next code release).
+
+## Previous: 2026-10-27 the hub board closed in waves (1.81.0)
 
 **Objective (operator, 2026-10-27, «до конца сам делай все»):** close every open board row with
 no human gate. Plan and wave cut: [board waves](evidence/specs/2026-10-27-board-waves.md).

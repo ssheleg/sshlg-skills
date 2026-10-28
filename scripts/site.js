@@ -104,8 +104,10 @@ function firstSentence(text, cap = 185, floor = 95) {
   // reads as a truncation bug rather than a summary. Prefer the last sentence
   // boundary inside the cap; a hard cut is the fallback, not the default.
   const window = out.slice(0, cap);
-  const lastStop = Math.max(window.lastIndexOf('. '), window.lastIndexOf('; '),
-    window.lastIndexOf(' — '), window.lastIndexOf(': '));
+  // The boundaries are matched in the member's own text (a regex, so nothing here prints
+  // a dash): a full stop, a semicolon, a spaced em dash or a colon.
+  let lastStop = -1;
+  for (const m of window.matchAll(/\. |; | \u2014 |: /g)) lastStop = m.index;
   if (lastStop > floor) return window.slice(0, lastStop + 1).replace(/[;:—-]$/, '').trim();
   const hard = out.slice(0, cap - 1);
   const back = hard.lastIndexOf(' ');
@@ -173,7 +175,7 @@ function entryPath(member, name) {
     dirs = fs.readdirSync(plugins, { withFileTypes: true })
       .filter((d) => d.isDirectory()).map((d) => d.name).sort();
   } catch (e) {
-    throw new Error(`${member.name}: ${member.dir}/plugins is not readable (${e.code}) — the `
+    throw new Error(`${member.name}: ${member.dir}/plugins is not readable (${e.code}). The `
       + 'submodule is probably not checked out, and a page cannot link entry points it '
       + 'cannot find');
   }
@@ -182,7 +184,7 @@ function entryPath(member, name) {
     if (fs.existsSync(path.join(ROOT, member.dir, rel, 'SKILL.md'))) return rel;
   }
   throw new Error(`${member.name}: '${name}' is advertised in skills.json and no `
-    + `plugins/*/skills/${name}/SKILL.md exists under ${member.dir} — the page would `
+    + `plugins/*/skills/${name}/SKILL.md exists under ${member.dir}, so the page would `
     + 'offer an address that resolves nowhere');
 }
 
@@ -211,7 +213,7 @@ function skillBrief(member, name) {
   const raw = readScalar(fm[1], 'description');
   const brief = capabilityBrief(raw);
   if (!brief) {
-    throw new Error(`${member.name}/${name}: front matter declares no description — the `
+    throw new Error(`${member.name}/${name}: front matter declares no description, so the `
       + 'page would render a heading with nothing under it');
   }
   return brief;
@@ -260,7 +262,7 @@ function resolveCount(member, link) {
     n = fs.readdirSync(dir).filter((f) => f.endsWith(ext) && !skip.has(f)).length;
   } catch (e) {
     throw new Error(`${member.name}: countGlob points at ${glob}, which is not readable `
-      + `(${e.code}) — the submodule is probably not checked out, and a card that says {n} `
+      + `(${e.code}). The submodule is probably not checked out, and a card that says {n} `
       + 'cannot be published from a tree that cannot be counted');
   }
   if (!n) throw new Error(`${member.name}: countGlob ${glob} matched nothing`);
@@ -281,7 +283,7 @@ function gateRatchets() {
   const file = path.join(ROOT, 'docs', 'DOCMAP.md');
   const m = /<!--\s*ratchets:\s*([^>]*?)-->/.exec(fs.readFileSync(file, 'utf8'));
   if (!m) {
-    throw new Error('docs/DOCMAP.md carries no `<!-- ratchets: ... -->` marker — the page '
+    throw new Error('docs/DOCMAP.md carries no `<!-- ratchets: ... -->` marker. The page '
       + 'cannot state the size of a gate it cannot read, and typing the figure in here is '
       + 'exactly how the last one went stale');
   }
@@ -489,7 +491,7 @@ img,svg{max-width:100%;height:auto}
   max-width:56ch;margin:var(--space-5) 0 0}
 .hero .lede b{color:var(--ink);font-weight:600}
 
-/* ── SIGNATURE ELEMENT (authored — workbench declines it).
+/* ── SIGNATURE ELEMENT (authored; workbench declines it).
    The evidence panel: the commands that prove what the page claims, sitting
    opposite the claim. The page's whole argument is that a claim carries its
    receipt, so the receipt is the thing it is remembered by. */
@@ -1676,7 +1678,7 @@ if (require.main === module) {
   const dir = i !== -1 && process.argv[i + 1] ? process.argv[i + 1] : '_site';
   const { out, written } = build(dir);
   const pages = written.filter((f) => f.endsWith('.html')).length;
-  console.log(`OK: site built — ${pages} pages, ${written.length} files, `
+  console.log(`OK: site built: ${pages} pages, ${written.length} files, `
     + `${members.length} members, ${registry.order().length} routers → ${path.relative(ROOT, out) || out}`);
 }
 

@@ -1,4 +1,4 @@
-# `~/.sshlg-skills/state.json` and `update.lock` — the interface
+# `~/.sshlg-skills/state.json` and `update.lock`: the interface
 
 Written 2026-10-12 (R05, board B-159). `state.json` was an implementation detail until an
 external program began reading it. This page is its single home: the keys, who writes
@@ -29,7 +29,7 @@ file without `schemaVersion` (written before 1.56.0) and keys they do not know.
 of `state.json` outside `lib/store.js`.
 
 **`config.json` uses the same writer and its own `config.json.lock`** (final polish). Its
-sub-objects — `stash`, `authored`, `routes.external`, `routers`, `update` — are each edited as a
+sub-objects (`stash`, `authored`, `routes.external`, `routers`, `update`) are each edited as a
 function of the file at write time (`editSub` in `lib/config.js`), never rebuilt from a copy read
 before the lock: four processes making 20 `stashSet` calls each on distinct keys kept 20 of 80
 before, and keep all 80 now; eight processes making 50 calls each keep all 400, and the fixture
@@ -38,10 +38,10 @@ names a writer that failed instead of counting its keys as lost (`test/config_te
 | Key | Meaning | Writers | Readers |
 |---|---|---|---|
 | `schemaVersion` | `1` since 1.56.0 (`STATE_SCHEMA`, `lib/store.js`). Bumped only for a change old readers cannot survive | every writer below | external consumers, to detect the contract |
-| `routers` | `"yes"` / `"no"` — recorded consent to edit instruction files | `lib/consent.js` (`writeState`) | `lib/consent.js` (`askConsent`), `bin/sshlg-skills.js` (`consentRecorded`) |
-| `updateCheck` | `{at, latest, ranAt, from, to, ok, busyAt, reportedRanAt}` — the set-update cache, one object, every writer merging its own keys into it. `at` and `latest`: the last registry probe (`record()`). `ranAt`, `from`, `to`, `ok`: the last unattended update (`ranRecord()`). `ranAt` is stamped before the run starts and the stamp CLEARS `from`, `to`, `ok` and `busyAt` (`startRecord()`), so while a run is in progress there is no outcome to report — the previous one is never read as this attempt's. `busyAt`: that update found `update.lock` held — exit 75, not a failure (exit 2 is a usage error and records `ok: false`); the whole previous `ranAt`/`from`/`to`/`ok` is put back (`busyRecord()`), and the idle updater waits 10 minutes after `busyAt` before trying again (`BUSY_BACKOFF_MS`). `reportedRanAt`: the run SessionStart has already reported, so it is said once (`reportedRecord()`) | `lib/updateprobe.js` (`at`, `latest`), `lib/updaterun.js` (`ranAt`, `from`, `to`, `ok`, `busyAt`), `hooks/session-start.js` (`reportedRanAt`) | `hooks/session-start.js` via `lib/updatecheck.js` `plan()` (the notice and the "updated while you were away" line); `hooks/notification.js` via `shouldAutoUpdate()` (whether the idle updater runs); **Fabric Dashboards** `launcherLatest()` (`at`, `latest`) |
+| `routers` | `"yes"` / `"no"`: recorded consent to edit instruction files | `lib/consent.js` (`writeState`) | `lib/consent.js` (`askConsent`), `bin/sshlg-skills.js` (`consentRecorded`) |
+| `updateCheck` | `{at, latest, ranAt, from, to, ok, busyAt, reportedRanAt}`: the set-update cache, one object, every writer merging its own keys into it. `at` and `latest`: the last registry probe (`record()`). `ranAt`, `from`, `to`, `ok`: the last unattended update (`ranRecord()`). `ranAt` is stamped before the run starts and the stamp CLEARS `from`, `to`, `ok` and `busyAt` (`startRecord()`), so while a run is in progress there is no outcome to report; the previous one is never read as this attempt's. `busyAt`: that update found `update.lock` held: exit 75, not a failure (exit 2 is a usage error and records `ok: false`); the whole previous `ranAt`/`from`/`to`/`ok` is put back (`busyRecord()`), and the idle updater waits 10 minutes after `busyAt` before trying again (`BUSY_BACKOFF_MS`). `reportedRanAt`: the run SessionStart has already reported, so it is said once (`reportedRecord()`) | `lib/updateprobe.js` (`at`, `latest`), `lib/updaterun.js` (`ranAt`, `from`, `to`, `ok`, `busyAt`), `hooks/session-start.js` (`reportedRanAt`) | `hooks/session-start.js` via `lib/updatecheck.js` `plan()` (the notice and the "updated while you were away" line); `hooks/notification.js` via `shouldAutoUpdate()` (whether the idle updater runs); **Fabric Dashboards** `launcherLatest()` (`at`, `latest`) |
 | `inbound` | the open issues/PRs another agent left for the current repository | `lib/handoffprobe.js` | `hooks/session-start.js` via `lib/handoff.js` |
-| `injectors` | sorted spec names of the enabled plugins that speak at `SessionStart` — what the session line last told. **Machine-wide**: a fact about which plugins this machine enables, so a second session with the same set is told nothing (route notes, about one context, are per session in `turns/`) | `hooks/session-start.js` | `hooks/session-start.js` (`lib/injectors.js` `changed`) |
+| `injectors` | sorted spec names of the enabled plugins that speak at `SessionStart`: what the session line last told. **Machine-wide**: a fact about which plugins this machine enables, so a second session with the same set is told nothing (route notes, about one context, are per session in `turns/`) | `hooks/session-start.js` | `hooks/session-start.js` (`lib/injectors.js` `changed`) |
 
 `test/updatelock_test.js` holds the `updateCheck` key list above to the keys `record()`,
 `ranRecord()`, `busyRecord()` and `reportedRecord()` return, in both directions: a key written
@@ -55,12 +55,12 @@ and must not drop the ones it does not own.
 Fabric Dashboards (FD-30, FD-34) runs `npx sshlg-skills update` in the background and reads
 this file and `~/.sshlg-skills/runtime/package.json`:
 
-- `updateCheck.at` and `updateCheck.latest` — `launcherLatest()` in fabric-dashboards
+- `updateCheck.at` and `updateCheck.latest`: `launcherLatest()` in fabric-dashboards
   `src/core/estate-update.ts` (read at fabric-dashboards `908bb6b`): when `at` is fresh enough,
   `latest` is the newest set and the registry need not be asked;
-- `runtime/package.json` `version` — the version the installed runtime copy is at (written by
+- `runtime/package.json` `version`: the version the installed runtime copy is at (written by
   `lib/runtime.js` `sync`, the same copy the hooks execute). **It moves only on a run with the
-  Claude host in scope** — a bare `update` or `--claude-only`; under `--no-claude` or any
+  Claude host in scope**: a bare `update` or `--claude-only`; under `--no-claude` or any
   `--agent` list the runtime copy, its `settings.json` wiring and the Claude plugin step are all
   skipped (`claudeScope()` in `bin/sshlg-skills.js`), so the version stays where it was.
 
@@ -107,8 +107,8 @@ installed, and the hub never reads, moves or deletes it.
 ## The update lock
 
 `npx sshlg-skills update` takes `~/.sshlg-skills/update.lock` (`lib/updatelock.js`) before it
-touches anything, because three callers start it — the operator, the idle hook
-(`lib/updaterun.js`) and Fabric Dashboards — and two at once race on `settings.json`, the
+touches anything, because three callers start it (the operator, the idle hook
+`lib/updaterun.js` and Fabric Dashboards), and two at once race on `settings.json`, the
 runtime copy and this file.
 
 - Created exclusively (`wx`) with `{"pid", "startedAt", "host"}`, mode 0600.
@@ -116,7 +116,7 @@ runtime copy and this file.
   (`update: refused: …`), and exit **75** (EX_TEMPFAIL, `BUSY_EXIT` in `lib/updatelock.js`).
   A caller that sees 75 should retry later, not treat it as a failed update; the idle updater
   (`lib/updaterun.js`) records it as `busyAt`, never `ok: false`. **Exit 2 is a usage error**
-  (an unknown flag, a flag without its value, contradictory flags) — fix the call, do not retry.
+  (an unknown flag, a flag without its value, contradictory flags): fix the call, do not retry.
   No published launcher ever refused with exit 2 (only pre-release builds of #192 did); the
   idle updater's branch that read exit 2 plus an `update: refused —` line as busy was removed
   in 1.59.1 (B-178).
@@ -129,7 +129,7 @@ runtime copy and this file.
   own, checks that the renamed file is the lock it judged (pid and `startedAt`), and if another
   update had replaced it in between, puts that one back with `link()` and judges again. The one
   race left: a third update creating a lock in the instant the name is free, after which the
-  restore's `link()` fails with EEXIST and two runs proceed — narrower than the window it replaced
+  restore's `link()` fails with EEXIST and two runs proceed. That is narrower than the window it replaced
   (between a check and an `unlink`), not closed. Any other `link()` error (a filesystem without
   hard links) is logged and the lock is renamed back instead of deleted (final polish).
 - Released on the normal return, a thrown error and `process.exit` elsewhere in the run. **No

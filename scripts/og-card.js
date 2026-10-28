@@ -199,7 +199,7 @@ function drawText(c, text, x, y, scale, colour, tracking = 0) {
   for (const ch of normalize(text)) {
     const rows = ROWS[ch];
     if (!rows) {
-      throw new Error(`og-card font has no glyph for ${JSON.stringify(ch)} — `
+      throw new Error(`og-card font has no glyph for ${JSON.stringify(ch)}: `
         + 'a card must not render a hole where a character was');
     }
     for (let gy = 0; gy < GLYPH_H; gy += 1) {

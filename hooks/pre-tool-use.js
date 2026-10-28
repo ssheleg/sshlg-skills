@@ -175,9 +175,11 @@ function probeDirty(list, base, home) {
     if (left <= 50) return null;
     const dir = t.dir.startsWith('~') ? path.join(home, t.dir.slice(1)) : path.resolve(base, t.dir);
     try {
+      // B-270: `clean -x`/`-X` delete ignored files, so they are listed (`!!`) for it.
+      const ignored = t.lose.ignored ? ['--ignored=traditional'] : [];
       const out = execFileSync('git', ['-C', dir, 'status', '--porcelain=v1', '-z',
-        '--ignore-submodules=all', `--untracked-files=${t.lose.untracked ? 'normal' : 'no'}`,
-        '--', ...t.pathspecs], {
+        '--ignore-submodules=all', `--untracked-files=${t.lose.untracked || t.lose.ignored ? 'normal' : 'no'}`,
+        ...ignored, '--', ...t.pathspecs], {
         encoding: 'utf8', timeout: left, maxBuffer: 4 * 1024 * 1024,
         stdio: ['ignore', 'pipe', 'ignore'],
         env: Object.assign({}, process.env, { GIT_OPTIONAL_LOCKS: '0' }),
@@ -357,7 +359,7 @@ process.stdin.on('end', () => {
     const saved = backup.guard({ file: target, home });
     if (saved.action === 'backup-failed') {
       say('deny',
-        `${target} is an instruction file with no version control behind it, and a ` +
+        `${target} is ${guard.kind(target)} with no version control behind it, and a ` +
         `copy of it could not be taken (${saved.error}). The write was not performed.\n` +
         'Fix the backup directory (~/.sshlg-skills/backups) and try again.');
       return process.exit(0);

@@ -461,6 +461,9 @@ function extraRootPlans(f) {
   const lock = lockSources();
   const scope = { agents: f.agents && f.agents.length ? f.agents : null, claudeOnly: !!f.claudeOnly };
   const which = require('../lib/pi.js').whichBin;
+  // B-262: the operator's acknowledgements, read once; an unreadable config acknowledges nothing.
+  let acks = {};
+  try { const C = require('../lib/config.js'); acks = C.extraAckGet(C.readConfig(home)); } catch (_) { acks = {}; }
   return X.hosts(home, process.env).map((h) => {
     const entries = [];
     for (const name of channelEntries(h.dir)) {
@@ -476,7 +479,7 @@ function extraRootPlans(f) {
       entries.push({ name, path: full, isSymlink, target, live, isDir });
     }
     const installed = !!which(h.bin) || channelEntries(h.base).some((n) => n !== 'skills' && !n.startsWith('.'));
-    return X.decide({ host: h, assessed: X.assess({ entries, familyIds, lock, sharedRoot }), installed, scope });
+    return X.decide({ host: h, assessed: X.assess({ entries, familyIds, lock, sharedRoot }), installed, scope, ack: acks[h.agent] });
   });
 }
 
@@ -539,7 +542,10 @@ function scopesNote(j) {
     + ((j.aliases || []).length ? `; left as recorded: ${j.aliases.map(a => `${a.projectPath} (alias of ${a.real})`).join(', ')}`
       // B-243: an old path that is a symlink to the renamed folder has a reported remedy.
       + (j.aliases.some(a => { try { return a.projectPath !== a.real && fs.realpathSync(a.projectPath) === a.real; } catch (_) { return false; } })
-        ? ' (an old path Claude cannot address; remedy: `npx sshlg-skills hosts`)' : '') : '');
+        ? ' (an old path Claude cannot address; remedy: `npx sshlg-skills hosts`)' : '')
+      // B-264: a worktree or subdirectory record beside its repository root's record.
+      + (j.aliases.some(a => { try { return fs.realpathSync(a.projectPath) === a.projectPath; } catch (_) { return false; } })
+        ? ' (a worktree or subdirectory Claude addresses at its repository root; remedy: `npx sshlg-skills hosts`)' : '') : '');
 }
 // Private snapshots contain settings values and never enter printable effects.
 const claudePlans = new WeakMap();
@@ -628,9 +634,9 @@ function planUpdate(f) {
       { mode: 'update' }));
   }
   try {
-    const rtScope = claudeScope(f);
+    const rtScope = runtimeScopeFor(f);
     steps.push(opres.step('runtime-sync', 'runtime',
-      rtScope.inScope ? 'refresh the wired hook runtime copy (create: false)'
+      rtScope.inScope ? `refresh the wired hook runtime copy (create: false) for ${rtScope.hosts.join(', ')}`
         : `wired hook runtime copy: out of scope (skipped: ${rtScope.skippedBy}), moves with its wiring`,
       { root: require('../lib/hooks.js').runtimeDir(os.homedir()) }));
   } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
@@ -802,11 +808,12 @@ function cmdUpdate(f) {
   // 24 modules against the package's 25, and the missing one was that release's whole
   // point (`B-22`). Refresh only: `create` stays false, because a machine with no
   // runtime has not consented to hooks and an update is not the moment to ask. Scoped like
-  // the wiring below (fix round 2, L): a run that leaves the Claude host alone leaves both.
+  // the wiring below (fix round 2, L): a run that leaves the Claude host alone leaves both,
+  // unless Codex's hooks run the same copy and Codex is in scope (B-277).
   let runtimeReady = true;
-  const rtScope = claudeScope(f);
+  const rtScope = runtimeScopeFor(f);
   if (!rtScope.inScope) {
-    log(`\n== Wired hook runtime ==\n  skipped: ${rtScope.skippedBy} (the Claude host is outside this run's scope; `
+    log(`\n== Wired hook runtime ==\n  skipped: ${rtScope.skippedBy} (no host whose hooks run it is in this run's scope; `
       + 'the copy its hooks execute moves with their wiring)');
   } else {
     try {
@@ -820,7 +827,7 @@ function cmdUpdate(f) {
       } else {
         const moved = before.missing.length + before.differing.length;
         log(`\n== Wired hook runtime ==`);
-        log(`  ${root}`);
+        log(`  ${root} (for: ${rtScope.hosts.join(', ')})`);
         log(moved
           ? `  refreshed ${r.copied.length} file(s): ${before.missing.length} new, `
             + `${before.differing.length} changed`
@@ -972,6 +979,24 @@ function claudeScope(f) {
   });
   if (scope.hostTargets.some((h) => h.agent === 'claude')) return { inScope: true };
   return { inScope: false, skippedBy: flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}` };
+}
+
+/**
+ * B-277: the runtime copy's scope: every host whose hooks execute it (Claude while its host
+ * is in scope; Codex while in scope with an entry of ours in its hooks.json). Decided by
+ * `lib/hooks.js runtimeScope`; this only reads Codex's hooks file (an unreadable one is
+ * no consent).
+ */
+function runtimeScopeFor(f) {
+  const hooksLib = require('../lib/hooks.js');
+  const home = os.homedir();
+  let codexHooks = null;
+  try {
+    codexHooks = JSON.parse(fs.readFileSync(path.join(hooksLib.codexRoot(home), 'hooks.json'), 'utf8'));
+  } catch (_) { /* absent or unparseable: Codex has not consented here */ }
+  return hooksLib.runtimeScope({
+    claude: claudeScope(f), codex: codexScope(f), codexHooks, root: hooksLib.runtimeDir(home),
+  });
 }
 
 /**
@@ -1358,6 +1383,9 @@ function cmdList(argv) {
  * hosts exist). Pi additionally gets lib/pi.js's skill-root report, because Pi reads
  * skills from several directories and a duplicate name keeps only the first.
  */
+/** A path's realpath, or the resolved path when it does not resolve. */
+function canonicalPath(p) { try { return fs.realpathSync(p); } catch (_) { return path.resolve(p); } }
+
 function cmdHosts() {
   const apply = require('../lib/apply.js');
   const piLib = require('../lib/pi.js');
@@ -1417,7 +1445,23 @@ function cmdHosts() {
   // B-221: Pi 1.1 reads project roots first and keeps the first name it finds.
   log('  precedence: project roots first (.pi/skills here, then .agents/skills up to the git root), then ~/.pi/agent/skills, then ~/.agents/skills;'
     + ' the first copy of a name wins. Project roots load only in a project Pi trusts.');
-  for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)`);
+  // B-263: what Pi's own trust store says about this project, and about every project in it.
+  const t = r.trust;
+  const where = t.entry ? `by ${t.file} entry ${t.entry}` : t.store === 'invalid' ? '' : `no entry in ${t.file}; defaultProjectTrust is ${t.default}`;
+  const here = {
+    'not-needed': 'not needed (no .pi resource and no project .agents/skills here); nothing to gate',
+    trusted: `trusted (${where}); Pi loads this project's roots`,
+    untrusted: `not trusted (${where}); Pi does not load this project's roots, so they are left out below`,
+    asks: `not decided (${where}); an interactive Pi asks at start and loads the roots if you trust it, a headless run (-p) does not`,
+    unknown: `unknown: ${t.reason} (Pi refuses to read it either)`,
+  }[t.verdict];
+  log(`  project trust here (${canonicalPath(process.cwd())}): ${here}`);
+  if (t.verdict !== 'not-needed') log('  (`pi --approve` or `--no-approve`, and an extension that answers project_trust, decide per run and are not read here)');
+  if (t.entries.length) {
+    log(`  projects in ${t.file} (${t.entries.length}):`);
+    for (const e of t.entries) log(`    ${e.path}: ${e.trusted ? 'trusted, project roots load' : 'not trusted, project roots not loaded'} (and in folders below without their own entry)`);
+  }
+  for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)${root.loaded ? '' : ' (not loaded: project not trusted)'}`);
   log(`  family skills visible to Pi (by name): ${r.family.visible.length} of ${r.family.total}` +
       (r.family.missing.length ? `; not visible: ${r.family.missing.join(', ')}` : ''));
   log(`  duplicate names across Pi's roots: ${r.duplicates.harmless} harmless (one realpath), ` +
@@ -1443,12 +1487,25 @@ function reportStaleLocalRecords() {
   }
   const real = (p) => { try { return fs.realpathSync(p); } catch (_) { return null; } };
   const found = L.staleAliases(registry, real);
-  if (!found.length) { log(`\nClaude Code install records (${file}): no local install record under an old project path.`); return; }
-  log(`\nClaude Code install records (${file}): ${found.length} local install record(s) under an old project path.`);
-  log('  Claude matches a local scope by the physical folder, so `claude plugin update|uninstall --scope local` cannot reach them');
-  log('  and `update` leaves them as recorded:');
-  for (const a of found) log(`    ${a.plugin}: ${a.projectPath} (now ${a.real}, which has its own record)`);
-  for (const line of L.remedy(file, found)) log(`  ${line}`);
+  // B-264: worktree and subdirectory records, which Claude addresses at the repository root.
+  const rooted = L.rootRecords(registry, real, require('../lib/claude-pinned.js').claudeAddress);
+  if (!found.length) log(`\nClaude Code install records (${file}): no local install record under an old project path.`);
+  else {
+    log(`\nClaude Code install records (${file}): ${found.length} local install record(s) under an old project path.`);
+    log('  Claude matches a local scope by the physical folder, so `claude plugin update|uninstall --scope local` cannot reach them');
+    log('  and `update` leaves them as recorded:');
+    for (const a of found) log(`    ${a.plugin}: ${a.projectPath} (now ${a.real}, which has its own record)`);
+  }
+  if (rooted.length) {
+    log(`  ${rooted.length} local install record(s) Claude addresses at a repository root, not at their own folder,`);
+    log('  so neither Claude nor `update` ever reads or updates them:');
+    for (const a of rooted) {
+      log(`    ${a.plugin}: ${a.projectPath} (a ${a.kind === 'worktree' ? 'git worktree' : 'subdirectory'} of ${a.root}; `
+        + `${a.rootRecord ? 'the root has its own record' : 'the root has no record, so `update` blocks this member'})`);
+    }
+  }
+  // One remedy, one backup, for every record named above.
+  if (found.length || rooted.length) for (const line of L.remedy(file, found.concat(rooted))) log(`  ${line}`);
 }
 
 /**
@@ -1950,6 +2007,39 @@ function cmdRules(f) {
   } catch (e) { log(`rules.wait: refused: ${e.message}`); return false; }
 }
 
+/**
+ * B-262: `config set extraRoots.<agent> ack|default`. `ack` records the folder's current
+ * fingerprint (lib/extraroots.js) so `update` prints one line for it until its contents
+ * change; `default` removes the record. Only a root `update` REPORTS can be acknowledged.
+ */
+function configExtraRoot(home, agent, value, argc) {
+  const X = require('../lib/extraroots.js');
+  const configLib = require('../lib/config.js');
+  const agents = X.hosts(home, process.env).map((h) => h.agent);
+  if (!agents.includes(agent)) {
+    log(`config set extraRoots.${agent}: the folder must be one of ${agents.join(', ')}`);
+    return 2;
+  }
+  if (argc !== 3 || !['ack', 'default'].includes(value)) {
+    log(`config set extraRoots.${agent}: expected exactly ack or default`);
+    return 2;
+  }
+  if (value === 'default') {
+    configLib.extraAckSet(home, agent, null);
+    log(`extraRoots.${agent}: default; update prints the full report for this folder again.`);
+    return 0;
+  }
+  const d = extraRootPlans({}).find((x) => x.agent === agent);
+  if (!d || !d.holds) { log(`extraRoots.${agent}: refused: ${d ? d.dir : agent} holds no family entry, so there is nothing to acknowledge`); return 2; }
+  if (d.action !== 'report') { log(`extraRoots.${agent}: refused: ${d.dir} is refreshed by update (its host is installed), so it is not reported`); return 2; }
+  const before = configLib.extraAckGet(configLib.readConfig(home))[agent];
+  configLib.extraAckSet(home, agent, { fingerprint: d.fingerprint, at: new Date().toISOString().slice(0, 10), entries: d.holds });
+  const kept = before && before.fingerprint === d.fingerprint;
+  log(`extraRoots.${agent}: acknowledged${kept ? ` (already, on ${before.at}; unchanged)` : ''}: ${d.dir}, ${d.holds} family entr${d.holds === 1 ? 'y' : 'ies'}.`);
+  log('update prints one line for it until its contents change; `config set extraRoots.' + agent + ' default` undoes this.');
+  return 0;
+}
+
 function cmdConfig(argv) {
   const registry = require('../lib/routers-registry.js');
   const configLib = require('../lib/config.js');
@@ -1979,6 +2069,8 @@ function cmdConfig(argv) {
     log(`\nВидимость паков (поверх pack-marks.json): hidePacks ${packs.hidePacks.length}, showPacks ${packs.showPacks.length}`);
     for (const p of packs.hidePacks) log(`  visibility.pack.${p}  hide`);
     for (const p of packs.showPacks) log(`  visibility.pack.${p}  show`);
+    const acks = configLib.extraAckGet(config);
+    for (const a of Object.keys(acks).sort()) log(`  extraRoots.${a}  ack (${acks[a].at}, ${acks[a].entries} family entries)`);
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
     log('           npx sshlg-skills config set update.auto on|off');
     log('           npx sshlg-skills config set rules.star on|off');
@@ -1987,6 +2079,7 @@ function cmdConfig(argv) {
     log('           npx sshlg-skills config set routes.external.<имя>.skill <skill-id>');
     log('           npx sshlg-skills config set routes.external.<имя> off');
     log('           npx sshlg-skills config set visibility.pack.<owner/repo> hide|show|default');
+    log('           npx sshlg-skills config set extraRoots.<qwen-code|devin|droid|grok> ack|default');
     return 0;
   }
 
@@ -2041,6 +2134,8 @@ function cmdConfig(argv) {
 
   if (key && key.indexOf('routes.external.') === 0) return configExternal(home, key, argv.slice(2));
 
+  if (key && key.indexOf('extraRoots.') === 0) return configExtraRoot(home, key.slice('extraRoots.'.length), value, argv.length);
+
   if (key && key.indexOf('visibility.pack.') === 0) {
     const pack = key.slice('visibility.pack.'.length);
     const before = configLib.packOverridesGet(configLib.readConfig(home));
@@ -2057,7 +2152,7 @@ function cmdConfig(argv) {
   }
 
   if (!key || key.indexOf('routers.') !== 0) {
-    log('config set: ключ должен начинаться с "routers.", "routes.external." или "visibility.pack.", или быть "update.auto" или "rules.star"');
+    log('config set: ключ должен начинаться с "routers.", "routes.external.", "visibility.pack." или "extraRoots.", или быть "update.auto" или "rules.star"');
     return 2;
   }
 

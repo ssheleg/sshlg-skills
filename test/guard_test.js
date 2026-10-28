@@ -41,6 +41,31 @@ it('every documented target is protected, and each one is reachable', () => {
   }
 });
 
+// B-287: Cursor's wait-rule file is written by `lib/blocks.js` and was not in the list.
+// The guard now reads every file the blocks inspector names from that one source, so a
+// file added there is protected here without a second list to forget.
+it('every file lib/blocks.js names is protected, the Cursor wait rule included', () => {
+  const list = G.targets(HOME);
+  const WAIT = path.join(HOME, '.cursor', 'rules', 'sshlg-wait.mdc');
+  assert.ok(list.includes(WAIT), `not protected: ${WAIT}`);
+  for (const t of require('../lib/blocks.js').targets({ home: HOME })) {
+    assert.ok(list.includes(t.file), `blocks.js names ${t.file} but the guard does not protect it`);
+  }
+  assert.strictEqual(hit({ tool_name: 'Write', tool_input: { file_path: WAIT } }), WAIT);
+  assert.strictEqual(hit(bash(`echo x > ~/.cursor/rules/sshlg-wait.mdc`)), WAIT);
+});
+
+// B-288: the refusal named every protected file "an instruction file".
+it('each protected file is named by its kind', () => {
+  assert.strictEqual(G.kind(CLAUDE), 'an instruction file');
+  assert.strictEqual(G.kind(CURSOR), 'an instruction file');
+  assert.strictEqual(G.kind(path.join(HOME, '.cursor', 'rules', 'sshlg-wait.mdc')), 'an instruction file');
+  assert.strictEqual(G.kind(SETTINGS), 'a settings file');
+  assert.strictEqual(G.kind(path.join(HOME, '.codex', 'hooks.json')), 'a hooks file');
+  assert.strictEqual(G.kind('/relocated/claude/settings.json'), 'a settings file');
+  for (const f of G.targets(HOME)) assert.ok(/^an? (instruction|settings|hooks) file$/.test(G.kind(f)), f);
+});
+
 // ---- the file tools -------------------------------------------------------
 
 it('Edit on a protected file is caught', () => {

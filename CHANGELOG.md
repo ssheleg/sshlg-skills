@@ -1,3 +1,33 @@
+## v1.82.0 (2026-10-28): the board's second pass, routing completeness and six member releases
+
+The operator, 2026-10-27/28: «доделай все сам», «до конца». The second pass over the board
+closed 17 more rows (two of them filed during it); 21 stay open, each with its owner or gate in `docs/evidence/backlog.md`.
+
+- **Routing reaches what the skills advertise** (B-265, B-266, B-267, B-84 follow-up): the
+  completeness fixture reads every family SKILL.md's description and `## Triggers` body; 222
+  advertised phrases that reached nothing now route (168 added, 64 allow-listed with reasons),
+  and the adjective ending of a trigger now inflects («сделай реферальную программу»).
+  `node test/route_coverage.js`: 156 of 158, 0 false positives.
+- **Live documents carry no em dash** (B-289, B-290): README, CLAUDE.md, DOCMAP, the working
+  rules, seven reader documents and the site builders' own strings, held by
+  `test/live_docs_text_test.js` and `test/person_text_test.js`.
+- **Hooks**: the discard guard counts ignored files for `git clean -x`, reads `git switch -f`
+  and `xargs git` (B-270); Cursor's session and post-tool notes reach the turn and a default
+  Cursor Grep of a credential file is refused (B-274, B-275); the runtime refresh follows Codex
+  when only Codex runs the hooks (B-277); the guard protects `sshlg-wait.mdc` and names each
+  file's kind (B-287, B-288).
+- **Hosts**: an acknowledged extra-host folder prints one line until it changes
+  (`config set extraRoots.<id> ack`, B-262); Pi project trust is read (B-263); worktree and
+  subdirectory Claude local records are reported with their remedy (B-264).
+- **Members**: super-ux 0.66.3, sheleg-design 1.66.5, sheleg-dev 0.16.3 (B-267 phrases);
+  make-skill 0.33.5, agent-stack 0.31.4 (B-285 description heads within Hermes' 57 characters);
+  agent-sync 1.23.4 (the guard fails silent on a wrong-shaped payload, the generated
+  `AGENT_SYNC.md` carries no em dash).
+- **A Codex whose `--version` times out or crashes is no longer reported as absent** (B-301):
+  only a missing binary is "not on PATH" and a skipped step; any other failure is `unread`, not
+  green. Found when the gate ran under load and a slow `--version` read as a green skip.
+- Release impact card: `docs/evidence/specs/2026-10-28-v1820-release-impact.md`.
+
 ## v1.81.0 (2026-10-27): the hub board closed in waves
 
 The operator, 2026-10-27: «до конца сам делай все». Thirty-one open rows were taken in five

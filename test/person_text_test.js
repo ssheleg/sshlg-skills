@@ -151,6 +151,52 @@ it('no person-facing string uses a dash substitute (" -- " or a spaced hyphen as
   assert.deepStrictEqual(found, [], `${found.length} dash substitute(s) in person-facing text`);
 });
 
+// ---- B-290: the public site's builders -------------------------------------------------
+//
+// `scripts/site.js` and `scripts/og-card.js` write the public site and its social card, and
+// their own messages reach whoever builds it. Decided 2026-10-27: a string the hub wrote
+// carries no em dash; member wording quoted on the site stays verbatim, because it is a
+// quotation of the member's text (it arrives from the member's SKILL.md at build time, never
+// as a literal here, so this scan cannot reach it). Only the em-dash rule is applied: the
+// pages embed browser JavaScript whose `a - b` is arithmetic, not a dash substitute.
+const SITE_SCRIPTS = ['scripts/site.js', 'scripts/og-card.js'];
+
+/**
+ * Literals that hold an em dash as DATA, by file and declaration, each with its reason.
+ * Kept short on purpose; a new entry needs a reason a reviewer can check.
+ */
+const SITE_DATA = {
+  // The 5x7 font's fold table: the dash is a key it maps to '-', the glyph it draws.
+  'scripts/og-card.js': new Set(['FOLD']),
+};
+
+function siteOffenders(src, file) {
+  const allowed = SITE_DATA[file] || new Set();
+  return offenders(src, file).filter((o) => {
+    const line = Number(/:(\d+) /.exec(o)[1]);
+    const lit = literals(src).find((l) => l.line === line);
+    return !(lit && allowed.has(lit.decl));
+  });
+}
+
+it('B-290 control: the site scripts are read, and a new dash in them is caught', () => {
+  for (const f of SITE_SCRIPTS) {
+    const n = literals(fs.readFileSync(path.join(ROOT, f), 'utf8')).length;
+    assert.ok(n > 30, `${f}: only ${n} literals read`);
+  }
+  assert.strictEqual(siteOffenders("throw new Error('built — now');", 'scripts/site.js').length, 1);
+  assert.strictEqual(siteOffenders("const FOLD = new Map(Object.entries({ '—': '-' }));", 'scripts/og-card.js').length, 0);
+  assert.strictEqual(siteOffenders("const FOLD = new Map(Object.entries({ '—': '-' }));", 'scripts/site.js').length, 1,
+    'the allowance is per file');
+});
+
+it('B-290: no hub-authored string in scripts/site.js or scripts/og-card.js carries an em dash', () => {
+  const found = [];
+  for (const f of SITE_SCRIPTS) found.push(...siteOffenders(fs.readFileSync(path.join(ROOT, f), 'utf8'), f));
+  assert.deepStrictEqual(found, [],
+    `${found.length} em dash(es) in the site builders' own text; use a full stop, comma, colon or parentheses`);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

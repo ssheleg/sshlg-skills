@@ -2577,6 +2577,11 @@ def check_the_description_reserve_is_not_spent() -> None:
     A ratchet and not a failure: the descriptions are each member's to trim, on each
     member's own release, and a check that turned twelve skills red here would be the
     umbrella failing for work it does not own.
+
+    2026-10-27 (B-266): `route_coverage.js` no longer computes that split either. Since
+    2026-10-20 a routing phrase is advertised in the SKILL.md body's `## Triggers`, which
+    the advertisement check reads, so a miss costs no description characters and a
+    blocked/free column described a constraint that no longer binds.
     """
     measured = _family_description_lengths()
     HOUSE = 500
@@ -2614,9 +2619,10 @@ def check_the_description_reserve_is_not_spent() -> None:
                       + " sit at or past 970 with nothing left; adding a routing trigger "
                         "there requires a trim first")
     _skips.append(f"description reserve — {len(tight)} of {total} skills within 60 "
-                  "characters. What it costs routing is computed by "
-                  "`node test/route_coverage.js`, which prints the blocked/free split "
-                  "per miss; this guard states no split of its own")
+                  "characters. It costs routing nothing: trigger phrases live in each "
+                  "SKILL.md's `## Triggers` body, which the advertisement check reads; "
+                  "`node test/route_coverage.js` prints the misses, and this guard states "
+                  "no split of its own")
 
 
 check_the_description_reserve_is_not_spent()
@@ -2674,50 +2680,11 @@ def check_the_family_description_total_only_falls() -> None:
 check_the_family_description_total_only_falls()
 
 
-def check_the_split_and_the_ratchet_agree_on_one_threshold() -> None:
-    """`route_coverage.js` decides what is spendable; this guard decides what is tight.
-
-    They are two files with one number between them, and the number is 60. A skill at 71
-    free characters cannot spend 71: at 12 spent it drops to 59, joins the set this
-    ratchet counts, takes the count from 12 to 13 — and a ratchet may only fall, so the
-    umbrella's own gate refuses the change. **The binding constraint is this ratchet, not
-    the 970 limit**, and a first draft of the split read `free` as spendable, which made
-    four blocked misses read as available work.
-
-    Measured 2026-09-06 by spending 11, 12 and 30 characters of `task-pipeline`'s
-    description in turn: 12 and 30 print *13 of 28 skills sit within 60 characters … and
-    the ratchet stands at 12*; 11 does not.
-
-    If the two files drift the split starts lying in whichever direction the drift went,
-    and nothing else compares them.
-    """
-    path = os.path.join(ROOT, "test", "route_coverage.js")
-    try:
-        with open(path, encoding="utf-8") as fh:
-            js = fh.read()
-    except OSError:
-        _skips.append("reserve threshold — test/route_coverage.js is not here to compare")
-        return
-    m = re.search(r"^const TIGHT = (\d+);", js, re.M)
-    if not m:
-        fail("test/route_coverage.js no longer declares `TIGHT` — the split cannot know "
-             "which threshold this ratchet counts, and a split computed against the 970 "
-             "limit reports blocked work as available")
-        return
-    if int(m.group(1)) != 60:
-        fail(f"test/route_coverage.js says the reserve threshold is {m.group(1)} and this "
-             "guard counts skills under 60. One number, two files: whichever drifted, the "
-             "split now reports the wrong half of the misses as available work")
-    # The DECLARATION, not the word. A first draft looked for the substring `spendable`
-    # and the plant that renamed the function left the word standing in this file's own
-    # comment — a check resting on prose about the code rather than on the code.
-    if not re.search(r"^const spendable = ", js, re.M):
-        fail("test/route_coverage.js stopped computing SPENDABLE room. Free room is not "
-             "spendable room — a skill at 71 free can spend 11 before it joins the set "
-             "this ratchet counts and the gate refuses the change")
-
-
-check_the_split_and_the_ratchet_agree_on_one_threshold()
+# `check_the_split_and_the_ratchet_agree_on_one_threshold` held `route_coverage.js`'s
+# `TIGHT` to this ratchet's 60 so its blocked/free split could not drift. The split was
+# removed on 2026-10-27 (B-266): it measured a description budget that stopped binding
+# when trigger phrases moved into each SKILL.md's `## Triggers` body on 2026-10-20.
+# `test/triggers_test.js` asserts the split does not grow back.
 
 
 # ---------------------------------------------------------------------------

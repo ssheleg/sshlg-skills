@@ -16,7 +16,7 @@ about the person writing it.
 
 ## What is not
 
-- Harassment, insults, or personal attacks — in issues, PRs, commits, or private
+- Harassment, insults, or personal attacks, in issues, PRs, commits, or private
   messages tied to this project.
 - Sexualized language or imagery, and unwelcome attention of any kind.
 - Publishing anyone's private information without their explicit permission.
@@ -25,7 +25,7 @@ about the person writing it.
 
 ## Scope
 
-This applies in every project space — issues, pull requests, discussions, commit
+This applies in every project space: issues, pull requests, discussions, commit
 messages, and any channel where you are representing the project.
 
 ## Enforcement

@@ -296,6 +296,28 @@ it('consent is one entry of ours — nothing of ours is no consent', () => {
   assert.strictEqual(H.consented(null, ROOT), false);
 });
 
+// B-277: the runtime copy is shared by every host whose hooks run it, so `update` refreshes
+// it when ANY wired host is in this run's scope, not only Claude.
+it('B-277: the runtime refresh follows every host whose hooks run it', () => {
+  const codexWired = { hooks: H.codexEntries(ROOT) };
+  for (const k of Object.keys(codexWired.hooks)) codexWired.hooks[k] = [codexWired.hooks[k]];
+  const IN = { inScope: true };
+  const OUT = (by) => ({ inScope: false, skippedBy: by });
+  let r = H.runtimeScope({ claude: IN, codex: IN, codexHooks: null, root: ROOT });
+  assert.deepStrictEqual([r.inScope, r.hosts], [true, ['claude']]);
+  r = H.runtimeScope({ claude: OUT('--agent codex'), codex: IN, codexHooks: codexWired, root: ROOT });
+  assert.deepStrictEqual([r.inScope, r.hosts], [true, ['codex']], 'only Codex consented: the runtime is still refreshed');
+  r = H.runtimeScope({ claude: IN, codex: IN, codexHooks: codexWired, root: ROOT });
+  assert.deepStrictEqual(r.hosts, ['claude', 'codex']);
+  r = H.runtimeScope({ claude: OUT('--agent codex'), codex: IN, codexHooks: { hooks: {} }, root: ROOT });
+  assert.strictEqual(r.inScope, false, 'Codex in scope but not wired: nothing of ours runs there');
+  assert.strictEqual(r.skippedBy, '--agent codex');
+  r = H.runtimeScope({ claude: OUT('--no-claude'), codex: OUT('--agent gemini'), codexHooks: codexWired, root: ROOT });
+  assert.strictEqual(r.inScope, false, 'Codex wired but outside the run: left alone');
+  r = H.runtimeScope({ claude: OUT('--agent codex'), codex: IN, codexHooks: { hooks: { PreToolUse: [FOREIGN_HOOK] } }, root: ROOT });
+  assert.strictEqual(r.inScope, false, 'a foreign Codex hook is no consent');
+});
+
 // --- the update path: refresh what is there, keep what the operator added (fix round) ---
 //
 // `update` is unattended. It re-applies OUR entries where they still are and nothing else:

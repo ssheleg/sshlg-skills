@@ -133,7 +133,18 @@ it('a write whose copy cannot be taken is DENIED, and the file is untouched', ()
     assert.strictEqual(out.hookSpecificOutput.permissionDecision, 'deny',
       'an unbackable write was allowed — this is the defect the module exists for');
     assert.match(out.hookSpecificOutput.permissionDecisionReason, /not performed/);
+    assert.match(out.hookSpecificOutput.permissionDecisionReason, /is an instruction file/);
+    // B-288: the same refusal for settings.json names a settings file, not an instruction file.
+    write(SETTINGS, '{}\n');
+    const settings = runHook('pre-tool-use.js', {
+      hook_event_name: 'PreToolUse', tool_name: 'Write',
+      tool_input: { file_path: SETTINGS, content: 'replaced' },
+    });
+    assert.strictEqual(settings.hookSpecificOutput.permissionDecision, 'deny');
+    assert.match(settings.hookSpecificOutput.permissionDecisionReason, /is a settings file with no version control/);
+    assert.doesNotMatch(settings.hookSpecificOutput.permissionDecisionReason, /instruction file/);
   } finally {
+    fs.rmSync(SETTINGS, { force: true });
     fs.rmSync(dir, { force: true });
     fs.mkdirSync(dir, { recursive: true });
     for (const [n, buf] of saved) fs.writeFileSync(path.join(dir, n), buf);
@@ -326,6 +337,39 @@ it('a malformed payload is silence and exit 0, never a broken turn', () => {
       const out = decision(bash(cmd, cwd));
       assert.ok(out && out.permissionDecision === 'deny', `${cmd} was allowed`);
       assert.match(out.permissionDecisionReason, /dirty\.txt/);
+    }
+  });
+
+  // B-270: an ignored `.env`, `git switch -f` and `xargs` fed by a git listing.
+  it('B-270: `git clean -fdx` over an ignored .env is denied by the real script; a plain clean is not', () => {
+    fs.writeFileSync(path.join(repo, '.gitignore'), '.env\n');
+    git('add', '.gitignore');
+    git('commit', '-q', '-m', 'ignore');
+    fs.writeFileSync(path.join(repo, '.env'), 'TOKEN=fixture\n');
+    try {
+      for (const cmd of ['git clean -fdx', 'git clean -fX']) {
+        const out = decision(bash(cmd));
+        assert.ok(out && out.permissionDecision === 'deny', `${cmd} was allowed`);
+        assert.match(out.permissionDecisionReason, /\.env \(ignored\)/);
+      }
+      assert.strictEqual(bash('git clean -f').stdout, '', 'a clean without -x touches no ignored file');
+      assert.strictEqual(bash('SSHLG_DISCARD_OK=1 git clean -fdx').stdout, '');
+      assert.ok(fs.existsSync(path.join(repo, '.env')), 'the hook deleted the file it guards');
+    } finally {
+      fs.rmSync(path.join(repo, '.env'), { force: true });
+    }
+  });
+
+  it('B-270: `git switch -f` and `git diff --name-only | xargs git checkout --` over the dirty file are denied', () => {
+    for (const cmd of ['git switch -f main', 'git switch --discard-changes main',
+      'git diff --name-only | xargs git checkout --', 'echo dirty.txt | xargs git restore']) {
+      const out = decision(bash(cmd));
+      assert.ok(out && out.permissionDecision === 'deny', `${cmd} was allowed`);
+      assert.match(out.permissionDecisionReason, /dirty\.txt/);
+    }
+    for (const cmd of ['echo clean.txt | xargs git restore', 'cat list.txt | xargs git checkout --',
+      'SSHLG_DISCARD_OK=1 xargs git checkout -- < /dev/null', 'git switch main']) {
+      assert.strictEqual(bash(cmd).stdout, '', `${cmd} was not allowed`);
     }
   });
 
@@ -780,6 +824,34 @@ it('`update --no-claude` leaves the wired runtime copy alone too, and says so (L
     assert.strictEqual(fs.readFileSync(rt, 'utf8'), original, 'the control did not refresh the runtime — the fixture proves nothing');
   } finally {
     fs.writeFileSync(rt, original);
+  }
+});
+
+// B-277: Codex's hooks.json runs the same runtime copy. When only Codex is in the run's
+// scope and its hooks are wired, `update` refreshes the copy Codex executes.
+it('`update --agent codex` refreshes the runtime copy when Codex\'s hooks run it (B-277)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const root = path.join(HOME, '.sshlg-skills', 'runtime');
+  const codexFile = path.join(HOME, '.codex', 'hooks.json');
+  const entries = require('../lib/hooks.js').codexEntries(root);
+  for (const k of Object.keys(entries)) entries[k] = [entries[k]];
+  write(codexFile, JSON.stringify({ hooks: entries }, null, 2) + '\n');
+  const rt = path.join(root, 'hooks', 'notification.js');
+  const original = fs.readFileSync(rt, 'utf8');
+  fs.writeFileSync(rt, original + '\n// stale\n');
+  try {
+    const dry = updateWith(env, ['--agent', 'codex', '--dry-run']);
+    assert.ok(/runtime-sync:[^\n]*refresh the wired hook runtime copy[^\n]*codex/i.test(dry.out),
+      `the preview does not refresh the runtime for Codex:\n${dry.out.slice(-900)}`);
+    const r = updateWith(env, ['--agent', 'codex']);
+    assert.strictEqual(fs.readFileSync(rt, 'utf8'), original,
+      `\`update --agent codex\` left the runtime Codex runs stale:\n${r.out.slice(-700)}`);
+    assert.ok(/Wired hook runtime[\s\S]*for: codex/.test(r.out), `the run does not say which host it refreshed for:\n${r.out.slice(-700)}`);
+    assert.ok(/Hook wiring[\s\S]*skipped: --agent codex/.test(r.out), 'settings.json wiring is still Claude-scoped');
+  } finally {
+    fs.writeFileSync(rt, original);
+    fs.rmSync(codexFile, { force: true });
   }
 });
 

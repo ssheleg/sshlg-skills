@@ -200,6 +200,57 @@ it('prompt context: Cursor gets {additional_context}, Claude keeps plain text', 
   assert.strictEqual(P.promptContext('cursor', ''), '');
 });
 
+// B-274: Cursor reads sessionStart and postToolUse answers as top-level
+// `additional_context` (https://cursor.com/docs/agent/hooks, "sessionStart" and
+// "postToolUse" output tables); the nested Claude answer only behind a Cursor flag
+// (`enableClaudeNestedHookSpecificOutputCompatibility`, cursor-agent 2026.09.02-c22c1a3).
+it('B-274: session and post-tool context: Cursor gets {additional_context} and nothing else', () => {
+  const session = { hookEventName: 'SessionStart', additionalContext: 'pointer', sessionTitle: 't', watchPaths: ['/x'] };
+  assert.deepStrictEqual(parsesOrEmpty(P.eventContext('cursor', session)), { additional_context: 'pointer' });
+  assert.deepStrictEqual(parsesOrEmpty(P.eventContext('claude', session)), { hookSpecificOutput: session });
+  assert.deepStrictEqual(parsesOrEmpty(P.eventContext('codex', session)), { hookSpecificOutput: session });
+  const post = { hookEventName: 'PostToolUse', additionalContext: 'note' };
+  assert.deepStrictEqual(parsesOrEmpty(P.eventContext('cursor', post)), { additional_context: 'note' });
+  assert.deepStrictEqual(parsesOrEmpty(P.eventContext('claude', post)), { hookSpecificOutput: post });
+  assert.strictEqual(P.eventContext('cursor', { hookEventName: 'SessionStart', additionalContext: '' }), '');
+  assert.strictEqual(P.eventContext('cursor', null), '');
+});
+
+it('B-274: a Cursor postToolUse payload reads like Claude\'s: Shell is Bash, tool_output is tool_response', () => {
+  const { host, data } = P.normalise({ hook_event_name: 'postToolUse', conversation_id: 'c', tool_name: 'Shell',
+    tool_input: { command: 'make' }, tool_output: '{"stdout":"ok"}' });
+  assert.strictEqual(host, 'cursor');
+  assert.strictEqual(data.tool_name, 'Bash');
+  assert.strictEqual(data.tool_response, '{"stdout":"ok"}');
+  const claude = P.normalise({ hook_event_name: 'PostToolUse', tool_name: 'Bash', tool_response: { stdout: 'x' } });
+  assert.deepStrictEqual(claude.data.tool_response, { stdout: 'x' });
+});
+
+// B-275: Cursor's Grep hook input is `{pattern, file_path, glob, output_mode}`
+// (cursor-agent 2026.09.02-c22c1a3, 190.index.js `createToolInput`), and its executor
+// runs `outputMode ?? "content"` (index.js LocalGrepExecutor): with no mode the matching
+// lines are shown. Claude's default (`files_with_matches`) shows no line, so only Cursor's
+// absent mode becomes `content`.
+it('B-275: a Cursor Grep with no output_mode reads as content, at its file_path', () => {
+  const g = P.normalise({ hook_event_name: 'preToolUse', conversation_id: 'c', cwd: '/w', tool_name: 'Grep',
+    tool_input: { pattern: 'KEY', file_path: '/tmp/.env' } }).data.tool_input;
+  assert.strictEqual(g.output_mode, 'content');
+  assert.strictEqual(g.path, '/tmp/.env');
+  const rel = P.normalise({ hook_event_name: 'preToolUse', conversation_id: 'c', cwd: '/w', tool_name: 'Grep',
+    tool_input: { pattern: 'KEY', file_path: 'conf/.env', output_mode: '' } }).data.tool_input;
+  assert.strictEqual(rel.output_mode, 'content');
+  assert.strictEqual(rel.path, '/w/conf/.env');
+  const files = P.normalise({ hook_event_name: 'preToolUse', conversation_id: 'c', tool_name: 'Grep',
+    tool_input: { pattern: 'KEY', file_path: '/tmp/.env', output_mode: 'files_with_matches' } }).data.tool_input;
+  assert.strictEqual(files.output_mode, 'files_with_matches');
+  const claude = P.normalise({ hook_event_name: 'PreToolUse', session_id: 's', tool_name: 'Grep',
+    tool_input: { pattern: 'KEY', path: '/tmp/.env' } }).data.tool_input;
+  assert.strictEqual(claude.output_mode, undefined, "Claude's default shows no line and stays as sent");
+  const R = require('../lib/secretreaders.js');
+  assert.ok(R.inspectTool('Grep', g, { cwd: '/w', home: '/home/op' }), 'the credential check does not fire on Cursor\'s default');
+  assert.ok(!R.inspectTool('Grep', files, { cwd: '/w', home: '/home/op' }));
+});
+
 // --- the PreToolUse matcher as each host reads it (CLAUDE-6) ----------------
 
 /** Claude Code's rule (hooks.md "Matcher evaluation"). */

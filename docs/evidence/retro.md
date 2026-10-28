@@ -119,9 +119,11 @@ used.)*
 
 ## Run stamps
 
-Rotated out: 81 oldest run stamps, verbatim in retro/2026-Q4.md sha256:f7e73e0bd98b
+Rotated out: 82 oldest run stamps, verbatim in retro/2026-Q4.md sha256:dabe51a80d45
 
 Moved out: 14 loose paragraphs, verbatim in retro/2026-Q4.md sha256:b1964f7ebcc7
+
+- **2026-10-28: the board's second pass as 1.82.0; subagents hit the weekly limit mid-release and the integrator finished two member releases itself** (the new discard guard refused my own `git stash`: it held)
 
 - **2026-10-27: the hub board closed in waves as 1.81.0; nine parallel nodes, one integrator, four member releases** (instruction #11 fired: a helper I wrote refused a member's real CHANGELOG heading; a member run found it, not my fixture)
 
@@ -140,5 +142,3 @@ Moved out: 14 loose paragraphs, verbatim in retro/2026-Q4.md sha256:b1964f7ebcc7
 - **2026-09-28 — the import I wrote by hand was wrong, and only a snapshot of the release could say so** moved: retro/2026-Q4.md sha256:64c455031dd7
 
 - **2026-09-06 — the audit found the block, and the block was the thing nobody had measured** moved: retro/2026-Q4.md sha256:fc1c57826d72
-
-- **2026-09-06 — the constraint was one layer over from where the split was looking** moved: retro/2026-Q4.md sha256:43d1b716c363

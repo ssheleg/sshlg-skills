@@ -126,7 +126,7 @@ const HOOK_DENY_SITES = {
   "'This content read targets": 'content-read-tool — checked through the hook process below',
   'hit.why': 'mcpsecrets.inspectTool — every registered tool above',
   '`\\`${bare.verb}': 'not a credential refusal: the bare skills CLI would shadow a plugin',
-  '`${target} is an instruction file': 'not a credential refusal: a backup could not be taken',
+  '`${target} is ${guard.kind(target)}': 'not a credential refusal: a backup could not be taken; the kind is named per file (B-288)',
   '`\\`${masked.gate}': 'not a credential refusal: a gate read through a pipe would let git run on a red gate',
   '`\\`${selfUpdate.command}': 'not a credential refusal: a host self-update inside a substitution (B-223)',
   'discard.why': 'not a credential refusal: a git command over uncommitted work (B-240); the module names the remedy',

@@ -70,8 +70,8 @@ permission to write it.
 
 `npx sshlg-skills blocks [--agent HOST] [--json]` lists markers with line ranges,
 syntax state, claimed owner, registered owner and writer admission. It reads metadata
-only: no block text is printed, and nothing is created — no directory, lock, backup or
-journal. Missing files are `ABSENT`; unreadable, oversized, symlinked or concurrently
+only: no block text is printed, and nothing is created (no directory, lock, backup or
+journal). Missing files are `ABSENT`; unreadable, oversized, symlinked or concurrently
 changed files are reported as such and make the exit code 1.
 
 Each block the hub writes also gets a `content` state, compared with the hub's own
@@ -105,21 +105,21 @@ npx sshlg-skills blocks resolve   OPERATION-ID [--json]
 - **Install** takes the block from `FILE`, a local file holding exactly one complete
   block with the same id. If the target has that block, only its bytes from `BEGIN` to
   `END` are replaced. If it does not, the block is appended on its own line right after
-  the file's final line ending — no blank-line separator, because none could be taken
+  the file's final line ending, with no blank-line separator, because none could be taken
   back without guessing whose blank line it was. If the target file is missing but its
   host directory exists, the file is created (mode 644); a missing host directory is
-  refused — the writer never installs a host.
+  refused: the writer never installs a host.
 - **Uninstall** removes the block and the one line ending after it, nothing else.
 - **Every byte outside the selected block is preserved**, and the file keeps its mode:
   install adds exactly the block and its line ending, uninstall takes exactly those away,
-  so the pair returns any file that ends with a line ending — blank trailing lines
-  included — to its exact bytes. The one exception is a file without a final line ending:
+  so the pair returns any file that ends with a line ending (blank trailing lines
+  included) to its exact bytes. The one exception is a file without a final line ending:
   install adds one before the block, and it stays (`"X"` and `"X\n"` append identically).
 - **Line endings follow the file.** In a file whose every newline is CRLF the block is
   written with CRLF; otherwise with LF.
 - **The result must parse.** Before writing, the new text is parsed: it must hold the
   same markers as before plus (install) or minus (uninstall) exactly one paired block of
-  this id, or the write is refused (`RESULT_WOULD_NOT_PARSE`) — an unterminated `<!--`
+  this id, or the write is refused (`RESULT_WOULD_NOT_PARSE`): an unterminated `<!--`
   earlier in the file would otherwise swallow an appended block.
 - **Edits inside the block are named before they are dropped.** Replacing or removing a
   block whose text differs from what this writer last installed (the journal keeps each
@@ -133,7 +133,7 @@ npx sshlg-skills blocks resolve   OPERATION-ID [--json]
 - **Exit codes:** 0 done or nothing to do, 1 refused or failed, 2 bad arguments. Every
   refusal and failure answers in one shape (`state` `REFUSED`, `RECOVERY_REQUIRED` or
   `ERROR`, `code`, `reason`, and `operationId` plus the `blocks resolve` command when a
-  write may have landed), never as a stack trace — under `--json`, as JSON, bad arguments
+  write may have landed), never as a stack trace; under `--json`, as JSON, bad arguments
   included (`BAD_ARGUMENTS`, exit 2).
 
 ### Admission
@@ -151,8 +151,8 @@ Before the write, `apply.protect()` copies the file to `~/.sshlg-skills/backups/
 (directory 0700, copies 0600), the same place and naming as every other hub write
 (`lib/backup.js`). The copy is read back and must equal the previewed bytes; a failed
 copy cancels the write. The backup's name and hash go into the journal. When the newest
-copy of the file already holds exactly the previewed bytes — a retry of a write that
-failed before it landed — that copy is reused (`backup.state: reused`) instead of a new
+copy of the file already holds exactly the previewed bytes (a retry of a write that
+failed before it landed), that copy is reused (`backup.state: reused`) instead of a new
 one being taken each time.
 
 **A named backup is pinned while its operation is open** (B-199). Ordinary retention keeps ten
@@ -183,7 +183,7 @@ append-only. Each line is one JSON record, `schema: "managed-blocks-journal/1"`:
 `operationId`, `sequence`, `state`, `at`, `op`, `owner`, `markerId`, `target` (host, path
 alias, canonical path), `before` (exists, sha256, mode), `after` (sha256), `backup`
 (state, name, sha256) once taken, `segmentSha256` (the installed block's hash), `reason`
-on a refusal, and `previousRecordSha256` —
+on a refusal, and `previousRecordSha256`:
 the hash of the previous line, so an edited or removed record in the middle breaks the
 chain. Beside it, `journal.head` (0600) holds the record count and the last line's hash
 and is rewritten after every append, so an edited or deleted last record, and whole
