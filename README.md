@@ -313,7 +313,8 @@ count, the missing skill ids and the exact remedy: `npx sshlg-skills update --ag
 current, and a `cd <root> && rm -- <ids>` line drops the family links (`rm` without `-r` removes a
 symlink and refuses a directory, so a copy is never removed). Either way it removes a dangling link
 the family owns (a family id, or a skills-lock row from an `ssheleg/` repository, pointing into
-`~/.agents/skills`), only if the frozen plan named it, and prints the `ln -s` that recreates it.
+`~/.agents/skills`; the lock is read where the skills CLI keeps it, `$XDG_STATE_HOME/skills/.skill-lock.json`
+when that variable is set, else `~/.agents/.skill-lock.json`), only if the frozen plan named it, and prints the `ln -s` that recreates it.
 A live link, a real directory and a link nobody can attribute to the family stay as they are.
 `--dry-run` shows the plan; `--agent` lists that do not name a root, and `--claude-only`, leave
 it alone (`test/extraroots_test.js`). A reported folder you have seen can be acknowledged with

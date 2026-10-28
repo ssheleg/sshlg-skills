@@ -176,6 +176,17 @@ it('`hosts` honours HERMES_HOME and says so when Hermes is absent', () => {
   assert.ok(/Hermes \(B-286\): absent/.test(none.out), none.out);
 });
 
+it('`hosts` reads the skill lock where the skills CLI keeps it when XDG_STATE_HOME is set', () => {
+  const { base, home } = machine();
+  const state = path.join(base, 'state');
+  fs.mkdirSync(path.join(state, 'skills'), { recursive: true });
+  fs.renameSync(path.join(home, '.agents', '.skill-lock.json'), path.join(state, 'skills', '.skill-lock.json'));
+  const r = hosts(base, home, { XDG_STATE_HOME: state });
+  assert.strictEqual(r.status, 0, r.out);
+  assert.ok(r.out.includes('npx skills add anthropics/skills --skill docx pdf --agent hermes-agent --global --copy --yes   (2)'), r.out);
+  assert.ok(!/no source recorded/.test(r.out), r.out);
+});
+
 for (const d of made) fs.rmSync(d, { recursive: true, force: true });
 
 if (failures.length) {

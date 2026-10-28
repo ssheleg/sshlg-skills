@@ -2950,7 +2950,7 @@ function cmdVisibilityMarks(argv) {
   let packs;
   try { packs = [...new Set(HV.readLock(home, { strict: true }).values())]; }
   catch (e) { log(`visibility marks: ${e.message}; nothing written`); return 1; }
-  if (!packs.length) { log('visibility marks: no installed packs (~/.agents/.skill-lock.json): nothing to mark'); return 2; }
+  if (!packs.length) { log(`visibility marks: no installed packs (${require('../lib/skillstore.js').skillLockPath(home, process.env)}): nothing to mark`); return 2; }
   const known = new Set(packs.map((p) => p.toLowerCase()));
   for (const p of show) if (!known.has(p.toLowerCase())) log(`  note: ${p} is not installed here; marked listed anyway`);
   if (text !== null && !flag('--replace')) {
@@ -4278,10 +4278,15 @@ function channelEntries(dir) {
   try { return fs.readdirSync(dir).filter((n) => n !== '.' && n !== '..'); } catch (_) { return []; }
 }
 
+/** Where the skills CLI keeps its lock on this machine (`$XDG_STATE_HOME` honoured). */
+function skillLockFile() {
+  return require('../lib/skillstore.js').skillLockPath(os.homedir(), process.env);
+}
+
 /** id → upstream repo, from the skills CLI's own lock. Unreadable ⇒ empty: refuse, not approve. */
 function lockSources() {
   try {
-    const j = JSON.parse(fs.readFileSync(path.join(os.homedir(), '.agents', '.skill-lock.json'), 'utf8'));
+    const j = JSON.parse(fs.readFileSync(skillLockFile(), 'utf8'));
     const out = {};
     for (const [id, row] of Object.entries(j.skills || {})) out[id] = (row && row.source) || '';
     return out;
@@ -4323,7 +4328,7 @@ function planUninstall(f) {
     `remove ${removals.length} family skill entr(ies) across the agent channels (${kept.length} name-collision entr(ies) left in place)`,
     { paths: removals.map((r) => r.path) }));
   steps.push(opres.step('runtime-sync', 'home',
-    'drop the removed ids from ~/.agents/.skill-lock.json (protect() copy first)',
+    `drop the removed ids from ${skillLockFile()} (protect() copy first)`,
     { ids: [...new Set(removals.map((r) => r.name))] }));
   if (f.claude !== false) {
     for (const s of SKILLS) {
@@ -4376,7 +4381,7 @@ function cmdUninstall(f) {
   }
   for (const k of kept) log(`  = left in place: ${k.path} (${k.reason})`);
 
-  const lockFile = path.join(home, '.agents', '.skill-lock.json');
+  const lockFile = skillLockFile();
   const dropped = [...new Set(removals.map((r) => r.name))];
   if (dropped.length && fs.existsSync(lockFile)) {
     // The same copy-first rule as every other write: protect() takes the
