@@ -2717,10 +2717,19 @@ check_the_family_description_total_only_falls()
 # the hub's own UX and brand pack, the routing eval's how-to) are read as current guidance
 # too, so their addresses are gated with the rest. `test/live_docs_text_test.js` scans
 # this same tuple for dashes; it is the single list of both.
+#
+# B-303: every `*.md` in a `LIVE_DIRS` directory is live too, discovered rather than
+# listed. `CLAUDE.md` applies `docs/working-rules/` to every task, so those rules are read
+# as instructions today, and a new rule joins the gate without a hand edit here. The dash
+# scan expands the same tuple the same way.
+LIVE_DIRS = ("docs/working-rules",)
 LIVE_DOCS = ("README.md", "CLAUDE.md", "docs/DOCMAP.md", "docs/AGENT_SYNC.md",
              "docs/evidence/convergence.md",
              "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md", "docs/CLAUDE-CONTINUE.md",
              "docs/ux/scenarios.md", "docs/brand/terminology.md", "test/evals/README.md")
+LIVE_DOCS += tuple(
+    f"{d}/{name}" for d in LIVE_DIRS if os.path.isdir(os.path.join(ROOT, d))
+    for name in sorted(os.listdir(os.path.join(ROOT, d))) if name.endswith(".md"))
 LEDGER_DOCS = ("docs/evidence/backlog.md", "docs/evidence/verification.md",
                "docs/evidence/retro.md", "docs/evidence/retro/2026-Q3.md",
                "docs/evidence/manifesto-conformance.md")

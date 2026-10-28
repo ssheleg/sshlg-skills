@@ -63,20 +63,31 @@ const GENERATED = /^<!-- [\w-]+:generated\b.*do not hand-edit/;
  */
 const RUSSIAN_DASH_ALLOWED = new Map([]);
 
-/** The validator's live corpus, read out of its source so the two cannot diverge. */
-function validatorLiveDocs(src) {
-  const m = /^LIVE_DOCS\s*=\s*\(([^)]*)\)/m.exec(src);
+/** One tuple literal out of the validator's source, by name. */
+function validatorTuple(src, name) {
+  const m = new RegExp(`^${name}\\s*=\\s*\\(([^)]*)\\)`, 'm').exec(src);
   if (!m) return [];
   return Array.from(m[1].matchAll(/"([^"]+)"/g), (x) => x[1]);
+}
+
+/**
+ * The validator's live corpus, read out of its source so the two cannot diverge: the
+ * listed documents plus every `*.md` in each `LIVE_DIRS` directory, discovered the way
+ * `test/validate.py` discovers them (B-303).
+ */
+function validatorLiveDocs(src, root = ROOT) {
+  const docs = validatorTuple(src, 'LIVE_DOCS');
+  for (const dir of validatorTuple(src, 'LIVE_DIRS')) {
+    const full = path.join(root, dir);
+    if (!fs.existsSync(full)) continue;
+    for (const f of fs.readdirSync(full).sort()) if (f.endsWith('.md')) docs.push(`${dir}/${f}`);
+  }
+  return docs;
 }
 
 function liveCorpus() {
   const declared = validatorLiveDocs(fs.readFileSync(path.join(ROOT, 'test', 'validate.py'), 'utf8'));
   const candidates = declared.filter((d) => !d.startsWith('docs/evidence/'));
-  const rules = path.join(ROOT, 'docs', 'working-rules');
-  for (const f of fs.readdirSync(rules).sort()) {
-    if (f.endsWith('.md')) candidates.push(`docs/working-rules/${f}`);
-  }
   const live = [];
   const generated = [];
   for (const d of candidates) {
@@ -181,6 +192,22 @@ it('control: the corpus is derived from the validator and is not empty', () => {
   assert.ok(GENERATED.test('<!-- agent-sync:generated source=x at=y (regenerate), do not hand-edit -->'));
   assert.ok(!GENERATED.test('# A heading that says generated, do not hand-edit'), 'only a first-line marker exempts');
   for (const doc of live) assert.ok(fs.existsSync(path.join(ROOT, doc)), `${doc} is in the corpus and absent`);
+});
+
+it('B-303: every working rule is in the validator\'s address corpus, discovered rather than listed', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'test', 'validate.py'), 'utf8');
+  assert.ok(validatorTuple(src, 'LIVE_DIRS').includes('docs/working-rules'),
+    'docs/working-rules is not a LIVE_DIRS entry in test/validate.py, so its addresses are not checked');
+  const { declared, live } = liveCorpus();
+  const rules = fs.readdirSync(path.join(ROOT, 'docs', 'working-rules')).filter((f) => f.endsWith('.md'));
+  assert.ok(rules.length >= 8, `only ${rules.length} working rules found`);
+  for (const f of rules) {
+    assert.ok(declared.includes(`docs/working-rules/${f}`), `docs/working-rules/${f} is not in the address corpus`);
+    assert.ok(live.includes(`docs/working-rules/${f}`), `docs/working-rules/${f} is not scanned for dashes`);
+  }
+  // A listed working rule would be read twice and a new one would wait for a hand edit.
+  assert.ok(!validatorTuple(src, 'LIVE_DOCS').some((d) => d.startsWith('docs/working-rules/')),
+    'a working rule is hand-listed in LIVE_DOCS; LIVE_DIRS discovers them');
 });
 
 it('B-292: the reader documents are in the validator\'s address corpus, not only in the dash scan', () => {

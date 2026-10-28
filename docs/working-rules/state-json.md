@@ -154,8 +154,8 @@ once shipped and no longer does, with the sha256 of each blob that path held in 
 history (B-259). An unrecorded runtime file whose bytes match one of those exactly is
 retired the same way; a byte of difference keeps it. `node scripts/retired-runtime.js
 --write` regenerates the table, and `test/runtime_retired_test.js` fails when the
-committed table and the history disagree. Today it lists one path,
-`lib/router-texts.js` (four blobs).
+committed table and the history disagree. Today it lists one path, the retired
+`router-texts.js` under `lib/` (four blobs).
 
 ## The runtime lock and failed refresh
 

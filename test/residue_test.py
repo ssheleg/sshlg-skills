@@ -153,7 +153,7 @@ def the_three_leaking_suites_leave_nothing():
     "the ledger says nothing was left": the ledger is what is under test.
     """
     for suite, cases in (("plant_guard_test.py", 9),
-                         ("doc_refs_test.py", 18),
+                         ("doc_refs_test.py", 19),
                          ("pin_source_test.py", 7)):
         box = residue.workspace("e2e-" + suite.split("_")[0])
         proc = subprocess.run([sys.executable, os.path.join(HERE, suite)],

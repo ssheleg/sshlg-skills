@@ -1202,6 +1202,9 @@ jobs:
           # The tuple by shape, not by text: B-292 grew it, and a literal match would break the plant.
           s, n = re.subn(r'^LIVE_DOCS = \([^)]*\)', 'LIVE_DOCS = ()', s, count=1, flags=re.M)
           assert n == 1, "PLANT DID NOT LAND: LIVE_DOCS is not where this expects it"
+          # B-303: the discovered directories feed the same corpus, so they empty with it.
+          s, n = re.subn(r'^LIVE_DIRS = \([^)]*\)', 'LIVE_DIRS = ()', s, count=1, flags=re.M)
+          assert n == 1, "PLANT DID NOT LAND: LIVE_DIRS is not where this expects it"
           open(p, "w", encoding="utf-8").write(s)
           PY
           python3 test/plant_guard.py verify /tmp/refs-empty "the enforced corpus emptied"

@@ -72,7 +72,7 @@ def local_prefixes(root):
     return out
 
 
-def _local(tok, prefixes, elsewhere, docdir=""):
+def _local(tok, prefixes, elsewhere, docdir="", link=False):
     """The token as a repo-local address, or None if it is not one.
 
     A `../`-relative target is normalised against `docdir` — the directory of the document
@@ -81,11 +81,16 @@ def _local(tok, prefixes, elsewhere, docdir=""):
     there is nothing to resolve against, and measuring it from the wrong root would be worse
     than declining, so it is declined. A walk that escapes the repository is not an address
     in it.
+
+    A markdown link target (`link`) is a click, so in a nested document every relative
+    target is read from that document's directory, not only a `../` one (B-303:
+    `docs/working-rules/handoff-layers.md` links its sibling `cross-repo-handoff.md`, which
+    carried no local prefix and was skipped). A backticked path is prose and stays rooted.
     """
     tok = re.sub(r"^\./", "", tok.strip()).split("#")[0]
     if not tok or _PLACEHOLDER.search(tok) or tok.startswith(("~", "/", "http", "mailto:")):
         return None
-    if tok.startswith("../"):
+    if tok.startswith("../") or (link and docdir):
         if not docdir:
             return None
         tok = os.path.normpath(os.path.join(docdir, tok))
@@ -109,7 +114,7 @@ def addresses(text, prefixes, elsewhere, docdir=""):
     """
     for lineno, raw in enumerate(text.splitlines(), 1):
         for _label, target in _LINK.findall(raw):
-            tok = _local(target, prefixes, elsewhere, docdir)
+            tok = _local(target, prefixes, elsewhere, docdir, link=True)
             if tok:
                 yield ("link", lineno, tok)
         # The label of a link is not an address; drop the whole span before reading ticks.

@@ -155,6 +155,24 @@ def the_hubs_own_pack_is_not_exempt():
         "seed `<project>/docs/ux/scenarios.md`", prefixes, exempt)] == []
 
 
+def a_same_directory_link_resolves_against_its_document():
+    """B-303: `docs/working-rules/handoff-layers.md` links `cross-repo-handoff.md`, a
+    sibling. A reader's click lands beside the document; the extractor read the target
+    from the root, found no local prefix and skipped it, so a renamed sibling went unseen."""
+    row = "see the [rule](cross-repo-handoff.md#when) and [this](./state-json.md)"
+    got = [t for _, _, t in doc_refs.addresses(row, PREFIXES, ELSEWHERE,
+                                               docdir="docs/working-rules")]
+    assert got == ["docs/working-rules/cross-repo-handoff.md",
+                   "docs/working-rules/state-json.md"], got
+    # A link target is a click, so a root-shaped target in a nested document is read where
+    # the click goes. A backticked path is prose, still read from the root.
+    row = "[a](docs/a.md) beside `docs/a.md`"
+    got = [t for _, _, t in doc_refs.addresses(row, PREFIXES, ELSEWHERE, docdir="docs")]
+    assert got == ["docs/docs/a.md", "docs/a.md"], got
+    # At the root nothing moves.
+    assert tokens("[a](docs/a.md) and [b](cross.md)") == ["docs/a.md"]
+
+
 def an_external_link_target_is_ignored():
     assert tokens("[spec](https://agentskills.io/specification)") == []
 
@@ -246,6 +264,7 @@ for n, f in [
     ("prose beside a link is still read", a_bare_label_outside_a_link_is_still_read),
     ("a relative link resolves against its document", a_relative_link_is_resolved_against_its_own_document),
     ("the hub's own pack is not exempt (B-302)", the_hubs_own_pack_is_not_exempt),
+    ("a same-directory link resolves against its document (B-303)", a_same_directory_link_resolves_against_its_document),
     ("an external link target is ignored", an_external_link_target_is_ignored),
     ("`npm run` is its own kind", an_npm_run_claim_is_its_own_kind),
     ("an unbackticked script name is a claim", an_unbackticked_script_name_is_still_a_claim),
@@ -258,7 +277,7 @@ for n, f in [
     case(n, f)
 
 if failures:
-    print(f"\nFAIL: {len(failures)} of 18")
+    print(f"\nFAIL: {len(failures)} of 19")
     sys.exit(1)
-print("\nPASS: doc_refs — 18 cases")
+print("\nPASS: doc_refs — 19 cases")
 residue.report()
