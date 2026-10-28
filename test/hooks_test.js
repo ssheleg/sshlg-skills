@@ -431,6 +431,20 @@ it('install and refresh differ only in what they add: the same entries are curre
   assert.deepStrictEqual(refresh.skipped.map((x) => x.event), ['Notification']);
 });
 
+it('B-268: the hub starts one process per event: one entry, one hook, one node command, no shell chaining', () => {
+  const one = (entries, events) => {
+    for (const ev of events) {
+      assert.strictEqual(entries[ev].hooks.length, 1, `${ev} wires ${entries[ev].hooks.length} hooks`);
+      assert.ok(/^node "[^"]+\/hooks\/[a-z-]+\.js"$/.test(entries[ev].hooks[0].command), `${ev}: ${entries[ev].hooks[0].command}`);
+    }
+    assert.strictEqual(new Set(events).size, events.length, 'an event is wired twice');
+  };
+  one(H.entries(ROOT), H.EVENTS);
+  one(H.codexEntries(ROOT), H.CODEX_WIRED.map((w) => w.event));
+  const { settings } = H.plan({}, ROOT, {});
+  for (const ev of H.EVENTS) assert.strictEqual(settings.hooks[ev].length, 1, `${ev} has ${settings.hooks[ev].length} groups`);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
