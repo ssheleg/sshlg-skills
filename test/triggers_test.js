@@ -1089,8 +1089,6 @@ const NOT_ROUTED = {
     'режим разработчика': 'every phone and browser has a developer mode',
   },
   'xr-dev/quest-webxr': {
-    'a-frame': 'the matcher splits on hyphens, so it compiles to the English "a frame" and '
-      + 'fires on "render a frame"',
     'bubblewrap': 'also the Linux sandbox (`bwrap`) agent harnesses run under',
     'покупки в вебе': 'web purchases in general are sheleg-dev\'s charge; nothing names a headset',
   },
@@ -1174,6 +1172,29 @@ it('the completeness check fails on a planted phrase, and reads both places', ()
   // apostrophes inside a phrase do not break the pairing of the quotes after them
   assert.deepStrictEqual(quotedPhrases('"why doesn\'t it cite us" / "почему", \'waves\'/\'волнами\''),
     ["why doesn't it cite us", 'почему', 'waves', 'волнами']);
+});
+
+// B-296: a hyphen is a word separator, except where a piece is a single letter: `a-frame`
+// split into the English "a frame" and fired on "render a frame", so it was allow-listed.
+it('B-296: a hyphenated word with a one-letter piece stays one word', () => {
+  for (const yes of ['build it in a-frame', 'Build a VR scene in A-Frame', 'an a\u2013frame scene',
+    'npm i aframe', 'two a-frames']) {
+    assert.ok(T.matches(yes, 'a-frame'), `a-frame did not match ${JSON.stringify(yes)}`);
+  }
+  for (const no of ['render a frame', 'a frame drop', 'pandas data-frame', 'a-framework']) {
+    assert.ok(!T.matches(no, 'a-frame'), `a-frame matched ${JSON.stringify(no)}`);
+  }
+  assert.ok(T.phrasePattern('a-frame').test('a-frame'), 'the pattern does not match its own phrase');
+  // A hyphen between longer pieces is still a separator, both ways (B-84).
+  assert.ok(T.matches('подключи mcp сервер', 'mcp-сервер'));
+  assert.ok(T.matches('подключи mcp-сервер', 'mcp-сервер'));
+});
+
+it('B-296: A-Frame routes to the xr-dev route that advertises it, and "a frame" does not', () => {
+  assert.ok(T.match('add an A-Frame scene for the headset').includes('xr-dev'));
+  for (const no of ['render a frame every 16 ms', 'drop a frame when the tab hides']) {
+    assert.ok(!T.match(no).includes('xr-dev'), `xr-dev named for ${JSON.stringify(no)}`);
+  }
 });
 
 // --- word forms the 2026-10-08 audit lost (REQ-01) -----------------------------------
