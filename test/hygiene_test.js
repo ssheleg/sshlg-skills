@@ -431,6 +431,37 @@ it('B-291: a substitution inside a redirect target still runs', () => {
   assert.ok(H.hostSelfUpdate('cat < `pi update`'));
 });
 
+// B-306: a here-string (`<<< word`) feeds stdin. Its word is not an argument of the
+// command, and a shell reading it runs it as a script, the way a shell heredoc body runs.
+it('B-306: a here-string word is not an argument; fed to a non-shell it is data', () => {
+  const words = (c) => H.commandGroups(c).flatMap((g) => g.commands).map((w) => w.join(' '));
+  assert.deepStrictEqual(words("cat <<< 'git reset --hard'"), ['cat']);
+  assert.deepStrictEqual(words('git checkout -- a.js <<< b.js'), ['git checkout -- a.js']);
+  assert.deepStrictEqual(words("grep x<<<'y z'; ls"), ['grep x', 'ls'], 'touching the operator, then a new command');
+  assert.deepStrictEqual(words("python3 - <<< 'git stash'"), ['python3 -']);
+  assert.deepStrictEqual(words("bash -c 'echo hi' <<< 'git reset --hard'"), ['bash -c echo hi', 'echo hi'],
+    'stdin of a -c script is data for it, not a second script');
+});
+
+it('B-306: a here-string fed to bash, sh or zsh is a script', () => {
+  const words = (c) => H.commandGroups(c).flatMap((g) => g.commands).map((w) => w.join(' '));
+  for (const cmd of ["bash <<< 'git reset --hard'", "sh <<<'git reset --hard'", 'zsh <<< "git reset --hard"',
+    "sudo bash <<< 'git reset --hard'", "bash -s <<< 'git reset --hard'", "sh<<<'git reset --hard'",
+    "echo x | bash <<< 'git reset --hard'"]) {
+    const w = words(cmd);
+    assert.ok(w.includes('git reset --hard'), `${cmd}: ${JSON.stringify(w)}`);
+    assert.ok(!w.some((x) => /^(sudo )?(bash|sh|zsh)\b.*git reset/.test(x)), `${cmd}: the script is still an argument`);
+  }
+});
+
+it('B-306: the hygiene guard reads a shell here-string as code and a non-shell one as data', () => {
+  assert.ok(H.hostSelfUpdate("bash <<< 'echo $(pi update)'"), 'a host update inside a bash here-string was missed');
+  assert.ok(H.hostSelfUpdate("sh <<< 'x=`codex update`'"));
+  assert.strictEqual(H.hostSelfUpdate("cat <<< 'echo $(pi update)'"), null, 'single quotes are literal to cat');
+  assert.ok(H.hostSelfUpdate('cat <<< "$(pi update)"'), 'the outer shell still expands a double-quoted here-string');
+  assert.ok(H.bareFamilyInstall("bash <<< 'npx skills update super-ux'", IDS), 'a bare install fed to bash must stay guarded');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

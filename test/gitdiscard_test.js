@@ -379,6 +379,22 @@ it('never throws on hostile input', () => {
   }
 });
 
+// --- B-306: a here-string is stdin, a script only for a shell -----------------------
+
+it('B-306: a here-string word is not a pathspec, and a non-shell reads it as data', () => {
+  assert.deepStrictEqual(one('git checkout -- a.js <<< b.js').pathspecs, ['a.js']);
+  assert.deepStrictEqual(one("git checkout -- a.js <<<'b.js'").pathspecs, ['a.js']);
+  none("cat <<< 'git checkout -- a.js'");
+  none("python3 - <<< 'git reset --hard'");
+  none("bash -c 'echo ok' <<< 'git stash'");
+});
+
+it('B-306: a here-string fed to a shell is a script the discard guard reads', () => {
+  assert.deepStrictEqual(one("bash <<< 'git checkout -- a.js'").pathspecs, ['a.js']);
+  assert.strictEqual(one("sh <<<'git reset --hard'").form, 'reset --hard');
+  assert.strictEqual(one('zsh <<< "cd sub && git stash"').dir, 'sub');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${n}`);
