@@ -47,7 +47,15 @@ try {
     fakeCodex(dir, 'if [ "$1" = "--version" ]; then echo "codex-cli 0.200.0"; exit 0; fi; sleep 5; echo "{}"');
     const r = refresh(dir, { SSHLG_CODEX_READ_TIMEOUT_MS: '700' });
     assert.strictEqual(r.ok, 'false', r.out);
-    assert.match(r.out, /not read: codex plugin list failed/);
+    assert.match(r.out, /not read: codex (plugin list|--version) failed/);
+  });
+  it('a Codex whose --version times out is not green and is not called absent', () => {
+    const dir = path.join(box, 'bin-slow-version');
+    fakeCodex(dir, 'sleep 5; echo "codex-cli 0.200.0"');
+    const r = refresh(dir, { SSHLG_CODEX_READ_TIMEOUT_MS: '700' });
+    assert.strictEqual(r.ok, 'false', r.out);
+    assert.doesNotMatch(r.out, /not on PATH/);
+    assert.match(r.out, /codex --version failed/);
   });
   it('a Codex whose plugin list exits non-zero is not a green step', () => {
     const dir = path.join(box, 'bin-fails2');

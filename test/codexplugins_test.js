@@ -216,7 +216,8 @@ t('refreshAll: a signalled version read is not accepted from spoofed stdout', ()
   const calls = [];
   const out = cp.refreshAll({ skills: SKILLS, readConfig: () => CONFIG, pinRef,
     runner: (c, a) => { calls.push(a); return { status: 0, signal: 'SIGTERM', stdout: 'codex-cli 0.162.1' }; } });
-  assert.strictEqual(out.status, 'skipped');
+  // a killed --version is a Codex that exists and was not read: not green, not "absent"
+  assert.strictEqual(out.status, 'unread');
   assert.deepStrictEqual(calls, [['--version']]);
 });
 
