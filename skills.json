@@ -56,13 +56,13 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.66.2",
+      "version": "0.66.3",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
       "shape": "static",
       "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
-      "commit": "d4c4de41b6f7cf05a7d8ad99e12b6c1d5283600a"
+      "commit": "7807c66184c647db349145c1cb2a322d2a522250"
     },
     {
       "name": "task-pipeline",
@@ -94,13 +94,13 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.23.3",
+      "version": "1.23.4",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
       "shape": "static",
       "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape.",
-      "commit": "6a30f41482d0586523b165147d2bff55810144e5"
+      "commit": "1b36ef456a14596a5ac5ef20dc63e364c0143a80"
     },
     {
       "name": "make-skill",
@@ -113,13 +113,13 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.33.4",
+      "version": "0.33.5",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "1bd8c0e128e99b7c20e78a26d433b840e6c2ebbe"
+      "commit": "1a214b073c7d74905b77aca9d687af3362934c7b"
     },
     {
       "name": "sheleg-design",
@@ -131,7 +131,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.66.4",
+      "version": "1.66.5",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -148,7 +148,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "bc77a9e6df15dc0b53bc2b83a4e03053356e0fd4"
+      "commit": "0f3c7701eae79f99526a8b892ee880901a568f8b"
     },
     {
       "name": "seo-aeo-audit",
@@ -184,13 +184,13 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.16.2",
+      "version": "0.16.3",
       "entry": null,
       "role": "integrations: money in, tracking, errors, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
       "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
-      "commit": "b0fa6900ce40df0b1d7265db47ee8cbe2b9eacbc"
+      "commit": "916b683a896ce429ac3fa89a7a8514d9104aad4a"
     },
     {
       "name": "agent-stack",
@@ -205,13 +205,13 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.31.3",
+      "version": "0.31.4",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "28a0303c42038778e2650fc51096e589f4035239"
+      "commit": "52b0584dbe3a10468072fe0a642ff2d414d66544"
     },
     {
       "name": "telegram-dev",

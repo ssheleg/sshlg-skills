@@ -1456,6 +1456,27 @@ it('B-84: the imperative of an с/ш verb routes on its own, and the stemmer was
   }
 });
 
+// --- B-267: an adjective in a trigger inflects with its noun ----------------
+//
+// «реферальная программа» is advertised in the nominative; an order is in the
+// accusative, «сделай реферальную программу». `stemRu` cut one letter, leaving
+// `реферальна-` and `реферальну-`, so the phrase never matched an inflected order.
+// Clearly adjectival two-letter endings are now cut whole; endings that nouns share
+// (-ие, -ий, -ей, -ем, -ом, -им, -их) still cut one letter, so nouns do not widen.
+
+it('B-267: an adjective trigger matches its inflected forms, and nouns did not widen', () => {
+  // «сделай …» also names delivery (an order to change something); the facet must be there
+  for (const [p, want] of [
+    ['сделай реферальную программу', 'super-ux'],
+    ['реферальной программы нет', 'super-ux'],
+    ['включи тёмную тему', 'sheleg-design'],
+    ['нужна тёмная тема', 'sheleg-design'],
+  ]) assert.ok(T.match(p).includes(want), `${p}: ${JSON.stringify(T.match(p))}`);
+  assert.deepStrictEqual(T.stemRu('реферальная').stem, T.stemRu('реферальную').stem);
+  assert.deepStrictEqual(T.stemRu('решение'), { stem: 'решени', cut: 1 });
+  assert.deepStrictEqual(T.stemRu('сценарий'), { stem: 'сценари', cut: 1 });
+});
+
 // --- B-241: a status question and a look are not orders --------------------
 //
 // «миграция прошла? посмотри логи» read as a write, because `миграция` is a noun in

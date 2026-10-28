@@ -4,8 +4,8 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "d4c4de41b6f7cf05a7d8ad99e12b6c1d5283600a",
-      "version": "0.66.2",
+      "commit": "7807c66184c647db349145c1cb2a322d2a522250",
+      "version": "0.66.3",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
@@ -13,7 +13,7 @@
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
         "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ — product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.66.2",
+        "version": "0.66.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,7 +40,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "4746764e954dcf558f6d61e0b6a39053c4cda5e1c4a52e3f102de0eb0b53a627",
+          "sha256": "059829aa741cbe2a2c1ff74baa31d37be14d15a2cebbeccff86a19b06910f8c4",
           "bytes": 1196
         },
         {
@@ -750,8 +750,8 @@
         },
         {
           "path": "skills/ux-flows/SKILL.md",
-          "sha256": "74e8080686c1d0760c9e7a73d5fde066a73ad3dd73271784d16145d76f7d9057",
-          "bytes": 20481
+          "sha256": "690893be535e1eeea874fa66206dd50d2fadd94584b7a4fbe9f59b14c1175c32",
+          "bytes": 20691
         },
         {
           "path": "skills/ux-foundation/references/best-practices-index.md",
@@ -910,8 +910,8 @@
         },
         {
           "path": "skills/ux-scenarios/SKILL.md",
-          "sha256": "6ee593504d46cf7650a4094b0737ea5f3a16f8e568ee62be512390cec1d48de8",
-          "bytes": 11239
+          "sha256": "d1bee8cf8490d5b8bf9c398c19e63d7beb4bde6af7366ae3da035061e2f211f2",
+          "bytes": 11238
         },
         {
           "path": "skills/ux-scenarios/templates/scenarios.md",
@@ -1818,8 +1818,8 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "6a30f41482d0586523b165147d2bff55810144e5",
-      "version": "1.23.3",
+      "commit": "1b36ef456a14596a5ac5ef20dc63e364c0143a80",
+      "version": "1.23.4",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
       "entry": {
@@ -1827,7 +1827,7 @@
         "displayName": "Agent Sync",
         "source": "./plugins/agent-sync",
         "description": "Coordination layer for multi-agent repositories. Gives task-pipeline runs leases with a TTL, race-free ID reservation, a cross-repo signal feed, an append-only run journal and a machine-generated read-only board. A lease is decided by a primitive that genuinely has compare-and-swap — an atomic file create on one machine, a pushed git ref across machines — never by the knowledge base, which loses concurrent writes; the store carries the record and the ID allocation, which is positional over the merged log. The knowledge backend is a pluggable adapter (Outline, filesystem) declaring its own capabilities and degrading out loud. Ships Claude Code hooks that deny edits to guarded registry files without a live lease.",
-        "version": "1.23.3",
+        "version": "1.23.4",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1850,7 +1850,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "875867bd67720eb44601e16343e40bd378e75ec56846460520c354f9056190c9",
+          "sha256": "9a2a118dd141c83281a440ed5eaffa107dc154254feb06629c52174d38acab85",
           "bytes": 695
         },
         {
@@ -1865,8 +1865,8 @@
         },
         {
           "path": "hooks/guard.sh",
-          "sha256": "099d419b784d2ace58b2a7b6bfa064c58d2649b518f0443ca3ad6c2d51b05009",
-          "bytes": 16926
+          "sha256": "0715794ffafdc6fdcc22f8285266ea072dc55830c208e146679dc66ddca2326f",
+          "bytes": 17292
         },
         {
           "path": "hooks/hooks.json",
@@ -1950,8 +1950,8 @@
         },
         {
           "path": "skills/agent-sync/scripts/agent_sync.py",
-          "sha256": "7125ec1c21541910a51b658e713b7ab15f021ebfea41205c659471a7cc274b41",
-          "bytes": 376420
+          "sha256": "15fae300c4e1d82f0126c62b029884d976ddd8c51b7e3ee83d5633ced55ca3e1",
+          "bytes": 376382
         },
         {
           "path": "skills/agent-sync/scripts/bash_writes.py",
@@ -1960,7 +1960,7 @@
         },
         {
           "path": "skills/agent-sync/SKILL.md",
-          "sha256": "2b2071cec526c7b9b6e6a2f414371425a808d1a85a82b34c75d935e37672f6dc",
+          "sha256": "34e79b39b0b01bcf2c0c1846588aa50de2f949c65dfe62d4faf7af581a58ef2b",
           "bytes": 20070
         }
       ]
@@ -1968,8 +1968,8 @@
     {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
-      "commit": "1bd8c0e128e99b7c20e78a26d433b840e6c2ebbe",
-      "version": "0.33.4",
+      "commit": "1a214b073c7d74905b77aca9d687af3362934c7b",
+      "version": "0.33.5",
       "pluginInstall": "make-skill@make-skill",
       "pluginPath": "plugins/make-skill",
       "entry": {
@@ -1977,7 +1977,7 @@
         "displayName": "Make Skill",
         "source": "./plugins/make-skill",
         "description": "Encodes the Agent Skills open standard AND Anthropic's platform rules (front-matter limits, disclosure budgets, per-surface runtime limits, the Skills API, evaluation-driven authoring) plus the Claude Code plugin reference (manifest schemas, component layout, `claude plugin validate --strict`) and the proven ssheleg pipeline: marketplace repo layout, version sync, validator + CI, multi-channel distribution (Claude Code plugin, vercel skills CLI, npx, Cursor), npm gotchas, end-to-end first publish, the review checklist for third-party skills, and MCP / A2A rules for protocol-connected skills.",
-        "version": "0.33.4",
+        "version": "0.33.5",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2005,7 +2005,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "1791f4db62132e852ef7972d902c7de618871c38ea9e0d82395c7c3cd4d8c915",
+          "sha256": "338af49a87191cfad91f8a4a2a139567d19f9693633f1ce7314b29c911e5d743",
           "bytes": 1093
         },
         {
@@ -2125,21 +2125,21 @@
         },
         {
           "path": "skills/make-skill/SKILL.md",
-          "sha256": "64103632e97cc369e9818b6d44e1002facc97f3d4b037b01fbe8925f9bf243e9",
+          "sha256": "31d791d50a36bb4f2fcc0fd059fd35c0cc4aa3f95ddb6b9a9e8d8049ab490855",
           "bytes": 19552
         },
         {
           "path": "skills/skill-search/SKILL.md",
-          "sha256": "b651f78f49ec31995f81a38d3af38a5fa6f9aed0be29d57d0c6890dd8a882202",
-          "bytes": 3531
+          "sha256": "a39b126b215fea4016347f7542332969b99ffcc051dd836e5ae328a521e15669",
+          "bytes": 3528
         }
       ]
     },
     {
       "name": "sheleg-design",
       "repo": "ssheleg/sheleg-design-skill",
-      "commit": "bc77a9e6df15dc0b53bc2b83a4e03053356e0fd4",
-      "version": "1.66.4",
+      "commit": "0f3c7701eae79f99526a8b892ee880901a568f8b",
+      "version": "1.66.5",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
       "pluginPath": "plugins/sheleg-design",
       "entry": {
@@ -2147,7 +2147,7 @@
         "displayName": "SHELEG Design",
         "source": "./plugins/sheleg-design",
         "description": "SHELEG Design methodology: cinematic scroll-driven landing pages (single scroll clock, layered degrade-to-calm motion, WebGL particle formations), a motion doctrine that decides whether to animate before it decides how, and thirty-nine pluggable visual style packs, each with a ready-made token layer — instrument-console (near-black aerospace console; technical systems and infrastructure), editorial-luxury (cream and espresso; editorial, research, premium B2B), workbench (quiet light/dark UI; dashboards, admin, internal tools), briefing-room (dark 16:9 deck; investor and board presentations), atrium (cream daylight; consumer health and high-trust DTC), babylove (white with orange; SEO SaaS, long time-to-value, disconnected states), patchbay (black with mint-cyan; engines, buses, pipelines, OSS front doors), nameplate (cool slab with coral; press, certification and third-party trust), rimlight (white with blue light; studios, services and case studies), onionskin (white working sheet; developer and AI infrastructure), deskmate (warm beige with a dusk bleed; AI coworkers and chat-native agents), test-drive (warm paper with one coral; self-serve SaaS proven by the live product), surveyor (peach paper with teal and pink; visibility, monitoring and benchmark tools), chorus (warm paper under a crosshair grid, with a cut-corner bubble; AI-search visibility, brand monitoring and community marketing), outrank (white with violet; one brand across marketing and product), orchard (warm oat slabs; friendly biotech and wellness), field-notes (ruled green paper; auditable open-source developer tools), showroom (white gallery; product-led companies selling the app), blueprint (white technical stock; vector, storage and query infrastructure), prism (iridescent hard edge; command-first OSS infrastructure), maquette (near-black table; enterprise data infrastructure), cyclorama (looping pastel field; applied-AI consultancies), scoreboard (warm paper; growth, ads and accumulating metrics), datasheet (off-white specification; fraud, identity and device intelligence), manpage (cream manual; APIs, SDKs, CLIs and MCP servers), pigeonhole (filed white field; inbox, ticket and CRM triage), roster (faint square grid; platforms sold through who uses them), ora (warm coal; machine verdicts, audits and protocol traces), tenor (warm management paper; agent operations and autonomous back office), ledger (cream ruled console; analysts, BI and warehouse agents), paperclip (monochrome coal; orchestrators, schedulers and job runners), awning (white commerce forecourt; storefront, payroll and billing platforms), router (pale console with hairlines; dashboard, billing and inventory surfaces), daylight (bright portal with one shadow; client onboarding and service portals), notation (restrained technical hairlines; OSS, docs and developer workspaces), almanac (oatmeal editorial paper; manifestos and category-defining pages), vitrine (serif trust display; evaluated B2B, security and compliance), proscenium (white demo sequence; product tours and launch pages), bulletin (cheerful outlined bands; broad SMB and agency platforms). Ships the sheleg-design skill, the architecture reference, the motion doctrine, the Figma and Claude Design bridges, AI-surface patterns, the packs' token CSS, and the /sheleg-design command.",
-        "version": "1.66.4",
+        "version": "1.66.5",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2174,7 +2174,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "a2de2bb4c78d3aa79cabc74473c3d5d15e5038591501d09c435193b338d4c511",
+          "sha256": "f94b264e33416795c5e04e9cb5a366357b6fecc8a920c1c8aacacd0e57b95daa",
           "bytes": 3896
         },
         {
@@ -2259,8 +2259,8 @@
         },
         {
           "path": "skills/sheleg-design/SKILL.md",
-          "sha256": "dcb1fd5d8dc0752c1e0bd0affe6bf258488bece93fbc34c7d718ff281030eacd",
-          "bytes": 19941
+          "sha256": "c5757fdc9e1618fd2455904f2b7c5d4f83251c8f5df2a995ec0ddd7ef758c020",
+          "bytes": 19959
         },
         {
           "path": "skills/sheleg-design/SLOP_MARKERS.md",
@@ -2934,8 +2934,8 @@
     {
       "name": "sheleg-dev",
       "repo": "ssheleg/sheleg-dev",
-      "commit": "b0fa6900ce40df0b1d7265db47ee8cbe2b9eacbc",
-      "version": "0.16.2",
+      "commit": "916b683a896ce429ac3fa89a7a8514d9104aad4a",
+      "version": "0.16.3",
       "pluginInstall": "sheleg-dev@sheleg-dev",
       "pluginPath": "plugins/sheleg-dev",
       "entry": {
@@ -2943,7 +2943,7 @@
         "displayName": "Sheleg Dev",
         "source": "./plugins/sheleg-dev",
         "description": "The integration layer a product needs once it has users: Stripe subscription billing reconciled into your own database, crypto payments that survive over-payment and duplicate webhooks, ad and conversion tracking under Consent Mode v2, Google sign-in with the account-linking guards, the wider Google auth surface, and Core Web Vitals work that moves the score, and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it.",
-        "version": "0.16.2",
+        "version": "0.16.3",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2972,7 +2972,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "0c975d68d03a12ec0cd755717b4c9d3ccd16a03a9f38e587a269495a3d62d5cf",
+          "sha256": "4fa3f9dfac7103b9a287473661938dc39f533e2cdf83eb37e647d0847b82adcb",
           "bytes": 1221
         },
         {
@@ -3052,8 +3052,8 @@
         },
         {
           "path": "skills/ad-tracking/SKILL.md",
-          "sha256": "cf8cc12dfa2484b5ad52445120db67881018dae39bdff5e738ca4e9c2f47266b",
-          "bytes": 20614
+          "sha256": "65559026881baa47d5ea1dfcaf54e57aa8aa6f0fed8e5f8f8681a4fd613b213c",
+          "bytes": 20616
         },
         {
           "path": "skills/crypto-payments/references/callback-route-hardening.md",
@@ -3285,8 +3285,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "28a0303c42038778e2650fc51096e589f4035239",
-      "version": "0.31.3",
+      "commit": "52b0584dbe3a10468072fe0a642ff2d414d66544",
+      "version": "0.31.4",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3294,7 +3294,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.31.3",
+        "version": "0.31.4",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3319,7 +3319,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "c4c919633e855a72ead8a609aa07746725c3bca8af493077127dc8ddd90cab59",
+          "sha256": "e5dbe582efa09dfa3407408b6ac783c2c23591b1eec100538042ab6b561c7512",
           "bytes": 1081
         },
         {
@@ -3409,8 +3409,8 @@
         },
         {
           "path": "skills/agent-harness/SKILL.md",
-          "sha256": "697bdaa6d371c8aa38b8ea4cb7ac49891849a0a20d01c74e796f3643335c5da3",
-          "bytes": 14239
+          "sha256": "4b45a4114b5b37df33f745031a8f5a8e98e09ceb98f64bed0dbdbeb117bc25b7",
+          "bytes": 14244
         },
         {
           "path": "skills/agent-interop/references/a2a.md",
@@ -3444,8 +3444,8 @@
         },
         {
           "path": "skills/agent-interop/SKILL.md",
-          "sha256": "d26ef6fc1a26743502b81d662639ad9a6a4eb6de8ec9ff10fd43b695a21c5866",
-          "bytes": 15385
+          "sha256": "bc6a69e54c89a3686c86f7e1d83b22c90213df444a445971c2471e9dfe43510b",
+          "bytes": 15369
         },
         {
           "path": "skills/agent-orchestrator/references/context-engineering.md",
