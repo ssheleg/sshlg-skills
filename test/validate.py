@@ -2728,12 +2728,30 @@ LEDGER_DOCS = ("docs/evidence/backlog.md", "docs/evidence/verification.md",
 # Directory names that belong to a consuming project or to a member, not to an address
 # here. Each carries its reason: an exception with no reason cannot be told from an
 # oversight by whoever reads this next.
+#
+# B-302: `docs/ux/` and `docs/brand/` were listed too, for the pack `super-ux` creates in
+# the product that installs it. The hub ships its own pack under those names, so the
+# exemption hid every link inside it as well. A document naming a product's pack writes
+# `<project>/docs/ux/...` (the README already does), which the extractor declines as a
+# placeholder, so nothing here is needed for it. `check_elsewhere_names_no_shipped_directory`
+# keeps an exemption from shadowing a directory this tree ships.
 ELSEWHERE = {
-    "docs/ux/": "the design chain `super-ux` creates in the product that installs it",
-    "docs/brand/": "the brand pack `super-ux` creates in the product that installs it",
     "docs/superpowers/": "the artifact root a host project may still be on -- DOCMAP's "
                          "propagation matrix says such a project is never warned",
 }
+
+
+def check_elsewhere_names_no_shipped_directory():
+    """An exemption for a directory this repository ships hides this repository's own
+    addresses, which is how the hub's UX and brand pack went unchecked (B-302)."""
+    for prefix, reason in ELSEWHERE.items():
+        if os.path.isdir(os.path.join(ROOT, prefix)):
+            fail(f"ELSEWHERE exempts `{prefix}` ({reason}), but this repository ships that "
+                 f"directory, so every address into it goes unchecked. Drop the entry and "
+                 f"name another project's copy as `<project>/{prefix}...` (B-302)")
+
+
+check_elsewhere_names_no_shipped_directory()
 
 
 def _claimed(doc, prefixes):

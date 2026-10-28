@@ -17,6 +17,7 @@ check off. Three ways that happens, each asserted on its own:
 And the miss that matters: an address that resolves to a file but names a line past its
 end. The file opens, the claim points at nothing, and `test -e` calls it fine.
 """
+import ast
 import os
 import shutil
 import sys
@@ -123,6 +124,37 @@ def a_relative_link_is_resolved_against_its_own_document():
                                                 docdir="docs/evidence")] == []
 
 
+def validator_elsewhere():
+    """`ELSEWHERE` as `test/validate.py` declares it, read from the source: importing the
+    validator runs every check, and a copy kept here would drift from the one in force."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "validate.py")
+    with open(path, encoding="utf-8") as fh:
+        tree = ast.parse(fh.read())
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and any(
+                isinstance(t, ast.Name) and t.id == "ELSEWHERE" for t in node.targets):
+            return ast.literal_eval(node.value)
+    raise AssertionError("no ELSEWHERE assignment in test/validate.py")
+
+
+def the_hubs_own_pack_is_not_exempt():
+    """B-302: `docs/ux/` and `docs/brand/` were exempt for every document, so a dead link
+    inside the hub's own UX and brand pack went unchecked. The hub ships both directories;
+    a product's pack is written `<project>/docs/ux/...`, which is a placeholder anyway."""
+    exempt = validator_elsewhere()
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    shipped = [e for e in exempt if os.path.isdir(os.path.join(root, e))]
+    assert shipped == [], f"ELSEWHERE exempts directories this repository ships: {shipped}"
+    prefixes = doc_refs.local_prefixes(root)
+    row = "the flows are in [scenarios](../ux/gone.md) and [voice](../brand/gone.md)"
+    got = [t for _, _, t in doc_refs.addresses(row, prefixes, exempt, docdir="docs/brand")]
+    assert got == ["docs/ux/gone.md", "docs/brand/gone.md"], got
+    assert [doc_refs.resolve(root, t)[0] for t in got] == [False, False]
+    # A product's pack named with its placeholder stays declined, exemption or not.
+    assert [t for _, _, t in doc_refs.addresses(
+        "seed `<project>/docs/ux/scenarios.md`", prefixes, exempt)] == []
+
+
 def an_external_link_target_is_ignored():
     assert tokens("[spec](https://agentskills.io/specification)") == []
 
@@ -213,6 +245,7 @@ for n, f in [
     ("a dead link target is reported", a_link_with_a_dead_target_is_still_reported),
     ("prose beside a link is still read", a_bare_label_outside_a_link_is_still_read),
     ("a relative link resolves against its document", a_relative_link_is_resolved_against_its_own_document),
+    ("the hub's own pack is not exempt (B-302)", the_hubs_own_pack_is_not_exempt),
     ("an external link target is ignored", an_external_link_target_is_ignored),
     ("`npm run` is its own kind", an_npm_run_claim_is_its_own_kind),
     ("an unbackticked script name is a claim", an_unbackticked_script_name_is_still_a_claim),
@@ -225,7 +258,7 @@ for n, f in [
     case(n, f)
 
 if failures:
-    print(f"\nFAIL: {len(failures)} of 17")
+    print(f"\nFAIL: {len(failures)} of 18")
     sys.exit(1)
-print("\nPASS: doc_refs — 17 cases")
+print("\nPASS: doc_refs — 18 cases")
 residue.report()
