@@ -411,6 +411,26 @@ it('commandGroups: top level, substitutions, bash -c scripts and shell heredoc b
   assert.deepStrictEqual(H.commandGroups(null).flatMap((g) => g.commands), []);
 });
 
+// B-291: a redirect operator and its target are not words of the command they redirect.
+it('B-291: commandGroups drops redirect operators, their targets and a touching fd number', () => {
+  const words = (c) => H.commandGroups(c).flatMap((g) => g.commands).map((w) => w.join(' '));
+  assert.deepStrictEqual(words('echo hi > out.txt'), ['echo hi']);
+  assert.deepStrictEqual(words('echo hi >out.txt 2>err.txt'), ['echo hi']);
+  assert.deepStrictEqual(words('echo hi >> log &> all &>> both < in >| clobber'), ['echo hi']);
+  assert.deepStrictEqual(words('echo hi 2>&1 | tee x.log'), ['echo hi', 'tee x.log']);
+  assert.deepStrictEqual(words('echo hi >&2'), ['echo hi']);
+  assert.deepStrictEqual(words('> out.txt echo hi'), ['echo hi']);
+  assert.deepStrictEqual(words('echo 2 > out.txt'), ['echo 2'], 'a spaced digit is a word');
+  assert.deepStrictEqual(words('echo a2> out.txt'), ['echo a2'], 'a2 is a word, not an fd');
+  assert.deepStrictEqual(words('diff <(ls a) <(ls b)'), ['diff', 'ls a', 'ls b'], 'process substitution is not a target');
+  assert.deepStrictEqual(words("cat > f <<'EOF'\ngit reset --hard\nEOF"), ['cat'], 'heredoc reading is unchanged');
+});
+
+it('B-291: a substitution inside a redirect target still runs', () => {
+  assert.ok(H.hostSelfUpdate('echo hi > "$(pi update)"'), 'a host update in a redirect target was missed');
+  assert.ok(H.hostSelfUpdate('cat < `pi update`'));
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
