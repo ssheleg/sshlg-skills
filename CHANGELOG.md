@@ -1,3 +1,22 @@
+## v1.84.1 (2026-10-28): install works on Windows, and a run without a terminal decides nothing
+
+Reported from a Windows install of 1.84.0 (2026-10-28).
+
+- **Windows: the Claude step no longer fails on the backup** (B-312). Node reports `0o666` for
+  every file on Windows and has no `process.getuid`, so the POSIX privacy check on the backup
+  retention store could never pass and every write behind a backup refused ("backup retention
+  storage is not private and owned"). `lib/posix-perms.js` skips those checks on Windows, where
+  the profile ACL is the access control, and finds executables by `PATHEXT`; the backup store,
+  deferred Codex receipts and the block writer use it.
+- **A run without a terminal decides nothing** (B-313). It used to record "no" and write
+  `SSHLG:ROUTERS:OPTOUT` markers into Codex and Gemini files, so an agent's install decided for the
+  person and the next install never asked. Now nothing is written or recorded and the run names
+  the next step; `install --routers yes|no` carries the person's answer and replaces an earlier
+  record. A machine that got the markers: run `npx --yes sshlg-skills@latest install --routers
+  yes`, and delete the `<!-- SSHLG:ROUTERS:OPTOUT -->` line in each file it reports as
+  `opted-out`.
+- Release impact card: `docs/evidence/specs/2026-10-28-v1841-release-impact.md`.
+
 ## v1.84.0 (2026-10-28): every member's gate asks about its triggers, the address gate covers the hub's own packs
 
 The operator, 2026-10-28: «доделай все сам», «до конца». Fourth pass over the board: B-261,

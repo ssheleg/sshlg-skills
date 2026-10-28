@@ -40,6 +40,9 @@ web3d-dev 0.2.6 and xr-dev 0.4.5; 18 rows open. Card:
 xr-dev 0.4.6 and web3d-dev 0.2.7; 15 rows open. Card:
 [`2026-10-28-v1840-release-impact.md`](evidence/specs/2026-10-28-v1840-release-impact.md).
 
+**1.84.1 (Windows install report):** B-312 (POSIX checks skipped on Windows) and B-313 (a run
+without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to B-316 filed.
+
 **Exact next bounded task:** stage 8 of the 1.81.0 card after 2026-10-28T19:40Z, then of 1.82.0,
 1.83.0 and 1.84.0 after their windows; then the highest open board row (B-280, B-284, B-310, B-311).
 

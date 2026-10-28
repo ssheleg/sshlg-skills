@@ -76,6 +76,7 @@ have. This repository grew its own on 2026-08-10, closing carry-over C-06.
 | Which tool call is about to overwrite an unrecoverable file | `lib/guard.js` | pure; the hook takes the copy. The matching is here rather than in the entry's `if` field because the reference states that filter is best-effort and **fails open** on a command it cannot parse |
 | Whether a git command would throw away uncommitted work | `lib/gitdiscard.js` | pure: the command's targets and the `git status` the hook probed decide; the hook probes only the named paths, lock-free and within 1.5 s, and fails open on any probe error (B-240) |
 | What a host's hook payload means, and how its answer is spelled | `lib/hookpayload.js` | pure normaliser for Cursor and Codex payloads (Cursor's `Shell`, `path`, `MCP:<tool>`; Codex's `apply_patch` paths), and each host's answer shape (B-209) |
+| Whether a file is private, owned, or executable, on the platform it runs on | `lib/posix-perms.js` | POSIX mode and uid checks, skipped on Windows where Node reports `0o666` and has no uid (the profile ACL is the control); executables by exec bit on POSIX and by `PATHEXT` on Windows (1.84.1) |
 | How bytes land in an operator file | `lib/atomicwrite.js` | the ONE writer: temp file beside the target, flush, rename, mode kept, a symlink written through; `test/apply_test.js` fails on a raw write or rename outside it (B-260) |
 | Which other hosts read a global instruction file, and what the hub does for each | `lib/instruction-targets.js` | one table with each host's file, cap, presence rule and decision (written, compact, or reported with the reason); the guard's protected list is derived from it (B-206, B-281) |
 | The three machine habits nothing enforced: the bare skills CLI, shadowing copies, the truncated wiki config | `lib/hygiene.js` | pure; family ids come from `skills.json` so a member that gains a skill does not gain an unguarded one |
@@ -192,8 +193,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=160 fixtures=3220 members=11 -->
-**Ratchets.** 160 suites, 3220 fixtures, 11 pinned members; these three numbers are
+<!-- ratchets: suites=162 fixtures=3232 members=11 -->
+**Ratchets.** 162 suites, 3232 fixtures, 11 pinned members; these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree, and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
