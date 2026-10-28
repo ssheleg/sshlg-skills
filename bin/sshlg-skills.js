@@ -1461,14 +1461,24 @@ function cmdHosts() {
     log(`  projects in ${t.file} (${t.entries.length}):`);
     for (const e of t.entries) log(`    ${e.path}: ${e.trusted ? 'trusted, project roots load' : 'not trusted, project roots not loaded'} (and in folders below without their own entry)`);
   }
-  for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)${root.loaded ? '' : ' (not loaded: project not trusted)'}`);
+  for (const root of r.roots) {
+    const note = !root.loaded ? ' (not loaded: project not trusted)'
+      : root.asks ? ' (loads after you trust the project; headless runs skip it)' : '';
+    log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)${note}`);
+  }
+  // B-293: when Pi would ask, the project copies count only after the person trusts it,
+  // and a headless `pi -p` never loads them; both numbers are printed, not one.
+  const pending = t.verdict === 'asks';
   log(`  family skills visible to Pi (by name): ${r.family.visible.length} of ${r.family.total}` +
+      (pending ? ` after you trust this project; ${r.family.headless.length} of ${r.family.total} in a headless run (\`pi -p\` skips the project roots)` : '') +
+      (pending && r.family.afterTrust.length ? `; only after trust: ${r.family.afterTrust.join(', ')}` : '') +
       (r.family.missing.length ? `; not visible: ${r.family.missing.join(', ')}` : ''));
   log(`  duplicate names across Pi's roots: ${r.duplicates.harmless} harmless (one realpath), ` +
       `${r.duplicates.conflicts.length} conflict(s) (different realpaths) of ${r.names} names`);
   for (const c of r.duplicates.conflicts) {
     const mark = r.duplicates.familyConflicts.includes(c.name) ? ' [family]' : '';
-    log(`  conflict: ${c.name}${mark}: Pi keeps ${c.locations[0].path}; shadowed: ${c.locations.slice(1).map((l) => l.path).join(', ')}`);
+    const when = c.afterTrust ? ' (after you trust the project)' : '';
+    log(`  conflict: ${c.name}${mark}: Pi keeps ${c.locations[0].path}; shadowed: ${c.locations.slice(1).map((l) => l.path).join(', ')}${when}`);
   }
 }
 

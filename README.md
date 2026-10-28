@@ -564,7 +564,9 @@ roots in that order and names the copy Pi keeps. It also reads Pi's own trust st
 `defaultProjectTrust` in Pi's `settings.json`) and says whether Pi loads this project's roots:
 a project the store does not trust is reported as such and its copies are left out of the
 counts, a project with no entry under the default `ask` is one an interactive Pi asks about
-first, and every project in the store is listed with its decision. `--approve`/`--no-approve`
+first, and the family count then carries two numbers: visible after you trust the project, and
+visible in a headless run (`pi -p` skips the project roots), with the skills only the project
+copy provides named (B-293). Every project in the store is listed with its decision. `--approve`/`--no-approve`
 and an extension's trust answer decide per run and are not read (Pi 1.1.0
 `dist/core/trust-manager.js`, `dist/core/project-trust.js`; B-263). Pi loads no Claude Code plugins, so the family
 reaches it as plain skill directories plus the block above. `npx sshlg-skills hosts` reports,
