@@ -1237,6 +1237,21 @@ it('B-267: an adjective trigger matches its inflected forms, and nouns did not w
   assert.deepStrictEqual(T.stemRu('сценарий'), { stem: 'сценари', cut: 1 });
 });
 
+// --- B-297, B-298: qualified forms route, the bare ones stay silent ----------
+
+it('B-297/B-298: a 3D model and a Quest-named phrase route; an ML model and a phone word do not', () => {
+  for (const [p, want] of [
+    ['the 3D model is too heavy for mobile', 'web3d-dev'],
+    ['сожми 3D-модель', 'web3d-dev'],
+    ['set the Quest release channel', 'xr-dev'],
+    ['включи режим разработчика на Quest', 'xr-dev'],
+  ]) assert.ok(T.match(p).includes(want), `${p}: ${JSON.stringify(T.match(p))}`);
+  for (const p of ['the model is too heavy to deploy on the GPU', 'iOS developer mode',
+    'switch the release channel to beta']) {
+    assert.ok(!T.match(p).includes('web3d-dev') && !T.match(p).includes('xr-dev'), `${p}: ${JSON.stringify(T.match(p))}`);
+  }
+});
+
 // --- B-241: a status question and a look are not orders --------------------
 //
 // «миграция прошла? посмотри логи» read as a write, because `миграция` is a noun in

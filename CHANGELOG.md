@@ -1,3 +1,26 @@
+## v1.83.0 (2026-10-28): the code graph refreshed, guard and routing precision
+
+The operator, 2026-10-28: «доделай все сам», «до конца». Third pass over the board: eight
+rows closed (B-200, B-291, B-292, B-293, B-295, B-296, B-297, B-298); 18 stay open, each with
+its owner or gate in `docs/evidence/backlog.md`.
+
+- **The static code graph is current again** (B-200): the unchanged builder over 1.82.0
+  (`raw/final-336afb5`: 3955 nodes, 6081 edges, provider calls 0), both reconciliation checks
+  PASS_BOUNDED against the baseline.
+- **The discard guard reads fewer false paths** (B-291): a redirect target (`> out.txt`,
+  `2>err`) is no longer a pathspec, and `git clean -e` exclusions count the way git does.
+- **The address check covers the seven reader documents** (B-292); five dead addresses in
+  `docs/CLAUDE-CONTINUE.md` now resolve.
+- **`hosts` shows Pi's undecided trust in its numbers** (B-293).
+- **A member's own gate fails on an advertised phrase no route reaches** (B-295), through
+  `test/advertised_phrases.js`, shared with the hub's fixture.
+- **Routing precision** (B-296, B-297, B-298): "A-Frame" routes to xr-dev and "render a frame"
+  does not; "the model is too heavy to deploy on the GPU" no longer names web3d-dev, while "the 3D
+  model is too heavy" does; Quest-named store and tooling phrases route, phone words stay silent.
+- **Members:** web3d-dev 0.2.6 (0.2.5's qualified phrase, then 4 characters back so the family
+  description total keeps falling), xr-dev 0.4.5.
+- Release impact card: `docs/evidence/specs/2026-10-28-v1830-release-impact.md`.
+
 ## v1.82.0 (2026-10-28): the board's second pass, routing completeness and six member releases
 
 The operator, 2026-10-27/28: «доделай все сам», «до конца». The second pass over the board

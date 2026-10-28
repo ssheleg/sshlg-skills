@@ -192,8 +192,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=157 fixtures=3167 members=11 -->
-**Ratchets.** 157 suites, 3167 fixtures, 11 pinned members; these three numbers are
+<!-- ratchets: suites=158 fixtures=3190 members=11 -->
+**Ratchets.** 158 suites, 3190 fixtures, 11 pinned members; these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree, and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
@@ -272,10 +272,10 @@ routing block the hub writes into every host's instruction file (headings, table
 may fall and never rise without a recorded reason, so the always-loaded block cannot grow by
 accident. A cut still needs the paired routing evaluation before it ships.
 
-<!-- description-total: 11455 -->
+<!-- description-total: 11452 -->
 **Family description total (R32, 2026-10-12).** The characters of every family skill
 description (whitespace collapsed, the figure the 970 cap is quoted in), summed over the
-pinned submodules. Measured at the pins of this revision: **11455 characters over 39
+pinned submodules. Measured at the pins of this revision: **11452 characters over 39
 skills** (16102 before the 1.79.0 re-pins, B-255's 300-character budget; 32495 before the cap moved to 500; 32498 before the 1.67.0 re-pins, 32501 before the 1.63.0 re-pins, 32635 before the 1.57.0 re-pins), by `check_the_family_description_total_only_falls` in `test/validate.py`, which
 computes the sum on every run and compares it with the marker above. **It may fall and
 never rise:** a total above the marker fails and names the excess; a total below it passes

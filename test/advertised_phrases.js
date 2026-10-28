@@ -221,8 +221,8 @@ const NOT_ROUTED = {
       + 'Telegram',
   },
   'web3d-dev/web3d-assets': {
-    'сожми модель': ML_MODEL,
-    'модель слишком тяжёлая': ML_MODEL,
+    'too heavy': 'a word quoted in the prose that explains the ML-model ambiguity (web3d-dev '
+      + '0.2.5), not a trigger',
   },
   'web3d-dev/web3d-animation': {
     'ретаргетинг': 'already sheleg-dev\'s ad word (ad-tracking advertises it); a second route on '
