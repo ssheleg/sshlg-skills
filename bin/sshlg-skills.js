@@ -465,22 +465,31 @@ function extraRootPlans(f) {
   let acks = {};
   try { const C = require('../lib/config.js'); acks = C.extraAckGet(C.readConfig(home)); } catch (_) { acks = {}; }
   return X.hosts(home, process.env).map((h) => {
-    const entries = [];
-    for (const name of channelEntries(h.dir)) {
-      if (name.startsWith('.')) continue;
-      const full = path.join(h.dir, name);
-      let st;
-      try { st = fs.lstatSync(full); } catch (_) { continue; }
-      const isSymlink = st.isSymbolicLink();
-      let target = null;
-      if (isSymlink) { try { target = path.resolve(h.dir, fs.readlinkSync(full)); } catch (_) { target = null; } }
-      let isDir = false, live = true;
-      try { isDir = fs.statSync(full).isDirectory(); } catch (_) { live = false; }
-      entries.push({ name, path: full, isSymlink, target, live, isDir });
-    }
+    const entries = observedEntries(h.dir);
     const installed = !!which(h.bin) || channelEntries(h.base).some((n) => n !== 'skills' && !n.startsWith('.'));
     return X.decide({ host: h, assessed: X.assess({ entries, familyIds, lock, sharedRoot }), installed, scope, ack: acks[h.agent] });
   });
+}
+
+/**
+ * One skills root as observed: each entry's name, whether it is a link, its target resolved
+ * lexically from the link, whether it resolves, and whether it is a directory. Read-only.
+ */
+function observedEntries(dir) {
+  const entries = [];
+  for (const name of channelEntries(dir)) {
+    if (name.startsWith('.')) continue;
+    const full = path.join(dir, name);
+    let st;
+    try { st = fs.lstatSync(full); } catch (_) { continue; }
+    const isSymlink = st.isSymbolicLink();
+    let target = null;
+    if (isSymlink) { try { target = path.resolve(dir, fs.readlinkSync(full)); } catch (_) { target = null; } }
+    let isDir = false, live = true;
+    try { isDir = fs.statSync(full).isDirectory(); } catch (_) { live = false; }
+    entries.push({ name, path: full, isSymlink, target, live, isDir });
+  }
+  return entries;
 }
 
 /** The agents `update` hands the skills CLI: the run's set plus the extra roots to refresh (B-216). */
@@ -1436,6 +1445,7 @@ function cmdHosts() {
   // L5: which domain members load where. Counts only — a project's name stays in `domains`.
   try { domainsSummary(home); } catch (e) { log(`\nDomain members per project: not read (${e.message})`); }
   reportStaleLocalRecords();
+  reportHermesLinks(home);
   const family = new Set(SKILLS.flatMap((s) => s.skillNames || []));
   const r = piLib.inspect({ home, env: process.env, cwd: process.cwd(), which: (b) => piLib.whichBin(b), family });
   log('\nPi (@earendil-works/pi-coding-agent):');
@@ -1480,6 +1490,26 @@ function cmdHosts() {
     const when = c.afterTrust ? ' (after you trust the project)' : '';
     log(`  conflict: ${c.name}${mark}: Pi keeps ${c.locations[0].path}; shadowed: ${c.locations.slice(1).map((l) => l.path).join(', ')}${when}`);
   }
+}
+
+/**
+ * B-286: third-party skills Hermes reads through a link into ~/.agents/skills, where a
+ * Hermes self-patch changes the copy every other host reads. Read-only: the count and the
+ * per-source remedy from lib/hermeslinks.js; the hub never copies a third-party skill.
+ */
+function reportHermesLinks(home) {
+  const HL = require('../lib/hermeslinks.js');
+  const hermesHome = (process.env.HERMES_HOME && String(process.env.HERMES_HOME).trim()) || path.join(home, '.hermes');
+  const dir = path.join(hermesHome, 'skills');
+  if (!fs.existsSync(dir)) { log(`\nHermes (B-286): absent (no ${dir})`); return; }
+  const a = HL.assess({
+    entries: observedEntries(dir),
+    familyIds: SKILLS.flatMap((s) => plan.skillIds(s)),
+    lock: lockSources(),
+    sharedRoot: path.join(home, '.agents', 'skills'),
+  });
+  log('\nHermes (B-286):');
+  for (const line of HL.report(a, { dir })) log(line);
 }
 
 /**

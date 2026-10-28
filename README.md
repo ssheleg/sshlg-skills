@@ -293,8 +293,14 @@ replaces existing bytes as well as installing missing skills, so no floating
 Hermes gets its own copy the same way (B-217): `skill_manage(patch)` rewrites a skill
 in place, and through a link that place was the shared `~/.agents/skills` copy every
 other host reads. With `--copy` a Hermes self-patch stays in `~/.hermes/skills` and
-the next `update` restores the pinned bytes there. A plain `npx skills update` may
-re-link Hermes; the next `npx sshlg-skills update` copies it again.
+the next `update` restores the pinned bytes there. A bare `npx skills update` turns
+the family copies in `~/.hermes/skills` back into links into `~/.agents/skills`, so
+until the next `npx sshlg-skills update` copies them again a Hermes patch reaches the
+shared copy once more. Third-party skills stay the operator's (B-286): the hub never
+copies or removes one, and `npx sshlg-skills hosts` counts those Hermes reads through a
+link into `~/.agents/skills` and prints, per upstream source, the one
+`npx skills add <source> --skill <names> --agent hermes-agent --global --copy --yes`
+that gives Hermes its own copy. It writes nothing.
 The selected agent list and shared-store effects still apply.
 
 **Family links in other host roots** (B-216). An interactive `skills add` can link the family
