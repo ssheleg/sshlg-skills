@@ -1,3 +1,24 @@
+## v1.84.0 (2026-10-28): every member's gate asks about its triggers, the address gate covers the hub's own packs
+
+The operator, 2026-10-28: «доделай все сам», «до конца». Fourth pass over the board: B-261,
+B-268, B-286, B-302, B-303, B-305, B-306 and B-309 closed; 15 stay open, each with its owner or
+gate in `docs/evidence/backlog.md`.
+
+- **Every member's own gate asks the hub about routed triggers** (B-305): xr-dev 0.4.6 and
+  web3d-dev 0.2.7 now call `test/advertised_check.js` like the other nine, so a dropped trigger or
+  an unrouted new phrase fails in the member before it releases.
+- **The address gate covers the hub's own UX and brand pack and every working rule** (B-302,
+  B-303); a link resolves from its own document's folder; three dead references fixed.
+- **The guards read a here-string** as stdin, and as a script when it feeds a shell (B-306).
+- **`hosts` reports the third-party skills Hermes reads through a shared link**, with the copy
+  command per source (B-286).
+- **The skills CLI lock is read where skills@1.7.2 keeps it**, `$XDG_STATE_HOME` included (B-309).
+- **`node scripts/hook-bench.js 20 --census`** counts the processes one Bash call starts across
+  every installed hook; the hub is at one per event, held by a test (B-268). Members' hook costs
+  are B-310 and B-311.
+- B-261 did not reproduce in 64 Linux runs under load and is closed with the command.
+- Release impact card: `docs/evidence/specs/2026-10-28-v1840-release-impact.md`.
+
 ## v1.83.0 (2026-10-28): the code graph refreshed, guard and routing precision
 
 The operator, 2026-10-28: «доделай все сам», «до конца». Third pass over the board: eight

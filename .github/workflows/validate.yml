@@ -1155,26 +1155,33 @@ jobs:
         # leaving the label alone. The first draft of this extractor read labels, which made
         # `README.md:69` — a live row whose link resolves — report as dead, and would have
         # let a genuinely broken target through under a label that still read fine.
+        #
+        # The `pack` plant (B-302) is a dead link inside the hub's own brand pack into its
+        # UX pack. `ELSEWHERE` once exempted every `docs/ux/` and `docs/brand/` address, so
+        # this exact plant passed.
         run: |
           set -eu
-          for mode in npm path link; do
+          for mode in npm path link pack; do
             rm -rf /tmp/refs-copy && cp -R . /tmp/refs-copy
             python3 test/plant_guard.py snap /tmp/refs-copy
             python3 - "$mode" <<'PY'
           import sys
           mode = sys.argv[1]
-          p = "/tmp/refs-copy/docs/DOCMAP.md"
+          rel = "docs/brand/terminology.md" if mode == "pack" else "docs/DOCMAP.md"
+          p = "/tmp/refs-copy/" + rel
           s = open(p, encoding="utf-8").read()
           before = s
           if mode == "npm":
               s += "\nRun `npm run test:negatives` to feed every guard a planted defect.\n"
           elif mode == "path":
               s += "\nThe convergence gate is `scripts/check-convergence.sh`.\n"
+          elif mode == "pack":
+              s += "\nThe flows are in [scenarios](../ux/scenarios-renamed-away.md).\n"
           else:
               s += "\nSee [`lib/apply.js`](lib/apply-renamed-away.js) for the write path.\n"
           open(p, "w", encoding="utf-8").write(s)
           assert open(p, encoding="utf-8").read() != before, f"plant did not land: {mode}"
-          print(f"planted {mode} into docs/DOCMAP.md")
+          print(f"planted {mode} into {rel}")
           PY
             python3 test/plant_guard.py verify /tmp/refs-copy "Negative self-test (an unresolvable claimed address must fail)"
             if python3 /tmp/refs-copy/test/validate.py; then
@@ -1195,6 +1202,9 @@ jobs:
           # The tuple by shape, not by text: B-292 grew it, and a literal match would break the plant.
           s, n = re.subn(r'^LIVE_DOCS = \([^)]*\)', 'LIVE_DOCS = ()', s, count=1, flags=re.M)
           assert n == 1, "PLANT DID NOT LAND: LIVE_DOCS is not where this expects it"
+          # B-303: the discovered directories feed the same corpus, so they empty with it.
+          s, n = re.subn(r'^LIVE_DIRS = \([^)]*\)', 'LIVE_DIRS = ()', s, count=1, flags=re.M)
+          assert n == 1, "PLANT DID NOT LAND: LIVE_DIRS is not where this expects it"
           open(p, "w", encoding="utf-8").write(s)
           PY
           python3 test/plant_guard.py verify /tmp/refs-empty "the enforced corpus emptied"

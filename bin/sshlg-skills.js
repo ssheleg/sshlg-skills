@@ -465,22 +465,31 @@ function extraRootPlans(f) {
   let acks = {};
   try { const C = require('../lib/config.js'); acks = C.extraAckGet(C.readConfig(home)); } catch (_) { acks = {}; }
   return X.hosts(home, process.env).map((h) => {
-    const entries = [];
-    for (const name of channelEntries(h.dir)) {
-      if (name.startsWith('.')) continue;
-      const full = path.join(h.dir, name);
-      let st;
-      try { st = fs.lstatSync(full); } catch (_) { continue; }
-      const isSymlink = st.isSymbolicLink();
-      let target = null;
-      if (isSymlink) { try { target = path.resolve(h.dir, fs.readlinkSync(full)); } catch (_) { target = null; } }
-      let isDir = false, live = true;
-      try { isDir = fs.statSync(full).isDirectory(); } catch (_) { live = false; }
-      entries.push({ name, path: full, isSymlink, target, live, isDir });
-    }
+    const entries = observedEntries(h.dir);
     const installed = !!which(h.bin) || channelEntries(h.base).some((n) => n !== 'skills' && !n.startsWith('.'));
     return X.decide({ host: h, assessed: X.assess({ entries, familyIds, lock, sharedRoot }), installed, scope, ack: acks[h.agent] });
   });
+}
+
+/**
+ * One skills root as observed: each entry's name, whether it is a link, its target resolved
+ * lexically from the link, whether it resolves, and whether it is a directory. Read-only.
+ */
+function observedEntries(dir) {
+  const entries = [];
+  for (const name of channelEntries(dir)) {
+    if (name.startsWith('.')) continue;
+    const full = path.join(dir, name);
+    let st;
+    try { st = fs.lstatSync(full); } catch (_) { continue; }
+    const isSymlink = st.isSymbolicLink();
+    let target = null;
+    if (isSymlink) { try { target = path.resolve(dir, fs.readlinkSync(full)); } catch (_) { target = null; } }
+    let isDir = false, live = true;
+    try { isDir = fs.statSync(full).isDirectory(); } catch (_) { live = false; }
+    entries.push({ name, path: full, isSymlink, target, live, isDir });
+  }
+  return entries;
 }
 
 /** The agents `update` hands the skills CLI: the run's set plus the extra roots to refresh (B-216). */
@@ -1436,6 +1445,7 @@ function cmdHosts() {
   // L5: which domain members load where. Counts only — a project's name stays in `domains`.
   try { domainsSummary(home); } catch (e) { log(`\nDomain members per project: not read (${e.message})`); }
   reportStaleLocalRecords();
+  reportHermesLinks(home);
   const family = new Set(SKILLS.flatMap((s) => s.skillNames || []));
   const r = piLib.inspect({ home, env: process.env, cwd: process.cwd(), which: (b) => piLib.whichBin(b), family });
   log('\nPi (@earendil-works/pi-coding-agent):');
@@ -1480,6 +1490,26 @@ function cmdHosts() {
     const when = c.afterTrust ? ' (after you trust the project)' : '';
     log(`  conflict: ${c.name}${mark}: Pi keeps ${c.locations[0].path}; shadowed: ${c.locations.slice(1).map((l) => l.path).join(', ')}${when}`);
   }
+}
+
+/**
+ * B-286: third-party skills Hermes reads through a link into ~/.agents/skills, where a
+ * Hermes self-patch changes the copy every other host reads. Read-only: the count and the
+ * per-source remedy from lib/hermeslinks.js; the hub never copies a third-party skill.
+ */
+function reportHermesLinks(home) {
+  const HL = require('../lib/hermeslinks.js');
+  const hermesHome = (process.env.HERMES_HOME && String(process.env.HERMES_HOME).trim()) || path.join(home, '.hermes');
+  const dir = path.join(hermesHome, 'skills');
+  if (!fs.existsSync(dir)) { log(`\nHermes (B-286): absent (no ${dir})`); return; }
+  const a = HL.assess({
+    entries: observedEntries(dir),
+    familyIds: SKILLS.flatMap((s) => plan.skillIds(s)),
+    lock: lockSources(),
+    sharedRoot: path.join(home, '.agents', 'skills'),
+  });
+  log('\nHermes (B-286):');
+  for (const line of HL.report(a, { dir })) log(line);
 }
 
 /**
@@ -2920,7 +2950,7 @@ function cmdVisibilityMarks(argv) {
   let packs;
   try { packs = [...new Set(HV.readLock(home, { strict: true }).values())]; }
   catch (e) { log(`visibility marks: ${e.message}; nothing written`); return 1; }
-  if (!packs.length) { log('visibility marks: no installed packs (~/.agents/.skill-lock.json): nothing to mark'); return 2; }
+  if (!packs.length) { log(`visibility marks: no installed packs (${require('../lib/skillstore.js').skillLockPath(home, process.env)}): nothing to mark`); return 2; }
   const known = new Set(packs.map((p) => p.toLowerCase()));
   for (const p of show) if (!known.has(p.toLowerCase())) log(`  note: ${p} is not installed here; marked listed anyway`);
   if (text !== null && !flag('--replace')) {
@@ -4248,10 +4278,15 @@ function channelEntries(dir) {
   try { return fs.readdirSync(dir).filter((n) => n !== '.' && n !== '..'); } catch (_) { return []; }
 }
 
+/** Where the skills CLI keeps its lock on this machine (`$XDG_STATE_HOME` honoured). */
+function skillLockFile() {
+  return require('../lib/skillstore.js').skillLockPath(os.homedir(), process.env);
+}
+
 /** id → upstream repo, from the skills CLI's own lock. Unreadable ⇒ empty: refuse, not approve. */
 function lockSources() {
   try {
-    const j = JSON.parse(fs.readFileSync(path.join(os.homedir(), '.agents', '.skill-lock.json'), 'utf8'));
+    const j = JSON.parse(fs.readFileSync(skillLockFile(), 'utf8'));
     const out = {};
     for (const [id, row] of Object.entries(j.skills || {})) out[id] = (row && row.source) || '';
     return out;
@@ -4293,7 +4328,7 @@ function planUninstall(f) {
     `remove ${removals.length} family skill entr(ies) across the agent channels (${kept.length} name-collision entr(ies) left in place)`,
     { paths: removals.map((r) => r.path) }));
   steps.push(opres.step('runtime-sync', 'home',
-    'drop the removed ids from ~/.agents/.skill-lock.json (protect() copy first)',
+    `drop the removed ids from ${skillLockFile()} (protect() copy first)`,
     { ids: [...new Set(removals.map((r) => r.name))] }));
   if (f.claude !== false) {
     for (const s of SKILLS) {
@@ -4346,7 +4381,7 @@ function cmdUninstall(f) {
   }
   for (const k of kept) log(`  = left in place: ${k.path} (${k.reason})`);
 
-  const lockFile = path.join(home, '.agents', '.skill-lock.json');
+  const lockFile = skillLockFile();
   const dropped = [...new Set(removals.map((r) => r.name))];
   if (dropped.length && fs.existsSync(lockFile)) {
     // The same copy-first rule as every other write: protect() takes the

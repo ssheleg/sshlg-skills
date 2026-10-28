@@ -98,6 +98,14 @@ it('removeBlock: the sentinel region goes, every byte outside it stays', () => {
 const BIN = path.resolve(__dirname, '..', 'bin', 'sshlg-skills.js');
 const HOME = fs.mkdtempSync(path.join(os.tmpdir(), 'skillstore-'));
 
+it('the skills CLI lock: $XDG_STATE_HOME/skills when set, else ~/.agents (skills@1.7.2 getSkillLockPath)', () => {
+  assert.strictEqual(S.skillLockPath('/h', {}), path.join('/h', '.agents', '.skill-lock.json'));
+  assert.strictEqual(S.skillLockPath('/h', { XDG_STATE_HOME: '/s' }), path.join('/s', 'skills', '.skill-lock.json'));
+  assert.strictEqual(S.skillLockPath('/h', { XDG_STATE_HOME: '' }), path.join('/h', '.agents', '.skill-lock.json'),
+    'an empty XDG_STATE_HOME is unset to the skills CLI (`if (xdgStateHome)`)');
+  assert.strictEqual(S.skillLockPath('/h'), S.skillLockPath('/h', process.env));
+});
+
 function seed() {
   // two channels + the hub, a family skill, a foreign skill, a foreign symlink
   fs.mkdirSync(path.join(HOME, '.agents', 'skills', 'vision'), { recursive: true });
@@ -124,9 +132,10 @@ function seed() {
   fs.writeFileSync(path.join(HOME, '.cursor', 'rules', 'sshlg-routing.mdc'), '---\nalwaysApply: true\n---\nblock\n');
 }
 
-function launcher(args) {
-  return spawnSync('node', [BIN, ...args],
-    { env: Object.assign({}, process.env, { HOME }), encoding: 'utf8' });
+function launcher(args, extra) {
+  const env = Object.assign({}, process.env, { HOME });
+  delete env.XDG_STATE_HOME;
+  return spawnSync('node', [BIN, ...args], { env: Object.assign(env, extra || {}), encoding: 'utf8' });
 }
 
 function treeHash() {
@@ -183,6 +192,36 @@ it('e2e: uninstall removes the family, keeps the stranger, strips the block, spa
   const backups = fs.readdirSync(path.join(HOME, '.sshlg-skills', 'backups'));
   assert.ok(backups.some((n) => n.includes('claude_CLAUDE.md') || /CLAUDE/.test(n)),
     `no pre-write copy of CLAUDE.md among: ${backups.join(', ')}`);
+});
+
+it('e2e: uninstall reads and rewrites the lock where the skills CLI keeps it under XDG_STATE_HOME', () => {
+  const state = path.join(HOME, 'state');
+  const vision = path.join(HOME, '.agents', 'skills', 'vision');
+  fs.mkdirSync(vision, { recursive: true });
+  fs.writeFileSync(path.join(vision, 'SKILL.md'), '# vision\n');
+  fs.mkdirSync(path.join(state, 'skills'), { recursive: true });
+  const xdgLock = path.join(state, 'skills', '.skill-lock.json');
+  fs.writeFileSync(xdgLock, JSON.stringify({ version: 3, skills: {
+    vision: { source: 'ssheleg/super-ux' }, 'foreign-skill': { source: 'other/skills' } } }, null, 2));
+  const homeLock = path.join(HOME, '.agents', '.skill-lock.json');
+  const homeBefore = fs.readFileSync(homeLock, 'utf8');
+  const d = launcher(['uninstall', '--dry-run', '--no-claude'], { XDG_STATE_HOME: state });
+  assert.ok(d.stdout.includes(xdgLock), `the plan does not name the lock it rewrites: ${d.stdout}`);
+  const u = launcher(['uninstall', '--no-claude'], { XDG_STATE_HOME: state });
+  assert.strictEqual(u.status, 0, u.stdout + u.stderr);
+  assert.ok(!fs.existsSync(vision), 'a real directory the XDG lock attributes to the family was left in place');
+  const lock = JSON.parse(fs.readFileSync(xdgLock, 'utf8'));
+  assert.ok(!lock.skills.vision && lock.skills['foreign-skill'], 'the XDG lock was not rewritten correctly');
+  assert.strictEqual(fs.readFileSync(homeLock, 'utf8'), homeBefore, 'the ~/.agents lock, which the skills CLI does not read here, was written');
+});
+
+it('the visibility reader reads the lock the skills CLI keeps under XDG_STATE_HOME', () => {
+  const HV = require('../lib/hostvis.js');
+  const state = path.join(HOME, 'state2');
+  fs.mkdirSync(path.join(state, 'skills'), { recursive: true });
+  fs.writeFileSync(path.join(state, 'skills', '.skill-lock.json'), JSON.stringify({ version: 3, skills: { dcf: { source: 'acme/finance' } } }));
+  assert.strictEqual(HV.readLock(HOME, { env: { XDG_STATE_HOME: state } }).get('dcf'), 'acme/finance');
+  assert.strictEqual(HV.readLock(HOME, { env: {} }).get('dcf'), undefined);
 });
 
 try {
