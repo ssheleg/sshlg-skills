@@ -8,7 +8,7 @@
  * agent: the vercel `skills` CLI (70+ agents), `claude plugin` (Claude Code),
  * and `git submodule` (pinned snapshots). Zero npm dependencies.
  *
- *   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only] [--dry-run]
+ *   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only] [--dry-run] [--routers yes|no]
  *   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins] [--dry-run]
  *   npx sshlg-skills list
  *   npx sshlg-skills agents
@@ -149,6 +149,13 @@ function parseFlags(argv) {
       if (!v || v.startsWith('-')) { log('--member needs a value'); process.exit(2); }
       f.member = v;
     }
+    else if (a === '--routers') {
+      // The person's answer to the routing-block question, passed by whoever runs the
+      // installer for them (an agent has no terminal to prompt in).
+      const v = argv[++i];
+      if (v !== 'yes' && v !== 'no') { log('--routers needs yes or no'); process.exit(2); }
+      f.routers = v;
+    }
     else if (a === '--agent' || a === '-a') {
       const v = argv[++i];
       if (!v || v.startsWith('-')) { log('--agent needs a value, e.g. --agent cursor,zed'); process.exit(2); }
@@ -282,7 +289,7 @@ function usageText() {
 Skills: ${SKILLS.map(s => s.name).join(', ')}
 
 Usage:
-  npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only] [--dry-run]
+  npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only] [--dry-run] [--routers yes|no]
   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins] [--dry-run]
   npx sshlg-skills uninstall [--no-claude] [--dry-run]
                                                       # the reverse of install: family skills out of
@@ -738,6 +745,7 @@ function refreshBlock(f, mode) {
     claude: f.claude,
     claudeOnly: f.claudeOnly,
     dryRun: f.dryRun,
+    routers: f.routers,
     mode,
   });
 }
@@ -1762,6 +1770,7 @@ function cmdRouters(f) {
       home,
       persist: !f.dryRun,
       interactive: process.stdin.isTTY === true,
+      answer: f.routers,
       prompt: (q) => { process.stdout.write(q); return readLineSync(); },
       log,
     });
@@ -1916,6 +1925,10 @@ function cmdRouters(f) {
   for (const r of res.targets) {
     if (r.action === 'agent-absent') continue;
     log(`routers: ${r.file}: ${r.action}`);
+    if (r.action === 'opted-out' && decision === 'yes') {
+      log('  it carries the line <!-- SSHLG:ROUTERS:OPTOUT --> (written by you, or by an install run without '
+        + 'a terminal before 1.84.1); delete that line and run this again to receive the block');
+    }
     // B-206: a refusal or a symlink the hub will not write through says why, and what to do.
     if (r.reason) log(`  ${r.reason}`);
     if (r.diff) log(r.diff);

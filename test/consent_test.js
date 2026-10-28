@@ -23,13 +23,36 @@ it('a fresh home has no recorded answer', () => {
   assert.strictEqual(C.readState(tmpHome()).routers, undefined);
 });
 
-it('non-interactive stdin answers no, and says so once', () => {
+it('non-interactive stdin decides nothing, records nothing, and says how to decide', () => {
+  // An agent or a pipe running `install` is not the person answering. Before 1.84.1 this
+  // recorded a permanent "no" and wrote opt-out markers into Codex and Gemini files, so the
+  // next install in a terminal never asked (reported from a Windows install, 2026-10-28).
   const home = tmpHome();
   const lines = [];
   const answer = C.askConsent({ home, interactive: false, log: (m) => lines.push(m) });
-  assert.strictEqual(answer, 'no');
+  assert.strictEqual(answer, 'undecided');
+  assert.strictEqual(C.readState(home).routers, undefined, 'silence must not be recorded as an answer');
   assert.strictEqual(lines.length, 1);
-  assert.ok(/не интеракт|non-interactive/i.test(lines[0]));
+  assert.ok(/--routers yes/.test(lines[0]), lines[0]);
+});
+
+it('an explicit answer from the command line is recorded without a prompt', () => {
+  for (const a of ['yes', 'no']) {
+    const home = tmpHome();
+    let prompted = false;
+    const answer = C.askConsent({ home, interactive: false, answer: a,
+      prompt: () => { prompted = true; return 'y'; }, log: () => {} });
+    assert.strictEqual(answer, a);
+    assert.strictEqual(prompted, false);
+    assert.strictEqual(C.readState(home).routers, a);
+  }
+});
+
+it('an explicit answer replaces an earlier recorded one', () => {
+  const home = tmpHome();
+  C.writeState(home, { routers: 'no' });
+  assert.strictEqual(C.askConsent({ home, interactive: false, answer: 'yes', log: () => {} }), 'yes');
+  assert.strictEqual(C.readState(home).routers, 'yes');
 });
 
 it('non-interactive never prompts', () => {
@@ -86,7 +109,7 @@ it('a corrupt state file is treated as empty, never as consent', () => {
 it('a dry run decides nothing and records nothing', () => {
   const home = tmpHome();
   const answer = C.askConsent({ home, interactive: false, persist: false, log: () => {} });
-  assert.strictEqual(answer, 'no');
+  assert.strictEqual(answer, 'undecided');
   assert.strictEqual(C.readState(home).routers, undefined,
     'a preview must not write a permanent refusal');
 });

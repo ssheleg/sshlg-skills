@@ -643,6 +643,20 @@ back the wrong text. Your word still wins; silence stops being the decision.
 out and which survives a reinstall and a restored dotfile. Everything outside
 the sentinels is preserved byte for byte.
 
+**With no terminal, nothing is decided.** An agent or a CI runner has no person to ask,
+so a run without a terminal writes no block, no opt-out marker and no recorded answer,
+and names the next step. The person's answer travels as a flag:
+`npx sshlg-skills install --routers yes` (or `--routers no`), which also replaces an earlier
+recorded answer. Before 1.84.1 such a run recorded a "no" and wrote opt-out markers; on a
+machine that got them, run `install --routers yes`, and where it reports a file as
+`opted-out`, delete the `<!-- SSHLG:ROUTERS:OPTOUT -->` line it names.
+
+**Windows.** Node reports `0o666` for every file there and has no `process.getuid`, so the
+POSIX privacy and ownership checks on the hub's own state (backups, retention, deferred
+Codex receipts) are not consulted on Windows, where the user profile's ACL is the access
+control; executables are found by `PATHEXT` (`lib/posix-perms.js`). Before 1.84.1 every write
+behind a backup refused there with "backup retention storage is not private and owned".
+
 **Text you put inside the block is kept, not refreshed away.** Each write records
 a hash of every section and of the map, protocol and table regions it wrote, in
 `~/.sshlg-skills/routers-rendered.json`. A later refresh that finds a section or
