@@ -42,7 +42,7 @@
 - Попытка 3: `CHECK_PASSED` (3054s); `publish` helper отказал (нет run-context, ledger не
   подделан); ручной push `ada20cbb` → v1.95.0 с проверками helper; release run
   38499730163 release+publish success; npm 1.95.0 gitHead 5a787b4, 155 файлов = source.
-  Receipts → TP PR #129 (`docs/evidence/runs/2026-10-14-release-1950/`).
+  Receipts → TP PR #129 (`skills/task-pipeline/docs/evidence/runs/2026-10-14-release-1950/`).
 - Hub перепинен на 1.95.0 (`a9b4ac9`), description-total 32498, ctx-04.06 перегенерирован
   (`bd3af81`). Hub validate зелёный. Полный hub gate на bd3af81 запущен (SSHLG_RATCHETS_OUT).
 - Следующее: по результату gate обновить DOCMAP Ratchets marker+sentence, `--ratchets-from`,
@@ -90,8 +90,9 @@ standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch 
 - **SEO-порт закоммичен агентом** `087fa1a` на `fix/fw07-shared-scratch-lock`
   (запушен), но агент оборвался по лимиту до обновления evidence: проверить, что
   коммит полон, и дописать packet.
-- **sheleg-dev-порт НЕ закоммичен:** в `/_wt/sheleg-dev-fw07-scratch-lock` грязные
-  `test/negative_lock.py`, `test/negatives.py`, новый `test/audit_regressions/fw07_child_lifetime.py`.
+- **sheleg-dev-порт НЕ закоммичен:** в `/_wt/sheleg-dev-fw07-scratch-lock` грязные файлы
+  репозитория sheleg-dev (в hub это подмодуль): `skills/sheleg-dev/test/negative_lock.py`,
+  `skills/sheleg-dev/test/negatives.py`, новый `skills/sheleg-dev/test/audit_regressions/fw07_child_lifetime.py`.
   Агент выяснял слабость red-доказательства timeout-контроля. Довести: focused
   контроли, red-before, commit/push. Leases `FW07-CHILD-PORT-SEO/DEV` истекут по TTL.
 
@@ -102,7 +103,7 @@ standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch 
   сконфигурированный плагин) → член `blocked`, остальные обновляются, итог partial;
   повреждённые записи (не массив/null/две user-записи) по-прежнему останавливают update.
 - B-193: runtime пишет `.managed.json` (байты, поставленные hub); файл, исключённый из
-  пакета и не изменённый, переносится в `.retired/<stamp>/`. Старый `lib/router-texts.js`
+  пакета и не изменённый, переносится в `.retired/<stamp>/`. Старый [`lib/router-texts.js`](https://github.com/ssheleg/sshlg-skills/blob/3a0c1601/lib/router-texts.js) (удалён из hub в `ff823db2`)
   не совпадает ни с одной версией из истории hub, поэтому принадлежность не доказуема; файл остаётся.
 - B-194: единица отступа (таб) при вставке в непустой объект.
 

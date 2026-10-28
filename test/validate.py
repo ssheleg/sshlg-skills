@@ -2712,8 +2712,15 @@ check_the_family_description_total_only_falls()
 #
 # `docs/evidence/manifesto-conformance.md` is a ledger for a second reason as well: the
 # program it tracks gives it a single writer, and that writer is not this gate.
+#
+# B-292: the reader documents (a contributor's, a reporter's and the next agent's entry,
+# the hub's own UX and brand pack, the routing eval's how-to) are read as current guidance
+# too, so their addresses are gated with the rest. `test/live_docs_text_test.js` scans
+# this same tuple for dashes; it is the single list of both.
 LIVE_DOCS = ("README.md", "CLAUDE.md", "docs/DOCMAP.md", "docs/AGENT_SYNC.md",
-             "docs/evidence/convergence.md")
+             "docs/evidence/convergence.md",
+             "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md", "docs/CLAUDE-CONTINUE.md",
+             "docs/ux/scenarios.md", "docs/brand/terminology.md", "test/evals/README.md")
 LEDGER_DOCS = ("docs/evidence/backlog.md", "docs/evidence/verification.md",
                "docs/evidence/retro.md", "docs/evidence/retro/2026-Q3.md",
                "docs/evidence/manifesto-conformance.md")
@@ -2798,9 +2805,10 @@ def check_every_address_these_documents_claim_resolves():
                      f"about resolvable addresses cannot ship one that is not: point it at "
                      f"what exists, or create what it names (M-07)")
     if not checked:
-        fail("claimed addresses: the extractor matched nothing in any of "
-             f"{len(LIVE_DOCS)} documents -- that is the extractor breaking, not five "
-             "documents that stopped citing anything, and an empty corpus passes everything")
+        fail("claimed addresses: the extractor matched nothing in the "
+             f"{len(LIVE_DOCS)} live documents -- that is the extractor breaking or the corpus "
+             "emptied, not documents that stopped citing anything, and an empty corpus "
+             "passes everything")
     if absent:
         _skips.append(f"claimed addresses -- {len(absent)} point into submodules that are "
                       f"not checked out: {', '.join(absent[:3])}")

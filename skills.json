@@ -249,7 +249,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.4.4",
+      "version": "0.4.5",
       "entry": null,
       "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
@@ -262,7 +262,7 @@
           "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
         }
       ],
-      "commit": "6a43b480bf1bec2acbd81e1842314fb93a56f1d9"
+      "commit": "a6ad22ecf63ae4882388822aa8bbdf2d81cc8b87"
     },
     {
       "name": "web3d-dev",
@@ -276,13 +276,13 @@
         "web3d-assets",
         "web3d-animation"
       ],
-      "version": "0.2.4",
+      "version": "0.2.6",
       "entry": null,
       "role": "how realtime 3D on the web runs, ships its assets and moves",
       "npm": "@ssheleg/web3d-dev",
       "shape": "static",
       "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical.",
-      "commit": "411fd617963df3ccace24aa7692c6cd35d7993ab"
+      "commit": "d9e4b24d5d842223e350dc1eab9ef37f12345f10"
     }
   ],
   "agents": [

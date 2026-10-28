@@ -32,8 +32,12 @@ itself, thread `e23891ab`); B-294 (dead Claude local records: the printed remedy
 Claude Code session closed); stage 8 of 1.81.0 on or after 2026-10-28T19:40Z and of 1.82.0 24
 hours after its tag; human gates B-29, B-146, B-232, B-271, B-276.
 
-**Exact next bounded task:** stage 8 of the 1.81.0 card after 2026-10-28T19:40Z; then the highest
-open board row (B-268 and B-295 lead at P 1.0; B-200 graph refresh at the next code release).
+**1.83.0 (third pass):** B-200, B-291, B-292, B-293, B-295, B-296, B-297, B-298 closed; members
+web3d-dev 0.2.6 and xr-dev 0.4.5; 18 rows open. Card:
+[`2026-10-28-v1830-release-impact.md`](evidence/specs/2026-10-28-v1830-release-impact.md).
+
+**Exact next bounded task:** stage 8 of the 1.81.0 card after 2026-10-28T19:40Z, then of 1.82.0 and
+1.83.0 after their windows; then the highest open board row (B-268 and B-303 lead at P 1.0).
 
 ## Previous: 2026-10-27 the hub board closed in waves (1.81.0)
 

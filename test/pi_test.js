@@ -396,6 +396,69 @@ it('B-263: `hosts` says per project whether Pi loads its project roots, read-onl
   assert.strictEqual(sha(trust), before, 'hosts wrote the trust store');
 });
 
+// B-293: when Pi would ask, a project copy is visible only after the person trusts the
+// project, and a headless `pi -p` (which answers no) never loads it. The counts say both.
+it('B-293: in the ask state the family count splits into after-trust and headless', () => {
+  const { h, repo } = trustRepo();
+  const r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  assert.strictEqual(r.trust.verdict, 'asks');
+  assert.deepStrictEqual(r.family.visible, ['make-skill', 'ux-flows'], 'visible once trusted');
+  assert.deepStrictEqual(r.family.headless, ['ux-flows'], 'a headless run loads only the user copy');
+  assert.deepStrictEqual(r.family.afterTrust, ['make-skill'], 'make-skill exists only in the project root');
+  assert.deepStrictEqual(r.roots.map((x) => [x.kind, x.loaded, Boolean(x.asks)]), [['project', true, true], ['user', true, false]]);
+  const c = r.duplicates.conflicts.find((x) => x.name === 'ux-flows');
+  assert.ok(c && c.afterTrust, 'a conflict that needs the project copy is marked as after-trust');
+});
+
+it('B-293: trusted and untrusted projects have no after-trust part; headless equals visible', () => {
+  for (const [value, visible] of [[true, ['make-skill', 'ux-flows']], [false, ['ux-flows']]]) {
+    const { h, repo } = trustRepo();
+    writeTrust(h, { [real(repo)]: value });
+    const r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+    assert.deepStrictEqual(r.family.visible, visible, String(value));
+    assert.deepStrictEqual(r.family.headless, visible, String(value));
+    assert.deepStrictEqual(r.family.afterTrust, [], String(value));
+    assert.ok(r.roots.every((x) => !x.asks), String(value));
+    assert.ok(r.duplicates.conflicts.every((x) => !x.afterTrust), String(value));
+  }
+});
+
+it('B-293: a conflict between the two user roots stays real in a headless run', () => {
+  const { h, repo } = trustRepo();
+  skill(path.join(h, '.pi', 'agent', 'skills'), 'copywriting');
+  skill(path.join(h, '.agents', 'skills'), 'copywriting');
+  const r = pi.inspect({ home: h, env: {}, cwd: repo, which: none, family: FAMILY });
+  const c = r.duplicates.conflicts.find((x) => x.name === 'copywriting');
+  assert.ok(c && !c.afterTrust, 'a user-root conflict was marked as after-trust');
+});
+
+it('B-293: `hosts` reports the ask state in the counts, not only in the text', () => {
+  const home = sandboxWithPi();
+  const repo = path.join(home, 'repo');
+  fs.mkdirSync(path.join(repo, '.git'), { recursive: true });
+  skill(path.join(home, '.agents', 'skills'), 'ux-flows');
+  skill(path.join(repo, '.agents', 'skills'), 'ux-flows');
+  skill(path.join(repo, '.agents', 'skills'), 'make-skill');
+  const env = Object.assign({}, process.env, { HOME: home });
+  delete env.PI_CODING_AGENT_DIR;
+  const r = spawnSync(process.execPath, [BIN, 'hosts'], { cwd: repo, encoding: 'utf8', env });
+  const out = `${r.stdout}${r.stderr}`;
+  assert.strictEqual(r.status, 0, out);
+  const m = /family skills visible to Pi \(by name\): (\d+) of (\d+) after you trust this project; (\d+) of \2 in a headless run/.exec(out);
+  assert.ok(m, out);
+  assert.deepStrictEqual([Number(m[1]), Number(m[3])], [2, 1], out);
+  assert.ok(/only after trust: make-skill/.test(out), out);
+  assert.ok(/skills root \(project\) .* \(loads after you trust the project; headless runs skip it\)/.test(out), out);
+  assert.ok(/conflict: ux-flows \[family\]: Pi keeps .* \(after you trust the project\)$/m.test(out), out);
+  assert.ok(!out.includes('\u2014'), 'the report carries an em dash');
+  const trusted = path.join(home, '.pi', 'agent', 'trust.json');
+  fs.writeFileSync(trusted, JSON.stringify({ [real(repo)]: true }) + '\n');
+  const t = spawnSync(process.execPath, [BIN, 'hosts'], { cwd: repo, encoding: 'utf8', env });
+  const tout = `${t.stdout}${t.stderr}`;
+  assert.ok(/family skills visible to Pi \(by name\): 2 of \d+(;|$)/m.test(tout), tout);
+  assert.ok(!/headless run|only after trust/.test(tout), 'a trusted project was reported as pending trust');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

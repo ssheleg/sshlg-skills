@@ -20,8 +20,15 @@
  * prints it and moves on, because a check that cannot look must never read as one that
  * looked.
  *
- * Exit 0 = every trigger is advertised, or the member has no routes at all.
- * Exit 1 = at least one trigger is a word the member no longer claims.
+ * B-295: **and the reverse.** Every phrase the member advertises (its description's
+ * `Triggers -` list and its `## Triggers` body) must reach the route that names the skill,
+ * or be allow-listed with a reason, or the hub's completeness fixture fails when it pins
+ * the release. The extraction and the allow-list are the hub fixture's own
+ * (`test/advertised_phrases.js`), required from beside this file, so the check needs no
+ * network: a member checkout inside the hub (the submodule) runs it as it stands.
+ *
+ * Exit 0 = every trigger is advertised and every advertised phrase is routed or excused.
+ * Exit 1 = a trigger the member no longer claims, or a phrase no route reaches.
  * Exit 2 = could not look (bad arguments, missing SKILL.md, unparseable description).
  */
 const fs = require('fs');
@@ -155,8 +162,46 @@ if (hazards.length) {
   console.error('\nOur own tools read this with a regex and stay green; the installer does not.');
   process.exit(1);
 }
+// B-295: the completeness half, for this member's shipped skills only.
+let phrases;
+try {
+  phrases = require(path.join(__dirname, 'advertised_phrases.js'));
+} catch (e) {
+  console.error(`blind: cannot load the advertised-phrase reader: ${e.message}`);
+  process.exit(2);
+}
+const reverse = [];
+let advertised = 0;
+{
+  const owner = phrases.routeOfSkill();
+  const shipped = phrases.memberSkills(member, root);
+  for (const [ref, file] of shipped) {
+    if (phrases.UNROUTED.has(ref)) {
+      if (owner.has(ref)) reverse.push(`${ref} is declared unrouted and the ${owner.get(ref)} route names it`);
+      continue;
+    }
+    const route = owner.get(ref);
+    if (!route) { reverse.push(`${ref}: no route names this skill, so its phrases route nowhere`); continue; }
+    const r = phrases.completeness(ref, route, fs.readFileSync(file, 'utf8'));
+    advertised += r.total;
+    reverse.push(...r.unreached, ...r.stale);
+  }
+  for (const ref of Object.keys(phrases.NOT_ROUTED)) {
+    if (ref.split('/')[0] === member && !shipped.has(ref)) reverse.push(`${ref} is allow-listed and ships no SKILL.md`);
+  }
+}
+if (reverse.length) {
+  console.error(`${member} advertises what the family's routing hook does not match (${reverse.length}); `
+    + 'the hub\'s completeness fixture (test/triggers_test.js) fails when it pins this release:');
+  for (const m of reverse) console.error(`  - ${m}`);
+  console.error('\nAdd the phrase to its route in the hub\'s lib/triggers.js first, or allow-list it with its '
+    + 'reason in the hub\'s test/advertised_phrases.js (NOT_ROUTED or UNROUTED); or drop it from the SKILL.md.');
+}
+const reverseOk = `every one of its ${advertised} advertised phrase(s) reaches its route or is allow-listed`;
+
 if (!hasRoutes) {
-  console.log(`ok: ${member} front matter is clean; it carries no routed triggers`);
+  if (reverse.length) process.exit(1);
+  console.log(`ok: ${member} front matter is clean; it carries no routed triggers; ${reverseOk}`);
   process.exit(0);
 }
 
@@ -195,6 +240,7 @@ if (missing.length) {
   );
   process.exit(1);
 }
+if (reverse.length) process.exit(1);
 const n = groups.reduce((a, g) => a + g.triggers.length, 0) - pending.length;
 const waiting = pending.length ? `; ${pending.length} pending, declared in lib/triggers.js` : '';
-console.log(`ok: ${member} advertises all ${n} routed trigger(s) across ${groups.length} skill(s)${waiting}`);
+console.log(`ok: ${member} advertises all ${n} routed trigger(s) across ${groups.length} skill(s)${waiting}; ${reverseOk}`);

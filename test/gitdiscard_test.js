@@ -245,6 +245,76 @@ it('B-270: an override exported earlier in the same payload is honoured for what
 
 // --- porcelain in, verdict out -----------------------------------------------------
 
+// --- B-291: a redirect target is not a pathspec; clean -e exclusions are kept -------
+
+it('B-291: a redirect target and its operator are not words of the git command', () => {
+  for (const cmd of ['git checkout -- a.js > out.txt', 'git checkout -- a.js >out.txt',
+    'git checkout -- a.js >> log.txt', 'git checkout -- a.js 2> err.txt', 'git checkout -- a.js 2>err.txt',
+    'git checkout -- a.js &> all.txt', 'git checkout -- a.js &>> all.txt', 'git checkout -- a.js < in.txt',
+    'git checkout -- a.js 2>&1 | tee x.log', 'git checkout -- a.js >&2', 'git checkout -- a.js >| out.txt',
+    'git checkout -- > out.txt a.js', 'git checkout -- a.js 2>/dev/null; echo done']) {
+    assert.deepStrictEqual(one(cmd).pathspecs, ['a.js'], cmd);
+  }
+  assert.deepStrictEqual(one('git restore lib/a.js 2>/dev/null').pathspecs, ['lib/a.js']);
+  assert.deepStrictEqual(one('git clean -f > /dev/null').pathspecs, ['.'], 'clean read its redirect target as a path');
+  assert.strictEqual(one('git checkout -- a.js > out.txt').command, 'git checkout -- a.js');
+});
+
+it('B-291: a digit is a pathspec unless it touches the redirect operator', () => {
+  assert.deepStrictEqual(one('git checkout -- 2 > out.txt').pathspecs, ['2'], 'a spaced 2 is a word');
+  assert.deepStrictEqual(one('git checkout -- a2> out.txt').pathspecs, ['a2'], 'a2> redirects stdout of a word a2');
+  none('git checkout -- 2> err.txt');
+});
+
+it('B-291: git clean -e/--exclude patterns are subtracted from what clean would delete', () => {
+  const kept = (cmd, out) => assert.strictEqual(D.decide(D.targets(cmd), [{ dir: '/r', out }]), null,
+    `${cmd} over ${JSON.stringify(out)} was refused`);
+  const lost = (cmd, out, paths) => {
+    const v = D.decide(D.targets(cmd), [{ dir: '/r', out }]);
+    assert.ok(v, `${cmd} over ${JSON.stringify(out)} was allowed`);
+    assert.deepStrictEqual(v.dirty[0].paths, paths, cmd);
+  };
+  lost('git clean -f -e keep.txt', Z('?? keep.txt', '?? a.txt'), ['a.txt']);
+  kept('git clean -f -e keep.txt', Z('?? keep.txt', '?? sub/keep.txt'));
+  for (const form of ['git clean -fdx -e .env', 'git clean -fdx --exclude=.env', 'git clean -fdx --exclude .env',
+    'git clean -fdx -e.env', 'git clean -fdxe .env', 'git clean -fdxe.env']) kept(form, Z('!! .env'));
+  kept("git clean -fx -e '*.log'", Z('!! logs/x.log', '!! y.log'));
+  lost("git clean -f -e '*.txt' -e '!a.txt'", Z('?? a.txt', '?? b.txt'), ['a.txt']);
+  lost('git clean -f -e /keep.txt', Z('?? keep.txt', '?? sub/keep.txt'), ['sub/keep.txt']);
+  kept('git clean -f -e sub/keep.txt', Z('?? sub/keep.txt'));
+  lost('git clean -f -e keep.txt/', Z('?? keep.txt'), ['keep.txt']);
+  kept('git clean -fd -e node_modules', Z('?? node_modules/', '?? node_modules/a/b.js'));
+  kept('git clean -fd -e build/', Z('?? build/'));
+  lost("git clean -fd -e '*.log'", Z('?? sub/'), ['sub/']);
+  kept("git clean -f -e 'sub/**/k.txt'", Z('?? sub/a/b/k.txt', '?? sub/k.txt'));
+  kept("git clean -f -e 'f?.[ch]'", Z('?? f1.c', '?? fx.h'));
+  lost("git clean -f -e 'f?.[ch]'", Z('?? f12.c'), ['f12.c']);
+});
+
+it('B-291: under clean -X an excluded untracked file becomes ignored, so it is lost', () => {
+  const v = D.decide(D.targets('git clean -fX -e keep.txt'), [{ dir: '/r', out: Z('?? keep.txt', '?? a.txt') }]);
+  assert.ok(v, 'clean -X -e keep.txt over an untracked keep.txt was allowed');
+  assert.deepStrictEqual(v.dirty[0].paths, ['keep.txt']);
+  assert.match(v.why, /keep\.txt \(ignored\)/);
+});
+
+it('B-291: an unreadable exclude subtracts nothing (the count errs toward keeping)', () => {
+  assert.ok(D.decide(D.targets('git clean -f -e "$KEEP"'), [{ dir: '/r', out: Z('?? a.txt') }]));
+  assert.ok(D.decide(D.targets('git clean -f -e $(cat keep)'), [{ dir: '/r', out: Z('?? a.txt') }]));
+});
+
+it('B-291: a short cluster ending in e takes the rest as its pattern, not as flags', () => {
+  const t = one('git clean -fedist');
+  assert.strictEqual(t.lose.dirs, false, '-fedist read the d of "dist" as -d');
+  assert.strictEqual(t.lose.ignored, false, '-fedist read a letter of "dist" as a flag');
+  assert.ok(D.decide([t], [{ dir: '/r', out: Z('?? a.txt') }]));
+  assert.strictEqual(D.decide([t], [{ dir: '/r', out: Z('?? dist') }]), null);
+  assert.ok(one('git clean -fxedist').lose.ignored);
+  none('git clean -fne keep.txt');
+  const v = one('git clean -f -e -dx');
+  assert.ok(!v.lose.dirs && !v.lose.ignored, 'the pattern -dx was read as the flags -d -x');
+});
+
 it('parsePorcelain reads -z records, skipping the source of a rename', () => {
   const rows = D.parsePorcelain(Z(' M lib/a.js', 'R  new.js', 'old.js', '?? tmp/', 'A  added.js'));
   assert.deepStrictEqual(rows.map((r) => r.path), ['lib/a.js', 'new.js', 'tmp/', 'added.js']);
