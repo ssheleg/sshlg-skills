@@ -15,9 +15,10 @@
 //   - an entry under `docs/evidence/` is dropped: that directory holds the dated records,
 //     and a historical record stays as written (the rule's own exception);
 //   - every `docs/working-rules/*.md` is added, discovered: CLAUDE.md applies them to
-//     every task, so they are read as instructions today;
-//   - `READER_DOCS` below is added: documents a contributor, a reporter or the next agent
-//     opens as current guidance, which the address gate does not hold (B-289 follow-up).
+//     every task, so they are read as instructions today.
+// The reader documents a contributor, a reporter or the next agent opens as current
+// guidance were listed here first (B-289 follow-up); B-292 moved them into `LIVE_DOCS`,
+// so the address gate holds them too and one tuple names both corpora.
 // `docs/CLAUDE-CONTINUE.md` is Russian prose. The rule keeps a Russian dash only where the
 // grammar requires it and no rewrite reads naturally; such a line goes into
 // `RUSSIAN_DASH_ALLOWED` by its exact text, with the reason, and the list stays empty
@@ -56,14 +57,6 @@ const DATED_HEADING = /^(#{1,6})\s+\d{4}-\d{2}-\d{2}\b/;
 const HEADING = /^(#{1,6})\s/;
 const GENERATED = /^<!-- [\w-]+:generated\b.*do not hand-edit/;
 
-/** Live documents outside `LIVE_DOCS` that a person reads as current (B-289 follow-up). */
-const READER_DOCS = [
-  'CONTRIBUTING.md', 'SECURITY.md', 'CODE_OF_CONDUCT.md',  // read by contributors and reporters
-  'docs/CLAUDE-CONTINUE.md',                                 // the next agent's entry, in Russian
-  'docs/ux/scenarios.md', 'docs/brand/terminology.md',      // the hub's own UX and brand pack
-  'test/evals/README.md',                                    // how to run the routing eval
-];
-
 /**
  * Russian lines whose dash the grammar requires and no rewrite reads naturally, by exact
  * text, each with its reason. Empty: every dash in `docs/CLAUDE-CONTINUE.md` was rewritten.
@@ -84,7 +77,6 @@ function liveCorpus() {
   for (const f of fs.readdirSync(rules).sort()) {
     if (f.endsWith('.md')) candidates.push(`docs/working-rules/${f}`);
   }
-  for (const d of READER_DOCS) if (!candidates.includes(d)) candidates.push(d);
   const live = [];
   const generated = [];
   for (const d of candidates) {
@@ -189,7 +181,15 @@ it('control: the corpus is derived from the validator and is not empty', () => {
   assert.ok(GENERATED.test('<!-- agent-sync:generated source=x at=y (regenerate), do not hand-edit -->'));
   assert.ok(!GENERATED.test('# A heading that says generated, do not hand-edit'), 'only a first-line marker exempts');
   for (const doc of live) assert.ok(fs.existsSync(path.join(ROOT, doc)), `${doc} is in the corpus and absent`);
-  for (const doc of READER_DOCS) assert.ok(live.includes(doc), `${doc} is listed for the scan and not read`);
+});
+
+it('B-292: the reader documents are in the validator\'s address corpus, not only in the dash scan', () => {
+  const { declared, live } = liveCorpus();
+  for (const doc of ['CONTRIBUTING.md', 'SECURITY.md', 'CODE_OF_CONDUCT.md', 'docs/CLAUDE-CONTINUE.md',
+    'docs/ux/scenarios.md', 'docs/brand/terminology.md', 'test/evals/README.md']) {
+    assert.ok(declared.includes(doc), `${doc} is read for dashes but its addresses are not checked (LIVE_DOCS)`);
+    assert.ok(live.includes(doc), `${doc} is in LIVE_DOCS and not scanned for dashes`);
+  }
 });
 
 // ---- the rule ------------------------------------------------------------------------
