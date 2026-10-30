@@ -41,11 +41,13 @@ xr-dev 0.4.6 and web3d-dev 0.2.7; 15 rows open. Card:
 [`2026-10-28-v1840-release-impact.md`](evidence/specs/2026-10-28-v1840-release-impact.md).
 
 **2026-10-29:** stage 8 of 1.81.0 to 1.84.1 read held; task-pipeline 1.102.4 (B-310) and agent-sync
-1.23.5 (B-311) released and pinned in 1.84.2, merged to `main`. **Not tagged yet: B-318.** npm rejects
+1.23.5 (B-311) released on GitHub; 1.84.2 pins task-pipeline 1.102.4 and keeps agent-sync 1.23.4,
+because the pin gate refuses a version npm does not serve. **Not tagged yet: B-318.** npm rejects
 the `NPM_TOKEN` secrets of ten packages (agent-sync 1.23.5's publish failed twice, run 40868769971),
 and the hub's own token dates from the same day, so a 1.84.2 tag would publish nothing. Human gate:
 npm trusted publishing per package (B-318 lists them). Next action once it is set: delete the
-`NPM_TOKEN` secrets, re-run agent-sync's failed publish job, tag `v1.84.2`, watch it, `update`.
+`NPM_TOKEN` secrets, re-run agent-sync's failed publish job, pin agent-sync 1.23.5, tag the hub,
+watch it, `update`.
 
 **1.84.1 (Windows install report):** B-312 (POSIX checks skipped on Windows) and B-313 (a run
 without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to B-316 filed.

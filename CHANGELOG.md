@@ -1,8 +1,9 @@
 ## v1.84.2 (2026-10-29): members' hooks start fewer processes; stage 8 of five releases
 
 - **Members:** task-pipeline 1.102.4 (its Bash hooks start 3 processes per Bash call in a project
-  with no run, was 18; B-310) and agent-sync 1.23.5 (renew's 10 s bound lives in the script, not a
-  `sleep` watchdog: 4 processes per tool call, was 7 to 10; B-311).
+  with no run, was 18; B-310). agent-sync 1.23.5 (B-311: renew's 10 s bound lives in the script,
+  4 processes per tool call, was 7 to 10) is tagged and released on GitHub but not on npm (B-318),
+  so the hub keeps agent-sync 1.23.4 until it is published; the pin gate refuses an unpublished one.
 - **Stage 8:** the 1.81.0, 1.82.0, 1.83.0, 1.84.0 and 1.84.1 release cards read held after their
   windows (Outcome sections in `docs/evidence/specs/`).
 - **Filed:** B-317 (`codex plugin list` can wait past the 120 s read limit on a remote catalog) and

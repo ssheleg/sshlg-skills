@@ -94,13 +94,13 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.23.5",
+      "version": "1.23.4",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
       "shape": "static",
       "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape.",
-      "commit": "c286eb6d9db3a73cc42f6668539c43bcee11dab0"
+      "commit": "1b36ef456a14596a5ac5ef20dc63e364c0143a80"
     },
     {
       "name": "make-skill",

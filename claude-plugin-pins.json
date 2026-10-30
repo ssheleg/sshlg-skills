@@ -1818,8 +1818,8 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "c286eb6d9db3a73cc42f6668539c43bcee11dab0",
-      "version": "1.23.5",
+      "commit": "1b36ef456a14596a5ac5ef20dc63e364c0143a80",
+      "version": "1.23.4",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
       "entry": {
@@ -1827,7 +1827,7 @@
         "displayName": "Agent Sync",
         "source": "./plugins/agent-sync",
         "description": "Coordination layer for multi-agent repositories. Gives task-pipeline runs leases with a TTL, race-free ID reservation, a cross-repo signal feed, an append-only run journal and a machine-generated read-only board. A lease is decided by a primitive that genuinely has compare-and-swap — an atomic file create on one machine, a pushed git ref across machines — never by the knowledge base, which loses concurrent writes; the store carries the record and the ID allocation, which is positional over the merged log. The knowledge backend is a pluggable adapter (Outline, filesystem) declaring its own capabilities and degrading out loud. Ships Claude Code hooks that deny edits to guarded registry files without a live lease.",
-        "version": "1.23.5",
+        "version": "1.23.4",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1850,7 +1850,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "0ef790b4def6de7506feb7833c3842c16f961783ae4dc5e1c3edaf720431521d",
+          "sha256": "9a2a118dd141c83281a440ed5eaffa107dc154254feb06629c52174d38acab85",
           "bytes": 695
         },
         {
@@ -1860,8 +1860,8 @@
         },
         {
           "path": "hooks/_lib.sh",
-          "sha256": "f3ccde56b40c066b603558ff57ce0b66b0a68d8526f5bc68cf86bbadee5c8967",
-          "bytes": 7879
+          "sha256": "9e0a0b1fd0c9a2d068ec59fd6bfecc2f97f8e7c04fe6640e89985e1e970b9b76",
+          "bytes": 7262
         },
         {
           "path": "hooks/guard.sh",
@@ -1875,8 +1875,8 @@
         },
         {
           "path": "hooks/renew.sh",
-          "sha256": "89f3a9584d61dd45e10428cee3d85ce70a32901591eec1e8c87b70e7fe6bf411",
-          "bytes": 1548
+          "sha256": "0a5f3a36377af20fc009d348f722633f4845abf4a7215c3d7e64e8eab2092e72",
+          "bytes": 1143
         },
         {
           "path": "hooks/session-end.sh",
@@ -1925,8 +1925,8 @@
         },
         {
           "path": "skills/agent-sync/references/hooks.md",
-          "sha256": "547b2545d047dd949d64da94a00fbb91e7bf1cbd322202ce9d876349b493ebec",
-          "bytes": 16332
+          "sha256": "e4e58e33a43ed5984b3a3d68170676335a7b5ea51dacb4eac1e288a5bfb19271",
+          "bytes": 15780
         },
         {
           "path": "skills/agent-sync/references/lease-protocol.md",
@@ -1950,8 +1950,8 @@
         },
         {
           "path": "skills/agent-sync/scripts/agent_sync.py",
-          "sha256": "e27470be948c682f604544916e01fe3f21ac1dfe8ebf0f6a30eecdf468501c9a",
-          "bytes": 378089
+          "sha256": "15fae300c4e1d82f0126c62b029884d976ddd8c51b7e3ee83d5633ced55ca3e1",
+          "bytes": 376382
         },
         {
           "path": "skills/agent-sync/scripts/bash_writes.py",
@@ -1960,7 +1960,7 @@
         },
         {
           "path": "skills/agent-sync/SKILL.md",
-          "sha256": "6f2c9b224f885af2076b119b8d751f0f36e2fdca0656215dbaf6f6242baf05a6",
+          "sha256": "34e79b39b0b01bcf2c0c1846588aa50de2f949c65dfe62d4faf7af581a58ef2b",
           "bytes": 20070
         }
       ]
