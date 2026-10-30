@@ -84,6 +84,8 @@ it('anything that is not a yes is a no', () => {
 });
 
 it('the state file is not world-readable', () => {
+  // Windows reports 0o666 for every file; the profile ACL is its access control (B-312).
+  if (process.platform === 'win32') return;
   const home = tmpHome();
   C.writeState(home, { routers: 'yes' });
   const mode = fs.statSync(C.statePath(home)).mode & 0o777;
