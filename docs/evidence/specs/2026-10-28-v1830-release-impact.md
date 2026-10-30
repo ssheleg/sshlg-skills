@@ -34,3 +34,8 @@ date: 2026-10-28
 - **Kill switch:** `SSHLG_DISCARD_OK=1` on a command bypasses the discard guard; `hooks remove` takes the family hooks out.
 - **Hotfix path:** a 1.83.1 patch through the same gate.
 - **Decision trigger:** roll back if the release run fails, `update` fails, or a hook refuses an ordinary operation on a real machine within 24 hours.
+
+## Outcome
+
+- **Read:** 2026-10-29T11:12Z, after the 24-hour window: (1) release run 40644059961 success; (2) `npm view sshlg-skills version` 1.84.1 (later releases replaced it as planned); (3) `npx --yes sshlg-skills@latest update` on the operator machine on 2026-10-29: all 11 Claude members verified; the Codex step read PARTIAL because `codex plugin list` waited past the 120 s read limit on a remote catalog request (a Codex network wait, filed as B-317, not caused by this release); (4) 0 open issues on ssheleg/sshlg-skills; no hook refusal of an ordinary command reported; no alert fired; the decision trigger did not fire
+- **Result:** held

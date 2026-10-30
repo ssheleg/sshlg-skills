@@ -1073,8 +1073,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "64e28dfa1aa860780072da867c7dea41c3099edd",
-      "version": "1.102.3",
+      "commit": "b02dc1269281c9a245a922365f78ffb14cb4bab1",
+      "version": "1.102.4",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1082,7 +1082,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.102.3",
+        "version": "1.102.4",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1105,7 +1105,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "640594333e8fa88d465455fe0119a72d0fcef9a8379a58d86de0c181e417c9dd",
+          "sha256": "330d1ff6ed6d5fbc5d97a76da4ca932aeaa51d79a1bc0691cef0ade61faaf6e6",
           "bytes": 1529
         },
         {
@@ -1155,8 +1155,8 @@
         },
         {
           "path": "hooks/gate-observer.sh",
-          "sha256": "adcf21ec3b173e41060ceb47064f0dcb18eacba10e58091f92784f549acd39c3",
-          "bytes": 4912
+          "sha256": "003cbd8e8abbdf6956799f28633a12659a83301f5073fec1c3c327e3e9f3c3c6",
+          "bytes": 5078
         },
         {
           "path": "hooks/hooks.json",
@@ -1165,13 +1165,13 @@
         },
         {
           "path": "hooks/memory-nudge.sh",
-          "sha256": "02152654ef2aa908c8ff44491b04f169b96bb2c49c565d7f7a237e1da4088d11",
-          "bytes": 4296
+          "sha256": "1f8908d530404537f588d1978f285b1701fcf83862aec54ab6fbd85e40a82b5e",
+          "bytes": 4619
         },
         {
           "path": "hooks/release-gate.sh",
-          "sha256": "57d19a885632678014fca7c9374469ee711487798f0089158aed6676c9fa39b9",
-          "bytes": 14452
+          "sha256": "c7e7e4c5a58b32255670faf552c332cb519bb44af24a8198887ce0b4ce9bc5aa",
+          "bytes": 15699
         },
         {
           "path": "hooks/run-lifecycle.sh",
@@ -1195,8 +1195,8 @@
         },
         {
           "path": "skills/evidence-docs/references/hooks.md",
-          "sha256": "908e929f98f01e26753e6a2a3eb3aaacc5b334b77b39462a3db1259304000aa7",
-          "bytes": 15512
+          "sha256": "87ad7f9434887441b1f923f6d891b387380326fe794d8a23adc80d19d8942379",
+          "bytes": 15831
         },
         {
           "path": "skills/evidence-docs/references/learned.md",
@@ -1420,8 +1420,8 @@
         },
         {
           "path": "skills/task-pipeline/references/hooks.md",
-          "sha256": "5839bd150506fadd85713d18e2439e958f5826bc4e512beab00e9d3014e0bc78",
-          "bytes": 15211
+          "sha256": "3e0afaeec4aac93ae82e06050342ecde53d65893daa82e0751f6744f6c42c9ea",
+          "bytes": 15530
         },
         {
           "path": "skills/task-pipeline/references/iteration.md",
@@ -1818,8 +1818,8 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "1b36ef456a14596a5ac5ef20dc63e364c0143a80",
-      "version": "1.23.4",
+      "commit": "c286eb6d9db3a73cc42f6668539c43bcee11dab0",
+      "version": "1.23.5",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
       "entry": {
@@ -1827,7 +1827,7 @@
         "displayName": "Agent Sync",
         "source": "./plugins/agent-sync",
         "description": "Coordination layer for multi-agent repositories. Gives task-pipeline runs leases with a TTL, race-free ID reservation, a cross-repo signal feed, an append-only run journal and a machine-generated read-only board. A lease is decided by a primitive that genuinely has compare-and-swap — an atomic file create on one machine, a pushed git ref across machines — never by the knowledge base, which loses concurrent writes; the store carries the record and the ID allocation, which is positional over the merged log. The knowledge backend is a pluggable adapter (Outline, filesystem) declaring its own capabilities and degrading out loud. Ships Claude Code hooks that deny edits to guarded registry files without a live lease.",
-        "version": "1.23.4",
+        "version": "1.23.5",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1850,7 +1850,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "9a2a118dd141c83281a440ed5eaffa107dc154254feb06629c52174d38acab85",
+          "sha256": "0ef790b4def6de7506feb7833c3842c16f961783ae4dc5e1c3edaf720431521d",
           "bytes": 695
         },
         {
@@ -1860,8 +1860,8 @@
         },
         {
           "path": "hooks/_lib.sh",
-          "sha256": "9e0a0b1fd0c9a2d068ec59fd6bfecc2f97f8e7c04fe6640e89985e1e970b9b76",
-          "bytes": 7262
+          "sha256": "f3ccde56b40c066b603558ff57ce0b66b0a68d8526f5bc68cf86bbadee5c8967",
+          "bytes": 7879
         },
         {
           "path": "hooks/guard.sh",
@@ -1875,8 +1875,8 @@
         },
         {
           "path": "hooks/renew.sh",
-          "sha256": "0a5f3a36377af20fc009d348f722633f4845abf4a7215c3d7e64e8eab2092e72",
-          "bytes": 1143
+          "sha256": "89f3a9584d61dd45e10428cee3d85ce70a32901591eec1e8c87b70e7fe6bf411",
+          "bytes": 1548
         },
         {
           "path": "hooks/session-end.sh",
@@ -1925,8 +1925,8 @@
         },
         {
           "path": "skills/agent-sync/references/hooks.md",
-          "sha256": "e4e58e33a43ed5984b3a3d68170676335a7b5ea51dacb4eac1e288a5bfb19271",
-          "bytes": 15780
+          "sha256": "547b2545d047dd949d64da94a00fbb91e7bf1cbd322202ce9d876349b493ebec",
+          "bytes": 16332
         },
         {
           "path": "skills/agent-sync/references/lease-protocol.md",
@@ -1950,8 +1950,8 @@
         },
         {
           "path": "skills/agent-sync/scripts/agent_sync.py",
-          "sha256": "15fae300c4e1d82f0126c62b029884d976ddd8c51b7e3ee83d5633ced55ca3e1",
-          "bytes": 376382
+          "sha256": "e27470be948c682f604544916e01fe3f21ac1dfe8ebf0f6a30eecdf468501c9a",
+          "bytes": 378089
         },
         {
           "path": "skills/agent-sync/scripts/bash_writes.py",
@@ -1960,7 +1960,7 @@
         },
         {
           "path": "skills/agent-sync/SKILL.md",
-          "sha256": "34e79b39b0b01bcf2c0c1846588aa50de2f949c65dfe62d4faf7af581a58ef2b",
+          "sha256": "6f2c9b224f885af2076b119b8d751f0f36e2fdca0656215dbaf6f6242baf05a6",
           "bytes": 20070
         }
       ]
