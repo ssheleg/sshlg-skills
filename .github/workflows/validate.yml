@@ -225,6 +225,29 @@ jobs:
           node bin/sshlg-skills.js config >/dev/null
           echo "OK: launcher runs"
 
+  windows:
+    # B-314: the 1.84.0 install failed on Windows (B-312) and nothing here ran there. The
+    # suites behind that report run on windows-latest, nightly and on ready_for_review.
+    # A called workflow sees its caller's event, so naming the two events keeps it out of
+    # release.yml's call: a Windows runner cannot hold a publish.
+    if: github.event_name == 'schedule' || github.event_name == 'pull_request'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Windows suites (POSIX checks, consent without a terminal, launcher)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          foreach ($t in 'posix_perms_test.js', 'consent_test.js', 'consent_cli_test.js') {
+            node "test/$t"
+            if ($LASTEXITCODE -ne 0) { throw "test/$t failed with exit $LASTEXITCODE" }
+          }
+          node bin/sshlg-skills.js --help | Out-Null
+          if ($LASTEXITCODE -ne 0) { throw "launcher --help failed with exit $LASTEXITCODE" }
+
   self-tests-a:
     # The plants, beside the gate rather than after it (B-164): each one copies the tree,
     # damages the copy and requires a refusal, and none reads what the gate step wrote —

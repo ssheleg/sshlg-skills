@@ -1064,7 +1064,9 @@ function codexPinRef(s, opts) {
 const CODEX_READ_TIMEOUT_MS = Math.max(1000, Number(process.env.SSHLG_CODEX_READ_TIMEOUT_MS) || 120000);
 function codexRunner(cmd, args, opts) {
   if (!opts || !opts.read || !(args.length === 1 && args[0] === '--version'
-    || args[0] === 'plugin' && args[1] === 'list' && (args.length === 2 || args.length === 3 && args[2] === '--json'))) throw new Error('Codex native mutation is deferred');
+    || args[0] === 'plugin' && args[1] === 'list' && (args.length === 2 || args.length === 3 && args[2] === '--json'
+      || args.length === 5 && args[2] === '--json' && args[3] === '-m' && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(args[4]))))
+    throw new Error('Codex native mutation is deferred');
   const r = spawnSync(cmd, args, { encoding: 'utf8', shell: process.platform === 'win32',
     stdio: ['ignore', 'pipe', 'pipe'], timeout: CODEX_READ_TIMEOUT_MS, maxBuffer: 32 * 1024 * 1024 });
   return { status: r.status, signal: r.signal, stdout: r.stdout || '', stderr: r.stderr || '', error: r.error };

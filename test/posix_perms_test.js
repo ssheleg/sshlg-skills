@@ -34,6 +34,8 @@ test('an executable on Windows is found by its PATHEXT extension, on POSIX by it
   // Windows file names are case-insensitive, so PATHEXT's `.CMD` names codex.cmd
   assert.strictEqual(String(P.findExecutable('codex', [d], { PATHEXT: '.EXE;.CMD' }, 'win32')).toLowerCase(), path.join(d, 'codex.cmd').toLowerCase());
   assert.strictEqual(P.findExecutable('plain', [d], {}, 'win32'), null, 'no extension is not an executable on Windows');
+  // The exec-bit half needs a POSIX file system: Windows has no exec bit to set (CI windows job).
+  if (process.platform === 'win32') return;
   fs.writeFileSync(path.join(d, 'tool'), '#!/bin/sh\n'); fs.chmodSync(path.join(d, 'tool'), 0o755);
   assert.strictEqual(P.findExecutable('tool', [d], {}, 'darwin'), path.join(d, 'tool'));
   fs.chmodSync(path.join(d, 'tool'), 0o644);

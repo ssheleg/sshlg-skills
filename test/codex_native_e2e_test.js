@@ -216,6 +216,18 @@ t('a plugin the operator disabled is not refreshed', () => {
   assert.ok(/agent-sync@agent-sync: left alone: disabled in Codex/.test(r.out));
 });
 
+t('update reads Codex one family marketplace at a time; a Codex without -m falls back (B-317)', () => {
+  const sb = sandbox({ edit: (s) => { s.enabled['agent-sync@agent-sync'] = false; } });
+  const r = runUpdate(sb, ['--agent', 'codex']);
+  assert.ok(/agent-sync@agent-sync: left alone: disabled in Codex/.test(r.out), r.out.slice(-1500));
+  const lists = state(sb).calls.filter((c) => c.startsWith('plugin list'));
+  assert.ok(lists.length > 1 && lists.every((c) => /^plugin list --json -m [a-z0-9.-]+$/.test(c)), String(lists));
+  const old = sandbox({ edit: (s) => { s.noScope = true; s.enabled['agent-sync@agent-sync'] = false; } });
+  const o = runUpdate(old, ['--agent', 'codex']);
+  assert.ok(/agent-sync@agent-sync: left alone: disabled in Codex/.test(o.out), o.out.slice(-1500));
+  assert.deepStrictEqual(state(old).calls.filter((c) => c.startsWith('plugin list')).slice(-1), ['plugin list --json']);
+});
+
 t('Codex absent: skipped with a named reason, exit 0', () => {
   const sb = sandbox({ codex: false });
   const r = runUpdate(sb, ['--agent', 'codex']);

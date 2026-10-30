@@ -58,11 +58,13 @@ if (args[0] === 'plugin' && args[1] === 'list') {
   for (const [id, version] of Object.entries(state.cache)) {
     const mk = id.split('@')[1];
     if (!state.marketplaces[mk]) continue;
+    if (args.includes('-m') && args[args.indexOf('-m') + 1] !== mk) continue;
     installed.push({ pluginId: id, name: id.split('@')[0], marketplaceName: mk, version,
       installed: true, enabled: state.enabled[id] !== false });
   }
   save();
   if (args.includes('--json')) {
+    if (state.noScope && args.includes('-m')) { process.stderr.write("error: unexpected argument '-m' found\n"); process.exit(2); }
     if (state.noJson) { process.stderr.write("error: unexpected argument '--json' found\n"); process.exit(2); }
     process.stdout.write(JSON.stringify({ installed, available: [] }));
   } else {

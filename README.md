@@ -264,7 +264,7 @@ Code afterwards.
 **Codex native version changes are deferred to preserve running sessions.**
 Codex 0.162.1 plugin replacement deletes older cache generations that an open thread
 may still use for hooks. `update` inspects installed, enabled family plugins through
-`codex plugin list`; a version different from the requested pin returns
+`codex plugin list --json -m <marketplace>`, one family marketplace at a time; a version different from the requested pin returns
 `DEFERRED_ACTIVE_GENERATION_SAFETY` before any native removal or installation.
 The overall update is partial and exits nonzero while such transitions remain.
 A matching catalog version is a catalog observation; the generations loaded by
