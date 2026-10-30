@@ -154,9 +154,10 @@ function scripted(versionAfter, fail) {
     if (fail && fail(line, calls)) return { status: 1, stdout: '', stderr: `Error: no ${line}` };
     if (line.startsWith('plugin marketplace add')) pending = line.includes('--ref v1.21.7') ? '1.21.7' : versionAfter;
     if (line.startsWith('plugin add')) version = pending;
-    if (line === 'plugin list --json') {
-      return { status: 0, stdout: JSON.stringify({ installed: [
-        { pluginId: 'agent-sync@agent-sync', version, installed: true, enabled: true }] }) };
+    const scope = /^plugin list --json(?: -m (\S+))?$/.exec(line);
+    if (scope) {
+      return { status: 0, stdout: JSON.stringify({ installed: !scope[1] || scope[1] === 'agent-sync' ? [
+        { pluginId: 'agent-sync@agent-sync', version, installed: true, enabled: true }] : [] }) };
     }
     return { status: 0, stdout: 'ok\n', stderr: '' };
   };
@@ -226,7 +227,7 @@ t('refreshAll: the table form is read when --json is refused', () => {
   const runner = (c, a) => {
     const l = a.join(' ');
     if (l === '--version') return { status: 0 };
-    if (l === 'plugin list --json') return { status: 2, stderr: "error: unexpected argument '--json' found" };
+    if (/^plugin list --json/.test(l)) return { status: 2, stderr: "error: unexpected argument '--json' found" };
     if (l === 'plugin list') {
       return { status: 0, stdout: 'PLUGIN  STATUS  VERSION  SOURCE\nagent-sync@agent-sync  installed, enabled  1.21.7  /x\n' };
     }
@@ -235,6 +236,49 @@ t('refreshAll: the table form is read when --json is refused', () => {
   const out = cp.refreshAll({ skills: SKILLS, readConfig: () => CONFIG, pinRef, runner });
   assert.strictEqual(out.status, 'ran');
   assert.strictEqual(out.items.find((i) => i.member === 'agent-sync').action, 'refresh');
+});
+
+t('refreshAll: reads each family marketplace scoped, never the slow unscoped list (B-317)', () => {
+  const s = scripted('1.22.0');
+  const runner = (c, a) => (a[0] === '--version' ? { status: 0, stdout: 'codex-cli 0.165.0' } : s.runner(c, a));
+  const out = cp.refreshAll({ skills: SKILLS, readConfig: () => CONFIG, pinRef, runner });
+  assert.strictEqual(out.status, 'ran');
+  assert.deepStrictEqual(s.calls, ['agent-sync', 'web3d-dev', 'make-skill', 'sheleg-design-skill']
+    .map((m) => `plugin list --json -m ${m}`));
+  assert.strictEqual(out.items.find((i) => i.member === 'agent-sync').action, 'refresh');
+  assert.strictEqual(out.items.find((i) => i.member === 'web3d-dev').action, 'absent');
+});
+
+t('refreshAll: --only reads only that member\'s marketplace', () => {
+  const s = scripted('1.22.0');
+  const runner = (c, a) => (a[0] === '--version' ? { status: 0 } : s.runner(c, a));
+  cp.refreshAll({ skills: SKILLS, readConfig: () => CONFIG, pinRef, runner, only: 'make-skill' });
+  assert.deepStrictEqual(s.calls, ['plugin list --json -m make-skill']);
+});
+
+t('refreshAll: a Codex without -m falls back to the unscoped list', () => {
+  const s = scripted('1.22.0');
+  const runner = (c, a) => {
+    if (a[0] === '--version') return { status: 0 };
+    if (a.includes('-m')) return { status: 2, stderr: "error: unexpected argument '-m' found" };
+    return s.runner(c, a);
+  };
+  const out = cp.refreshAll({ skills: SKILLS, readConfig: () => CONFIG, pinRef, runner });
+  assert.strictEqual(out.status, 'ran');
+  assert.deepStrictEqual(s.calls, ['plugin list --json']);
+  assert.strictEqual(out.items.find((i) => i.member === 'agent-sync').action, 'refresh');
+});
+
+t('refreshAll: a scoped read that fails or prints garbage is unread, not an empty list', () => {
+  for (const bad of [{ status: 1, stderr: 'Error: marketplace cache locked' }, { status: 0, stdout: 'oops' },
+    { status: 0, signal: 'SIGTERM', stdout: '{"installed":[]}' }]) {
+    const calls = [];
+    const out = cp.refreshAll({ skills: SKILLS, readConfig: () => CONFIG, pinRef,
+      runner: (c, a) => { calls.push(a.join(' ')); return a[0] === '--version' ? { status: 0 } : bad; } });
+    assert.strictEqual(out.status, 'unread');
+    assert.ok(out.why);
+    assert.ok(!calls.includes('plugin list --json'), 'no slow unscoped fallback on a real failure');
+  }
 });
 
 console.log('\nPASS: codexplugins — ' + n + ' cases');

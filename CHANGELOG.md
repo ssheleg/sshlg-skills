@@ -1,4 +1,17 @@
-## v1.84.2 (2026-10-29): members' hooks start fewer processes; stage 8 of five releases
+## v1.84.2 (2026-10-30): members' hooks start fewer processes; Codex is read in a second
+
+- **Codex is read one family marketplace at a time** (B-317). The unscoped `codex plugin list
+  --json` also asks Codex's remote catalog and took 105 s on 2026-10-29 (Codex 0.165.0), past
+  the 120 s read limit under load; `--json -m <marketplace>` took 0.3 s. `update` and the deferred
+  receipt watcher now read each family marketplace scoped and merge; a whole `update` Codex pass
+  over nine installed plugins took 0.98 s on this machine. A Codex without `-m` falls back to the
+  unscoped list; any other failed scoped read is `not read`, never an empty list.
+- **Windows in CI** (B-314): a `windows` job in `validate.yml` runs the suites behind the
+  Windows install report (`posix_perms`, `consent`, `consent_cli`) and the launcher on
+  `windows-latest`, nightly and on ready_for_review, outside the release gate.
+- **B-315 closed without a change:** the `claude-plugins-official` entry a failed Windows install
+  left behind was not written by the hub; it never adds that marketplace, and the Windows failure
+  came before the first native Claude command.
 
 - **Members:** task-pipeline 1.102.4 (its Bash hooks start 3 processes per Bash call in a project
   with no run, was 18; B-310). agent-sync 1.23.5 (B-311: renew's 10 s bound lives in the script,

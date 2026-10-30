@@ -113,7 +113,7 @@ try {
     assert.ok(!fs.existsSync(f)); assert.ok(!fs.readdirSync(root).some((x) => x.startsWith('.pending-')));
   });
   const runner = (version, enabled = true) => (cmd, a, opts) => {
-    assert.strictEqual(cmd, 'codex'); assert.deepStrictEqual(a, ['plugin', 'list', '--json']);
+    assert.strictEqual(cmd, 'codex'); assert.deepStrictEqual(a, ['plugin', 'list', '--json', '-m', 'probe']);
     assert.strictEqual(opts.profile, receipt.profile); assert.strictEqual(opts.read, true);
     return { status: 0, stdout: JSON.stringify({ installed: [{ pluginId: 'probe@probe', installed: true, enabled, version }] }) };
   };
@@ -164,7 +164,7 @@ try {
       encoding: 'utf8', timeout: 5000, env: { ...process.env, PATH: shims + path.delimiter + process.env.PATH },
     });
     assert.strictEqual(r.status, 3, r.stderr); assert.strictEqual(JSON.parse(r.stdout).status, 'deferred');
-    assert.strictEqual(fs.readFileSync(calls, 'utf8'), 'plugin list --json\n');
+    assert.strictEqual(fs.readFileSync(calls, 'utf8'), 'plugin list --json -m probe\n');
     assert.ok(fs.readdirSync(path.dirname(file)).some((x) => x.includes('.observation-')));
   });
   t('wall-clock exhaustion preserves pending intent and writes an explicit durable observation', () => {
