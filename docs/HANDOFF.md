@@ -51,7 +51,7 @@ watch it, `update`.
 
 **2026-10-30:** B-317 closed in the untagged 1.84.2: Codex is read per family marketplace
 (`codex plugin list --json -m`), 0.98 s for the whole Codex pass instead of 105 s; the deferred
-receipt watcher reads the same way (1.24 s). B-315 closed without a change (the hub never adds
+receipt watcher reads the same way (1.24 s). B-314 closed (a `windows` CI job; run 41061666590 green) and B-315 closed without a change (the hub never adds
 `claude-plugins-official`; receipt in the backlog). B-318 still gates the tag; the agent-sync trusted
 publisher form on npmjs.com was filled in the operator's Safari session but not submitted,
 because Claude Code's permission classifier requires the operator's explicit approval for it.
