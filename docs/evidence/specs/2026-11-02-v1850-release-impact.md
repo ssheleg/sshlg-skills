@@ -7,7 +7,7 @@ date: 2026-11-02
 
 ## 1. Who is affected and how
 
-- **Segments:** everyone who installs through the launcher. Hermes users who said yes to the routing block get a new plugin; Codex users get a faster read; Windows users get a CI job behind them and a runtime lock a crashed writer can no longer strand (B-316). The unpublished 1.84.2 rides along (task-pipeline 1.102.4 hooks, Codex read per marketplace).
+- **Segments:** everyone who installs through the launcher. Hermes users who said yes to the routing block get a new plugin; Codex users get a faster read; Windows users get a CI job behind them and a runtime lock a crashed writer can no longer strand (B-316). Gemini CLI, Kimi, Hermes, Pi and OpenCode users can opt in to the family guard (`hooks install --<host>`, B-280); nobody gets it without asking. Contributors running `npm test` with Hermes on PATH no longer fill the temp directory (B-319). The unpublished 1.84.2 rides along (task-pipeline 1.102.4 hooks, Codex read per marketplace).
 - **What changes:** on a machine with Hermes and a recorded "yes", `update` writes `~/.hermes/plugins/sshlg-routing/` (block file, `plugin.yaml`, `__init__.py`), backs up `config.yaml` and runs `hermes plugins enable sshlg-routing`; every new Hermes session then carries the map, the protocol and the router table as two prompt sections. The Codex step reads `codex plugin list --json -m <marketplace>` per family marketplace.
 - **Breaks for existing users:** none known. On Windows a lock written by 1.84.x or earlier stays `UNKNOWN` and names a manual check; POSIX locks are unchanged. The Hermes plugin shares Hermes' 8,000-character budget for all plugin sections; with another plugin near its own 4,000 (Fabric's context, 349 measured), Hermes skips the router table section and logs it.
 - **Rollout:** all at once through npm `latest` and the next `install` or `update`.
@@ -31,6 +31,6 @@ date: 2026-11-02
 - **Rollback:** `npm dist-tag add sshlg-skills@1.84.1 latest` moves new installs back at once; on a machine, `hermes plugins disable sshlg-routing` (or an opt-out line in `routing.md`) silences the plugin.
 - **Time to roll back:** minutes for the dist-tag or the Hermes switch, about an hour for a patch release.
 - **Data reversible:** yes: `config.yaml` is copied before `hermes plugins enable`, and every hub write takes a backup first.
-- **Kill switch:** `hermes plugins disable sshlg-routing`; `npx sshlg-skills install --routers no` records a refusal.
+- **Kill switch:** `hermes plugins disable sshlg-routing`; `npx sshlg-skills install --routers no` records a refusal; `npx sshlg-skills hooks remove` takes every host gate out and gives the files back.
 - **Hotfix path:** a 1.85.1 patch through the same gate.
 - **Decision trigger:** roll back if the release run fails, `update` fails, Hermes fails to start a session with the plugin enabled, or a Hermes session loses Fabric's context section within 24 hours.
