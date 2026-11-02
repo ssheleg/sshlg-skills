@@ -63,7 +63,9 @@ Hermes 0.22.2 `plugins validate` and `plugins doctor` pass). B-304 closed: all e
 clone the hub for the routed-triggers check (one PR per member, merged without a release;
 agent-stack scopes the variable to its validator step because its plants rewrite the
 description). B-307 and B-308 filed to their owners on the Fabric board (finding `c6f495c4`).
-74 identical patrol messages on the board were read and answered once.
+74 identical patrol messages on the board were read and answered once. 1.85.0 merged (PR #291,
+`a04494e1`, CI 41452825796 green including `windows`); the Hermes plugin was applied on this
+machine from main and reads back (B-284 receipt).
 
 **1.84.1 (Windows install report):** B-312 (POSIX checks skipped on Windows) and B-313 (a run
 without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to B-316 filed.
