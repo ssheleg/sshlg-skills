@@ -146,10 +146,13 @@ it('Kiro: written only where ~/.kiro/steering already exists', () => {
   assert.ok(text.startsWith(R.BEGIN), 'a steering file must not start with anything Kiro could read as front matter');
 });
 
-it('the compact block for every router fits Windsurf (6,000) and a Hermes plugin section (8,000)', () => {
+it('the compact block for every router fits Windsurf (6,000) and Hermes (two sections of 4,000, 8,000 in all)', () => {
   const block = A.renderCompact(ALL, { members: MEMBERS, star: true });
   assert.ok(block.length <= target('windsurf').cap, `compact block is ${block.length} characters`);
-  assert.ok(block.length <= IT.HERMES_PLUGIN_CAP);
+  const HP = require('../lib/hermes-plugin.js');
+  assert.strictEqual(HP.overCap(block), null, HP.overCap(block));
+  assert.strictEqual(HP.parts(block).length, 2);
+  for (const p of HP.parts(block)) assert.ok(p.length <= IT.HERMES_SECTION_CAP, `a Hermes section is ${p.length} characters`);
   assert.ok(!/SSHLG:ROUTER:[a-z0-9-]+:BEGIN/.test(block), 'router sections leaked into the compact form');
   for (const name of registry.order()) assert.ok(block.includes(`| \`${name}\` |`), `${name} missing from the table`);
   assert.ok(block.includes('<!-- SSHLG:ROUTERS:PROTOCOL:BEGIN -->'));
@@ -213,7 +216,7 @@ it('scope: --claude-only selects no extra target; --agent picks by the hub or sk
   assert.deepStrictEqual(IT.select({ agents: ['kimi-code-cli'] }).map((t) => t.agent), ['agents']);
 });
 
-it('describe names the reported hosts: OpenCode and Copilot fallback, Hermes manual step', () => {
+it('describe names the reported hosts (OpenCode and Copilot fallback) and Hermes as a plugin target', () => {
   const h = home();
   mk(h, '.config', 'opencode');
   fs.writeFileSync(path.join(h, '.config', 'opencode', 'opencode.json'), '{}');
@@ -228,8 +231,8 @@ it('describe names the reported hosts: OpenCode and Copilot fallback, Hermes man
   fs.writeFileSync(path.join(h, '.config', 'opencode', 'AGENTS.md'), '# own\n');
   assert.strictEqual(IT.describe(h, { env: ENV, which: NOBIN }).find((r) => r.agent === 'opencode').fallbackActive, false);
   assert.strictEqual(by('copilot').present, true);
-  assert.strictEqual(by('hermes').kind, 'reported');
-  assert.ok(/Not written/.test(by('hermes').manual));
+  assert.strictEqual(by('hermes').kind, 'hermes');
+  assert.strictEqual(by('hermes').file, path.join(h, '.hermes', 'plugins', 'sshlg-routing', 'routing.md'));
   assert.strictEqual(by('kimi').servedBy, 'agents');
 });
 
@@ -288,7 +291,8 @@ it('afterRemoval: an own file left empty is deleted, any other text is written b
   assert.strictEqual(mine.action, 'write');
   assert.strictEqual(mine.text.trim(), '# mine');
   assert.strictEqual(IT.afterRemoval(kiro, '# no block here\n').action, 'none');
-  for (const t of IT.EXTRA_TARGETS.filter((x) => x.agent !== 'kiro')) {
+  // Kiro's steering file and Hermes' plugin file are named by the hub (B-283, B-284).
+  for (const t of IT.EXTRA_TARGETS.filter((x) => !['kiro', 'hermes'].includes(x.agent))) {
     assert.ok(!t.ownFile, `${t.agent}: a host-named file is never the hub's to delete`);
     assert.strictEqual(IT.afterRemoval(t, block).action, 'write', t.agent);
   }

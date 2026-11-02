@@ -532,6 +532,7 @@ These channels get it, and each only where that agent is actually installed:
 | ZCode | `~/.zcode/AGENTS.md` (ZCode 3.14.4's user default). ZCode onboarding offers to migrate `~/.claude/CLAUDE.md` into this file, overwriting it, which duplicates or replaces the block: decline it, or run `npx sshlg-skills update` after it (B-282; `hosts` prints this note) |
 | Qwen Code | `~/.qwen/QWEN.md` (or `$QWEN_HOME/QWEN.md`) |
 | Kiro | `~/.kiro/steering/sshlg-routing.md`, only where `~/.kiro/steering` already exists; no front matter, so Kiro's default "always included" applies. The file name is the hub's, so `uninstall` deletes the file (backup first) when the block was all it held, and keeps any text the operator added (B-283) |
+| Hermes | `~/.hermes/plugins/sshlg-routing/routing.md` (or under `$HERMES_HOME`), the hub's own plugin. Hermes has no global instruction file (`SOUL.md` is its persona), so the compact block (below) rides as two system-prompt sections, split before the router table: Hermes Agent 0.22.2 takes 4,000 characters a section and 8,000 for every plugin together, and skips, never cuts, one past either. The hub writes `plugin.yaml` and `__init__.py` beside the block, backs up `config.yaml` and runs `hermes plugins enable sshlg-routing`. The plugin reads the file at each new session, so an opt-out line or `uninstall` (which deletes the file) silences it (B-284) |
 | Windsurf (Cascade) | `~/.codeium/windsurf/memories/global_rules.md`, only where that directory exists. Windsurf reads 6,000 characters of it, so this host gets a **compact** block: the map, the protocol and the router table without the per-router sections (about 4,600 characters). A file that would cross the cap is refused, never cut |
 
 A host counts as installed when its binary is on `PATH` or its home holds anything
@@ -541,9 +542,7 @@ to, so that directory alone proves nothing. Homes of absent hosts are never crea
 
 Some hosts are named but not written for, each for a stated reason. Kimi also reads
 `~/.kimi-code/AGENTS.md` and Goose `~/.config/goose/.goosehints`; the block lives
-once in `~/.agents/AGENTS.md` so neither reads it twice. Hermes has no global
-instruction file (its `SOUL.md` is the agent's persona), so `hosts` gives the manual
-step instead. OpenCode and VS Code Copilot read `~/.claude/CLAUDE.md` as a fallback;
+once in `~/.agents/AGENTS.md` so neither reads it twice. OpenCode and VS Code Copilot read `~/.claude/CLAUDE.md` as a fallback;
 OpenCode stops as soon as a `~/.config/opencode/AGENTS.md` exists, and `hosts` and
 `context` say which state this machine is in.
 
