@@ -26,6 +26,17 @@ ship in this release.
   2026-11-02, the disk at 135 MB free). Now the row writes nothing and runs nothing until the
   Hermes home exists, and the CLI gets `HERMES_HOME` set to the home the files went to
   (`test/hermes_plugin_test.js`, 2 new checks, both red on the merged code).
+- **The family guard runs on five more hosts** (B-280): Gemini CLI, Kimi Code CLI, Hermes
+  Agent, Pi and OpenCode, opt-in through `hooks install --gemini --kimi --hermes --pi
+  --opencode`. `lib/hostgate.js` turns each host's call into Claude's, the unchanged
+  `hooks/pre-tool-use.js` judges it, and a refusal is spelled the host's way; anything else,
+  a crash or a timeout included, passes the call. Each host's failure rule was read from
+  its installed source and handled: Gemini blocks on a loud hook failure (stderr dropped,
+  exit forced to 0), Pi and OpenCode block on a throw (their plugins catch everything and
+  OpenCode's throws only to refuse), Hermes blocks a hook that outlasts 30 s (the guard
+  stops at 8 s). Writes go through `apply.protectedWrite`; other tools' hooks in the same
+  files are kept; `hooks remove` gives the files back byte for byte; `update` refreshes a
+  wired gate and never adds one (`lib/hostgate-install.js`, `test/hostgate_test.js`).
 - **Runtime recovery works on Windows** (B-316). `hooks recovery inspect` there threw on
   `process.getuid` and a lock left by a crashed writer could not be retired. A Windows
   writer now holds `.sync.lock` open with share mode 0 until it releases it; Windows

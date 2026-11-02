@@ -894,18 +894,30 @@ Which host runs which hook:
 | Cursor (cursor-agent 2026.09.02) | imports the same `settings.json` entries (third-party hooks, on by default) | `PreToolUse`: the credential-reader, shell-hygiene and MCP-credential refusals, and the copy before a `Write` or `Delete` of a protected file, answered in Cursor's `permission` shape; a `Grep` with no `output_mode` counts as `content`, Cursor's default, so a search of a credential file is refused. The prompt hook's route note, the `SessionStart` pointer and the `PostToolUse` credential report arrive as `additional_context`, the field Cursor reads for those events. The route escalation does not run there: Cursor accepts `ask` from `preToolUse` but does not enforce it. `test/hooks_hosts_e2e_test.js` feeds Cursor-shaped payloads through the real scripts and checks every answer against Cursor's validator |
 | Codex 0.163 | `hooks install --codex` adds one `PreToolUse` entry to `$CODEX_HOME/hooks.json` (else `~/.codex/hooks.json`) | the same refusals on `Bash` and MCP tools, and the copy before an `apply_patch` that touches a protected file (its paths are read out of the patch). Codex runs a hook only after you trust it in `/hooks`, and asks again when the entry changes, so `update` never rewrites this entry; `hooks` says when it is stale |
 | Continue CLI | reads `~/.claude/settings.json` | untested |
-| Gemini CLI, Kimi, OpenCode, Hermes, Pi | not wired | each has a blocking hook surface (Gemini `BeforeTool`, Kimi `[[hooks]]`, OpenCode `tool.execute.before`, Hermes plugin and shell hooks, Pi extension `tool_call`) and none has an adapter yet. Gemini CLI was succeeded by Antigravity CLI on 2026-06-18 (geminicli.com, hooks reference), so its adapter waits on which of the two stays. Hermes plugin hooks and Pi extension handlers fail closed, against this pack's fail-silent rule, so they need Hermes shell hooks or a wrapper that catches every error |
+| Gemini CLI 0.63 | `hooks install --gemini` adds one `BeforeTool` entry to `~/.gemini/settings.json` (or under `GEMINI_CLI_HOME`) | the `PreToolUse` refusals on `run_shell_command`, `read_file`, `read_many_files` (literal paths), `write_file`, `replace`, `grep_search` and the MCP tools the MCP guard registers, answered as `{"decision":"deny"}`. Gemini blocks a call when a hook fails loudly, so the entry drops stderr and forces exit 0. Antigravity CLI reads another file in another format and is not wired |
+| Kimi Code CLI 2.3 | `hooks install --kimi` appends one marked `[[hooks]]` block (`PreToolUse`) to `~/.kimi-code/config.toml` (or `KIMI_CODE_HOME`) | the same refusals on `Bash`, `Read`, `Write`, `Edit`, `Grep` and `mcp__` tools, in Claude's answer shape. Kimi passes a call whose hook crashes or times out |
+| Hermes Agent 0.22 | `hooks install --hermes` appends a marked top-level `hooks: pre_tool_call` block to `~/.hermes/config.yaml` (or `HERMES_HOME`), only while the file has no `hooks:` of its own; otherwise it names the entry to add by hand | the same refusals on `terminal`, `read_file`, `write_file`, `patch`, `search_files`, answered as `{"decision":"block"}`. These are Hermes shell hooks, not its plugin hooks, which fail closed. Hermes asks you to approve a new shell hook the first time it starts in a terminal (or once with `--accept-hooks`); its plugin dispatcher blocks a call whose hook outlasts 30 s, so the guard stops itself at 8 s |
+| Pi 1.1 | `hooks install --pi` writes the hub's own extension `~/.pi/agent/extensions/sshlg-skills-gate.js` (or under `PI_CODING_AGENT_DIR`) | the same refusals on `bash`, `read`, `write`, `edit`, `grep`, returned as `{block: true, reason}`. Pi blocks a call whose handler throws, so the extension catches every fault and passes |
+| OpenCode 1.19 | `hooks install --opencode` writes the hub's own plugin `~/.config/opencode/plugins/sshlg-skills-gate.js` | the same refusals on `bash`, `read`, `write`, `edit`, `grep` and `apply_patch`. OpenCode blocks only on a throw, and on any throw, so only a refusal throws |
 
 Cursor and Codex payloads become Claude's shape in one pure module, `lib/hookpayload.js`,
 before any guard reads them (Cursor's `Shell`, `path`, `MCP:<tool>` and
 `conversation_id`; Codex's `apply_patch`), and the answer is spelled for the host that asked.
+The five hosts after them (B-280) go through `lib/hostgate.js`: their call becomes one or
+more Claude calls, the unchanged `hooks/pre-tool-use.js` judges each, and the first refusal
+is spelled the host's way; a crash, a timeout or a payload it does not know passes the call.
+Gemini, Kimi and Hermes run `hooks/host-gate.js <host>`; Pi and OpenCode load the hub's
+plugin, which runs the same guard. `update` refreshes a gate that is already wired (its
+runtime path, its text) and never adds one. `test/hostgate_test.js` covers each host's
+payloads, the real script, both plugins and the installs beside other tools' hooks.
 
 ```bash
 npx sshlg-skills hooks                    # what would be wired, and what holds it now
 npx sshlg-skills hooks install            # wire it (refuses to take someone else's status line)
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
 npx sshlg-skills hooks install --codex    # also the guard in Codex's hooks.json; then trust it once in Codex /hooks
-npx sshlg-skills hooks remove             # unwire (Claude and Codex), and give the displaced one back
+npx sshlg-skills hooks install --gemini --kimi --hermes --pi --opencode  # also the guard on those hosts (B-280)
+npx sshlg-skills hooks remove             # unwire (Claude, Codex and every gated host), and give the displaced one back
 npx sshlg-skills hooks recovery inspect --json                 # after a hard stop: is the runtime writer provably dead?
 npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only that dead lock, then roll back
 # `npx sshlg-skills update` re-wires a machine that already has one of these entries (since v1.56.0), through the

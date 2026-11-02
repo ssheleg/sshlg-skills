@@ -309,7 +309,7 @@ Usage:
                                                       # override this machine's pack mark (Gemini,
                                                       # Pi, OpenCode, Hermes; not Claude/Codex)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
-  npx sshlg-skills hooks   install [--force] [--dry-run] [--codex]
+  npx sshlg-skills hooks   install [--force] [--dry-run] [--codex] [--gemini] [--kimi] [--hermes] [--pi] [--opencode]
                                                       # --codex: also the guard in Codex's hooks.json
   npx sshlg-skills context [--json]                    # what each host loads before the first word; caps
   npx sshlg-skills hooks   recovery inspect [--json]
@@ -866,6 +866,8 @@ function cmdUpdate(f) {
   // A machine that has consented (one entry of ours in settings.json) is re-wired here;
   // one that has not is left alone — an update is not the moment to ask.
   if (runtimeReady) ok = rewireConsentedHooks(f) && ok;
+  // B-280: the guard entries other hosts carry are refreshed the same way, never added.
+  if (runtimeReady) ok = refreshHostGates(f) && ok;
   // Skill visibility (B-143, wave L1). A machine whose record shows the operator ran
   // `visibility --apply` gets it again, with the same window and --keep, so skills the
   // refresh above just added are hidden by the same rule on every host. One with no
@@ -1011,8 +1013,15 @@ function runtimeScopeFor(f) {
   try {
     codexHooks = JSON.parse(fs.readFileSync(path.join(hooksLib.codexRoot(home), 'hooks.json'), 'utf8'));
   } catch (_) { /* absent or unparseable: Codex has not consented here */ }
+  // B-280: a host whose guard entry runs the copy keeps it in scope too.
+  let gated = [];
+  try {
+    const gateLib = require('../lib/hostgate-install.js');
+    const opts = gateOptions();
+    gated = gateHostsInScope(f).filter((h) => gateLib.planRemoval(h, opts).state === 'remove');
+  } catch (_) { gated = []; }
   return hooksLib.runtimeScope({
-    claude: claudeScope(f), codex: codexScope(f), codexHooks, root: hooksLib.runtimeDir(home),
+    claude: claudeScope(f), codex: codexScope(f), codexHooks, root: hooksLib.runtimeDir(home), gated,
   });
 }
 
@@ -1237,6 +1246,44 @@ function rewireStep(f) {
       ? 're-wire the consented hook entries (copy before write, through protect())'
       : 'hook entries in settings.json: nothing to write',
     { file: r.file, changes });
+}
+
+/** Agent ids under which `--agent` names each gated host (lib/hostgate-install.js). */
+const GATE_AGENT_IDS = { gemini: ['gemini', 'gemini-cli'], kimi: ['kimi', 'kimi-cli', 'kimi-code-cli'],
+  hermes: ['hermes', 'hermes-agent'], pi: ['pi'], opencode: ['opencode'] };
+/** The gated hosts this run may touch: not under `--claude-only`; under `--agent`, the named ones. */
+function gateHostsInScope(f) {
+  const flags = f || {};
+  if (flags.claudeOnly) return [];
+  const all = require('../lib/hostgate-install.js').HOSTS;
+  if (!flags.agents || !flags.agents.length) return all;
+  return all.filter((h) => GATE_AGENT_IDS[h].some((id) => flags.agents.includes(id)));
+}
+function gateOptions() {
+  const home = os.homedir();
+  const found = require('../lib/posix-perms.js').findExecutable('node', String(process.env.PATH || '').split(path.delimiter).filter(Boolean));
+  return { home, env: process.env, root: require('../lib/hooks.js').runtimeDir(home), node: found || process.execPath };
+}
+/**
+ * B-280: refresh the guard on every host where an entry of ours is already wired (presence
+ * is the consent, as for Claude's settings.json). `refreshOnly`: never adds one. Returns
+ * false only when a write was refused.
+ */
+function refreshHostGates(f) {
+  const gateLib = require('../lib/hostgate-install.js');
+  const opts = Object.assign(gateOptions(), { refreshOnly: true });
+  let ok = true;
+  for (const h of gateHostsInScope(f)) {
+    let p;
+    try { p = gateLib.plan(h, opts); } catch (e) { log(`\n== Hook gate: ${h} ==\n  not read: ${e.message}`); ok = false; continue; }
+    if (!['install', 'update'].includes(p.state)) continue;
+    log(`\n== Hook gate: ${h} ==`);
+    const w = gateLib.write(p, { home: opts.home });
+    if (!w.ok) { log(`  NOT written: ${p.file} (${w.action}${w.error ? `: ${w.error}` : ''}); unchanged`); ok = false; continue; }
+    log(`  refreshed ${p.file}`);
+    if (w.backup) log(`  copy before write: ${w.backup}`);
+  }
+  return ok;
 }
 
 /**
@@ -4032,6 +4079,13 @@ function cmdHooks(argv) {
   // The profile Claude Code reads: CLAUDE_CONFIG_DIR, else ~/.claude (B-218, CLAUDE-8).
   const file = hooksSettingsFile(home);
   const wantCodex = argv.includes('--codex');
+  // B-280: the guard for Gemini, Kimi, Hermes, Pi and OpenCode (lib/hostgate-install.js).
+  const gateLib = require('../lib/hostgate-install.js');
+  const wantGates = gateLib.HOSTS.filter((h) => argv.includes(`--${h}`));
+  const gateOpts = () => {
+    const found = require('../lib/posix-perms.js').findExecutable('node', String(process.env.PATH || '').split(pathMod.delimiter).filter(Boolean));
+    return { home, env: process.env, root, node: found || process.execPath };
+  };
   const codexDir = hooksLib.codexRoot(home);
   const codexFile = pathMod.join(codexDir, 'hooks.json');
 
@@ -4150,6 +4204,15 @@ function cmdHooks(argv) {
     if (!reasons.length) log('\nhooks: всё на месте и совпадает');
     for (const c of conflicts) log(`hooks: ${c.key} держит ${c.held_by} (${c.note})`);
     codexStatus();
+    for (const h of gateLib.HOSTS) {
+      const p = gateLib.plan(h, gateOpts());
+      if (p.state === 'absent-host') continue;
+      const wiredNow = gateLib.planRemoval(h, gateOpts()).state === 'remove';
+      if (p.state === 'current' && wiredNow) log(`\nhooks ${h}: подключено и совпадает: ${p.file}`);
+      else if (wiredNow) log(`\nhooks ${h}: устарело: ${p.file}\n  обновить: npx sshlg-skills hooks install --${h} (или update)`);
+      else if (p.state === 'conflict' || p.state === 'unreadable') log(`\nhooks ${h}: ${p.file}: ${p.reason}`);
+      else log(`\nhooks ${h}: не подключено: ${p.file}\n  добавить: npx sshlg-skills hooks install --${h}`);
+    }
     return true;
   }
 
@@ -4171,10 +4234,14 @@ function cmdHooks(argv) {
     const codexOut = codex.present && !codex.error && codex.text !== null
       ? hooksLib.removal(codex.current, root, { host: 'codex' }) : { changed: [] };
     if (codex.error) log(`hooks codex: ${codexFile} не парсится (${codex.error}), не трогаю`);
-    if (!changed.length && !codexOut.changed.length) { log('hooks: ничего нашего не установлено'); return true; }
+    const gateOut = gateLib.HOSTS.map((h) => gateLib.planRemoval(h, gateOpts()));
+    for (const g of gateOut) if (g.state === 'unreadable' || g.state === 'conflict') log(`hooks ${g.host}: ${g.file}: ${g.reason}, не трогаю`);
+    const gateRemove = gateOut.filter((g) => g.state === 'remove');
+    if (!changed.length && !codexOut.changed.length && !gateRemove.length) { log('hooks: ничего нашего не установлено'); return true; }
     if (dryRun) {
       if (changed.length) log(`hooks: --dry-run: снял бы ${changed.join(', ')}`);
       if (codexOut.changed.length) log(`hooks codex: --dry-run: снял бы ${codexOut.changed.join(', ')} из ${codexFile}`);
+      for (const g of gateRemove) log(`hooks ${g.host}: --dry-run: ${g.next === null ? 'удалил бы' : 'снял бы гейт из'} ${g.file}`);
       return true;
     }
     if (changed.length) {
@@ -4189,6 +4256,12 @@ function cmdHooks(argv) {
       if (!w) return false;
       log(`hooks codex: снято: ${codexOut.changed.join(', ')} из ${codexFile}`);
       log(`hooks codex: копия до записи: ${w.backup}`);
+    }
+    for (const g of gateRemove) {
+      const w = gateLib.write(g, { home });
+      if (!w.ok) { log(`hooks ${g.host}: НЕ снято с ${g.file} (${w.action}${w.error ? `: ${w.error}` : ''}); файл не изменён`); return false; }
+      log(`hooks ${g.host}: ${w.action === 'deleted' ? 'удалён' : 'снят гейт из'} ${g.file}`);
+      if (w.backup) log(`hooks ${g.host}: копия до записи: ${w.backup}`);
     }
     return true;
   }
@@ -4209,6 +4282,15 @@ function cmdHooks(argv) {
     }
     codexPlan = hooksLib.plan(codex.current, root, { host: 'codex' });
   }
+  const gatePlans = [];
+  for (const h of wantGates) {
+    const p = gateLib.plan(h, gateOpts());
+    if (['absent-host', 'unreadable', 'conflict'].includes(p.state)) {
+      log(`hooks ${h}: ${p.reason || p.state}. Ничего не записано.`);
+      return false;
+    }
+    gatePlans.push(p);
+  }
 
   const { settings, changed, conflicts } = hooksLib.plan(current, root, { force });
   const blocking = conflicts.filter(() => !force);
@@ -4228,6 +4310,7 @@ function cmdHooks(argv) {
         ? `hooks codex: --dry-run: записал бы ${codexPlan.changed.join(', ')} в ${codexFile}`
         : `hooks codex: --dry-run: ${codexFile} уже на месте`);
     }
+    for (const p of gatePlans) log(p.state === 'current' ? `hooks ${p.host}: --dry-run: ${p.file} уже на месте` : `hooks ${p.host}: --dry-run: записал бы гейт в ${p.file}`);
     return true;
   }
 
@@ -4276,6 +4359,14 @@ function cmdHooks(argv) {
       log(w.backup ? `hooks codex: копия до записи: ${w.backup}` : 'hooks codex: файла не было, копировать было нечего');
       log('hooks codex: открой Codex и доверь хук в /hooks. До этого Codex его не запускает (доверие привязано к хешу записи)');
     }
+  }
+  for (const p of gatePlans) {
+    if (p.state === 'current') { log(`hooks ${p.host}: ${p.file} уже на месте`); continue; }
+    const w = gateLib.write(p, { home });
+    if (!w.ok) { log(`hooks ${p.host}: НЕ записан ${p.file} (${w.action}${w.error ? `: ${w.error}` : ''}); файл не изменён`); return false; }
+    log(`hooks ${p.host}: записан гейт (${p.file})`);
+    log(w.backup ? `hooks ${p.host}: копия до записи: ${w.backup}` : `hooks ${p.host}: файла не было, копировать было нечего`);
+    log(`hooks ${p.host}: ${gateLib.NOTES[p.host]}`);
   }
   return true;
 }
