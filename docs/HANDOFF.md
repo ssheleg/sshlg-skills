@@ -89,13 +89,22 @@ refused to the agent and that stay with the operator: deleting the rejected `NPM
 (B-322) and removing the 1,928 `sshlg-*` trees already in the macOS temp directory (list of the
 89 heavy ones: `leak-tools/run-logs/b319-leak-list.txt`, outside Git).
 
+**1.85.0 released (2026-11-02):** PR #294 merged (`3e2c9ba7`, CI 41537410102 green including
+`windows`), tag `v1.85.0` on that commit, release run 41538337642 green (`release` and `publish`
+through OIDC), `npm view sshlg-skills version` → 1.85.0. `npx --yes sshlg-skills@latest update`
+on the operator machine: 11 Claude members verified, hook runtime 1.85.0, routing blocks
+unchanged; result PARTIAL only because 9 Codex plugins were deferred while Codex sessions are
+active (receipt and watcher under `~/.sshlg-skills/codex-deferred/`). Claude Code sessions pick up
+agent-sync 1.23.5 on their next start.
+
 **1.84.1 (Windows install report):** B-312 (POSIX checks skipped on Windows) and B-313 (a run
 without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to B-316 filed.
 
-**Exact next bounded task:** tag v1.85.0 once this change is on main, watch the release run,
-confirm npm serves sshlg-skills 1.85.0, run `npx --yes sshlg-skills@latest update`, and read the
-1.85.0 card after 24 hours. Operator-owned: B-322 (delete the `NPM_TOKEN` secrets) and the old
-temp trees (B-321). B-320 waits on the operator's opt-in for live host probes.
+**Exact next bounded task:** read the 1.85.0 card's signals after 24 hours (from 2026-11-03
+23:45 CET): release run, `npm view sshlg-skills version`, `hermes plugins list`, open hub issues
+([card](evidence/specs/2026-11-02-v1850-release-impact.md)). Operator-owned: B-322 (delete the
+`NPM_TOKEN` secrets) and the old temp trees (B-321). B-320 waits on the operator's opt-in for live
+host probes.
 
 ## Previous: 2026-10-27 the hub board closed in waves (1.81.0)
 
