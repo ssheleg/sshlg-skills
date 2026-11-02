@@ -11,7 +11,7 @@ date: 2026-11-02
 - **What changes:** on a machine with Hermes and a recorded "yes", `update` writes `~/.hermes/plugins/sshlg-routing/` (block file, `plugin.yaml`, `__init__.py`), backs up `config.yaml` and runs `hermes plugins enable sshlg-routing`; every new Hermes session then carries the map, the protocol and the router table as two prompt sections. The Codex step reads `codex plugin list --json -m <marketplace>` per family marketplace.
 - **Breaks for existing users:** none known. On Windows a lock written by 1.84.x or earlier stays `UNKNOWN` and names a manual check; POSIX locks are unchanged. The Hermes plugin shares Hermes' 8,000-character budget for all plugin sections; with another plugin near its own 4,000 (Fabric's context, 349 measured), Hermes skips the router table section and logs it.
 - **Rollout:** all at once through npm `latest` and the next `install` or `update`.
-- **Timing:** after B-318 (npm trusted publishing) lets the tag publish.
+- **Timing:** B-318 closed on 2026-11-02 (npm trusted publishing set for all ten packages, agent-sync 1.23.5 published through OIDC); the tag follows the merge. agent-sync users get 1.23.5 with the same `update` (its renew bounds itself without the bash watchdog). Contributors' `npm test` now removes its suites' temp files (B-321); installs are untouched by that.
 
 ## 2. Tracking
 
