@@ -120,6 +120,24 @@ it('a "no" leaves no plugin directory; no consent writes nothing', () => {
   assert.deepStrictEqual(fake.state.calls, []);
 });
 
+it('without a Hermes home nothing is created and no hermes command runs', () => {
+  const h = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-hermes-')));
+  const fake = fakeHermes();
+  // The 2026-11-02 leak: a `hermes` on PATH, a home without ~/.hermes.
+  const r = run(h, { hermesRun: fake.run, which: (b) => (b === 'hermes' ? '/opt/bin/hermes' : null) });
+  assert.strictEqual(r.action, 'absent', JSON.stringify(r));
+  assert.ok(!fs.existsSync(path.join(h, '.hermes')));
+  assert.deepStrictEqual(fake.state.calls, []);
+});
+
+it('the hermes CLI is pointed at the home the files went to', () => {
+  const h = home();
+  const seen = [];
+  const r = run(h, { env: { PATH: '', HOME: '/elsewhere' }, hermesRun: (args, env) => { seen.push(env.HERMES_HOME); return { ok: true, out: '["sshlg-routing"]', said: '' }; } });
+  assert.strictEqual(r.plugin.enabled, 'already');
+  assert.ok(seen.length && seen.every((x) => x === path.join(h, '.hermes')), JSON.stringify(seen));
+});
+
 it('a dry run writes nothing and runs no Hermes command', () => {
   const h = home();
   const fake = fakeHermes();

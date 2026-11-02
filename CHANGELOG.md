@@ -18,6 +18,14 @@ ship in this release.
   CI the B-295 check only disclosed "no sshlg-skills umbrella above this checkout"; all
   eleven members now clone the hub and point `SSHLG_HUB_ROOT` at it (merged on each
   member's main, no member release). `test/advertised_check.js` says so.
+- **The Hermes row no longer installs Hermes into a home that has none** (B-319). With a
+  `hermes` on PATH and no `~/.hermes`, the merged B-284 code created
+  `~/.hermes/plugins/sshlg-routing/` and ran `hermes config get`, and Hermes installed itself
+  into that empty home (about 600 MB). `npm test` does this once per test home, so a gate run
+  on a machine with Hermes left tens of gigabytes in the temp directory (43 GB measured on
+  2026-11-02, the disk at 135 MB free). Now the row writes nothing and runs nothing until the
+  Hermes home exists, and the CLI gets `HERMES_HOME` set to the home the files went to
+  (`test/hermes_plugin_test.js`, 2 new checks, both red on the merged code).
 - **Runtime recovery works on Windows** (B-316). `hooks recovery inspect` there threw on
   `process.getuid` and a lock left by a crashed writer could not be retired. A Windows
   writer now holds `.sync.lock` open with share mode 0 until it releases it; Windows
