@@ -56,11 +56,22 @@ receipt watcher reads the same way (1.24 s). B-314 closed (a `windows` CI job; r
 publisher form on npmjs.com was filled in the operator's Safari session but not submitted,
 because Claude Code's permission classifier requires the operator's explicit approval for it.
 
+**2026-11-02 (operator via a peer session, «продолжи все агентов»):** 1.85.0 prepared, not
+tagged (B-318 still open: npm serves 1.84.1, agent-sync 1.23.4). B-284 closed: Hermes gets the
+routing map through the hub's plugin `sshlg-routing` (two sections of at most 4,000 characters;
+Hermes 0.22.2 `plugins validate` and `plugins doctor` pass). B-304 closed: all eleven members' CI now
+clone the hub for the routed-triggers check (one PR per member, merged without a release;
+agent-stack scopes the variable to its validator step because its plants rewrite the
+description). B-307 and B-308 filed to their owners on the Fabric board (finding `c6f495c4`).
+74 identical patrol messages on the board were read and answered once.
+
 **1.84.1 (Windows install report):** B-312 (POSIX checks skipped on Windows) and B-313 (a run
 without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to B-316 filed.
 
-**Exact next bounded task:** stage 8 of the 1.81.0 card after 2026-10-28T19:40Z, then of 1.82.0,
-1.83.0 and 1.84.0 after their windows; then the highest open board row (B-280, B-284, B-310, B-311).
+**Exact next bounded task:** B-318 is the operator's: npm trusted publishing for the ten
+packages (B-318 lists them). Once it is set: delete the `NPM_TOKEN` secrets, re-run agent-sync's
+failed publish (run 40868769971), pin agent-sync 1.23.5, tag v1.85.0, watch it, `update`, and
+read the 1.85.0 card after 24 hours. Independent rows left: B-280, B-316.
 
 ## Previous: 2026-10-27 the hub board closed in waves (1.81.0)
 

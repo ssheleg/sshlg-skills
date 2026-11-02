@@ -1,4 +1,26 @@
-## v1.84.2 (2026-10-30): members' hooks start fewer processes; Codex is read in a second
+## v1.85.0 (2026-11-02): Hermes gets the routing map; members' CI checks their triggers against the hub
+
+1.84.2 was merged but never published (npm publishing waits on B-318); its changes, below,
+ship in this release.
+
+- **Hermes gets the routing map** (B-284). Hermes has no global instruction file (`SOUL.md`
+  is its persona), so the compact block goes into the hub's own plugin,
+  `~/.hermes/plugins/sshlg-routing/` (`lib/hermes-plugin.js`): `routing.md` is written like
+  Windsurf's capped file (consent, opt-out line, backup, hand-edit guard), and the plugin
+  registers it as two system-prompt sections split before the router table. Hermes Agent
+  0.22.2 takes 4,000 characters a section and 8,000 for every plugin together
+  (`hermes_cli/plugins_dispatch.py:72-74`); the block is 4,606, so one section could not
+  hold it, and the hub's old figure of 8,000 for one section was the total. The hub backs
+  up `config.yaml` and runs `hermes plugins enable sshlg-routing`; `hermes plugins validate`
+  and `hermes plugins doctor` pass on Hermes 0.22.2. The plugin reads the file at each new
+  session, so an opt-out line or `uninstall` silences it without a restart.
+- **Members' CI checks their routed triggers against the hub** (B-304). In a member's own
+  CI the B-295 check only disclosed "no sshlg-skills umbrella above this checkout"; all
+  eleven members now clone the hub and point `SSHLG_HUB_ROOT` at it (merged on each
+  member's main, no member release). `test/advertised_check.js` says so.
+- **Board:** B-307 and B-308 filed to their owners on the Fabric board (finding `c6f495c4`).
+
+## v1.84.2 (2026-10-30, not published; ships in 1.85.0): members' hooks start fewer processes; Codex is read in a second
 
 - **Codex is read one family marketplace at a time** (B-317). The unscoped `codex plugin list
   --json` also asks Codex's remote catalog and took 105 s on 2026-10-29 (Codex 0.165.0), past

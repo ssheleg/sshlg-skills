@@ -1567,7 +1567,8 @@ function hostsInstructionTargets(home) {
   const rows = IT.describe(home);
   log('\nOther hosts with a global instruction file (B-206):\n');
   for (const r of rows.filter((x) => x.kind !== 'reported')) {
-    const what = r.kind === 'compact' ? `compact block, cap ${r.cap} characters` : 'full block';
+    const what = r.kind === 'compact' ? `compact block, cap ${r.cap} characters`
+      : r.kind === 'hermes' ? 'compact block as the sshlg-routing plugin (two sections, 4,000 characters each)' : 'full block';
     const who = r.serves ? ` (serves ${r.serves.join(', ')})` : '';
     let state = r.present ? 'detected' : 'absent  ';
     try {
@@ -1933,6 +1934,7 @@ function cmdRouters(f) {
     }
     // B-206: a refusal or a symlink the hub will not write through says why, and what to do.
     if (r.reason) log(`  ${r.reason}`);
+    for (const l of (r.plugin && r.plugin.lines) || []) log(`  ${l}`);
     if (r.diff) log(r.diff);
   }
   if (saved.length) {
@@ -3986,7 +3988,7 @@ function cmdContext(argv) {
     if (!d.present) continue;
     if (d.file) {
       const h = C.host(d.agent, d.file);
-      if (d.cap && d.kind === 'compact') h.cap = d.cap;
+      if (d.cap && (d.kind === 'compact' || d.kind === 'hermes')) h.cap = d.cap;
       if (d.agent === 'kimi' || (d.agent === 'agents' && (d.via || []).includes('kimi'))) h.kimiChain = true;
       if (d.fallback) { h.fallback = d.fallback; h.fallbackActive = d.fallbackActive; }
       hosts.push(h);

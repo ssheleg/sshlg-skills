@@ -18,7 +18,8 @@
  * hook itself calls — so a member cannot go green against a stale duplicate. A member run
  * standalone, with no umbrella above it, gets a disclosure rather than a pass: the caller
  * prints it and moves on, because a check that cannot look must never read as one that
- * looked.
+ * looked. B-304: each member's own CI clones the hub and sets `SSHLG_HUB_ROOT` to it, so
+ * the check looks there too; only a local standalone run still discloses.
  *
  * B-295: **and the reverse.** Every phrase the member advertises (its description's
  * `Triggers -` list and its `## Triggers` body) must reach the route that names the skill,
