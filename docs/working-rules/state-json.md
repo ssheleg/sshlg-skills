@@ -208,6 +208,21 @@ That needs `/usr/bin/python3` (on macOS, the Command Line Tools); without it,
 recovery refuses and changes nothing. A normal writer that takes the lock after
 retirement is never removed.
 
+On Windows (B-316) there is no uid, boot session or `flock`. A writer there opens the
+lock with share mode 0 (libuv `UV_FS_O_EXLOCK`) and keeps it open until it releases
+it; its record says so (`identity.version` 2, `platform` `win32`, `hold` `exclusive`,
+the runtime root). Windows closes every handle of a process that exits, however it
+exits, so an exclusive open of the lock that fails with a sharing violation reads
+`BUSY` (no digest: the bytes cannot be read) and one that succeeds reads `DEAD`,
+whatever became of the pid. `recover` re-reads the lock through that exclusive open,
+compares the digest, moves it aside under a unique name, checks what it moved and
+deletes it, then lets the journal verifier decide rollback; a second recovery loses
+the move and refuses. A lock without that record (written by 1.84.x or earlier on
+Windows) stays `UNKNOWN`: its reason names the manual check, every Claude Code and
+Codex session closed and `Get-Process node` listing no sshlg-skills process, before
+the operator deletes it by hand. Tests: `test/runtime_recovery_windows_test.js`, run
+on `windows-latest` by the CI `windows` job.
+
 `recover` reports `RECOVERED` (rollback verified), `NO_PENDING_JOURNAL` or
 `UNRESOLVED`, with `retired` saying whether the dead lock was removed, `null`
 when an interrupted worker did not report it. `NO_PENDING_JOURNAL` does not say

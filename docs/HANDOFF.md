@@ -67,13 +67,27 @@ description). B-307 and B-308 filed to their owners on the Fabric board (finding
 `a04494e1`, CI 41452825796 green including `windows`); the Hermes plugin was applied on this
 machine from main and reads back (B-284 receipt).
 
+**2026-11-02, later (operator: «доделай сам до конца все задачи разом»):** B-316 closed (on
+Windows the runtime writer holds `.sync.lock` open with share mode 0, so `hooks recovery`
+proves a dead holder there; the suite runs in the CI `windows` job). B-280 closed: the guard
+runs on Gemini CLI, Kimi, Hermes, Pi and OpenCode through `hooks install --<host>` (opt-in;
+live sessions owed in B-320). B-319 found and closed: the merged B-284 code made `hermes`
+install itself into every temp home of `npm test` on a machine with Hermes on PATH; on this
+machine 43 GB of them took the disk to 135 MB free (Colima answered `Input/output error`).
+The fix is in this change; the leaked `sshlg-*`/`consent-cli-*` temp homes with
+`.hermes/installs` are still in the macOS temp directory, because the permission classifier
+refused the agent's sweep of a shared temp directory. npm: B-318 still open; npmjs.com asks
+for the operator's security key (Touch ID) before the trusted-publisher form, a human gate.
+
 **1.84.1 (Windows install report):** B-312 (POSIX checks skipped on Windows) and B-313 (a run
 without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to B-316 filed.
 
 **Exact next bounded task:** B-318 is the operator's: npm trusted publishing for the ten
 packages (B-318 lists them). Once it is set: delete the `NPM_TOKEN` secrets, re-run agent-sync's
 failed publish (run 40868769971), pin agent-sync 1.23.5, tag v1.85.0, watch it, `update`, and
-read the 1.85.0 card after 24 hours. Independent rows left: B-280, B-316.
+read the 1.85.0 card after 24 hours. Before that, the operator (or Observatory's disk guard)
+removes the leaked temp homes named in B-319. Independent rows left: none; B-320 waits on the
+operator's opt-in for live host probes.
 
 ## Previous: 2026-10-27 the hub board closed in waves (1.81.0)
 

@@ -18,6 +18,31 @@ ship in this release.
   CI the B-295 check only disclosed "no sshlg-skills umbrella above this checkout"; all
   eleven members now clone the hub and point `SSHLG_HUB_ROOT` at it (merged on each
   member's main, no member release). `test/advertised_check.js` says so.
+- **The Hermes row no longer installs Hermes into a home that has none** (B-319). With a
+  `hermes` on PATH and no `~/.hermes`, the merged B-284 code created
+  `~/.hermes/plugins/sshlg-routing/` and ran `hermes config get`, and Hermes installed itself
+  into that empty home (about 600 MB). `npm test` does this once per test home, so a gate run
+  on a machine with Hermes left tens of gigabytes in the temp directory (43 GB measured on
+  2026-11-02, the disk at 135 MB free). Now the row writes nothing and runs nothing until the
+  Hermes home exists, and the CLI gets `HERMES_HOME` set to the home the files went to
+  (`test/hermes_plugin_test.js`, 2 new checks, both red on the merged code).
+- **The family guard runs on five more hosts** (B-280): Gemini CLI, Kimi Code CLI, Hermes
+  Agent, Pi and OpenCode, opt-in through `hooks install --gemini --kimi --hermes --pi
+  --opencode`. `lib/hostgate.js` turns each host's call into Claude's, the unchanged
+  `hooks/pre-tool-use.js` judges it, and a refusal is spelled the host's way; anything else,
+  a crash or a timeout included, passes the call. Each host's failure rule was read from
+  its installed source and handled: Gemini blocks on a loud hook failure (stderr dropped,
+  exit forced to 0), Pi and OpenCode block on a throw (their plugins catch everything and
+  OpenCode's throws only to refuse), Hermes blocks a hook that outlasts 30 s (the guard
+  stops at 8 s). Writes go through `apply.protectedWrite`; other tools' hooks in the same
+  files are kept; `hooks remove` gives the files back byte for byte; `update` refreshes a
+  wired gate and never adds one (`lib/hostgate-install.js`, `test/hostgate_test.js`).
+- **Runtime recovery works on Windows** (B-316). `hooks recovery inspect` there threw on
+  `process.getuid` and a lock left by a crashed writer could not be retired. A Windows
+  writer now holds `.sync.lock` open with share mode 0 until it releases it; Windows
+  closes a dead process's handles, so a lock nobody holds reads `DEAD` and `recover`
+  retires it and rolls back through the journal (`lib/runtime-recovery.js`,
+  `test/runtime_recovery_windows_test.js` on `windows-latest`). POSIX is unchanged.
 - **Board:** B-307 and B-308 filed to their owners on the Fabric board (finding `c6f495c4`).
 
 ## v1.84.2 (2026-10-30, not published; ships in 1.85.0): members' hooks start fewer processes; Codex is read in a second

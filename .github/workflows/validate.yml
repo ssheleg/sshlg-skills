@@ -237,11 +237,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Windows suites (POSIX checks, consent without a terminal, launcher)
+      - name: Windows suites (POSIX checks, consent without a terminal, runtime recovery, launcher)
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          foreach ($t in 'posix_perms_test.js', 'consent_test.js', 'consent_cli_test.js') {
+          foreach ($t in 'posix_perms_test.js', 'consent_test.js', 'consent_cli_test.js', 'runtime_recovery_windows_test.js') {
             node "test/$t"
             if ($LASTEXITCODE -ne 0) { throw "test/$t failed with exit $LASTEXITCODE" }
           }
