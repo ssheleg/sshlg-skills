@@ -383,7 +383,8 @@ The next attempt names the paths to inspect and refuses to replace that lock
 automatically. Do not delete it by hand. `npx sshlg-skills hooks recovery inspect`
 shows whether its writer is provably dead; `hooks recovery recover --expect
 <digest>` then retires a dead writer's lock and rolls back through the journal.
-Live and unprovable holders are left alone. See the [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh).
+Live and unprovable holders are left alone; on Windows the writer holds the lock
+open, so a lock nobody holds reads dead (B-316). See the [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh).
 
 **Exit codes of `update`:** 0 done, 1 a step failed, **2 a usage error** (an unknown
 flag, a flag without its value, contradictory flags), **75 another `update` holds

@@ -18,6 +18,12 @@ ship in this release.
   CI the B-295 check only disclosed "no sshlg-skills umbrella above this checkout"; all
   eleven members now clone the hub and point `SSHLG_HUB_ROOT` at it (merged on each
   member's main, no member release). `test/advertised_check.js` says so.
+- **Runtime recovery works on Windows** (B-316). `hooks recovery inspect` there threw on
+  `process.getuid` and a lock left by a crashed writer could not be retired. A Windows
+  writer now holds `.sync.lock` open with share mode 0 until it releases it; Windows
+  closes a dead process's handles, so a lock nobody holds reads `DEAD` and `recover`
+  retires it and rolls back through the journal (`lib/runtime-recovery.js`,
+  `test/runtime_recovery_windows_test.js` on `windows-latest`). POSIX is unchanged.
 - **Board:** B-307 and B-308 filed to their owners on the Fabric board (finding `c6f495c4`).
 
 ## v1.84.2 (2026-10-30, not published; ships in 1.85.0): members' hooks start fewer processes; Codex is read in a second

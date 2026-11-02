@@ -7,9 +7,9 @@ date: 2026-11-02
 
 ## 1. Who is affected and how
 
-- **Segments:** everyone who installs through the launcher. Hermes users who said yes to the routing block get a new plugin; Codex users get a faster read; Windows users get a CI job behind them. The unpublished 1.84.2 rides along (task-pipeline 1.102.4 hooks, Codex read per marketplace).
+- **Segments:** everyone who installs through the launcher. Hermes users who said yes to the routing block get a new plugin; Codex users get a faster read; Windows users get a CI job behind them and a runtime lock a crashed writer can no longer strand (B-316). The unpublished 1.84.2 rides along (task-pipeline 1.102.4 hooks, Codex read per marketplace).
 - **What changes:** on a machine with Hermes and a recorded "yes", `update` writes `~/.hermes/plugins/sshlg-routing/` (block file, `plugin.yaml`, `__init__.py`), backs up `config.yaml` and runs `hermes plugins enable sshlg-routing`; every new Hermes session then carries the map, the protocol and the router table as two prompt sections. The Codex step reads `codex plugin list --json -m <marketplace>` per family marketplace.
-- **Breaks for existing users:** none known. The Hermes plugin shares Hermes' 8,000-character budget for all plugin sections; with another plugin near its own 4,000 (Fabric's context, 349 measured), Hermes skips the router table section and logs it.
+- **Breaks for existing users:** none known. On Windows a lock written by 1.84.x or earlier stays `UNKNOWN` and names a manual check; POSIX locks are unchanged. The Hermes plugin shares Hermes' 8,000-character budget for all plugin sections; with another plugin near its own 4,000 (Fabric's context, 349 measured), Hermes skips the router table section and logs it.
 - **Rollout:** all at once through npm `latest` and the next `install` or `update`.
 - **Timing:** after B-318 (npm trusted publishing) lets the tag publish.
 
