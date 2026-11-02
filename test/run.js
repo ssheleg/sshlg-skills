@@ -22,6 +22,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const tmproot = require('./tmproot.js');
 
 const TEST_DIR = __dirname;
 const ROOT = path.resolve(TEST_DIR, '..');
@@ -35,7 +36,7 @@ function run(label, cmd, args) {
   process.stdout.write(`\n== ${label} ==\n`);
   // Captured rather than inherited, because the totals are read from what the suites
   // print. The output is written straight through, so a run still reads the same.
-  const r = spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8' });
+  const r = spawnSync(cmd, args, { cwd: ROOT, encoding: 'utf8', env: tmproot.env(RUN_TMP) });
   if (r.error) {
     process.stdout.write(`FAIL: ${label} — ${r.error.message}\n`);
     return false;
@@ -173,6 +174,12 @@ if (!suites.length || !pySuites.length) {
   );
   process.exit(1);
 }
+
+// Every suite's temporary files go into one directory this run removes at exit (test/tmproot.js).
+tmproot.reapStale(require('os').tmpdir());
+const RUN_TMP = tmproot.open();
+process.on('exit', () => tmproot.close(RUN_TMP));
+for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) process.on(sig, () => process.exit(130));
 
 const failed = [];
 

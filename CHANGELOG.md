@@ -43,6 +43,20 @@ ship in this release.
   closes a dead process's handles, so a lock nobody holds reads `DEAD` and `recover`
   retires it and rolls back through the journal (`lib/runtime-recovery.js`,
   `test/runtime_recovery_windows_test.js` on `windows-latest`). POSIX is unchanged.
+- **agent-sync 1.23.5 is pinned** (B-311, B-318). Its post-tool-call renew bounds itself at
+  10 s with a timer inside `agent_sync.py` instead of the bash watchdog that started a
+  `sleep` every 100 ms on a stock macOS. It is the first family package published through
+  npm trusted publishing: all ten npm packages now name their repository's `release.yml` as
+  trusted publisher, and the publish job (already granted `id-token: write`) authenticates
+  through OIDC (agent-sync release run 40868769971, attempt 4). The rejected `NPM_TOKEN`
+  secrets are still stored in the ten repositories (B-322).
+- **`npm test` removes what its suites leave in the temp directory** (B-321). Many suites
+  make fixture homes with `fs.mkdtempSync` and never remove them: on 2026-11-02 they had
+  left 1,928 `sshlg-*` trees (about 46 GB) in the operator's TMPDIR. The runner now points
+  `TMPDIR`, `TMP` and `TEMP` of every suite at one directory of its own, removes it at exit,
+  and removes a directory left by a killed run whose runner is gone (`test/tmproot.js`,
+  `test/tmproot_test.js`, 6 checks). A full gate run left no new trees. The trees already
+  there are not removed by this change.
 - **Board:** B-307 and B-308 filed to their owners on the Fabric board (finding `c6f495c4`).
 
 ## v1.84.2 (2026-10-30, not published; ships in 1.85.0): members' hooks start fewer processes; Codex is read in a second

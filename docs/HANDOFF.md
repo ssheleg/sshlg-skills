@@ -79,15 +79,23 @@ The fix is in this change; the leaked `sshlg-*`/`consent-cli-*` temp homes with
 refused the agent's sweep of a shared temp directory. npm: B-318 still open; npmjs.com asks
 for the operator's security key (Touch ID) before the trusted-publisher form, a human gate.
 
+**2026-11-02, evening (operator: «есть», «делай»):** B-318 closed. After the operator's
+security key, all ten npm packages name `ssheleg/<repo>` `release.yml` as trusted publisher, and
+agent-sync 1.23.5 published through OIDC (run 40868769971, attempt 4); 1.85.0 pins it. B-321
+found (Fabric finding `34c16704`) and closed: suites leave their `mkdtemp` homes behind, so
+`npm test` now gives every suite a temp directory of its own and removes it at exit
+(`test/tmproot.js`); a full gate run left 0 new trees. Two steps the permission classifier
+refused to the agent and that stay with the operator: deleting the rejected `NPM_TOKEN` secrets
+(B-322) and removing the 1,928 `sshlg-*` trees already in the macOS temp directory (list of the
+89 heavy ones: `leak-tools/run-logs/b319-leak-list.txt`, outside Git).
+
 **1.84.1 (Windows install report):** B-312 (POSIX checks skipped on Windows) and B-313 (a run
 without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to B-316 filed.
 
-**Exact next bounded task:** B-318 is the operator's: npm trusted publishing for the ten
-packages (B-318 lists them). Once it is set: delete the `NPM_TOKEN` secrets, re-run agent-sync's
-failed publish (run 40868769971), pin agent-sync 1.23.5, tag v1.85.0, watch it, `update`, and
-read the 1.85.0 card after 24 hours. Before that, the operator (or Observatory's disk guard)
-removes the leaked temp homes named in B-319. Independent rows left: none; B-320 waits on the
-operator's opt-in for live host probes.
+**Exact next bounded task:** tag v1.85.0 once this change is on main, watch the release run,
+confirm npm serves sshlg-skills 1.85.0, run `npx --yes sshlg-skills@latest update`, and read the
+1.85.0 card after 24 hours. Operator-owned: B-322 (delete the `NPM_TOKEN` secrets) and the old
+temp trees (B-321). B-320 waits on the operator's opt-in for live host probes.
 
 ## Previous: 2026-10-27 the hub board closed in waves (1.81.0)
 
