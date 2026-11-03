@@ -97,12 +97,20 @@ unchanged; result PARTIAL only because 9 Codex plugins were deferred while Codex
 active (receipt and watcher under `~/.sshlg-skills/codex-deferred/`). Claude Code sessions pick up
 agent-sync 1.23.5 on their next start.
 
+**1.85.0 card read (2026-11-03 23:47, 24 hours after the tag):** held, no rollback. (1) release
+run 41538337642 `success`; (2) `npm view sshlg-skills version` → 1.85.0, dist-tag `latest` 1.85.0;
+(3) `update` exited PARTIAL only for the 9 deferred Codex plugins (receipt above); (4) `hermes
+plugins list` shows `sshlg-routing` 1.0.0 `enabled` beside `fabric-agent-adapter` `enabled`; no
+Hermes session wrote a "Session plugin prompt section" line in the window (the last is 2026-10-18),
+so the section in a live session is not observed yet, and no failure of one either; (5) 0 open
+issues on the hub. No decision trigger fired.
+
 **1.84.1 (Windows install report):** B-312 (POSIX checks skipped on Windows) and B-313 (a run
 without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to B-316 filed.
 
-**Exact next bounded task:** read the 1.85.0 card's signals after 24 hours (from 2026-11-03
-23:45 CET): release run, `npm view sshlg-skills version`, `hermes plugins list`, open hub issues
-([card](evidence/specs/2026-11-02-v1850-release-impact.md)). B-322 closed 2026-11-03 (the operator
+**Exact next bounded task:** none of the hub's own: the 1.85.0 card was read and held
+([card](evidence/specs/2026-11-02-v1850-release-impact.md)). The first Hermes session after it
+should show `id=sshlg.routing` in `~/.hermes/logs`; check it when one runs. B-322 closed 2026-11-03 (the operator
 deleted the `NPM_TOKEN` secrets) and the old temp trees are gone (0 `sshlg-*` in TMPDIR, 30 GB free).
 B-320 waits on the operator's opt-in for live host probes.
 
