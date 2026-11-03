@@ -102,9 +102,9 @@ without a terminal decides nothing; `install --routers yes|no`) closed; B-314 to
 
 **Exact next bounded task:** read the 1.85.0 card's signals after 24 hours (from 2026-11-03
 23:45 CET): release run, `npm view sshlg-skills version`, `hermes plugins list`, open hub issues
-([card](evidence/specs/2026-11-02-v1850-release-impact.md)). Operator-owned: B-322 (delete the
-`NPM_TOKEN` secrets) and the old temp trees (B-321). B-320 waits on the operator's opt-in for live
-host probes.
+([card](evidence/specs/2026-11-02-v1850-release-impact.md)). B-322 closed 2026-11-03 (the operator
+deleted the `NPM_TOKEN` secrets) and the old temp trees are gone (0 `sshlg-*` in TMPDIR, 30 GB free).
+B-320 waits on the operator's opt-in for live host probes.
 
 ## Previous: 2026-10-27 the hub board closed in waves (1.81.0)
 
