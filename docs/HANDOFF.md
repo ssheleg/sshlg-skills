@@ -8,39 +8,47 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-07 nightly updates (B-323, 1.86.0) and the intake split (task-pipeline 1.103.0)
+## Current: 2026-11-07 nightly updates (B-323, 1.86.0) and the intake split (task-pipeline 1.103.1)
 
-**Objective (operator, 2026-11-06, session 574eafda):** review the retro and learning insights; a
-big request is cut into modules, researched in parallel, merged and run once more, and a simple one
-is not; several asks are ranked, the top runs and the rest go to the project's own board, found
-the way each project keeps it. The Fabric board request `36d586e2` (item 5, deadline 2026-11-11)
-asked for scheduled updates by default (B-323).
+**Objective (operator, 2026-11-06, session 574eafda):**
+- Review the retro and learning insights.
+- Cut a big request into modules, research them in parallel, merge them and run the plan once more; leave a simple request alone.
+- Rank several asks, run the top one and put the rest on the project's own board, found the way each project keeps it.
 
-**Done:**
-- B-323 on `feat/b323-scheduled-updates`, PR #298: `lib/updatesched.js`, `update.mode`,
-  `schedule`, the Codex-only hold recorded as partial. Card:
-  [`2026-11-06-v1860-release-impact.md`](evidence/specs/2026-11-06-v1860-release-impact.md).
-  The job is registered on the operator Mac (04:41, `/opt/homebrew/bin/node`); a kickstart
-  moved `updateCheck.at`.
-- task-pipeline 1.103.0 on `ssheleg/task-pipeline` `feat/intake-decomposition`, PR #162:
-  `references/intake-split.md` and `backlog_sources.py --discover`.
+The Fabric board request `36d586e2` (item 5, deadline 2026-11-11) asked for scheduled updates by default (B-323).
+
+**Shipped:**
+- **sshlg-skills 1.86.0**, B-323:
+  - PR #298 squash `64b44ce1`, tag `v1.86.0`, release run 42339935439 success, npm `1.86.0`.
+  - After `npx --yes sshlg-skills@latest update` on the operator Mac, the job is registered (04:41, `/opt/homebrew/bin/node`) and the runner copy is at 1.86.0.
+  - The update itself ended PARTIAL, only because Codex deferred its plugins, as before.
+  - Answered on the board (reply `9ff87c1e` on `36d586e2`).
+  - Certified by eight blind unit readings, the last two clean.
+  - Card: [`2026-11-06-v1860-release-impact.md`](evidence/specs/2026-11-06-v1860-release-impact.md).
+- **task-pipeline 1.103.1**, the intake split:
+  - PR ssheleg/task-pipeline#162 squash `60a707f` and release PR #163 squash `1f500a2`.
+  - Certified by 43 blind unit readings, the last two clean.
+  - The `v1.103.0` tag is dead: its release round stopped on the retro rule before publishing, and the tag ruleset forbids deletion.
+  - The `v1.103.1` release job passed (run 42366771853).
+
+**Blocked on a human gate (B-325):**
+- The publish job fails with `ENEEDAUTH` twice. Its workflow is the same one that publishes this hub through OIDC.
+- Who: the operator, on npmjs.com with the security key.
+- Where: https://www.npmjs.com/package/task-pipeline-skill/access, Trusted Publisher: GitHub Actions, `ssheleg/task-pipeline`, `release.yml`.
 
 **Checks run:**
-- `npm test` here exits 0 (167 suites; the fixture count is the one DOCMAP's ratchet marker states, measured by that run).
-- task-pipeline's `npm test` exits 0 (274 `backlog_sources` cases on Python 3.9 and 3.11 to 3.14).
-- Blind unit-tier readings on both branches.
+- `npm test` exits 0 here and in task-pipeline (330 `backlog_sources` cases on Python 3.9 and 3.11 to 3.14).
+- PR checks green on #162, #163 and #298 (promoted once with ready-for-review).
 
-**Next task:** after two consecutive clean readings, in this order:
-1. merge both PRs;
-2. tag task-pipeline `v1.103.0`;
-3. pin it here;
-4. tag `v1.86.0`;
-5. run `npx --yes sshlg-skills@latest update`;
-6. read the job after its first night (`launchctl print gui/$(id -u)/me.sshlg.skills.update`);
-7. reply on board thread `f7758225` (`com.reply` on `36d586e2`);
-8. close B-323.
+**Next task, when B-325 clears:**
+1. Run `gh run rerun 42366771853 -R ssheleg/task-pipeline --failed`.
+2. Confirm `npm view task-pipeline-skill@1.103.1 version`.
+3. Mark PR #299 (the 1.86.1 pin, branch `release/pin-tp-11031`, `npm test` green) ready, wait for its checks and merge it.
+4. Tag `v1.86.1` and run `npx --yes sshlg-skills@latest update`.
 
-**Waits:** stage 8 of 1.86.0, 48 hours after its tag (two nights of the job).
+**Waits:**
+- Close B-323 after the job's first two nights (`launchctl print gui/$(id -u)/me.sshlg.skills.update` shows runs and exit 0, and `updateCheck.at` moves), about 2026-11-09.
+- B-324 lists the job's open edges.
 
 ## Previous: 2026-10-28 the board's second pass (1.82.0)
 
