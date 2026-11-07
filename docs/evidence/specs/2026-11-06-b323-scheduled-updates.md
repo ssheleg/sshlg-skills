@@ -49,7 +49,7 @@ revision's.
    --user disable, schtasks /Delete) and restores the files from backup; the ownership record is
    `~/.sshlg-skills/schedule.json`. `uninstall` removes the job.
 
-## Files
+## Files (the plan before the build; as built, see below)
 
 - New: `lib/updatesched.js` (pure plan for macOS `~/Library/LaunchAgents/me.sshlg.skills.update.plist`,
   Linux `~/.config/systemd/user/sshlg-skills-update.{service,timer}`, Windows a task XML under
@@ -59,6 +59,15 @@ revision's.
   `lib/updaterun.js`, `lib/updatemodel.js`, `lib/updatelock.js` header, README "## Update",
   `usageText`, `docs/working-rules/state-json.md`, `CLAUDE.md` "Writing to operator files",
   CHANGELOG.
+
+## As built (1.86.0), where it differs from the plan above
+
+- Windows: no task XML; the task is made with `schtasks /Create /SC DAILY ... /TR <command>`, and a
+  command longer than 261 characters is reported as unsupported.
+- `lib/updatelock.js` is unchanged; the nightly job is a fourth starter of `update`, held apart by
+  the same lock.
+- Revert (decision 8) unregisters, then deletes each job file after a copy under
+  `~/.sshlg-skills/backups/`; it sets `update.mode notify` so the next `update` does not put it back.
 
 ## Risks to test
 

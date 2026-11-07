@@ -39,7 +39,7 @@
   now writes how it ended to the file the runner names (`SSHLG_SKILLS_OUTCOME`); when Codex was
   the only thing held back, the record is `ok: true, deferred: true` and the next session says
   the set updated and Codex is waiting. The `update` exit code itself is unchanged.
-- Tests: `test/updatesched_test.js` (new, 30 cases: plans per platform, `plutil -lint` on the
+- Tests: `test/updatesched_test.js` (new, 31 cases: plans per platform, `plutil -lint` on the
   plist, three applies leaving the same bytes and one registration, removal with copies, a
   foreign file kept, the node path, the HOME gate, the job guarding itself, an unreachable
   scheduler, the copy before unregistering, the job never registering itself on any platform,

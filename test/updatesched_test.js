@@ -420,6 +420,32 @@ it('a job directory that cannot be written is a named failure, never a stack tra
   }
 });
 
+it('a record without a registered hash re-registers; a refused unlink is named', () => {
+  const home = tmpHome();
+  try {
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: recorder().run, env: {} };
+    S.apply(S.plan(o), o);
+    const rec = S.recordPath(home);
+    const r0 = JSON.parse(fs.readFileSync(rec, 'utf8'));
+    delete r0.registered;
+    fs.writeFileSync(rec, JSON.stringify(r0));
+    const again = recorder();
+    S.apply(S.plan(Object.assign({}, o, { run: again.run })), Object.assign({}, o, { run: again.run }));
+    assert.ok(again.calls.some((c) => c.includes('bootstrap')), `no record of what the OS holds, yet nothing re-registered: ${again.calls.join(' | ')}`);
+    if (process.platform !== 'win32' && !(process.getuid && process.getuid() === 0)) {
+      const dir = path.dirname(S.jobFiles('launchd', o)[0].file);
+      const off = Object.assign({}, o, { mode: 'off', run: recorder().run });
+      const p = S.plan(off);
+      fs.chmodSync(dir, 0o555);
+      let r;
+      try { r = S.apply(p, off); } finally { fs.chmodSync(dir, 0o755); }
+      assert.strictEqual(r.ok, false);
+      assert.ok(r.lines.some((l) => /^not removed: .*EACCES/.test(l)), r.lines.join(' | '));
+      assert.ok(fs.existsSync(rec), 'a failed removal cleared the record of a job still there');
+    }
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
 // --- the runner the job executes (lib/updaterun.js --scheduled) ----------------------------
 const ROOT = path.join(__dirname, '..');
 const SELF = require('../package.json').version;
