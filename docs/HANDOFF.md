@@ -41,14 +41,15 @@ The Fabric board request `36d586e2` (item 5, deadline 2026-11-11) asked for sche
 - `npm test` exits 0 here and in task-pipeline (330 `backlog_sources` cases on Python 3.9 and 3.11 to 3.14).
 - PR checks green on #162, #163 and #298 (promoted once with ready-for-review).
 
-**In flight:** PR #299 pins task-pipeline 1.103.1 as sshlg-skills 1.86.1 (branch `release/pin-tp-11031`).
+**sshlg-skills 1.86.1 shipped (2026-11-07):**
+- PR #299 squash `a840b5eb`, tag `v1.86.1`, release run 42388089144 success (release and publish), `npm view sshlg-skills version` 1.86.1.
+- `npx --yes sshlg-skills@latest update` on the operator Mac: the first run failed at agent-stack because another session wrote `cleanupPeriodDays` mid-run (B-326), and the next run refused with `incomplete Claude transaction`. After a manual recovery of the journal, the third run verified all eleven Claude members, task-pipeline at `1f500a2` (1.103.1). It still ends partial for two standing reasons: telegram-dev is blocked by a local scope under the missing `/Users/sshlg/DATA/tg_boutique_bot`, and Codex defers its nine plugins as before.
+- The nightly job's runner copy is at 1.86.1 (`~/.sshlg-skills/scheduler/package.json`).
 
-**Next task, if this entry is still current:**
-1. If PR #299 is open, run `npm test` and `python3 test/check_pins.py` on its branch, merge it, tag `v1.86.1`.
-2. Confirm `npm view sshlg-skills version` is `1.86.1`, then run `npx --yes sshlg-skills@latest update`.
+**Next task:** close B-323 after the second night (below), then B-326, the highest-priority open row this session found.
 
 **Waits:**
-- Close B-323 after the job's first two nights (`launchctl print gui/$(id -u)/me.sshlg.skills.update` shows runs and exit 0, and `updateCheck.at` moves), about 2026-11-09.
+- Close B-323 after the job's first two nights (the first, 2026-11-07 04:41, ran with exit 0 and moved `updateCheck.at`) (`launchctl print gui/$(id -u)/me.sshlg.skills.update` shows runs and exit 0, and `updateCheck.at` moves), about 2026-11-09.
 - B-324 lists the job's open edges.
 
 ## Previous: 2026-10-28 the board's second pass (1.82.0)
