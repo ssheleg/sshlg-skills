@@ -72,7 +72,10 @@ B-206 targets in `lib/instruction-targets.js` (`~/.agents/AGENTS.md`, `~/.zcode/
 and Hermes' config.yaml (written by `hermes config set`, after a copy), the machine marks
 `~/.sshlg-skills/pack-marks.json`, the hooks wiring in the Claude profile's `settings.json`
 (`$CLAUDE_CONFIG_DIR` or `~/.claude`) and in Codex's `hooks.json` (`apply.protectedWrite`:
-compare before replace, then `protect()`), including the post-tool-use restore. Copies are 0600
+compare before replace, then `protect()`), including the post-tool-use restore, and the nightly
+update job's files (B-323, `lib/updatesched.js`: the LaunchAgent plist or the systemd user units;
+registering them with launchd or systemd is OS state no copy holds, so `schedule --revert`
+unregisters and then deletes the files after a copy). Copies are 0600
 in a 0700 directory: host settings can hold keys.
 
 1. `lib/backup.js` copies before every write; backup failure cancels the write.

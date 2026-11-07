@@ -383,6 +383,54 @@ it('native update refuses an unavailable supported CLI before host writes', () =
   } finally {fs.rmSync(home,{recursive:true,force:true});fs.rmSync(emptyBin,{recursive:true,force:true});}
 });
 
+// B-323: the mode is applied at once, in a fixture HOME, with no OS scheduler reached.
+it('config set update.mode writes and removes the nightly job at once, never touching the OS', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-mode-'));
+  try {
+    const shims = path.join(home, 'shims');
+    fs.mkdirSync(shims);
+    const calls = path.join(home, 'os-calls.log');
+    for (const cmd of ['launchctl', 'systemctl', 'schtasks']) {
+      fs.writeFileSync(path.join(shims, cmd), `#!/bin/sh\necho "${cmd} $*" >> "${calls}"\nexit 0\n`, { mode: 0o755 });
+    }
+    const env = Object.assign({}, process.env, { HOME: home, PATH: `${shims}${path.delimiter}${process.env.PATH}` });
+    const go = (args) => spawnSync(process.execPath, [BIN].concat(args), { encoding: 'utf8', env });
+    const job = { darwin: path.join(home, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist'),
+      linux: path.join(home, '.config', 'systemd', 'user', 'sshlg-skills-update.timer') }[process.platform];
+    if (!job) return;
+    let r = go(['config', 'set', 'update.mode', 'auto']);
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+    assert.ok(fs.existsSync(job), 'update.mode auto did not write the job');
+    const runner = path.join(home, '.sshlg-skills', 'scheduler', 'lib', 'updaterun.js');
+    assert.ok(fs.existsSync(runner), 'the job points at a runner copy that was never made');
+    r = go(['config', 'set', 'update.mode', 'notify']);
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+    assert.ok(!fs.existsSync(job), 'update.mode notify left the job');
+    assert.ok(!fs.existsSync(runner), 'update.mode notify left the runner copy');
+    r = go(['config', 'set', 'update.auto', 'on']);
+    assert.ok(fs.existsSync(job), 'update.auto on did not bring the job back');
+    r = go(['schedule', '--revert']);
+    assert.ok(!fs.existsSync(job), 'schedule --revert left the job');
+    assert.match(go(['config']).stdout, /update\.mode\s+notify/, 'schedule --revert did not set notify');
+    // The last key set wins: update.auto off after update.mode off is notify, not "unchanged".
+    go(['config', 'set', 'update.mode', 'off']);
+    r = go(['config', 'set', 'update.auto', 'off']);
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+    assert.match(go(['config']).stdout, /update\.mode\s+notify/, 'update.auto off after update.mode off kept off');
+    const cfg = JSON.parse(fs.readFileSync(path.join(home, '.sshlg-skills', 'config.json'), 'utf8'));
+    assert.strictEqual(cfg.update.auto, 'off', 'a 1.85 runtime reading only update.auto would update anyway');
+    go(['config', 'set', 'update.mode', 'auto']);
+    // A foreign file at the job's path: update.auto on reports it and exits 1, as update does.
+    fs.writeFileSync(job, 'not ours\n');
+    go(['config', 'set', 'update.mode', 'notify']);
+    r = go(['config', 'set', 'update.auto', 'on']);
+    assert.strictEqual(r.status, 1, `update.auto on beside a foreign job file exited ${r.status}`);
+    assert.strictEqual(fs.readFileSync(job, 'utf8'), 'not ours\n');
+    fs.unlinkSync(job);
+    assert.ok(!fs.existsSync(calls), `a fixture HOME reached the OS scheduler: ${fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8') : ''}`);
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
 // B-192: a blocked member keeps its installed version, the run continues to the other
 // channels, and the result is partial (nonzero) rather than a stop.
 it('blocked Claude members make the update partial without stopping later channels', () => {
@@ -394,10 +442,42 @@ it('blocked Claude members make the update partial without stopping later channe
     for (const [i, m] of manifest.skills.entries()) plugins[m.pluginInstall] = [{ scope: i % 2 ? 'project' : 'local', ...(i % 2 ? { projectPath: '/x' } : {}), version: m.version, gitCommitSha: m.commit, installPath: path.join(home, '.claude', 'plugins', 'cache', 'x', m.name, m.version) }];
     fs.writeFileSync(path.join(home, '.claude', 'plugins', 'installed_plugins.json'), JSON.stringify({ version: 2, plugins }));
     fs.writeFileSync(path.join(home, '.claude', 'settings.json'), '{}\n');
-    const r = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: path.join(home, '.claude') }) });
+    // B-323: OS schedulers replaced by shims that log; a fixture HOME must never reach them.
+    const shims = path.join(home, 'shims');
+    fs.mkdirSync(shims);
+    const calls = path.join(home, 'os-calls.log');
+    for (const cmd of ['launchctl', 'systemctl', 'schtasks']) {
+      fs.writeFileSync(path.join(shims, cmd), `#!/bin/sh\necho "${cmd} $*" >> "${calls}"\nexit 0\n`, { mode: 0o755 });
+    }
+    fs.symlinkSync(process.execPath, path.join(shims, 'node'));
+    const outcome = path.join(home, 'outcome.json');
+    const r = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: path.join(home, '.claude'), SSHLG_SKILLS_OUTCOME: outcome, PATH: `${shims}${path.delimiter}${process.env.PATH}` }) });
     const out = (r.stdout || '') + (r.stderr || '');
     assert.strictEqual(r.status, 1, out);
+    assert.match(out, /== Nightly update job ==/, 'update skipped the schedule step');
+    assert.ok(!fs.existsSync(calls), `a fixture HOME reached the OS scheduler: ${fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8') : ''}`);
+    const job = { darwin: path.join(home, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist'),
+      linux: path.join(home, '.config', 'systemd', 'user', 'sshlg-skills-update.service') }[process.platform];
+    if (job) {
+      assert.ok(fs.readFileSync(job, 'utf8').includes(path.join(shims, 'node')),
+        'the job runs the versioned node binary, not the PATH entry that survives an upgrade');
+    }
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(outcome, 'utf8')), { ok: false, codexDeferredOnly: false },
+      'a partial update with Codex out of scope was recorded as only Codex held back');
     assert.match(out, /blocked, left as installed/);
+    // B-323: a job directory that cannot be written is named, and the rest of update still runs.
+    if (job && (!process.getuid || process.getuid() !== 0)) {
+      fs.rmSync(job, { force: true });
+      fs.chmodSync(path.dirname(job), 0o555);
+      let r2;
+      try {
+        r2 = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: path.join(home, '.claude'), PATH: `${shims}${path.delimiter}${process.env.PATH}` }) });
+      } finally { fs.chmodSync(path.dirname(job), 0o755); }
+      const out2 = (r2.stdout || '') + (r2.stderr || '');
+      assert.match(out2, /not scheduled: .*EACCES/, out2.slice(-800));
+      assert.match(out2, /== How the next version arrives ==/, 'an unwritable job directory ended update early');
+      assert.ok(!/\n\s+at .*\(.*\.js:\d+:\d+\)/.test(out2), 'update printed a stack trace');
+    }
     assert.match(out, /== Refreshing the routing block ==/, 'a blocked member stopped the later channels');
     // B-242: a partial run never ends on the green summary line (retro #8).
     assert.doesNotMatch(out, /all green/, 'a partial update printed the green summary');

@@ -308,6 +308,12 @@ Usage:
   npx sshlg-skills config  set visibility.pack.<owner/repo> hide|show|default
                                                       # override this machine's pack mark (Gemini,
                                                       # Pi, OpenCode, Hermes; not Claude/Codex)
+  npx sshlg-skills config  set update.mode auto|notify|off
+                                                      # how the next set arrives: auto (default) installs
+                                                      # it nightly and when you go idle; notify only says
+                                                      # it is out; off says nothing (B-323)
+  npx sshlg-skills schedule [--apply | --revert] [--dry-run]
+                                                      # the nightly update job: status, level with update.mode, remove
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run] [--codex] [--gemini] [--kimi] [--hermes] [--pi] [--opencode]
                                                       # --codex: also the guard in Codex's hooks.json
@@ -366,6 +372,8 @@ Defaults:
                 --claude-only, or pass no scope flag.
   - update exits 75 when another update holds ~/.sshlg-skills/update.lock
                 (retry later; nothing failed) and 2 on a usage error.
+  - install and update keep the nightly update job level with update.mode:
+                written and registered on auto, removed on notify or off.
   - update never ADDS a hook entry: one removed by hand stays removed, and an
                 event a later release introduces arrives through
                 \`hooks install\`; update names each one not wired here.
@@ -546,6 +554,8 @@ function planInstall(f) {
       'refresh the managed routing block (its own consent and dry-run rules apply)',
       { mode: 'install' }));
   }
+  const sched = scheduleStep(f);
+  if (sched) steps.push(sched);
   return withClaudePlan(steps, f);
 }
 
@@ -649,6 +659,8 @@ function planUpdate(f) {
       'refresh the managed routing block (its own consent and dry-run rules apply)',
       { mode: 'update' }));
   }
+  const sched = scheduleStep(f);
+  if (sched) steps.push(sched);
   try {
     const rtScope = runtimeScopeFor(f);
     steps.push(opres.step('runtime-sync', 'runtime',
@@ -716,6 +728,7 @@ function cmdInstall(f) {
   }
   ok = executeWaitPlan(planned) && ok;
   ok = refreshBlock(f, 'install') && ok;
+  ok = refreshSchedule(f) && ok;
   printUpdateModel('install');
   sourceContract(planned);
   return ok;
@@ -748,6 +761,125 @@ function refreshBlock(f, mode) {
     routers: f.routers,
     mode,
   });
+}
+
+/**
+ * The nightly update job (B-323, `lib/updatesched.js`): its options on this machine. The OS is
+ * touched only when HOME is the account's own home: a fixture HOME (tests, a sandbox) gets the
+ * files and never a job in the real login session. `SSHLG_SKILLS_SCHEDULE=skip` keeps a run
+ * away from the OS scheduler on purpose.
+ */
+function scheduleContext() {
+  const home = os.homedir();
+  const sched = require('../lib/updatesched.js');
+  const configLib = require('../lib/config.js');
+  let accountHome = null;
+  try { accountHome = os.userInfo().homedir; } catch (_) { accountHome = null; }
+  const run = (cmd, args) => {
+    const r = require('child_process').spawnSync(cmd, args, { encoding: 'utf8', timeout: 30000, windowsHide: true });
+    return { code: r.error ? 127 : (r.status === null ? 1 : r.status), stdout: r.stdout || '', stderr: r.error ? r.error.message : (r.stderr || '') };
+  };
+  return { sched, o: {
+    platform: sched.platformOf(process.platform), home, env: process.env,
+    node: sched.stableNode(process.execPath, String(process.env.PATH || '').split(path.delimiter)),
+    uid: typeof process.getuid === 'function' ? process.getuid() : null,
+    mode: configLib.updateMode(configLib.readConfig(home)),
+    register: sched.shouldRegister({ home, accountHome, env: process.env }), run,
+  } };
+}
+
+/** The dry-run line for install and update: what the schedule step would do, nothing done. */
+function scheduleStep(f) {
+  if (f.member) return null;
+  try {
+    const { sched, o } = scheduleContext();
+    const p = sched.plan(o);
+    const what = o.mode !== 'auto'
+      ? (p.state === 'remove' ? `update.mode is ${o.mode}: remove the nightly update job` : `update.mode is ${o.mode}: no nightly update job`)
+      : ({ install: 'install the nightly update job', update: 'rewrite the nightly update job', current: 'nightly update job: already level (re-registered if the OS lost it)' }[p.state]
+        || `nightly update job: ${p.state}${p.reason ? ` (${p.reason})` : ''}`);
+    return opres.step('schedule', 'home', `${what} (copy before write, through protect())`,
+      { files: p.files.map((x) => x.file), platform: String(p.platform) });
+  } catch (e) { return null; }
+}
+
+/**
+ * Bring the nightly job level with `update.mode` (install, update, `schedule --apply`, a
+ * `config set` of the mode). `auto`: refresh the runner copy, write and register the job;
+ * otherwise remove it. Announced the first time it is installed, with the way to stop it.
+ */
+function refreshSchedule(f) {
+  if (f && f.member) return true; // a lone member's installer speaks only for itself
+  log('\n== Nightly update job ==');
+  let ctx;
+  try { ctx = scheduleContext(); } catch (e) { log(`  not scheduled: ${e.message}`); return false; }
+  const { sched, o } = ctx;
+  if (!o.platform) { log(`  not scheduled: no scheduler this launcher knows on ${process.platform}`); return true; }
+  if (o.mode === 'auto') {
+    const r = require('../lib/runtime.js').sync(ROOT, sched.schedulerDir(o.home), { create: true });
+    if (r.ok === false) { log(`  not scheduled: the runner copy was not refreshed (${r.reason})`); return false; }
+  }
+  let p;
+  let res;
+  try {
+    p = sched.plan(o);
+    res = sched.apply(p, o);
+  } catch (e) {
+    // Never a stack trace that skips the rest of install or update: named, and the run goes on.
+    log(`  not scheduled: ${e.code || e.message}`);
+    return false;
+  }
+  for (const l of res.lines) log(`  ${l}`);
+  if (o.mode !== 'auto' && p.state === 'remove' && res.ok) {  // a job left registered keeps its runner
+    try { fs.rmSync(sched.schedulerDir(o.home), { recursive: true, force: true }); } catch (_) { /* a copy left behind runs nothing */ }
+  }
+  if (o.mode === 'auto' && res.ok && p.state === 'install' && res.state !== 'unreachable' && o.register !== false) {
+    const at = sched.slot(o.home);
+    log(`  The set now also installs itself every night at ${String(at.hour).padStart(2, '0')}:${String(at.minute).padStart(2, '0')} `
+      + 'when a newer one is out (a sleeping machine catches up when it wakes).');
+    log('  Only notify instead: npx sshlg-skills config set update.mode notify   ·   remove the job: npx sshlg-skills schedule --revert');
+  }
+  if (o.mode !== 'auto' && p.state === 'absent') log(`  update.mode is ${o.mode}: no job, as asked`);
+  return res.ok;
+}
+
+/** `schedule` (status), `schedule --apply`, `schedule --revert` (B-323). */
+function cmdSchedule(argv) {
+  const args = argv.slice(3);
+  const unknown = args.filter((a) => !['--apply', '--revert', '--dry-run'].includes(a));
+  if (unknown.length || (args.includes('--apply') && args.includes('--revert'))) {
+    log('usage: npx sshlg-skills schedule [--apply | --revert] [--dry-run]');
+    return 2;
+  }
+  const { sched, o } = scheduleContext();
+  const dry = args.includes('--dry-run');
+  if (args.includes('--revert')) {
+    const p = sched.planRemoval(o);
+    if (dry) { log(`schedule --revert --dry-run: ${p.state}; files: ${p.files.map((x) => x.file).join(', ') || 'none'}; update.mode ${o.mode === 'auto' ? 'auto → notify' : `${o.mode} (unchanged)`}`); return 0; }
+    // Without this the next `update` would put the job back: the mode is what it follows.
+    const configLib = require('../lib/config.js');
+    const was = o.mode;
+    if (was === 'auto') configLib.setUpdateMode(o.home, 'notify');
+    log(`update.mode: ${was}${was === 'auto' ? ' → notify (so `update` does not put the job back; `config set update.mode auto` does)' : ' (unchanged)'}`);
+    return refreshSchedule({}) ? 0 : 1;
+  }
+  if (args.includes('--apply')) {
+    if (dry) { const st = scheduleStep({}); log(`schedule --apply --dry-run: ${st ? st.label : 'nothing'}`); return 0; }
+    return refreshSchedule({}) ? 0 : 1;
+  }
+  const p = sched.plan(o);
+  let rec = null;
+  try { rec = JSON.parse(fs.readFileSync(sched.recordPath(o.home), 'utf8')); } catch (_) { rec = null; }
+  const probe = o.platform && sched.loadedCommand(o.platform, o);
+  const loaded = probe && o.register ? (o.run(probe.cmd, probe.args).code === 0 ? 'yes' : 'no') : 'not asked (this HOME is not the account\'s own)';
+  log(`update.mode      ${o.mode}`);
+  log(`platform         ${o.platform || `${process.platform} (no scheduler known)`}`);
+  const recFiles = rec && Array.isArray(rec.files) ? rec.files : [];
+  log(`job              ${rec ? `${rec.at || 'time unknown'}, ${recFiles.length ? recFiles.join(', ') : (rec.task ? `task ${rec.task}` : 'files unknown')}` : 'none recorded'}`);
+  log(`registered       ${loaded}`);
+  log(`plan             ${p.state}${p.reason ? ` (${p.reason})` : ''}`);
+  if (p.state === 'install' || p.state === 'update') log('Apply: npx sshlg-skills schedule --apply');
+  return 0;
 }
 
 /**
@@ -873,16 +1005,24 @@ function cmdUpdate(f) {
   // refresh above just added are hidden by the same rule on every host. One with no
   // record has not consented — an update is not the moment to ask.
   ok = reapplyVisibility(f) && ok;
+  // The nightly job and its runner copy (B-323), after the hook runtime: one copy at a time,
+  // and none at all after the hook runtime copy failed (a disk that refused one copy is not
+  // given a second; the job keeps its last good runner until a clean run).
+  if (runtimeReady) ok = refreshSchedule(f) && ok;
+  else log('\n== Nightly update job ==\n  left as it is: the hook runtime refresh failed first');
   // Inspect native Codex AFTER our visibility writes so a deferred receipt binds
   // the final profile bytes. Version replacement remains deferred: active threads
   // may retain old payload paths; listing is not generation-retirement proof.
-  ok = refreshCodexPlugins(f) && ok;
+  let restOk = ok; // everything but Codex, for the unattended runner's record (B-323)
+  const codexOk = refreshCodexPlugins(f);
+  ok = codexOk && ok;
   // Domain members per project (L5). Once `domains --apply` ran here, a project that gained a
   // domain dependency gets its member now; before that, one line says what `domains` would do.
   if (claudeScope(f).inScope) {
-    try { ok = cmdDomains(['', '', 'domains', '--update-step']) === 0 && ok; }
-    catch (e) { log(`\n== Domain members ==\n  not reconciled: ${e.message}`); ok = false; }
+    try { const d = cmdDomains(['', '', 'domains', '--update-step']) === 0; ok = d && ok; restOk = d && restOk; }
+    catch (e) { log(`\n== Domain members ==\n  not reconciled: ${e.message}`); ok = false; restOk = false; }
   }
+  writeOutcome(require('../lib/updatecheck.js').updateOutcome({ ok, codexOk, codexHeld, restOk }));
 
   printUpdateModel('update');
 
@@ -1082,7 +1222,21 @@ function codexRunner(cmd, args, opts) {
 }
 
 /** The Codex half of `update` (B-166): read, refresh what is behind, read back. */
+/** Whether the last Codex pass held plugins back and did nothing else wrong (B-323). */
+let codexHeld = false;
+
+/**
+ * How `update` ended, for the unattended runner that started it (`lib/updaterun.js` sets
+ * `SSHLG_SKILLS_OUTCOME`): exit 1 alone cannot say "only Codex is waiting".
+ */
+function writeOutcome(o) {
+  const file = process.env.SSHLG_SKILLS_OUTCOME;
+  if (!file) return;
+  try { require('../lib/store.js').writeJson(file, () => o); } catch (_) { /* the runner reads FAILED */ }
+}
+
 function refreshCodexPlugins(f) {
+  codexHeld = false;
   log('\n== Native host lifecycle: Codex plugins ==');
   const scope = codexScope(f);
   if (!scope.inScope) {
@@ -1134,6 +1288,7 @@ function refreshCodexPlugins(f) {
       log(watcher ? `  Native-host-read-only watcher (POSIX shell): ${watcher}`
         : '  Watcher command display is POSIX-only; no runnable Windows shell command is emitted.');
     } catch (e) { log(`  Pending receipt FAILED: ${e.message}`); return false; }
+    codexHeld = cp.heldOnly(out.results);
   }
   log(cp.summaryLine(out));
   if (out.results.some((r) => r.status === 'current')) log('  (start a new Codex session to load them)');
@@ -1349,9 +1504,8 @@ function printUpdateModel(mode) {
     const findings = um.autoUpdateState(process.env.HOME || os.homedir(), marketplaces);
     // The notice describes the ACTUAL state, so it has to be asked for it.
     const cfgLib = require('../lib/config.js');
-    const autoOn = cfgLib.autoUpdateEnabled(
-      cfgLib.readConfig(process.env.HOME || os.homedir()));
-    for (const line of um.notice(mode, findings, autoOn)) log(line);
+    const updateMode = cfgLib.updateMode(cfgLib.readConfig(process.env.HOME || os.homedir()));
+    for (const line of um.notice(mode, findings, updateMode)) log(line);
   } catch (e) {
     // Never fail an install over its own closing note.
     log(`\n== How the next version arrives ==\n  not printed: ${e.message}`);
@@ -2156,7 +2310,7 @@ function cmdConfig(argv) {
     for (const name of registry.order()) {
       log(`  routers.${name.padEnd(16)} ${configLib.isEnabled(config, name) ? 'on' : 'off'}`);
     }
-    log(`  update.auto${' '.repeat(11)} ${configLib.autoUpdateEnabled(config) ? 'on' : 'off'}`);
+    log(`  update.mode${' '.repeat(11)} ${configLib.updateMode(config)}`);
     log(`  rules.star${' '.repeat(12)} ${configLib.starEnabled(config) ? 'on' : 'off'}`);
     try { log(`  rules.wait             ${require('../lib/wait-rule-policy.js').read(home).enabled ? 'on' : 'off'}`); }
     catch (e) { log(`  rules.wait             unknown: ${e.message}`); return 2; }
@@ -2176,7 +2330,7 @@ function cmdConfig(argv) {
     const acks = configLib.extraAckGet(config);
     for (const a of Object.keys(acks).sort()) log(`  extraRoots.${a}  ack (${acks[a].at}, ${acks[a].entries} family entries)`);
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
-    log('           npx sshlg-skills config set update.auto on|off');
+    log('           npx sshlg-skills config set update.mode auto|notify|off');
     log('           npx sshlg-skills config set rules.star on|off');
     log('           npx sshlg-skills config set rules.wait on|off');
     log('           npx sshlg-skills config set routes.external.<имя>.triggers "слово, фраза, …"');
@@ -2223,17 +2377,32 @@ function cmdConfig(argv) {
       log(`config set: состояние должно быть on или off: получено "${value === undefined ? '' : value}"`);
       return 2;
     }
-    const wasAuto = configLib.autoUpdateEnabled(configLib.readConfig(home)) ? 'on' : 'off';
-    if (wasAuto === value) {
-      log(`update.auto: ${value} (без изменений)`);
-      return 0;
-    }
-    configLib.setAutoUpdate(home, value);
-    log(`update.auto: ${wasAuto} → ${value}`);
+    // The key maps to a mode (on: auto, off: notify) and the last key set wins: unchanged
+    // means the mode it maps to is already the mode, not merely "auto or not" (B-323).
+    const was = configLib.updateMode(configLib.readConfig(home));
+    const want = value === 'on' ? 'auto' : 'notify';
+    if (was !== want) configLib.setAutoUpdate(home, value);
+    log(`update.auto: ${value} (update.mode: ${was === want ? `${want}, без изменений` : `${was} → ${want}`})`);
     log(value === 'off'
       ? 'Набор больше не обновляется сам. Обновить вручную: npx sshlg-skills@latest update'
-      : 'Набор будет обновляться, когда ты отойдёшь: целиком, все девять паков.');
-    return 0;
+      : 'Набор будет обновляться сам: каждую ночь и когда ты отойдёшь, целиком, все паки.');
+    return refreshSchedule({}) ? 0 : 1;
+  }
+
+  if (key === 'update.mode') {
+    if (!configLib.UPDATE_MODES.includes(value)) {
+      log(`config set: update.mode должен быть ${configLib.UPDATE_MODES.join(', ')}: получено "${value === undefined ? '' : value}"`);
+      return 2;
+    }
+    const was = configLib.updateMode(configLib.readConfig(home));
+    if (was !== value) configLib.setUpdateMode(home, value);
+    log(`update.mode: ${was === value ? `${value} (без изменений)` : `${was} → ${value}`}`);
+    log({
+      auto: 'Набор обновляется сам: каждую ночь и когда ты отойдёшь, целиком, все паки.',
+      notify: 'Набор сам не обновляется; в начале сессии одна строка скажет, что вышел новый, и чем его поставить.',
+      off: 'Набор сам не обновляется и ничего об этом не говорит. Обновить вручную: npx sshlg-skills@latest update',
+    }[value]);
+    return refreshSchedule({}) ? 0 : 1;
   }
 
   if (key && key.indexOf('routes.external.') === 0) return configExternal(home, key, argv.slice(2));
@@ -2256,7 +2425,7 @@ function cmdConfig(argv) {
   }
 
   if (!key || key.indexOf('routers.') !== 0) {
-    log('config set: ключ должен начинаться с "routers.", "routes.external.", "visibility.pack." или "extraRoots.", или быть "update.auto" или "rules.star"');
+    log('config set: ключ должен начинаться с "routers.", "routes.external.", "visibility.pack." или "extraRoots.", или быть "update.mode", "update.auto" или "rules.star"');
     return 2;
   }
 
@@ -4460,6 +4629,7 @@ function planUninstall(f) {
   steps.push(opres.step('prune', 'home', 'remove the Cursor rules file (backup first)',
     { paths: [path.join(os.homedir(), '.cursor', 'rules', cursor.FILENAME)] }));
   steps.push(opres.step('runtime-sync', 'home', 'hooks remove (returns any displaced statusLine)', {}));
+  steps.push(opres.step('schedule', 'home', 'remove the nightly update job and its runner copy (backup first)', {}));
   return attachWaitPlan(steps, f, { remove: true });
 }
 
@@ -4551,6 +4721,17 @@ function cmdUninstall(f) {
 
   log(`\n== Removing hooks ==`);
   ok = cmdHooks(['remove']) && ok;
+
+  // The nightly job goes with the packs (B-323); the mode in config.json stays the operator's.
+  try {
+    const { sched, o } = scheduleContext();
+    const p = sched.planRemoval(o);
+    log('\n== Removing the nightly update job ==');
+    const res = sched.apply(p, o);
+    for (const l of res.lines) log(`  ${l}`);
+    if (res.ok) { try { fs.rmSync(sched.schedulerDir(o.home), { recursive: true, force: true }); } catch (_) { /* nothing to run it */ } }
+    ok = res.ok && ok;
+  } catch (e) { log(`  ! nightly job not removed: ${e.message}`); ok = false; }
 
   // Skill visibility is NOT undone here: its values sit in other hosts' settings and
   // undoing them is a separate, previewable act. What it still holds is named instead.
@@ -4774,6 +4955,7 @@ function main(argv) {
   }
   // Also before parseFlags: `hooks` takes a positional subcommand.
   if (cmd === 'hooks') { const r = cmdHooks(rest); return typeof r === 'number' ? r : (r ? 0 : 1); }
+  if (cmd === 'schedule') return cmdSchedule(argv);
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'context') return cmdContext(rest);
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
