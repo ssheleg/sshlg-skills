@@ -1492,9 +1492,8 @@ function printUpdateModel(mode) {
     const findings = um.autoUpdateState(process.env.HOME || os.homedir(), marketplaces);
     // The notice describes the ACTUAL state, so it has to be asked for it.
     const cfgLib = require('../lib/config.js');
-    const autoOn = cfgLib.autoUpdateEnabled(
-      cfgLib.readConfig(process.env.HOME || os.homedir()));
-    for (const line of um.notice(mode, findings, autoOn)) log(line);
+    const updateMode = cfgLib.updateMode(cfgLib.readConfig(process.env.HOME || os.homedir()));
+    for (const line of um.notice(mode, findings, updateMode)) log(line);
   } catch (e) {
     // Never fail an install over its own closing note.
     log(`\n== How the next version arrives ==\n  not printed: ${e.message}`);

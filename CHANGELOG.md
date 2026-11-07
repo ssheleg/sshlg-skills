@@ -9,7 +9,7 @@
   a daily `schtasks` task on Windows, at 04:MM local with the minute fixed per account. It runs
   `node ~/.sshlg-skills/scheduler/lib/updaterun.js --scheduled` (absolute node path; a copy of
   `lib/` that `update` refreshes the way it refreshes the hook runtime), which asks the registry
-  and runs `update` only when a newer set is out and no unattended run started in the last day;
+  and runs `update` only when a newer set is out and no unattended run started in the last 20 hours;
   `update.lock` keeps it apart from the idle run and the operator's. The job files carry an
   ownership line and go through `apply.protectedWrite`; a same-named file without that line is
   reported and left alone. The OS scheduler is touched only when `HOME` is the account's own
@@ -19,7 +19,11 @@
   `/opt/homebrew/bin/node`, not the versioned Cellar keg `brew cleanup` deletes), its PATH
   includes `~/.local/bin`, and an `update` the job itself started writes a changed definition
   without booting the job out from under itself. The plist does not ask for `ProcessType
-  Background`: under that throttling `npm view` took 38 s and answered nothing.
+  Background`: under that throttling `npm view` took 38 s and answered nothing. On Windows the
+  runner starts `npm` and `npx` through a shell, which `.cmd` files need. A definition the job
+  wrote for itself is registered by the next interactive run (`schedule.json` records what the
+  OS was given). `config` now lists `update.mode` where it listed `update.auto`; the closing
+  notice of `install` and `update` names the mode.
 - **`update.mode auto | notify | off`** replaces `update.auto on|off` as the switch, which still
   works (`off` reads as `notify`; the last key set wins). `notify` removes the job and keeps the
   session-start line that a set is out; `off` also stops that line and the registry probe.
@@ -32,14 +36,16 @@
   now writes how it ended to the file the runner names (`SSHLG_SKILLS_OUTCOME`); when Codex was
   the only thing held back, the record is `ok: true, deferred: true` and the next session says
   the set updated and Codex is waiting. The `update` exit code itself is unchanged.
-- Tests: `test/updatesched_test.js` (new, 25 cases: plans per platform, `plutil -lint` on the
+- Tests: `test/updatesched_test.js` (new, 27 cases: plans per platform, `plutil -lint` on the
   plist, three applies leaving the same bytes and one registration, removal with copies, a
   foreign file kept, the node path, the HOME gate, the job guarding itself, an unreachable
   scheduler, the copy before unregistering, the outcome rule, the runner end to end with stub
   `npm` and `npx`); `test/updatecheck_test.js` 27 cases (the modes, the deferred line);
   `test/cli_config_test.js` runs a real partial `update` in a fixture HOME with logging shims
   for `launchctl`, `systemctl` and `schtasks` and asserts none was called, the outcome file
-  says not only Codex, and the job runs the PATH node.
+  says not only Codex, and the job runs the PATH node, and switches modes with `config set` in a
+  fixture HOME; `test/codex_native_e2e_test.js` asserts a real `update` with Codex held back
+  writes `codexDeferredOnly: true`; `test/updatemodel_test.js` the three modes' notices.
 
 ## v1.85.0 (2026-11-02): Hermes gets the routing map; members' CI checks their triggers against the hub
 

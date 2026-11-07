@@ -383,6 +383,36 @@ it('native update refuses an unavailable supported CLI before host writes', () =
   } finally {fs.rmSync(home,{recursive:true,force:true});fs.rmSync(emptyBin,{recursive:true,force:true});}
 });
 
+// B-323: the mode is applied at once, in a fixture HOME, with no OS scheduler reached.
+it('config set update.mode writes and removes the nightly job at once, never touching the OS', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-mode-'));
+  try {
+    const shims = path.join(home, 'shims');
+    fs.mkdirSync(shims);
+    const calls = path.join(home, 'os-calls.log');
+    for (const cmd of ['launchctl', 'systemctl', 'schtasks']) {
+      fs.writeFileSync(path.join(shims, cmd), `#!/bin/sh\necho "${cmd} $*" >> "${calls}"\nexit 0\n`, { mode: 0o755 });
+    }
+    const env = Object.assign({}, process.env, { HOME: home, PATH: `${shims}${path.delimiter}${process.env.PATH}` });
+    const go = (args) => spawnSync(process.execPath, [BIN].concat(args), { encoding: 'utf8', env });
+    const job = { darwin: path.join(home, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist'),
+      linux: path.join(home, '.config', 'systemd', 'user', 'sshlg-skills-update.timer') }[process.platform];
+    if (!job) return;
+    let r = go(['config', 'set', 'update.mode', 'auto']);
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+    assert.ok(fs.existsSync(job), 'update.mode auto did not write the job');
+    r = go(['config', 'set', 'update.mode', 'notify']);
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+    assert.ok(!fs.existsSync(job), 'update.mode notify left the job');
+    r = go(['config', 'set', 'update.auto', 'on']);
+    assert.ok(fs.existsSync(job), 'update.auto on did not bring the job back');
+    r = go(['schedule', '--revert']);
+    assert.ok(!fs.existsSync(job), 'schedule --revert left the job');
+    assert.match(go(['config']).stdout, /update\.mode\s+notify/);
+    assert.ok(!fs.existsSync(calls), `a fixture HOME reached the OS scheduler: ${fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8') : ''}`);
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
 // B-192: a blocked member keeps its installed version, the run continues to the other
 // channels, and the result is partial (nonzero) rather than a stop.
 it('blocked Claude members make the update partial without stopping later channels', () => {

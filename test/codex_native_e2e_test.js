@@ -117,8 +117,12 @@ t('an old family plugin is deferred; exact config and old hook payload survive r
   const old = path.join(sb.codexHome, 'plugins/cache/agent-sync/agent-sync/1.21.7/probe.sh');
   fs.mkdirSync(path.dirname(old), { recursive: true }); fs.writeFileSync(old, 'echo old-hook\n');
   for (let n = 0; n < 3; n++) {
-    const r = runUpdate(sb, ['--agent', 'codex']);
+    const outcome = path.join(sb.home, `outcome-${n}.json`);
+    const r = runUpdate(sb, ['--agent', 'codex'], { SSHLG_SKILLS_OUTCOME: outcome });
     assert.strictEqual(r.status, 1, r.out.slice(-1500));
+    // B-323: the unattended runner reads this, and records a partial success, not FAILED.
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(outcome, 'utf8')), { ok: false, codexDeferredOnly: true },
+      'a run where only Codex held its plugins back was not reported as such');
     assert.ok(r.out.includes('DEFERRED_ACTIVE_GENERATION_SAFETY'));
     assert.deepStrictEqual(mutating(sb), []);
     assert.ok(fs.readFileSync(cfg).equals(before));

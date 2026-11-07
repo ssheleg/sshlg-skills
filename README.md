@@ -256,7 +256,7 @@ local, the minute fixed per account. The job runs `node ~/.sshlg-skills/schedule
 running node, so Homebrew's `/opt/homebrew/bin/node` rather than its versioned keg), with
 `~/.local/bin` on its PATH, from a copy `update` refreshes: it asks the registry, and
 runs `npx --yes sshlg-skills@latest update` only when a newer set is out and no unattended run
-started in the last day. `update.lock` keeps it apart from the idle run and from yours. What it
+started in the last 20 hours (the job's own period is a day, so last night's run never skips tonight's). `update.lock` keeps it apart from the idle run and from yours. What it
 did is said once at the next session start; a run where only Codex held its plugins back (below)
 is reported as that, not as FAILED. `notify` writes nothing and removes the job: the session-start
 line says a set is out and what to run. `off` says nothing and asks the registry nothing. The job

@@ -83,6 +83,8 @@ it('systemd: a oneshot service and a persistent timer, ExecStart quoted the way 
   assert.ok(timer.text.includes('Persistent=true'), 'a night missed while off is never caught up');
   assert.ok(timer.text.includes('WantedBy=timers.target'));
   for (const f of [svc, timer]) assert.ok(f.text.includes(S.MARK));
+  assert.ok(svc.text.includes(`Environment="PATH=/x/\\"q\\"\\\\node/..:/home/someone/.local/bin:/usr/local/bin:/usr/bin:/bin" SSHLG_SKILLS_JOB=1`)
+    || /^Environment="PATH=[^"\n]*\.local\/bin[^"\n]*" SSHLG_SKILLS_JOB=1$/m.test(svc.text), `the unit has no job PATH or job marker:\n${svc.text}`);
 });
 
 it('register and unregister commands per platform; a missing job is not an error to remove', () => {
@@ -261,11 +263,15 @@ it('a run that is the job itself writes the new definition and never boots itsel
 });
 
 it('no user scheduler reachable is said and is not a failure; a real refusal still is', () => {
-  for (const [code, stderr] of [[127, 'spawnSync systemctl ENOENT'], [1, 'Failed to connect to bus: No medium found']]) {
+  for (const [platform, code, stderr] of [['systemd', 127, 'spawnSync systemctl ENOENT'],
+    ['systemd', 1, 'Failed to connect to bus: No medium found'],
+    ['launchd', 125, 'Bootstrap failed: 125: Domain does not support specified action'],
+    ['launchd', 113, 'Could not find domain for user gui: 501']]) {
     const home = tmpHome();
     try {
-      const run = (cmd, args) => (args.includes('is-enabled') ? { code: 1, stdout: '', stderr } : { code, stdout: '', stderr });
-      const o = { platform: 'systemd', home, node: NODE, uid: 501, mode: 'auto', run };
+      const run = (cmd, args) => (['is-enabled', 'print'].includes(args[0]) || args.includes('is-enabled')
+        ? { code: 1, stdout: '', stderr } : (args[0] === 'bootout' ? { code: 3, stdout: '', stderr: '' } : { code, stdout: '', stderr }));
+      const o = { platform, home, node: NODE, uid: 501, mode: 'auto', run };
       const r = S.apply(S.plan(o), o);
       assert.strictEqual(r.ok, true, `${stderr}: ${r.lines.join('\n')}`);
       assert.strictEqual(r.state, 'unreachable');
@@ -311,6 +317,44 @@ it('update says "only Codex held back" exactly when that is all that failed', ()
   assert.strictEqual(U.updateOutcome({ ok: false, codexOk: false, codexHeld: false, restOk: true }).codexDeferredOnly, false, 'Codex failed, not held');
   assert.strictEqual(U.updateOutcome({ ok: false, codexOk: true, codexHeld: false, restOk: false }).codexDeferredOnly, false, 'a failure with Codex fine');
   assert.strictEqual(U.updateOutcome({ ok: true, codexOk: true, codexHeld: false, restOk: true }).codexDeferredOnly, false);
+});
+
+it('a definition the job wrote for itself is registered by the next interactive run', () => {
+  const home = tmpHome();
+  try {
+    const first = recorder();
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: first.run, env: {} };
+    S.apply(S.plan(o), o);
+    const inJob = recorder();
+    const newer = Object.assign({}, o, { node: '/opt/new/bin/node', run: inJob.run, env: { SSHLG_SKILLS_JOB: '1' } });
+    const r1 = S.apply(S.plan(newer), newer);
+    assert.deepStrictEqual(inJob.calls, [], 'the job booted itself out');
+    assert.ok(r1.lines.some((l) => /this run is the job itself/.test(l)));
+    const later = recorder();
+    const interactive = Object.assign({}, newer, { run: later.run, env: {} });
+    const r2 = S.apply(S.plan(interactive), interactive);
+    assert.strictEqual(r2.state, 'current');
+    assert.ok(later.calls.some((c) => c.includes('bootstrap')), `the new definition was never loaded: ${later.calls.join(' | ')}`);
+    const again = recorder();
+    S.apply(S.plan(Object.assign({}, interactive, { run: again.run })), Object.assign({}, interactive, { run: again.run }));
+    assert.ok(!again.calls.some((c) => c.includes('bootstrap')), 'a level, registered job was registered again');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('the runner starts npm and npx through a shell on Windows only, and the job retries within 20 hours', () => {
+  const U = require('../lib/updatecheck.js');
+  assert.strictEqual(U.childOptions('win32').shell, true);
+  assert.strictEqual(U.childOptions('darwin').shell, false);
+  assert.strictEqual(U.childOptions('linux', { timeout: 5 }).timeout, 5);
+  const src = fs.readFileSync(path.join(__dirname, '..', 'lib', 'updaterun.js'), 'utf8');
+  const calls = src.match(/execFile\('(npm|npx)'[^\n]*\n?[^\n]*/g) || [];
+  assert.strictEqual(calls.length, 2, 'the runner starts npm and npx somewhere this test does not see');
+  for (const c of calls) assert.match(c, /chk\.childOptions\(process\.platform/, `spawned without the Windows shell: ${c}`);
+  assert.match(src, /shouldAutoUpdate\(cfg, cache, Date\.now\(\), chk\.SCHEDULED_INTERVAL_MS\)/);
+  const now = 1_000_000_000_000;
+  const cache = { self: '1.0.0', latest: '2.0.0', ranAt: now - U.CHECK_INTERVAL_MS + 5000 };
+  assert.strictEqual(U.shouldAutoUpdate({}, cache, now, U.SCHEDULED_INTERVAL_MS).run, true, 'tonight skipped because last night ran 5 s late');
+  assert.strictEqual(U.shouldAutoUpdate({}, Object.assign({}, cache, { ranAt: now - 3600000 }), now, U.SCHEDULED_INTERVAL_MS).run, false);
 });
 
 // --- the runner the job executes (lib/updaterun.js --scheduled) ----------------------------

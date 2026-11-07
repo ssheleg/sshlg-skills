@@ -55,17 +55,23 @@ it('IT DESCRIBES THE ACTUAL STATE, and gives the reason in either', () => {
   // as arbitrary.
   const on = U.notice('install', { on: [] }, true).join(' ').replace(/\s+/g, ' ');
   const off = U.notice('install', { on: [] }, false).join(' ').replace(/\s+/g, ' ');
-  assert.match(on, /updates itself when you go idle/, on);
-  assert.match(on, /config set update\.auto off/, 'no way to stop it');
+  assert.match(on, /updates itself every night and when you go idle/, on);
+  assert.match(on, /config set update\.mode notify/, 'no way to stop it');
   assert.match(off, /does not update itself/, off);
-  assert.match(off, /`update\.auto` is off/, off);
+  assert.match(off, /`update\.mode` is notify/, off);
+  // B-323: the mode is named, and off does not promise the session-start notice it silences.
+  const silent = U.notice('install', { on: [] }, 'off').join(' ').replace(/\s+/g, ' ');
+  assert.match(silent, /`update\.mode` is off/, silent);
+  assert.ok(!/session-start notice/.test(silent), 'off promises a notice it suppresses');
+  assert.ok(/session-start notice/.test(U.notice('install', { on: [] }, 'notify').join(' ').replace(/\s+/g, ' ')));
+  assert.strictEqual(U.notice('install', { on: [] }, 'auto').join('\n'), U.notice('install', { on: [] }, true).join('\n'));
   for (const out of [on, off]) {
     assert.match(out, /all of them together/, 'the notice does not say the set moves as a set');
     assert.match(out, /no member argument/,
       'the notice does not tie the reason to the launcher rule it comes from');
   }
   // And it must never claim both.
-  assert.ok(!/does not update itself/.test(on) && !/updates itself when you go idle/.test(off),
+  assert.ok(!/does not update itself/.test(on) && !/updates itself every night/.test(off),
     'the two states share a sentence, so one of them is a lie');
 });
 
