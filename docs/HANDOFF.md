@@ -8,7 +8,41 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-10-28 the board's second pass (1.82.0)
+## Current: 2026-11-07 nightly updates (B-323, 1.86.0) and the intake split (task-pipeline 1.103.0)
+
+**Objective (operator, 2026-11-06, session 574eafda):** review the retro and learning insights; a
+big request is cut into modules, researched in parallel, merged and run once more, and a simple one
+is not; several asks are ranked, the top runs and the rest go to the project's own board, found
+the way each project keeps it. The Fabric board request `36d586e2` (item 5, deadline 2026-11-11)
+asked for scheduled updates by default (B-323).
+
+**Done:**
+- B-323 on `feat/b323-scheduled-updates`, PR #298: `lib/updatesched.js`, `update.mode`,
+  `schedule`, the Codex-only hold recorded as partial. Card:
+  [`2026-11-06-v1860-release-impact.md`](evidence/specs/2026-11-06-v1860-release-impact.md).
+  The job is registered on the operator Mac (04:41, `/opt/homebrew/bin/node`); a kickstart
+  moved `updateCheck.at`.
+- task-pipeline 1.103.0 on `ssheleg/task-pipeline` `feat/intake-decomposition`, PR #162:
+  `references/intake-split.md` and `backlog_sources.py --discover`.
+
+**Checks run:**
+- `npm test` here exits 0 (167 suites, 3297 fixtures).
+- task-pipeline's `npm test` exits 0 (274 `backlog_sources` cases on Python 3.9 and 3.11 to 3.14).
+- Blind unit-tier readings on both branches.
+
+**Next task:** after two consecutive clean readings, in this order:
+1. merge both PRs;
+2. tag task-pipeline `v1.103.0`;
+3. pin it here;
+4. tag `v1.86.0`;
+5. run `npx --yes sshlg-skills@latest update`;
+6. read the job after its first night (`launchctl print gui/$(id -u)/me.sshlg.skills.update`);
+7. reply on board thread `f7758225` (`com.reply` on `36d586e2`);
+8. close B-323.
+
+**Waits:** stage 8 of 1.86.0, 48 hours after its tag (two nights of the job).
+
+## Previous: 2026-10-28 the board's second pass (1.82.0)
 
 **Objective (operator, 2026-10-27/28, «доделай все сам», «до конца»):** the open rows left after
 1.81.0, plus the waits. **Done:** 17 rows closed (B-262, B-263, B-264, B-265, B-266, B-267, B-270,
