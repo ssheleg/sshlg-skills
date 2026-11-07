@@ -31,20 +31,21 @@ The Fabric board request `36d586e2` (item 5, deadline 2026-11-11) asked for sche
   - The `v1.103.0` tag is dead: its release round stopped on the retro rule before publishing, and the tag ruleset forbids deletion.
   - The `v1.103.1` release job passed (run 42366771853).
 
-**Blocked on a human gate (B-325):**
-- The publish job fails with `ENEEDAUTH` twice. Its workflow is the same one that publishes this hub through OIDC.
-- Who: the operator, on npmjs.com with the security key.
-- Where: https://www.npmjs.com/package/task-pipeline-skill/access, Trusted Publisher: GitHub Actions, `ssheleg/task-pipeline`, `release.yml`.
+**B-325 cleared for task-pipeline-skill (2026-11-07):**
+- The operator added the trusted publisher at https://www.npmjs.com/package/task-pipeline-skill/access.
+- It was first saved as `npm stage publish`, and the re-run failed with `E403 OIDC permission denied for this action`.
+- With the permission switched to `npm publish`, the re-run of run 42366771853 printed `+ task-pipeline-skill@1.103.1` (15:19 UTC), and `npm view task-pipeline-skill@1.103.1 version` answers `1.103.1`.
+- B-325 stays open for the seven packages that have not published through OIDC yet.
 
 **Checks run:**
 - `npm test` exits 0 here and in task-pipeline (330 `backlog_sources` cases on Python 3.9 and 3.11 to 3.14).
 - PR checks green on #162, #163 and #298 (promoted once with ready-for-review).
 
-**Next task, when B-325 clears:**
-1. Run `gh run rerun 42366771853 -R ssheleg/task-pipeline --failed`.
-2. Confirm `npm view task-pipeline-skill@1.103.1 version`.
-3. Mark PR #299 (the 1.86.1 pin, branch `release/pin-tp-11031`, `npm test` green) ready, wait for its checks and merge it.
-4. Tag `v1.86.1` and run `npx --yes sshlg-skills@latest update`.
+**In flight:** PR #299 pins task-pipeline 1.103.1 as sshlg-skills 1.86.1 (branch `release/pin-tp-11031`).
+
+**Next task, if this entry is still current:**
+1. If PR #299 is open, run `npm test` and `python3 test/check_pins.py` on its branch, merge it, tag `v1.86.1`.
+2. Confirm `npm view sshlg-skills version` is `1.86.1`, then run `npx --yes sshlg-skills@latest update`.
 
 **Waits:**
 - Close B-323 after the job's first two nights (`launchctl print gui/$(id -u)/me.sshlg.skills.update` shows runs and exit 0, and `updateCheck.at` moves), about 2026-11-09.
