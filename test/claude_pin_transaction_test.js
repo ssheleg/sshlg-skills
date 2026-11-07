@@ -356,4 +356,23 @@ test('B-326: a settings copy that is not an object is not a backup',f=>{
 test('B-326: a path with a dot segment inside the transaction is not read',f=>{
  const r=wedge(f);edit(r,rec=>{const b=settingsCopy(rec);b.path=path.join(path.dirname(rec.receipt),'backups','..','backups',path.basename(b.path)).replace(path.sep+'backups'+path.sep+path.basename(b.path),path.sep+'backups'+path.sep+'.'+path.sep+path.basename(b.path));});assert.throws(f.plan,REMEDY);
 });
+// Every real update writes one recovery job per member; the owned keys of each are compared.
+function twoJobs(r){const rec=JSON.parse(fs.readFileSync(latestOf(r)));const plan=JSON.parse(fs.readFileSync(rec.recoveryPlan));plan.jobs.push({member:'other',pluginInstall:'other@othermk'});fs.writeFileSync(rec.recoveryPlan,JSON.stringify(plan));}
+test('B-326: with two members and neither owned key moved, the next run plans',f=>{const r=wedge(f);twoJobs(r);assert.equal(f.plan().jobs[0].action,'verify');});
+test('B-326: with two members, a moved key of the second refuses',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins['other@othermk']=true;});twoJobs(r);assert.throws(f.plan,REMEDY);
+});
+test('B-326: with two members, a moved key of the first refuses',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});twoJobs(r);assert.throws(f.plan,REMEDY);
+});
+test('B-326: a run that began with no settings file refuses while an owned key exists now',f=>{
+ const r=wedge(f);edit(r,rec=>{const i=rec.backups.indexOf(settingsCopy(rec));rec.backups[i]={action:'no-file',file:rec.backups[i].file};});assert.throws(f.plan,REMEDY);
+});
+test('B-326: an owned source moved to another directory of the same type refuses',f=>{
+ wedge(f,s=>{s.extraKnownMarketplaces.fixture.source={...s.extraKnownMarketplaces.fixture.source,path:'/elsewhere'};});assert.throws(f.plan,REMEDY);
+});
+test('B-326: an owned source of another type at the same path refuses',f=>{
+ wedge(f,s=>{s.extraKnownMarketplaces.fixture.source={...s.extraKnownMarketplaces.fixture.source,source:'git'};});assert.throws(f.plan,REMEDY);
+});
+test('B-326: a faithful copy under a 13-hex name is not a transaction',f=>{const r=wedge(f);relocate(f,r,path.join(path.dirname(path.dirname(r.receipt)),'2-bbbbbbbbbbbbb'));assert.throws(f.plan,/incomplete/);});
 console.log(`PASS: Claude native transaction — ${count} cases`);
