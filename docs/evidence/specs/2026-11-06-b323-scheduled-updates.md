@@ -33,7 +33,7 @@ revision's.
 3. **Daily**, at a fixed local time with a random minute (spreads load). As built (1.86.0):
    04:MM local, the minute fixed per account; a night missed while the machine slept or was off
    runs at the next wake on macOS (launchd coalesces a missed calendar slot across sleep only, so
-   a Mac that was shut down skips that night) and at the next boot on Linux (`Persistent=true`).
+   a Mac that was shut down skips that night) and on Linux when the user's systemd manager next starts (`Persistent=true`): at boot with `loginctl enable-linger`, otherwise at the next login; without lingering the timer does not fire while the user is logged out.
    No login trigger: a run at login would land at the start of work, and the idle updater
    already covers a machine whose sessions sit idle.
 4. **The job runs `lib/updaterun.js --scheduled`** from a stable copy under `~/.sshlg-skills/`

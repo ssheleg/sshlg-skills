@@ -137,6 +137,22 @@ t('an old family plugin is deferred; exact config and old hook payload survive r
   assert.strictEqual(fs.statSync(path.join(dir, files[0])).mode & 0o777, 0o600);
 });
 
+t('Codex held back beside another failing step is not "only Codex" (B-323)', () => {
+  const sb = sandbox();
+  const job = { darwin: path.join(sb.home, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist'),
+    linux: path.join(sb.home, '.config', 'systemd', 'user', 'sshlg-skills-update.service') }[process.platform];
+  if (!job) return;
+  fs.mkdirSync(path.dirname(job), { recursive: true });
+  fs.writeFileSync(job, 'not ours\n'); // a foreign file at the job's path: the schedule step fails
+  const outcome = path.join(sb.home, 'outcome.json');
+  const r = runUpdate(sb, ['--agent', 'codex'], { SSHLG_SKILLS_OUTCOME: outcome });
+  assert.strictEqual(r.status, 1, r.out.slice(-1500));
+  assert.ok(r.out.includes('DEFERRED_ACTIVE_GENERATION_SAFETY'));
+  assert.ok(/not scheduled: .*not written by sshlg-skills/.test(r.out), r.out.slice(-1500));
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(outcome, 'utf8')), { ok: false, codexDeferredOnly: false });
+  assert.strictEqual(fs.readFileSync(job, 'utf8'), 'not ours\n');
+});
+
 t('deferred receipt binds the final config after consented visibility reapplication', () => {
   const sb = sandbox();
   const cfg = path.join(sb.codexHome, 'config.toml');

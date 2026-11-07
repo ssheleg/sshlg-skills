@@ -825,7 +825,7 @@ function refreshSchedule(f) {
   if (o.mode !== 'auto' && p.state === 'remove') {
     try { fs.rmSync(sched.schedulerDir(o.home), { recursive: true, force: true }); } catch (_) { /* a copy left behind runs nothing */ }
   }
-  if (o.mode === 'auto' && res.ok && p.state === 'install') {
+  if (o.mode === 'auto' && res.ok && p.state === 'install' && res.state !== 'unreachable' && o.register !== false) {
     const at = sched.slot(o.home);
     log(`  The set now also installs itself every night at ${String(at.hour).padStart(2, '0')}:${String(at.minute).padStart(2, '0')} `
       + 'when a newer one is out (a sleeping machine catches up when it wakes).');
@@ -847,7 +847,7 @@ function cmdSchedule(argv) {
   const dry = args.includes('--dry-run');
   if (args.includes('--revert')) {
     const p = sched.planRemoval(o);
-    if (dry) { log(`schedule --revert --dry-run: ${p.state}; files: ${p.files.map((x) => x.file).join(', ') || 'none'}; update.mode → notify`); return 0; }
+    if (dry) { log(`schedule --revert --dry-run: ${p.state}; files: ${p.files.map((x) => x.file).join(', ') || 'none'}; update.mode ${o.mode === 'auto' ? 'auto → notify' : `${o.mode} (unchanged)`}`); return 0; }
     // Without this the next `update` would put the job back: the mode is what it follows.
     const configLib = require('../lib/config.js');
     const was = o.mode;
@@ -866,7 +866,8 @@ function cmdSchedule(argv) {
   const loaded = probe && o.register ? (o.run(probe.cmd, probe.args).code === 0 ? 'yes' : 'no') : 'not asked (this HOME is not the account\'s own)';
   log(`update.mode      ${o.mode}`);
   log(`platform         ${o.platform || `${process.platform} (no scheduler known)`}`);
-  log(`job              ${rec ? `${rec.at}, ${rec.files.length ? rec.files.join(', ') : `task ${rec.task}`}` : 'none recorded'}`);
+  const recFiles = rec && Array.isArray(rec.files) ? rec.files : [];
+  log(`job              ${rec ? `${rec.at || 'time unknown'}, ${recFiles.length ? recFiles.join(', ') : `task ${rec.task || 'unknown'}`}` : 'none recorded'}`);
   log(`registered       ${loaded}`);
   log(`plan             ${p.state}${p.reason ? ` (${p.reason})` : ''}`);
   if (p.state === 'install' || p.state === 'update') log('Apply: npx sshlg-skills schedule --apply');
@@ -996,8 +997,11 @@ function cmdUpdate(f) {
   // refresh above just added are hidden by the same rule on every host. One with no
   // record has not consented — an update is not the moment to ask.
   ok = reapplyVisibility(f) && ok;
-  // The nightly job and its runner copy (B-323), after the hook runtime: one copy at a time.
-  ok = refreshSchedule(f) && ok;
+  // The nightly job and its runner copy (B-323), after the hook runtime: one copy at a time,
+  // and none at all after the hook runtime copy failed (a disk that refused one copy is not
+  // given a second; the job keeps its last good runner until a clean run).
+  if (runtimeReady) ok = refreshSchedule(f) && ok;
+  else log('\n== Nightly update job ==\n  left as it is: the hook runtime refresh failed first');
   // Inspect native Codex AFTER our visibility writes so a deferred receipt binds
   // the final profile bytes. Version replacement remains deferred: active threads
   // may retain old payload paths; listing is not generation-retirement proof.
@@ -1276,7 +1280,7 @@ function refreshCodexPlugins(f) {
       log(watcher ? `  Native-host-read-only watcher (POSIX shell): ${watcher}`
         : '  Watcher command display is POSIX-only; no runnable Windows shell command is emitted.');
     } catch (e) { log(`  Pending receipt FAILED: ${e.message}`); return false; }
-    codexHeld = out.results.every((r) => r.status === 'current' || r.status === 'deferred');
+    codexHeld = cp.heldOnly(out.results);
   }
   log(cp.summaryLine(out));
   if (out.results.some((r) => r.status === 'current')) log('  (start a new Codex session to load them)');

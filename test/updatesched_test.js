@@ -317,6 +317,12 @@ it('update says "only Codex held back" exactly when that is all that failed', ()
   assert.strictEqual(U.updateOutcome({ ok: false, codexOk: false, codexHeld: false, restOk: true }).codexDeferredOnly, false, 'Codex failed, not held');
   assert.strictEqual(U.updateOutcome({ ok: false, codexOk: true, codexHeld: false, restOk: false }).codexDeferredOnly, false, 'a failure with Codex fine');
   assert.strictEqual(U.updateOutcome({ ok: true, codexOk: true, codexHeld: false, restOk: true }).codexDeferredOnly, false);
+  const cp = require('../lib/codexplugins.js');
+  assert.strictEqual(cp.heldOnly([{ status: 'deferred' }, { status: 'current' }]), true);
+  assert.strictEqual(cp.heldOnly([{ status: 'deferred' }, { status: 'failed' }]), false, 'a failed plugin beside a held one');
+  assert.strictEqual(cp.heldOnly([{ status: 'current' }]), false, 'nothing held back');
+  assert.strictEqual(cp.heldOnly([]), false);
+  assert.match(fs.readFileSync(path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'utf8'), /codexHeld = cp\.heldOnly\(out\.results\)/);
 });
 
 it('a definition the job wrote for itself is registered by the next interactive run', () => {
@@ -355,6 +361,10 @@ it('the runner starts npm and npx through a shell on Windows only, and the job r
   const cache = { self: '1.0.0', latest: '2.0.0', ranAt: now - U.CHECK_INTERVAL_MS + 5000 };
   assert.strictEqual(U.shouldAutoUpdate({}, cache, now, U.SCHEDULED_INTERVAL_MS).run, true, 'tonight skipped because last night ran 5 s late');
   assert.strictEqual(U.shouldAutoUpdate({}, Object.assign({}, cache, { ranAt: now - 3600000 }), now, U.SCHEDULED_INTERVAL_MS).run, false);
+  const H20 = 20 * 60 * 60 * 1000;
+  assert.strictEqual(U.SCHEDULED_INTERVAL_MS, H20);
+  assert.strictEqual(U.shouldAutoUpdate({}, Object.assign({}, cache, { ranAt: now - H20 - 1000 }), now, U.SCHEDULED_INTERVAL_MS).run, true);
+  assert.strictEqual(U.shouldAutoUpdate({}, Object.assign({}, cache, { ranAt: now - H20 + 1000 }), now, U.SCHEDULED_INTERVAL_MS).run, false);
 });
 
 // --- the runner the job executes (lib/updaterun.js --scheduled) ----------------------------
@@ -373,7 +383,9 @@ function runScheduled(opts) {
     { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, USERPROFILE: home, PATH: `${stubs}:${process.env.PATH}` }) });
   let st = {};
   try { st = JSON.parse(fs.readFileSync(path.join(home, '.sshlg-skills', 'state.json'), 'utf8')); } catch (_) { st = {}; }
+  const marker = path.join(home, 'job-marker');
   const out = { code: r.status, ran: fs.existsSync(path.join(home, 'npx-ran')), uc: st.updateCheck || {},
+    jobMarker: fs.existsSync(marker) ? fs.readFileSync(marker, 'utf8').trim() : null,
     leftovers: fs.readdirSync(path.join(home, '.sshlg-skills')).filter((f) => f.startsWith('update-outcome')) };
   fs.rmSync(home, { recursive: true, force: true });
   fs.rmSync(stubs, { recursive: true, force: true });
@@ -383,7 +395,9 @@ function runScheduled(opts) {
 if (process.platform !== 'win32') {
   it('--scheduled asks the registry, then updates when a newer set is out, and records it', () => {
     const r = runScheduled({ npm: '99.0.0',
-      npx: 'mkdir -p "$HOME/.sshlg-skills/scheduler"\necho \'{"version":"99.0.0"}\' > "$HOME/.sshlg-skills/scheduler/package.json"\nexit 0' });
+      npx: 'mkdir -p "$HOME/.sshlg-skills/scheduler"\necho \'{"version":"99.0.0"}\' > "$HOME/.sshlg-skills/scheduler/package.json"\n'
+        + 'echo "$SSHLG_SKILLS_JOB" > "$HOME/job-marker"\nexit 0' });
+    assert.strictEqual(r.jobMarker, '1', 'the job\'s own update cannot tell it runs inside the job');
     assert.strictEqual(r.code, 0);
     assert.strictEqual(r.ran, true, 'a newer set was out and nothing ran');
     assert.strictEqual(r.uc.latest, '99.0.0');
@@ -396,6 +410,10 @@ if (process.platform !== 'win32') {
     assert.strictEqual(same.ran, false);
     assert.strictEqual(same.uc.latest, SELF, 'the registry answer was not recorded');
     assert.strictEqual(runScheduled({ npm: null }).ran, false);
+    const cached = runScheduled({ npm: null, state: { updateCheck: { at: 1, latest: '99.0.0' } } });
+    assert.strictEqual(cached.ran, false, 'a silent registry and a cache a session wrote started an update');
+    assert.strictEqual(cached.uc.latest, '99.0.0', 'a silent registry erased what the session last learned');
+    assert.strictEqual(cached.uc.at, 1, 'a silent registry was recorded as an answer');
     const recent = runScheduled({ npm: '99.0.0', state: { updateCheck: { ranAt: Date.now() - 60000, ok: false } } });
     assert.strictEqual(recent.ran, false, 'the job retried inside the interval the idle updater keeps');
   });

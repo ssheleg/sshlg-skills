@@ -249,7 +249,9 @@ register (B-323), so a machine whose agents run headless or whose sessions never
 too. On macOS it is a LaunchAgent, `~/Library/LaunchAgents/me.sshlg.skills.update.plist`, loaded
 with `launchctl bootstrap gui/<uid>`; a night missed while the Mac slept runs on wake. On Linux it
 is a user timer, `~/.config/systemd/user/sshlg-skills-update.{service,timer}` with
-`Persistent=true`. On Windows it is a daily task `sshlg-skills-update` (`schtasks`); a command
+`Persistent=true`, which catches up a missed night when the user's systemd manager next starts;
+that manager runs while nobody is logged in only with `loginctl enable-linger`, so a headless
+Linux machine needs lingering on. On Windows it is a daily task `sshlg-skills-update` (`schtasks`); a command
 longer than `schtasks /TR` takes (261 characters) is reported, not scheduled. The time is 04:MM
 local, the minute fixed per account. The job runs `node ~/.sshlg-skills/scheduler/lib/updaterun.js
 --scheduled` with an absolute node path that survives an upgrade (the PATH entry resolving to the

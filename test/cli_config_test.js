@@ -401,9 +401,12 @@ it('config set update.mode writes and removes the nightly job at once, never tou
     let r = go(['config', 'set', 'update.mode', 'auto']);
     assert.strictEqual(r.status, 0, r.stdout + r.stderr);
     assert.ok(fs.existsSync(job), 'update.mode auto did not write the job');
+    const runner = path.join(home, '.sshlg-skills', 'scheduler', 'lib', 'updaterun.js');
+    assert.ok(fs.existsSync(runner), 'the job points at a runner copy that was never made');
     r = go(['config', 'set', 'update.mode', 'notify']);
     assert.strictEqual(r.status, 0, r.stdout + r.stderr);
     assert.ok(!fs.existsSync(job), 'update.mode notify left the job');
+    assert.ok(!fs.existsSync(runner), 'update.mode notify left the runner copy');
     r = go(['config', 'set', 'update.auto', 'on']);
     assert.ok(fs.existsSync(job), 'update.auto on did not bring the job back');
     r = go(['schedule', '--revert']);

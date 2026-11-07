@@ -23,11 +23,13 @@
   runner starts `npm` and `npx` through a shell, which `.cmd` files need. A definition the job
   wrote for itself is registered by the next interactive run (`schedule.json` records what the
   OS was given). `config` now lists `update.mode` where it listed `update.auto`; the closing
-  notice of `install` and `update` names the mode.
+  notice of `install` and `update` names the mode. An `update` whose hook runtime refresh failed
+  leaves the job as it is.
 - **`update.mode auto | notify | off`** replaces `update.auto on|off` as the switch, which still
   works (`off` reads as `notify`; the last key set wins). `notify` removes the job and keeps the
   session-start line that a set is out; `off` also stops that line and the registry probe.
-  `config set update.mode` applies at once. `npx sshlg-skills schedule` shows the job,
+  `config set update.mode`, and `config set update.auto` too, apply the job at once (a job
+  section in the output, exit 1 on the same refusals as `update`). `npx sshlg-skills schedule` shows the job,
   `--apply` writes it, `--revert` removes it and sets `notify` so the next `update` does not put it
   back. `uninstall` removes it.
 - **A Codex that holds its plugins is no longer reported as FAILED.** `update` exits 1 while
@@ -45,7 +47,8 @@
   for `launchctl`, `systemctl` and `schtasks` and asserts none was called, the outcome file
   says not only Codex, and the job runs the PATH node, and switches modes with `config set` in a
   fixture HOME; `test/codex_native_e2e_test.js` asserts a real `update` with Codex held back
-  writes `codexDeferredOnly: true`; `test/updatemodel_test.js` the three modes' notices.
+  writes `codexDeferredOnly: true`, and `false` when the schedule step fails beside it;
+  `test/updatemodel_test.js` the three modes' notices.
 
 ## v1.85.0 (2026-11-02): Hermes gets the routing map; members' CI checks their triggers against the hub
 

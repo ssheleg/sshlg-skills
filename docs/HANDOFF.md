@@ -26,7 +26,7 @@ asked for scheduled updates by default (B-323).
   `references/intake-split.md` and `backlog_sources.py --discover`.
 
 **Checks run:**
-- `npm test` here exits 0 (167 suites, 3297 fixtures).
+- `npm test` here exits 0 (167 suites; the fixture count is the one DOCMAP's ratchet marker states, measured by that run).
 - task-pipeline's `npm test` exits 0 (274 `backlog_sources` cases on Python 3.9 and 3.11 to 3.14).
 - Blind unit-tier readings on both branches.
 
