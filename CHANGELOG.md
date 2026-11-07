@@ -26,11 +26,12 @@
   notice of `install` and `update` names the mode. An `update` whose hook runtime refresh failed
   leaves the job as it is.
 - **`update.mode auto | notify | off`** replaces `update.auto on|off` as the switch, which still
-  works (`off` reads as `notify`; the last key set wins). `notify` removes the job and keeps the
+  works (`off` reads as `notify`; the last key set wins; `notify` and `off` also write
+  `update.auto: off`, so a 1.85 hook runtime does not run the idle update the operator turned off). `notify` removes the job and keeps the
   session-start line that a set is out; `off` also stops that line and the registry probe.
   `config set update.mode`, and `config set update.auto` too, apply the job at once (a job
   section in the output, exit 1 on the same refusals as `update`). `npx sshlg-skills schedule` shows the job,
-  `--apply` writes it, `--revert` removes it and sets `notify` so the next `update` does not put it
+  `--apply` brings it level with `update.mode` (written on auto), `--revert` removes it and sets `notify` so the next `update` does not put it
   back. `uninstall` removes it.
 - **A Codex that holds its plugins is no longer reported as FAILED.** `update` exits 1 while
   Codex defers its native plugins (generation safety), and the unattended runner recorded every

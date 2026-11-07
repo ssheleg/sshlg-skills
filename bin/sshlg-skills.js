@@ -313,7 +313,7 @@ Usage:
                                                       # it nightly and when you go idle; notify only says
                                                       # it is out; off says nothing (B-323)
   npx sshlg-skills schedule [--apply | --revert] [--dry-run]
-                                                      # the nightly update job: status, write, remove
+                                                      # the nightly update job: status, level with update.mode, remove
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run] [--codex] [--gemini] [--kimi] [--hermes] [--pi] [--opencode]
                                                       # --codex: also the guard in Codex's hooks.json
@@ -822,7 +822,7 @@ function refreshSchedule(f) {
   const p = sched.plan(o);
   const res = sched.apply(p, o);
   for (const l of res.lines) log(`  ${l}`);
-  if (o.mode !== 'auto' && p.state === 'remove') {
+  if (o.mode !== 'auto' && p.state === 'remove' && res.ok) {  // a job left registered keeps its runner
     try { fs.rmSync(sched.schedulerDir(o.home), { recursive: true, force: true }); } catch (_) { /* a copy left behind runs nothing */ }
   }
   if (o.mode === 'auto' && res.ok && p.state === 'install' && res.state !== 'unreachable' && o.register !== false) {
@@ -867,7 +867,7 @@ function cmdSchedule(argv) {
   log(`update.mode      ${o.mode}`);
   log(`platform         ${o.platform || `${process.platform} (no scheduler known)`}`);
   const recFiles = rec && Array.isArray(rec.files) ? rec.files : [];
-  log(`job              ${rec ? `${rec.at || 'time unknown'}, ${recFiles.length ? recFiles.join(', ') : `task ${rec.task || 'unknown'}`}` : 'none recorded'}`);
+  log(`job              ${rec ? `${rec.at || 'time unknown'}, ${recFiles.length ? recFiles.join(', ') : (rec.task ? `task ${rec.task}` : 'files unknown')}` : 'none recorded'}`);
   log(`registered       ${loaded}`);
   log(`plan             ${p.state}${p.reason ? ` (${p.reason})` : ''}`);
   if (p.state === 'install' || p.state === 'update') log('Apply: npx sshlg-skills schedule --apply');
@@ -2369,13 +2369,12 @@ function cmdConfig(argv) {
       log(`config set: состояние должно быть on или off: получено "${value === undefined ? '' : value}"`);
       return 2;
     }
-    const wasAuto = configLib.autoUpdateEnabled(configLib.readConfig(home)) ? 'on' : 'off';
-    if (wasAuto === value) {
-      log(`update.auto: ${value} (без изменений)`);
-      return 0;
-    }
-    configLib.setAutoUpdate(home, value);
-    log(`update.auto: ${wasAuto} → ${value} (update.mode: ${configLib.updateMode(configLib.readConfig(home))})`);
+    // The key maps to a mode (on: auto, off: notify) and the last key set wins: unchanged
+    // means the mode it maps to is already the mode, not merely "auto or not" (B-323).
+    const was = configLib.updateMode(configLib.readConfig(home));
+    const want = value === 'on' ? 'auto' : 'notify';
+    if (was !== want) configLib.setAutoUpdate(home, value);
+    log(`update.auto: ${value} (update.mode: ${was === want ? `${want}, без изменений` : `${was} → ${want}`})`);
     log(value === 'off'
       ? 'Набор больше не обновляется сам. Обновить вручную: npx sshlg-skills@latest update'
       : 'Набор будет обновляться сам: каждую ночь и когда ты отойдёшь, целиком, все паки.');
@@ -4722,7 +4721,7 @@ function cmdUninstall(f) {
     log('\n== Removing the nightly update job ==');
     const res = sched.apply(p, o);
     for (const l of res.lines) log(`  ${l}`);
-    try { fs.rmSync(sched.schedulerDir(o.home), { recursive: true, force: true }); } catch (_) { /* nothing to run it */ }
+    if (res.ok) { try { fs.rmSync(sched.schedulerDir(o.home), { recursive: true, force: true }); } catch (_) { /* nothing to run it */ } }
     ok = res.ok && ok;
   } catch (e) { log(`  ! nightly job not removed: ${e.message}`); ok = false; }
 

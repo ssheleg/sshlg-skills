@@ -367,6 +367,33 @@ it('the runner starts npm and npx through a shell on Windows only, and the job r
   assert.strictEqual(U.shouldAutoUpdate({}, Object.assign({}, cache, { ranAt: now - H20 + 1000 }), now, U.SCHEDULED_INTERVAL_MS).run, false);
 });
 
+it('the job never registers itself, on any platform; an older ownership line is still ours', () => {
+  const win = recorder();
+  const o = base('schtasks', { run: win.run, env: { SSHLG_SKILLS_JOB: '1' }, read: () => ({ text: null }) });
+  const r = S.apply(S.plan(o), o);
+  assert.strictEqual(r.ok, true);
+  assert.ok(!win.calls.some((c) => c.includes('/Create')), `the Windows job re-created its own running task: ${win.calls.join(' | ')}`);
+  const want = S.jobFiles('launchd', base('launchd'))[0].text;
+  const older = want.replace(S.MARK, `${S.OWNER} (an older release's wording).`);
+  assert.strictEqual(S.plan(base('launchd', { read: () => ({ text: older }) })).state, 'update', 'a reworded ownership line made our own job foreign');
+  assert.strictEqual(S.plan(base('launchd', { mode: 'off', read: () => ({ text: older }) })).state, 'remove');
+});
+
+it('setting notify or off also writes the older key a 1.85 runtime reads', () => {
+  const home = tmpHome();
+  try {
+    const C = require('../lib/config.js');
+    for (const mode of ['notify', 'off']) {
+      C.setUpdateMode(home, mode);
+      const u = C.readConfig(home).update;
+      assert.strictEqual(u.mode, mode);
+      assert.strictEqual(u.auto !== 'off', false, `${mode}: the 1.85 expression \`auto !== 'off'\` still says update`);
+    }
+    C.setUpdateMode(home, 'auto');
+    assert.deepStrictEqual(C.readConfig(home).update || {}, {});
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
 // --- the runner the job executes (lib/updaterun.js --scheduled) ----------------------------
 const ROOT = path.join(__dirname, '..');
 const SELF = require('../package.json').version;

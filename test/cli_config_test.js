@@ -411,7 +411,22 @@ it('config set update.mode writes and removes the nightly job at once, never tou
     assert.ok(fs.existsSync(job), 'update.auto on did not bring the job back');
     r = go(['schedule', '--revert']);
     assert.ok(!fs.existsSync(job), 'schedule --revert left the job');
-    assert.match(go(['config']).stdout, /update\.mode\s+notify/);
+    assert.match(go(['config']).stdout, /update\.mode\s+notify/, 'schedule --revert did not set notify');
+    // The last key set wins: update.auto off after update.mode off is notify, not "unchanged".
+    go(['config', 'set', 'update.mode', 'off']);
+    r = go(['config', 'set', 'update.auto', 'off']);
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+    assert.match(go(['config']).stdout, /update\.mode\s+notify/, 'update.auto off after update.mode off kept off');
+    const cfg = JSON.parse(fs.readFileSync(path.join(home, '.sshlg-skills', 'config.json'), 'utf8'));
+    assert.strictEqual(cfg.update.auto, 'off', 'a 1.85 runtime reading only update.auto would update anyway');
+    go(['config', 'set', 'update.mode', 'auto']);
+    // A foreign file at the job's path: update.auto on reports it and exits 1, as update does.
+    fs.writeFileSync(job, 'not ours\n');
+    go(['config', 'set', 'update.mode', 'notify']);
+    r = go(['config', 'set', 'update.auto', 'on']);
+    assert.strictEqual(r.status, 1, `update.auto on beside a foreign job file exited ${r.status}`);
+    assert.strictEqual(fs.readFileSync(job, 'utf8'), 'not ours\n');
+    fs.unlinkSync(job);
     assert.ok(!fs.existsSync(calls), `a fixture HOME reached the OS scheduler: ${fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8') : ''}`);
   } finally { fs.rmSync(home, { recursive: true, force: true }); }
 });
