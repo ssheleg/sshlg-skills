@@ -368,11 +368,20 @@ it('the runner starts npm and npx through a shell on Windows only, and the job r
 });
 
 it('the job never registers itself, on any platform; an older ownership line is still ours', () => {
-  const win = recorder();
-  const o = base('schtasks', { run: win.run, env: { SSHLG_SKILLS_JOB: '1' }, read: () => ({ text: null }) });
-  const r = S.apply(S.plan(o), o);
-  assert.strictEqual(r.ok, true);
-  assert.ok(!win.calls.some((c) => c.includes('/Create')), `the Windows job re-created its own running task: ${win.calls.join(' | ')}`);
+  for (const platform of ['schtasks', 'launchd', 'systemd']) {
+    const home = tmpHome();
+    try {
+      // An interactive run first, so the record says the OS holds exactly this definition.
+      const o = { platform, home, node: NODE, uid: 501, mode: 'auto', run: recorder().run, env: {} };
+      S.apply(S.plan(o), o);
+      const job = recorder();
+      const inJob = Object.assign({}, o, { run: job.run, env: { SSHLG_SKILLS_JOB: '1' } });
+      const r = S.apply(S.plan(inJob), inJob);
+      assert.strictEqual(r.ok, true);
+      assert.deepStrictEqual(job.calls, [], `${platform}: the job touched its own registration: ${job.calls.join(' | ')}`);
+      assert.deepStrictEqual(r.lines, [], `${platform}: a level job printed a line from inside itself`);
+    } finally { fs.rmSync(home, { recursive: true, force: true }); }
+  }
   const want = S.jobFiles('launchd', base('launchd'))[0].text;
   const older = want.replace(S.MARK, `${S.OWNER} (an older release's wording).`);
   assert.strictEqual(S.plan(base('launchd', { read: () => ({ text: older }) })).state, 'update', 'a reworded ownership line made our own job foreign');

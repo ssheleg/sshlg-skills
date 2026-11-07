@@ -121,7 +121,7 @@ it('update.mode off says nothing and asks the registry nothing; a past run is st
   assert.match(U.plan('1.48.0', ran, 1_000_000_000, undefined, off).line, /updated while you were away/);
   assert.strictEqual(U.autoLine(off), '');
   assert.strictEqual(U.autoLine({ update: { mode: 'notify' } }), '');
-  assert.match(U.autoLine({}), /daily and when you go idle/);
+  assert.match(U.autoLine({}), /at night \(04:MM local\) and when you go idle/);
 });
 
 it('a Codex deferral is a partial success with its own line, never FAILED (B-323)', () => {
