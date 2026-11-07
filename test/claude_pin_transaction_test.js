@@ -272,7 +272,7 @@ test('B-326: an owned source re-saved in another key order still plans',f=>{
  wedge(f,s=>{const src=s.extraKnownMarketplaces.fixture.source;s.extraKnownMarketplaces.fixture.source=Object.fromEntries(Object.entries(src).reverse());});assert.equal(f.plan().jobs[0].action,'verify');
 });
 test('B-326: a run that began with no settings file plans when no owned key exists now',f=>{
- const r=wedge(f);edit(r,rec=>{const b=settingsCopy(rec);b.action='no-file';delete b.path;});
+ const r=wedge(f);edit(r,rec=>{const i=rec.backups.indexOf(settingsCopy(rec));rec.backups[i]={action:'no-file',file:rec.backups[i].file};});
  const s=JSON.parse(fs.readFileSync(f.sf));delete s.enabledPlugins[f.id];delete s.extraKnownMarketplaces;fs.writeFileSync(f.sf,JSON.stringify(s));
  assert.equal(f.plan().jobs[0].action,'verify');
 });
@@ -292,8 +292,12 @@ test('B-326: a receipt naming another transaction directory refuses',f=>{
 });
 test('B-326: each refusal names its own remedy',f=>{
  const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});assert.throws(f.plan,/settingsRestored/);
- edit(r,rec=>{rec.uncertain=true;rec.settingsRestored=true;});assert.throws(f.plan,/outcome is uncertain/);
- edit(r,rec=>{rec.status='running';});assert.throws(f.plan,/in progress or interrupted/);
+ edit(r,rec=>{rec.uncertain=true;rec.settingsRestored=true;});assert.throws(f.plan,/outcome is uncertain.*"uncertain"/);
+ edit(r,rec=>{rec.status='running';});assert.throws(f.plan,/in progress or interrupted.*"status"/);
+ fs.mkdirSync(path.join(path.dirname(latestOf(r)),'lock'));edit(r,rec=>{rec.status='complete';rec.uncertain=false;});assert.throws(f.plan,/lock directory .*remove it/);
+ fs.rmSync(path.join(path.dirname(latestOf(r)),'lock'),{recursive:true});assert.equal(f.plan().jobs[0].action,'verify');
+ edit(r,rec=>{rec.status='running';});assert.throws(f.plan,/in progress/);edit(r,rec=>{rec.status='failed';rec.settingsRestored=true;});assert.equal(f.plan().jobs[0].action,'verify');
+ edit(r,rec=>{rec.uncertain=true;});assert.throws(f.plan,/uncertain/);edit(r,rec=>{rec.uncertain=false;});assert.equal(f.plan().jobs[0].action,'verify');
 });
 // A faithful copy of the failed transaction placed where only one check stands in its way.
 function relocate(f,r,dir) {
@@ -322,5 +326,34 @@ test('B-326: two settings backups in one receipt are ambiguous and refuse',f=>{
 });
 test('B-326: results that are not a list refuse with the remedy, never a TypeError',f=>{
  const r=wedge(f);edit(r,rec=>{rec.results={};});assert.throws(f.plan,/incomplete Claude transaction.*settingsRestored/);
+});
+const REMEDY=/incomplete Claude transaction.*settingsRestored/;
+for(const [what,fn] of [
+ ['a null result',rec=>{rec.results.push(null);}],
+ ['a string result',rec=>{rec.results.push('x');}],
+ ['no receipt path',rec=>{delete rec.receipt;}],
+ ['a numeric receipt path',rec=>{rec.receipt=42;}],
+ ['a settings copy of another kind than saved or no-file',rec=>{settingsCopy(rec).action='adopted';}],
+]) test('B-326: '+what+' refuses with the remedy, never a TypeError or a plan',f=>{const r=wedge(f);edit(r,fn);assert.throws(f.plan,REMEDY);});
+for(const [what,jobs] of [['no jobs',[]],['a null job',[null]],['a job without a marketplace',[{pluginInstall:'probe'}]],['jobs that are not a list',{}],['no jobs key',undefined]])
+ test('B-326: a recovery plan with '+what+' refuses with the remedy',f=>{
+  const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const plan=JSON.parse(fs.readFileSync(rec.recoveryPlan));
+  if(jobs===undefined) delete plan.jobs; else plan.jobs=jobs;fs.writeFileSync(rec.recoveryPlan,JSON.stringify(plan));assert.throws(f.plan,REMEDY);
+ });
+for(const name of ['x1-bbbbbbbbbbbb','2-bbbbbbbbbbbbz'])
+ test('B-326: a faithful copy under the near-transaction name '+name+' is not read',f=>{const r=wedge(f);relocate(f,r,path.join(path.dirname(path.dirname(r.receipt)),name));assert.throws(f.plan,/incomplete/);});
+test('B-326: a directory whose name only extends the transaction\'s is not inside it',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});const twin=path.dirname(r.receipt)+'0';fs.mkdirSync(twin);const out=path.join(twin,'settings.json');fs.copyFileSync(f.sf,out);
+ edit(r,rec=>{settingsCopy(rec).path=out;});assert.throws(f.plan,/incomplete/);
+});
+test('B-326: a complete receipt plans whatever flags it carries, as in 1.86.1',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});edit(r,rec=>{rec.status='complete';rec.uncertain=true;rec.settingsRestored=false;});assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: a settings copy that is not an object is not a backup',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));fs.writeFileSync(settingsCopy(rec).path,'[]');
+ const s=JSON.parse(fs.readFileSync(f.sf));delete s.enabledPlugins[f.id];delete s.extraKnownMarketplaces;fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
+});
+test('B-326: a path with a dot segment inside the transaction is not read',f=>{
+ const r=wedge(f);edit(r,rec=>{const b=settingsCopy(rec);b.path=path.join(path.dirname(rec.receipt),'backups','..','backups',path.basename(b.path)).replace(path.sep+'backups'+path.sep+path.basename(b.path),path.sep+'backups'+path.sep+'.'+path.sep+path.basename(b.path));});assert.throws(f.plan,REMEDY);
 });
 console.log(`PASS: Claude native transaction — ${count} cases`);
