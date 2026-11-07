@@ -375,4 +375,26 @@ test('B-326: an owned source of another type at the same path refuses',f=>{
  wedge(f,s=>{s.extraKnownMarketplaces.fixture.source={...s.extraKnownMarketplaces.fixture.source,source:'git'};});assert.throws(f.plan,REMEDY);
 });
 test('B-326: a faithful copy under a 13-hex name is not a transaction',f=>{const r=wedge(f);relocate(f,r,path.join(path.dirname(path.dirname(r.receipt)),'2-bbbbbbbbbbbbb'));assert.throws(f.plan,/incomplete/);});
+test('B-326: with two members, a moved marketplace source of the second refuses',f=>{
+ const r=wedge(f,s=>{s.extraKnownMarketplaces.othermk={source:{source:'directory',path:'/moved'}};});twoJobs(r);assert.throws(f.plan,REMEDY);
+});
+test('B-326: an owned entry null in the backup and absent now refuses, and the reverse',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ const kept=JSON.parse(fs.readFileSync(b));kept.enabledPlugins[f.id]=null;fs.writeFileSync(b,JSON.stringify(kept));
+ const s=JSON.parse(fs.readFileSync(f.sf));delete s.enabledPlugins[f.id];fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
+ delete kept.enabledPlugins[f.id];fs.writeFileSync(b,JSON.stringify(kept));s.enabledPlugins[f.id]=null;fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
+});
+test('B-326: an uncertain first install names the uncertain remedy, not the settings one',f=>{
+ f.setHook(a=>a[1]==='marketplace'?{status:null,signal:'SIGKILL'}:null);const r=f.execute();assert(!r.ok);
+ const rec=JSON.parse(fs.readFileSync(r.receipt));assert.equal(rec.uncertain,true);assert.throws(f.plan,/outcome is uncertain/);
+});
+test('B-326: a run in flight holds the lock and records running; the next one is told about the lock',f=>{
+ let seen=null;f.setHook(a=>{if(a[1]==='marketplace' && !seen){try{f.plan();}catch(e){seen=e.message;}}return null;});f.execute();
+ assert.match(seen,/lock directory .*remove it/);
+});
+test('B-326: an owned source null in the backup and absent now refuses',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ const kept=JSON.parse(fs.readFileSync(b));kept.extraKnownMarketplaces={fixture:{source:null}};fs.writeFileSync(b,JSON.stringify(kept));
+ const s=JSON.parse(fs.readFileSync(f.sf));s.extraKnownMarketplaces={fixture:{}};fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
