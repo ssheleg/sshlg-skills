@@ -403,6 +403,23 @@ it('setting notify or off also writes the older key a 1.85 runtime reads', () =>
   } finally { fs.rmSync(home, { recursive: true, force: true }); }
 });
 
+it('a job directory that cannot be written is a named failure, never a stack trace', () => {
+  if (process.platform === 'win32' || (process.getuid && process.getuid() === 0)) return;
+  for (const platform of ['launchd', 'systemd']) {
+    const home = tmpHome();
+    try {
+      const dir = path.dirname(S.jobFiles(platform, { home, node: NODE })[0].file);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.chmodSync(dir, 0o555);
+      const o = { platform, home, node: NODE, uid: 501, mode: 'auto', run: recorder().run };
+      let r;
+      try { r = S.apply(S.plan(o), o); } finally { fs.chmodSync(dir, 0o755); }
+      assert.strictEqual(r.ok, false);
+      assert.ok(r.lines.some((l) => /^not scheduled: .*EACCES/.test(l)), `${platform}: ${r.lines.join(' | ')}`);
+    } finally { fs.rmSync(home, { recursive: true, force: true }); }
+  }
+});
+
 // --- the runner the job executes (lib/updaterun.js --scheduled) ----------------------------
 const ROOT = path.join(__dirname, '..');
 const SELF = require('../package.json').version;

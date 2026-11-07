@@ -465,6 +465,19 @@ it('blocked Claude members make the update partial without stopping later channe
     assert.deepStrictEqual(JSON.parse(fs.readFileSync(outcome, 'utf8')), { ok: false, codexDeferredOnly: false },
       'a partial update with Codex out of scope was recorded as only Codex held back');
     assert.match(out, /blocked, left as installed/);
+    // B-323: a job directory that cannot be written is named, and the rest of update still runs.
+    if (job && (!process.getuid || process.getuid() !== 0)) {
+      fs.rmSync(job, { force: true });
+      fs.chmodSync(path.dirname(job), 0o555);
+      let r2;
+      try {
+        r2 = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: path.join(home, '.claude'), PATH: `${shims}${path.delimiter}${process.env.PATH}` }) });
+      } finally { fs.chmodSync(path.dirname(job), 0o755); }
+      const out2 = (r2.stdout || '') + (r2.stderr || '');
+      assert.match(out2, /not scheduled: .*EACCES/, out2.slice(-800));
+      assert.match(out2, /== How the next version arrives ==/, 'an unwritable job directory ended update early');
+      assert.ok(!/\n\s+at .*\(.*\.js:\d+:\d+\)/.test(out2), 'update printed a stack trace');
+    }
     assert.match(out, /== Refreshing the routing block ==/, 'a blocked member stopped the later channels');
     // B-242: a partial run never ends on the green summary line (retro #8).
     assert.doesNotMatch(out, /all green/, 'a partial update printed the green summary');

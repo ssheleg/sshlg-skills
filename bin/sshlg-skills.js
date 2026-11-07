@@ -819,8 +819,16 @@ function refreshSchedule(f) {
     const r = require('../lib/runtime.js').sync(ROOT, sched.schedulerDir(o.home), { create: true });
     if (r.ok === false) { log(`  not scheduled: the runner copy was not refreshed (${r.reason})`); return false; }
   }
-  const p = sched.plan(o);
-  const res = sched.apply(p, o);
+  let p;
+  let res;
+  try {
+    p = sched.plan(o);
+    res = sched.apply(p, o);
+  } catch (e) {
+    // Never a stack trace that skips the rest of install or update: named, and the run goes on.
+    log(`  not scheduled: ${e.code || e.message}`);
+    return false;
+  }
   for (const l of res.lines) log(`  ${l}`);
   if (o.mode !== 'auto' && p.state === 'remove' && res.ok) {  // a job left registered keeps its runner
     try { fs.rmSync(sched.schedulerDir(o.home), { recursive: true, force: true }); } catch (_) { /* a copy left behind runs nothing */ }

@@ -39,11 +39,12 @@
   now writes how it ended to the file the runner names (`SSHLG_SKILLS_OUTCOME`); when Codex was
   the only thing held back, the record is `ok: true, deferred: true` and the next session says
   the set updated and Codex is waiting. The `update` exit code itself is unchanged.
-- Tests: `test/updatesched_test.js` (new, 29 cases: plans per platform, `plutil -lint` on the
+- Tests: `test/updatesched_test.js` (new, 30 cases: plans per platform, `plutil -lint` on the
   plist, three applies leaving the same bytes and one registration, removal with copies, a
   foreign file kept, the node path, the HOME gate, the job guarding itself, an unreachable
   scheduler, the copy before unregistering, the job never registering itself on any platform,
-  an older ownership line, the legacy `update.auto` key, the outcome rule, the runner end to end with stub
+  an older ownership line, the legacy `update.auto` key, an unwritable job directory named and
+  not fatal, the outcome rule, the runner end to end with stub
   `npm` and `npx`); `test/updatecheck_test.js` 27 cases (the modes, the deferred line);
   `test/cli_config_test.js` runs a real partial `update` in a fixture HOME with logging shims
   for `launchctl`, `systemctl` and `schtasks` and asserts none was called, the outcome file
