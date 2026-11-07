@@ -1,0 +1,293 @@
+'use strict';
+/**
+ * The nightly update job (B-323, lib/updatesched.js): the plan per platform from fixtures, and
+ * the writes against a temporary HOME with an injected runner, so no test registers anything
+ * with this machine's launchd, systemd or Task Scheduler.
+ */
+const assert = require('assert');
+const crypto = require('crypto');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const { spawnSync } = require('child_process');
+const S = require('../lib/updatesched.js');
+
+let n = 0;
+const it = (name, fn) => { fn(); n += 1; console.log(`  ok  ${name}`); };
+
+const HOME = '/home/someone';
+const NODE = '/opt/node v26/bin/node';
+const base = (platform, extra) => Object.assign({ platform, home: HOME, node: NODE, uid: 501, mode: 'auto',
+  read: () => ({ text: null }) }, extra);
+const tmpHome = () => fs.mkdtempSync(path.join(os.tmpdir(), 'sched-home-'));
+const recorder = (codes) => {
+  const calls = [];
+  const run = (cmd, args) => { calls.push([cmd, ...args].join(' ')); const c = codes && codes(cmd, args); return { code: c || 0, stdout: '', stderr: c ? 'boom' : '' }; };
+  return { calls, run };
+};
+const sha = (f) => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+
+it('the platform names its scheduler; anything else is unsupported, not guessed', () => {
+  assert.strictEqual(S.platformOf('darwin'), 'launchd');
+  assert.strictEqual(S.platformOf('linux'), 'systemd');
+  assert.strictEqual(S.platformOf('win32'), 'schtasks');
+  assert.strictEqual(S.platformOf('freebsd'), null);
+  assert.strictEqual(S.plan(base(null)).state, 'unsupported');
+});
+
+it('the time is the same for one account on every run, at night, and differs across accounts', () => {
+  const a = S.slot('/Users/a');
+  assert.deepStrictEqual(a, S.slot('/Users/a'));
+  assert.strictEqual(a.hour, 4);
+  assert.ok(a.minute >= 0 && a.minute < 60);
+  const minutes = new Set(Array.from({ length: 40 }, (_, i) => S.slot(`/Users/u${i}`).minute));
+  assert.ok(minutes.size > 10, `40 accounts share ${minutes.size} minutes`);
+});
+
+it('launchd: one plist, the absolute node, the runner copy, a calendar slot, a PATH that is not the shell\'s', () => {
+  const [f] = S.jobFiles('launchd', base('launchd'));
+  assert.strictEqual(f.file, path.join(HOME, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist'));
+  assert.ok(f.text.includes(S.MARK), 'the file does not say who owns it');
+  assert.ok(f.text.includes('<string>/opt/node v26/bin/node</string>'));
+  assert.ok(f.text.includes(`<string>${path.join(HOME, '.sshlg-skills', 'scheduler', 'lib', 'updaterun.js')}</string>`));
+  assert.ok(f.text.includes('<string>--scheduled</string>'));
+  assert.ok(f.text.includes(`<key>Minute</key><integer>${S.slot(HOME).minute}</integer>`));
+  assert.ok(f.text.includes('<string>/opt/node v26/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>'));
+  assert.ok(!/RunAtLoad/.test(f.text), 'a login must not start an update mid-work');
+  const amp = S.jobFiles('launchd', base('launchd', { node: '/a&b/<n>/node' }))[0].text;
+  assert.ok(amp.includes('/a&amp;b/&lt;n&gt;/node'), 'a path with XML characters breaks the plist');
+});
+
+it('launchd: the plist is one plutil accepts (macOS only)', () => {
+  if (process.platform !== 'darwin') return;
+  const d = tmpHome();
+  try {
+    const f = path.join(d, 'job.plist');
+    fs.writeFileSync(f, S.jobFiles('launchd', base('launchd', { node: '/a&b/node' }))[0].text);
+    const r = spawnSync('plutil', ['-lint', f], { encoding: 'utf8' });
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+  } finally { fs.rmSync(d, { recursive: true, force: true }); }
+});
+
+it('systemd: a oneshot service and a persistent timer, ExecStart quoted the way systemd reads it', () => {
+  const [svc, timer] = S.jobFiles('systemd', base('systemd', { node: '/x/"q"\\node' }));
+  assert.strictEqual(svc.file, path.join(HOME, '.config', 'systemd', 'user', 'sshlg-skills-update.service'));
+  assert.ok(svc.text.includes('Type=oneshot'));
+  assert.ok(svc.text.includes('ExecStart="/x/\\"q\\"\\\\node" '), svc.text);
+  assert.ok(svc.text.includes(' --scheduled\n'));
+  const m = String(S.slot(HOME).minute).padStart(2, '0');
+  assert.ok(timer.text.includes(`OnCalendar=*-*-* 04:${m}:00`));
+  assert.ok(timer.text.includes('Persistent=true'), 'a night missed while off is never caught up');
+  assert.ok(timer.text.includes('WantedBy=timers.target'));
+  for (const f of [svc, timer]) assert.ok(f.text.includes(S.MARK));
+});
+
+it('register and unregister commands per platform; a missing job is not an error to remove', () => {
+  const o = base('launchd');
+  assert.deepStrictEqual(S.registerCommands('launchd', o).map((c) => [c.cmd, ...c.args].join(' ')), [
+    'launchctl bootout gui/501/me.sshlg.skills.update',
+    `launchctl bootstrap gui/501 ${path.join(HOME, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist')}`]);
+  assert.strictEqual(S.registerCommands('launchd', o)[0].allowFail, true);
+  assert.deepStrictEqual(S.registerCommands('systemd', o).map((c) => c.args.join(' ')),
+    ['--user daemon-reload', '--user enable --now sshlg-skills-update.timer']);
+  const win = S.registerCommands('schtasks', base('schtasks', { node: 'C:\\node\\node.exe', script: 'C:\\u\\run.js' }))[0];
+  assert.deepStrictEqual(win.args.slice(0, 7), ['/Create', '/F', '/SC', 'DAILY', '/ST', `04:${String(S.slot(HOME).minute).padStart(2, '0')}`, '/TN']);
+  assert.strictEqual(win.args[9], '"C:\\node\\node.exe" "C:\\u\\run.js" --scheduled');
+  for (const p of ['launchd', 'systemd', 'schtasks']) {
+    assert.ok(S.unregisterCommands(p, o).every((c) => c.allowFail), p);
+  }
+});
+
+it('plan: absent → install; ours and level → current; ours and different → update; foreign → conflict', () => {
+  const want = S.jobFiles('launchd', base('launchd'))[0].text;
+  assert.strictEqual(S.plan(base('launchd')).state, 'install');
+  assert.strictEqual(S.plan(base('launchd', { read: () => ({ text: want }) })).state, 'current');
+  assert.strictEqual(S.plan(base('launchd', { read: () => ({ text: `${want}<!-- old -->` }) })).state, 'update');
+  const foreign = S.plan(base('launchd', { read: () => ({ text: '<plist/>' }) }));
+  assert.strictEqual(foreign.state, 'conflict');
+  assert.match(foreign.reason, /not written by sshlg-skills/);
+  assert.strictEqual(S.plan(base('launchd', { read: () => ({ error: 'EACCES' }) })).state, 'unreadable');
+});
+
+it('plan: notify and off remove our job and leave a foreign file alone', () => {
+  const want = S.jobFiles('launchd', base('launchd'))[0].text;
+  for (const mode of ['notify', 'off']) {
+    const p = S.plan(base('launchd', { mode, read: () => ({ text: want }) }));
+    assert.strictEqual(p.state, 'remove', mode);
+    assert.strictEqual(p.files[0].next, null);
+    assert.strictEqual(S.plan(base('launchd', { mode })).state, 'absent');
+    assert.strictEqual(S.plan(base('launchd', { mode, read: () => ({ text: '<plist/>' }) })).state, 'absent');
+  }
+});
+
+it('Windows: a task command over 261 characters is unsupported, said, never truncated', () => {
+  const long = base('schtasks', { node: `C:\\${'n'.repeat(250)}\\node.exe` });
+  const p = S.plan(long);
+  assert.strictEqual(p.state, 'unsupported');
+  assert.match(p.reason, /261/);
+});
+
+it('apply: writes and registers, three runs leave the same bytes and register once', () => {
+  const home = tmpHome();
+  try {
+    const rec = recorder((cmd, args) => (args[0] === 'print' && !rec.calls.some((c) => c.includes('bootstrap')) ? 113 : 0));
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: rec.run };
+    const first = S.apply(S.plan(o), o);
+    assert.strictEqual(first.ok, true, first.lines.join('\n'));
+    assert.strictEqual(first.state, 'install');
+    const plist = path.join(home, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist');
+    const hashes = [sha(plist)];
+    for (let i = 0; i < 2; i += 1) {
+      const again = S.apply(S.plan(o), o);
+      assert.strictEqual(again.state, 'current');
+      hashes.push(sha(plist));
+    }
+    assert.strictEqual(new Set(hashes).size, 1, 'a rerun changed the job file');
+    assert.strictEqual(rec.calls.filter((c) => c.includes('bootstrap')).length, 1, rec.calls.join('\n'));
+    const record = JSON.parse(fs.readFileSync(path.join(home, '.sshlg-skills', 'schedule.json'), 'utf8'));
+    assert.deepStrictEqual(record.files, [plist]);
+    assert.strictEqual(record.platform, 'launchd');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('apply: a job the OS lost is registered again even when the file is level', () => {
+  const home = tmpHome();
+  try {
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: recorder().run };
+    S.apply(S.plan(o), o);
+    const lost = recorder((cmd, args) => (args[0] === 'print' ? 113 : 0));
+    const r = S.apply(S.plan(Object.assign({}, o, { run: lost.run })), Object.assign({}, o, { run: lost.run }));
+    assert.strictEqual(r.state, 'current');
+    assert.ok(lost.calls.some((c) => c.includes('bootstrap')), lost.calls.join('\n'));
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('apply: a fixture HOME gets the files and never touches the OS scheduler', () => {
+  const home = tmpHome();
+  try {
+    const rec = recorder();
+    const o = { platform: 'systemd', home, node: NODE, uid: 501, mode: 'auto', run: rec.run, register: false };
+    const r = S.apply(S.plan(o), o);
+    assert.strictEqual(r.ok, true);
+    assert.deepStrictEqual(rec.calls, []);
+    assert.ok(r.lines.some((l) => /not registered with the OS/.test(l)));
+    assert.ok(fs.existsSync(path.join(home, '.config', 'systemd', 'user', 'sshlg-skills-update.timer')));
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('apply: a failed registration is a failure, named with the command', () => {
+  const home = tmpHome();
+  try {
+    const rec = recorder((cmd, args) => (args.includes('enable') ? 1 : 0));
+    const o = { platform: 'systemd', home, node: NODE, uid: 501, mode: 'auto', run: rec.run };
+    const r = S.apply(S.plan(o), o);
+    assert.strictEqual(r.ok, false);
+    assert.ok(r.lines.some((l) => /not registered: systemctl --user enable --now sshlg-skills-update\.timer exited 1/.test(l)), r.lines.join('\n'));
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('apply: removal unregisters, copies each file before deleting it, and clears the record', () => {
+  const home = tmpHome();
+  try {
+    const rec = recorder();
+    const o = { platform: 'systemd', home, node: NODE, uid: 501, mode: 'auto', run: rec.run };
+    S.apply(S.plan(o), o);
+    const off = Object.assign({}, o, { mode: 'notify' });
+    const r = S.apply(S.plan(off), off);
+    assert.strictEqual(r.ok, true, r.lines.join('\n'));
+    assert.strictEqual(r.state, 'remove');
+    const dir = path.join(home, '.config', 'systemd', 'user');
+    assert.deepStrictEqual(fs.readdirSync(dir), []);
+    assert.ok(r.lines.filter((l) => /^removed .*\(copy: /.test(l)).length === 2, r.lines.join('\n'));
+    assert.ok(rec.calls.includes('systemctl --user disable --now sshlg-skills-update.timer'));
+    assert.ok(!fs.existsSync(path.join(home, '.sshlg-skills', 'schedule.json')));
+    const again = S.apply(S.plan(off), off);
+    assert.strictEqual(again.state, 'absent');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('apply: a foreign file where ours would go is left byte for byte', () => {
+  const home = tmpHome();
+  try {
+    const plist = path.join(home, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist');
+    fs.mkdirSync(path.dirname(plist), { recursive: true });
+    fs.writeFileSync(plist, '<plist>mine</plist>\n');
+    const rec = recorder();
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: rec.run };
+    const r = S.apply(S.plan(o), o);
+    assert.strictEqual(r.ok, false);
+    assert.strictEqual(fs.readFileSync(plist, 'utf8'), '<plist>mine</plist>\n');
+    assert.deepStrictEqual(rec.calls, []);
+    const rm = Object.assign({}, o, { mode: 'off' });
+    assert.strictEqual(S.apply(S.plan(rm), rm).state, 'absent');
+    assert.strictEqual(fs.readFileSync(plist, 'utf8'), '<plist>mine</plist>\n');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+// --- the runner the job executes (lib/updaterun.js --scheduled) ----------------------------
+const ROOT = path.join(__dirname, '..');
+const SELF = require('../package.json').version;
+function runScheduled(opts) {
+  const home = fs.realpathSync(tmpHome());
+  const stubs = fs.mkdtempSync(path.join(os.tmpdir(), 'sched-stubs-'));
+  const npm = opts.npm === null ? '#!/bin/sh\nexit 1\n' : `#!/bin/sh\necho ${opts.npm}\n`;
+  fs.writeFileSync(path.join(stubs, 'npm'), npm, { mode: 0o755 });
+  fs.writeFileSync(path.join(stubs, 'npx'), `#!/bin/sh\ntouch "$HOME/npx-ran"\n${opts.npx || 'exit 0'}\n`, { mode: 0o755 });
+  fs.mkdirSync(path.join(home, '.sshlg-skills'), { recursive: true });
+  if (opts.config) fs.writeFileSync(path.join(home, '.sshlg-skills', 'config.json'), JSON.stringify(opts.config));
+  if (opts.state) fs.writeFileSync(path.join(home, '.sshlg-skills', 'state.json'), JSON.stringify(opts.state));
+  const r = spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js'), '--scheduled'],
+    { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, USERPROFILE: home, PATH: `${stubs}:${process.env.PATH}` }) });
+  let st = {};
+  try { st = JSON.parse(fs.readFileSync(path.join(home, '.sshlg-skills', 'state.json'), 'utf8')); } catch (_) { st = {}; }
+  const out = { code: r.status, ran: fs.existsSync(path.join(home, 'npx-ran')), uc: st.updateCheck || {},
+    leftovers: fs.readdirSync(path.join(home, '.sshlg-skills')).filter((f) => f.startsWith('update-outcome')) };
+  fs.rmSync(home, { recursive: true, force: true });
+  fs.rmSync(stubs, { recursive: true, force: true });
+  return out;
+}
+
+if (process.platform !== 'win32') {
+  it('--scheduled asks the registry, then updates when a newer set is out, and records it', () => {
+    const r = runScheduled({ npm: '99.0.0',
+      npx: 'mkdir -p "$HOME/.sshlg-skills/scheduler"\necho \'{"version":"99.0.0"}\' > "$HOME/.sshlg-skills/scheduler/package.json"\nexit 0' });
+    assert.strictEqual(r.code, 0);
+    assert.strictEqual(r.ran, true, 'a newer set was out and nothing ran');
+    assert.strictEqual(r.uc.latest, '99.0.0');
+    assert.deepStrictEqual([r.uc.from, r.uc.to, r.uc.ok], [SELF, '99.0.0', true]);
+    assert.ok(require('../lib/updatecheck.js').ranLine(r.uc, Date.now()).includes(`${SELF} → 99.0.0`));
+  });
+
+  it('--scheduled: the same set, a registry that does not answer, or a run within a day: nothing runs', () => {
+    const same = runScheduled({ npm: SELF });
+    assert.strictEqual(same.ran, false);
+    assert.strictEqual(same.uc.latest, SELF, 'the registry answer was not recorded');
+    assert.strictEqual(runScheduled({ npm: null }).ran, false);
+    const recent = runScheduled({ npm: '99.0.0', state: { updateCheck: { ranAt: Date.now() - 60000, ok: false } } });
+    assert.strictEqual(recent.ran, false, 'the job retried inside the interval the idle updater keeps');
+  });
+
+  it('--scheduled: update.mode notify or off runs nothing and asks nothing', () => {
+    for (const config of [{ update: { mode: 'notify' } }, { update: { mode: 'off' } }, { update: { auto: 'off' } }]) {
+      const r = runScheduled({ npm: '99.0.0', config });
+      assert.strictEqual(r.ran, false, JSON.stringify(config));
+      assert.strictEqual(r.uc.latest, undefined, `${JSON.stringify(config)}: the registry was asked`);
+    }
+  });
+
+  it('--scheduled: exit 1 with only Codex held is recorded as a partial success, a real exit 1 as FAILED', () => {
+    const held = runScheduled({ npm: '99.0.0',
+      npx: 'mkdir -p "$HOME/.sshlg-skills/scheduler"\necho \'{"version":"99.0.0"}\' > "$HOME/.sshlg-skills/scheduler/package.json"\n'
+        + 'echo \'{"ok":false,"codexDeferredOnly":true}\' > "$SSHLG_SKILLS_OUTCOME"\nexit 1' });
+    assert.deepStrictEqual([held.uc.ok, held.uc.deferred, held.uc.to], [true, true, '99.0.0'], JSON.stringify(held.uc));
+    assert.deepStrictEqual(held.leftovers, [], 'the outcome file was left behind');
+    const chk = require('../lib/updatecheck.js');
+    assert.ok(!/FAILED/.test(chk.ranLine(held.uc, Date.now())));
+    const failed = runScheduled({ npm: '99.0.0',
+      npx: 'echo \'{"ok":false,"codexDeferredOnly":false}\' > "$SSHLG_SKILLS_OUTCOME"\nexit 1' });
+    assert.deepStrictEqual([failed.uc.ok, failed.uc.deferred], [false, undefined]);
+    assert.match(chk.ranLine(failed.uc, Date.now()), /FAILED/);
+  });
+}
+
+console.log(`\nPASS: nightly update job — ${n} case(s)`);

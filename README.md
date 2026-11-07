@@ -235,6 +235,34 @@ npx --yes sshlg-skills@latest list    # what the current release of each member 
 there and behind, `list` to see what the current release of each member is. A member updated on its
 own leaves the bundle in a combination nobody tested, which is why `update` takes no member argument.
 
+### On its own: nightly and when you go idle
+
+```bash
+npx sshlg-skills schedule                         # the nightly job: mode, time, registered or not
+npx sshlg-skills config set update.mode notify    # only say a newer set is out; auto | notify | off
+npx sshlg-skills schedule --revert                # remove the job (and set update.mode notify)
+```
+
+By default (`update.mode auto`) the set installs itself twice over: when a Claude Code session
+goes idle (the `Notification` hook), and from 1.86.0 at night, by a job `install` and `update`
+register (B-323), so a machine whose agents run headless or whose sessions never sit idle moves
+too. On macOS it is a LaunchAgent, `~/Library/LaunchAgents/me.sshlg.skills.update.plist`, loaded
+with `launchctl bootstrap gui/<uid>`; a night missed while the Mac slept runs on wake. On Linux it
+is a user timer, `~/.config/systemd/user/sshlg-skills-update.{service,timer}` with
+`Persistent=true`. On Windows it is a daily task `sshlg-skills-update` (`schtasks`); a command
+longer than `schtasks /TR` takes (261 characters) is reported, not scheduled. The time is 04:MM
+local, the minute fixed per account. The job runs `node ~/.sshlg-skills/scheduler/lib/updaterun.js
+--scheduled` with node's absolute path, from a copy `update` refreshes: it asks the registry, and
+runs `npx --yes sshlg-skills@latest update` only when a newer set is out and no unattended run
+started in the last day. `update.lock` keeps it apart from the idle run and from yours. What it
+did is said once at the next session start; a run where only Codex held its plugins back (below)
+is reported as that, not as FAILED. `notify` writes nothing and removes the job: the session-start
+line says a set is out and what to run. `off` says nothing and asks the registry nothing. The job
+files carry an ownership line, are written through the same backup-first writer as the routing
+block, and a file of the same name without that line is left alone and reported. The OS is touched
+only when `HOME` is the account's own home, so a test or sandbox `HOME` gets the files and no job.
+The older `update.auto off` reads as `notify`. `uninstall` removes the job.
+
 ### The way back
 
 Install had no reverse until v1.47.0, and clearing an agent's skill store had no recoverable path

@@ -103,7 +103,39 @@ it('auto-update is ON unless the config says off — the file holds deviations',
   assert.strictEqual(U.shouldAutoUpdate({ update: { auto: 'on' } }, behind, now).run, true);
   const off = U.shouldAutoUpdate({ update: { auto: 'off' } }, behind, now);
   assert.strictEqual(off.run, false);
-  assert.match(off.why, /off in config/);
+  assert.match(off.why, /update\.mode is notify/, 'update.auto off reads as notify (B-323)');
+  for (const mode of ['notify', 'off']) {
+    assert.strictEqual(U.shouldAutoUpdate({ update: { mode } }, behind, now).run, false, mode);
+  }
+  assert.strictEqual(U.shouldAutoUpdate({ update: { auto: 'off', mode: 'auto' } }, behind, now).run, true,
+    'update.mode wins over the older key');
+});
+
+it('update.mode off says nothing and asks the registry nothing; a past run is still said (B-323)', () => {
+  const off = { update: { mode: 'off' } };
+  assert.strictEqual(U.line('1.47.1', '1.48.0', off), '');
+  const p = U.plan('1.47.1', { latest: '1.48.0', at: 0 }, 1_000_000_000, undefined, off);
+  assert.strictEqual(p.line, '');
+  assert.strictEqual(p.probe, false, 'off still spawns the registry probe');
+  const ran = Object.assign({ latest: '1.48.0', at: 0 }, U.ranRecord('1.47.1', '1.48.0', true, 999_999_000));
+  assert.match(U.plan('1.48.0', ran, 1_000_000_000, undefined, off).line, /updated while you were away/);
+  assert.strictEqual(U.autoLine(off), '');
+  assert.strictEqual(U.autoLine({ update: { mode: 'notify' } }), '');
+  assert.match(U.autoLine({}), /daily and when you go idle/);
+});
+
+it('a Codex deferral is a partial success with its own line, never FAILED (B-323)', () => {
+  const moved = U.ranLine(U.ranRecord('1.47.1', '1.48.0', true, 1, true), 2);
+  assert.match(moved, /1\.47\.1 → 1\.48\.0/);
+  assert.match(moved, /Codex keeps its plugins/);
+  assert.ok(!/FAILED/.test(moved));
+  assert.match(U.ranLine(U.ranRecord('1.47.1', null, true, 1, true), 2), /could not be read.*Codex keeps/);
+  assert.match(U.ranLine(U.ranRecord('1.48.0', '1.48.0', true, 1, true), 2), /ran\. Codex keeps/);
+  assert.strictEqual(U.ranRecord('1.47.1', '1.48.0', true, 1).deferred, undefined, 'the key is written only when true');
+  assert.strictEqual(U.startRecord(5).hasOwnProperty('deferred'), true, 'the stamp must clear the last outcome');
+  assert.strictEqual(U.startRecord(5).deferred, undefined);
+  assert.strictEqual(U.busyRecord(9, { ranAt: 1, ok: true, deferred: true }).deferred, true,
+    'a busy exit must put the whole previous outcome back');
 });
 
 it('nothing newer means no run — it does not spend idle on a no-op launcher', () => {
@@ -133,8 +165,8 @@ it('ONE line about the next set, and it never contradicts itself', () => {
   // idle. That is contradictory advice and the reader has to work out which
   // half is true.
   const on = U.line('1.47.1', '1.48.0', {});
-  assert.match(on, /install when you go idle/, 'the notice hides that it is automatic');
-  assert.match(on, /config set update\.auto off/, 'the notice gives no way to stop it');
+  assert.match(on, /install on their own \(daily, and when you go idle\)/, 'the notice hides that it is automatic');
+  assert.match(on, /config set update\.mode notify/, 'the notice gives no way to stop it');
   const off = U.line('1.47.1', '1.48.0', { update: { auto: 'off' } });
   assert.match(off, /npx sshlg-skills@latest update/);
   assert.ok(!/when you go idle/.test(off),

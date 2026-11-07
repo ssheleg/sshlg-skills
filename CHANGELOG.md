@@ -1,3 +1,36 @@
+## v1.86.0 (2026-11-06): the set installs itself nightly, not only when a session goes idle
+
+- **A nightly update job, on by default** (B-323, Fabric board request `36d586e2`, item 5).
+  Until now the only unattended path was the idle hook, so a machine whose agents run headless,
+  or whose Claude Code sessions never sit idle, stayed on its set until somebody typed `update`.
+  `install` and `update` now register a job (`lib/updatesched.js`): a LaunchAgent
+  `~/Library/LaunchAgents/me.sshlg.skills.update.plist` on macOS, a user timer
+  `~/.config/systemd/user/sshlg-skills-update.{service,timer}` with `Persistent=true` on Linux,
+  a daily `schtasks` task on Windows, at 04:MM local with the minute fixed per account. It runs
+  `node ~/.sshlg-skills/scheduler/lib/updaterun.js --scheduled` (absolute node path; a copy of
+  `lib/` that `update` refreshes the way it refreshes the hook runtime), which asks the registry
+  and runs `update` only when a newer set is out and no unattended run started in the last day;
+  `update.lock` keeps it apart from the idle run and the operator's. The job files carry an
+  ownership line and go through `apply.protectedWrite`; a same-named file without that line is
+  reported and left alone. The OS scheduler is touched only when `HOME` is the account's own
+  home, so tests and sandboxes get files and no job.
+- **`update.mode auto | notify | off`** replaces `update.auto on|off` as the switch, which still
+  works (`off` reads as `notify`; the last key set wins). `notify` removes the job and keeps the
+  session-start line that a set is out; `off` also stops that line and the registry probe.
+  `config set update.mode` applies at once. `npx sshlg-skills schedule` shows the job,
+  `--apply` writes it, `--revert` removes it and sets `notify` so the next `update` does not put it
+  back. `uninstall` removes it.
+- **A Codex that holds its plugins is no longer reported as FAILED.** `update` exits 1 while
+  Codex defers its native plugins (generation safety), and the unattended runner recorded every
+  such run as a failure: on this machine `state.json` held `ok: false` from 2026-10-22. `update`
+  now writes how it ended to the file the runner names (`SSHLG_SKILLS_OUTCOME`); when Codex was
+  the only thing held back, the record is `ok: true, deferred: true` and the next session says
+  the set updated and Codex is waiting. The `update` exit code itself is unchanged.
+- Tests: `test/updatesched_test.js` (new, 19 cases: plans per platform, `plutil -lint` on the
+  plist, three applies leaving the same bytes and one registration, removal with copies, a
+  foreign file kept, the runner end to end with stub `npm` and `npx`); `test/updatecheck_test.js`
+  27 cases (the modes, the deferred line).
+
 ## v1.85.0 (2026-11-02): Hermes gets the routing map; members' CI checks their triggers against the hub
 
 1.84.2 was merged but never published (npm publishing waits on B-318); its changes, below,
