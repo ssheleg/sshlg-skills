@@ -7,10 +7,12 @@
   and named no way out. `prepare()` in `lib/claude-pinned.js` now lets the next run plan when that
   failure is settled: no rollback failed, the outcome is not uncertain, and every settings key the
   transaction owned (each member's `enabledPlugins` entry and its marketplace `source`) reads now as
-  in the backup it took first, with the backup and the recovery plan inside its own transaction
-  directory. Anything else still refuses, and the refusal now says what to do: check
-  `~/.claude/settings.json`, then set `"settingsRestored": true` in the named `latest.json`.
-  `test/claude_pin_transaction_test.js` 42 → 52 cases.
+  in the backup it took first. Only that transaction's own directory is read: the receipt must sit
+  directly in the transactions directory under a transaction name, the backup and the recovery plan
+  inside it, no path component a link. Anything else still refuses, and each refusal now names its
+  own remedy: a lock or a run in progress, an uncertain native outcome, and a failure that is not
+  settled (check `~/.claude/settings.json`, then set `"settingsRestored": true` in the named
+  `latest.json`). `test/claude_pin_transaction_test.js` 42 → 67 cases.
 
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
 

@@ -262,4 +262,65 @@ for(const [what,edit] of [
  const r=wedge(f);const latest=path.join(path.dirname(path.dirname(r.receipt)),'latest.json');
  const rec=JSON.parse(fs.readFileSync(latest));edit(rec,f);fs.writeFileSync(latest,JSON.stringify(rec));assert.throws(f.plan,/incomplete/);
 });
+function latestOf(r){return path.join(path.dirname(path.dirname(r.receipt)),'latest.json');}
+function edit(r,fn){const l=latestOf(r),rec=JSON.parse(fs.readFileSync(l));fn(rec);fs.writeFileSync(l,JSON.stringify(rec));return rec;}
+const settingsCopy=rec=>rec.backups.find(b=>/settings\.json$/.test(b.file));
+test('B-326: a foreign field beside an owned marketplace source still plans',f=>{
+ wedge(f,s=>{s.extraKnownMarketplaces.fixture.autoUpdate=true;});assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: an owned source re-saved in another key order still plans',f=>{
+ wedge(f,s=>{const src=s.extraKnownMarketplaces.fixture.source;s.extraKnownMarketplaces.fixture.source=Object.fromEntries(Object.entries(src).reverse());});assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: a run that began with no settings file plans when no owned key exists now',f=>{
+ const r=wedge(f);edit(r,rec=>{const b=settingsCopy(rec);b.action='no-file';delete b.path;});
+ const s=JSON.parse(fs.readFileSync(f.sf));delete s.enabledPlugins[f.id];delete s.extraKnownMarketplaces;fs.writeFileSync(f.sf,JSON.stringify(s));
+ assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: a receipt with no backups refuses with the remedy, never a TypeError',f=>{
+ const r=wedge(f);edit(r,rec=>{delete rec.backups;});assert.throws(f.plan,/incomplete Claude transaction.*settingsRestored/);
+});
+test('B-326: a settings copy in a sibling transaction is not this transaction\'s backup',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});const sib=path.join(path.dirname(path.dirname(r.receipt)),'1-aaaaaaaaaaaa');fs.mkdirSync(sib);
+ const out=path.join(sib,'settings.json');fs.copyFileSync(f.sf,out);edit(r,rec=>{settingsCopy(rec).path=out;});assert.throws(f.plan,/incomplete/);
+});
+test('B-326: a backup replaced by a link to the live settings is not read',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ fs.rmSync(b);fs.symlinkSync(f.sf,b);assert.throws(f.plan,/incomplete/);
+});
+test('B-326: a receipt naming another transaction directory refuses',f=>{
+ const r=wedge(f);edit(r,rec=>{rec.receipt=path.join(f.box,'elsewhere','1-aaaaaaaaaaaa','receipt.json');});assert.throws(f.plan,/incomplete/);
+});
+test('B-326: each refusal names its own remedy',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});assert.throws(f.plan,/settingsRestored/);
+ edit(r,rec=>{rec.uncertain=true;rec.settingsRestored=true;});assert.throws(f.plan,/outcome is uncertain/);
+ edit(r,rec=>{rec.status='running';});assert.throws(f.plan,/in progress or interrupted/);
+});
+// A faithful copy of the failed transaction placed where only one check stands in its way.
+function relocate(f,r,dir) {
+ const from=path.dirname(r.receipt);fs.cpSync(from,dir,{recursive:true});
+ return edit(r,rec=>{const move=p=>typeof p==='string'&&p.startsWith(from+path.sep)?dir+p.slice(from.length):p;rec.receipt=move(rec.receipt);rec.recoveryPlan=move(rec.recoveryPlan);for(const b of rec.backups)if(b.path)b.path=move(b.path);});
+}
+test('B-326: the plannable copy below plans where it was written',f=>{
+ const r=wedge(f);const root=path.dirname(path.dirname(r.receipt));relocate(f,r,path.join(root,'2-bbbbbbbbbbbb'));assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: a faithful copy outside the transactions root is not read',f=>{
+ const r=wedge(f);relocate(f,r,path.join(fs.realpathSync(f.box),'outside','2-bbbbbbbbbbbb'));assert.throws(f.plan,/incomplete/);
+});
+test('B-326: a faithful copy under a name no transaction carries is not read',f=>{
+ const r=wedge(f);relocate(f,r,path.join(path.dirname(path.dirname(r.receipt)),'not-a-transaction'));assert.throws(f.plan,/incomplete/);
+});
+test('B-326: a receipt not named receipt.json is not this transaction\'s receipt',f=>{
+ const r=wedge(f);edit(r,rec=>{rec.receipt=path.join(path.dirname(rec.receipt),'other.json');});assert.throws(f.plan,/incomplete/);
+});
+test('B-326: a backups directory replaced by a link is not followed',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path,dir=path.dirname(b);
+ const away=path.join(f.box,'away');fs.mkdirSync(away);fs.copyFileSync(f.sf,path.join(away,path.basename(b)));fs.rmSync(dir,{recursive:true});fs.symlinkSync(away,dir);
+ assert.throws(f.plan,/incomplete/);
+});
+test('B-326: two settings backups in one receipt are ambiguous and refuse',f=>{
+ const r=wedge(f);edit(r,rec=>{rec.backups.push({...settingsCopy(rec)});});assert.throws(f.plan,/incomplete/);
+});
+test('B-326: results that are not a list refuse with the remedy, never a TypeError',f=>{
+ const r=wedge(f);edit(r,rec=>{rec.results={};});assert.throws(f.plan,/incomplete Claude transaction.*settingsRestored/);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
