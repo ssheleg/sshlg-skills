@@ -397,4 +397,10 @@ test('B-326: an owned source null in the backup and absent now refuses',f=>{
  const kept=JSON.parse(fs.readFileSync(b));kept.extraKnownMarketplaces={fixture:{source:null}};fs.writeFileSync(b,JSON.stringify(kept));
  const s=JSON.parse(fs.readFileSync(f.sf));s.extraKnownMarketplaces={fixture:{}};fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
 });
+test('B-326: a verified member ahead of the failed one, as a real run writes it, still plans',f=>{
+ const r=wedge(f);twoJobs(r);edit(r,rec=>{rec.results.unshift({member:'other',action:'verify',status:'verified',commit:'b'.repeat(40),files:2});});assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: a lock with no journal yet refuses, naming the lock',f=>{
+ const p=f.plan();fs.mkdirSync(p.transactionRoot+'/lock',{recursive:true});assert.throws(f.plan,/lock directory .*remove it/);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
