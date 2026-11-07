@@ -1,3 +1,16 @@
+## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
+
+- **Pin task-pipeline 1.103.1** (from 1.102.4). Stage 0 gains phase 1a (`references/intake-split.md`).
+  A prompt that carries several asks is listed as `ASK-n` and triaged one by one. Past the threshold
+  the asks are cut into modules, researched by at most six read-only researchers in parallel, merged
+  into one plan, read once more by a fresh reader, and ranked. The top item runs; every other item is
+  filed on the project's own board before stage 1. A single ask runs exactly as before.
+  `scripts/backlog_sources.py --discover` finds that board first (a manifest, a board the instruction
+  files name, an agent-sync register, a known path or a stated tracker), and seeds
+  `<artifacts>/backlog.md` only when there is none, never over a path already taken. task-pipeline's
+  `v1.103.0` tag is dead (its release round stopped before publishing); 1.103.1 carries the payload.
+  `claude-plugin-pins.json` regenerated (`node scripts/sync-claude-pins.js --write`: 11 pins match).
+
 ## v1.86.0 (2026-11-06): the set installs itself nightly, not only when a session goes idle
 
 - **A nightly update job, on by default** (B-323, Fabric board request `36d586e2`, item 5).
