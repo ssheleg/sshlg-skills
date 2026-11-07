@@ -1,3 +1,17 @@
+## v1.86.2 (2026-11-07): a setting another session writes during `update` no longer stops every later update
+
+- **A failed Claude transaction no longer wedges the next run when it left nothing of its own behind** (B-326).
+  On 2026-11-07 another session set `cleanupPeriodDays` while `update` ran. The transaction failed,
+  kept that setting as written (as it should), and recorded `settingsRestored: false`; from then on
+  every `update`, the unattended nightly one included, exited 2 with `incomplete Claude transaction`
+  and named no way out. `prepare()` in `lib/claude-pinned.js` now lets the next run plan when that
+  failure is settled: no rollback failed, the outcome is not uncertain, and every settings key the
+  transaction owned (each member's `enabledPlugins` entry and its marketplace `source`) reads now as
+  in the backup it took first, with the backup and the recovery plan inside its own transaction
+  directory. Anything else still refuses, and the refusal now says what to do: check
+  `~/.claude/settings.json`, then set `"settingsRestored": true` in the named `latest.json`.
+  `test/claude_pin_transaction_test.js` 42 → 52 cases.
+
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
 
 - **Pin task-pipeline 1.103.1** (from 1.102.4). Stage 0 gains phase 1a (`references/intake-split.md`).

@@ -230,4 +230,36 @@ test('B-224: an unreadable receipt counts as unfinished and is kept',f=>{
  for(let i=0;i<T.KEEP_FINISHED+1;i++)assert(f.execute().ok);
  assert(txDirs(f).includes(first));assert.equal(txDirs(f).length,T.KEEP_FINISHED+1);
 });
+// B-326: a foreign write mid-run fails that run and keeps the write; the next run plans
+// only when no key the failed run owned differs from its first backup.
+function wedge(f,also) {
+ assert(f.execute().ok);
+ f.setHook(a=>{if(a[1]==='marketplace'){const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';if(also)also(s);fs.writeFileSync(f.sf,JSON.stringify(s));f.setHook(null);}return null;});
+ const r=f.execute();assert(!r.ok);const receipt=JSON.parse(fs.readFileSync(r.receipt));assert.equal(receipt.settingsRestored,false);return r;
+}
+test('B-326: a foreign setting written mid-run leaves the next run free to plan, and is kept',f=>{
+ wedge(f);const p=f.plan();assert.equal(p.jobs[0].action,'verify');
+ const r=T.execute(p,[f.m],f.inventory,{runner:f.runner});assert(r.ok,JSON.stringify(r));assert.equal(JSON.parse(fs.readFileSync(f.sf)).env.KEEP,'concurrent');
+});
+test('B-326: the refusal cases below differ from a plannable one only in the edit',f=>{
+ const r=wedge(f);const latest=path.join(path.dirname(path.dirname(r.receipt)),'latest.json');
+ fs.writeFileSync(latest,JSON.stringify(JSON.parse(fs.readFileSync(latest))));assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: an owned key that moved during the failed run still refuses, naming the remedy',f=>{
+ wedge(f,s=>{s.enabledPlugins[f.id]=true;});assert.throws(f.plan,/incomplete Claude transaction.*settingsRestored/);
+});
+test('B-326: an owned marketplace source that moved still refuses',f=>{
+ wedge(f,s=>{s.extraKnownMarketplaces.fixture.source={source:'github',repo:'other/repo'};});assert.throws(f.plan,/incomplete/);
+});
+for(const [what,edit] of [
+ ['a failed rollback',r=>{r.results.push({member:'x',rollback:'failed; native recovery remains required'});}],
+ ['an uncertain outcome',r=>{r.uncertain=true;}],
+ ['a backup outside the transaction, however faithful',(r,f)=>{for(const b of r.backups)if(/settings\.json$/.test(b.file)){const out=f.box+'/settings-copy.json';fs.copyFileSync(b.path,out);b.path=out;}}],
+ ['a recovery plan outside the transaction, however faithful',(r,f)=>{const out=f.box+'/plan-copy.json';fs.copyFileSync(r.recoveryPlan,out);r.recoveryPlan=out;}],
+ ['a missing settings backup',r=>{r.backups=r.backups.filter(b=>!/settings\.json$/.test(b.file));}],
+ ['an unreadable recovery plan',r=>{fs.writeFileSync(r.recoveryPlan,'{');}],
+]) test('B-326: '+what+' keeps the refusal',f=>{
+ const r=wedge(f);const latest=path.join(path.dirname(path.dirname(r.receipt)),'latest.json');
+ const rec=JSON.parse(fs.readFileSync(latest));edit(rec,f);fs.writeFileSync(latest,JSON.stringify(rec));assert.throws(f.plan,/incomplete/);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
