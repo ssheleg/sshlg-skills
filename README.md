@@ -252,7 +252,9 @@ is a user timer, `~/.config/systemd/user/sshlg-skills-update.{service,timer}` wi
 `Persistent=true`. On Windows it is a daily task `sshlg-skills-update` (`schtasks`); a command
 longer than `schtasks /TR` takes (261 characters) is reported, not scheduled. The time is 04:MM
 local, the minute fixed per account. The job runs `node ~/.sshlg-skills/scheduler/lib/updaterun.js
---scheduled` with node's absolute path, from a copy `update` refreshes: it asks the registry, and
+--scheduled` with an absolute node path that survives an upgrade (the PATH entry resolving to the
+running node, so Homebrew's `/opt/homebrew/bin/node` rather than its versioned keg), with
+`~/.local/bin` on its PATH, from a copy `update` refreshes: it asks the registry, and
 runs `npx --yes sshlg-skills@latest update` only when a newer set is out and no unattended run
 started in the last day. `update.lock` keeps it apart from the idle run and from yours. What it
 did is said once at the next session start; a run where only Codex held its plugins back (below)
@@ -260,7 +262,9 @@ is reported as that, not as FAILED. `notify` writes nothing and removes the job:
 line says a set is out and what to run. `off` says nothing and asks the registry nothing. The job
 files carry an ownership line, are written through the same backup-first writer as the routing
 block, and a file of the same name without that line is left alone and reported. The OS is touched
-only when `HOME` is the account's own home, so a test or sandbox `HOME` gets the files and no job.
+only when `HOME` is the account's own home, so a test or sandbox `HOME` gets the files and no job;
+a machine with no user scheduler reachable (a container, WSL without systemd) is told so, and
+`update` keeps its exit code.
 The older `update.auto off` reads as `notify`. `uninstall` removes the job.
 
 ### The way back

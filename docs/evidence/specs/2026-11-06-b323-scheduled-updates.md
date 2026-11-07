@@ -30,8 +30,12 @@ revision's.
    command and announced once in the closing note, not by asking.
 2. **One key, compatible with the old one:** `update.mode = auto | notify | off`, default
    `auto`. `update.auto off` (existing) maps to `notify`; if both are set, `update.mode` wins.
-3. **Daily**, at a fixed local time with a random minute (spreads load), and at login if the
-   last run is older than 24 hours.
+3. **Daily**, at a fixed local time with a random minute (spreads load). As built (1.86.0):
+   04:MM local, the minute fixed per account; a night missed while the machine slept or was off
+   runs at the next wake on macOS (launchd coalesces a missed calendar slot across sleep only, so
+   a Mac that was shut down skips that night) and at the next boot on Linux (`Persistent=true`).
+   No login trigger: a run at login would land at the start of work, and the idle updater
+   already covers a machine whose sessions sit idle.
 4. **The job runs `lib/updaterun.js --scheduled`** from a stable copy under `~/.sshlg-skills/`
    with the absolute node path recorded at install and re-checked on every `update` (launchd
    and systemd do not see nvm or Homebrew PATH). It refreshes `latest` first, as

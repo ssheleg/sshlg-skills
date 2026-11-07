@@ -394,9 +394,28 @@ it('blocked Claude members make the update partial without stopping later channe
     for (const [i, m] of manifest.skills.entries()) plugins[m.pluginInstall] = [{ scope: i % 2 ? 'project' : 'local', ...(i % 2 ? { projectPath: '/x' } : {}), version: m.version, gitCommitSha: m.commit, installPath: path.join(home, '.claude', 'plugins', 'cache', 'x', m.name, m.version) }];
     fs.writeFileSync(path.join(home, '.claude', 'plugins', 'installed_plugins.json'), JSON.stringify({ version: 2, plugins }));
     fs.writeFileSync(path.join(home, '.claude', 'settings.json'), '{}\n');
-    const r = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: path.join(home, '.claude') }) });
+    // B-323: OS schedulers replaced by shims that log; a fixture HOME must never reach them.
+    const shims = path.join(home, 'shims');
+    fs.mkdirSync(shims);
+    const calls = path.join(home, 'os-calls.log');
+    for (const cmd of ['launchctl', 'systemctl', 'schtasks']) {
+      fs.writeFileSync(path.join(shims, cmd), `#!/bin/sh\necho "${cmd} $*" >> "${calls}"\nexit 0\n`, { mode: 0o755 });
+    }
+    fs.symlinkSync(process.execPath, path.join(shims, 'node'));
+    const outcome = path.join(home, 'outcome.json');
+    const r = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: path.join(home, '.claude'), SSHLG_SKILLS_OUTCOME: outcome, PATH: `${shims}${path.delimiter}${process.env.PATH}` }) });
     const out = (r.stdout || '') + (r.stderr || '');
     assert.strictEqual(r.status, 1, out);
+    assert.match(out, /== Nightly update job ==/, 'update skipped the schedule step');
+    assert.ok(!fs.existsSync(calls), `a fixture HOME reached the OS scheduler: ${fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8') : ''}`);
+    const job = { darwin: path.join(home, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist'),
+      linux: path.join(home, '.config', 'systemd', 'user', 'sshlg-skills-update.service') }[process.platform];
+    if (job) {
+      assert.ok(fs.readFileSync(job, 'utf8').includes(path.join(shims, 'node')),
+        'the job runs the versioned node binary, not the PATH entry that survives an upgrade');
+    }
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(outcome, 'utf8')), { ok: false, codexDeferredOnly: false },
+      'a partial update with Codex out of scope was recorded as only Codex held back');
     assert.match(out, /blocked, left as installed/);
     assert.match(out, /== Refreshing the routing block ==/, 'a blocked member stopped the later channels');
     // B-242: a partial run never ends on the green summary line (retro #8).

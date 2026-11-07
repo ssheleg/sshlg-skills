@@ -52,8 +52,11 @@ it('launchd: one plist, the absolute node, the runner copy, a calendar slot, a P
   assert.ok(f.text.includes(`<string>${path.join(HOME, '.sshlg-skills', 'scheduler', 'lib', 'updaterun.js')}</string>`));
   assert.ok(f.text.includes('<string>--scheduled</string>'));
   assert.ok(f.text.includes(`<key>Minute</key><integer>${S.slot(HOME).minute}</integer>`));
-  assert.ok(f.text.includes('<string>/opt/node v26/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>'));
+  assert.ok(f.text.includes('<string>/opt/node v26/bin:/home/someone/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>'),
+    'the job PATH lacks node\'s directory or ~/.local/bin (Claude Code\'s native installer)');
+  assert.ok(f.text.includes('<key>SSHLG_SKILLS_JOB</key><string>1</string>'), 'the job cannot tell it is the job');
   assert.ok(!/RunAtLoad/.test(f.text), 'a login must not start an update mid-work');
+  assert.ok(!/Background|LowPriorityIO/.test(f.text), 'a Background job is throttled until npm answers nothing');
   const amp = S.jobFiles('launchd', base('launchd', { node: '/a&b/<n>/node' }))[0].text;
   assert.ok(amp.includes('/a&amp;b/&lt;n&gt;/node'), 'a path with XML characters breaks the plist');
 });
@@ -222,6 +225,92 @@ it('apply: a foreign file where ours would go is left byte for byte', () => {
     assert.strictEqual(S.apply(S.plan(rm), rm).state, 'absent');
     assert.strictEqual(fs.readFileSync(plist, 'utf8'), '<plist>mine</plist>\n');
   } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('the job runs a node path that survives an upgrade, not the versioned keg', () => {
+  const links = { '/opt/homebrew/bin/node': '/opt/homebrew/Cellar/node/26.10.0_2/bin/node' };
+  const real = (p) => links[p] || p;
+  const exists = (p) => p in links || p === '/opt/homebrew/Cellar/node/26.10.0_2/bin/node';
+  const keg = '/opt/homebrew/Cellar/node/26.10.0_2/bin/node';
+  assert.strictEqual(S.stableNode(keg, ['relative', '/usr/bin', '/opt/homebrew/bin'], { realpath: real, exists }), '/opt/homebrew/bin/node');
+  assert.strictEqual(S.stableNode(keg, ['/usr/bin'], { realpath: real, exists }), keg, 'no PATH entry: the running binary');
+  const other = { '/opt/homebrew/bin/node': '/opt/homebrew/Cellar/node/27.0.0/bin/node' };
+  assert.strictEqual(S.stableNode(keg, ['/opt/homebrew/bin'], { realpath: (p) => other[p] || p, exists: () => true }), keg,
+    'a node on PATH that is another version must not be taken');
+});
+
+it('only the account\'s own HOME may reach the OS scheduler, and skip keeps it away', () => {
+  assert.strictEqual(S.shouldRegister({ home: '/Users/a', accountHome: '/Users/a', env: {} }), true);
+  assert.strictEqual(S.shouldRegister({ home: '/tmp/fixture', accountHome: '/Users/a', env: {} }), false);
+  assert.strictEqual(S.shouldRegister({ home: '/Users/a', accountHome: '/Users/a', env: { SSHLG_SKILLS_SCHEDULE: 'skip' } }), false);
+  assert.strictEqual(S.shouldRegister({ home: '/Users/a', accountHome: null, env: {} }), false);
+});
+
+it('a run that is the job itself writes the new definition and never boots itself out', () => {
+  const home = tmpHome();
+  try {
+    const rec = recorder();
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: rec.run, env: { XPC_SERVICE_NAME: S.LABEL } };
+    const r = S.apply(S.plan(o), o);
+    assert.strictEqual(r.ok, true);
+    assert.deepStrictEqual(rec.calls, [], rec.calls.join('\n'));
+    assert.ok(r.lines.some((l) => /this run is the job itself/.test(l)));
+    assert.strictEqual(S.insideJob({ SSHLG_SKILLS_JOB: '1' }), true);
+    assert.strictEqual(S.insideJob({}), false);
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('no user scheduler reachable is said and is not a failure; a real refusal still is', () => {
+  for (const [code, stderr] of [[127, 'spawnSync systemctl ENOENT'], [1, 'Failed to connect to bus: No medium found']]) {
+    const home = tmpHome();
+    try {
+      const run = (cmd, args) => (args.includes('is-enabled') ? { code: 1, stdout: '', stderr } : { code, stdout: '', stderr });
+      const o = { platform: 'systemd', home, node: NODE, uid: 501, mode: 'auto', run };
+      const r = S.apply(S.plan(o), o);
+      assert.strictEqual(r.ok, true, `${stderr}: ${r.lines.join('\n')}`);
+      assert.strictEqual(r.state, 'unreachable');
+      assert.ok(r.lines.some((l) => /no user scheduler reachable here/.test(l)));
+    } finally { fs.rmSync(home, { recursive: true, force: true }); }
+  }
+  const home = tmpHome();
+  try {
+    const run = (cmd, args) => (args[0] === 'bootstrap' ? { code: 5, stdout: '', stderr: 'Bootstrap failed: 5: Input/output error' } : { code: args[0] === 'print' ? 113 : 0, stdout: '', stderr: '' });
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run };
+    assert.strictEqual(S.apply(S.plan(o), o).ok, false, 'a real bootstrap failure read as an unreachable scheduler');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('removal takes its copies before it unregisters; Windows with no task says so', () => {
+  const home = tmpHome();
+  try {
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: recorder().run };
+    S.apply(S.plan(o), o);
+    const rec = recorder();
+    const off = Object.assign({}, o, { mode: 'off', run: rec.run, home });
+    const p = S.plan(off);
+    const writer = require('../lib/apply.js');
+    const protect = writer.protect;
+    writer.protect = () => ({ action: 'backup-failed', error: 'fixture' });
+    let r;
+    try { r = S.apply(p, off); } finally { writer.protect = protect; }
+    assert.strictEqual(r.ok, false);
+    assert.deepStrictEqual(rec.calls, [], 'the job was unregistered although its copy failed');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+  const win = recorder((cmd, args) => (args[0] === '/Query' ? 1 : 0));
+  const o = base('schtasks', { mode: 'notify', run: win.run });
+  const r = S.apply(S.plan(o), o);
+  assert.strictEqual(r.state, 'absent');
+  assert.ok(!r.lines.some((l) => /removed/.test(l)), r.lines.join('\n'));
+  assert.ok(!win.calls.some((c) => c.includes('/Delete')));
+});
+
+it('update says "only Codex held back" exactly when that is all that failed', () => {
+  const U = require('../lib/updatecheck.js');
+  assert.deepStrictEqual(U.updateOutcome({ ok: false, codexOk: false, codexHeld: true, restOk: true }), { ok: false, codexDeferredOnly: true });
+  assert.strictEqual(U.updateOutcome({ ok: false, codexOk: false, codexHeld: true, restOk: false }).codexDeferredOnly, false, 'another step failed too');
+  assert.strictEqual(U.updateOutcome({ ok: false, codexOk: false, codexHeld: false, restOk: true }).codexDeferredOnly, false, 'Codex failed, not held');
+  assert.strictEqual(U.updateOutcome({ ok: false, codexOk: true, codexHeld: false, restOk: false }).codexDeferredOnly, false, 'a failure with Codex fine');
+  assert.strictEqual(U.updateOutcome({ ok: true, codexOk: true, codexHeld: false, restOk: true }).codexDeferredOnly, false);
 });
 
 // --- the runner the job executes (lib/updaterun.js --scheduled) ----------------------------

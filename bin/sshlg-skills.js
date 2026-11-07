@@ -773,17 +773,18 @@ function scheduleContext() {
   const home = os.homedir();
   const sched = require('../lib/updatesched.js');
   const configLib = require('../lib/config.js');
-  let own = false;
-  try { own = os.userInfo().homedir === home; } catch (_) { own = false; }
+  let accountHome = null;
+  try { accountHome = os.userInfo().homedir; } catch (_) { accountHome = null; }
   const run = (cmd, args) => {
     const r = require('child_process').spawnSync(cmd, args, { encoding: 'utf8', timeout: 30000, windowsHide: true });
     return { code: r.error ? 127 : (r.status === null ? 1 : r.status), stdout: r.stdout || '', stderr: r.error ? r.error.message : (r.stderr || '') };
   };
   return { sched, o: {
-    platform: sched.platformOf(process.platform), home, node: process.execPath,
+    platform: sched.platformOf(process.platform), home, env: process.env,
+    node: sched.stableNode(process.execPath, String(process.env.PATH || '').split(path.delimiter)),
     uid: typeof process.getuid === 'function' ? process.getuid() : null,
     mode: configLib.updateMode(configLib.readConfig(home)),
-    register: own && process.env.SSHLG_SKILLS_SCHEDULE !== 'skip', run,
+    register: sched.shouldRegister({ home, accountHome, env: process.env }), run,
   } };
 }
 
@@ -1009,7 +1010,7 @@ function cmdUpdate(f) {
     try { const d = cmdDomains(['', '', 'domains', '--update-step']) === 0; ok = d && ok; restOk = d && restOk; }
     catch (e) { log(`\n== Domain members ==\n  not reconciled: ${e.message}`); ok = false; restOk = false; }
   }
-  writeOutcome({ ok, codexDeferredOnly: !ok && !codexOk && codexHeld && restOk });
+  writeOutcome(require('../lib/updatecheck.js').updateOutcome({ ok, codexOk, codexHeld, restOk }));
 
   printUpdateModel('update');
 

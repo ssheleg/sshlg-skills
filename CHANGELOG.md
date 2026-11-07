@@ -13,7 +13,13 @@
   `update.lock` keeps it apart from the idle run and the operator's. The job files carry an
   ownership line and go through `apply.protectedWrite`; a same-named file without that line is
   reported and left alone. The OS scheduler is touched only when `HOME` is the account's own
-  home, so tests and sandboxes get files and no job.
+  home, so tests and sandboxes get files and no job; with no user scheduler reachable (a
+  container, WSL without systemd, no GUI login) the step says so and `update` keeps its exit
+  code. The job runs the `node` on PATH that resolves to the running one (Homebrew's
+  `/opt/homebrew/bin/node`, not the versioned Cellar keg `brew cleanup` deletes), its PATH
+  includes `~/.local/bin`, and an `update` the job itself started writes a changed definition
+  without booting the job out from under itself. The plist does not ask for `ProcessType
+  Background`: under that throttling `npm view` took 38 s and answered nothing.
 - **`update.mode auto | notify | off`** replaces `update.auto on|off` as the switch, which still
   works (`off` reads as `notify`; the last key set wins). `notify` removes the job and keeps the
   session-start line that a set is out; `off` also stops that line and the registry probe.
@@ -26,10 +32,14 @@
   now writes how it ended to the file the runner names (`SSHLG_SKILLS_OUTCOME`); when Codex was
   the only thing held back, the record is `ok: true, deferred: true` and the next session says
   the set updated and Codex is waiting. The `update` exit code itself is unchanged.
-- Tests: `test/updatesched_test.js` (new, 19 cases: plans per platform, `plutil -lint` on the
+- Tests: `test/updatesched_test.js` (new, 25 cases: plans per platform, `plutil -lint` on the
   plist, three applies leaving the same bytes and one registration, removal with copies, a
-  foreign file kept, the runner end to end with stub `npm` and `npx`); `test/updatecheck_test.js`
-  27 cases (the modes, the deferred line).
+  foreign file kept, the node path, the HOME gate, the job guarding itself, an unreachable
+  scheduler, the copy before unregistering, the outcome rule, the runner end to end with stub
+  `npm` and `npx`); `test/updatecheck_test.js` 27 cases (the modes, the deferred line);
+  `test/cli_config_test.js` runs a real partial `update` in a fixture HOME with logging shims
+  for `launchctl`, `systemctl` and `schtasks` and asserts none was called, the outcome file
+  says not only Codex, and the job runs the PATH node.
 
 ## v1.85.0 (2026-11-02): Hermes gets the routing map; members' CI checks their triggers against the hub
 
