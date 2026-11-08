@@ -708,13 +708,13 @@ test('B-326: seeded perturbations of owned keys agree with an exact-comparison o
 });
 // Stale state is still state: a lock a day old, and a running journal whose process is gone
 // and which started a day ago, both refuse until the operator clears them.
-test('B-326: a lock a day old still refuses, naming the lock',f=>{
+test('B-326: a lock from 1970 still refuses, naming the lock',f=>{
  const r=wedge(f);const lock=path.join(path.dirname(latestOf(r)),'lock');fs.mkdirSync(lock);
- const old=new Date(Date.now()-86400000);fs.utimesSync(lock,old,old);assert.throws(f.plan,/lock directory .*remove it/);
+ const old=new Date(0);fs.utimesSync(lock,old,old);assert.throws(f.plan,/lock directory .*remove it/);
 });
-test('B-326: a running journal from a dead process a day ago still refuses',f=>{
+test('B-326: a running journal from a dead process in 1970 still refuses',f=>{
  const r=wedge(f);const gone=require('child_process').spawnSync(process.execPath,['-e','0']).pid;
- edit(r,rec=>{rec.status='running';rec.pid=gone;rec.startedAt=new Date(Date.now()-86400000).toISOString();});assert.throws(f.plan,/in progress or interrupted/);
+ edit(r,rec=>{rec.status='running';rec.pid=gone;rec.startedAt=new Date(0).toISOString();});assert.throws(f.plan,/in progress or interrupted/);
 });
 test('B-326: every member verified, then a foreign write before the final check, owned keys untouched, plans',f=>{
  assert(f.execute().ok);
@@ -771,7 +771,8 @@ test('B-326: every pair of near-colliding leaf values, both sides set, compares 
  const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
  const base=JSON.parse(fs.readFileSync(f.sf));
  const pool=['',' ','  ','x','x ',' x','X','a b','a  b','a\tb','a\nb','\u00e9','e\u0301','\ud800','\ufffd','0','1','true','null',
-  null,true,false,0,1,-1,2,0.5,1.1,Math.fround(1.1),1.000000000001,1.00000001,1e21,[],{},[1],[[1]],{a:1},{a:null},{a:[]}];
+  'a\u200b','\ufeffa','x\n','\u00e9\u00e9','e\u0301e\u0301',
+  null,true,false,0,1,-1,2,0.5,1.1,Math.fround(1.1),1.000000000001,1.00000001,0.30000000000000004,0.3,1e21,[],{},[1],[[1]],[1,2],[2,1],{a:1},{a:null},{a:[]},{'\u00e9':1},{'e\u0301':1}];
  const put=(d,depth,v)=>{const src={...base.extraKnownMarketplaces.fixture.source};if(depth===0)src.k=v;else src.k={i:v};d.extraKnownMarketplaces.fixture.source=src;};
  const verdict=()=>{try{f.plan();return 'plan';}catch(e){if(!REMEDY.test(e.message))throw e;return 'refuse';}};
  const wrong=[];let plans=0,refusals=0;
@@ -784,4 +785,12 @@ test('B-326: every pair of near-colliding leaf values, both sides set, compares 
  }
  assert.deepEqual(wrong,[]);assert(plans>=pool.length&&refusals>pool.length*pool.length,'both outcomes sampled');
 });
+const R27src=(s,k,v)=>{s.extraKnownMarketplaces.fixture.source[k]=v;};
+test('B-326 (round 27) an owned array reordered by a foreign writer refuses (incident shape)',f=>{incident(f,s=>R27src(s,'list',[1,2]),s=>R27src(s,'list',[2,1]));assert.throws(f.plan,REMEDY);});
+test('B-326 (round 27) an owned number 0.30000000000000004 then 0.3 refuses (incident shape)',f=>{incident(f,s=>R27src(s,'n',0.30000000000000004),s=>R27src(s,'n',0.3));assert.throws(f.plan,REMEDY);});
+test('B-326 (round 27) an owned string that lost a zero-width space refuses (incident shape)',f=>{incident(f,s=>R27src(s,'ref','a\u200b'),s=>R27src(s,'ref','a'));assert.throws(f.plan,REMEDY);});
+test('B-326 (round 27) an owned key re-saved NFD refuses (incident shape)',f=>{incident(f,s=>R27src(s,'\u00e9',1),s=>{delete s.extraKnownMarketplaces.fixture.source['\u00e9'];R27src(s,'e\u0301',1);});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 27) a lock from 1970 still refuses beside a settled failure',f=>{const r=wedge(f);const lock=path.join(path.dirname(latestOf(r)),'lock');fs.mkdirSync(lock);fs.utimesSync(lock,new Date(0),new Date(0));assert.throws(f.plan,/lock directory/);});
+test('B-326 (round 27) a running journal from 1970 still refuses beside a settled failure',f=>{const r=wedge(f);edit(r,rec=>{rec.status='running';rec.startedAt=new Date(0).toISOString();});assert.throws(f.plan,/in progress or interrupted/);});
+test('B-326 (round 27) control: incident shape with identical owned array plans',f=>{incident(f,s=>R27src(s,'list',[1,2]),s=>{});assert.equal(f.plan().jobs[0].action,'verify');});
 console.log(`PASS: Claude native transaction — ${count} cases`);
