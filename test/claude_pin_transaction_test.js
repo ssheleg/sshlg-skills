@@ -596,4 +596,20 @@ test('B-326: owned values compare exactly, only key order is free (table)',f=>{
  assert.deepEqual(wrong,[]);
 });
 test('B-326: a faithful copy one directory deeper under the transactions root is not read',f=>{const r=wedge(f);relocate(f,r,path.join(path.dirname(path.dirname(r.receipt)),'x','2-bbbbbbbbbbbb'));assert.throws(f.plan,/incomplete/);});
+test('B-326: a run recorded in progress refuses even when its failure would have settled',f=>{
+ const r=wedge(f);assert.equal(f.plan().jobs[0].action,'verify');edit(r,rec=>{rec.status='running';});assert.throws(f.plan,/in progress or interrupted/);
+});
+test('B-326: every member verified, then a foreign write before the final check, with the owned source new, refuses',f=>{
+ const A=require('../lib/apply'),old=A.protect;let armed=false,fired=false;
+ f.setHook(a=>{if(a[1]==='install'||a[1]==='update')armed=true;return null;});
+ A.protect=(file,o)=>{if(armed&&!fired&&file.endsWith('receipt.json')){fired=true;
+   const s=JSON.parse(fs.readFileSync(f.sf));s.cleanupPeriodDays=14;fs.writeFileSync(f.sf,JSON.stringify(s));
+   const g=JSON.parse(fs.readFileSync(f.rf));g.plugins['other@else']=[{scope:'user',version:'1',installPath:'/x'}];fs.writeFileSync(f.rf,JSON.stringify(g));}
+  return old(file,o);};
+ let r;try{r=f.execute();}finally{A.protect=old;f.setHook(null);}
+ assert(!r.ok);const rec=JSON.parse(fs.readFileSync(latestOf(r)));assert(rec.results.length&&rec.results.every(x=>x.status==='verified'));assert.equal(rec.settingsRestored,false);
+ assert.throws(f.plan,REMEDY);
+});
+test('B-326: the whole extraKnownMarketplaces map deleted mid-run refuses',f=>{wedge(f,s=>{delete s.extraKnownMarketplaces;});assert.throws(f.plan,REMEDY);});
+test('B-326: the whole enabledPlugins map deleted mid-run refuses',f=>{wedge(f,s=>{delete s.enabledPlugins;});assert.throws(f.plan,REMEDY);});
 console.log(`PASS: Claude native transaction — ${count} cases`);
