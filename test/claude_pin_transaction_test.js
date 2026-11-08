@@ -403,4 +403,11 @@ test('B-326: a verified member ahead of the failed one, as a real run writes it,
 test('B-326: a lock with no journal yet refuses, naming the lock',f=>{
  const p=f.plan();fs.mkdirSync(p.transactionRoot+'/lock',{recursive:true});assert.throws(f.plan,/lock directory .*remove it/);
 });
+test('B-326: with two members, owned keys exchanged between them refuse',f=>{
+ const r=wedge(f);twoJobs(r);const s=JSON.parse(fs.readFileSync(f.sf));
+ const src=s.extraKnownMarketplaces.fixture.source,v=s.enabledPlugins[f.id];
+ delete s.enabledPlugins[f.id];delete s.extraKnownMarketplaces.fixture;
+ s.enabledPlugins['other@othermk']=v;s.extraKnownMarketplaces.othermk={source:src};
+ fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
