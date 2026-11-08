@@ -690,4 +690,14 @@ test('B-326: seeded perturbations of owned keys agree with an exact-comparison o
  }
  assert.deepEqual(wrong,[]);assert(plans>10&&refusals>50,'both outcomes sampled: '+plans+'/'+refusals);
 });
+// Stale state is still state: a lock a day old, and a running journal whose process is gone
+// and which started a day ago, both refuse until the operator clears them.
+test('B-326: a lock a day old still refuses, naming the lock',f=>{
+ const r=wedge(f);const lock=path.join(path.dirname(latestOf(r)),'lock');fs.mkdirSync(lock);
+ const old=new Date(Date.now()-86400000);fs.utimesSync(lock,old,old);assert.throws(f.plan,/lock directory .*remove it/);
+});
+test('B-326: a running journal from a dead process a day ago still refuses',f=>{
+ const r=wedge(f);const gone=require('child_process').spawnSync(process.execPath,['-e','0']).pid;
+ edit(r,rec=>{rec.status='running';rec.pid=gone;rec.startedAt=new Date(Date.now()-86400000).toISOString();});assert.throws(f.plan,/in progress or interrupted/);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
