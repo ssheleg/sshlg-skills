@@ -46,7 +46,7 @@ The Fabric board request `36d586e2` (item 5, deadline 2026-11-11) asked for sche
 - `npx --yes sshlg-skills@latest update` on the operator Mac: the first run failed at agent-stack because another session wrote `cleanupPeriodDays` mid-run (B-326), and the next run refused with `incomplete Claude transaction`. After a manual recovery of the journal, the third run verified all eleven Claude members, task-pipeline at `1f500a2` (1.103.1). It still ends partial for two standing reasons: telegram-dev is blocked by a local scope under the missing `/Users/sshlg/DATA/tg_boutique_bot`, and Codex defers its nine plugins as before.
 - The nightly job's runner copy is at 1.86.1 (`~/.sshlg-skills/scheduler/package.json`).
 
-**sshlg-skills 1.86.2 (B-326):** a failed Claude transaction no longer wedges the next run when its outcome is not uncertain, no rollback failed and every key it owned reads as in its first backup (`settled()` in `lib/claude-pinned.js`, `test/claude_pin_transaction_test.js` 42 to 145 cases). Card: [`2026-11-07-v1862-release-impact.md`](evidence/specs/2026-11-07-v1862-release-impact.md).
+**sshlg-skills 1.86.2 (B-326):** a failed Claude transaction no longer wedges the next run when its outcome is not uncertain, no rollback failed and every key it owned reads as in its first backup (`settled()` in `lib/claude-pinned.js`, `test/claude_pin_transaction_test.js` 42 to 147 cases). Card: [`2026-11-07-v1862-release-impact.md`](evidence/specs/2026-11-07-v1862-release-impact.md).
 
 **Next task:** if `npm view sshlg-skills version` is below 1.86.2, merge the 1.86.2 PR, tag `v1.86.2` and run `npx --yes sshlg-skills@latest update`; B-323 closed 2026-11-08 after its second night (exit 0, `updateCheck.at` 2026-11-08 04:41).
 

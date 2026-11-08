@@ -700,4 +700,21 @@ test('B-326: a running journal from a dead process a day ago still refuses',f=>{
  const r=wedge(f);const gone=require('child_process').spawnSync(process.execPath,['-e','0']).pid;
  edit(r,rec=>{rec.status='running';rec.pid=gone;rec.startedAt=new Date(Date.now()-86400000).toISOString();});assert.throws(f.plan,/in progress or interrupted/);
 });
+test('B-326: every member verified, then a foreign write before the final check, owned keys untouched, plans',f=>{
+ assert(f.execute().ok);
+ const A=require('../lib/apply'),old=A.protect;let armed=false,fired=false;
+ f.setHook(a=>{if(a[1]==='marketplace')armed=true;return null;});
+ A.protect=(file,o)=>{if(armed&&!fired&&file.endsWith('receipt.json')){fired=true;
+   const s=JSON.parse(fs.readFileSync(f.sf));s.cleanupPeriodDays=14;fs.writeFileSync(f.sf,JSON.stringify(s));
+   const g=JSON.parse(fs.readFileSync(f.rf));g.plugins['other@else']=[{scope:'user',version:'1',installPath:'/x'}];fs.writeFileSync(f.rf,JSON.stringify(g));}
+  return old(file,o);};
+ let r;try{r=f.execute();}finally{A.protect=old;f.setHook(null);}
+ assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));
+ assert(rec.results.length&&rec.results.every(x=>x.status==='verified'));assert.equal(rec.settingsRestored,false);assert(!rec.uncertain);
+ assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: a settings copy deleted by hand refuses, even with no owned key now',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));fs.rmSync(settingsCopy(rec).path);
+ const s=JSON.parse(fs.readFileSync(f.sf));delete s.enabledPlugins[f.id];delete s.extraKnownMarketplaces;fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
