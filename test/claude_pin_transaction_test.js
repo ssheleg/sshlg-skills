@@ -559,4 +559,40 @@ for(const swap of [false,true]) test('B-326: two real members, the verified one 
  const {r,plan}=twoMembers(f.box,swap);assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));
  assert.deepEqual(rec.results.map(x=>x.status),['verified','failed']);assert.equal(rec.settingsRestored,false);assert.throws(plan,REMEDY);
 });
+// Owned values are compared exactly: no path, type, case or string normalisation. One wedged
+// receipt from execute(); each row rewrites the first backup and the live file, then plans.
+test('B-326: owned values compare exactly, only key order is free (table)',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ const base=JSON.parse(fs.readFileSync(f.sf)),D=base.extraKnownMarketplaces.fixture.source.path;
+ const src=(o)=>({...base.extraKnownMarketplaces.fixture.source,...o});
+ const set=(file,ep,source)=>{const d=JSON.parse(JSON.stringify(base));
+  if(ep===undefined)delete d.enabledPlugins[f.id];else d.enabledPlugins[f.id]=ep;
+  if(source===undefined)delete d.extraKnownMarketplaces.fixture.source;else d.extraKnownMarketplaces.fixture.source=source;
+  fs.writeFileSync(file,JSON.stringify(d));};
+ const verdict=()=>{try{f.plan();return 'plan';}catch(e){if(!REMEDY.test(e.message))throw e;return 'refuse';}};
+ const S0=src({});
+ const rows=[
+  ['enabled true vs "true"',[true,S0],['true',S0],'refuse'],
+  ['enabled true vs 1',[true,S0],[1,S0],'refuse'],
+  ['enabled false vs 0',[false,S0],[0,S0],'refuse'],
+  ['enabled false vs "false"',[false,S0],['false',S0],'refuse'],
+  ['enabled false vs null',[false,S0],[null,S0],'refuse'],
+  ['enabled true vs [true]',[true,S0],[[true],S0],'refuse'],
+  ['enabled false vs {}',[false,S0],[{},S0],'refuse'],
+  ['source path vs trailing slash',[false,S0],[false,src({path:D+'/'})],'refuse'],
+  ['source path vs dot segment',[false,S0],[false,src({path:D+'/.'})],'refuse'],
+  ['source path vs parent hop',[false,S0],[false,src({path:path.join(D,'..')+'/'+path.basename(D)+'/../'+path.basename(D)})],'refuse'],
+  ['source path vs other case',[false,S0],[false,src({path:D.toUpperCase()})],'refuse'],
+  ['source type vs other case',[false,S0],[false,src({source:'Directory'})],'refuse'],
+  ['source vs source plus a field',[false,S0],[false,src({ref:'x'})],'refuse'],
+  ['source field 1 vs "1"',[false,src({n:1})],[false,src({n:'1'})],'refuse'],
+  ['source vs null',[false,S0],[false,null],'refuse'],
+  ['source keys reordered',[false,S0],[false,Object.fromEntries(Object.entries(S0).reverse())],'plan'],
+  ['nested keys reordered',[false,src({opt:{a:1,b:2}})],[false,src({opt:{b:2,a:1}})],'plan'],
+  ['identical',[false,S0],[false,S0],'plan'],
+ ];
+ const wrong=[];
+ for(const [name,before,now,want] of rows){set(b,...before);set(f.sf,...now);const got=verdict();if(got!==want)wrong.push(name+': '+got);}
+ assert.deepEqual(wrong,[]);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
