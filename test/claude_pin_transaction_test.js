@@ -793,4 +793,24 @@ test('B-326 (round 27) an owned key re-saved NFD refuses (incident shape)',f=>{i
 test('B-326 (round 27) a lock from 1970 still refuses beside a settled failure',f=>{const r=wedge(f);const lock=path.join(path.dirname(latestOf(r)),'lock');fs.mkdirSync(lock);fs.utimesSync(lock,new Date(0),new Date(0));assert.throws(f.plan,/lock directory/);});
 test('B-326 (round 27) a running journal from 1970 still refuses beside a settled failure',f=>{const r=wedge(f);edit(r,rec=>{rec.status='running';rec.startedAt=new Date(0).toISOString();});assert.throws(f.plan,/in progress or interrupted/);});
 test('B-326 (round 27) control: incident shape with identical owned array plans',f=>{incident(f,s=>R27src(s,'list',[1,2]),s=>{});assert.equal(f.plan().jobs[0].action,'verify');});
+// Strings, by construction: seeds passed through every normaliser a comparison might apply. Any
+// two distinct results must not compare equal, as values or as keys of an owned object.
+test('B-326: strings that differ only under a normaliser never compare equal, as values or keys',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ const base=JSON.parse(fs.readFileSync(f.sf));
+ const seeds=['a b','a\u00a0b','a\tb','a  b',' a','a ','x\r\ny','x\ny','x\u2028y','x\u2029y','x\u0085y','\uff21','A','a','\ufb01','fi',
+  '\u00c9','\u00e9','E\u0301','e\u0301','\u0130','\u0131','i','I','\u00df','ss','a\u200bb','\ufeffa','\u2126','\u03a9','\u212b','\u00c5'];
+ const norms=[x=>x,x=>x.normalize('NFC'),x=>x.normalize('NFD'),x=>x.normalize('NFKC'),x=>x.normalize('NFKD'),x=>x.toLowerCase(),x=>x.toUpperCase(),
+  x=>x.trim(),x=>x.replace(/\s+/g,' '),x=>x.replace(/\r\n/g,'\n'),x=>x.replace(/[\u2028\u2029\u0085]/g,'\n'),x=>x.replace(/[\u200b\ufeff]/g,'')];
+ const pool=[...new Set(seeds.flatMap(x=>norms.map(n=>n(x))))];
+ const put=(d,asKey,v)=>{const src={...base.extraKnownMarketplaces.fixture.source};if(asKey)src.k={[v]:1};else src.k=v;d.extraKnownMarketplaces.fixture.source=src;};
+ const verdict=()=>{try{f.plan();return 'plan';}catch(e){if(!REMEDY.test(e.message))throw e;return 'refuse';}};
+ const wrong=[];
+ for(const asKey of [false,true])for(const x of pool)for(const y of pool){
+  const before=JSON.parse(JSON.stringify(base)),now=JSON.parse(JSON.stringify(base));put(before,asKey,x);put(now,asKey,y);
+  fs.writeFileSync(b,JSON.stringify(before));fs.writeFileSync(f.sf,JSON.stringify(now));
+  const want=x===y?'plan':'refuse',got=verdict();if(got!==want)wrong.push((asKey?'key ':'value ')+JSON.stringify(x)+' vs '+JSON.stringify(y)+': '+got);
+ }
+ assert.deepEqual(wrong,[]);assert(pool.length>=40,'pool of '+pool.length);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
