@@ -487,4 +487,36 @@ test('B-326: with two members, a rebinding second member whose source moved refu
  plan.jobs.push({member:'other',pluginInstall:'other@othermk',action:'rebind',previous:null});fs.writeFileSync(rec.recoveryPlan,JSON.stringify(plan));
  assert.throws(f.plan,REMEDY);
 });
+function foreignCleanup(f,step,once=true){let done=false;f.setHook(a=>{if(a[1]===step&&!done){done=once;const s=JSON.parse(fs.readFileSync(f.sf));s.cleanupPeriodDays=90;fs.writeFileSync(f.sf,JSON.stringify(s));}return null;});}
+test('B-326: a run that began with no settings file and added the owned source refuses',f=>{
+ fs.rmSync(f.sf);const p=f.plan();foreignCleanup(f,'marketplace');
+ const r=T.execute(p,[f.m],f.inventory,{runner:f.runner});assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(r.receipt)).backups[0].action,'no-file');assert.throws(f.plan,REMEDY);
+});
+test('B-326: a run that began with no settings file, then another session created one with an owned entry, refuses',f=>{
+ fs.rmSync(f.sf);const p=f.plan();
+ const A=require('../lib/apply'),old=A.protect;let n=0;
+ A.protect=(file,o)=>{const r=old(file,o);if(++n===3)fs.writeFileSync(f.sf,JSON.stringify({cleanupPeriodDays:90,enabledPlugins:{[f.id]:false}}));return r;};
+ let r;try{r=T.execute(p,[f.m],f.inventory,{runner:f.runner});}finally{A.protect=old;}
+ assert(!r.ok);assert.deepEqual(JSON.parse(fs.readFileSync(r.receipt)).results,[]);assert.throws(f.plan,REMEDY);
+});
+test('B-326: a fresh install whose only owned change is the enabledPlugins entry refuses',f=>{
+ const dir=f.plan().jobs[0].dir;
+ fs.writeFileSync(f.rf,JSON.stringify({version:2,plugins:{}}));fs.rmSync(f.payload,{recursive:true});
+ fs.writeFileSync(f.sf,JSON.stringify({env:{KEEP:'same'},extraKnownMarketplaces:{fixture:{source:{source:'directory',path:dir}}}}));
+ const p=f.plan();assert.equal(p.jobs[0].action,'install');foreignCleanup(f,'marketplace');
+ const r=T.execute(p,[f.m],f.inventory,{runner:f.runner});assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(f.sf)).enabledPlugins[f.id],true);assert.throws(f.plan,REMEDY);
+});
+test('B-326: a reinstall that re-enabled a disabled plugin natively refuses',f=>{
+ assert(f.execute().ok);
+ const reg=JSON.parse(fs.readFileSync(f.rf));reg.plugins[f.id][0].gitCommitSha=f.a;fs.writeFileSync(f.rf,JSON.stringify(reg));fs.writeFileSync(f.payload+'/value.txt','first');
+ const p=f.plan();assert.equal(p.jobs[0].action,'reinstall');foreignCleanup(f,'install');
+ const r=T.execute(p,[f.m],f.inventory,{runner:f.runner});f.setHook(null);assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(f.sf)).enabledPlugins[f.id],true);assert.throws(f.plan,REMEDY);
+});
+test('B-326: a reinstall that failed at the catalog step, nothing owned moved, plans',f=>{
+ assert(f.execute().ok);
+ const reg=JSON.parse(fs.readFileSync(f.rf));reg.plugins[f.id][0].gitCommitSha=f.a;fs.writeFileSync(f.rf,JSON.stringify(reg));fs.writeFileSync(f.payload+'/value.txt','first');
+ const p=f.plan();assert.equal(p.jobs[0].action,'reinstall');foreignCleanup(f,'marketplace');
+ const r=T.execute(p,[f.m],f.inventory,{runner:f.runner});f.setHook(null);assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(r.receipt)).results.at(-1).rollback,'not-attempted');
+ assert.equal(f.plan().jobs[0].action,'reinstall');
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
