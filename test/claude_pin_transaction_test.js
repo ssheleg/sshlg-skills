@@ -589,6 +589,13 @@ test('B-326: owned values compare exactly, only key order is free (table)',f=>{
   ['source vs source plus a field',[false,S0],[false,src({ref:'x'})],'refuse'],
   ['source field 1 vs "1"',[false,src({n:1})],[false,src({n:'1'})],'refuse'],
   ['source vs null',[false,S0],[false,null],'refuse'],
+  // Spellings a path or source normaliser would equate (round 32): each is another value.
+  ['source field ~/x vs the home directory spelled out',[false,src({note:'~/x'})],[false,src({note:require('os').homedir()+'/x'})],'refuse'],
+  ['source field a\\b vs a/b',[false,src({note:'a\\b'})],[false,src({note:'a/b'})],'refuse'],
+  ['source url with .git vs without',[false,src({url:'https://github.com/o/r.git'})],[false,src({url:'https://github.com/o/r'})],'refuse'],
+  ['source field a%20b vs a b',[false,src({note:'a%20b'})],[false,src({note:'a b'})],'refuse'],
+  ['source field \\u0041 as text vs A',[false,src({note:'\\u0041'})],[false,src({note:'A'})],'refuse'],
+  ['github source vs its git URL',[false,{source:'github',repo:'o/r'}],[false,{source:'git',url:'https://github.com/o/r.git'}],'refuse'],
   ['source keys reordered',[false,S0],[false,Object.fromEntries(Object.entries(S0).reverse())],'plan'],
   ['nested keys reordered',[false,src({opt:{a:1,b:2}})],[false,src({opt:{b:2,a:1}})],'plan'],
   ['identical',[false,S0],[false,S0],'plan'],
@@ -840,4 +847,24 @@ for(const [what,body] of [['null','null'],['an array','[]'],['a string','"x"'],[
   const r=T.execute(f.plan(),[f.m],f.inventory,{runner});assert(done);assert(!r.ok);
   assert.equal(JSON.parse(fs.readFileSync(r.receipt)).settingsRestored,false);fs.writeFileSync(f.sf,orig);assert.throws(f.plan,REMEDY);
  });
+// Round 32: execute() records a failed rollback at results[0] when the first member fails.
+test('B-326: a first member whose update and rollback both fail refuses, owned keys unchanged',f=>{
+ assert(f.execute().ok);
+ const reg=JSON.parse(fs.readFileSync(f.rf));reg.plugins[f.id][0].version='0.9.0';reg.plugins[f.id][0].gitCommitSha=f.a;fs.writeFileSync(f.rf,JSON.stringify(reg));
+ fs.writeFileSync(f.payload+'/value.txt','first');assert.equal(f.plan().jobs[0].action,'update');
+ f.setHook(a=>{
+  if(a[1]==='update'){const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';fs.writeFileSync(f.sf,JSON.stringify(s));return {status:1};}
+  if(a[1]==='marketplace'&&a[2]==='update')return {status:1};
+  return null;});
+ const r=f.execute();f.setHook(null);assert(!r.ok);
+ const rec=JSON.parse(fs.readFileSync(r.receipt));assert.equal(rec.results.length,1);assert.match(rec.results[0].rollback,/^failed/);
+ assert.equal(rec.settingsRestored,false);assert(!rec.uncertain);assert.throws(f.plan,REMEDY);
+});
+// Round 32: the copy is read by the strict reader, so a duplicate key refuses even when every owned key is intact.
+test('B-326: a duplicate foreign key written before the first backup refuses though owned keys are intact',f=>{
+ assert(f.execute().ok);const orig=fs.readFileSync(f.sf,'utf8');assert(orig.startsWith('{'));let done=false;
+ const runner=(c,a,o)=>{if(a[0]==='--version'&&!done){done=true;fs.writeFileSync(f.sf,'{"dup":1,"dup":1,'+orig.slice(1));}return f.runner(c,a,o);};
+ const r=T.execute(f.plan(),[f.m],f.inventory,{runner});assert(done);assert(!r.ok);
+ fs.writeFileSync(f.sf,orig);assert.throws(f.plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
