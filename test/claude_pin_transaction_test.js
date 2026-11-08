@@ -763,4 +763,25 @@ test('B-326: an owned number written 1.0 in the first copy and 1 now plans (raw 
  fs.writeFileSync(b,fs.readFileSync(b,'utf8').replace(/"n":\s*1(?![0-9.])/,'"n":1.0'));assert.match(fs.readFileSync(b,'utf8'),/"n":1\.0/);
  assert.equal(f.plan().jobs[0].action,'verify');
 });
+// Every pair from a pool of near-collisions, set on both sides (first copy and live file), at the
+// top of an owned value and one level down: the run plans exactly when the two are the same JSON.
+// A comparison that maps two distinct leaves to one (absence, type, whitespace, Unicode, case,
+// rounding) disagrees with this oracle on at least one pair.
+test('B-326: every pair of near-colliding leaf values, both sides set, compares exactly',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ const base=JSON.parse(fs.readFileSync(f.sf));
+ const pool=['',' ','  ','x','x ',' x','X','a b','a  b','a\tb','a\nb','\u00e9','e\u0301','\ud800','\ufffd','0','1','true','null',
+  null,true,false,0,1,-1,2,0.5,1.1,Math.fround(1.1),1.000000000001,1.00000001,1e21,[],{},[1],[[1]],{a:1},{a:null},{a:[]}];
+ const put=(d,depth,v)=>{const src={...base.extraKnownMarketplaces.fixture.source};if(depth===0)src.k=v;else src.k={i:v};d.extraKnownMarketplaces.fixture.source=src;};
+ const verdict=()=>{try{f.plan();return 'plan';}catch(e){if(!REMEDY.test(e.message))throw e;return 'refuse';}};
+ const wrong=[];let plans=0,refusals=0;
+ for(const depth of [0,1])for(let i=0;i<pool.length;i++)for(let j=0;j<pool.length;j++){
+  const before=JSON.parse(JSON.stringify(base)),now=JSON.parse(JSON.stringify(base));put(before,depth,pool[i]);put(now,depth,pool[j]);
+  fs.writeFileSync(b,JSON.stringify(before));fs.writeFileSync(f.sf,JSON.stringify(now));
+  const want=JSON.stringify(pool[i])===JSON.stringify(pool[j])?'plan':'refuse',got=verdict();
+  if(got==='plan')plans++;else refusals++;
+  if(got!==want)wrong.push('depth '+depth+': '+JSON.stringify(pool[i])+' vs '+JSON.stringify(pool[j])+': '+got);
+ }
+ assert.deepEqual(wrong,[]);assert(plans>=pool.length&&refusals>pool.length*pool.length,'both outcomes sampled');
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
