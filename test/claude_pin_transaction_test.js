@@ -442,4 +442,10 @@ test('B-326: a verified rollback followed by a foreign write, owned keys unchang
  assert.equal(rec.settingsRestored,false);assert(!rec.uncertain);assert.equal(rec.results.at(-1).rollback,'verified-prior-payload');
  f.setHook(null);assert.equal(f.plan().jobs[0].action,'reinstall');
 });
+test('B-326: a disabled owned entry deleted mid-run refuses',f=>{wedge(f,s=>{delete s.enabledPlugins[f.id];});assert.throws(f.plan,REMEDY);});
+test('B-326: a disabled owned entry set to null mid-run refuses',f=>{wedge(f,s=>{s.enabledPlugins[f.id]=null;});assert.throws(f.plan,REMEDY);});
+test('B-326: an owned entry absent in the backup and disabled now refuses',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ const kept=JSON.parse(fs.readFileSync(b));delete kept.enabledPlugins[f.id];fs.writeFileSync(b,JSON.stringify(kept));assert.throws(f.plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
