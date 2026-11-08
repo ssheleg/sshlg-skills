@@ -448,4 +448,12 @@ test('B-326: an owned entry absent in the backup and disabled now refuses',f=>{
  const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
  const kept=JSON.parse(fs.readFileSync(b));delete kept.enabledPlugins[f.id];fs.writeFileSync(b,JSON.stringify(kept));assert.throws(f.plan,REMEDY);
 });
+test('B-326: a foreign pluginConfigs write mid-run is not an owned key, and the next run plans',f=>{
+ wedge(f,s=>{s.pluginConfigs={[f.id]:{}};});assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: the refusals name the settings file and the lock directory they mean',f=>{
+ const r=wedge(f,s=>{s.enabledPlugins[f.id]=true;});
+ assert.throws(f.plan,e=>e.message.includes(f.sf)&&/settingsRestored/.test(e.message));
+ const lock=path.join(path.dirname(latestOf(r)),'lock');fs.mkdirSync(lock);assert.throws(f.plan,e=>e.message.includes(lock)&&/remove it/.test(e.message));
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
