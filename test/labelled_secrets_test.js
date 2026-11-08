@@ -703,11 +703,47 @@ it('B-250: an ascending run of 7 inside a 600-character token is noise, of 10 an
 it('B-250: a short documented example key keeps the substring rule', () => {
   assert.deepStrictEqual(labels(L.scanLabelled('AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY')), []);
 });
-it('B-250: 2,000 random 600-character bearer tokens are all reported', () => {
+// B-327: the run below was random once and missed one token in 2,000 when base64url spelled
+// `-yoUr_`. Its bytes now come from a fixed seed, so the gate reads the same 2,000 tokens.
+it('B-250: 2,000 seeded random 600-character bearer tokens are all reported', () => {
+  let counter = 0;
+  const seeded = (n) => {
+    const out = [];
+    while (out.length < n) out.push(...crypto.createHash('sha256').update('B-327:' + (counter++)).digest());
+    return Buffer.from(out.slice(0, n)).toString('base64url');
+  };
+  const seededJwt = () => {
+    const head = 'eyJ' + seeded(27);
+    const sig = seeded(256).slice(0, 342);
+    let body = 'eyJ';
+    while (body.length < 600 - head.length - sig.length - 2) body += seeded(64);
+    return `${head}.${body.slice(0, 600 - head.length - sig.length - 2)}.${sig}`;
+  };
   let missed = 0;
-  for (let i = 0; i < 2000; i += 1) if (!labels(L.scanLabelled(`Authorization: Bearer ${jwtOf(600)}`)).includes('Authorization')) missed += 1;
+  for (let i = 0; i < 2000; i += 1) {
+    const t = seededJwt();
+    assert.strictEqual(t.length, 600);
+    if (!labels(L.scanLabelled(`Authorization: Bearer ${t}`)).includes('Authorization')) missed += 1;
+  }
   assert.strictEqual(missed, 0);
 });
+// B-327: base64url holds `-` and `_`, so a random token can spell a placeholder word between
+// two of them; a person writes the word in one case, the random run in mixed case.
+for (const w of ['-yoUr_', '_yOuR-', '-dUmMy_', '_fAkE-', '-tOdO_', '_xXxX-', '-ReDaCtEd_', '_eXaMpLe-']) {
+  it(`B-327: a 600-character bearer token with "${w}" between base64url separators is reported`, () => {
+    const t = jwtOf(600);
+    const planted = t.slice(0, 400) + w + t.slice(400 + w.length);
+    assert.strictEqual(planted.length, 600);
+    assert.deepStrictEqual(labels(L.scanLabelled(`Authorization: Bearer ${planted}`)), ['Authorization']);
+  });
+}
+for (const w of ['-your_', '_YOUR-', '-Your_', '_dummy-', '-FAKE_', '_Todo-', '-xxxx_', '_REDACTED-', '-Example_', '_change_me-']) {
+  it(`B-327: a 600-character bearer token with "${w}" written in one case stays silent`, () => {
+    const t = jwtOf(600);
+    const planted = t.slice(0, 400) + w + t.slice(400 + w.length);
+    assert.deepStrictEqual(labels(L.scanLabelled(`Authorization: Bearer ${planted}`)), []);
+  });
+}
 
 if (failures.length) {
   console.error(`labelled_secrets_test: ${failures.length}/${checks} failed`);
