@@ -31,6 +31,6 @@ date: 2026-11-08
 - **Rollback:** `npm dist-tag add sshlg-skills@1.86.1 latest` moves new installs back at once; a machine reruns `npx --yes sshlg-skills@latest update`.
 - **Time to roll back:** minutes for the dist-tag, about an hour for a patch release.
 - **Data reversible:** yes: the change only decides whether a run may plan; it writes nothing new, and every transaction keeps its backups.
-- **Kill switch:** the dist-tag above; `SSHLG_SKILLS_SCHEDULE=skip` keeps a run away from the OS scheduler.
+- **Kill switch:** the dist-tag above is the only switch for this change; `SSHLG_SKILLS_SCHEDULE=skip` only keeps a run away from the OS scheduler and does not turn the new path off.
 - **Hotfix path:** a 1.86.3 patch through the same gate.
 - **Decision trigger:** roll back if the release run fails, or an `update` after a settled failure leaves an owned key different from the pin.
