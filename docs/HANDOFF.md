@@ -48,10 +48,10 @@ The Fabric board request `36d586e2` (item 5, deadline 2026-11-11) asked for sche
 
 **sshlg-skills 1.86.2 (B-326):** a failed Claude transaction no longer wedges the next run when its outcome is not uncertain, no rollback failed and every key it owned reads as in its first backup (`settled()` in `lib/claude-pinned.js`, `test/claude_pin_transaction_test.js` 42 to 117 cases). Card: [`2026-11-07-v1862-release-impact.md`](evidence/specs/2026-11-07-v1862-release-impact.md).
 
-**Next task:** if `npm view sshlg-skills version` is below 1.86.2, merge the 1.86.2 PR, tag `v1.86.2` and run `npx --yes sshlg-skills@latest update`; then close B-323 after the second night (below).
+**Next task:** if `npm view sshlg-skills version` is below 1.86.2, merge the 1.86.2 PR, tag `v1.86.2` and run `npx --yes sshlg-skills@latest update`; B-323 closed 2026-11-08 after its second night (exit 0, `updateCheck.at` 2026-11-08 04:41).
 
 **Waits:**
-- Close B-323 after the job's first two nights (the first, 2026-11-07 04:41, ran with exit 0 and moved `updateCheck.at`) (`launchctl print gui/$(id -u)/me.sshlg.skills.update` shows runs and exit 0, and `updateCheck.at` moves), about 2026-11-09.
+- None. B-323 closed 2026-11-08: `runs = 3`, `last exit code = 0`, `updateCheck.at` 2026-11-07 04:41 and 2026-11-08 04:41.
 - B-324 lists the job's open edges.
 
 ## Previous: 2026-10-28 the board's second pass (1.82.0)
