@@ -677,6 +677,14 @@ test('B-326: seeded perturbations of owned keys agree with an exact-comparison o
   d=>{d.cleanupPeriodDays=(d.cleanupPeriodDays||0)+1;},
   d=>{d.pluginConfigs={[id]:{}};},
   d=>{d.extraKnownMarketplaces[mk].autoUpdate=true;},
+  d=>{d.extraKnownMarketplaces[mk].source.flag=false;},
+  d=>{d.extraKnownMarketplaces[mk].source.list=[];},
+  d=>{d.extraKnownMarketplaces[mk].source.ref='';},
+  d=>{const o=d.extraKnownMarketplaces[mk].source;o.Path=o.path;delete o.path;},
+  d=>{const o=d.extraKnownMarketplaces[mk].source;o['path ']=o.path;delete o.path;},
+  d=>{const o=d.extraKnownMarketplaces[mk].source;if(Array.isArray(o.list))o.list=Object.fromEntries(o.list.map((v,i)=>[String(i),v]));},
+  d=>{d.extraKnownMarketplaces[mk].source.opts={a:{b:1}};},
+  d=>{const o=d.extraKnownMarketplaces[mk].source;if(o.opts&&o.opts.a)o.opts={a:{B:1}};},
  ];
  const wrong=[];let plans=0,refusals=0;
  for(let i=0;i<300;i++){
@@ -717,4 +725,13 @@ test('B-326: a settings copy deleted by hand refuses, even with no owned key now
  const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));fs.rmSync(settingsCopy(rec).path);
  const s=JSON.parse(fs.readFileSync(f.sf));delete s.enabledPlugins[f.id];delete s.extraKnownMarketplaces;fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
 });
+test('B-326 (round 22) P1 nested false added to owned source',f=>{wedge(f,s=>{s.extraKnownMarketplaces.fixture.source.flag=false;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 22) P2 nested empty array added to owned source',f=>{wedge(f,s=>{s.extraKnownMarketplaces.fixture.source.list=[];});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 22) P3 nested empty string added to owned source',f=>{wedge(f,s=>{s.extraKnownMarketplaces.fixture.source.ref='';});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 22) P4 owned source key path re-cased Path',f=>{wedge(f,s=>{const o=s.extraKnownMarketplaces.fixture.source;o.Path=o.path;delete o.path;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 22) P5 owned source key path with trailing space',f=>{wedge(f,s=>{const o=s.extraKnownMarketplaces.fixture.source;o['path ']=o.path;delete o.path;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 22) P6 owned source array became index object (incident shape)',f=>{incident(f,s=>{s.extraKnownMarketplaces.fixture.source.list=['a'];},s=>{s.extraKnownMarketplaces.fixture.source.list={'0':'a'};});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 22) P0 control: foreign write only plans',f=>{wedge(f);assert.equal(f.plan().jobs[0].action,'verify');});
+test('B-326 (round 22) P4b owned source extra key ref re-cased Ref (incident shape)',f=>{incident(f,s=>{s.extraKnownMarketplaces.fixture.source.ref='x';},s=>{const o=s.extraKnownMarketplaces.fixture.source;o.Ref=o.ref;delete o.ref;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 22) P5b owned source extra key ref gains a trailing space (incident shape)',f=>{incident(f,s=>{s.extraKnownMarketplaces.fixture.source.ref='x';},s=>{const o=s.extraKnownMarketplaces.fixture.source;o['ref ']=o.ref;delete o.ref;});assert.throws(f.plan,REMEDY);});
 console.log(`PASS: Claude native transaction — ${count} cases`);
