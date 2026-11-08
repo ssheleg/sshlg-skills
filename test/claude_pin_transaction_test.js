@@ -830,4 +830,14 @@ test('B-326: a run that failed writing its recovery plan refuses while an owned 
  assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));assert.equal(rec.settingsRestored,false);assert(!fs.existsSync(rec.recoveryPlan),'the plan file was written');
  assert(Array.isArray(rec.backups)&&settingsCopy(rec));assert.throws(f.plan,REMEDY);
 });
+// The window between execute()'s re-plan and its first backup (runtime() calls `claude --version`
+// there): a foreign body the copy keeps must end in the refusal, never another exception.
+for(const [what,body] of [['null','null'],['an array','[]'],['a string','"x"'],['a non-round-trip number','{"x":0.1000000000000000055511151231257827}'],
+ ['an empty file',''],['a duplicate key','{"a":1,"a":2}'],['200-deep nesting','['.repeat(200)+']'.repeat(200)]])
+ test('B-326: '+what+' written before the first backup refuses with the remedy once settings are valid again',f=>{
+  assert(f.execute().ok);const orig=fs.readFileSync(f.sf,'utf8');let done=false;
+  const runner=(c,a,o)=>{if(a[0]==='--version'&&!done){done=true;fs.writeFileSync(f.sf,body);}return f.runner(c,a,o);};
+  const r=T.execute(f.plan(),[f.m],f.inventory,{runner});assert(done);assert(!r.ok);
+  assert.equal(JSON.parse(fs.readFileSync(r.receipt)).settingsRestored,false);fs.writeFileSync(f.sf,orig);assert.throws(f.plan,REMEDY);
+ });
 console.log(`PASS: Claude native transaction — ${count} cases`);
