@@ -1,10 +1,10 @@
-## v1.86.2 (2026-11-07): a setting another session writes during `update` no longer stops later updates when the failed run left no owned key changed
+## v1.86.2 (2026-11-08): a setting another session writes during `update` no longer stops later updates when the failed run left no owned key changed
 
 - **A failed Claude transaction no longer wedges the next run when it left nothing of its own behind** (B-326).
   On 2026-11-07 another session set `cleanupPeriodDays` while `update` ran. The transaction failed,
-  kept that setting as written (as it should), and recorded `settingsRestored: false`; from then on
-  every `update`, the unattended nightly one included, exited 2 with `incomplete Claude transaction`
-  and named no way out. `prepare()` in `lib/claude-pinned.js` now lets the next run plan when that
+  kept that setting as written (as it should), and recorded `settingsRestored: false`; the next
+  `update` exited 2 with `incomplete Claude transaction` and named no way out, and every later one,
+  the unattended nightly one too, would have until the journal was edited by hand. `prepare()` in `lib/claude-pinned.js` now lets the next run plan when that
   failure is settled: no rollback failed, the outcome is not uncertain, and every settings key the
   transaction owned (each member's `enabledPlugins` entry and its marketplace `source`) reads now as
   in the backup it took first, an absent key and a null one told apart. Only that transaction's own directory is read: the receipt must sit
@@ -13,7 +13,7 @@
   own remedy and the field or directory that clears it: a lock directory (remove it), a run
   recorded in progress, an uncertain native outcome, and a failure that is not settled (check the
   settings file it names, then set `"settingsRestored": true` in the named `latest.json`).
-  A `complete` receipt plans as before. `test/claude_pin_transaction_test.js` 42 → 123 cases.
+  A `complete` receipt plans as before. `test/claude_pin_transaction_test.js` 42 → 124 cases.
 
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
 

@@ -3,7 +3,7 @@
 schema: release-impact/1
 release: v1.86.2
 users: external
-date: 2026-11-07
+date: 2026-11-08
 
 ## 1. Who is affected and how
 
@@ -11,7 +11,7 @@ date: 2026-11-07
 - **What changes:** after a Claude transaction fails because another writer changed a setting it does not own, the next `update` plans again instead of exiting 2 with `incomplete Claude transaction`, provided no rollback failed and every key the transaction owned reads as in its first backup (`lib/claude-pinned.js` `settled()`). The refusal that remains names the remedy.
 - **Breaks for existing users:** none known. A machine already wedged this way (a `latest.json` with `status: failed` and `settingsRestored: false`) gets unstuck at its next `update` when the condition holds; when it does not, it refuses as before, now with the remedy.
 - **Rollout:** all at once through npm `latest`; each machine at its next `update`, the nightly job included.
-- **Timing:** 2026-11-07.
+- **Timing:** 2026-11-08.
 
 ## 2. Tracking
 

@@ -595,4 +595,5 @@ test('B-326: owned values compare exactly, only key order is free (table)',f=>{
  for(const [name,before,now,want] of rows){set(b,...before);set(f.sf,...now);const got=verdict();if(got!==want)wrong.push(name+': '+got);}
  assert.deepEqual(wrong,[]);
 });
+test('B-326: a faithful copy one directory deeper under the transactions root is not read',f=>{const r=wedge(f);relocate(f,r,path.join(path.dirname(path.dirname(r.receipt)),'x','2-bbbbbbbbbbbb'));assert.throws(f.plan,/incomplete/);});
 console.log(`PASS: Claude native transaction — ${count} cases`);
