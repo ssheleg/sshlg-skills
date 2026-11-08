@@ -612,4 +612,82 @@ test('B-326: every member verified, then a foreign write before the final check,
 });
 test('B-326: the whole extraKnownMarketplaces map deleted mid-run refuses',f=>{wedge(f,s=>{delete s.extraKnownMarketplaces;});assert.throws(f.plan,REMEDY);});
 test('B-326: the whole enabledPlugins map deleted mid-run refuses',f=>{wedge(f,s=>{delete s.enabledPlugins;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E1: owned enabledPlugins entry re-keyed in other case mid-run refuses',f=>{wedge(f,s=>{const v=s.enabledPlugins[f.id];delete s.enabledPlugins[f.id];s.enabledPlugins[f.id.toUpperCase()]=v;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E2: owned marketplace entry re-keyed in other case mid-run refuses',f=>{wedge(f,s=>{const v=s.extraKnownMarketplaces.fixture;delete s.extraKnownMarketplaces.fixture;s.extraKnownMarketplaces.Fixture=v;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E3: settings emptied by another writer mid-run refuses',f=>{wedge(f,s=>{for(const k of Object.keys(s))delete s[k];});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E3b: both owned maps deleted mid-run refuses',f=>{wedge(f,s=>{delete s.enabledPlugins;delete s.extraKnownMarketplaces;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E4: a nested null field inside the owned source dropped mid-run refuses',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ const k=JSON.parse(fs.readFileSync(b));k.extraKnownMarketplaces.fixture.source.ref=null;fs.writeFileSync(b,JSON.stringify(k));assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E5: owned source path in NFD vs NFC refuses',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ const k=JSON.parse(fs.readFileSync(b));k.extraKnownMarketplaces.fixture.source.tag='é';fs.writeFileSync(b,JSON.stringify(k));
+ const s=JSON.parse(fs.readFileSync(f.sf));s.extraKnownMarketplaces.fixture.source.tag='é';fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E6: a null field added inside the owned source mid-run refuses',f=>{wedge(f,s=>{s.extraKnownMarketplaces.fixture.source.ref=null;});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E7: an empty object added inside the owned source mid-run refuses',f=>{wedge(f,s=>{s.extraKnownMarketplaces.fixture.source.opts={};});assert.throws(f.plan,REMEDY);});
+// incident shape (failure at the first settings write), so the first backup carries whatever the operator had
+function incident(f,pre,mid){
+ assert(f.execute().ok);{const s=JSON.parse(fs.readFileSync(f.sf));pre(s);fs.writeFileSync(f.sf,JSON.stringify(s));}
+ const A=require('../lib/apply'),old=A.protect;let n=0;
+ A.protect=(file,o)=>{const r=old(file,o);if(++n===3){const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';mid(s);fs.writeFileSync(f.sf,JSON.stringify(s));}return r;};
+ let r;try{r=f.execute();}finally{A.protect=old;}
+ assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));assert.equal(rec.settingsRestored,false);assert.deepEqual(rec.results,[]);return r;}
+test('B-326 (round 19) E8: an owned source string re-saved NFD mid-run refuses (incident shape)',f=>{
+ incident(f,s=>{s.extraKnownMarketplaces.fixture.source.tag='café';},s=>{s.extraKnownMarketplaces.fixture.source.tag='café';});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E8c: control, unchanged incident shape with the NFC field plans',f=>{
+ incident(f,s=>{s.extraKnownMarketplaces.fixture.source.tag='café';},s=>{});assert.ok(f.plan().jobs.length);});
+test('B-326 (round 19) E9: an array inside the owned source with a duplicate dropped mid-run refuses (incident shape)',f=>{
+ incident(f,s=>{s.extraKnownMarketplaces.fixture.source.list=['x','x'];},s=>{s.extraKnownMarketplaces.fixture.source.list=['x'];});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E10: an object enabledPlugins value changed mid-run refuses (incident shape)',f=>{
+ incident(f,s=>{s.enabledPlugins[f.id]={a:1};},s=>{s.enabledPlugins[f.id]={a:2};});assert.throws(f.plan,REMEDY);});
+test('B-326 (round 19) E9c: control, unchanged duplicate array plans',f=>{incident(f,s=>{s.extraKnownMarketplaces.fixture.source.list=['x','x'];},s=>{});assert.ok(f.plan().jobs.length);});
+test('B-326 (round 19) E10c: control, unchanged object value plans',f=>{incident(f,s=>{s.enabledPlugins[f.id]={a:1};},s=>{});assert.ok(f.plan().jobs.length);});
+// A seeded walk over perturbations of the owned keys, judged by an independent oracle: the run
+// plans exactly when every owned value, read by its exact key, is the same JSON once object keys
+// are sorted. One wedged receipt; each step rewrites the live settings only.
+test('B-326: seeded perturbations of owned keys agree with an exact-comparison oracle',f=>{
+ const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));
+ const first=JSON.parse(fs.readFileSync(settingsCopy(rec).path)),id=f.id,mk='fixture';
+ const canon=v=>JSON.stringify(v,(k,x)=>x&&typeof x==='object'&&!Array.isArray(x)?Object.fromEntries(Object.keys(x).sort().map(n=>[n,x[n]])):x);
+ const own=d=>{const h=(m,k)=>m&&typeof m==='object'&&!Array.isArray(m)&&Object.prototype.hasOwnProperty.call(m,k)?['set',m[k]]:['absent'];
+  const em=d&&d.extraKnownMarketplaces;return canon([h(d&&d.enabledPlugins,id),h(em&&typeof em==='object'&&!Array.isArray(em)?em[mk]:null,'source')]);};
+ let seed=326;const rnd=n=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return (seed>>>8)%n;};
+ const ops=[
+  d=>{const v=d.enabledPlugins[id];delete d.enabledPlugins[id];d.enabledPlugins[id.toUpperCase()]=v;},
+  d=>{const v=d.enabledPlugins[id];delete d.enabledPlugins[id];d.enabledPlugins[id+' ']=v;},
+  d=>{const v=d.extraKnownMarketplaces[mk];delete d.extraKnownMarketplaces[mk];d.extraKnownMarketplaces['Fixture']=v;},
+  d=>{const v=d.extraKnownMarketplaces[mk];delete d.extraKnownMarketplaces[mk];d.extraKnownMarketplaces[' '+mk]=v;},
+  d=>{d.extraKnownMarketplaces[mk].source.ref=null;},
+  d=>{d.extraKnownMarketplaces[mk].source.opts={};},
+  d=>{d.extraKnownMarketplaces[mk].source.list=[1,2];},
+  d=>{d.extraKnownMarketplaces[mk].source.list=[2,1];},
+  d=>{d.extraKnownMarketplaces[mk].source.tag='\u00e9';},
+  d=>{d.extraKnownMarketplaces[mk].source.tag='e\u0301';},
+  d=>{d.extraKnownMarketplaces[mk].source.path=d.extraKnownMarketplaces[mk].source.path+'/';},
+  d=>{d.extraKnownMarketplaces[mk].source.path=d.extraKnownMarketplaces[mk].source.path.toUpperCase();},
+  d=>{d.extraKnownMarketplaces[mk].source=Object.fromEntries(Object.entries(d.extraKnownMarketplaces[mk].source).reverse());},
+  d=>{d.enabledPlugins[id]=!d.enabledPlugins[id];},
+  d=>{d.enabledPlugins[id]=String(d.enabledPlugins[id]);},
+  d=>{d.enabledPlugins[id]={on:d.enabledPlugins[id]};},
+  d=>{d.enabledPlugins[id]=null;},
+  d=>{delete d.enabledPlugins[id];},
+  d=>{delete d.enabledPlugins;},
+  d=>{delete d.extraKnownMarketplaces;},
+  d=>{for(const k of Object.keys(d))delete d[k];},
+  d=>{d.cleanupPeriodDays=(d.cleanupPeriodDays||0)+1;},
+  d=>{d.pluginConfigs={[id]:{}};},
+  d=>{d.extraKnownMarketplaces[mk].autoUpdate=true;},
+ ];
+ const wrong=[];let plans=0,refusals=0;
+ for(let i=0;i<300;i++){
+  const d=JSON.parse(JSON.stringify(first));const used=[];
+  for(let k=1+rnd(3);k>0;k--){const o=rnd(ops.length);try{ops[o](d);used.push(o);}catch(_){}}
+  fs.writeFileSync(f.sf,JSON.stringify(d));
+  const want=own(d)===own(first)?'plan':'refuse';let got;
+  try{f.plan();got='plan';}catch(e){if(!REMEDY.test(e.message))throw e;got='refuse';}
+  if(got==='plan')plans++;else refusals++;
+  if(got!==want)wrong.push(used.join(',')+': want '+want+', got '+got);
+ }
+ assert.deepEqual(wrong,[]);assert(plans>10&&refusals>50,'both outcomes sampled: '+plans+'/'+refusals);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
