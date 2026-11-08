@@ -410,4 +410,14 @@ test('B-326: with two members, owned keys exchanged between them refuse',f=>{
  s.enabledPlugins['other@othermk']=v;s.extraKnownMarketplaces.othermk={source:src};
  fs.writeFileSync(f.sf,JSON.stringify(s));assert.throws(f.plan,REMEDY);
 });
+for(const step of ['uninstall','install']) test('B-326: the comparison is with the first settings copy, not a later one the run took ('+step+')',f=>{
+ // A first run adds the owned marketplace source; a foreign write at a payload step lands
+ // after later copies of settings (which carry that source) were taken. The plugin starts
+ // enabled, so only the source differs from the first copy.
+ {const s0=JSON.parse(fs.readFileSync(f.sf));s0.enabledPlugins[f.id]=true;fs.writeFileSync(f.sf,JSON.stringify(s0));}
+ f.setHook(a=>{if(a[1]===step){const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';fs.writeFileSync(f.sf,JSON.stringify(s));f.setHook(null);}return null;});
+ const r=f.execute();assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));assert.equal(rec.settingsRestored,false);assert(!rec.uncertain);
+ const dir=path.dirname(settingsCopy(rec).path);assert(fs.readdirSync(dir).filter(n=>n.startsWith('settings.json')).length>=2,'later settings copies exist');
+ assert.throws(f.plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);

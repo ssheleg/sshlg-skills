@@ -1,4 +1,4 @@
-## v1.86.2 (2026-11-07): a setting another session writes during `update` no longer stops every later update
+## v1.86.2 (2026-11-07): a setting another session writes during `update` no longer stops later updates when the failed run left no owned key changed
 
 - **A failed Claude transaction no longer wedges the next run when it left nothing of its own behind** (B-326).
   On 2026-11-07 another session set `cleanupPeriodDays` while `update` ran. The transaction failed,
@@ -13,7 +13,7 @@
   own remedy and the field or directory that clears it: a lock directory (remove it), a run
   recorded in progress, an uncertain native outcome, and a failure that is not settled (check
   `~/.claude/settings.json`, then set `"settingsRestored": true` in the named `latest.json`).
-  A `complete` receipt plans as before. `test/claude_pin_transaction_test.js` 42 → 98 cases.
+  A `complete` receipt plans as before. `test/claude_pin_transaction_test.js` 42 → 100 cases.
 
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
 
