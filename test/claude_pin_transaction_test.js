@@ -519,4 +519,17 @@ test('B-326: a reinstall that failed at the catalog step, nothing owned moved, p
  const r=T.execute(p,[f.m],f.inventory,{runner:f.runner});f.setHook(null);assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(r.receipt)).results.at(-1).rollback,'not-attempted');
  assert.equal(f.plan().jobs[0].action,'reinstall');
 });
+test('B-326: an update job whose failed run added the owned source refuses',f=>{
+ const reg=JSON.parse(fs.readFileSync(f.rf));reg.plugins[f.id][0].version='0.9.0';fs.writeFileSync(f.rf,JSON.stringify(reg));
+ const p=f.plan();assert.equal(p.jobs[0].action,'update');foreignAtMarketplace(f);
+ const r=T.execute(p,[f.m],f.inventory,{runner:f.runner});assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(r.receipt)).settingsRestored,false);assert.throws(f.plan,REMEDY);
+});
+test('B-326: an owned source whose extra field the failed run dropped refuses',f=>{
+ assert(f.execute().ok);const s=JSON.parse(fs.readFileSync(f.sf));s.extraKnownMarketplaces.fixture.source.ref='keep-me';fs.writeFileSync(f.sf,JSON.stringify(s));
+ foreignAtMarketplace(f);const r=f.execute();assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(f.sf)).extraKnownMarketplaces.fixture.source.ref,undefined);assert.throws(f.plan,REMEDY);
+});
+test('B-326: a stale lock beside a settled failure still refuses, naming the lock',f=>{
+ const r=wedge(f);assert.equal(f.plan().jobs[0].action,'verify');
+ fs.mkdirSync(path.join(path.dirname(latestOf(r)),'lock'));assert.throws(f.plan,/lock directory .*remove it/);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
