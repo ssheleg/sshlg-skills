@@ -3,16 +3,18 @@ const assert=require('assert'),fs=require('fs'),os=require('os'),path=require('p
 const S=require('../lib/claude-plugin-source'),P=require('../lib/claude-pinned'),T=require('../lib/claude-pin-transaction');
 let count=0;
 function test(name,fn,profileRel){const box=fs.mkdtempSync(path.join(os.tmpdir(),'claude-transaction-'));try{fn(fixture(box,profileRel));count++;console.log('ok '+name);}finally{fs.rmSync(box,{recursive:true,force:true});}}
+// B-326: ids may carry capitals (lib/claude-plugin-source.js:9); a test may set FIXTURE_ID.
+let FIXTURE_ID='probe@fixture';
 function fixture(box,profileRel='.claude') {
- const home=box+'/home',profile=home+'/'+profileRel,id='probe@fixture',a='a'.repeat(40),b='b'.repeat(40);
+ const home=box+'/home',profile=home+'/'+profileRel,id=FIXTURE_ID,pn=id.split('@')[0],mkt=id.split('@')[1],a='a'.repeat(40),b='b'.repeat(40);
  const payload=profile+'/plugins/cache/fixture/probe/1.0.0',sf=profile+'/settings.json',rf=profile+'/plugins/installed_plugins.json';
- const raw=JSON.stringify({name:'probe',version:'1.0.0'}),files={'.claude-plugin/plugin.json':raw,'value.txt':'second'};
+ const raw=JSON.stringify({name:pn,version:'1.0.0'}),files={'.claude-plugin/plugin.json':raw,'value.txt':'second'};
  const m={name:'fixture',repo:'o/r',commit:b,version:'1.0.0',pluginInstall:id};
- const row={...m,pluginPath:'plugins/probe',entry:{name:'probe',source:'./plugins/probe'},configSurface:false,files:Object.entries(files).map(([p,v])=>({path:p,bytes:Buffer.byteLength(v),sha256:S.sha256(v)}))};
+ const row={...m,pluginPath:'plugins/probe',entry:{name:pn,source:'./plugins/probe'},configSurface:false,files:Object.entries(files).map(([p,v])=>({path:p,bytes:Buffer.byteLength(v),sha256:S.sha256(v)}))};
  const inventory={schema:'claude-plugin-pins/1',members:[row]},opts={home,profileRoot:profile};
  fs.mkdirSync(payload+'/.claude-plugin',{recursive:true});fs.writeFileSync(payload+'/.claude-plugin/plugin.json',raw);fs.writeFileSync(payload+'/value.txt','first');
  const rec={scope:'user',version:'1.0.0',gitCommitSha:a,installPath:payload};fs.writeFileSync(rf,JSON.stringify({version:2,plugins:{[id]:[rec]}}));
- fs.writeFileSync(sf,'{\r\n "huge":1000001.2500, "enabledPlugins":{"probe@fixture":false,"foreign@foreign":false}, "env":{"KEEP":"same"}\r\n}\r\n');
+ fs.writeFileSync(sf,'{\r\n "huge":1000001.2500, "enabledPlugins":{'+JSON.stringify(id)+':false,"foreign@foreign":false}, "env":{"KEEP":"same"}\r\n}\r\n');
  const calls=[],envs=[];let hook=null;
  const plan=()=>P.prepare([m],inventory,opts);
  function runner(cmd,args,opts) {
@@ -28,7 +30,7 @@ function fixture(box,profileRel='.claude') {
   }
   fs.writeFileSync(sf,JSON.stringify(current,null,2));return {status:0,stdout:''};
  }
- function planCatalog(){return home+'/.sshlg-skills/claude-pinned/'+S.sha256(require('../lib/visibility-state').profilePath(profile)).slice(0,16)+'/fixture/.claude-plugin/marketplace.json';}
+ function planCatalog(){return home+'/.sshlg-skills/claude-pinned/'+S.sha256(require('../lib/visibility-state').profilePath(profile)).slice(0,16)+'/'+mkt+'/.claude-plugin/marketplace.json';}
  return {box,home,profile,id,a,b,payload,sf,rf,m,row,inventory,opts,calls,envs,plan,runner,planCatalog,setHook:f=>hook=f,execute:()=>T.execute(plan(),[m],inventory,{runner})};
 }
 test('same-version repair verifies exact payload and restores raw round-trip-safe numbers + disabled state',f=>{const r=f.execute();assert(r.ok,JSON.stringify(r));const s=fs.readFileSync(f.sf,'utf8');assert(s.includes('1000001.2500'));assert(s.includes('\r\n'));assert.equal(JSON.parse(s).enabledPlugins[f.id],false);assert.equal(f.plan().jobs[0].action,'verify');assert.equal(r.results[0].files,2);});
@@ -685,6 +687,8 @@ test('B-326: seeded perturbations of owned keys agree with an exact-comparison o
   d=>{const o=d.extraKnownMarketplaces[mk].source;if(Array.isArray(o.list))o.list=Object.fromEntries(o.list.map((v,i)=>[String(i),v]));},
   d=>{d.extraKnownMarketplaces[mk].source.opts={a:{b:1}};},
   d=>{const o=d.extraKnownMarketplaces[mk].source;if(o.opts&&o.opts.a)o.opts={a:{B:1}};},
+  d=>{const o=d.extraKnownMarketplaces[mk].source;o.ref=(typeof o.ref==='string'?o.ref:'x')+' ';},
+  d=>{d.extraKnownMarketplaces[mk].source.ref='x';},
  ];
  const wrong=[];let plans=0,refusals=0;
  for(let i=0;i<300;i++){
@@ -734,4 +738,13 @@ test('B-326 (round 22) P6 owned source array became index object (incident shape
 test('B-326 (round 22) P0 control: foreign write only plans',f=>{wedge(f);assert.equal(f.plan().jobs[0].action,'verify');});
 test('B-326 (round 22) P4b owned source extra key ref re-cased Ref (incident shape)',f=>{incident(f,s=>{s.extraKnownMarketplaces.fixture.source.ref='x';},s=>{const o=s.extraKnownMarketplaces.fixture.source;o.Ref=o.ref;delete o.ref;});assert.throws(f.plan,REMEDY);});
 test('B-326 (round 22) P5b owned source extra key ref gains a trailing space (incident shape)',f=>{incident(f,s=>{s.extraKnownMarketplaces.fixture.source.ref='x';},s=>{const o=s.extraKnownMarketplaces.fixture.source;o['ref ']=o.ref;delete o.ref;});assert.throws(f.plan,REMEDY);});
+// Owned keys are looked up by their exact name: a mixed-case id, as the validator admits.
+FIXTURE_ID='Probe@Fixture';
+test('B-326: a mixed-case id with only a foreign write plans',f=>{wedge(f);assert.equal(f.plan().jobs[0].action,'verify');});
+test('B-326: a mixed-case id whose owned entry toggled refuses',f=>{wedge(f,s=>{s.enabledPlugins['Probe@Fixture']=true;});assert.throws(f.plan,REMEDY);});
+test('B-326: a mixed-case id whose owned source moved refuses',f=>{wedge(f,s=>{s.extraKnownMarketplaces.Fixture.source={source:'github',repo:'o/r'};});assert.throws(f.plan,REMEDY);});
+FIXTURE_ID='probe@fixture';
+test('B-326: an owned string value that gained surrounding whitespace refuses (incident shape)',f=>{
+ incident(f,s=>{s.extraKnownMarketplaces.fixture.source.ref='x';},s=>{s.extraKnownMarketplaces.fixture.source.ref='x ';});assert.throws(f.plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
