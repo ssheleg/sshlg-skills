@@ -420,4 +420,26 @@ for(const step of ['uninstall','install']) test('B-326: the comparison is with t
  const dir=path.dirname(settingsCopy(rec).path);assert(fs.readdirSync(dir).filter(n=>n.startsWith('settings.json')).length>=2,'later settings copies exist');
  assert.throws(f.plan,REMEDY);
 });
+// The receipt this machine wrote on 2026-11-07: a foreign write after the first backups and
+// before the settings write, so the run fails with no results at all.
+test('B-326: the incident shape (changed before protected write, no results) plans',f=>{
+ assert(f.execute().ok);
+ const A=require('../lib/apply'),old=A.protect;let n=0;
+ A.protect=(file,o)=>{const r=old(file,o);if(++n===3){const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';fs.writeFileSync(f.sf,JSON.stringify(s));}return r;};
+ let r;try{r=f.execute();}finally{A.protect=old;}
+ assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));
+ assert.equal(rec.settingsRestored,false);assert(!rec.uncertain);assert.deepEqual(rec.results,[]);assert.match(rec.error,/changed before protected write/);
+ assert.equal(f.plan().jobs[0].action,'verify');assert.equal(JSON.parse(fs.readFileSync(f.sf)).env.KEEP,'concurrent');
+});
+test('B-326: a verified rollback followed by a foreign write, owned keys unchanged, plans',f=>{
+ {const s0=JSON.parse(fs.readFileSync(f.sf));s0.enabledPlugins[f.id]=true;fs.writeFileSync(f.sf,JSON.stringify(s0));}
+ assert(f.execute().ok);
+ const reg=JSON.parse(fs.readFileSync(f.rf));reg.plugins[f.id][0].gitCommitSha=f.a;fs.writeFileSync(f.rf,JSON.stringify(reg));fs.writeFileSync(f.payload+'/value.txt','first');
+ assert.equal(f.plan().jobs[0].action,'reinstall');
+ let first=true;
+ f.setHook(a=>{if(a[1]==='install' && first){first=false;const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';fs.writeFileSync(f.sf,JSON.stringify(s));return {status:1};}return null;});
+ const r=f.execute();assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));
+ assert.equal(rec.settingsRestored,false);assert(!rec.uncertain);assert.equal(rec.results.at(-1).rollback,'verified-prior-payload');
+ f.setHook(null);assert.equal(f.plan().jobs[0].action,'reinstall');
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
