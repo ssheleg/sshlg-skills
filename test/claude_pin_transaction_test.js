@@ -689,6 +689,10 @@ test('B-326: seeded perturbations of owned keys agree with an exact-comparison o
   d=>{const o=d.extraKnownMarketplaces[mk].source;if(o.opts&&o.opts.a)o.opts={a:{B:1}};},
   d=>{const o=d.extraKnownMarketplaces[mk].source;o.ref=(typeof o.ref==='string'?o.ref:'x')+' ';},
   d=>{d.extraKnownMarketplaces[mk].source.ref='x';},
+  d=>{d.extraKnownMarketplaces[mk].source.n=1;},
+  d=>{d.extraKnownMarketplaces[mk].source.n=1.4;},
+  d=>{d.extraKnownMarketplaces[mk].source.n=-1;},
+  d=>{d.extraKnownMarketplaces[mk].source.n=1.0000001;},
  ];
  const wrong=[];let plans=0,refusals=0;
  for(let i=0;i<300;i++){
@@ -746,5 +750,17 @@ test('B-326: a mixed-case id whose owned source moved refuses',f=>{wedge(f,s=>{s
 FIXTURE_ID='probe@fixture';
 test('B-326: an owned string value that gained surrounding whitespace refuses (incident shape)',f=>{
  incident(f,s=>{s.extraKnownMarketplaces.fixture.source.ref='x';},s=>{s.extraKnownMarketplaces.fixture.source.ref='x ';});assert.throws(f.plan,REMEDY);
+});
+// Numbers inside an owned value compare by value: 1.0 and 1 agree, 1 and 1.4, 1.0000001 or -1 do not.
+for(const [first,now,want] of [[1,1.4,'refuse'],[1,1.0000001,'refuse'],[-1,1,'refuse'],[0.5,0.25,'refuse'],[1.0,1,'plan'],[2.5,2.5,'plan']])
+ test('B-326: an owned number '+first+' then '+now+' '+(want==='plan'?'plans':'refuses')+' (incident shape)',f=>{
+  incident(f,s=>{s.extraKnownMarketplaces.fixture.source.n=first;},s=>{s.extraKnownMarketplaces.fixture.source.n=now;});
+  if(want==='plan')assert.equal(f.plan().jobs[0].action,'verify');else assert.throws(f.plan,REMEDY);
+ });
+test('B-326: an owned number written 1.0 in the first copy and 1 now plans (raw spelling)',f=>{
+ const r=incident(f,s=>{s.extraKnownMarketplaces.fixture.source.n=1;},s=>{});
+ const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
+ fs.writeFileSync(b,fs.readFileSync(b,'utf8').replace(/"n":\s*1(?![0-9.])/,'"n":1.0'));assert.match(fs.readFileSync(b,'utf8'),/"n":1\.0/);
+ assert.equal(f.plan().jobs[0].action,'verify');
 });
 console.log(`PASS: Claude native transaction — ${count} cases`);
