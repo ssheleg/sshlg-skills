@@ -532,4 +532,31 @@ test('B-326: a stale lock beside a settled failure still refuses, naming the loc
  const r=wedge(f);assert.equal(f.plan().jobs[0].action,'verify');
  fs.mkdirSync(path.join(path.dirname(latestOf(r)),'lock'));assert.throws(f.plan,/lock directory .*remove it/);
 });
+// Two real members through execute(): the first verified (its run newly bound its marketplace
+// source), the second failed on a foreign write at its own marketplace step.
+function twoMembers(box,swap) {
+ const home=box+'/home',profile=home+'/.claude',sf=profile+'/settings.json',rf=profile+'/plugins/installed_plugins.json',a='a'.repeat(40),b='b'.repeat(40);
+ const raw=n=>JSON.stringify({name:n,version:'1.0.0'});
+ const mk=(name,plugin,mkt)=>{const files={'.claude-plugin/plugin.json':raw(plugin),'value.txt':'second'};
+  const m={name,repo:'o/'+name,commit:b,version:'1.0.0',pluginInstall:plugin+'@'+mkt};
+  const row={...m,pluginPath:'plugins/'+plugin,entry:{name:plugin,source:'./plugins/'+plugin},configSurface:false,files:Object.entries(files).map(([p,v])=>({path:p,bytes:Buffer.byteLength(v),sha256:S.sha256(v)}))};
+  const payload=profile+'/plugins/cache/'+mkt+'/'+plugin+'/1.0.0';fs.mkdirSync(payload+'/.claude-plugin',{recursive:true});
+  for(const [p,v] of Object.entries(files)) fs.writeFileSync(payload+'/'+p,v);
+  return {m,row,rec:{scope:'user',version:'1.0.0',gitCommitSha:a,installPath:payload}};};
+ let X=mk('fixture','probe','fixture'),Y=mk('second','probe2','second');if(swap)[X,Y]=[Y,X];
+ fs.writeFileSync(rf,JSON.stringify({version:2,plugins:{[X.m.pluginInstall]:[X.rec],[Y.m.pluginInstall]:[Y.rec]}}));
+ fs.writeFileSync(sf,JSON.stringify({enabledPlugins:{[X.m.pluginInstall]:true,[Y.m.pluginInstall]:true},env:{KEEP:'same'}}));
+ const members=[X.m,Y.m],inventory={schema:'claude-plugin-pins/1',members:[X.row,Y.row]},opts={home,profileRoot:profile};
+ const failing=Y.m.pluginInstall.split('@')[1];
+ const runner=(cmd,args)=>{if(args[0]==='--version')return {status:0,stdout:'2.1.296 (Claude Code)'};
+  if(args[1]==='marketplace'&&args[2]==='add'&&path.basename(args[3])===failing){const s=JSON.parse(fs.readFileSync(sf));s.cleanupPeriodDays=90;fs.writeFileSync(sf,JSON.stringify(s));}
+  return {status:0,stdout:''};};
+ {const p0=P.prepare(members,inventory,opts);const s=JSON.parse(fs.readFileSync(sf));s.extraKnownMarketplaces={[failing]:{source:{source:'directory',path:p0.jobs[1].dir}}};fs.writeFileSync(sf,JSON.stringify(s));}
+ const p=P.prepare(members,inventory,opts);const r=T.execute(p,members,inventory,{runner});
+ return {r,plan:()=>P.prepare(members,inventory,opts)};
+}
+for(const swap of [false,true]) test('B-326: two real members, the verified one newly bound, the other failed on a foreign write, refuses'+(swap?' (order swapped)':''),f=>{
+ const {r,plan}=twoMembers(f.box,swap);assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));
+ assert.deepEqual(rec.results.map(x=>x.status),['verified','failed']);assert.equal(rec.settingsRestored,false);assert.throws(plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
