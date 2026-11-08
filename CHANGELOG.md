@@ -13,7 +13,7 @@
   own remedy and the field or directory that clears it: a lock directory (remove it), a run
   recorded in progress, an uncertain native outcome, and a failure that is not settled (check the
   settings file it names, then set `"settingsRestored": true` in the named `latest.json`).
-  A `complete` receipt plans as before. `test/claude_pin_transaction_test.js` 42 → 178 cases.
+  A `complete` receipt plans as before. `test/claude_pin_transaction_test.js` 42 → 179 cases.
 
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
 

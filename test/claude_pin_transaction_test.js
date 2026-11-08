@@ -772,7 +772,9 @@ test('B-326: every pair of near-colliding leaf values, both sides set, compares 
  const base=JSON.parse(fs.readFileSync(f.sf));
  const pool=['',' ','  ','x','x ',' x','X','a b','a  b','a\tb','a\nb','\u00e9','e\u0301','\ud800','\ufffd','0','1','true','null',
   'a\u200b','\ufeffa','x\n','\u00e9\u00e9','e\u0301e\u0301',
-  null,true,false,0,1,-1,2,0.5,1.1,Math.fround(1.1),1.000000000001,1.00000001,0.30000000000000004,0.3,1e21,[],{},[1],[[1]],[1,2],[2,1],{a:1},{a:null},{a:[]},{'\u00e9':1},{'e\u0301':1}];
+  null,true,false,0,1,-1,2,0.5,1.1,Math.fround(1.1),1.000000000001,1.00000001,0.30000000000000004,0.3,1e21,[],{},[1],[[1]],[1,2],[2,1],{a:1},{a:null},{a:[]},{'\u00e9':1},{'e\u0301':1},
+  // JSON.parse keeps "__proto__" as an own member, as the settings file is read; a literal would set the prototype.
+  JSON.parse('{"__proto__":1}'),JSON.parse('{"__proto__":{"a":1}}'),JSON.parse('{"__proto__":{"a":2}}')];
  const put=(d,depth,v)=>{const src={...base.extraKnownMarketplaces.fixture.source};if(depth===0)src.k=v;else src.k={i:v};d.extraKnownMarketplaces.fixture.source=src;};
  const verdict=()=>{try{f.plan();return 'plan';}catch(e){if(!REMEDY.test(e.message))throw e;return 'refuse';}};
  const wrong=[];let plans=0,refusals=0;
@@ -799,7 +801,7 @@ test('B-326: strings that differ only under a normaliser never compare equal, as
  const r=wedge(f);const rec=JSON.parse(fs.readFileSync(latestOf(r)));const b=settingsCopy(rec).path;
  const base=JSON.parse(fs.readFileSync(f.sf));
  const seeds=['a b','a\u00a0b','a\tb','a  b',' a','a ','x\r\ny','x\ny','x\u2028y','x\u2029y','x\u0085y','\uff21','A','a','\ufb01','fi',
-  '\u00c9','\u00e9','E\u0301','e\u0301','\u0130','\u0131','i','I','\u00df','ss','a\u200bb','\ufeffa','\u2126','\u03a9','\u212b','\u00c5'];
+  '\u00c9','\u00e9','E\u0301','e\u0301','\u0130','\u0131','i','I','\u00df','ss','a\u200bb','\ufeffa','\u2126','\u03a9','\u212b','\u00c5','__proto__'];
  const norms=[x=>x,x=>x.normalize('NFC'),x=>x.normalize('NFD'),x=>x.normalize('NFKC'),x=>x.normalize('NFKD'),x=>x.toLowerCase(),x=>x.toUpperCase(),
   x=>x.trim(),x=>x.replace(/\s+/g,' '),x=>x.replace(/\r\n/g,'\n'),x=>x.replace(/[\u2028\u2029\u0085]/g,'\n'),x=>x.replace(/[\u200b\ufeff]/g,'')];
  const pool=[...new Set(seeds.flatMap(x=>norms.map(n=>n(x))))];
@@ -818,5 +820,14 @@ test('B-326: a marketplaces map that appears mid-run, empty, is not owned and pl
 });
 test('B-326: a marketplaces map that appears mid-run with another marketplace is not owned and plans',f=>{
  incident(f,s=>{delete s.extraKnownMarketplaces;},s=>{s.extraKnownMarketplaces={other:{source:{source:'github',repo:'x/y'}}};});assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: a run that failed writing its recovery plan refuses while an owned key differs',f=>{
+ assert(f.execute().ok);
+ const A=require('../lib/apply'),old=A.protect;let n=0;
+ A.protect=(file,o)=>{if(file.endsWith('plan.json'))return {action:'backup-failed',file};const r=old(file,o);
+  if(++n===3){const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';s.enabledPlugins[f.id]=!s.enabledPlugins[f.id];fs.writeFileSync(f.sf,JSON.stringify(s));}return r;};
+ let r;try{r=f.execute();}finally{A.protect=old;}
+ assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));assert.equal(rec.settingsRestored,false);assert(!fs.existsSync(rec.recoveryPlan),'the plan file was written');
+ assert(Array.isArray(rec.backups)&&settingsCopy(rec));assert.throws(f.plan,REMEDY);
 });
 console.log(`PASS: Claude native transaction — ${count} cases`);
