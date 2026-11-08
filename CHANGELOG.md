@@ -11,9 +11,9 @@
   directly in the transactions directory under a transaction name, the backup and the recovery plan
   inside it, no path component a link. Anything else still refuses, and each refusal now names its
   own remedy and the field or directory that clears it: a lock directory (remove it), a run
-  recorded in progress, an uncertain native outcome, and a failure that is not settled (check
-  `~/.claude/settings.json`, then set `"settingsRestored": true` in the named `latest.json`).
-  A `complete` receipt plans as before. `test/claude_pin_transaction_test.js` 42 → 107 cases.
+  recorded in progress, an uncertain native outcome, and a failure that is not settled (check the
+  settings file it names, then set `"settingsRestored": true` in the named `latest.json`).
+  A `complete` receipt plans as before. `test/claude_pin_transaction_test.js` 42 → 112 cases.
 
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
 

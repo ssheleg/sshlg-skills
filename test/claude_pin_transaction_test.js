@@ -456,4 +456,35 @@ test('B-326: the refusals name the settings file and the lock directory they mea
  assert.throws(f.plan,e=>e.message.includes(f.sf)&&/settingsRestored/.test(e.message));
  const lock=path.join(path.dirname(latestOf(r)),'lock');fs.mkdirSync(lock);assert.throws(f.plan,e=>e.message.includes(lock)&&/remove it/.test(e.message));
 });
+function foreignAtMarketplace(f){f.setHook(a=>{if(a[1]==='marketplace'){const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';fs.writeFileSync(f.sf,JSON.stringify(s));f.setHook(null);}return null;});}
+test('B-326: a failure with no results after an owned entry was toggled refuses',f=>{
+ assert(f.execute().ok);
+ const A=require('../lib/apply'),old=A.protect;let n=0;
+ A.protect=(file,o)=>{const r=old(file,o);if(++n===3){const s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';s.enabledPlugins[f.id]=!s.enabledPlugins[f.id];fs.writeFileSync(f.sf,JSON.stringify(s));}return r;};
+ let r;try{r=f.execute();}finally{A.protect=old;}
+ assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));assert.deepEqual(rec.results,[]);assert.equal(rec.settingsRestored,false);assert.throws(f.plan,REMEDY);
+});
+test('B-326: a failed first rebind whose owned source moved refuses',f=>{
+ fs.writeFileSync(f.payload+'/value.txt','second');assert.equal(f.plan().jobs[0].action,'rebind');
+ foreignAtMarketplace(f);const r=f.execute();assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(r.receipt)).settingsRestored,false);assert.throws(f.plan,REMEDY);
+});
+test('B-326: a failed fresh install whose owned source moved refuses',f=>{
+ fs.writeFileSync(f.rf,JSON.stringify({version:2,plugins:{}}));fs.rmSync(f.payload,{recursive:true});assert.equal(f.plan().jobs[0].action,'install');
+ foreignAtMarketplace(f);const r=f.execute();assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));assert.equal(rec.settingsRestored,false);
+ assert.equal(JSON.parse(fs.readFileSync(rec.recoveryPlan)).jobs[0].previous,null);assert.throws(f.plan,REMEDY);
+});
+test('B-326: a failure on a first backup, settings untouched, plans as in 1.86.1',f=>{
+ assert(f.execute().ok);
+ const A=require('../lib/apply'),old=A.protect;let n=0;
+ A.protect=(file,o)=>(++n===4?{action:'backup-failed',file}:old(file,o));
+ let r;try{r=f.execute();}finally{A.protect=old;}
+ assert(!r.ok);const rec=JSON.parse(fs.readFileSync(r.receipt));assert.equal(rec.settingsRestored,true);assert.deepEqual(rec.results,[]);
+ assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: with two members, a rebinding second member whose source moved refuses',f=>{
+ const r=wedge(f,s=>{s.extraKnownMarketplaces.othermk={source:{source:'directory',path:'/moved'}};});
+ const rec=JSON.parse(fs.readFileSync(latestOf(r)));const plan=JSON.parse(fs.readFileSync(rec.recoveryPlan));
+ plan.jobs.push({member:'other',pluginInstall:'other@othermk',action:'rebind',previous:null});fs.writeFileSync(rec.recoveryPlan,JSON.stringify(plan));
+ assert.throws(f.plan,REMEDY);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
