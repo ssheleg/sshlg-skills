@@ -813,4 +813,10 @@ test('B-326: strings that differ only under a normaliser never compare equal, as
  }
  assert.deepEqual(wrong,[]);assert(pool.length>=40,'pool of '+pool.length);
 });
+test('B-326: a marketplaces map that appears mid-run, empty, is not owned and plans',f=>{
+ incident(f,s=>{delete s.extraKnownMarketplaces;},s=>{s.extraKnownMarketplaces={};});assert.equal(f.plan().jobs[0].action,'verify');
+});
+test('B-326: a marketplaces map that appears mid-run with another marketplace is not owned and plans',f=>{
+ incident(f,s=>{delete s.extraKnownMarketplaces;},s=>{s.extraKnownMarketplaces={other:{source:{source:'github',repo:'x/y'}}};});assert.equal(f.plan().jobs[0].action,'verify');
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
