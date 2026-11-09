@@ -1,3 +1,21 @@
+## v1.87.0 (in progress, not tagged): AI-native products across the family
+
+- **The design.** The operator's order (2026-11-09): products are used by agents as people use
+  them, every function is reachable by agents, and people get interfaces only where a person is
+  needed. [Brief](docs/evidence/briefs/2026-11-09-ai-native.md),
+  [design v2](docs/evidence/specs/2026-11-09-ai-native-pipeline.md) (the canon AN-1 to AN-10 with
+  one owner per rule, super-ux contract v5, the pipeline's order inside stages 2-4, thirty tasks
+  walked through it, 35 bottlenecks, an adversarial review's 4 blockers and 12 major findings
+  dispositioned), [plan](docs/evidence/plans/2026-11-09-ai-native.md). Board rows B-329 to B-333.
+- **Routing words for a product's agent surface.** `agent-stack/agent-interop` now routes on
+  "agent surface", «агентная поверхность», "AI-native" and «API для агентов», the four words
+  agent-stack 0.32.0 advertises (ssheleg/agent-stack#73); each is a `PENDING` excuse until the pin
+  moves. A refactor prompt and «запусти агента в нашем продукте» still do not route there
+  (measured with `triggers.match`). The routing block's text is unchanged; its rewording is B-330,
+  after the pilot (B-329).
+- Member pins for agent-stack 0.32.0, super-ux 0.67.0 and task-pipeline 1.104.0 land in this same
+  version before its tag.
+
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
 
 - **Pin task-pipeline 1.103.1** (from 1.102.4). Stage 0 gains phase 1a (`references/intake-split.md`).
