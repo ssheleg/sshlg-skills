@@ -69,12 +69,12 @@ to give their own agents the same routes.
 - **Status:** validated
 
 ### ST-002: Read what is installed
-- **Story:** As P-01, I want my agent to read which member versions are installed, so that it can prove an update landed.
+- **Story:** As P-01, I want my agent to read which member versions the package pins, so that it can compare them with what a host reports after an update.
 - **Traces:** JTBD-01, JRN-01/#3
 - **Acceptance criteria:**
-  - Given an installed set, when `list` runs for an agent, then it returns each member and version in a form a program parses.
+  - Given the package, when `list --json` runs, then it returns each member and its pinned version as one JSON document.
 - **Priority:** must
-- **Status:** proposed
+- **Status:** validated
 
 ### ST-003: Find a skill for a task
 - **Story:** As P-01, I want my agent to search every installed skill by concept, so that it picks the one that should drive the task.

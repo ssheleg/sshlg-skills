@@ -348,6 +348,36 @@ it('B-272: toolkit --find reads skillOverrides from CLAUDE_CONFIG_DIR', () => {
   }
 });
 
+// B-331 (AI-native pilot, 2026-11-09): `--json` was accepted and ignored, so an agent that
+// asked for data got prose with exit 0. `toolkit --find --json` and `list --json` print one
+// JSON document an agent parses.
+it('B-331: toolkit --find --json and list --json print data, not prose', () => {
+  const fs = require('fs'); const os = require('os'); const path = require('path');
+  const { spawnSync } = require('child_process');
+  const BIN = path.join(__dirname, '..', 'bin', 'sshlg-skills.js');
+  const home = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-tk-json-')));
+  try {
+    const put = (p, text) => { fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, text); };
+    put(path.join(home, '.claude', 'skills', 'zebra-ledger', 'SKILL.md'),
+      '---\nname: zebra-ledger\ndescription: Keep a zebra ledger.\n---\n# zebra-ledger\n');
+    const env = Object.assign({}, process.env, { HOME: home });
+    delete env.CLAUDE_CONFIG_DIR;
+    const f = spawnSync(process.execPath, [BIN, 'toolkit', '--find', 'zebra ledger', '--json'], { encoding: 'utf8', env, timeout: 30000 });
+    assert.strictEqual(f.status, 0, f.stdout + f.stderr);
+    const doc = JSON.parse(f.stdout);
+    assert.strictEqual(doc.schema, 'sshlg-toolkit-find/1');
+    const row = doc.rows.find((r) => r.id === 'zebra-ledger');
+    assert.ok(row && /SKILL\.md$/.test(row.path), JSON.stringify(doc.rows));
+    const l = spawnSync(process.execPath, [BIN, 'list', '--json'], { encoding: 'utf8', env, timeout: 30000 });
+    assert.strictEqual(l.status, 0, l.stdout + l.stderr);
+    const list = JSON.parse(l.stdout);
+    assert.strictEqual(list.schema, 'sshlg-list/1');
+    assert.ok(list.members.some((m) => m.name === 'task-pipeline' && typeof m.version === 'string'), l.stdout);
+  } finally {
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

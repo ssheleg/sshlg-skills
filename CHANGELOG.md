@@ -35,6 +35,10 @@
 - **Fix: `backup` exited 1 when there was nothing to archive** (passioncode board request
   `c33f4d8b`, B-335). Nothing to archive is a state and exits 0; `wipe` with nothing exits 0; a tar or
   readback failure still exits 1. `test/skillstore_test.js`.
+- **`list --json` and `toolkit --find … --json` print data** (B-331, found by the pilot): both
+  accepted `--json`, ignored it and printed prose with exit 0. `list --json` is `sshlg-list/1` (the
+  versions this package pins, not a reading of a host); `toolkit --find --json` is
+  `sshlg-toolkit-find/1` (each row's id, SKILL.md path, score and hits). `test/toolkit_test.js`.
 - Board: B-334 (`schedule` in an account with no graphical login), B-335 closed, B-330 closed.
 
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split

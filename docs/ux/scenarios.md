@@ -260,7 +260,7 @@ agent surface under contract v5. `docs/ux/foundation.md` holds P-01 and the acto
 - **Steps:**
   1. A-01 -> `npx --yes sshlg-skills@latest update --dry-run` -> the full operation plan, zero mutations
   2. A-01 -> `npx --yes sshlg-skills@latest update` -> exit 0, or 75 when another update holds the lock (retry later; nothing failed)
-  3. A-01 -> `npx sshlg-skills list` -> each member with its version, as text (no machine form yet: B-331)
+  3. A-01 -> `npx sshlg-skills list --json` -> `sshlg-list/1`: each member with the version the package pins, to compare with the host's plugin list
 - **Expected result:** every enabled host reads back the pinned versions
 - **Errors & recovery:** a foreign write to a protected file mid-run refuses the write and names it (B-326); the next run recovers the journal
 - **Status:** implemented
@@ -275,7 +275,7 @@ agent surface under contract v5. `docs/ux/foundation.md` holds P-01 and the acto
 - **Entry point:** the first step of a task, per the routing protocol
 - **Preconditions:** the family is installed
 - **Steps:**
-  1. A-01 -> `npx sshlg-skills toolkit --find "<concept>, <concept>"` -> a ranked list with each SKILL.md path
+  1. A-01 -> `npx sshlg-skills toolkit --find "<concept>, <concept>" --json` -> `sshlg-toolkit-find/1`: ranked rows, each with its SKILL.md path
   2. A-01 reads the SKILL.md of the skill that fits -> the skill drives the task
 - **Expected result:** the task names the skill it used
 - **Errors & recovery:** nothing matches -> the list is empty and the agent says so; a hidden skill is used by reading its file

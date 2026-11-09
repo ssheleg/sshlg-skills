@@ -9,8 +9,8 @@ non-interactively and read its result as data. -->
 | ID | Capability | Actors | Gate | Status |
 |----|------------|--------|------|--------|
 | CAP-01 | Update the family on every host | human, agent, automation | none | exposed |
-| CAP-02 | Read the installed set | human, agent | none | specified |
-| CAP-03 | Find a skill by concept | human, agent | none | specified |
+| CAP-02 | Read the pinned set | human, agent | none | exposed |
+| CAP-03 | Find a skill by concept | human, agent | none | exposed |
 | CAP-04 | Measure what each host loads | human, agent | none | exposed |
 
 ## Capabilities
@@ -29,19 +29,19 @@ non-interactively and read its result as data. -->
 - **Since:** v1.86.0
 - **Status:** exposed
 
-### CAP-02: Read the installed set
+### CAP-02: Read the pinned set
 - **Traces:** ST-002
 - **Actors:** human, agent
 - **Agent excluded:** none
 - **Roles:** the machine's user account
 - **Gate:** none
-- **Tools:** `sshlg-skills list` (text only: `--json` is accepted and ignored, measured 2026-11-09; B-331)
+- **Tools:** `sshlg-skills list --json` (schema `sshlg-list/1`: the versions this package pins and would install, not a reading of a host; B-331)
 - **Emits:** none
 - **Data:** internal
 - **Automation:** none
 - **Human surface:** none
-- **Since:** v1.0.0
-- **Status:** specified
+- **Since:** v1.87.0
+- **Status:** exposed
 
 ### CAP-03: Find a skill by concept
 - **Traces:** ST-003
@@ -49,13 +49,13 @@ non-interactively and read its result as data. -->
 - **Agent excluded:** none
 - **Roles:** the machine's user account
 - **Gate:** none
-- **Tools:** `sshlg-skills toolkit --find "<concept>, …"` (text only: `--json` is accepted and ignored, measured 2026-11-09; B-331)
+- **Tools:** `sshlg-skills toolkit --find "<concept>, …" --json` (schema `sshlg-toolkit-find/1`: each row's id, SKILL.md path, score and hits; B-331)
 - **Emits:** none
 - **Data:** internal
 - **Automation:** none
 - **Human surface:** none
-- **Since:** v1.55.0
-- **Status:** specified
+- **Since:** v1.87.0
+- **Status:** exposed
 
 ### CAP-04: Measure what each host loads
 - **Traces:** ST-004
