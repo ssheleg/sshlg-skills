@@ -119,9 +119,11 @@ used.)*
 
 ## Run stamps
 
-Rotated out: 82 oldest run stamps, verbatim in retro/2026-Q4.md sha256:dabe51a80d45
+Rotated out: 83 oldest run stamps, verbatim in retro/2026-Q4.md sha256:9643c68429a9
 
 Moved out: 14 loose paragraphs, verbatim in retro/2026-Q4.md sha256:b1964f7ebcc7
+
+- **2026-11-09: AI-native family as 1.87.0; npm held two members at the operator's gate** (#4 fired: zsh kept an unquoted command whole; #11 fired: a test passed on old code because a hook refused the command that wrote it)
 
 - **2026-10-28: the board's second pass as 1.82.0; subagents hit the weekly limit mid-release and the integrator finished two member releases itself** (the new discard guard refused my own `git stash`: it held)
 
@@ -140,5 +142,3 @@ Moved out: 14 loose paragraphs, verbatim in retro/2026-Q4.md sha256:b1964f7ebcc7
 - **2026-10-10/11 — the readback said PASS where the model saw nothing, and my own pin bump broke Continue** moved: retro/2026-Q4.md sha256:41a690568341
 
 - **2026-09-28 — the import I wrote by hand was wrong, and only a snapshot of the release could say so** moved: retro/2026-Q4.md sha256:64c455031dd7
-
-- **2026-09-06 — the audit found the block, and the block was the thing nobody had measured** moved: retro/2026-Q4.md sha256:fc1c57826d72
