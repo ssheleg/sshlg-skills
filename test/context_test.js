@@ -40,6 +40,8 @@ it('the Codex project chain runs from the nearest .git to cwd, override first in
     const cl = C.claudeProjectFiles(path.join(root, 'repo/a/b'), []);
     for (const f of ['repo/CLAUDE.md', 'repo/a/.claude/CLAUDE.md', 'repo/a/CLAUDE.local.md']) assert.ok(cl.includes(path.join(root, f)), f + ' ' + cl);
     assert.ok(!C.claudeProjectFiles(path.join(root, 'repo'), [path.join(root, 'repo/CLAUDE.md')]).includes(path.join(root, 'repo/CLAUDE.md')), 'a file already measured is not counted twice');
+    // AI-native pilot 2026-11-09: a host read through its fallback has `file: null`; `context --json` threw a TypeError on it.
+    assert.ok(C.claudeProjectFiles(path.join(root, 'repo'), [null, path.join(root, 'repo/CLAUDE.md')]).every((f) => typeof f === 'string'), 'a null measured file is skipped, not resolved');
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
 });
 it('a top-level project_doc_max_bytes raises the cap; one inside a table does not', () => {

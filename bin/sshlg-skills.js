@@ -4771,7 +4771,9 @@ function cmdBackupAll() {
   const home = os.homedir();
   const channels = discoverChannels().map((p) => ({ path: p, entries: channelEntries(p) }));
   const nonEmpty = channels.filter((c) => c.entries.length);
-  if (!nonEmpty.length) { log('backup: no agent skills directories found: nothing to archive'); return null; }
+  // Nothing to archive is a state, not a failure: a run that finds no skills exits 0 (passioncode board
+  // request c33f4d8b, 2026-11-09). A tar or readback failure still returns null and exits 1.
+  if (!nonEmpty.length) { log('backup: no agent skills directories found: nothing to archive'); return { nothing: true, channels: [] }; }
   const stamp = skillstore.stampName(new Date());
   const man = skillstore.manifest(nonEmpty, stamp);
   const archive = path.join(backupsDir(), `${stamp}.tar.gz`);
@@ -4812,6 +4814,7 @@ function cmdWipeAll(f) {
     return true;
   }
   const backup = cmdBackupAll();
+  if (backup && backup.nothing) { log('\nwipe: nothing to remove'); return true; }
   const gate = skillstore.wipeGate(backup || {});
   if (!gate.ok) { log(`\nwipe REFUSED: ${gate.reason}`); return false; }
   log(`\n== Wiping (${gate.reason}) ==`);

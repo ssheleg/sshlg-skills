@@ -8,7 +8,58 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-07 nightly updates (B-323, 1.86.0) and the intake split (task-pipeline 1.103.1)
+## Current: 2026-11-09 AI-native products across the family (1.87.0)
+
+**Objective (operator, 2026-11-09, this repository's session; verbatim in the
+[brief](evidence/briefs/2026-11-09-ai-native.md)):** products are AI-native: agents use them as people
+do, every function is reachable by agents, people get interfaces only where a person is needed, and
+the design order is journeys, stories and jobs, then the agent capabilities and the API and the
+logic, then the interfaces. Audit how the members connect, change the whole pipeline, walk many
+tasks through it, find and fix the bottlenecks; then ("давай до конца") take it to the end, and have
+the brand agent write a large announcement for LinkedIn and Telegram in Russian and English.
+
+**Done:**
+- Design: [brief](evidence/briefs/2026-11-09-ai-native.md), [design v2](evidence/specs/2026-11-09-ai-native-pipeline.md)
+  (canon AN-1 to AN-10, one owner per rule; super-ux contract v5; the pipeline's order inside stages
+  2-4 and checks at 0/6/7/8/10; thirty tasks walked; 35 bottlenecks; an adversarial review's 4
+  blockers and 12 major findings dispositioned), [plan](evidence/plans/2026-11-09-ai-native.md).
+- Hub PR #304 squash `07f63523` (design, board rows, routing words as `PENDING`).
+- Members merged, tagged and released on GitHub: agent-stack v0.32.0 (`b0c0642`, run 42630613649),
+  super-ux v0.67.0 (`155f7a2`, run 42630731244), task-pipeline v1.104.0 (`bedb112`, PR #165 CI green
+  with all eight negative shards; its tag waits on the local release suite, `scripts/release-member.js`).
+- Pilot 1 on the launcher itself ([report](runs/2026-11-09-ai-native-pilot.md)): `docs/ux` on contract
+  v5, the v5 rules fired on a real tree, `context --json` crash fixed; the routing rewording (B-330)
+  with a paired evaluation, +1 in both pairs and no regression.
+- passioncode board request `c33f4d8b`: `backup` with nothing to archive exits 0 (B-335, closed);
+  `schedule` without a graphical login is B-334; answered on thread `b8d56e6f`.
+- Asked sshlg-analytics-agent for the `actor` event properties (thread `63189199`, B-333) and
+  sshlg-brand-agent for the announcement, the operator's words relayed verbatim (thread `6e5f9fb8`).
+- Branch `feat/ai-native-1109-pins`: the three pins, `PENDING` emptied, the rewording, the pilot, the
+  two fixes, CHANGELOG 1.87.0, the release card
+  [`2026-11-09-v1870-release-impact.md`](evidence/specs/2026-11-09-v1870-release-impact.md).
+
+**Human gate (B-325):** npm refuses agent-stack 0.32.0 and super-ux 0.67.0 (`ENEEDAUTH`): their
+trusted publishers are not set. The operator's two clicks (security key) are in B-325's row; then
+`gh run rerun 42630613649 -R ssheleg/agent-stack --failed` and
+`gh run rerun 42630731244 -R ssheleg/super-ux --failed`. Until then `test/check_pins.py` (in the
+required `validate` check) refuses the hub pins, so the pins PR cannot merge and 1.87.0 is not tagged.
+
+**Next task:** after the two publishes and task-pipeline-skill 1.104.0 on npm, re-run the pins PR's
+checks, merge it, tag `v1.87.0` (`scripts/tag.sh v1.87.0 --push`), watch the release run, run
+`npx --yes sshlg-skills@latest update` and read the installed bytes back; tell passioncode (thread
+`b8d56e6f`) and the brand agent (thread `6e5f9fb8`) that 1.87.0 is out. Then B-329 pilot 2 (a product
+with a live web UI), B-331, B-334.
+
+**Waits:**
+- B-325 npm trusted publishers for agent-stack and super-ux: the operator; no watcher can clear it.
+- task-pipeline v1.104.0 tag: the local release suite in this session; on red, the tag is removed
+  and the cause read before a retry.
+- B-333: sshlg-analytics-agent's answer on thread `63189199`; the brand agent's drafts on `6e5f9fb8`.
+- Carried from 2026-11-07: close B-323 after its second night; B-326 (branch
+  `fix/b326-foreign-settings-write` names 1.86.2, which 1.87.0 now precedes: it takes the next
+  patch number when it lands).
+
+## Previous: 2026-11-07 nightly updates (B-323, 1.86.0) and the intake split (task-pipeline 1.103.1)
 
 **Objective (operator, 2026-11-06, session 574eafda):**
 - Review the retro and learning insights.
