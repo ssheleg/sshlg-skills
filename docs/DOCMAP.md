@@ -193,8 +193,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=167 fixtures=3305 members=11 -->
-**Ratchets.** 167 suites, 3305 fixtures, 11 pinned members; these three numbers are
+<!-- ratchets: suites=167 fixtures=3307 members=11 -->
+**Ratchets.** 167 suites, 3307 fixtures, 11 pinned members; these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree, and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
@@ -264,7 +264,7 @@ whole suites, which is the entire point of having one. The count above is
 `npm test` with its summary line excluded, since that line reports suites and
 would otherwise be counted as fixtures.
 
-<!-- routing-registry-total: 11750 -->
+<!-- routing-registry-total: 11745 -->
 **Routing text total (2026-10-15; 11902 → 11750 on 2026-10-20, the Fabric router lost its Linux and Windows paths).** The characters of every string field in `lib/routers-registry.js`
 (each router's text, answers and when; `requires` is a list and not counted), about 60% of the
 routing block the hub writes into every host's instruction file (headings, tables and markers in
@@ -273,11 +273,11 @@ routing block the hub writes into every host's instruction file (headings, table
 may fall and never rise without a recorded reason, so the always-loaded block cannot grow by
 accident. A cut still needs the paired routing evaluation before it ships.
 
-<!-- description-total: 11452 -->
+<!-- description-total: 11447 -->
 **Family description total (R32, 2026-10-12).** The characters of every family skill
 description (whitespace collapsed, the figure the 970 cap is quoted in), summed over the
-pinned submodules. Measured at the pins of this revision: **11452 characters over 39
-skills** (16102 before the 1.79.0 re-pins, B-255's 300-character budget; 32495 before the cap moved to 500; 32498 before the 1.67.0 re-pins, 32501 before the 1.63.0 re-pins, 32635 before the 1.57.0 re-pins), by `check_the_family_description_total_only_falls` in `test/validate.py`, which
+pinned submodules. Measured at the pins of this revision: **11447 characters over 39
+skills** (11452 before the 1.87.0 re-pins, agent-interop and ux-foundation shortened; 16102 before the 1.79.0 re-pins, B-255's 300-character budget; 32495 before the cap moved to 500; 32498 before the 1.67.0 re-pins, 32501 before the 1.63.0 re-pins, 32635 before the 1.57.0 re-pins), by `check_the_family_description_total_only_falls` in `test/validate.py`, which
 computes the sum on every run and compares it with the marker above. **It may fall and
 never rise:** a total above the marker fails and names the excess; a total below it passes
 and prints `record N as the new description-total`, so a member's trim is welcomed and

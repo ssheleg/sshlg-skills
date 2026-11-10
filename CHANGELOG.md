@@ -1,4 +1,4 @@
-## v1.87.0 (in progress, not tagged): AI-native products across the family
+## v1.87.0 (2026-11-09): AI-native products across the family
 
 - **The design.** The operator's order (2026-11-09): products are used by agents as people use
   them, every function is reachable by agents, and people get interfaces only where a person is
@@ -13,8 +13,33 @@
   moves. A refactor prompt and «запусти агента в нашем продукте» still do not route there
   (measured with `triggers.match`). The routing block's text is unchanged; its rewording is B-330,
   after the pilot (B-329).
-- Member pins for agent-stack 0.32.0, super-ux 0.67.0 and task-pipeline 1.104.0 land in this same
-  version before its tag.
+- **Pins.** agent-stack 0.32.0 (a product's agent surface, operability evals; ssheleg/agent-stack#73),
+  super-ux 0.67.0 (contract v5, opt-in: actors, capabilities, channels, why a person is needed;
+  U087 to U095; ssheleg/super-ux#65), task-pipeline 1.104.0 (the actor branch, capabilities and the
+  contract before screens, the `agent` certification reading, agent-tester;
+  ssheleg/task-pipeline#165). The four `PENDING` routing words are now advertised by the pin and the
+  excuses are gone. `claude-plugin-pins.json` regenerated (`node scripts/sync-claude-pins.js --write`).
+- **The routing block, reworded (B-330).** super-ux: "ALL product work goes through its chain,
+  capabilities and scenarios first … any user, agent and path"; cells "what the product must do" and
+  "a user or agent uses it". agent-stack: "an agent SYSTEM or a product's agent surface goes through
+  it"; cell "the thing being built is an agent, or what agents call". The routing-text total falls
+  11,750 to 11,745. Earlier lines and table rows stay recognisable (`PREVIOUS_LINES`; `PREVIOUS_CELLS`
+  now takes a list of rows), so a host's packaged block is reworded, not read as the operator's edit.
+  A paired evaluation (four fresh judges, 21 probes) moved +1 in both pairs, all on the AI-native
+  probes, with no regression ([pilot report](docs/runs/2026-11-09-ai-native-pilot.md)).
+- **The first executed AI-native run, on the launcher itself (B-329, pilot 1).** `docs/ux` moves to
+  contract v5: `foundation.md` (personas, actors), `capabilities.md` (CAP-01 to CAP-04) and three
+  agent-channel scenarios; the v5 rules were planted and fired on the real tree.
+- **Fix: `context --json` threw a TypeError** on a machine with a host read through its fallback
+  (`file: null` reached `path.resolve`). Found by the pilot; `test/context_test.js`.
+- **Fix: `backup` exited 1 when there was nothing to archive** (passioncode board request
+  `c33f4d8b`, B-335). Nothing to archive is a state and exits 0; `wipe` with nothing exits 0; a tar or
+  readback failure still exits 1. `test/skillstore_test.js`.
+- **`list --json` and `toolkit --find … --json` print data** (B-331, found by the pilot): both
+  accepted `--json`, ignored it and printed prose with exit 0. `list --json` is `sshlg-list/1` (the
+  versions this package pins, not a reading of a host); `toolkit --find --json` is
+  `sshlg-toolkit-find/1` (each row's id, SKILL.md path, score and hits). `test/toolkit_test.js`.
+- Board: B-334 (`schedule` in an account with no graphical login), B-335 closed, B-330 closed.
 
 ## v1.86.1 (2026-11-07): task-pipeline 1.103.1, the intake split
 

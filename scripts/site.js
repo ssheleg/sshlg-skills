@@ -1561,7 +1561,7 @@ function llms() {
   return `# ssheleg skills
 
 > Independently installable skills for coding agents. ${members.length} skill packs give a coding agent a contract for the
-> work around the code: what the interface must do, how a change reaches the
+> work around the code: what the product must do, how a change reaches the
 > repository, who is holding a file, how a skill is built, how it looks, whether a
 > machine will find it, what the integrations run on, and how an agent system is
 > built and metered. Documentation, validators and small standard-library scripts.

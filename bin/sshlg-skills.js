@@ -328,7 +328,7 @@ Usage:
   npx sshlg-skills humanizers                         # anti-AI-writing skills this machine can reach
   npx sshlg-skills signature --used "<skill>[=what it did],…"
                                                       # report header + footer, links looked up
-  npx sshlg-skills toolkit [--for "<task>"] [--find "<concept>, …"] [--expand <provider>]
+  npx sshlg-skills toolkit [--for "<task>"] [--find "<concept>, …" [--json]] [--expand <provider>]
                                                       # every skill this machine can reach
   npx sshlg-skills visibility [--apply | --revert] [--days 60] [--full-days 14|off] [--keep a,b]
                                                       # Claude/Codex: hide all outside the core;
@@ -351,7 +351,7 @@ Usage:
   npx sshlg-skills enroll --prune [--apply] [--root DIR] [--json]
                                                       # drop routers.json entries enroll wrote whose material
                                                       # is gone; preview unless --apply
-  npx sshlg-skills list [--verbose | -v]
+  npx sshlg-skills list [--verbose | -v | --json]
   npx sshlg-skills agents
   npx sshlg-skills help [<command>]                   # this text, or one command's part of it
   npx sshlg-skills <command> --help | -h              # the same; prints only, writes nothing
@@ -1582,6 +1582,17 @@ function cmdHumanizers(argv) {
  */
 function cmdList(argv) {
   const verbose = (argv || []).includes('--verbose') || (argv || []).includes('-v');
+  if ((argv || []).includes('--json')) {
+    // B-331 (AI-native pilot): an agent that asks for data gets data. These are the versions
+    // this package pins and would install, not a reading of what a host has installed.
+    const members = SKILLS.map((s) => {
+      let version = s.version || null;
+      try { version = JSON.parse(fs.readFileSync(path.join(ROOT, s.dir, 'plugins', s.name, '.claude-plugin', 'plugin.json'), 'utf8')).version; } catch (_) {}
+      return { name: s.name, version, entry: s.entry || null, role: s.role || null, repo: s.repo || null };
+    });
+    process.stdout.write(JSON.stringify({ schema: 'sshlg-list/1', of: 'pinned by this package', package: JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version, members }) + '\n');
+    return;
+  }
   log('ssheleg skill family:\n');
   for (const s of SKILLS) {
     let ver = s.version || '?';
@@ -2645,6 +2656,14 @@ function cmdToolkit(argv) {
     const all = skills.concat(additional)
       .map((s) => Object.assign({}, s, { visibility: s.namespace === 'claude:plain' ? overrides[s.id] : undefined }));
     const { rows, total } = toolkit.find(all, query, li0 !== -1 ? Number(argv[li0 + 1]) || 12 : 12);
+    if (argv.includes('--json')) {
+      // B-331: the same rows as data, so an agent reads paths rather than parsing columns.
+      const out = rows.map((r) => ({ id: r.id, plugin: r.plugin || null, path: r.path, namespace: r.namespace,
+        score: r.score, hits: r.hits, visibility: r.visibility || null, description: r.description || '' }));
+      process.stdout.write(JSON.stringify({ schema: 'sshlg-toolkit-find/1', query, total, rows: out,
+        incomplete: (additional.warnings || []) }) + '\n');
+      return 0;
+    }
     log(toolkit.renderFind(rows, query, total, { showCopies: argv.includes('--copies') }));
     for (const warning of additional.warnings || []) log(`  catalogue incomplete: ${warning}`);
     return 0;
@@ -4771,7 +4790,9 @@ function cmdBackupAll() {
   const home = os.homedir();
   const channels = discoverChannels().map((p) => ({ path: p, entries: channelEntries(p) }));
   const nonEmpty = channels.filter((c) => c.entries.length);
-  if (!nonEmpty.length) { log('backup: no agent skills directories found: nothing to archive'); return null; }
+  // Nothing to archive is a state, not a failure: a run that finds no skills exits 0 (passioncode board
+  // request c33f4d8b, 2026-11-09). A tar or readback failure still returns null and exits 1.
+  if (!nonEmpty.length) { log('backup: no agent skills directories found: nothing to archive'); return { nothing: true, channels: [] }; }
   const stamp = skillstore.stampName(new Date());
   const man = skillstore.manifest(nonEmpty, stamp);
   const archive = path.join(backupsDir(), `${stamp}.tar.gz`);
@@ -4812,6 +4833,7 @@ function cmdWipeAll(f) {
     return true;
   }
   const backup = cmdBackupAll();
+  if (backup && backup.nothing) { log('\nwipe: nothing to remove'); return true; }
   const gate = skillstore.wipeGate(backup || {});
   if (!gate.ok) { log(`\nwipe REFUSED: ${gate.reason}`); return false; }
   log(`\n== Wiping (${gate.reason}) ==`);

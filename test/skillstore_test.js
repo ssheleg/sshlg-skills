@@ -146,6 +146,20 @@ function treeHash() {
 
 seed();
 
+it('backup and wipe with nothing to archive exit 0, a state and not a failure (board request c33f4d8b)', () => {
+  const empty = fs.mkdtempSync(path.join(os.tmpdir(), 'skillstore-empty-'));
+  try {
+    const env = Object.assign({}, process.env, { HOME: empty });
+    delete env.XDG_STATE_HOME;
+    const b = spawnSync('node', [BIN, 'backup'], { env, encoding: 'utf8' });
+    assert.strictEqual(b.status, 0, b.stdout + b.stderr);
+    assert.match(b.stdout, /nothing to archive/);
+    const w = spawnSync('node', [BIN, 'wipe'], { env, encoding: 'utf8' });
+    assert.strictEqual(w.status, 0, w.stdout + w.stderr);
+    assert.match(w.stdout, /nothing to remove/);
+  } finally { fs.rmSync(empty, { recursive: true, force: true }); }
+});
+
 it('e2e: backup → wipe → restore round-trips, symlinks preserved as symlinks', () => {
   const b = launcher(['backup']);
   assert.strictEqual(b.status, 0, b.stdout + b.stderr);

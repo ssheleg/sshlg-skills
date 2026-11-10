@@ -4,8 +4,8 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "7807c66184c647db349145c1cb2a322d2a522250",
-      "version": "0.66.3",
+      "commit": "155f7a2b835c25a1a52849a634acc2125e6107ba",
+      "version": "0.67.0",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
@@ -13,7 +13,7 @@
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
         "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ — product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.66.3",
+        "version": "0.67.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,7 +40,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "059829aa741cbe2a2c1ff74baa31d37be14d15a2cebbeccff86a19b06910f8c4",
+          "sha256": "ca6ba77c668a5a27346e758be9fde190aa0a735e4e4b6673a08d3aa88dfa213b",
           "bytes": 1196
         },
         {
@@ -90,8 +90,8 @@
         },
         {
           "path": "commands/ux-init.md",
-          "sha256": "b3be7388afcada4336060f5b66e74119053c876b7a1b5902288732dcb52f2a79",
-          "bytes": 2191
+          "sha256": "aeba2217b48349993c26a520c3a50a8342ba274dd1cf8f540dc9174dd9de7b90",
+          "bytes": 2373
         },
         {
           "path": "commands/ux-lint.md",
@@ -100,8 +100,8 @@
         },
         {
           "path": "commands/ux-rule.md",
-          "sha256": "6fb2297d0db9f960d101fb326e3dceba3109ead8e27a873824b2c5cdc12554f3",
-          "bytes": 5847
+          "sha256": "2ab5ed67e8a667beff5de6bbb655b50240ec6c780a5891a4c6571f43218d8a14",
+          "bytes": 6174
         },
         {
           "path": "commands/ux-update.md",
@@ -110,8 +110,8 @@
         },
         {
           "path": "commands/ux.md",
-          "sha256": "b379914d9acd8dabab2f159043809c4aceeed14d2af5dfc201f74be0f9093d13",
-          "bytes": 13988
+          "sha256": "6423586b2047e39f8b845a66ed9d5bdb3064b42c069205c2498333c563285632",
+          "bytes": 14827
         },
         {
           "path": "commands/vision.md",
@@ -130,13 +130,13 @@
         },
         {
           "path": "scripts/ux_doctor.py",
-          "sha256": "5d1d0ec5a3ca71d9420605d84dce506839da1621ffb5fe31c6566a7f920d00de",
-          "bytes": 10427
+          "sha256": "6d1bc1e494c49a46db11cde58ae990b248eedf22b784cf66934cbe325170da94",
+          "bytes": 12087
         },
         {
           "path": "scripts/ux_lint.py",
-          "sha256": "9811e086cb1fbd97e8e1187c0e2cfffa07fb356400b641a81060579a2d4490ea",
-          "bytes": 63996
+          "sha256": "e4450007959f1d795b3825c13a1ae430bb0ae98cfe7a5ba04ba49fb12deb688e",
+          "bytes": 77712
         },
         {
           "path": "skills/brand-voice/references/ai-tells.md",
@@ -190,8 +190,8 @@
         },
         {
           "path": "skills/brand-voice/references/system-map.md",
-          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
-          "bytes": 8452
+          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
+          "bytes": 10708
         },
         {
           "path": "skills/brand-voice/references/video-script.md",
@@ -305,8 +305,8 @@
         },
         {
           "path": "skills/copywriting/references/system-map.md",
-          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
-          "bytes": 8452
+          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
+          "bytes": 10708
         },
         {
           "path": "skills/copywriting/references/ui-copy.md",
@@ -325,8 +325,8 @@
         },
         {
           "path": "skills/copywriting/SKILL.md",
-          "sha256": "687f453c78243502b3455b8fe2179a0e81122037532169a83fd5778f15f25f6c",
-          "bytes": 14974
+          "sha256": "90a83bdcd50dc7007f029072a7b0793246a4af926a6b35e909cb6c232b006829",
+          "bytes": 15285
         },
         {
           "path": "skills/copywriting/templates/brand/copy-brief.md",
@@ -465,8 +465,8 @@
         },
         {
           "path": "skills/references/scenario-format.md",
-          "sha256": "9531a6d37e5753f0b160e5ac863a0679478e9a93e4b9335ed3e8c469618e321e",
-          "bytes": 52384
+          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
+          "bytes": 64185
         },
         {
           "path": "skills/references/seo-aeo-safety.md",
@@ -490,8 +490,8 @@
         },
         {
           "path": "skills/references/system-map.md",
-          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
-          "bytes": 8452
+          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
+          "bytes": 10708
         },
         {
           "path": "skills/references/ui-copy.md",
@@ -500,8 +500,8 @@
         },
         {
           "path": "skills/references/ux-design-principles.md",
-          "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6",
-          "bytes": 13328
+          "sha256": "abe09d1f5d4009d3e19073183235fcb6c87008589569bde50072af1237266778",
+          "bytes": 14807
         },
         {
           "path": "skills/references/video-script.md",
@@ -595,8 +595,8 @@
         },
         {
           "path": "skills/ux-audit/references/scenario-format.md",
-          "sha256": "9531a6d37e5753f0b160e5ac863a0679478e9a93e4b9335ed3e8c469618e321e",
-          "bytes": 52384
+          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
+          "bytes": 64185
         },
         {
           "path": "skills/ux-audit/references/seo-aeo-safety.md",
@@ -620,13 +620,13 @@
         },
         {
           "path": "skills/ux-audit/references/system-map.md",
-          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
-          "bytes": 8452
+          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
+          "bytes": 10708
         },
         {
           "path": "skills/ux-audit/references/ux-design-principles.md",
-          "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6",
-          "bytes": 13328
+          "sha256": "abe09d1f5d4009d3e19073183235fcb6c87008589569bde50072af1237266778",
+          "bytes": 14807
         },
         {
           "path": "skills/ux-audit/references/video-script.md",
@@ -645,8 +645,8 @@
         },
         {
           "path": "skills/ux-audit/SKILL.md",
-          "sha256": "cfd8c665391e5d4d6273ea72cf02498a82cdc3533da216a93fd2388937ff293d",
-          "bytes": 19938
+          "sha256": "4a4cbf2877a6335213a111a23ff17651fab72704a6906e60b2d7ac6268ad98df",
+          "bytes": 20420
         },
         {
           "path": "skills/ux-flows/references/best-practices-index.md",
@@ -725,8 +725,8 @@
         },
         {
           "path": "skills/ux-flows/references/scenario-format.md",
-          "sha256": "9531a6d37e5753f0b160e5ac863a0679478e9a93e4b9335ed3e8c469618e321e",
-          "bytes": 52384
+          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
+          "bytes": 64185
         },
         {
           "path": "skills/ux-flows/references/state-stress-matrix.md",
@@ -735,13 +735,13 @@
         },
         {
           "path": "skills/ux-flows/references/system-map.md",
-          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
-          "bytes": 8452
+          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
+          "bytes": 10708
         },
         {
           "path": "skills/ux-flows/references/ux-design-principles.md",
-          "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6",
-          "bytes": 13328
+          "sha256": "abe09d1f5d4009d3e19073183235fcb6c87008589569bde50072af1237266778",
+          "bytes": 14807
         },
         {
           "path": "skills/ux-flows/references/visual-identity.md",
@@ -750,8 +750,8 @@
         },
         {
           "path": "skills/ux-flows/SKILL.md",
-          "sha256": "690893be535e1eeea874fa66206dd50d2fadd94584b7a4fbe9f59b14c1175c32",
-          "bytes": 20691
+          "sha256": "15def46f78639f327236aecb52602d987841cfc275b10b4ab86417497c0dc91d",
+          "bytes": 20678
         },
         {
           "path": "skills/ux-foundation/references/best-practices-index.md",
@@ -805,8 +805,8 @@
         },
         {
           "path": "skills/ux-foundation/references/scenario-format.md",
-          "sha256": "9531a6d37e5753f0b160e5ac863a0679478e9a93e4b9335ed3e8c469618e321e",
-          "bytes": 52384
+          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
+          "bytes": 64185
         },
         {
           "path": "skills/ux-foundation/references/state-stress-matrix.md",
@@ -815,13 +815,13 @@
         },
         {
           "path": "skills/ux-foundation/references/system-map.md",
-          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
-          "bytes": 8452
+          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
+          "bytes": 10708
         },
         {
           "path": "skills/ux-foundation/references/ux-design-principles.md",
-          "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6",
-          "bytes": 13328
+          "sha256": "abe09d1f5d4009d3e19073183235fcb6c87008589569bde50072af1237266778",
+          "bytes": 14807
         },
         {
           "path": "skills/ux-foundation/references/visual-identity.md",
@@ -830,13 +830,23 @@
         },
         {
           "path": "skills/ux-foundation/SKILL.md",
-          "sha256": "dacd179acb14f894ab2492c50b45f7c8ecab14dea82854b452885c6fe875b47e",
-          "bytes": 13767
+          "sha256": "f409227b136765d511ebf8a35d4c9b83b74defab49941626bcd867d3ca5bb29c",
+          "bytes": 15970
+        },
+        {
+          "path": "skills/ux-foundation/templates/agent-panel.md",
+          "sha256": "9a0cb8539471794a29d5d4c926ea021369accb6269db1632ac0934b1ef0ae2b8",
+          "bytes": 1426
+        },
+        {
+          "path": "skills/ux-foundation/templates/capabilities.md",
+          "sha256": "62b930551120c32c352b9329dd504a38326444fed9dbc621064f0a7014784bd4",
+          "bytes": 1381
         },
         {
           "path": "skills/ux-foundation/templates/foundation.md",
-          "sha256": "2b708ec9f9fe25a84ceb8ab8ef6a6523d7fe5a06cf63d2c910125005be8285cc",
-          "bytes": 3330
+          "sha256": "03b4b891d0a024b640f8e994eaa7968790f1b6d67984f1c014865a769235108c",
+          "bytes": 3780
         },
         {
           "path": "skills/ux-foundation/templates/test-panel.md",
@@ -885,8 +895,8 @@
         },
         {
           "path": "skills/ux-scenarios/references/scenario-format.md",
-          "sha256": "9531a6d37e5753f0b160e5ac863a0679478e9a93e4b9335ed3e8c469618e321e",
-          "bytes": 52384
+          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
+          "bytes": 64185
         },
         {
           "path": "skills/ux-scenarios/references/state-stress-matrix.md",
@@ -895,13 +905,13 @@
         },
         {
           "path": "skills/ux-scenarios/references/system-map.md",
-          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
-          "bytes": 8452
+          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
+          "bytes": 10708
         },
         {
           "path": "skills/ux-scenarios/references/ux-design-principles.md",
-          "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6",
-          "bytes": 13328
+          "sha256": "abe09d1f5d4009d3e19073183235fcb6c87008589569bde50072af1237266778",
+          "bytes": 14807
         },
         {
           "path": "skills/ux-scenarios/references/visual-identity.md",
@@ -910,13 +920,13 @@
         },
         {
           "path": "skills/ux-scenarios/SKILL.md",
-          "sha256": "d1bee8cf8490d5b8bf9c398c19e63d7beb4bde6af7366ae3da035061e2f211f2",
-          "bytes": 11238
+          "sha256": "607ff41fa64002102709b9ddcdd9f8c8bbb9ef356046a5d3d4dad8d243ce86f7",
+          "bytes": 11989
         },
         {
           "path": "skills/ux-scenarios/templates/scenarios.md",
-          "sha256": "2f214ed2f182ce8fd54820ac97235630c68aafa3070d88663384226fc3b3a224",
-          "bytes": 1504
+          "sha256": "be910c9bf3c98d244d9ae9988d6d9f8942ee6a3d24bdfe120d3001625e106840",
+          "bytes": 1679
         },
         {
           "path": "skills/vision/references/best-practices-index.md",
@@ -950,8 +960,8 @@
         },
         {
           "path": "skills/vision/references/scenario-format.md",
-          "sha256": "9531a6d37e5753f0b160e5ac863a0679478e9a93e4b9335ed3e8c469618e321e",
-          "bytes": 52384
+          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
+          "bytes": 64185
         },
         {
           "path": "skills/vision/references/state-stress-matrix.md",
@@ -960,13 +970,13 @@
         },
         {
           "path": "skills/vision/references/system-map.md",
-          "sha256": "6e04241d53c429d13820965bd01fa9fef5593670dbb16f46f94493c89b9bde77",
-          "bytes": 8452
+          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
+          "bytes": 10708
         },
         {
           "path": "skills/vision/references/ux-design-principles.md",
-          "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6",
-          "bytes": 13328
+          "sha256": "abe09d1f5d4009d3e19073183235fcb6c87008589569bde50072af1237266778",
+          "bytes": 14807
         },
         {
           "path": "skills/vision/references/visual-identity.md",
@@ -975,8 +985,13 @@
         },
         {
           "path": "skills/vision/SKILL.md",
-          "sha256": "8dc0a109501dd8ea9601108c240f6aa9a078a5b4056009826cfab3e1adb183fd",
-          "bytes": 9372
+          "sha256": "a34a4aca9c6b63dfce6c5b289414c7af41320fca996b455107b6c3fdaf079872",
+          "bytes": 9764
+        },
+        {
+          "path": "templates/agent-panel.md",
+          "sha256": "9a0cb8539471794a29d5d4c926ea021369accb6269db1632ac0934b1ef0ae2b8",
+          "bytes": 1426
         },
         {
           "path": "templates/audit-report.md",
@@ -1024,34 +1039,39 @@
           "bytes": 2245
         },
         {
+          "path": "templates/capabilities.md",
+          "sha256": "62b930551120c32c352b9329dd504a38326444fed9dbc621064f0a7014784bd4",
+          "bytes": 1381
+        },
+        {
           "path": "templates/claude-rule.md",
-          "sha256": "cbf86f5b4fc076a182ae73d6d98cdacedeca117810fa3c71152b340d0136fe05",
-          "bytes": 4185
+          "sha256": "f59dee13c4ea0b0a37b8d43fb9f0408246e80d7eb50973e50fc457b9b0c00d95",
+          "bytes": 4500
         },
         {
           "path": "templates/flows.md",
-          "sha256": "898573236bd5e834fffcffec12d671e52dcd21577eed494d0b44272309e43f6a",
-          "bytes": 1394
+          "sha256": "02d193d536ed9b3e95171e88857e1f43790a0923e5428860e57f60cb9c69dac8",
+          "bytes": 1414
         },
         {
           "path": "templates/foundation.md",
-          "sha256": "2b708ec9f9fe25a84ceb8ab8ef6a6523d7fe5a06cf63d2c910125005be8285cc",
-          "bytes": 3330
+          "sha256": "03b4b891d0a024b640f8e994eaa7968790f1b6d67984f1c014865a769235108c",
+          "bytes": 3780
         },
         {
           "path": "templates/README.md",
-          "sha256": "3723a9f4bc67b0248966c4532c7e90bb66e2c52fbb4744f9e41f4291a612544b",
-          "bytes": 2950
+          "sha256": "4f2fb09c1144661a4a0d266da8970cc83e99aa8deecf3fd810eb2d81dc995819",
+          "bytes": 3448
         },
         {
           "path": "templates/scenarios.md",
-          "sha256": "2f214ed2f182ce8fd54820ac97235630c68aafa3070d88663384226fc3b3a224",
-          "bytes": 1504
+          "sha256": "be910c9bf3c98d244d9ae9988d6d9f8942ee6a3d24bdfe120d3001625e106840",
+          "bytes": 1679
         },
         {
           "path": "templates/screens.md",
-          "sha256": "241a598e0a8bde653469e4dff8bc3264ca9d94c6da1b31949c531e7263ed73dd",
-          "bytes": 3855
+          "sha256": "3457c23b6e887732afa923d31b52cc9b9c86dd5a13b45786725b7ed839f9e4eb",
+          "bytes": 4024
         },
         {
           "path": "templates/test-panel.md",
@@ -1065,16 +1085,16 @@
         },
         {
           "path": "templates/vision.md",
-          "sha256": "17f23aa63b1d9a4b872369500e9e132d4b1529817aa6f11aadeab88b854226a7",
-          "bytes": 2423
+          "sha256": "88eac5136a5e9e0527b564c56eef24366322f575d55e824edcd471db693a1260",
+          "bytes": 2702
         }
       ]
     },
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "1f500a2aaf297e405e496965bbaa22f20ed9ddba",
-      "version": "1.103.1",
+      "commit": "bedb11225d114c67f246bf0b51893a306db10158",
+      "version": "1.104.0",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1082,7 +1102,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.103.1",
+        "version": "1.104.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1105,13 +1125,23 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "ad5b9ba24bbfab3db193c827809842cd1c328814e9f3f2335102da4547d671de",
+          "sha256": "9fcd0a341aa9e698f5a7acf69d75dd922283f541ed517eac631ec457f0b9750d",
           "bytes": 1529
         },
         {
+          "path": "agents/agent-tester.md",
+          "sha256": "72aceb24201a3387373db0abc53219be22d4955270a0747d94eec803cf1a6e24",
+          "bytes": 6286
+        },
+        {
           "path": "agents/design-tester.md",
-          "sha256": "5df666ef7c48edcc45ffe4d9f95bde602ef691be57345572fb0dc1c45ebf39f8",
-          "bytes": 6517
+          "sha256": "29b3c5ce1c12c3f79df5e1ff124f1ca0a264c337b49208df77b9678cd4fc824a",
+          "bytes": 6838
+        },
+        {
+          "path": "agents/verifier-agent.md",
+          "sha256": "b2efaaf9d2cc16bf1649230f7f711d69d1b8354ff2ecafe762843bdda9daacc5",
+          "bytes": 6581
         },
         {
           "path": "agents/verifier-product.md",
@@ -1249,6 +1279,11 @@
           "bytes": 19876
         },
         {
+          "path": "skills/task-pipeline/assets/verifier-agent.md",
+          "sha256": "aaa904db05ddde6e2159c1f20a20aac5c9a5ed949b30fc80cf0b2cbd76e9bd4f",
+          "bytes": 5920
+        },
+        {
           "path": "skills/task-pipeline/assets/verifier-product.md",
           "sha256": "f826589c2ecadfb07d24a5b4dd82ae550d9ccfb72e2a3c317b388b068c38393c",
           "bytes": 5522
@@ -1300,8 +1335,8 @@
         },
         {
           "path": "skills/task-pipeline/graph.schema.json",
-          "sha256": "29d41d1b7b22df87c7e5cf88c19253814d67b612470e2cd439c15293d0a86e09",
-          "bytes": 27505
+          "sha256": "80518f3d59d3f22432b4207f078baa72abd94b9eb8307bc1084cda2ed771b096",
+          "bytes": 28641
         },
         {
           "path": "skills/task-pipeline/pipeline.example.json",
@@ -1315,13 +1350,18 @@
         },
         {
           "path": "skills/task-pipeline/references/acceptance.md",
-          "sha256": "5d98f140690375b943885fc504f013da702231cce60dfb19b160be1405c39b23",
-          "bytes": 25790
+          "sha256": "3d892f9ddb4bca6d14d8c92168171739a55e0a5bcf5e95b2c90b68ef5d384139",
+          "bytes": 26446
         },
         {
           "path": "skills/task-pipeline/references/adoption.md",
           "sha256": "b951a9a727b3d5e3942a49358895295edb5b8d19b37bde07fba8477bb17a9524",
           "bytes": 11172
+        },
+        {
+          "path": "skills/task-pipeline/references/agent-surface.md",
+          "sha256": "ae573d3cb71be83e878989da460ba6a85f6f4fe43692108681bfed01aa91ed3f",
+          "bytes": 13681
         },
         {
           "path": "skills/task-pipeline/references/artifacts.md",
@@ -1330,8 +1370,8 @@
         },
         {
           "path": "skills/task-pipeline/references/audit.md",
-          "sha256": "d6c772b7eb9dde912338b2dc2ae424d4fc77c2e575cf9f824dfd0a5a9642c3f2",
-          "bytes": 25494
+          "sha256": "1afa2392d18deea7267ad1bd7a63d684d000ba4b3629bb6eb4635c91ef092b09",
+          "bytes": 25812
         },
         {
           "path": "skills/task-pipeline/references/backlog.md",
@@ -1340,8 +1380,8 @@
         },
         {
           "path": "skills/task-pipeline/references/brainstorm.md",
-          "sha256": "8ccdb35e99868a2558540bea4562b9fb39f50ef0cc0d1dbb4e748b9ea36006ed",
-          "bytes": 9138
+          "sha256": "4767632282e70aae70a080413808bc22d7622b129dd1fd044382fa9aede673bf",
+          "bytes": 10479
         },
         {
           "path": "skills/task-pipeline/references/browser.md",
@@ -1355,13 +1395,13 @@
         },
         {
           "path": "skills/task-pipeline/references/certification.md",
-          "sha256": "fe75a55722dac2eb49e1038623affec2e0cf7564eb095f3bf9147fa67d48a9e6",
-          "bytes": 17981
+          "sha256": "1cf6d239a1e2254a143ff352ae3015edc89ffa19d92f6a7ca19cae47778fa3ba",
+          "bytes": 20526
         },
         {
           "path": "skills/task-pipeline/references/companion-skills.md",
-          "sha256": "8e57924f24a01d4364e79bdc729ec6999724475f64bcab1b632c811097d0921f",
-          "bytes": 31498
+          "sha256": "3bfb66453a3aaec16e8b2a70d2f22ef5c01c2dbbac9951905c088c211b958d91",
+          "bytes": 32286
         },
         {
           "path": "skills/task-pipeline/references/continuity.md",
@@ -1385,13 +1425,13 @@
         },
         {
           "path": "skills/task-pipeline/references/design-review.md",
-          "sha256": "5122b5563afe09f12a0ff89d868a4ba77eea818aebf9996643dbba4080e01603",
-          "bytes": 4430
+          "sha256": "959428b4f706948ba181f37da87a632f60fd58ab52af7902cf1e864dfb4a8b2d",
+          "bytes": 4446
         },
         {
           "path": "skills/task-pipeline/references/doctrine-map.md",
-          "sha256": "680452be2e1eadd42d7180ffeeaff2eb432b213e4dc4408f2d76bfc6de8e83fa",
-          "bytes": 5543
+          "sha256": "f623a703a87dd15fd7a78f23ba2a675eb4a321dad760dc27a69076ea6d5f4de6",
+          "bytes": 5933
         },
         {
           "path": "skills/task-pipeline/references/documentation.md",
@@ -1415,8 +1455,8 @@
         },
         {
           "path": "skills/task-pipeline/references/grill.md",
-          "sha256": "6017e2db0ef69d21f77c56d92762ae9990051865760f2025144e1c8b78d6305b",
-          "bytes": 20767
+          "sha256": "fa3f8179a0bf50168a215c3d8c0c5739b4c6860193a264d62f40f5abb928cc97",
+          "bytes": 21250
         },
         {
           "path": "skills/task-pipeline/references/hooks.md",
@@ -1460,13 +1500,13 @@
         },
         {
           "path": "skills/task-pipeline/references/planning.md",
-          "sha256": "d4f47a4809b6cd72b17b884abee73f6b92888b45eed2da966a3dc25da228d9bd",
-          "bytes": 28112
+          "sha256": "80f9eb44d8d18231d62c6e5d206a9e99cb1e190d3963e19909d7dd8d4c07ed44",
+          "bytes": 28643
         },
         {
           "path": "skills/task-pipeline/references/portability.md",
-          "sha256": "99374077049603ca428eb16dadf3747a14644fc5917f8c128613309b7a4b02b0",
-          "bytes": 12551
+          "sha256": "fce58ffb6f885e9bbf71536f34c10d1fe5144a0d4ae79ce0ba28d6eb864a01f4",
+          "bytes": 12924
         },
         {
           "path": "skills/task-pipeline/references/prioritisation.md",
@@ -1510,13 +1550,13 @@
         },
         {
           "path": "skills/task-pipeline/references/spec.md",
-          "sha256": "f1bd6684f57b6314a3dcd85370e1e8e2fe640c9a4bedc62b00a73776442ec03d",
-          "bytes": 19382
+          "sha256": "a43ff9ccaf2aebce06ef50961ef9c6380684470ecef6d1f77218d86cb2513b8d",
+          "bytes": 20344
         },
         {
           "path": "skills/task-pipeline/references/stage-00-intake.md",
-          "sha256": "ee97ff71e2f43554a149dbcea68f79929248d32c1ebadf18066366c755a9ee96",
-          "bytes": 13651
+          "sha256": "b9993aa586eb7bc73a45fe4b9d8255fca1f13c9650107b8716a25998eb431a78",
+          "bytes": 14685
         },
         {
           "path": "skills/task-pipeline/references/stage-01-docs-study.md",
@@ -1525,13 +1565,13 @@
         },
         {
           "path": "skills/task-pipeline/references/stage-02-brainstorm.md",
-          "sha256": "69bfd110bd69fe6a527629011797233a58a1c48cb2e397fcb980466577747c27",
-          "bytes": 3744
+          "sha256": "83a1043ae09c8b84a9a6a7b0ef9c2130f845d25ddc79e0272ecd224e04bc79b1",
+          "bytes": 4259
         },
         {
           "path": "skills/task-pipeline/references/stage-03-spec.md",
-          "sha256": "d2173206ef45c41d9e86627583daca4309fe816f456f6848f9ad22fb6f96c222",
-          "bytes": 4770
+          "sha256": "080a8202e3565485c4d5ee6a8a3fc16ceef7757b2f91734821ffec41ad1b0935",
+          "bytes": 5579
         },
         {
           "path": "skills/task-pipeline/references/stage-04-plan.md",
@@ -1540,38 +1580,38 @@
         },
         {
           "path": "skills/task-pipeline/references/stage-05-dev.md",
-          "sha256": "b8e9087ec9c463e9f26929f2227d0c62425031524b8c1c9298915b140b9c9014",
-          "bytes": 4228
+          "sha256": "2e1ec41e54e3f69de0f126b0ebdc8898585bfe6e8e13c3af86d53831c9912dde",
+          "bytes": 4621
         },
         {
           "path": "skills/task-pipeline/references/stage-06-tests.md",
-          "sha256": "bcc1ef374e5cd3f70b155213f9d35f41775421f211620358062588ce9d8ff9f3",
-          "bytes": 506
+          "sha256": "fe83e47cd9b90ad44c3561590ec8e939308a8f8322c84e7f5172b3b3929eb9e3",
+          "bytes": 984
         },
         {
           "path": "skills/task-pipeline/references/stage-07-lint-deploy.md",
-          "sha256": "6af757f8c22c4da3169600f3bb9bcf2f631411e8d676ad53b811fe154111bce3",
-          "bytes": 1444
+          "sha256": "96a2d4764e87c0b29e3826722515e3cf49e3612a36b0cdfd22c43f7b0e49a425",
+          "bytes": 1939
         },
         {
           "path": "skills/task-pipeline/references/stage-08-post-deploy.md",
-          "sha256": "bc10341cbc6b9356311ae62021a0182768930fc0221dcb142bf6d491262c79ab",
-          "bytes": 2465
+          "sha256": "5fd04ba6669535bbc510dd2ae04ade60b7d071229faf55fbce742a570b9a7dda",
+          "bytes": 2903
         },
         {
           "path": "skills/task-pipeline/references/stage-09-docs-wiki.md",
-          "sha256": "cdee1ff7cc986e1fec17e54c3071aaafb66010f0a8507acbaec2f52c5560c4e7",
-          "bytes": 3056
+          "sha256": "5bf3742e10d698f545213ee66189bd1b1395af8f27195676db27c4f42be4af53",
+          "bytes": 3375
         },
         {
           "path": "skills/task-pipeline/references/stage-10-acceptance.md",
-          "sha256": "044c6a0385c729b4b975d2bb3a146f9ad6efcbcdd33febee65bcbb16f9c959ff",
-          "bytes": 6919
+          "sha256": "daada4b9a734e55bbbf29823800b70ae353d76b74dad0ab61a8d652cb51c1770",
+          "bytes": 7116
         },
         {
           "path": "skills/task-pipeline/references/stages.md",
-          "sha256": "6060ffd8bdf3cfbc9aa5c9be813180b41822fd7a4abe1fd49579c30cd3134f11",
-          "bytes": 39282
+          "sha256": "c30c9eea3a99737989b8d6ff21f2bb524e4bb26ec776ad62e07683e393066099",
+          "bytes": 40774
         },
         {
           "path": "skills/task-pipeline/references/tdd.md",
@@ -1590,8 +1630,8 @@
         },
         {
           "path": "skills/task-pipeline/references/work-graph.md",
-          "sha256": "c6e865d5a2ab3a707c43be531cc2d53d9d967fccdbdc4aa773c954d291f3a0f3",
-          "bytes": 17067
+          "sha256": "974084d271af88cfe6eb35553616fd6cd97bf012fc260ac29c560846f471b8e0",
+          "bytes": 17256
         },
         {
           "path": "skills/task-pipeline/scripts/backlog_sources.py",
@@ -1615,8 +1655,8 @@
         },
         {
           "path": "skills/task-pipeline/scripts/graph.py",
-          "sha256": "8c22412db8cbfd35682152af5d6b731aa5e0bd3073ebac8e903141b3ad79297d",
-          "bytes": 115059
+          "sha256": "2af13b820dbb4e8de452994e35b35d31c58e778c4f3058bb5acca932fda5aa40",
+          "bytes": 117453
         },
         {
           "path": "skills/task-pipeline/scripts/lessons.py",
@@ -1650,8 +1690,8 @@
         },
         {
           "path": "skills/task-pipeline/scripts/short_path.py",
-          "sha256": "f68c572d4c016fa9809b7ee84c8746e6235ec475b60a6caf3fe8c555e54dcfbf",
-          "bytes": 2671
+          "sha256": "2345c22dbf0ce3645d6b97b8a53140ca8d96c81f9dab5fb0f317c3c145ec1fd6",
+          "bytes": 3624
         },
         {
           "path": "skills/task-pipeline/scripts/stage_checkpoint.py",
@@ -1670,8 +1710,8 @@
         },
         {
           "path": "skills/task-pipeline/SKILL.md",
-          "sha256": "6501436e30c735b873e5e3b4a7c5428f72455543ea317d28eccca2d5f51c6a3c",
-          "bytes": 16541
+          "sha256": "d75d27a115c5fdfab597b62e0a51c81d8b23a0afa7acf8813c5187e136dbef0f",
+          "bytes": 16569
         },
         {
           "path": "skills/task-pipeline/templates/adr.md",
@@ -1690,8 +1730,8 @@
         },
         {
           "path": "skills/task-pipeline/templates/brief.md",
-          "sha256": "1338ed76ca9d2a8cc0c180799871fad6771401c415a37064e498b69daa5ea84b",
-          "bytes": 11765
+          "sha256": "edf7afad56760d7eb71659eed4d8284bc244e7dc9f192180d00c9a6cc968d821",
+          "bytes": 12700
         },
         {
           "path": "skills/task-pipeline/templates/browser-claims.json",
@@ -1805,8 +1845,8 @@
         },
         {
           "path": "skills/task-pipeline/templates/run.md",
-          "sha256": "80c61655d4f8f5b9d83617b2aafdaa105e62a034e7e2add3fe44ca30d8d3fc14",
-          "bytes": 13120
+          "sha256": "f1a13e57dabc448316747495e1c6700d0c5dadf1dff0b7d117091cfefe9804de",
+          "bytes": 13117
         },
         {
           "path": "skills/task-pipeline/templates/stage-coverage.sh",
@@ -3290,8 +3330,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "52b0584dbe3a10468072fe0a642ff2d414d66544",
-      "version": "0.31.4",
+      "commit": "b0c0642fe7c32af055db4ec713e530c6775cef02",
+      "version": "0.32.0",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3299,7 +3339,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.31.4",
+        "version": "0.32.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3324,13 +3364,18 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "e5dbe582efa09dfa3407408b6ac783c2c23591b1eec100538042ab6b561c7512",
+          "sha256": "c7206c9ac954615d290d3aeb19ef0bf30b3bd873a9a04b048472f32a7ba83fe8",
           "bytes": 1081
         },
         {
           "path": "skills/agent-evals/references/multi-agent.md",
           "sha256": "41c95478234dee0c2b0e978fe7728d2ddd0f082a16e7ec8dc2331dafcee2f86c",
           "bytes": 6383
+        },
+        {
+          "path": "skills/agent-evals/references/operability.md",
+          "sha256": "da5aa45635d696145b263da16eef610fe02cfaabdf8decc6b7b40e3ce7b6e80a",
+          "bytes": 5968
         },
         {
           "path": "skills/agent-evals/references/otel-genai.md",
@@ -3349,8 +3394,8 @@
         },
         {
           "path": "skills/agent-evals/SKILL.md",
-          "sha256": "8238e5d9e4b88dfe9ed3104b080e6b72ddcfa8e9a71d025cbc2c582ab1c23033",
-          "bytes": 21409
+          "sha256": "72fcf3df38ccd1ed4992108e54a1a375f6ab6a8ec3db17ff625edde6afc0a2bb",
+          "bytes": 21239
         },
         {
           "path": "skills/agent-harness/references/audit.md",
@@ -3423,6 +3468,11 @@
           "bytes": 11113
         },
         {
+          "path": "skills/agent-interop/references/agent-surface.md",
+          "sha256": "340038d22b5ca1d92b5746a1f4ef4c871526ec106cce472507d95e706e552040",
+          "bytes": 15966
+        },
+        {
           "path": "skills/agent-interop/references/gateway.md",
           "sha256": "76b331b769c531179ced2782704f527b19acec0d5058c7b8cf6186d20012d6fd",
           "bytes": 22038
@@ -3434,13 +3484,13 @@
         },
         {
           "path": "skills/agent-interop/references/mcp-ship.md",
-          "sha256": "2918ca0beed94ca7f7e34bb30e2609495c421121d3a94a0e43e743fc76b644a2",
-          "bytes": 7099
+          "sha256": "36afc0382f8d7181dd7671bdcfca236d7d27fd889a1ccd29b8b5291ea5eab329",
+          "bytes": 7152
         },
         {
           "path": "skills/agent-interop/references/mcp.md",
-          "sha256": "9b427194659408ae7f521ea689b8b23cbfd216f918f313cc961dce360b7e80b4",
-          "bytes": 14716
+          "sha256": "2b8a46127a8cd1f035a8bbd16c2b511b7c63c688edbf1894b2e5f2b485c0455b",
+          "bytes": 14790
         },
         {
           "path": "skills/agent-interop/references/registry.md",
@@ -3449,8 +3499,8 @@
         },
         {
           "path": "skills/agent-interop/SKILL.md",
-          "sha256": "bc6a69e54c89a3686c86f7e1d83b22c90213df444a445971c2471e9dfe43510b",
-          "bytes": 15369
+          "sha256": "38126670cf1cadcf6326cc3a6a90dad28967af43349c53f1c0cf518c5d1cfc08",
+          "bytes": 16318
         },
         {
           "path": "skills/agent-orchestrator/references/context-engineering.md",

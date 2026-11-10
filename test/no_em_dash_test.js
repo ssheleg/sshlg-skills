@@ -120,10 +120,11 @@ function toPrevious(text) {
     out = out.replace(R.sectionRaw(name, now), () => R.sectionRaw(name, OLD.REGISTRY[name].text));
   }
   for (const name of registry.order()) {
-    for (const cell of ['answers', 'when']) {
-      const now = registry.REGISTRY[name][cell];
-      const was = OLD.REGISTRY[name][cell];
-      if (now !== was) out = out.replace(`| \`${name}\` | ${cell === 'answers' ? now : registry.REGISTRY[name].answers}`, `| \`${name}\` | ${cell === 'answers' ? was : registry.REGISTRY[name].answers}`);
+    // The whole row, so a `when` that changed after 1.80.0 (the AI-native rewording, 1.87.0)
+    // is rebuilt as 1.80.0 rendered it rather than as a row no release ever wrote.
+    const now = registry.REGISTRY[name], was = OLD.REGISTRY[name];
+    if (now.answers !== was.answers || now.when !== was.when) {
+      out = out.replace(`| \`${name}\` | ${now.answers} | ${now.when} |`, `| \`${name}\` | ${was.answers} | ${was.when} |`);
     }
   }
   out = out.replace(R.OPENER, () => OLD_OPENER).replace(R.HEADING, () => OLD_HEADING);
@@ -153,11 +154,23 @@ it('every router section, cell, the heading, opener and Cursor description carry
   assert.deepStrictEqual(bad, []);
 });
 
+// Routers whose words changed on purpose after 1.80.0, each with the release that changed
+// them. Their earlier lines must stay recognisable (`PREVIOUS_LINES`), or every host would
+// read its packaged block as the operator's own edit.
+const REWORDED_SINCE = {
+  'super-ux': '1.87.0: AI-native, capabilities before screens (docs/evidence/specs/2026-11-09-ai-native-pipeline.md)',
+  'agent-stack': '1.87.0: AI-native, a product\'s agent surface (same design)',
+};
+
 it('the rewording is punctuation only: the words of every router are the words 1.80.0 shipped', () => {
   // Meaning, boundaries, refusal phrases and neighbour statements stay exactly as they
   // were. Strip punctuation and case; what is left must be identical word for word.
   const words = (s) => String(s).toLowerCase().replace(/[—:,.()*;]/g, ' ').split(/\s+/).filter(Boolean).join(' ');
   for (const name of registry.order()) {
+    if (REWORDED_SINCE[name]) {
+      assert.ok(registry.previous(name).length > 0, `${name}: reworded (${REWORDED_SINCE[name]}) with no previous lines kept`);
+      continue;
+    }
     assert.strictEqual(words(registry.REGISTRY[name].text), words(OLD.REGISTRY[name].text), `${name}: words changed`);
     assert.strictEqual(words(registry.REGISTRY[name].answers), words(OLD.REGISTRY[name].answers), `${name}: answers changed`);
     assert.strictEqual(registry.REGISTRY[name].when, OLD.REGISTRY[name].when, `${name}: when changed`);

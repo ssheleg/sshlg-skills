@@ -1,6 +1,6 @@
 # UX Scenarios
 
-<!-- Managed with super-ux (ux-contract v4). -->
+<!-- Managed with super-ux (ux-contract v5). -->
 
 Scope: the public Skills website, its separate Harness section and member relationships. The bounded wait-rule CLI below is covered separately; other launcher behavior is outside this scenario addition. Approved for autonomous implementation by the operator's 2026-09-21 request; product outcomes remain unobserved.
 
@@ -18,6 +18,9 @@ Scope: the public Skills website, its separate Harness section and member relati
 | SCN-009 | Recover a refused instruction write | Working-rule CLI | maintainer | - | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
 | SCN-010 | Inspect and finalize recovery metadata | Working-rule CLI | maintainer | - | implemented | 2026-10-13: MB02c focused CLI; independent peer pending |
 | SCN-011 | Recover an interrupted hook-runtime write | Hooks recovery CLI | maintainer | - | implemented | 2026-10-13: B190 isolated implementation |
+| SCN-012 | An agent updates the family and proves it | Launcher CLI | P-01 | ST-001, ST-002, CAP-01, CAP-02 | implemented | 2026-11-09: AI-native pilot |
+| SCN-013 | An agent finds the skill a task needs | Launcher CLI | P-01 | ST-003, CAP-03 | implemented | 2026-11-09: AI-native pilot |
+| SCN-014 | An agent measures what each host loads | Launcher CLI | P-01 | ST-004, CAP-04 | implemented | 2026-11-09: AI-native pilot |
 
 ## Personas
 
@@ -241,3 +244,58 @@ watcher has been started. The existing maintainer persona applies to host settin
 - **Status:** implemented
 - **Coverage:** test/wait_recovery_cli_test.js; test/wait_recovery_test.js
 - **Product:** unobserved
+
+## Launcher CLI, agent channel
+
+These scenarios are the AI-native pilot (hub board row B-329): the launcher's own commands read as an
+agent surface under contract v5. `docs/ux/foundation.md` holds P-01 and the actors A-01 to A-03.
+
+### SCN-012: An agent updates the family and proves it
+- **Persona:** P-01
+- **Feature:** Launcher CLI
+- **Traces:** ST-001, ST-002, CAP-01, CAP-02 (JTBD-01, JRN-01/#2)
+- **Channel:** agent
+- **Entry point:** A-01 in a session on the operator's machine
+- **Preconditions:** a newer set is published on npm
+- **Steps:**
+  1. A-01 -> `npx --yes sshlg-skills@latest update --dry-run` -> the full operation plan, zero mutations
+  2. A-01 -> `npx --yes sshlg-skills@latest update` -> exit 0, or 75 when another update holds the lock (retry later; nothing failed)
+  3. A-01 -> `npx sshlg-skills list --json` -> `sshlg-list/1`: each member with the version the package pins, to compare with the host's plugin list
+- **Expected result:** every enabled host reads back the pinned versions
+- **Errors & recovery:** a foreign write to a protected file mid-run refuses the write and names it (B-326); the next run recovers the journal
+- **Status:** implemented
+- **Coverage:** `bin/sshlg-skills.js:910-915 cmdUpdate`
+- **Product:** unobserved
+
+### SCN-013: An agent finds the skill a task needs
+- **Persona:** P-01
+- **Feature:** Launcher CLI
+- **Traces:** ST-003, CAP-03 (JTBD-02)
+- **Channel:** agent
+- **Entry point:** the first step of a task, per the routing protocol
+- **Preconditions:** the family is installed
+- **Steps:**
+  1. A-01 -> `npx sshlg-skills toolkit --find "<concept>, <concept>" --json` -> `sshlg-toolkit-find/1`: ranked rows, each with its SKILL.md path
+  2. A-01 reads the SKILL.md of the skill that fits -> the skill drives the task
+- **Expected result:** the task names the skill it used
+- **Errors & recovery:** nothing matches -> the list is empty and the agent says so; a hidden skill is used by reading its file
+- **Status:** implemented
+- **Coverage:** `bin/sshlg-skills.js:2619-2625 cmdToolkit`
+- **Product:** unobserved
+
+### SCN-014: An agent measures what each host loads
+- **Persona:** P-01
+- **Feature:** Launcher CLI
+- **Traces:** ST-004, CAP-04 (JTBD-01)
+- **Channel:** agent
+- **Entry point:** A-01 before or after an update
+- **Preconditions:** none
+- **Steps:**
+  1. A-01 -> `npx sshlg-skills context --json` -> one JSON report of every always-loaded instruction file, its bytes and its cap
+  2. A-01 reads `findings` -> an `error` finding names the file over its host's cap
+- **Expected result:** exit 0 with no error finding, or exit 1 naming the file to shrink
+- **Errors & recovery:** a host read through its fallback has no file; the report carries the row and the run does not throw (fixed in 1.87.0, `test/context_test.js`)
+- **Status:** implemented
+- **Coverage:** `bin/sshlg-skills.js:4191-4196 cmdContext`
+- **Product:** unobserved
+
