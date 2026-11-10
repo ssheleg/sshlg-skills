@@ -38,23 +38,31 @@ the brand agent write a large announcement for LinkedIn and Telegram in Russian 
   two fixes, CHANGELOG 1.87.0, the release card
   [`2026-11-09-v1870-release-impact.md`](evidence/specs/2026-11-09-v1870-release-impact.md).
 
-**Human gate (B-325):** npm refuses agent-stack 0.32.0 and super-ux 0.67.0 (`ENEEDAUTH`): their
-trusted publishers are not set. The operator's two clicks (security key) are in B-325's row; then
-`gh run rerun 42630613649 -R ssheleg/agent-stack --failed` and
-`gh run rerun 42630731244 -R ssheleg/super-ux --failed`. Until then `test/check_pins.py` (in the
-required `validate` check) refuses the hub pins, so the pins PR cannot merge and 1.87.0 is not tagged.
+**Released 2026-11-10:** the npm trusted publishers were the gate (B-325). agent-stack's had been
+saved on 2026-11-09 about 18:30 UTC, after the failed runs; super-ux had none and the agent set it
+through the operator's Safari session (the operator touched the security key twice: once for the
+settings page, once for the save). Re-runs: agent-stack run 42630613649 attempt 4 and super-ux run
+42630731244 both `publish: success`; `npm view` answers 0.32.0 and 0.67.0, both published by
+GitHub Actions OIDC. Hub PR #305 checks re-run green and squash-merged as `c827184b`; tag `v1.87.0`
+(`scripts/tag.sh`, tag object `8511e54f`); release run 42909985882 `release` and `publish` success;
+`npm view sshlg-skills version` answers 1.87.0 (the tarball served about 6 minutes after the
+metadata). `npx --yes sshlg-skills@latest update`: 33 of 33 steps, result PARTIAL only because Codex
+deferred all nine plugins for active-session safety (receipt under `~/.sshlg-skills/codex-deferred/`,
+watcher started by the updater); Claude Code reads agent-stack 0.32.0 `b0c0642`, super-ux 0.67.0
+`155f7a2`, task-pipeline 1.104.0 `bedb112` in `installed_plugins.json`, and the installed
+`agent-interop/references/agent-surface.md` hashes the same as the pinned submodule commit
+(sha256 `340038d22b5ca1d9…`). passioncode told on thread `b8d56e6f`, the brand agent on `6e5f9fb8`
+(its posts wait on that message). Merged branches archived under `refs/archive/2026-11-10/` and
+deleted.
 
-**Next task:** after the two publishes and task-pipeline-skill 1.104.0 on npm, re-run the pins PR's
-checks, merge it, tag `v1.87.0` (`scripts/tag.sh v1.87.0 --push`), watch the release run, run
-`npx --yes sshlg-skills@latest update` and read the installed bytes back; tell passioncode (thread
-`b8d56e6f`) and the brand agent (thread `6e5f9fb8`) that 1.87.0 is out. Then B-329 pilot 2 (a product
-with a live web UI), B-331, B-334.
+**Next task:** B-329 pilot 2 (a product with a live web UI), then B-331's remainder (refuse unknown
+flags, the argv probe recipe, the enroll `internal` profile), B-334 (`schedule` without a graphical
+login, promised to passioncode by 2026-11-16).
 
 **Waits:**
-- B-325 npm trusted publishers for agent-stack and super-ux: the operator; no watcher can clear it.
-- task-pipeline v1.104.0 tag: the local release suite in this session; on red, the tag is removed
-  and the cause read before a retry.
-- B-333: sshlg-analytics-agent's answer on thread `63189199`; the brand agent's drafts on `6e5f9fb8`.
+- B-333: sshlg-analytics-agent's answer on thread `63189199` (none by 2026-11-10 22:15 UTC).
+- The brand agent's posts for plan item I-20261109-1 on thread `6e5f9fb8`.
+- Codex picks up the nine deferred plugins when its active sessions end (the updater's watcher).
 - Carried from 2026-11-07: close B-323 after its second night; B-326 (branch
   `fix/b326-foreign-settings-write` names 1.86.2, which 1.87.0 now precedes: it takes the next
   patch number when it lands).
