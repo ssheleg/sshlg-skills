@@ -1,3 +1,12 @@
+## v1.89.1 (2026-11-11): a deleted project folder no longer blocks a member silently
+
+- A Claude local install record under a folder that no longer exists blocked its member at every `update` with no
+  remedy: on the operator's machine telegram-dev was held back since a bot folder was deleted, and figma kept two
+  records under removed worktrees. `npx sshlg-skills hosts` now names such records with the same one-line backup and
+  drop as B-243, and the block line names `hosts` as the remedy (B-349, `test/localrecords_test.js`,
+  `test/claude_pinned_test.js`; the new checks fail on 1.89.0). On the operator's machine the three records were
+  dropped (backup `installed_plugins.json.bak-orphans-2026-11-11`) and `update` verified all eleven members in Claude.
+
 ## v1.89.0 (2026-11-11): `visibility --measure`, an exact listing estimate, `schedule --json`
 
 - **One entry per name (B-337).** Claude Code lists a plugin command and a plugin skill of one name once, with the

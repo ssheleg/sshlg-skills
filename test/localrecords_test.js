@@ -233,6 +233,50 @@ it('B-264: `hosts` reports worktree and subdirectory records with the remedy, re
   assert.strictEqual(sha(), h0, 'hosts wrote installed_plugins.json');
 });
 
+// --- a local record under a folder that no longer exists (2026-11-11) ---------------------
+
+it('missingRecords: a local record under a deleted folder is named; live, user and malformed ones are not', () => {
+  const base = tmp();
+  const live = path.join(base, 'live');
+  fs.mkdirSync(live);
+  const gone = path.join(base, 'gone');
+  const registry = { version: 2, plugins: {
+    'telegram-dev@telegram-dev': [{ scope: 'user' }, { scope: 'local', projectPath: live }, { scope: 'local', projectPath: gone }],
+    'x@m': [{ scope: 'local', projectPath: 'relative/path' }, null],
+  } };
+  assert.deepStrictEqual(L.missingRecords(registry, realOr), [{ plugin: 'telegram-dev@telegram-dev', projectPath: gone }]);
+  assert.deepStrictEqual(L.missingRecords({ plugins: 'nope' }, realOr), []);
+});
+
+it('`hosts` names a deleted-folder record with the remedy, and the remedy drops only it', () => {
+  const base = tmp();
+  const home = path.join(base, 'home');
+  const live = path.join(base, 'live');
+  fs.mkdirSync(live);
+  const gone = path.join(base, 'gone');
+  const file = path.join(home, '.claude', 'plugins', 'installed_plugins.json');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const registry = { version: 2, plugins: { 'telegram-dev@telegram-dev': [{ scope: 'user' }, { scope: 'local', projectPath: live }, { scope: 'local', projectPath: gone }] } };
+  fs.writeFileSync(file, JSON.stringify(registry, null, 2));
+  const sha = () => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+  const h0 = sha();
+  const env = Object.assign({}, process.env, { HOME: home, SSHLG_SKILLS_NO_UPDATE_CHECK: '1' });
+  delete env.CLAUDE_CONFIG_DIR;
+  const r = spawnSync(process.execPath, [BIN, 'hosts'], { cwd: base, env, encoding: 'utf8', timeout: 60000 });
+  const out = `${r.stdout}${r.stderr}`;
+  assert.strictEqual(r.status, 0, out);
+  assert.ok(/1 local install record\(s\) under a folder that no longer exists/.test(out), out);
+  assert.ok(out.includes(`telegram-dev@telegram-dev: ${gone}`), out);
+  assert.ok(!out.includes('—'), 'the report carries an em dash');
+  assert.strictEqual(sha(), h0, 'hosts wrote installed_plugins.json');
+  const cmd = out.split('\n').map((l) => l.trim()).find((l) => l.startsWith('cp -p '));
+  assert.ok(cmd, out);
+  const run = spawnSync('sh', ['-c', cmd], { encoding: 'utf8' });
+  assert.strictEqual(run.status, 0, run.stderr);
+  const after = JSON.parse(fs.readFileSync(file, 'utf8'));
+  assert.deepStrictEqual(after.plugins['telegram-dev@telegram-dev'].map((x) => x.projectPath || 'user'), ['user', live]);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

@@ -193,8 +193,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=169 fixtures=3377 members=11 -->
-**Ratchets.** 169 suites, 3377 fixtures, 11 pinned members; these three numbers are
+<!-- ratchets: suites=169 fixtures=3379 members=11 -->
+**Ratchets.** 169 suites, 3379 fixtures, 11 pinned members; these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree, and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
