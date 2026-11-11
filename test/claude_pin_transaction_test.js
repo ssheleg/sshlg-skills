@@ -51,8 +51,14 @@ for(const kind of ['installed','marketplaces']) test('foreign '+kind+' mutation 
  const before=kind==='installed'?JSON.parse(fs.readFileSync(file)):{};
  if(kind==='installed')before.plugins['foreign@elsewhere']=[{version:'old'}];else before.elsewhere={source:{source:'github',repo:'other/repo'},lastUpdated:'old'};
  fs.writeFileSync(file,JSON.stringify(before));
- f.setHook(args=>{if(args[1]==='marketplace'){const changed=JSON.parse(fs.readFileSync(file));if(kind==='installed')changed.plugins['foreign@elsewhere'][0].version='CHANGED';else changed.elsewhere.lastUpdated='CHANGED';fs.writeFileSync(file,JSON.stringify(changed));}});
+ f.setHook(args=>{if(args[1]==='marketplace'){const changed=JSON.parse(fs.readFileSync(file));if(kind==='installed')changed.plugins['foreign@elsewhere'][0].version='CHANGED';else changed.elsewhere.source.repo='CHANGED';fs.writeFileSync(file,JSON.stringify(changed));}});
  const r=f.execute();assert(!r.ok);assert.match(r.error,/foreign Claude registry/);assert(fs.readFileSync(file,'utf8').includes('CHANGED'));assert(!f.calls.some(a=>a[1]==='uninstall'));
+});
+test('a marketplace refresh time moved by Claude Code itself is not a foreign change',f=>{
+ const file=f.profile+'/plugins/known_marketplaces.json';
+ fs.writeFileSync(file,JSON.stringify({elsewhere:{source:{source:'github',repo:'other/repo'},lastUpdated:'old'}}));
+ f.setHook(args=>{if(args[1]==='marketplace'){const c=JSON.parse(fs.readFileSync(file));c.elsewhere.lastUpdated='refreshed';fs.writeFileSync(file,JSON.stringify(c));}});
+ const r=f.execute();assert(r.ok,JSON.stringify(r));
 });
 test('requested profile alias retarget refuses instead of writing either profile',f=>{
  const alias=f.box+'/profile-alias';fs.symlinkSync(f.profile,alias);const p=P.prepare([f.m],f.inventory,{home:f.home,profileRoot:alias});
