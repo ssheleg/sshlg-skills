@@ -1,3 +1,28 @@
+## v1.88.0 (2026-11-11): family audit, legacy and friction removed
+
+- **The audit.** The operator's order (2026-11-11): «пройди по всем и найди проблемы и где можем оптимизировать и
+  убрать старые легаси неточности и что мешает работе, по всем скилам в семье». Seven read-only audits over the
+  eleven members and the hub (file:line for every finding), then one fix PR and release per member.
+- **Pins (on npm):** agent-sync 1.23.6 (a lease on a file its board cites no longer refuses to guess; the scaffold
+  names commands that exist; delegated hosts decide and record; the commands table moved out of the body),
+  task-pipeline 1.104.1 (preflight is a notice, not a stop; the short-path check runs first; stage 10 closes with a
+  statement; stage 0 is a gap check; the host's finish line and standing PR grant win; dead `ssheleg/sheleg-design`
+  marketplace command fixed; em dashes out of printed text), super-ux 0.67.1 (a delegated mode replaces non-gate
+  questions; fix plans go to task-pipeline; Lazyweb and the superpowers branch gone; scenario contract read by section;
+  copy-check tool used when present; four command twins no longer hide their skills' descriptions), agent-stack
+  0.32.1 (the host's model map and per-agent budget read before choosing a model, closing board request `f7155442`;
+  interop specs re-read 2026-11-11, agentgateway 1.7), xr-dev 0.4.7 (the decommissioned gateway route removed; Quest
+  manifest facts re-checked), web3d-dev 0.2.8 (three r187, every code block and source citation re-checked; asset
+  profiles registered by the agent).
+- **Released, waiting on npm trusted publishing (B-348):** make-skill 0.33.6, sheleg-design 1.66.6, sheleg-dev
+  0.16.4, seo-aeo-audit 0.32.5, telegram-dev 0.5.5 are merged and tagged; their publish jobs stop at `ENEEDAUTH`
+  because those packages have no trusted publisher yet. Their pins move when npm serves them.
+- **Hub fixes (PR #308, `2561c17f`):** the secret guard matches whole name parts (`echo $PATH` works), closes a
+  nested-substitution fail-open, and gains a value-free `settings get <key>` door; routers only for members whose
+  Claude plugin is enabled (13,112 bytes from 16,189 on this machine); a typo or rename no longer names the pipeline;
+  `pack design` retires Lazyweb; HANDOFF archived (44 KB to 4 KB); agent-sync guards only the three registries.
+- `docs/evidence/acceptance/ctx-04.06.json` regenerated for the new set.
+
 ## v1.87.0 (2026-11-09): AI-native products across the family
 
 - **The design.** The operator's order (2026-11-09): products are used by agents as people use

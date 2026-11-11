@@ -56,13 +56,13 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.67.0",
+      "version": "0.67.1",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
       "shape": "static",
       "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
-      "commit": "155f7a2b835c25a1a52849a634acc2125e6107ba"
+      "commit": "2b7e58193277577fbd1100c0317d631be0a6b435"
     },
     {
       "name": "task-pipeline",
@@ -76,13 +76,13 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.104.0",
+      "version": "1.104.1",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
       "shape": "static",
       "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third — `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision.",
-      "commit": "bedb11225d114c67f246bf0b51893a306db10158"
+      "commit": "695c2e00c50d8f0a5be8fd0ac66ed949ee6cae74"
     },
     {
       "name": "agent-sync",
@@ -94,13 +94,13 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.23.5",
+      "version": "1.23.6",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
       "shape": "static",
       "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape.",
-      "commit": "c286eb6d9db3a73cc42f6668539c43bcee11dab0"
+      "commit": "454691a5feff029d8ddba61df2d7ce64d1a87eed"
     },
     {
       "name": "make-skill",
@@ -205,13 +205,13 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.32.0",
+      "version": "0.32.1",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "b0c0642fe7c32af055db4ec713e530c6775cef02"
+      "commit": "0fee9350d5e3965b2457930dd1c890ea0cd0789f"
     },
     {
       "name": "telegram-dev",
@@ -249,7 +249,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.4.6",
+      "version": "0.4.7",
       "entry": null,
       "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
@@ -262,7 +262,7 @@
           "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
         }
       ],
-      "commit": "5a36fc119e03d3a2cab9d40bd232a334b34fa3cc"
+      "commit": "b15f12d31ff17910455b32d58a193db255c0530f"
     },
     {
       "name": "web3d-dev",
@@ -276,13 +276,13 @@
         "web3d-assets",
         "web3d-animation"
       ],
-      "version": "0.2.7",
+      "version": "0.2.8",
       "entry": null,
       "role": "how realtime 3D on the web runs, ships its assets and moves",
       "npm": "@ssheleg/web3d-dev",
       "shape": "static",
       "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical.",
-      "commit": "70614f3ead494f8242a4a3757cdb1cd9c588d70c"
+      "commit": "60724cec8ef37aad129a776ea386909580c5da41"
     }
   ],
   "agents": [

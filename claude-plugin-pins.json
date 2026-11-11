@@ -4,16 +4,16 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "155f7a2b835c25a1a52849a634acc2125e6107ba",
-      "version": "0.67.0",
+      "commit": "2b7e58193277577fbd1100c0317d631be0a6b435",
+      "version": "0.67.1",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
         "name": "super-ux",
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
-        "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ — product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.67.0",
+        "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ that runs product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
+        "version": "0.67.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,8 +40,8 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "ca6ba77c668a5a27346e758be9fde190aa0a735e4e4b6673a08d3aa88dfa213b",
-          "bytes": 1196
+          "sha256": "a421dfdcd6748b9943c9f4c216d37fc6330116eb1c2ccdafc4f84019edbdcabe",
+          "bytes": 1202
         },
         {
           "path": "commands/brand-init.md",
@@ -65,13 +65,13 @@
         },
         {
           "path": "commands/copy.md",
-          "sha256": "b4fa0f14ee65a1a47a791bc5b9aa35a07afddad0be4e48511d610a3583cf625f",
-          "bytes": 1682
+          "sha256": "d014014eda4aa3ab85abfbf9903aac789f0c4eab08335896a8e7a90f6e67b866",
+          "bytes": 1895
         },
         {
           "path": "commands/ux-audit.md",
-          "sha256": "58e4d3ba929f1a05f3242082c0a92f295f847d84181ff666994467c62729de77",
-          "bytes": 499
+          "sha256": "db8343a300a0b167e3247cbdac0b3a2b3b3cf1ec4dee86d3abca752c798d68f3",
+          "bytes": 530
         },
         {
           "path": "commands/ux-doctor.md",
@@ -80,18 +80,18 @@
         },
         {
           "path": "commands/ux-flows.md",
-          "sha256": "579f386e88ff59daa26ca9a64eda42ae82c64cf9b2723ee01eb2ac3ff8760604",
-          "bytes": 1260
+          "sha256": "2deff24f483f2885794a18dc5c5aaef5f957a49e35eccdf56f77d118f7f5bf2c",
+          "bytes": 1343
         },
         {
           "path": "commands/ux-foundation.md",
-          "sha256": "0507f93fdd7e6390509333d0b3d84277ac87cd17f5badabfdede5bf1186c4bd2",
-          "bytes": 604
+          "sha256": "623eeddc06d2697faccfa6a4be73d696bb6a451e263ece381dec7ad24d3a6cc2",
+          "bytes": 635
         },
         {
           "path": "commands/ux-init.md",
-          "sha256": "aeba2217b48349993c26a520c3a50a8342ba274dd1cf8f540dc9174dd9de7b90",
-          "bytes": 2373
+          "sha256": "f9a0b2dd0b6b21ceb25dcbe5b7b663819ffe09a2edcd947947fa0b66b6a940b7",
+          "bytes": 2456
         },
         {
           "path": "commands/ux-lint.md",
@@ -110,13 +110,13 @@
         },
         {
           "path": "commands/ux.md",
-          "sha256": "6423586b2047e39f8b845a66ed9d5bdb3064b42c069205c2498333c563285632",
-          "bytes": 14827
+          "sha256": "6722c72093fe7e70bd21ee9e006f46e6560a7f581f2d51454d0c96cbe3cf2da8",
+          "bytes": 14544
         },
         {
           "path": "commands/vision.md",
-          "sha256": "daf7d55587e401f4e2c5ac79d2ec0d72c619b6899dc250dea813a888d4c779b9",
-          "bytes": 1005
+          "sha256": "9d11335b4c94b07a06b145a2e6736b4f2f27878381d17fcf322f45960d59c76e",
+          "bytes": 1036
         },
         {
           "path": "scripts/bp_index.py",
@@ -175,8 +175,8 @@
         },
         {
           "path": "skills/brand-voice/references/seo-aeo-safety.md",
-          "sha256": "275eec857d30615e258c6818674382dec3c3b7fdeaa27a0db029589f46e7669f",
-          "bytes": 10195
+          "sha256": "980699604d3fc4fc606435af6546b71ae48dbb9ab9d227c8f2db8a14259804f7",
+          "bytes": 10125
         },
         {
           "path": "skills/brand-voice/references/store-copy.md",
@@ -190,8 +190,8 @@
         },
         {
           "path": "skills/brand-voice/references/system-map.md",
-          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
-          "bytes": 10708
+          "sha256": "7f86d6de9eec302fbb9994accc7be4939725f80d1bac4e256208191d13d9e655",
+          "bytes": 12681
         },
         {
           "path": "skills/brand-voice/references/video-script.md",
@@ -205,13 +205,13 @@
         },
         {
           "path": "skills/brand-voice/SKILL.md",
-          "sha256": "0157398f45d5f9210941e53256c0e74e050688ffecbf853785bafa800f6dbecd",
-          "bytes": 7783
+          "sha256": "fd7ac23a858932be853374fd9f7979e8e08a843c7e44a98c99993c80ad0dbe84",
+          "bytes": 7969
         },
         {
           "path": "skills/brand-voice/templates/brand/channels.md",
-          "sha256": "ef19e792989cfdaf3ab83fd1008e9d6348d4bc0b6921768d5136e91eb81e2308",
-          "bytes": 4278
+          "sha256": "ea2e96418d640ed25f9c1096ca44029e72ee706b360e30396449b66fac84a5cc",
+          "bytes": 4275
         },
         {
           "path": "skills/brand-voice/templates/brand/copy-brief.md",
@@ -220,33 +220,33 @@
         },
         {
           "path": "skills/brand-voice/templates/brand/facts.md",
-          "sha256": "71220edd6537cc8af1a67dead931059a4f861570b1e4325f8fd84e402b6b1f36",
-          "bytes": 1324
+          "sha256": "7232d0db4dbc554d9c4f163b5ef32357044e9114ca2bda91a5459f28c9eef800",
+          "bytes": 1318
         },
         {
           "path": "skills/brand-voice/templates/brand/locale.md",
-          "sha256": "3f941bdf1ba872883d0040c02d5c1a87606f306c3d91fda63b9189f177a3154b",
-          "bytes": 2211
+          "sha256": "ac4da53fa16f00d5c37c0be5c4ebfdb32bd18ab9d78c71f1b5195a511812a322",
+          "bytes": 2202
         },
         {
           "path": "skills/brand-voice/templates/brand/README.md",
-          "sha256": "d7b23f3bcec38df7d29c1818b8b185ce665efb1b831d3dfc97dd3135afde4e56",
-          "bytes": 2386
+          "sha256": "89e3bf8d69c820c20b39e822e87be9faf4d56764f52943325d0f43fab834b32d",
+          "bytes": 2371
         },
         {
           "path": "skills/brand-voice/templates/brand/strings.md",
-          "sha256": "13f3d6f2da96516f3742643170a4b09f511325a8f08323c2a86d4d1275d260ed",
-          "bytes": 1772
+          "sha256": "bb264296f2b7da9c9df1b1aca3d580af2cd51a1a70c4aa33831335dde7003c5a",
+          "bytes": 1751
         },
         {
           "path": "skills/brand-voice/templates/brand/terminology.md",
-          "sha256": "a05df1ef326d22072a4db4b00297010930ced238aa0ce91f18cb2a5a3319ec23",
-          "bytes": 1201
+          "sha256": "76e4b754c07ffe7b3f0422a07e04220b14a63b8ec3275551144bb1bd4207e140",
+          "bytes": 1195
         },
         {
           "path": "skills/brand-voice/templates/brand/voice.md",
-          "sha256": "3eb25eebc7aa60398bf47470571bb0ab1bbe1e634b4ca8b40219da85bdcb91dd",
-          "bytes": 2245
+          "sha256": "95c8bcfbd8ba2d489ad842d865e651faa1b98cc3ad799bd7a0e5931a531ab0be",
+          "bytes": 2239
         },
         {
           "path": "skills/copywriting/references/ai-tells.md",
@@ -290,8 +290,8 @@
         },
         {
           "path": "skills/copywriting/references/seo-aeo-safety.md",
-          "sha256": "275eec857d30615e258c6818674382dec3c3b7fdeaa27a0db029589f46e7669f",
-          "bytes": 10195
+          "sha256": "980699604d3fc4fc606435af6546b71ae48dbb9ab9d227c8f2db8a14259804f7",
+          "bytes": 10125
         },
         {
           "path": "skills/copywriting/references/store-copy.md",
@@ -305,8 +305,8 @@
         },
         {
           "path": "skills/copywriting/references/system-map.md",
-          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
-          "bytes": 10708
+          "sha256": "7f86d6de9eec302fbb9994accc7be4939725f80d1bac4e256208191d13d9e655",
+          "bytes": 12681
         },
         {
           "path": "skills/copywriting/references/ui-copy.md",
@@ -325,8 +325,8 @@
         },
         {
           "path": "skills/copywriting/SKILL.md",
-          "sha256": "90a83bdcd50dc7007f029072a7b0793246a4af926a6b35e909cb6c232b006829",
-          "bytes": 15285
+          "sha256": "66231b06d31b6c4d70f92234a16b4f55f0e63dbb609140b0e58619a48ea6f717",
+          "bytes": 15497
         },
         {
           "path": "skills/copywriting/templates/brand/copy-brief.md",
@@ -390,8 +390,8 @@
         },
         {
           "path": "skills/references/flow-improve.md",
-          "sha256": "db837edaf63aebc0d84d27176c94cd5e0d527fc905599f337e358b29aca4415a",
-          "bytes": 1625
+          "sha256": "09dac4a503834cec2abaa6084c70344cfbe3a82b99a2b3a716d5196d8590645d",
+          "bytes": 1498
         },
         {
           "path": "skills/references/funnel-research.md",
@@ -465,13 +465,13 @@
         },
         {
           "path": "skills/references/scenario-format.md",
-          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
-          "bytes": 64185
+          "sha256": "a8b94971fbd1767dcbc3f9d329f9fe428f795b36541baa3601fcd101082feda1",
+          "bytes": 64120
         },
         {
           "path": "skills/references/seo-aeo-safety.md",
-          "sha256": "275eec857d30615e258c6818674382dec3c3b7fdeaa27a0db029589f46e7669f",
-          "bytes": 10195
+          "sha256": "980699604d3fc4fc606435af6546b71ae48dbb9ab9d227c8f2db8a14259804f7",
+          "bytes": 10125
         },
         {
           "path": "skills/references/state-stress-matrix.md",
@@ -490,8 +490,8 @@
         },
         {
           "path": "skills/references/system-map.md",
-          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
-          "bytes": 10708
+          "sha256": "7f86d6de9eec302fbb9994accc7be4939725f80d1bac4e256208191d13d9e655",
+          "bytes": 12681
         },
         {
           "path": "skills/references/ui-copy.md",
@@ -510,8 +510,8 @@
         },
         {
           "path": "skills/references/visual-identity.md",
-          "sha256": "2ec876da25a8d0c05c77c32101ac0c42c7b8f017e0067ed8bcd18787839a92cf",
-          "bytes": 11996
+          "sha256": "a5e97f6b7177d6a442a0c942ed68d596685ae6252358db504664fba9fa9168db",
+          "bytes": 11714
         },
         {
           "path": "skills/references/voice-packs.md",
@@ -595,13 +595,13 @@
         },
         {
           "path": "skills/ux-audit/references/scenario-format.md",
-          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
-          "bytes": 64185
+          "sha256": "a8b94971fbd1767dcbc3f9d329f9fe428f795b36541baa3601fcd101082feda1",
+          "bytes": 64120
         },
         {
           "path": "skills/ux-audit/references/seo-aeo-safety.md",
-          "sha256": "275eec857d30615e258c6818674382dec3c3b7fdeaa27a0db029589f46e7669f",
-          "bytes": 10195
+          "sha256": "980699604d3fc4fc606435af6546b71ae48dbb9ab9d227c8f2db8a14259804f7",
+          "bytes": 10125
         },
         {
           "path": "skills/ux-audit/references/state-stress-matrix.md",
@@ -620,8 +620,8 @@
         },
         {
           "path": "skills/ux-audit/references/system-map.md",
-          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
-          "bytes": 10708
+          "sha256": "7f86d6de9eec302fbb9994accc7be4939725f80d1bac4e256208191d13d9e655",
+          "bytes": 12681
         },
         {
           "path": "skills/ux-audit/references/ux-design-principles.md",
@@ -635,8 +635,8 @@
         },
         {
           "path": "skills/ux-audit/references/visual-identity.md",
-          "sha256": "2ec876da25a8d0c05c77c32101ac0c42c7b8f017e0067ed8bcd18787839a92cf",
-          "bytes": 11996
+          "sha256": "a5e97f6b7177d6a442a0c942ed68d596685ae6252358db504664fba9fa9168db",
+          "bytes": 11714
         },
         {
           "path": "skills/ux-audit/references/voice-packs.md",
@@ -645,8 +645,8 @@
         },
         {
           "path": "skills/ux-audit/SKILL.md",
-          "sha256": "4a4cbf2877a6335213a111a23ff17651fab72704a6906e60b2d7ac6268ad98df",
-          "bytes": 20420
+          "sha256": "c8c72b4bdb45bfe92753acf01ddc8bf0606edb6b5c4ff686943b068d12980e92",
+          "bytes": 20101
         },
         {
           "path": "skills/ux-flows/references/best-practices-index.md",
@@ -685,8 +685,8 @@
         },
         {
           "path": "skills/ux-flows/references/flow-improve.md",
-          "sha256": "db837edaf63aebc0d84d27176c94cd5e0d527fc905599f337e358b29aca4415a",
-          "bytes": 1625
+          "sha256": "09dac4a503834cec2abaa6084c70344cfbe3a82b99a2b3a716d5196d8590645d",
+          "bytes": 1498
         },
         {
           "path": "skills/ux-flows/references/funnel-research.md",
@@ -725,8 +725,8 @@
         },
         {
           "path": "skills/ux-flows/references/scenario-format.md",
-          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
-          "bytes": 64185
+          "sha256": "a8b94971fbd1767dcbc3f9d329f9fe428f795b36541baa3601fcd101082feda1",
+          "bytes": 64120
         },
         {
           "path": "skills/ux-flows/references/state-stress-matrix.md",
@@ -735,8 +735,8 @@
         },
         {
           "path": "skills/ux-flows/references/system-map.md",
-          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
-          "bytes": 10708
+          "sha256": "7f86d6de9eec302fbb9994accc7be4939725f80d1bac4e256208191d13d9e655",
+          "bytes": 12681
         },
         {
           "path": "skills/ux-flows/references/ux-design-principles.md",
@@ -745,13 +745,13 @@
         },
         {
           "path": "skills/ux-flows/references/visual-identity.md",
-          "sha256": "2ec876da25a8d0c05c77c32101ac0c42c7b8f017e0067ed8bcd18787839a92cf",
-          "bytes": 11996
+          "sha256": "a5e97f6b7177d6a442a0c942ed68d596685ae6252358db504664fba9fa9168db",
+          "bytes": 11714
         },
         {
           "path": "skills/ux-flows/SKILL.md",
-          "sha256": "15def46f78639f327236aecb52602d987841cfc275b10b4ab86417497c0dc91d",
-          "bytes": 20678
+          "sha256": "d6b3c0770061f65169d172c706871dc59a53235b4205764e0e281c2e84edab48",
+          "bytes": 20443
         },
         {
           "path": "skills/ux-foundation/references/best-practices-index.md",
@@ -805,8 +805,8 @@
         },
         {
           "path": "skills/ux-foundation/references/scenario-format.md",
-          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
-          "bytes": 64185
+          "sha256": "a8b94971fbd1767dcbc3f9d329f9fe428f795b36541baa3601fcd101082feda1",
+          "bytes": 64120
         },
         {
           "path": "skills/ux-foundation/references/state-stress-matrix.md",
@@ -815,8 +815,8 @@
         },
         {
           "path": "skills/ux-foundation/references/system-map.md",
-          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
-          "bytes": 10708
+          "sha256": "7f86d6de9eec302fbb9994accc7be4939725f80d1bac4e256208191d13d9e655",
+          "bytes": 12681
         },
         {
           "path": "skills/ux-foundation/references/ux-design-principles.md",
@@ -825,13 +825,13 @@
         },
         {
           "path": "skills/ux-foundation/references/visual-identity.md",
-          "sha256": "2ec876da25a8d0c05c77c32101ac0c42c7b8f017e0067ed8bcd18787839a92cf",
-          "bytes": 11996
+          "sha256": "a5e97f6b7177d6a442a0c942ed68d596685ae6252358db504664fba9fa9168db",
+          "bytes": 11714
         },
         {
           "path": "skills/ux-foundation/SKILL.md",
-          "sha256": "f409227b136765d511ebf8a35d4c9b83b74defab49941626bcd867d3ca5bb29c",
-          "bytes": 15970
+          "sha256": "4e0aa89ab1d17ac13efbd31153a1de721558c012bbb910ae2410963412cccdd8",
+          "bytes": 16049
         },
         {
           "path": "skills/ux-foundation/templates/agent-panel.md",
@@ -845,8 +845,8 @@
         },
         {
           "path": "skills/ux-foundation/templates/foundation.md",
-          "sha256": "03b4b891d0a024b640f8e994eaa7968790f1b6d67984f1c014865a769235108c",
-          "bytes": 3780
+          "sha256": "55a1b4e642013b7a2ac14f3bbe45af5187c983aa8d59037cf7458453a9e10c82",
+          "bytes": 3762
         },
         {
           "path": "skills/ux-foundation/templates/test-panel.md",
@@ -895,8 +895,8 @@
         },
         {
           "path": "skills/ux-scenarios/references/scenario-format.md",
-          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
-          "bytes": 64185
+          "sha256": "a8b94971fbd1767dcbc3f9d329f9fe428f795b36541baa3601fcd101082feda1",
+          "bytes": 64120
         },
         {
           "path": "skills/ux-scenarios/references/state-stress-matrix.md",
@@ -905,8 +905,8 @@
         },
         {
           "path": "skills/ux-scenarios/references/system-map.md",
-          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
-          "bytes": 10708
+          "sha256": "7f86d6de9eec302fbb9994accc7be4939725f80d1bac4e256208191d13d9e655",
+          "bytes": 12681
         },
         {
           "path": "skills/ux-scenarios/references/ux-design-principles.md",
@@ -915,13 +915,13 @@
         },
         {
           "path": "skills/ux-scenarios/references/visual-identity.md",
-          "sha256": "2ec876da25a8d0c05c77c32101ac0c42c7b8f017e0067ed8bcd18787839a92cf",
-          "bytes": 11996
+          "sha256": "a5e97f6b7177d6a442a0c942ed68d596685ae6252358db504664fba9fa9168db",
+          "bytes": 11714
         },
         {
           "path": "skills/ux-scenarios/SKILL.md",
-          "sha256": "607ff41fa64002102709b9ddcdd9f8c8bbb9ef356046a5d3d4dad8d243ce86f7",
-          "bytes": 11989
+          "sha256": "9b010837927be20adc70c281235cc8154cd48ffb545c3674bf20a68f55b30f8e",
+          "bytes": 12175
         },
         {
           "path": "skills/ux-scenarios/templates/scenarios.md",
@@ -960,8 +960,8 @@
         },
         {
           "path": "skills/vision/references/scenario-format.md",
-          "sha256": "8421ed468c7f6abb4a6e1607dab72eade66b3cbfb4947053aadc45797b4c5984",
-          "bytes": 64185
+          "sha256": "a8b94971fbd1767dcbc3f9d329f9fe428f795b36541baa3601fcd101082feda1",
+          "bytes": 64120
         },
         {
           "path": "skills/vision/references/state-stress-matrix.md",
@@ -970,8 +970,8 @@
         },
         {
           "path": "skills/vision/references/system-map.md",
-          "sha256": "0f80c8545dc10e387f0a8cd3faa78feda48b1b5145446464043cb2b87d006817",
-          "bytes": 10708
+          "sha256": "7f86d6de9eec302fbb9994accc7be4939725f80d1bac4e256208191d13d9e655",
+          "bytes": 12681
         },
         {
           "path": "skills/vision/references/ux-design-principles.md",
@@ -980,8 +980,8 @@
         },
         {
           "path": "skills/vision/references/visual-identity.md",
-          "sha256": "2ec876da25a8d0c05c77c32101ac0c42c7b8f017e0067ed8bcd18787839a92cf",
-          "bytes": 11996
+          "sha256": "a5e97f6b7177d6a442a0c942ed68d596685ae6252358db504664fba9fa9168db",
+          "bytes": 11714
         },
         {
           "path": "skills/vision/SKILL.md",
@@ -1000,8 +1000,8 @@
         },
         {
           "path": "templates/brand/channels.md",
-          "sha256": "ef19e792989cfdaf3ab83fd1008e9d6348d4bc0b6921768d5136e91eb81e2308",
-          "bytes": 4278
+          "sha256": "ea2e96418d640ed25f9c1096ca44029e72ee706b360e30396449b66fac84a5cc",
+          "bytes": 4275
         },
         {
           "path": "templates/brand/copy-brief.md",
@@ -1010,33 +1010,33 @@
         },
         {
           "path": "templates/brand/facts.md",
-          "sha256": "71220edd6537cc8af1a67dead931059a4f861570b1e4325f8fd84e402b6b1f36",
-          "bytes": 1324
+          "sha256": "7232d0db4dbc554d9c4f163b5ef32357044e9114ca2bda91a5459f28c9eef800",
+          "bytes": 1318
         },
         {
           "path": "templates/brand/locale.md",
-          "sha256": "3f941bdf1ba872883d0040c02d5c1a87606f306c3d91fda63b9189f177a3154b",
-          "bytes": 2211
+          "sha256": "ac4da53fa16f00d5c37c0be5c4ebfdb32bd18ab9d78c71f1b5195a511812a322",
+          "bytes": 2202
         },
         {
           "path": "templates/brand/README.md",
-          "sha256": "d7b23f3bcec38df7d29c1818b8b185ce665efb1b831d3dfc97dd3135afde4e56",
-          "bytes": 2386
+          "sha256": "89e3bf8d69c820c20b39e822e87be9faf4d56764f52943325d0f43fab834b32d",
+          "bytes": 2371
         },
         {
           "path": "templates/brand/strings.md",
-          "sha256": "13f3d6f2da96516f3742643170a4b09f511325a8f08323c2a86d4d1275d260ed",
-          "bytes": 1772
+          "sha256": "bb264296f2b7da9c9df1b1aca3d580af2cd51a1a70c4aa33831335dde7003c5a",
+          "bytes": 1751
         },
         {
           "path": "templates/brand/terminology.md",
-          "sha256": "a05df1ef326d22072a4db4b00297010930ced238aa0ce91f18cb2a5a3319ec23",
-          "bytes": 1201
+          "sha256": "76e4b754c07ffe7b3f0422a07e04220b14a63b8ec3275551144bb1bd4207e140",
+          "bytes": 1195
         },
         {
           "path": "templates/brand/voice.md",
-          "sha256": "3eb25eebc7aa60398bf47470571bb0ab1bbe1e634b4ca8b40219da85bdcb91dd",
-          "bytes": 2245
+          "sha256": "95c8bcfbd8ba2d489ad842d865e651faa1b98cc3ad799bd7a0e5931a531ab0be",
+          "bytes": 2239
         },
         {
           "path": "templates/capabilities.md",
@@ -1055,8 +1055,8 @@
         },
         {
           "path": "templates/foundation.md",
-          "sha256": "03b4b891d0a024b640f8e994eaa7968790f1b6d67984f1c014865a769235108c",
-          "bytes": 3780
+          "sha256": "55a1b4e642013b7a2ac14f3bbe45af5187c983aa8d59037cf7458453a9e10c82",
+          "bytes": 3762
         },
         {
           "path": "templates/README.md",
@@ -1093,8 +1093,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "bedb11225d114c67f246bf0b51893a306db10158",
-      "version": "1.104.0",
+      "commit": "695c2e00c50d8f0a5be8fd0ac66ed949ee6cae74",
+      "version": "1.104.1",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1102,7 +1102,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.104.0",
+        "version": "1.104.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1125,7 +1125,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "9fcd0a341aa9e698f5a7acf69d75dd922283f541ed517eac631ec457f0b9750d",
+          "sha256": "9956f8f5f3ca44d16431be5df7698c8a04a617aedc65d8841a46bd507bb3985b",
           "bytes": 1529
         },
         {
@@ -1170,8 +1170,8 @@
         },
         {
           "path": "commands/project-audit.md",
-          "sha256": "f8fb14d269ab923b161a6750f63fe829ad416722e28f58f00045523cdf4be4d4",
-          "bytes": 1023
+          "sha256": "a70ef3b997166a72a90a1582ef237c5f19f8d8e0a41aa6086fad6f73e1947cf3",
+          "bytes": 1098
         },
         {
           "path": "commands/task-pipeline.md",
@@ -1245,18 +1245,18 @@
         },
         {
           "path": "skills/evidence-docs/SKILL.md",
-          "sha256": "fdec6941df0308535c0229290a0654d3c1e82190c3ae8fc95f54cd8d367ae35b",
-          "bytes": 9732
+          "sha256": "177a5c3abe24a4e983967bba6d1a83b3229297474e7ae56ae613042ef63da21f",
+          "bytes": 9815
         },
         {
           "path": "skills/evidence-docs/templates/decisions.md",
-          "sha256": "bc040a7a3f0aa5f609bc39d384c7ba0d8a5672367927f9c85f2792124f935d6f",
-          "bytes": 2246
+          "sha256": "51e60ac446fc1c416f8337b6d5bc5fe28ccfe96cf8fd541224cfaedbdbdd3c54",
+          "bytes": 2234
         },
         {
           "path": "skills/evidence-docs/templates/docgate.sh",
-          "sha256": "5507e057a39d695d11d276ea4fca800e84dcb984281095cd8aa5d415c1cddb25",
-          "bytes": 24283
+          "sha256": "442c39384ce4119c1b6f4b70e829f96a786b8098af5ef757b9ec7979cb59a29f",
+          "bytes": 24223
         },
         {
           "path": "skills/project-audit/references/portable-method.md",
@@ -1270,13 +1270,13 @@
         },
         {
           "path": "skills/project-audit/scripts/audit.py",
-          "sha256": "99d40009b0a1bfde95218be6a20e6dd4e4702f60ef4770cbb6b420fe964c581e",
-          "bytes": 59013
+          "sha256": "6687e4aa6d3eb19ae33e0906e2d10369e9f00b4eff7e710588c6f1d8ebba3331",
+          "bytes": 60287
         },
         {
           "path": "skills/project-audit/SKILL.md",
-          "sha256": "06a3f80094646cdcbd6036edaee2142604bb2e75ea2b8e69e4ebbccee3684665",
-          "bytes": 19876
+          "sha256": "d5b2bc04051331c51e81363322b52ae1ebf88e4fdc2a96a8762e8fc46ff7af37",
+          "bytes": 20205
         },
         {
           "path": "skills/task-pipeline/assets/verifier-agent.md",
@@ -1340,8 +1340,8 @@
         },
         {
           "path": "skills/task-pipeline/pipeline.example.json",
-          "sha256": "e6caf3c47a5638d6bfdda19f16a58d3a8edc53a891c6363956d05e9febedaeb2",
-          "bytes": 25999
+          "sha256": "ccb90e0871697be031baac59c8448e04974221dfa52c25e7345fc8e8f7c0e654",
+          "bytes": 26201
         },
         {
           "path": "skills/task-pipeline/pipeline.schema.json",
@@ -1350,8 +1350,8 @@
         },
         {
           "path": "skills/task-pipeline/references/acceptance.md",
-          "sha256": "3d892f9ddb4bca6d14d8c92168171739a55e0a5bcf5e95b2c90b68ef5d384139",
-          "bytes": 26446
+          "sha256": "81ae44fe7de9f5990e011161107fe2dd589bc02f84b93a42ed85285463df6eb6",
+          "bytes": 26875
         },
         {
           "path": "skills/task-pipeline/references/adoption.md",
@@ -1390,8 +1390,8 @@
         },
         {
           "path": "skills/task-pipeline/references/build.md",
-          "sha256": "f816d92d20445ee6f64a98ca4aa6c9449d893ad10129df24cae84ce3fbb397c6",
-          "bytes": 40224
+          "sha256": "8827e56c38ceddaf5a201ab6ffe1fc2728da1568fcac728b8eea9512f533c098",
+          "bytes": 40402
         },
         {
           "path": "skills/task-pipeline/references/certification.md",
@@ -1400,8 +1400,8 @@
         },
         {
           "path": "skills/task-pipeline/references/companion-skills.md",
-          "sha256": "3bfb66453a3aaec16e8b2a70d2f22ef5c01c2dbbac9951905c088c211b958d91",
-          "bytes": 32286
+          "sha256": "eb53c25b05e02a88b76a7655d348086d1ff43dcef88a9d47ae74300c7a384f8b",
+          "bytes": 32490
         },
         {
           "path": "skills/task-pipeline/references/continuity.md",
@@ -1410,8 +1410,8 @@
         },
         {
           "path": "skills/task-pipeline/references/conventions.md",
-          "sha256": "b68baa9f9cf636b3d638ef16a19e17f0c34061a138006833681ece624ba860ad",
-          "bytes": 8821
+          "sha256": "47443ab427aacf3751a56d999e952bac62d93b510108342c48e7c1eb4324cc60",
+          "bytes": 8879
         },
         {
           "path": "skills/task-pipeline/references/decomposition.md",
@@ -1445,8 +1445,8 @@
         },
         {
           "path": "skills/task-pipeline/references/finish-line.md",
-          "sha256": "5a306bf1615b689db76b8236e390fa4f53a124ffbd3e193bbc2651408b779def",
-          "bytes": 7689
+          "sha256": "7cbceaf5b1a4b1e719bc736128911a7470b3aaac1f834951a9410125feee577b",
+          "bytes": 8019
         },
         {
           "path": "skills/task-pipeline/references/gates.md",
@@ -1480,8 +1480,8 @@
         },
         {
           "path": "skills/task-pipeline/references/knowledge-sources.md",
-          "sha256": "0b88ab79bb07570c03c5889bdf96d1643d39d4c39ab97cacc84e3fb4d0fdbe3f",
-          "bytes": 24949
+          "sha256": "e1b366c70f8d03dc119b708a06b19d653527a7e56dd42982d17efa0ea4d2a6d8",
+          "bytes": 25111
         },
         {
           "path": "skills/task-pipeline/references/learned.md",
@@ -1495,8 +1495,8 @@
         },
         {
           "path": "skills/task-pipeline/references/model-tiering.md",
-          "sha256": "c66933187af1ed891100a951106d2b3a6b5a0d47ab259b2b1603fa0d18d47e4f",
-          "bytes": 7065
+          "sha256": "beb4e9d48ad3196a28fb0256f8a16cbf9ce9920979a4b10f8c4a757ef4a43a8b",
+          "bytes": 7277
         },
         {
           "path": "skills/task-pipeline/references/planning.md",
@@ -1520,8 +1520,8 @@
         },
         {
           "path": "skills/task-pipeline/references/progress.md",
-          "sha256": "216f5d195c8b99aa7113d9fd19c6666b88b6b0cadd38eb93c840440fbabbb6eb",
-          "bytes": 25540
+          "sha256": "c3696136cde8a1b517928d328d6e14511fdd388546874ca46e7d25ac19879d5a",
+          "bytes": 25714
         },
         {
           "path": "skills/task-pipeline/references/release-impact.md",
@@ -1555,8 +1555,8 @@
         },
         {
           "path": "skills/task-pipeline/references/stage-00-intake.md",
-          "sha256": "b9993aa586eb7bc73a45fe4b9d8255fca1f13c9650107b8716a25998eb431a78",
-          "bytes": 14685
+          "sha256": "9be3071f1ce7b7a5cf061646b11c348088791cb73fb5cd376c0338e97f14c0e0",
+          "bytes": 15760
         },
         {
           "path": "skills/task-pipeline/references/stage-01-docs-study.md",
@@ -1605,13 +1605,13 @@
         },
         {
           "path": "skills/task-pipeline/references/stage-10-acceptance.md",
-          "sha256": "daada4b9a734e55bbbf29823800b70ae353d76b74dad0ab61a8d652cb51c1770",
-          "bytes": 7116
+          "sha256": "0a3700ba6857f2c28af7ff3da5568bfb1d673e05a28e25a56c29c58e1d8be21c",
+          "bytes": 7318
         },
         {
           "path": "skills/task-pipeline/references/stages.md",
-          "sha256": "c30c9eea3a99737989b8d6ff21f2bb524e4bb26ec776ad62e07683e393066099",
-          "bytes": 40774
+          "sha256": "777da3b93a7b6b263cdcb5747ecd0cacfdde8098387577d70aa9e332654ade72",
+          "bytes": 41130
         },
         {
           "path": "skills/task-pipeline/references/tdd.md",
@@ -1635,13 +1635,13 @@
         },
         {
           "path": "skills/task-pipeline/scripts/backlog_sources.py",
-          "sha256": "cad13af550d43aedfc860a21e9b56f645784972e49567fdda2fe9f0a1224b0d5",
-          "bytes": 56102
+          "sha256": "13b26292e693cfbd2c4514f35b648ee67d61368ba1e7c6d415a2dec06f4e083e",
+          "bytes": 56087
         },
         {
           "path": "skills/task-pipeline/scripts/context_packets.py",
-          "sha256": "a503328d788a29c2129507238bc39d36903af567676e14698006d7864428c473",
-          "bytes": 29913
+          "sha256": "a5421cd4e40ff9610ebc482e465b0ec2ab0101ed078a5ccef03867421950cfb8",
+          "bytes": 29799
         },
         {
           "path": "skills/task-pipeline/scripts/design_gate.py",
@@ -1650,28 +1650,28 @@
         },
         {
           "path": "skills/task-pipeline/scripts/execution_authority.py",
-          "sha256": "b519590d5ea8b22ed83df7d47059915790fdd639b25c7f1cf4a92e019883860b",
-          "bytes": 13150
+          "sha256": "7c9827edbd6144b19ef6187fe81b0913b02c4ecf8d07e91afaa78ff6476cfcc8",
+          "bytes": 13147
         },
         {
           "path": "skills/task-pipeline/scripts/graph.py",
-          "sha256": "2af13b820dbb4e8de452994e35b35d31c58e778c4f3058bb5acca932fda5aa40",
-          "bytes": 117453
+          "sha256": "350dc3a4a662d0bb730367e662ebb19fd98e56ce8b2cd9548044532dd0dcccaa",
+          "bytes": 117006
         },
         {
           "path": "skills/task-pipeline/scripts/lessons.py",
-          "sha256": "12117287e919b3497b9d122680fafa5edb2eb0eefa89fd0b608d4a3ad2d44c1c",
-          "bytes": 119680
+          "sha256": "b803b6cdfa4b41d45d7f647c745c6b041067fb281413b5b29054c2fa4763d15c",
+          "bytes": 119518
         },
         {
           "path": "skills/task-pipeline/scripts/packet.py",
-          "sha256": "3ec3108ba32077566dba19c6f0c539b437b42e270d0cfdba6fbd899c5a8b1063",
-          "bytes": 18887
+          "sha256": "1b6fd6f8672ff5c6cbc02dea70b911a5ddec648521f641d4f93ace3de0b6d0db",
+          "bytes": 18809
         },
         {
           "path": "skills/task-pipeline/scripts/plan_audit.py",
-          "sha256": "0c1c2a55b9907147c9f8f5dc9075f67b050df6d79581eef4dca4c89ec33e8728",
-          "bytes": 17215
+          "sha256": "31553c0b0689155e24def7b68c248a0cde5543ca41f7d2891bf3ecb5ba58dfed",
+          "bytes": 17191
         },
         {
           "path": "skills/task-pipeline/scripts/release_impact.py",
@@ -1695,133 +1695,133 @@
         },
         {
           "path": "skills/task-pipeline/scripts/stage_checkpoint.py",
-          "sha256": "5515ea6640751c4856f56e8416eb3020df6cf5a33831aef07e4a601d72547adc",
-          "bytes": 30266
+          "sha256": "d97bf9403e94ffef513f7c6ef305b581dcc0f3ca6552f387b54ce7b857969cf3",
+          "bytes": 30260
         },
         {
           "path": "skills/task-pipeline/scripts/visual_gate.py",
-          "sha256": "7226a6443aa4e98102745e7b17f204f7edb01ef06697bb3b0b37e088474fbd7d",
-          "bytes": 36439
+          "sha256": "f1239e43b7200f57589fc9b0ad430b133fc65dfb489d73f7cc5bd016cf0e8f6e",
+          "bytes": 36313
         },
         {
           "path": "skills/task-pipeline/scripts/waves.py",
-          "sha256": "0ce7035c4fe2a5574d7452d5b9476a2d48880c9689f0a729c9082f63be2dc2b8",
-          "bytes": 43400
+          "sha256": "f877ccdc5b3efad57b58a94d01ffc3df9ea30c53b3a84f755aeb86de0bc12f7c",
+          "bytes": 43489
         },
         {
           "path": "skills/task-pipeline/SKILL.md",
-          "sha256": "d75d27a115c5fdfab597b62e0a51c81d8b23a0afa7acf8813c5187e136dbef0f",
-          "bytes": 16569
+          "sha256": "244449ae6de3a400b56b10837f607c4e6697164ba7a3b5f90cb1f73dcc0cbfa7",
+          "bytes": 16649
         },
         {
           "path": "skills/task-pipeline/templates/adr.md",
-          "sha256": "e6ba78952bbb13fa12a8dca5840388451afa175b59b26001f8c5ce8dcc31a181",
-          "bytes": 3789
+          "sha256": "6d4ebb98f98ea384e7bb9e9d804bbfbae2183baae97ba548581c9faa08082070",
+          "bytes": 3750
         },
         {
           "path": "skills/task-pipeline/templates/backlog-sources.schema.json",
-          "sha256": "3253fa889b37eee7c992f6ebc70379405e58cc5a5aef5d48edb45ba381a729cd",
-          "bytes": 4695
+          "sha256": "4383beee57cf1c36eaab5d7469b9b18bb3bd9edb526c0c9177867e816ed208ab",
+          "bytes": 4692
         },
         {
           "path": "skills/task-pipeline/templates/backlog.md",
-          "sha256": "2c5579525a4516fdb658d3c492de4f7efe6ceca195c0fc4fa2cac72ef1d3fee2",
-          "bytes": 4003
+          "sha256": "3290d1c6d1fba032899261d80cfeb14872fec3eb14083be69ca10ae5f5deacce",
+          "bytes": 3933
         },
         {
           "path": "skills/task-pipeline/templates/brief.md",
-          "sha256": "edf7afad56760d7eb71659eed4d8284bc244e7dc9f192180d00c9a6cc968d821",
-          "bytes": 12700
+          "sha256": "ec329958ef19f0cc34109ff699f74ad99325bf750e79e52834879d6cb53f4fff",
+          "bytes": 12558
         },
         {
           "path": "skills/task-pipeline/templates/browser-claims.json",
-          "sha256": "34d37200cce75ab779abd3c2c745335c44853f9fbbd9dea93e372a29dbd8ef43",
-          "bytes": 9034
+          "sha256": "2052a79c8d09c7a1e5e74ff9f97483d0c794b98618a08403dd4b214a9cdd5add",
+          "bytes": 8992
         },
         {
           "path": "skills/task-pipeline/templates/canvas.md",
-          "sha256": "4bfb2c40ccbea5b422f7371fabf4f42933d369f710f2a5536ffb47e204fb5c00",
-          "bytes": 3495
+          "sha256": "2339bdb61fad22a6ead41898c949f7cb615ef88c4f8840f6daf51ecf1cdf7433",
+          "bytes": 3480
         },
         {
           "path": "skills/task-pipeline/templates/carryover.md",
-          "sha256": "5a8403df58be961a4e026d232499362cc0bec9d5d1f6907fe0dfb0f5a7b3d555",
-          "bytes": 3520
+          "sha256": "493b5504bef2fa72c7a2e20bd6ff09cd6700aaf7ed8b7734dfcbdd9e27930e63",
+          "bytes": 3485
         },
         {
           "path": "skills/task-pipeline/templates/context.md",
-          "sha256": "0415c6941aa35dcac2f4e13aa4f413c254011c0909950c575c70c053d1605e84",
-          "bytes": 3074
+          "sha256": "f30044ec7822a79115f5d84950d31badbee09c127d27d61d62461dc66a0ed340",
+          "bytes": 3065
         },
         {
           "path": "skills/task-pipeline/templates/convergence.sh",
-          "sha256": "ea9219cb5a5e1d45cb785875a8ef5cb06fcac4dad4f79ff7d79fe0c522cb4854",
-          "bytes": 6593
+          "sha256": "7af96c5e42502d33dff5ba27cf1bbda3faee9d3f7f9cd74195d12c419ca648f7",
+          "bytes": 6557
         },
         {
           "path": "skills/task-pipeline/templates/decisions.md",
-          "sha256": "bc040a7a3f0aa5f609bc39d384c7ba0d8a5672367927f9c85f2792124f935d6f",
-          "bytes": 2246
+          "sha256": "51e60ac446fc1c416f8337b6d5bc5fe28ccfe96cf8fd541224cfaedbdbdd3c54",
+          "bytes": 2234
         },
         {
           "path": "skills/task-pipeline/templates/docgate.sh",
-          "sha256": "5507e057a39d695d11d276ea4fca800e84dcb984281095cd8aa5d415c1cddb25",
-          "bytes": 24283
+          "sha256": "442c39384ce4119c1b6f4b70e829f96a786b8098af5ef757b9ec7979cb59a29f",
+          "bytes": 24223
         },
         {
           "path": "skills/task-pipeline/templates/docmap.md",
-          "sha256": "3af3041c8996a3e41ab51e9dc4bff1ffe3bcdef30002b2ac28f48addf9d1ca27",
-          "bytes": 5067
+          "sha256": "6455564d4572a9adc7b4ed6c5068733e1571d08e5250eb925215fac4c1819634",
+          "bytes": 5034
         },
         {
           "path": "skills/task-pipeline/templates/dossier.md",
-          "sha256": "dfb5031480102780b0d3ecbb041888171ffd2f6294d1b7f6a1150d6298fe5b41",
-          "bytes": 2921
+          "sha256": "5a2a5ed222ea8f4bd1632be168273237096eefae3013bba44ba592c34d298acb",
+          "bytes": 2909
         },
         {
           "path": "skills/task-pipeline/templates/exposure.sh",
-          "sha256": "67d3a1128678b5d436182af1828c505366a2e7b6cd0d95439a32ae0d6b996210",
-          "bytes": 19937
+          "sha256": "88ddf4599375425ea73619f1b7a4a33f00b52997b18cf989f0ea7ec88e31968f",
+          "bytes": 19890
         },
         {
           "path": "skills/task-pipeline/templates/finding-evidence.json",
-          "sha256": "b5dd097d334dc71454fa1a5a03d30d46f1dc53ecba6267ee3db015cacde9c4ed",
-          "bytes": 2097
+          "sha256": "7a2812b911b699e02bbfc8e3f3094110d529b6afe216f44d65d74f55b8939e44",
+          "bytes": 2085
         },
         {
           "path": "skills/task-pipeline/templates/hooks.example.json",
-          "sha256": "08c9499c74c7ba8861c6d2f7eb3ced699b57df720963d839969b5ba92123deef",
-          "bytes": 2819
+          "sha256": "81d5fe03bdb62535b44b56a0bc64163b94bbd18ca74b274a1abce8060c5a66b4",
+          "bytes": 2807
         },
         {
           "path": "skills/task-pipeline/templates/hygiene.sh",
-          "sha256": "0691690da74dbc7a3838c5e5d996018f3afeac3fa0cb92649c422ff4e8a9a857",
-          "bytes": 11603
+          "sha256": "2049217d3fb662da43087ac905aaf7670a1252b817c7acaf5b71df3d393aa9b8",
+          "bytes": 11561
         },
         {
           "path": "skills/task-pipeline/templates/inventory.schema.json",
-          "sha256": "2b5e183c6f36aa9f47ceb0fa56c964dc3cc08872b046e07d02e3d23c5bb2a9ea",
-          "bytes": 7613
+          "sha256": "da88a992e371a81f338a85358ac97d4a292d37d6461d4b02dc3e3527665d3357",
+          "bytes": 7610
         },
         {
           "path": "skills/task-pipeline/templates/lesson.schema.json",
-          "sha256": "de4226f0a59e03815725b1e0821665640a922632c49eea158e7db9bd08dfb757",
-          "bytes": 9697
+          "sha256": "d98c32c05571214a730650aaea863efa34ecbc780ebd9912fddc4d1377666bbc",
+          "bytes": 9688
         },
         {
           "path": "skills/task-pipeline/templates/open-questions.md",
-          "sha256": "462ac93b002178d6d6e2712bc0c07cce984c4705c4bfa116ddbac9b753189889",
-          "bytes": 969
+          "sha256": "5aaad31078ba3f027edd23563aa2760fadc7830caf76dc6ea84abc7e241e335a",
+          "bytes": 963
         },
         {
           "path": "skills/task-pipeline/templates/questions.md",
-          "sha256": "38d924939b6ccd9f04dae714db6377c2288760fb6b8536d96e8e3729858e029a",
-          "bytes": 1867
+          "sha256": "6c57ad572fb8a1a5c49285322536e3c1d39f027e6c4a0e2d746935c05b5fdf66",
+          "bytes": 1852
         },
         {
           "path": "skills/task-pipeline/templates/README.md",
-          "sha256": "dc710fb8d0b03c9a6911980c267c79c9a8d05d710151791b606fe153ffce06d9",
-          "bytes": 5859
+          "sha256": "ae76bfca620a8aa5045ca86037a2ee82619664df95ca36527db0ce8a0f065154",
+          "bytes": 5793
         },
         {
           "path": "skills/task-pipeline/templates/release-impact.md",
@@ -1830,41 +1830,41 @@
         },
         {
           "path": "skills/task-pipeline/templates/retro-archive.md",
-          "sha256": "5a2b7993e9f528ebf9b061b2031a5ad88e89bd4423222e3d9d2397305e50fce4",
-          "bytes": 2912
+          "sha256": "336380781beba92f0043a8698eec5fe7a343678df44e8b88722bda43f5d00a09",
+          "bytes": 2882
         },
         {
           "path": "skills/task-pipeline/templates/retro.md",
-          "sha256": "e513514cba82caed82b46a6c751eaeda412630d628d8a1d41da744b0e9d330e8",
-          "bytes": 5031
+          "sha256": "37937fd831e10ba0f8dd6a9840af6dc2b24270dc2c6dd889903696873871854e",
+          "bytes": 4983
         },
         {
           "path": "skills/task-pipeline/templates/routing-rule.md",
-          "sha256": "4adf5ec54fa1ab22a46fb359ffb03d63c22c4b57cbc1cc5a7a19caf5e04d81f1",
-          "bytes": 3250
+          "sha256": "6bda4e8b3ca328dc753002f0679e74232d7b9a69ff999a21857e397c9fae55a0",
+          "bytes": 3226
         },
         {
           "path": "skills/task-pipeline/templates/run.md",
-          "sha256": "f1a13e57dabc448316747495e1c6700d0c5dadf1dff0b7d117091cfefe9804de",
-          "bytes": 13117
+          "sha256": "8961180ff78b807f5b25b846924c8da1b61af2c3a9e711ff5ff416855796656a",
+          "bytes": 13024
         },
         {
           "path": "skills/task-pipeline/templates/stage-coverage.sh",
-          "sha256": "d2ffa9bad0a6ed042338b5dd4d3d40a687bd9a687f83a655c982700928862820",
-          "bytes": 3561
+          "sha256": "19b704f42b8ec4a4ec162dee7223edc955d9781ee6281186e035a21d890b11b7",
+          "bytes": 3543
         },
         {
           "path": "skills/task-pipeline/templates/verification.md",
-          "sha256": "c58f1988cf20a061f5231aa60323680619b8900cd42975430c0a86279f0d846f",
-          "bytes": 8582
+          "sha256": "f2198765c5bf957e9973d9807c316b36792a43214966e43985920cfc0139ecbe",
+          "bytes": 8488
         }
       ]
     },
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "c286eb6d9db3a73cc42f6668539c43bcee11dab0",
-      "version": "1.23.5",
+      "commit": "454691a5feff029d8ddba61df2d7ce64d1a87eed",
+      "version": "1.23.6",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
       "entry": {
@@ -1872,7 +1872,7 @@
         "displayName": "Agent Sync",
         "source": "./plugins/agent-sync",
         "description": "Coordination layer for multi-agent repositories. Gives task-pipeline runs leases with a TTL, race-free ID reservation, a cross-repo signal feed, an append-only run journal and a machine-generated read-only board. A lease is decided by a primitive that genuinely has compare-and-swap — an atomic file create on one machine, a pushed git ref across machines — never by the knowledge base, which loses concurrent writes; the store carries the record and the ID allocation, which is positional over the merged log. The knowledge backend is a pluggable adapter (Outline, filesystem) declaring its own capabilities and degrading out loud. Ships Claude Code hooks that deny edits to guarded registry files without a live lease.",
-        "version": "1.23.5",
+        "version": "1.23.6",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1895,7 +1895,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "0ef790b4def6de7506feb7833c3842c16f961783ae4dc5e1c3edaf720431521d",
+          "sha256": "44d4b7a0db2db2b741cfa677db17717ea2b69c8394d32ccd7adba13752414907",
           "bytes": 695
         },
         {
@@ -1910,8 +1910,8 @@
         },
         {
           "path": "hooks/guard.sh",
-          "sha256": "0715794ffafdc6fdcc22f8285266ea072dc55830c208e146679dc66ddca2326f",
-          "bytes": 17292
+          "sha256": "46fe569a0d1bb370cc02f372347d57915ebd22ba3ef8b3eabacca55d1f11b0b1",
+          "bytes": 18205
         },
         {
           "path": "hooks/hooks.json",
@@ -1959,6 +1959,11 @@
           "bytes": 6902
         },
         {
+          "path": "skills/agent-sync/references/commands.md",
+          "sha256": "55e42568fc05b76ac5b1c546f74101ea2e1345e1d0ce43b285f659bd4644208f",
+          "bytes": 3342
+        },
+        {
           "path": "skills/agent-sync/references/earned-rules.md",
           "sha256": "36456e5fa99dce799753552f7ea032275263ea46a65320c5369c8a48a896bd77",
           "bytes": 3408
@@ -1975,8 +1980,8 @@
         },
         {
           "path": "skills/agent-sync/references/lease-protocol.md",
-          "sha256": "8d3dae2465dcdfd32966ac51e70ab2e81073d96b33cba64825e3fee1ded35c6a",
-          "bytes": 33533
+          "sha256": "93222bfb885d89ce9f98e16ce0863efd7c006158f6920fa9febaff9aaa0677ec",
+          "bytes": 33767
         },
         {
           "path": "skills/agent-sync/references/pipeline-binding.md",
@@ -1995,8 +2000,8 @@
         },
         {
           "path": "skills/agent-sync/scripts/agent_sync.py",
-          "sha256": "e27470be948c682f604544916e01fe3f21ac1dfe8ebf0f6a30eecdf468501c9a",
-          "bytes": 378089
+          "sha256": "f6a36499cc2e5e3ae74cf6ef55f5e7f6af450379650f484c1114ca38873b6d85",
+          "bytes": 380052
         },
         {
           "path": "skills/agent-sync/scripts/bash_writes.py",
@@ -2005,8 +2010,8 @@
         },
         {
           "path": "skills/agent-sync/SKILL.md",
-          "sha256": "6f2c9b224f885af2076b119b8d751f0f36e2fdca0656215dbaf6f6242baf05a6",
-          "bytes": 20070
+          "sha256": "287a8bc6a047f4791d8c8c9c59811d45b59dd67e13b15c2f53628cba85e283e0",
+          "bytes": 17902
         }
       ]
     },
@@ -3330,8 +3335,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "b0c0642fe7c32af055db4ec713e530c6775cef02",
-      "version": "0.32.0",
+      "commit": "0fee9350d5e3965b2457930dd1c890ea0cd0789f",
+      "version": "0.32.1",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3339,7 +3344,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.32.0",
+        "version": "0.32.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3364,7 +3369,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "c7206c9ac954615d290d3aeb19ef0bf30b3bd873a9a04b048472f32a7ba83fe8",
+          "sha256": "9baf5349c84abab9cd95b6a17fe1441abbd21909daedf0741fc8d6e036dbbcba",
           "bytes": 1081
         },
         {
@@ -3459,13 +3464,13 @@
         },
         {
           "path": "skills/agent-harness/SKILL.md",
-          "sha256": "4b45a4114b5b37df33f745031a8f5a8e98e09ceb98f64bed0dbdbeb117bc25b7",
-          "bytes": 14244
+          "sha256": "dfdc2f36124c9425c249698610a264fd3862e5ddfeaa8e8d7242521c04f05c30",
+          "bytes": 14772
         },
         {
           "path": "skills/agent-interop/references/a2a.md",
-          "sha256": "e39c4c6d1f19b39e09720c40a09a50e8f2a59824aeb83c5336443f8b709a6c34",
-          "bytes": 11113
+          "sha256": "692e474f8a7f085c52c7948e3fce1abf86d9d437209d3f825627892193f40b9b",
+          "bytes": 11435
         },
         {
           "path": "skills/agent-interop/references/agent-surface.md",
@@ -3474,8 +3479,8 @@
         },
         {
           "path": "skills/agent-interop/references/gateway.md",
-          "sha256": "76b331b769c531179ced2782704f527b19acec0d5058c7b8cf6186d20012d6fd",
-          "bytes": 22038
+          "sha256": "f06892025fd431d2f3987c6d74344e088ec89b440f8bb61f2218c57ce6f853fe",
+          "bytes": 22768
         },
         {
           "path": "skills/agent-interop/references/mcp-scale.md",
@@ -3489,18 +3494,18 @@
         },
         {
           "path": "skills/agent-interop/references/mcp.md",
-          "sha256": "2b8a46127a8cd1f035a8bbd16c2b511b7c63c688edbf1894b2e5f2b485c0455b",
-          "bytes": 14790
+          "sha256": "a197a16f5ba2d7c0aeccfc53625bb8ee8c4f316221201cff19f7c25efa0d2159",
+          "bytes": 14831
         },
         {
           "path": "skills/agent-interop/references/registry.md",
-          "sha256": "648e7649369b9aa5dac5f424c9a4373292e5d73c90d9466b58171934e5c7b51f",
-          "bytes": 8377
+          "sha256": "ca0c909c5882a5850e95784d73737677d4b321de69e21e36d3dd1baf66a222bb",
+          "bytes": 8820
         },
         {
           "path": "skills/agent-interop/SKILL.md",
-          "sha256": "38126670cf1cadcf6326cc3a6a90dad28967af43349c53f1c0cf518c5d1cfc08",
-          "bytes": 16318
+          "sha256": "f280d7f6b1b1ae5e3ffb7cf3a007318a0796ddf957d6fa38280b3b03287b99cc",
+          "bytes": 16494
         },
         {
           "path": "skills/agent-orchestrator/references/context-engineering.md",
@@ -3524,8 +3529,8 @@
         },
         {
           "path": "skills/agent-orchestrator/references/llm-proxy-billing.md",
-          "sha256": "84c2144d6a5a917c042c5e31ecfacfe6238c60870da567abc00bd770e3bccccd",
-          "bytes": 19674
+          "sha256": "c59d71859900b0cc62083f734e5f7b9360686b065e93a81a4ebc35f040862abf",
+          "bytes": 21202
         },
         {
           "path": "skills/agent-orchestrator/references/memory-architecture.md",
@@ -3564,8 +3569,8 @@
         },
         {
           "path": "skills/agent-orchestrator/SKILL.md",
-          "sha256": "3164e6e172447f13a2045c7281b91d57882f13c0a2f9635721a09490a3c1a092",
-          "bytes": 20687
+          "sha256": "3c7cd6eed8f423830222a60c617466db3e96947cc66c89df77db73530dc77a89",
+          "bytes": 20882
         }
       ]
     },
@@ -3705,15 +3710,15 @@
     {
       "name": "xr-dev",
       "repo": "ssheleg/xr-dev",
-      "commit": "5a36fc119e03d3a2cab9d40bd232a334b34fa3cc",
-      "version": "0.4.6",
+      "commit": "b15f12d31ff17910455b32d58a193db255c0530f",
+      "version": "0.4.7",
       "pluginInstall": "xr-dev@xr-dev",
       "pluginPath": "plugins/xr-dev",
       "entry": {
         "name": "xr-dev",
         "displayName": "XR Dev",
         "description": "Seven skills for the Meta Quest product lifecycle: platform and engine discovery, immersive design, native OpenXR, Kotlin Spatial and hybrid apps, WebXR/PWA, rendering experiments, tool and source discovery, Store submission, monetization, launch assets and post-launch operation. Agents receive stage-specific next actions, evidence gates and fallbacks when tools or devices are absent. Engine specialists remain separate; live requirements are verified against current Meta documentation.",
-        "version": "0.4.6",
+        "version": "0.4.7",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3751,7 +3756,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "2b0792ad706400194d789d55ee47777c5f19b0260b37cd1b24ec5ff9379e3565",
+          "sha256": "122d9a9ba873d73fdcdb8244a06a168b20e96f84f6d9844aeb597fd69aac2bdc",
           "bytes": 1200
         },
         {
@@ -3771,7 +3776,7 @@
         },
         {
           "path": "skills/quest-lifecycle/SKILL.md",
-          "sha256": "daee1810d9bccc55f931eed75aec7ec97c3c52964b1b8f71591e3f0570c78da4",
+          "sha256": "79caa79be1660a2f7cc56ed475ae0ef2ec3f2824bbe95efbb5788d372c1694b9",
           "bytes": 6261
         },
         {
@@ -3786,8 +3791,8 @@
         },
         {
           "path": "skills/quest-native/references/manifest-and-gradle.md",
-          "sha256": "2fb6a25e519c1f0c455fcf14ea234919d8ab67a14b4bfdb7d44e9ad2c5849a83",
-          "bytes": 4967
+          "sha256": "d050aae97c209a5a572ebd2ff5f84ecb442b915dd4c1b78224455036e24fdd2a",
+          "bytes": 5130
         },
         {
           "path": "skills/quest-native/references/mixed-reality.md",
@@ -3801,8 +3806,8 @@
         },
         {
           "path": "skills/quest-native/SKILL.md",
-          "sha256": "fbc54df8cc3bf7ff514f0789df540402bb9616689e96f93214c377bcf42a816d",
-          "bytes": 9689
+          "sha256": "f70a41e25546ccbd383b3a3779e4f5f4885ec407e5595b50c029d801c9d97e78",
+          "bytes": 9776
         },
         {
           "path": "skills/quest-perf/references/capture-playbook.md",
@@ -3821,7 +3826,7 @@
         },
         {
           "path": "skills/quest-perf/SKILL.md",
-          "sha256": "379d3c2f1d2ed915befb2c4524b34c7ffe990a56bbecc52061650cd6cc253015",
+          "sha256": "5c6175b11fb3880624f542a886dfc870ea1e91c93b1c9df5031f019b8e65a532",
           "bytes": 7074
         },
         {
@@ -3851,7 +3856,7 @@
         },
         {
           "path": "skills/quest-spatial/SKILL.md",
-          "sha256": "9059dc04b2ab80d1701af1e7052169b730c84f2f3af22f5d1884b16770ccba29",
+          "sha256": "21685e04fe613f2b34e2b4e67309841bdf862131382190eee3770befa0efbb64",
           "bytes": 8841
         },
         {
@@ -3876,18 +3881,18 @@
         },
         {
           "path": "skills/quest-store/SKILL.md",
-          "sha256": "ca79ad032a7e130defc704ab64daf95d9ae472ea62d062f26fb282378b0772c6",
-          "bytes": 8826
+          "sha256": "5666cd59d540a3dc1ecda68033cbb2557d0f3e98c210a414d4339d103ab7e3e2",
+          "bytes": 8867
         },
         {
           "path": "skills/quest-tooling/references/research-navigation.md",
-          "sha256": "36d911874b70f478ebae07845179494fc3cde46c1134630e89990b99ca515c59",
-          "bytes": 5556
+          "sha256": "47156ddd5efbadba49c45151edc556fc84091661f0e7cfdf26737d214fabfb09",
+          "bytes": 5613
         },
         {
           "path": "skills/quest-tooling/references/source-research.md",
-          "sha256": "925c95f08ae4014f1909b05e7d15725b6a90d49f59f3f6f94ebb251c6ecec4ca",
-          "bytes": 3759
+          "sha256": "f508a7bd37e7a63e3a55cb50d5698c6046213f036ebcb443b19a9b98f7fa3141",
+          "bytes": 3793
         },
         {
           "path": "skills/quest-tooling/references/tool-matrix.md",
@@ -3896,8 +3901,8 @@
         },
         {
           "path": "skills/quest-tooling/SKILL.md",
-          "sha256": "b01191d51de738eaf6021bb0d3ccc5e25f1529358886d6e84e634daf6691b3a5",
-          "bytes": 8868
+          "sha256": "c1f9dc58214233397d46c2733d3c3400286405c23cfbf1d1bfd4773114f19a00",
+          "bytes": 8825
         },
         {
           "path": "skills/quest-webxr/references/pwa-packaging.md",
@@ -3911,23 +3916,23 @@
         },
         {
           "path": "skills/quest-webxr/SKILL.md",
-          "sha256": "9de7113b2a46997dcae38cece6254bf49c3bfadca92baf14090ff6541ee0e251",
-          "bytes": 6480
+          "sha256": "2f1e31284b6ce17f48c4df8ca6d370f339e0bc9345d1997de4999991c7be5fad",
+          "bytes": 6880
         }
       ]
     },
     {
       "name": "web3d-dev",
       "repo": "ssheleg/web3d-dev",
-      "commit": "70614f3ead494f8242a4a3757cdb1cd9c588d70c",
-      "version": "0.2.7",
+      "commit": "60724cec8ef37aad129a776ea386909580c5da41",
+      "version": "0.2.8",
       "pluginInstall": "web3d-dev@web3d-dev",
       "pluginPath": "plugins/web3d-dev",
       "entry": {
         "name": "web3d-dev",
         "displayName": "Web3D Dev",
         "description": "Three skills for realtime 3D on the web: the three.js WebGPU runtime with TSL, compute, post-processing and a WebGL2 fallback; the glTF asset pipeline from source to frame, with compression, budgets, sourcing and optional asset-service ordering; and a 3D animation protocol covering rigs, clip conventions, blending, GPU and instanced animation, and reduced motion. Every API fact is pinned to a verified three.js release.",
-        "version": "0.2.7",
+        "version": "0.2.8",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3961,73 +3966,73 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "2739dfdf2c21ab1550bf3561fad4abfb1c9331f65f83670f680b884e3de33f68",
+          "sha256": "e3e8a6898d126876a12109e2c9a54202ae01b927ca628d12f896d6dd6dc4a9aa",
           "bytes": 1092
         },
         {
           "path": "skills/web3d-animation/references/asset-animation.md",
-          "sha256": "dd0b8dc5a43aed0eb5d2af1243172bf5c35da83623d295f744c4ec3d1b5312b9",
-          "bytes": 6835
+          "sha256": "353b46928da4245a6bde23545b9ce09661a6fb452aba3c9093a176be16922259",
+          "bytes": 6848
         },
         {
           "path": "skills/web3d-animation/references/clip-canon.md",
-          "sha256": "bab87ce1e29a40d6f58d1bd24b08539ae3e2e22009cd68d72ffd3a54ba3055d2",
-          "bytes": 5325
+          "sha256": "177a40c6f0fb4fa3497ae0b3120d98321977b9e379934e08d31852fbd252372a",
+          "bytes": 5339
         },
         {
           "path": "skills/web3d-animation/references/runtime-patterns.md",
-          "sha256": "66af0915ff1d64ef8933d7bd99da3776891bfd46916f36fe60d3432cdd44b78c",
-          "bytes": 9496
+          "sha256": "2c09bfad938b6b9d73983d8fe3feda2b6591127608eb6d3296580fc08dff7d33",
+          "bytes": 9600
         },
         {
           "path": "skills/web3d-animation/SKILL.md",
-          "sha256": "8256f150a7d3f2663a54c4322ff4022d86c9b55660c5a5483d0e8d3e716d99e5",
-          "bytes": 10229
+          "sha256": "f3088c2fc2dc9e96b46c9ebff559d6530c8b2ac02270de47f582ee19a40be2c2",
+          "bytes": 10273
         },
         {
           "path": "skills/web3d-assets/references/budgets-and-profiles.md",
-          "sha256": "089c3dc7f731c06896aeddec44fddb5fdbc4a3be14895137124f0d31b0500ccb",
-          "bytes": 4876
+          "sha256": "1d7a165b660368b0cbc79f41b2f7e595d6470f4d0b10c295c424fd44eaf98563",
+          "bytes": 4923
         },
         {
           "path": "skills/web3d-assets/references/clip-canon.md",
-          "sha256": "bab87ce1e29a40d6f58d1bd24b08539ae3e2e22009cd68d72ffd3a54ba3055d2",
-          "bytes": 5325
+          "sha256": "177a40c6f0fb4fa3497ae0b3120d98321977b9e379934e08d31852fbd252372a",
+          "bytes": 5339
         },
         {
           "path": "skills/web3d-assets/references/gltf-pipeline.md",
-          "sha256": "73f2118ad65cbf9ca3d587f66fb89f8d7b191c5f35b78de37fcdbe35dca489db",
-          "bytes": 7130
+          "sha256": "f99c12848a54205fcd5504bf4fad735066c061612cd087c92eb5709b6ae4d5f7",
+          "bytes": 7310
         },
         {
           "path": "skills/web3d-assets/references/sourcing-and-foundry.md",
-          "sha256": "3294553aa659dde24d2d5fde9c4b9f57a8e3749a1270fde5668e51463134578a",
-          "bytes": 6745
+          "sha256": "74685f22c87b643fe33c636bba6c6fc1fe7045f72eea538ac092ff29a72e1e92",
+          "bytes": 6758
         },
         {
           "path": "skills/web3d-assets/SKILL.md",
-          "sha256": "17f42a4536a9764072d15d841e2f5548d099e5c6a66369b8d545732db0f23fba",
-          "bytes": 8685
+          "sha256": "686f380073d6d9dc78a9d351537a6de97fef7e75de324d1f5b7279f6402b95fd",
+          "bytes": 8855
         },
         {
           "path": "skills/web3d-runtime/references/performance-and-r3f.md",
-          "sha256": "09f0bca29af88d2cc957ec44261cd09b52b3f54bdd025951a71bb36031648815",
-          "bytes": 5813
+          "sha256": "254ba4227de2352625241510aaf85a73f190d88f1d2e1af6e77699473e62a6bd",
+          "bytes": 5888
         },
         {
           "path": "skills/web3d-runtime/references/renderer-and-loop.md",
-          "sha256": "408f6cf0cc540601cd750c1f951649157d2b040259308985deab2a9b2481e6a9",
-          "bytes": 6754
+          "sha256": "906498e32c4440c5119dcb64f81bfd33bf07750d3ffcab620abda8edfe737489",
+          "bytes": 7292
         },
         {
           "path": "skills/web3d-runtime/references/tsl-and-compute.md",
-          "sha256": "781cead976f282b9a4009087d3e974d2040c7f7bc1907802a93075abc619fa01",
-          "bytes": 7033
+          "sha256": "08d3289fd6e2ed99842bfdc7bbd00291392d24b4ae872dc4fcd8ec3fea7b8a32",
+          "bytes": 7257
         },
         {
           "path": "skills/web3d-runtime/SKILL.md",
-          "sha256": "c4833fbe81af0c232041a22363d20ae02ed85edfb8ae028993b8cb0f168d3b3d",
-          "bytes": 7636
+          "sha256": "6f3064cde01e6c1ea0a46aef6bae5283636080f33ae9ee147b85fa41167a80bd",
+          "bytes": 8115
         }
       ]
     }
