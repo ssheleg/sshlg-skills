@@ -8,7 +8,25 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-11 family audit and release 1.88.0
+## Current: 2026-11-11 the listing estimate and `schedule --json` (1.89.0)
+
+**Objective:** continue the backlog by priority after the audit (operator's standing delegation, relayed by the
+fabric-98 coordinator session): B-337, then the next rows, through release and the local update.
+
+**Done:** B-337 closed. Checked against the `skill_listing` attachment of a `claude -p` session from an empty
+folder, the estimate's 84 entries are exactly Claude Code's 105 minus its 21 bundled and built-in plugin entries;
+five plugin command and skill pairs of one name were counted twice (now one entry, the command's description).
+`visibility --measure` takes Claude Code's own count now and prints what the estimate does not see (21 entries,
+10,850 characters on this machine). B-340 closed: `schedule --json`, `schedule-status/1`, answered in thread `f7758225`. B-339 closed
+(agent-stack 0.32.1). B-342 closed: six board announcements answered. Checks: `test/visibility_listing_test.js` (8, 7 fail on 1.88.1), `test/cli_config_test.js` (26),
+`python3 test/validate.py` exit 0; the full gate's seven transient failures (disk at 2.4 GB free, load near 90)
+pass one by one on the same input.
+
+**Waits:** B-348 (npm sign-in, unchanged); the B-336 requests, re-measured 2026-11-18 with `visibility --measure`.
+
+**Next task:** B-338 (operator rules into the doctrine), then B-345.
+
+## Previous: 2026-11-11 family audit and release 1.88.0
 
 **Objective (operator, 2026-11-11):** «пройди по всем и найди проблемы и где можем оптимизировать и убрать старые
 легаси неточности и что мешает работе, по всем скилам в семье».

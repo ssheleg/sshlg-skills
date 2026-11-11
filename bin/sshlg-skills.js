@@ -312,7 +312,7 @@ Usage:
                                                       # how the next set arrives: auto (default) installs
                                                       # it nightly and when you go idle; notify only says
                                                       # it is out; off says nothing (B-323)
-  npx sshlg-skills schedule [--apply | --revert] [--dry-run]
+  npx sshlg-skills schedule [--apply | --revert] [--dry-run] [--json]
                                                       # the nightly update job: status, level with update.mode, remove
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run] [--codex] [--gemini] [--kimi] [--hermes] [--pi] [--opencode]
@@ -331,7 +331,7 @@ Usage:
   npx sshlg-skills toolkit [--for "<task>"] [--find "<concept>, …" [--json]] [--expand <provider>]
                                                       # every skill this machine can reach
   npx sshlg-skills visibility [--apply | --revert] [--days 60] [--full-days 14|off] [--keep a,b]
-                                                      # Claude/Codex: hide all outside the core;
+                    [--measure]                       # Claude/Codex: hide all outside the core;
                                                       # Claude: quiet core skills name-only;
                                                       # Gemini/Pi/OpenCode/Hermes: hide marked
                                                       # packs; Cursor/Kimi: cannot hide
@@ -850,9 +850,11 @@ function refreshSchedule(f) {
 /** `schedule` (status), `schedule --apply`, `schedule --revert` (B-323). */
 function cmdSchedule(argv) {
   const args = argv.slice(3);
-  const unknown = args.filter((a) => !['--apply', '--revert', '--dry-run'].includes(a));
-  if (unknown.length || (args.includes('--apply') && args.includes('--revert'))) {
-    log('usage: npx sshlg-skills schedule [--apply | --revert] [--dry-run]');
+  const unknown = args.filter((a) => !['--apply', '--revert', '--dry-run', '--json'].includes(a));
+  const json = args.includes('--json');
+  if (unknown.length || (args.includes('--apply') && args.includes('--revert'))
+      || (json && (args.includes('--apply') || args.includes('--revert') || args.includes('--dry-run')))) {
+    log('usage: npx sshlg-skills schedule [--apply | --revert] [--dry-run] | schedule --json');
     return 2;
   }
   const { sched, o } = scheduleContext();
@@ -876,9 +878,22 @@ function cmdSchedule(argv) {
   try { rec = JSON.parse(fs.readFileSync(sched.recordPath(o.home), 'utf8')); } catch (_) { rec = null; }
   const probe = o.platform && sched.loadedCommand(o.platform, o);
   const loaded = probe && o.register ? (o.run(probe.cmd, probe.args).code === 0 ? 'yes' : 'no') : 'not asked (this HOME is not the account\'s own)';
+  const recFiles = rec && Array.isArray(rec.files) ? rec.files : [];
+  if (json) {
+    // B-340 (asked by fabric-dashboards, board `a61d646f`): the stable form other agents read.
+    // schedule-status/1: fields are only added; a renamed or removed field is schedule-status/2.
+    process.stdout.write(`${JSON.stringify({
+      schema: 'schedule-status/1',
+      updateMode: o.mode,
+      platform: o.platform || null,
+      job: rec ? { at: rec.at || null, files: recFiles, task: rec.task || null } : null,
+      registered: probe && o.register ? loaded === 'yes' : null,
+      plan: { state: p.state, reason: p.reason || null },
+    }, null, 2)}\n`);
+    return 0;
+  }
   log(`update.mode      ${o.mode}`);
   log(`platform         ${o.platform || `${process.platform} (no scheduler known)`}`);
-  const recFiles = rec && Array.isArray(rec.files) ? rec.files : [];
   log(`job              ${rec ? `${rec.at || 'time unknown'}, ${recFiles.length ? recFiles.join(', ') : (rec.task ? `task ${rec.task}` : 'files unknown')}` : 'none recorded'}`);
   log(`registered       ${loaded}`);
   log(`plan             ${p.state}${p.reason ? ` (${p.reason})` : ''}`);
@@ -2773,6 +2788,7 @@ function cmdVisibility(argv) {
     days: Number(value('--days')) || V.DEFAULT_DAYS,
     keep: (value('--keep') || '').split(',').map((s) => s.trim()).filter(Boolean),
     fullDays: fullDaysArg(value('--full-days'), V.DEFAULT_FULL_DAYS),
+    measure: flag('--measure'),
   });
 }
 
@@ -2817,16 +2833,50 @@ function lastListingMeasure(claudeRoot) {
     files = fs.readdirSync(dir).filter((n) => n.endsWith('.txt'))
       .map((n) => ({ n, m: fs.statSync(path.join(dir, n)).mtimeMs })).sort((a, b) => b.m - a.m).slice(0, 40);
   } catch (e) { return null; }
-  const re = /^(\S+) \[WARN\] Skill listing over budget: (\d+) skills, (\d+) chars > (\d+) budget/m;
+  const V = require(path.join(ROOT, 'lib', 'visibility.js'));
   for (const f of files) {
     let text;
     try { text = fs.readFileSync(path.join(dir, f.n), 'utf8'); } catch (e) { continue; }
-    const all = text.match(new RegExp(re.source, 'gm'));
-    if (!all) continue;
-    const m = re.exec(all[all.length - 1]);
-    return { at: m[1], skills: Number(m[2]), chars: Number(m[3]), budget: Number(m[4]) };
+    const got = V.parseListingLog(text);
+    if (got.over) return Object.assign({}, got.over, { bundled: got.bundled, builtinPlugin: got.builtinPlugin });
   }
   return null;
+}
+
+/**
+ * `visibility --measure` (B-337): Claude Code's own count, taken now. Runs
+ * `claude -p ok --no-session-persistence --strict-mcp-config --settings '{"disableAllHooks":true}'
+ * --debug-file <file>` once from a new empty folder (so no project's plugins or skills count),
+ * reads the two listing lines of that log and removes the folder. One small model call; no
+ * transcript is kept. No MCP server starts: a Fabric MCP server registers every folder it starts
+ * in as a board project (measured 2026-11-11), and the listing count is the same without it
+ * (105 entries, 34,758 characters both ways); no hook runs either. `SSHLG_SKILLS_CLAUDE`
+ * names another executable (tests). Returns `{ ok, over, bundled, builtinPlugin }` or
+ * `{ ok: false, error }`.
+ */
+function measureListing() {
+  const V = require(path.join(ROOT, 'lib', 'visibility.js'));
+  const bin = process.env.SSHLG_SKILLS_CLAUDE || 'claude';
+  let dir;
+  try {
+    dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-listing-measure-'));
+    const file = path.join(dir, 'debug.txt');
+    const r = spawnSync(bin, ['-p', 'ok', '--no-session-persistence', '--strict-mcp-config',
+      '--settings', JSON.stringify({ disableAllHooks: true }), '--debug-file', file], {
+      cwd: dir, stdio: ['ignore', 'ignore', 'ignore'], timeout: 180000,
+    });
+    if (r.error) return { ok: false, error: r.error.code === 'ENOENT' ? `\`${bin}\` is not on PATH` : r.error.message };
+    if (r.status !== 0) return { ok: false, error: `\`${bin} -p ok\` exited ${r.status === null ? `on ${r.signal}` : r.status}` };
+    let text;
+    try { text = fs.readFileSync(file, 'utf8'); } catch (e) { return { ok: false, error: 'it wrote no debug log' }; }
+    const got = V.parseListingLog(text);
+    if (got.bundled === null && !got.over) return { ok: false, error: 'its debug log names no skill listing' };
+    return Object.assign({ ok: true }, got);
+  } catch (e) {
+    return { ok: false, error: e.message };
+  } finally {
+    if (dir) try { fs.rmSync(dir, { recursive: true, force: true }); } catch (e) { /* a temp folder left behind harms nothing */ }
+  }
 }
 
 /**
@@ -2963,13 +3013,15 @@ function runVisibilityUnlocked(opts) {
   // B-337: what Claude Code lists beyond the skill directories (plugin commands), and what
   // it leaves out (model-invocation disabled, plugins whose marketplace cannot load).
   const extras = doRevert ? { commands: [], unloadable: new Set(), noModel: new Set() } : listingExtras(claudeRoot, home, skills);
-  const rowsFor = (ov) => skills.map((s) => ({
+  const rowsFor = (ov) => V.listingRows(skills.map((s) => ({
     name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id,
     description: s.description,
     state: extras.noModel.has(s.path) || (s.namespace === 'claude:plugin' && extras.unloadable.has(s.plugin)) ? 'hidden' : stateOf(s, ov),
-  })).concat(extras.commands.map((c) => Object.assign({ state: 'on' }, c)));
+  })).concat(extras.commands.map((c) => Object.assign({ state: 'on' }, c))));
   const charsBefore = V.listingChars(rowsFor(overrides));
   const charsAfter = V.listingChars(rowsFor(after));
+  const entriesBefore = V.listingEntries(rowsFor(overrides));
+  const entriesAfter = V.listingEntries(rowsFor(after));
 
   // ── Codex ──
   const codexPath = path.join(codexRoot, 'config.toml');
@@ -3069,15 +3121,27 @@ function runVisibilityUnlocked(opts) {
     log(fullDays === null
       ? '    name-only tier: off (`--full-days N` turns it on: core skills unused for N days keep their name, lose their description)'
       : `    name-only tier: core skills not used within ${fullDays} days and not named in the instructions are listed by name only (${plan.nameOnly.length})`);
-    log(`  Claude listing, launcher's estimate ≈ ${charsBefore} → ${charsAfter} characters`);
+    log(`  Claude listing, launcher's estimate ≈ ${charsBefore} → ${charsAfter} characters (${entriesBefore} → ${entriesAfter} entries)`);
     log(`    (personal and plugin skills from every recorded install path, ${extras.commands.length} plugin command(s), in Claude's`);
     log('    `- name: description` form; model-invocation-disabled entries and plugins whose marketplace');
-    log('    cannot load are left out. Claude Code\'s bundled skills are not on disk and are not counted).');
-    const measured = lastListingMeasure(claudeRoot);
-    log(measured
-      ? `    Claude Code's own count (debug log ${measured.at}): ${measured.skills} entries, ${measured.chars} characters > ${measured.budget} budget.`
-      : '    Claude Code\'s own count: none logged. Measure it from an empty folder: `claude -p ok --debug-file <file>`,');
-    if (!measured) log('    then look for "Skill listing over budget" in <file>.');
+    log('    cannot load are left out; a plugin command and skill of one name are one entry. Claude Code\'s');
+    log('    bundled and built-in plugin skills are not on disk and are not counted).');
+    const notOnDisk = (b, p) => (b === null ? '' : ` ${b} bundled and ${p} built-in plugin skill(s) are not on disk;`);
+    if (opts.measure) {
+      const m = measureListing();
+      if (!m.ok) log(`    Claude Code's own count: not measured: ${m.error}.`);
+      else if (!m.over) log(`    Claude Code's own count (measured now, from an empty folder): within its budget (it logs a count only when over);${notOnDisk(m.bundled, m.builtinPlugin)} the estimate is the rest.`);
+      else {
+        log(`    Claude Code's own count (measured now, from an empty folder): ${m.over.skills} entries, ${m.over.chars} characters > ${m.over.budget} budget;${notOnDisk(m.bundled, m.builtinPlugin)}`);
+        log(`    entries the estimate does not see: ${m.over.skills - entriesBefore}, characters: ${m.over.chars - charsBefore}.`);
+      }
+    } else {
+      const measured = lastListingMeasure(claudeRoot);
+      log(measured
+        ? `    Claude Code's own count (debug log ${measured.at}): ${measured.skills} entries, ${measured.chars} characters > ${measured.budget} budget.`
+        : '    Claude Code\'s own count: none in its debug logs. Measure it now: `npx sshlg-skills visibility --measure`');
+      if (!measured) log('    (one `claude -p ok` call from an empty folder, no transcript kept).');
+    }
     log('    Over budget, Claude Code 2.1.299 keeps bundled skills whole, gives the others their description');
     log('    most-used first and lists the rest by name only.');
   }

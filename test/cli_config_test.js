@@ -409,8 +409,22 @@ it('config set update.mode writes and removes the nightly job at once, never tou
     assert.ok(!fs.existsSync(runner), 'update.mode notify left the runner copy');
     r = go(['config', 'set', 'update.auto', 'on']);
     assert.ok(fs.existsSync(job), 'update.auto on did not bring the job back');
+    // B-340: the machine-readable status other agents read, stable as schedule-status/1.
+    r = go(['schedule', '--json']);
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+    const st = JSON.parse(r.stdout);
+    assert.deepStrictEqual(Object.keys(st), ['schema', 'updateMode', 'platform', 'job', 'registered', 'plan']);
+    assert.strictEqual(st.schema, 'schedule-status/1');
+    assert.strictEqual(st.updateMode, 'auto');
+    assert.ok(Array.isArray(st.job.files) && st.job.files.includes(job), JSON.stringify(st.job));  // Linux adds the .service
+    assert.strictEqual(st.registered, null, 'a fixture HOME was asked whether the job is registered');
+    assert.strictEqual(st.plan.state, 'current', JSON.stringify(st));
+    assert.strictEqual(go(['schedule', '--json', '--apply']).status, 2, '--json with --apply is a usage error');
     r = go(['schedule', '--revert']);
     assert.ok(!fs.existsSync(job), 'schedule --revert left the job');
+    const gone = JSON.parse(go(['schedule', '--json']).stdout);
+    assert.strictEqual(gone.job, null, JSON.stringify(gone));
+    assert.strictEqual(gone.updateMode, 'notify');
     assert.match(go(['config']).stdout, /update\.mode\s+notify/, 'schedule --revert did not set notify');
     // The last key set wins: update.auto off after update.mode off is notify, not "unchanged".
     go(['config', 'set', 'update.mode', 'off']);
