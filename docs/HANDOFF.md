@@ -8,7 +8,22 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-11 skill memory review (no release)
+## Current: 2026-11-11 family audit and release 1.88.0
+
+**Objective (operator, 2026-11-11):** «пройди по всем и найди проблемы и где можем оптимизировать и убрать старые
+легаси неточности и что мешает работе, по всем скилам в семье».
+
+**Done:** seven read-only audits, one fix PR and release per member, hub fixes in PR #308, release 1.88.0 pinning the
+six members npm serves (see [CHANGELOG](../CHANGELOG.md) v1.88.0).
+
+**Waits:** B-348, the npm trusted publisher for make-skill, sheleg-design-skill, sheleg-dev, seo-aeo-audit and
+telegram-dev (a sign-in with the owner's security key; then `npm trust github <pkg> --repo ssheleg/<repo> --file
+release.yml --allow-publish` and a re-run of each failed publish job, run ids in B-348); their pins follow. The seven
+B-336 description requests (switchboard and the vault done, observatory in its 0.35.12), re-measured 2026-11-18.
+
+**Next task:** B-348 once the sign-in is done, then B-342 and B-340 (board answers), then B-338.
+
+## Previous: 2026-11-11 skill memory review (no release)
 
 **Objective (operator, 2026-11-11, this repository's session):** «проверь какие есть замечания по скилам и
 вопросы и оптимизируй память скилов», then «без потери качества и смыслов».
