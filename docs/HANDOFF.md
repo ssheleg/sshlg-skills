@@ -17,14 +17,14 @@ fabric-98 coordinator session): B-337, then the next rows, through release and t
 folder, the estimate's 84 entries are exactly Claude Code's 105 minus its 21 bundled and built-in plugin entries;
 five plugin command and skill pairs of one name were counted twice (now one entry, the command's description).
 `visibility --measure` takes Claude Code's own count now and prints what the estimate does not see (21 entries,
-10,850 characters on this machine). B-340 closed: `schedule --json`, `schedule-status/1`. B-339 closed (agent-stack
-0.32.1). Checks: `test/visibility_listing_test.js` (8, 7 fail on 1.88.1), `test/cli_config_test.js` (26),
+10,850 characters on this machine). B-340 closed: `schedule --json`, `schedule-status/1`, answered in thread `f7758225`. B-339 closed
+(agent-stack 0.32.1). B-342 closed: six board announcements answered. Checks: `test/visibility_listing_test.js` (8, 7 fail on 1.88.1), `test/cli_config_test.js` (26),
 `python3 test/validate.py` exit 0; the full gate's seven transient failures (disk at 2.4 GB free, load near 90)
 pass one by one on the same input.
 
 **Waits:** B-348 (npm sign-in, unchanged); the B-336 requests, re-measured 2026-11-18 with `visibility --measure`.
 
-**Next task:** B-342 (board answers), then B-338.
+**Next task:** B-338 (operator rules into the doctrine), then B-345.
 
 ## Previous: 2026-11-11 family audit and release 1.88.0
 

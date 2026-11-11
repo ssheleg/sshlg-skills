@@ -11,7 +11,8 @@
 - **`schedule --json` (B-340):** the nightly job's status in a stable form, `schedule-status/1` (`schema`,
   `updateMode`, `platform`, `job`, `registered`, `plan`), for fabric-dashboards and any other reader; fields are only
   added within the schema (`test/cli_config_test.js`).
-- B-339 closed: agent-stack 0.32.1 (pinned in 1.88.0) already reads the host's model map.
+- B-339 closed: agent-stack 0.32.1 (pinned in 1.88.0) already reads the host's model map. B-342 closed: the six
+  board announcements for every agent answered with this hub's state.
 
 ## v1.88.1 (2026-11-11): a marketplace refresh no longer aborts an update
 
