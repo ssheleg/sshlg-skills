@@ -855,8 +855,9 @@ hides every other installed pack; an existing file is replaced only with `--repl
   2026-11-11 its 84 entries were exactly the on-disk part of Claude Code's 105); Claude Code's
   bundled and built-in plugin skills are not on disk, so its own count is the one to trust.
   `--measure` takes that count now: one `claude -p ok --no-session-persistence` call from a new
-  empty folder, its debug log read for the two listing lines, the folder removed, and prints
-  how many entries and characters the estimate does not see.
+  empty folder with no MCP server and no hook (a Fabric MCP server would register the folder as
+  a board project; the count is the same without it), its debug log read for the two listing
+  lines, the folder removed, and prints how many entries and characters the estimate does not see.
 - **Gemini, Pi, OpenCode and Hermes** hide the skills of marked packs, except the usage
   core. Strongest first: a family pack is never hidden; the usage core is never hidden
   (family skills, skills used in the last 60 days by Claude Code usage, skills

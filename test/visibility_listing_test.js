@@ -96,7 +96,9 @@ it('--measure prints Claude Code\'s count and what the estimate does not see', (
   assert.ok(got.out.includes('6 entries, 40000 characters > 30000 budget; 2 bundled and 1 built-in plugin skill(s) are not on disk'), got.out);
   assert.ok(got.out.includes(`entries the estimate does not see: 3, characters: ${40000 - est}.`), got.out);
   const s = JSON.parse(fs.readFileSync(seen, 'utf8'));
-  assert.deepStrictEqual(s.args.slice(0, 3), ['-p', 'ok', '--no-session-persistence'], JSON.stringify(s));
+  // No MCP server (a Fabric one would register the temp folder as a board project), no hook.
+  assert.deepStrictEqual(s.args.slice(0, 6), ['-p', 'ok', '--no-session-persistence', '--strict-mcp-config',
+    '--settings', '{"disableAllHooks":true}'], JSON.stringify(s));
   assert.deepStrictEqual(s.files, [], 'claude was started from a folder that was not empty');
   assert.ok(!fs.existsSync(s.cwd), 'the measuring folder was left behind');
 });

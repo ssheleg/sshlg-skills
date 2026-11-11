@@ -2845,9 +2845,12 @@ function lastListingMeasure(claudeRoot) {
 
 /**
  * `visibility --measure` (B-337): Claude Code's own count, taken now. Runs
- * `claude -p ok --no-session-persistence --debug-file <file>` once from a new empty folder
- * (so no project's plugins or skills count), reads the two listing lines of that log and
- * removes the folder. One small model call; no transcript is kept. `SSHLG_SKILLS_CLAUDE`
+ * `claude -p ok --no-session-persistence --strict-mcp-config --settings '{"disableAllHooks":true}'
+ * --debug-file <file>` once from a new empty folder (so no project's plugins or skills count),
+ * reads the two listing lines of that log and removes the folder. One small model call; no
+ * transcript is kept. No MCP server starts: a Fabric MCP server registers every folder it starts
+ * in as a board project (measured 2026-11-11), and the listing count is the same without it
+ * (105 entries, 34,758 characters both ways); no hook runs either. `SSHLG_SKILLS_CLAUDE`
  * names another executable (tests). Returns `{ ok, over, bundled, builtinPlugin }` or
  * `{ ok: false, error }`.
  */
@@ -2858,7 +2861,8 @@ function measureListing() {
   try {
     dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-listing-measure-'));
     const file = path.join(dir, 'debug.txt');
-    const r = spawnSync(bin, ['-p', 'ok', '--no-session-persistence', '--debug-file', file], {
+    const r = spawnSync(bin, ['-p', 'ok', '--no-session-persistence', '--strict-mcp-config',
+      '--settings', JSON.stringify({ disableAllHooks: true }), '--debug-file', file], {
       cwd: dir, stdio: ['ignore', 'ignore', 'ignore'], timeout: 180000,
     });
     if (r.error) return { ok: false, error: r.error.code === 'ENOENT' ? `\`${bin}\` is not on PATH` : r.error.message };
