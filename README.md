@@ -239,9 +239,16 @@ own leaves the bundle in a combination nobody tested, which is why `update` take
 
 ```bash
 npx sshlg-skills schedule                         # the nightly job: mode, time, registered or not
+npx sshlg-skills schedule --json                  # the same for a program: schedule-status/1
 npx sshlg-skills config set update.mode notify    # only say a newer set is out; auto | notify | off
 npx sshlg-skills schedule --revert                # remove the job (and set update.mode notify)
 ```
+
+`schedule --json` is the form another program reads (B-340): `schema` (`schedule-status/1`),
+`updateMode`, `platform`, `job` (`at`, `files`, `task`, or `null` when none is recorded),
+`registered` (`true`/`false`, `null` when the OS was not asked) and `plan` (`state`, `reason`).
+Fields are only added within `schedule-status/1`; renaming or removing one makes it `/2`.
+The text output carries no such promise.
 
 By default (`update.mode auto`) the set installs itself twice over: when a Claude Code session
 goes idle (the `Notification` hook), and from 1.86.0 at night, by a job `install` and `update`
@@ -842,9 +849,14 @@ hides every other installed pack; an existing file is replaced only with `--repl
   instead of the host's order. `--full-days N` sets the window, `--full-days off` turns the
   tier off. `update` re-applies it only after one `visibility --apply` that recorded
   `fullDays`; an older record re-applies without it. The preview prints the launcher's
-  estimate of the listing and Claude Code's own last count from its debug logs (the one
-  `Skill listing over budget` line); the estimate leaves out bundled skills, plugin commands
-  and plugins loaded from other roots, so the logged count is the one to trust.
+  estimate of the listing (characters and entries) and Claude Code's own last count from its
+  debug logs (the one `Skill listing over budget` line). The estimate counts every skill and
+  plugin command on disk, one entry per name, the way Claude Code lists them (B-337: on
+  2026-11-11 its 84 entries were exactly the on-disk part of Claude Code's 105); Claude Code's
+  bundled and built-in plugin skills are not on disk, so its own count is the one to trust.
+  `--measure` takes that count now: one `claude -p ok --no-session-persistence` call from a new
+  empty folder, its debug log read for the two listing lines, the folder removed, and prints
+  how many entries and characters the estimate does not see.
 - **Gemini, Pi, OpenCode and Hermes** hide the skills of marked packs, except the usage
   core. Strongest first: a family pack is never hidden; the usage core is never hidden
   (family skills, skills used in the last 60 days by Claude Code usage, skills
@@ -858,6 +870,7 @@ npx sshlg-skills config set visibility.pack.anthropics/financial-services show  
 npx sshlg-skills visibility            # preview: per-host counts, nothing written
 npx sshlg-skills visibility --apply    # write each host's own switch, backups first; records consent
 npx sshlg-skills visibility --apply --full-days off   # Claude: keep every core description
+npx sshlg-skills visibility --measure  # preview plus Claude Code's own listing count, taken now
 npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; withdraws consent
 ```
 

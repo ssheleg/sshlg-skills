@@ -1,3 +1,18 @@
+## v1.89.0 (2026-11-11): `visibility --measure`, an exact listing estimate, `schedule --json`
+
+- **One entry per name (B-337).** Claude Code lists a plugin command and a plugin skill of one name once, with the
+  command's description; the estimate counted five such pairs twice (1,606 characters on the operator's machine).
+  Checked against the `skill_listing` attachment of a `claude -p` session from an empty folder: the estimate's 84
+  entries are exactly Claude Code's 105 minus its 21 bundled and built-in plugin entries, which are not on disk.
+- **`visibility --measure`** takes Claude Code's own count now: one `claude -p ok --no-session-persistence` call from
+  a new empty folder, the two listing lines of its debug log, the folder removed, no transcript kept. It prints the
+  entries and characters the estimate does not see (21 and 10,850 here). Without it the preview names the flag
+  instead of a hand recipe. The preview also prints the entry count (`test/visibility_listing_test.js`).
+- **`schedule --json` (B-340):** the nightly job's status in a stable form, `schedule-status/1` (`schema`,
+  `updateMode`, `platform`, `job`, `registered`, `plan`), for fabric-dashboards and any other reader; fields are only
+  added within the schema (`test/cli_config_test.js`).
+- B-339 closed: agent-stack 0.32.1 (pinned in 1.88.0) already reads the host's model map.
+
 ## v1.88.1 (2026-11-11): a marketplace refresh no longer aborts an update
 
 - `update` refused every run at xr-dev with *foreign Claude registry entries changed*, because Claude Code itself
