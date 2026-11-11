@@ -1,40 +1,35 @@
-<!-- agent-sync:generated source=sshlg-skills@2e4c36a cfg=368d627c49d4 at=2026-09-03T10:18:17Z — regenerate with `agent_sync.py setup`, do not hand-edit -->
+<!-- agent-sync:generated source=sshlg-skills@16e1a555 cfg=0e1197d667a6 at=2026-11-11T01:04:52Z (regenerate with `agent_sync.py setup`, do not hand-edit) -->
 
 # How documentation and coordination work in sshlg-skills
 
 This file is **generated** from the live configuration. If it disagrees with
-what the tool does, the tool is right and this file is stale — regenerate it.
+what the tool does, the tool is right and this file is stale: regenerate it.
 
 ## Two documentation sources
 
 | Source | Answers | Where |
 |---|---|---|
-| Git documents | *how it should be* — intent, decisions, contracts | this repository |
-| As-built record | *how it actually is* — what agents wrote, with commits | the coordination plane |
+| Git documents | *how it should be*: intent, decisions, contracts | this repository |
+| As-built record | *how it actually is*: what agents wrote, with commits | the coordination plane |
 
 Neither outranks the other; they answer different questions. **The gap between
 them is the finding.** Reconcile before starting a task and after finishing it.
 
 ## This project's wiring
 
-- record plane: **fs** · lease: **git** — exclusive across machines · runs recorded **gated**
+- record plane: **fs** · lease: **git**: exclusive across machines · runs recorded **gated**
 - lease TTL 2700s, renewed every 300s
-- credentials read from `.env.agent-sync` — gitignored, never committed
+- credentials read from `(none found)` (gitignored, never committed)
 
-### Id registers — reserve before you write
+### Id registers: reserve before you write
 
 None declared here. Ids live in the parent repository; reserve them there.
 
-### Guarded files — a live lease is required to write these
+### Guarded files: a live lease is required to write these
 
 - `docs/evidence/backlog.md`
 - `docs/evidence/verification.md`
 - `docs/evidence/retro.md`
-- `docs/evidence/manifesto-conformance.md`
-- `skills.json`
-- `README.md`
-- `skills/*`
-- `pipeline.json`
 
 ### Gates run before a change is considered done
 
@@ -60,7 +55,7 @@ None declared here. Ids live in the parent repository; reserve them there.
 the correcting entry, because the logs are replayed in order and a deletion
 would silently rewrite a decision every other agent already read. A lease is
 released, never removed. A reserved id that is not used is returned with
-`release-id`, which appends — it does not erase.
+`release-id`, which appends; it does not erase.
 
 Generated pages are the exception: they are rewritten wholesale, and a page
 whose first line lost its generated marker is **refused**, not overwritten.
@@ -83,7 +78,7 @@ reconcile   → check both sides again
 board       → regenerate the shared view
 merge --key → land the branch: conflicts checked first, the merge recorded,
               that lease released. Without a branch, `release ID` by hand
-              — on every path, including failure
+              (on every path, including failure)
 residue     → what this run leaves on disk. Expiry ends a lease and leaves
               the file, so `status` and `finish` enumerate them; `reap`
               clears only what THIS run can prove it owns and has spent,

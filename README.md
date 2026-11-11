@@ -226,8 +226,8 @@ claude plugin marketplace add ssheleg/seo-aeo-audit && claude plugin install seo
 ## Update
 
 ```bash
-npx sshlg-skills install              # nothing installed yet — the whole family, any agent
-npx sshlg-skills update               # installed but behind — updates everything
+npx sshlg-skills install              # nothing installed yet: the whole family, any agent
+npx sshlg-skills update               # installed but behind: updates everything
 npx --yes sshlg-skills@latest list    # what the current release of each member is
 ```
 
@@ -957,8 +957,8 @@ npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only 
 # `npx sshlg-skills update` re-wires a machine that already has one of these entries (since v1.56.0), through the
 # same backup; with none it writes nothing. It refreshes only entries of ours that are present (one you removed stays
 # removed; a NEW event a later release adds arrives only through `hooks install`, and `update` names it), and leaves a
-# status line someone else holds alone without blocking the rest. Every path — `hooks`, `hooks install`, `update`
-# and the ConfigChange notice — judges an entry by the fields this pack writes, so fields you added to our entries
+# status line someone else holds alone without blocking the rest. Every path (`hooks`, `hooks install`, `update`
+# and the ConfigChange notice) judges an entry by the fields this pack writes, so fields you added to our entries
 # (a `timeout`, a `padding`) are kept and never called stale. `hooks` prints why each entry differs (matcher |
 # command | the field | order) and lists an absent one apart, as "не подключено здесь", with `hooks install`.
 # `update` also takes ~/.sshlg-skills/update.lock: a second one exits 75 naming the holder (docs/working-rules/state-json.md).
@@ -1160,12 +1160,12 @@ above Claude Code's 200-line target or its 40,000-character warning. The rules b
 npx sshlg-skills list        # the family, versions and descriptions
 npx sshlg-skills agents      # supported agent ids
 npx sshlg-skills conflicts   # installed skills that land on ground a router owns
-npx sshlg-skills toolkit     # every skill this machine can reach — the family is a fraction of it
+npx sshlg-skills toolkit     # every skill this machine can reach; the family is a fraction of it
 npx sshlg-skills pack        # curated recommendations, measured against this machine
-npx sshlg-skills humanizers  # anti-AI-writing skills this machine can reach — and the
+npx sshlg-skills humanizers  # anti-AI-writing skills this machine can reach, and the
                              # false-positive caveat that prints whether or not one is installed
 npx sshlg-skills signature --used "<skill>=<what it did>,…"
-                             # a report's one-line header and short footer — every
+                             # a report's one-line header and short footer: every
                              # address looked up from the manifest, never typed
 npx sshlg-skills enroll      # this repository's routes, written into its own CLAUDE.md
 npx sshlg-skills rules --help   # any command's usage (also -h, or help <command>);
@@ -1265,26 +1265,26 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 `<name>@<name>` plugin ids, and pruning shadow copies.
 
 ```
-skills.json                  registry — repos, plugin ids, skill names, pins
+skills.json                  registry: repos, plugin ids, skill names, pins
 skills/*                     the eleven skill packs as pinned git submodules
 bin/sshlg-skills.js          the launcher (install / update / routers / config / hooks /
                              injectors / conflicts / list / agents)
-lib/routers-registry.js      the fifteen routers — text, table row and required members, in one entry
+lib/routers-registry.js      the fifteen routers: text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/plan.js                  shared skills-CLI argv and Continue/Hermes copy grouping
 lib/installer-pins.js        production immutable member admission and pinned add plan
 lib/codexplugins.js          native Codex catalog inspection and unsafe transition deferral
-lib/inventory.js             the family's map — entry points, not a catalogue
-lib/conflicts.js             installed skills on a router's ground — candidates, not offenders
-lib/packs.js                 curated recommendations by lane — what is missing, and the exact command
+lib/inventory.js             the family's map: entry points, not a catalogue
+lib/conflicts.js             installed skills on a router's ground: candidates, not offenders
+lib/packs.js                 curated recommendations by lane: what is missing, and the exact command
 lib/cursor.js                Cursor's channel, which is one file per rule rather than a block
 lib/apply.js                 the only module that writes to the instruction files
 lib/enroll.js                a project's routes: detection and the SSHLG:PROJECT plan; pure
 lib/migrate.js               moves hand-written rules in; never reads inside the block
 lib/config.js, lib/store.js  the pack's settings, and the 0600 discipline they share
 install.sh                   POSIX fallback (macOS/Linux; use npx on Windows)
-test/run.js                  `npm test` — the validator, then every discovered suite
+test/run.js                  `npm test`: the validator, then every discovered suite
 test/validate.py             registry / submodules / version validation
 .github/workflows            validation on push and PR + tag-driven release
 ```

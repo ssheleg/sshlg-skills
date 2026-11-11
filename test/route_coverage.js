@@ -50,6 +50,13 @@ const CASES = [
   ['посмотри логи миграции', ''],
   ['миграция упала? почини её', 'task-pipeline'],
   ['release iteration, no pipeline', ''],
+  // T1 (audit 2026-11-11): typos, one-line edits and renames sit outside the boundary.
+  ['fix a typo in the README', ''],
+  ['почини опечатку в README', ''],
+  ['rename the helper to parseArgs', ''],
+  ['переименуй функцию в parseArgs', ''],
+  ['поправь одну строку в конфиге', ''],
+  ['refactor the parser and fix a typo', 'task-pipeline'],
   ['итерация релиза, без пайплайна', ''],
   // --- growth: funnels, activation, retention, paywalls -------------------
   // Every one of these is territory the super-ux router text claims in

@@ -318,6 +318,29 @@ it('one prompt can ask for several routes, in registry order', () => {
     'routes came back out of registry order');
 });
 
+// T1 (audit 2026-11-11): typos, one-line edits and renames are outside the pipeline's
+// boundary; a real delivery word or naming the pipeline keeps the route.
+it('a typo, a one-line edit or a rename does not print the delivery line', () => {
+  for (const p of ['fix a typo in the README', 'почини опечатку в README', 'fix typos in the docs',
+    'исправь опечатки в документации', 'rename the variable and fix the import',
+    'переименуй функцию и почини импорт', 'fix the one-line config', 'поправь одну строку в конфиге']) {
+    assert.ok(!T.match(p).includes('task-pipeline'), `the pipeline fired on: ${p}`);
+  }
+});
+it('a minor-edit word beside real delivery work keeps the pipeline', () => {
+  for (const p of ['fix this bug', 'почини баг в логине', 'refactor the parser and fix a typo',
+    'рефактор парсера и почини опечатку', '/task-pipeline fix a typo in README',
+    'fix the migration typo then run the migration']) {
+    assert.ok(T.match(p).includes('task-pipeline'), `the pipeline lost: ${p}`);
+  }
+});
+
+it('agent-harness audits reach agent-stack by the phrases operators type (agent-stack B-162)', () => {
+  for (const p of ['аудит промпта и инструментов агента', 'аудит системного промпта агента', 'аудит агента']) {
+    assert.ok(T.match(p).includes('agent-stack'), `agent-stack missed: ${p}`);
+  }
+});
+
 it('matching is case-insensitive', () => {
   assert.deepStrictEqual(T.match('REFACTOR the auth module'), T.match('refactor the auth module'));
 });

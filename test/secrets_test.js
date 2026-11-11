@@ -63,6 +63,14 @@ const DENIED = [
    'curl -v -H "Authorization: Bearer $T" https://api.example.com', 'curl-prints-headers'],
   ['curl --user is a credential too',
    'curl --verbose --user me:pw https://api.example.com', 'curl-prints-headers'],
+  // G1 (audit 2026-11-11): whole name parts still catch the real credential names.
+  ['a GitHub token by name', 'echo $GITHUB_TOKEN', 'expansion-into-print'],
+  ['an API key by name', 'echo "$API_KEY"', 'expansion-into-print'],
+  ['a personal access token by name', 'echo $MY_PAT', 'expansion-into-print'],
+  ['an npm auth token in braces', 'echo ${NPM_AUTH_TOKEN}', 'expansion-into-print'],
+  ['a compound part ending in PASSWORD', 'echo $DBPASSWORD', 'expansion-into-print'],
+  ['a default that looks like a slice', 'echo ${API_KEY:-4}', 'expansion-into-print'],
+  ['a safe length beside a real leak', 'echo ${#A_KEY} $B_TOKEN', 'expansion-into-print'],
 ];
 
 // Every one of these is ordinary work, and denying any of them is how the guard
@@ -79,6 +87,14 @@ const ALLOWED = [
   ['existence of a secret file', 'test -f ~/.config/agentgateway/secrets/prowl && echo yes'],
   ['a filtered environment probe', 'env | grep -c "^OPENROUTER"'],
   ['printenv naming one variable', 'printenv PATH'],
+  // G1 (audit 2026-11-11): a word INSIDE a name part is not a credential name.
+  ['PATH holds PAT but is a search path', 'echo $PATH'],
+  ['PYTHONPATH quoted', 'echo "$PYTHONPATH"'],
+  ['NODE_PATH', 'echo $NODE_PATH'],
+  ['a key file location is a path', 'echo $SSH_KEY_PATH'],
+  ['the ssh agent socket', 'echo $SSH_AUTH_SOCK'],
+  ['KEYCHAIN is not KEY', 'echo $KEYCHAIN_DIR'],
+  ['the slice remedy with an offset', 'echo ${API_KEY:0:4}'],
   ['quiet curl with no auth at all', 'curl -v https://example.com'],
   ['prose that merely mentions the words', 'git commit -m "rotate the api key handling"'],
   ['a path that only looks secret-ish', 'cat docs/authentication.md'],

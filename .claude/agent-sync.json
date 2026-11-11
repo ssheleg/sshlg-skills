@@ -9,12 +9,7 @@
   "guardedFiles": [
     "docs/evidence/backlog.md",
     "docs/evidence/verification.md",
-    "docs/evidence/retro.md",
-    "docs/evidence/manifesto-conformance.md",
-    "skills.json",
-    "README.md",
-    "skills/*",
-    "pipeline.json"
+    "docs/evidence/retro.md"
   ],
   "claimTags": {
     "docs/evidence/backlog.md": {

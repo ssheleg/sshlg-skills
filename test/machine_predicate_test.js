@@ -104,12 +104,12 @@ it('B-169: an operator\'s own wording of the fabric rule is kept when it leaves'
   const file = path.join(home, '.claude', 'CLAUDE.md');
   fs.writeFileSync(file, '# mine\n');
   run(home, ['routers'], { FABRIC_SERVICES_DIR: services });
-  const edited = fs.readFileSync(file, 'utf8').replace('Prefer the `fabric-dashboards` MCP', 'Always prefer the `fabric-dashboards` MCP');
+  const edited = fs.readFileSync(file, 'utf8').replace('never kill or restart a service', 'never, ever kill or restart a service');
   assert.ok(edited !== fs.readFileSync(file, 'utf8'), 'fixture edit did not apply');
   fs.writeFileSync(file, edited);
   run(home, ['routers', '--update'], NO_FABRIC);
   const stash = configLib.stashGet(configLib.readConfig(home), 'fabric');
-  assert.ok(typeof stash === 'string' && stash.includes('Always prefer'), 'the operator\'s wording was dropped');
+  assert.ok(typeof stash === 'string' && stash.includes('never, ever kill'), 'the operator\'s wording was dropped');
 });
 
 it('B-170: a block titled in Russian is retitled in English once, and three runs agree', () => {
