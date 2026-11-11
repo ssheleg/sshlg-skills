@@ -25,7 +25,7 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 - Board items for this hub that had no row: B-338 to B-342. Not answered on the board yet.
 - No routing block wording changed in the review itself; the audit fixes below change four packaged lines.
 
-**Audit fixes (2026-11-11, branch `fix/hub-audit-1111`, no version bump: the next pin and release PR ships them):**
+**Audit fixes (2026-11-11, PR #308, no version bump: the next pin and release PR ships them):**
 - Credential guard: whole-name-part matching (`$PATH`, `$SSH_AUTH_SOCK` pass; `$GITHUB_TOKEN` refused), nested
   substitutions resolved against their own body and an internal error refused with a remedy, recursive searches of
   `~/.claude` and `~/.codex` accepted with an explicit exclusion, `.env.example` and `*.md` exempt, and a value-free
