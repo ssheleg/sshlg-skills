@@ -8,7 +8,29 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-09 AI-native products across the family (1.87.0)
+## Current: 2026-11-11 skill memory review (no release)
+
+**Objective (operator, 2026-11-11, this repository's session):** «проверь какие есть замечания по скилам и
+вопросы и оптимизируй память скилов», then «без потери качества и смыслов».
+
+**Done:**
+- Measured what skills cost every session: `claude -p ok --debug-file <f>` logs *Skill listing over budget*:
+  121 skills, 43,148 characters here and 105 skills, 35,962 characters in a folder with no project plugins,
+  against 30,000. Over budget, rarely used skills reach the model by name only (B-336).
+- Figma (0 Skill calls in 30 days of transcripts) left this repository's untracked `.claude/settings.local.json`
+  (backup beside it); the listing here fell to 35,962.
+- The rest is other projects' descriptions (B-336 names them): seven board requests, deadline 2026-11-18,
+  target about 350 characters a skill, triggers and NOT-clauses kept.
+- `visibility` under-counts the listing (26,586 against 35,962): B-337.
+- Board items for this hub that had no row: B-338 to B-342. Not answered on the board yet.
+- No routing block wording changed: the operator's wording wins, and B-330's paired evaluation is the bar for it.
+
+**Next task:** B-342 and B-340 (board answers), then B-338; B-337 before the next listing claim.
+
+**Waits:** the seven B-336 requests (threads in its row), re-measured on 2026-11-18. The unmerged branch
+`fix/b326-foreign-settings-write` holds B-323's and B-326's closure; its session owns it.
+
+## Previous: 2026-11-09 AI-native products across the family (1.87.0)
 
 **Objective (operator, 2026-11-09, this repository's session; verbatim in the
 [brief](evidence/briefs/2026-11-09-ai-native.md)):** products are AI-native: agents use them as people
