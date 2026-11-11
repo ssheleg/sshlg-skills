@@ -8,7 +8,7 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-11 the listing estimate and `schedule --json` (1.89.0)
+## Current: 2026-11-11 the listing estimate and `schedule --json` (1.89.0, 1.89.1)
 
 **Objective:** continue the backlog by priority after the audit (operator's standing delegation, relayed by the
 fabric-98 coordinator session): B-337, then the next rows, through release and the local update.
@@ -21,6 +21,11 @@ five plugin command and skill pairs of one name were counted twice (now one entr
 (agent-stack 0.32.1). B-342 closed: six board announcements answered. Checks: `test/visibility_listing_test.js` (8, 7 fail on 1.88.1), `test/cli_config_test.js` (26),
 `python3 test/validate.py` exit 0; the full gate's seven transient failures (disk at 2.4 GB free, load near 90)
 pass one by one on the same input.
+
+**Then (1.89.1):** B-349. A Claude local record under a deleted folder held telegram-dev back at every update;
+`hosts` now names such records with the B-243 drop, and the block names `hosts`. The three records on this machine
+were dropped (backup beside `installed_plugins.json`) and `update` verified all eleven members in Claude; its PARTIAL
+is now only the Codex deferral by design (active sessions, watcher installed).
 
 **Waits:** B-348 (npm sign-in, unchanged); the B-336 requests, re-measured 2026-11-18 with `visibility --measure`.
 

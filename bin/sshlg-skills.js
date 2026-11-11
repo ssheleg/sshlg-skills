@@ -1770,6 +1770,7 @@ function reportStaleLocalRecords() {
   const found = L.staleAliases(registry, real);
   // B-264: worktree and subdirectory records, which Claude addresses at the repository root.
   const rooted = L.rootRecords(registry, real, require('../lib/claude-pinned.js').claudeAddress);
+  const missing = L.missingRecords(registry, real);
   if (!found.length) log(`\nClaude Code install records (${file}): no local install record under an old project path.`);
   else {
     log(`\nClaude Code install records (${file}): ${found.length} local install record(s) under an old project path.`);
@@ -1785,8 +1786,14 @@ function reportStaleLocalRecords() {
         + `${a.rootRecord ? 'the root has its own record' : 'the root has no record, so `update` blocks this member'})`);
     }
   }
+  if (missing.length) {
+    log(`  ${missing.length} local install record(s) under a folder that no longer exists; Claude cannot address them`);
+    log('  and `update` blocks each member that has one:');
+    for (const a of missing) log(`    ${a.plugin}: ${a.projectPath}`);
+  }
   // One remedy, one backup, for every record named above.
-  if (found.length || rooted.length) for (const line of L.remedy(file, found.concat(rooted))) log(`  ${line}`);
+  const all = found.concat(rooted, missing);
+  if (all.length) for (const line of L.remedy(file, all)) log(`  ${line}`);
 }
 
 /**

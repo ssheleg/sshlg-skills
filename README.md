@@ -381,7 +381,9 @@ hub writes that file for this (B-243, `test/localrecords_test.js`). A record und
 worktree or a subdirectory of a repository is never read either, because Claude addresses a
 local scope at the repository root (a worktree at its main working tree); `hosts` names those
 too, and when the root has no record of its own it prints `cd <root> && claude plugin install
-<plugin> --scope local` to run first, so the project keeps the plugin (B-264). Project and managed scopes
+<plugin> --scope local` to run first, so the project keeps the plugin (B-264). A record under a folder that
+no longer exists (a removed worktree, a deleted project) blocks its member at every `update`; `hosts` names
+it with the same one-line drop, and the block names `hosts` as the remedy (B-349). Project and managed scopes
 and other repair shapes block that member, by name, and the run reports partial. Interrupted or uncertain execution leaves a recovery
 receipt and blocks blind retry. The newest five finished transactions are kept whole, and
 every unfinished one too; an older finished one moves its copies of Claude's files into
