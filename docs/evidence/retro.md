@@ -5,8 +5,8 @@ below **in full** before its first question.
 
 ## Standing instructions
 
-**Ids are allocated once and never reused.** A retirement leaves its slot **vacant** —
-the list is deliberately non-contiguous — because published CHANGELOGs and merged PR
+**Ids are allocated once and never reused.** A retirement leaves its slot **vacant**
+(the list is deliberately non-contiguous) because published CHANGELOGs and merged PR
 bodies cite these numbers, and renumbering silently rewrites what they say. The next
 instruction takes `max(every id this file has ever held) + 1`, never the lowest gap.
 
@@ -21,15 +21,15 @@ be prevented.
 
 
 Hard cap: ten. Each carries the run stamp it was written at. Retire an entry
-the moment any of its three triggers fires — it became a mechanical check, the
-paths or commands it names are gone, or it has not fired in five run stamps —
+the moment any of its three triggers fires (it became a mechanical check, the
+paths or commands it names are gone, or it has not fired in five run stamps)
 and log the deletion as one line under *Retired*.
 
 1. **(2026-08-13) A component that never receives its input fails OPEN, and from the outside it is indistinguishable from one that approves.** *(Retire when every guard in the family asserts a non-empty payload, or after five run stamps without firing.)* story: retro/2026-Q4.md sha256:087110a2901f
 
 2. **(2026-08-06)** **Prove idempotence at the layer that repeats, not the layer that is easy to test.** *(Retire when every file-writing command in this repo has a three-run end-to-end fixture in CI.)* story: retro/2026-Q4.md sha256:5fdf115018d7
 
-*(3 — retired 2026-08-13 on its cold trigger; see Retired. The number is left
+*(3: retired 2026-08-13 on its cold trigger; see Retired. The number is left
 vacant rather than reused: two CHANGELOGs and a merged PR body already cite these
 instructions by number, and renumbering would rot every one of those references.)*
 
@@ -50,11 +50,11 @@ instructions by number, and renumbering would rot every one of those references.
    itself rather than from whatever wrapped it. *(Retire after five run stamps
    without firing.)*
 
-9. **(2026-08-14) A verdict belongs to an artifact by identity, not by recency — `--limit 1` answers about whatever finished last.** *(Retire when a release helper in this family resolves its own run by tag, or after five run stamps without firing.)* story: retro/2026-Q4.md sha256:b24cedf468c7
+9. **(2026-08-14) A verdict belongs to an artifact by identity, not by recency: `--limit 1` answers about whatever finished last.** *(Retire when a release helper in this family resolves its own run by tag, or after five run stamps without firing.)* story: retro/2026-Q4.md sha256:b24cedf468c7
 
 10. **(2026-08-14) A check that reads a working tree reports a state no clone can reproduce.** *(Retire when every guard in this family reads through `git ls-files` or `git show`, or after five run stamps without firing.)* story: retro/2026-Q4.md sha256:f0e232ea3881
 
-11. **(2026-08-14) When a new check goes red, suspect the checker before the subject — and prove it against a case you already know is clean.** *(Retire when every check in this family ships with a known-clean fixture beside its planted one, or after five run stamps without firing.)* story: retro/2026-Q4.md sha256:0b9a283b8a08
+11. **(2026-08-14) When a new check goes red, suspect the checker before the subject, and prove it against a case you already know is clean.** *(Retire when every check in this family ships with a known-clean fixture beside its planted one, or after five run stamps without firing.)* story: retro/2026-Q4.md sha256:0b9a283b8a08
 
 ## Retired
 

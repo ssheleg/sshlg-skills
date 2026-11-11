@@ -700,6 +700,24 @@ it('refero-design is declined as a second entry point, with a measured reason', 
   assert.ok(!design.entries.some((e) => e.id === 'refero-design'), 'refero-design is recommended');
 });
 
+// L2 (audit 2026-11-11): Lazyweb is retired from the references lane, Playwright WebKit
+// (webapp-testing) is the visual-qa default, and an MCP-bound skill without its server
+// is reported as present but not usable.
+it('L2: Lazyweb leaves the references lane and its surface reads retired', () => {
+  const refs = design.lanes.find((l) => l.id === 'references');
+  assert.ok(!/Lazyweb,|Lazyweb MCP/.test(refs.via) && /retired/.test(refs.via), refs.via);
+  assert.ok(/^retired/.test(design.surfaces.find((x) => x.id === 'lazyweb_compare_image').verdict));
+});
+it('L2: visual-qa leads with webapp-testing; chrome-devtools without its MCP is not usable', () => {
+  const skills = [{ id: 'chrome-devtools', plugin: 'p' }, { id: 'webapp-testing', plugin: 'p' }];
+  const off = P.report(design, skills, { mcp: { 'chrome-devtools': false } });
+  assert.ok(/visual-qa\s+sheleg-design\s+webapp-testing, chrome-devtools \(no MCP\)/.test(off), off);
+  assert.ok(/chrome-devtools .*NOT usable: the chrome-devtools MCP server is not connected here/.test(off));
+  const on = P.report(design, skills, { mcp: { 'chrome-devtools': true } });
+  assert.ok(!/NOT usable/.test(on) && !/chrome-devtools \(no MCP\)/.test(on), 'a connected server was reported as missing');
+  assert.ok(/WebKit/.test(entry('webapp-testing').why));
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

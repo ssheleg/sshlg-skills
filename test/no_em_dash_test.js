@@ -160,6 +160,9 @@ it('every router section, cell, the heading, opener and Cursor description carry
 const REWORDED_SINCE = {
   'super-ux': '1.87.0: AI-native, capabilities before screens (docs/evidence/specs/2026-11-09-ai-native-pipeline.md)',
   'agent-stack': '1.87.0: AI-native, a product\'s agent surface (same design)',
+  copywriting: 'audit 2026-11-11: reads the surface\'s channels.md record, as the member does',
+  'project-audit': 'audit 2026-11-11: a JSON sidecar, the HTML page only on --report',
+  fabric: 'audit 2026-11-11: detection and probe details moved to working-with-fabric',
 };
 
 it('the rewording is punctuation only: the words of every router are the words 1.80.0 shipped', () => {

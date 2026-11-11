@@ -222,7 +222,8 @@ process.stdin.on('end', () => {
     if (require(path.join(LIB, 'secretreaders.js')).inspectTool(data.tool_name, data.tool_input,
       { cwd: data.cwd || process.cwd(), home })) {
       say('deny', 'This content read targets a credential-bearing file. Use a presence, size or mode probe, '
-        + 'or process it locally and emit only an explicit value-free summary. A search pattern is not a file path.');
+        + 'or process it locally and emit only an explicit value-free summary. A search pattern is not a file path. '
+        + require(path.join(LIB, 'secrets.js')).SETTINGS_DOOR);
       return;
     }
 

@@ -231,6 +231,60 @@ it('`routers --update` adds the new routers, keeps authored wording, and is idem
   }
 });
 
+// --- R1 (audit 2026-11-11): the Claude target follows enabledPlugins -------------------
+it('claudeMembers: enabled plugins count, disabled ones do not, unreadable settings keep all', () => {
+  const E = require('../lib/enablement.js');
+  const skills = [{ name: 'a', pluginInstall: 'a@a' }, { name: 'b', pluginInstall: 'b@b' }, { name: 'c' }];
+  assert.deepStrictEqual(E.claudeMembers(skills, { 'a@a': true, 'b@b': false }), ['a', 'c']);
+  assert.deepStrictEqual(E.claudeMembers(skills, {}), ['c']);
+  assert.deepStrictEqual(E.claudeMembers(skills, null), ['a', 'b', 'c']);
+});
+
+it('`routers --update`: members disabled for Claude leave CLAUDE.md only, three runs, same hash', () => {
+  const crypto = require('crypto');
+  const { spawnSync } = require('child_process');
+  const registry = require('../lib/routers-registry.js');
+  const skills = require('../skills.json').skills;
+  const h = home();
+  try {
+    fs.mkdirSync(path.join(h, '.codex'), { recursive: true });
+    const all = registry.resolve({ installed: skills.map((s) => s.name) });
+    for (const f of [claudeMd(h), path.join(h, '.codex', 'AGENTS.md')]) fs.writeFileSync(f, '# mine\n');
+    A.apply({ home: h, mode: 'install', consent: 'yes', routers: all, log: () => {},
+      hostTargets: A.TARGETS.filter((t) => ['claude', 'codex'].includes(t.agent)), includeCursor: false });
+    const off = ['telegram-dev', 'xr-dev', 'web3d-dev'];
+    const enabled = {};
+    for (const s of skills) if (s.pluginInstall) enabled[s.pluginInstall] = !off.includes(s.name);
+    fs.writeFileSync(path.join(h, '.claude', 'settings.json'), JSON.stringify({ enabledPlugins: enabled }));
+    const hashes = [];
+    const run = () => spawnSync(process.execPath, [path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'routers', '--update'],
+      { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: h, CLAUDE_CONFIG_DIR: path.join(h, '.claude'), CODEX_HOME: path.join(h, '.codex') }) });
+    for (let i = 0; i < 3; i += 1) {
+      const r = run();
+      assert.strictEqual(r.status, 0, `run ${i + 1} exited ${r.status}:\n${r.stdout}${r.stderr}`);
+      hashes.push(crypto.createHash('sha256').update(fs.readFileSync(claudeMd(h))).digest('hex'));
+    }
+    assert.strictEqual(hashes[1], hashes[0], 'the second run changed CLAUDE.md');
+    assert.strictEqual(hashes[2], hashes[1], 'the third run changed CLAUDE.md');
+    const claude = fs.readFileSync(claudeMd(h), 'utf8');
+    const codex = fs.readFileSync(path.join(h, '.codex', 'AGENTS.md'), 'utf8');
+    for (const name of off) {
+      assert.ok(!claude.includes(`SSHLG:ROUTER:${name}:BEGIN`), `${name} section stayed in CLAUDE.md`);
+      assert.ok(!claude.includes(`| \`${name}\` |`), `${name} table row stayed in CLAUDE.md`);
+      assert.ok(codex.includes(`SSHLG:ROUTER:${name}:BEGIN`), `${name} left another host's block`);
+    }
+    assert.ok(claude.includes('SSHLG:ROUTER:task-pipeline:BEGIN'), 'an enabled member lost its router');
+    assert.ok(claude.startsWith('# mine\n'), 'prose outside the block moved');
+    // Enabled again: the section returns with the packaged text.
+    enabled['xr-dev@xr-dev'] = true;
+    fs.writeFileSync(path.join(h, '.claude', 'settings.json'), JSON.stringify({ enabledPlugins: enabled }));
+    assert.strictEqual(run().status, 0);
+    assert.ok(fs.readFileSync(claudeMd(h), 'utf8').includes('SSHLG:ROUTER:xr-dev:BEGIN'), 'xr-dev did not come back');
+  } finally {
+    fs.rmSync(h, { recursive: true, force: true });
+  }
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

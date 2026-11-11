@@ -351,6 +351,10 @@ Usage:
   npx sshlg-skills enroll --prune [--apply] [--root DIR] [--json]
                                                       # drop routers.json entries enroll wrote whose material
                                                       # is gone; preview unless --apply
+  npx sshlg-skills settings get <key> [--file <path>]
+                                                      # one Claude settings key, credentials redacted:
+                                                      # enabledPlugins, hooks, permissions,
+                                                      # skillOverrides, extraKnownMarketplaces
   npx sshlg-skills list [--verbose | -v | --json]
   npx sshlg-skills agents
   npx sshlg-skills help [<command>]                   # this text, or one command's part of it
@@ -1903,6 +1907,17 @@ function cmdRouters(f) {
   // everywhere) leaves it. Not a refusal, so it is not reported as one below.
   const offMachine = registry.offMachine(scopeOpts);
   const remove = switchedOff.concat(offMachine);
+  // R1 (audit 2026-11-11): the Claude target speaks only for members whose Claude plugin
+  // is enabled at user scope. `pluginOff` are routers in this run's scope whose member
+  // is installed but disabled for Claude: they leave CLAUDE.md, and every other host keeps
+  // its current detection. Settings that cannot be read keep the old scope.
+  const enablement = require(path.join(ROOT, 'lib', 'enablement.js'));
+  const pluginOff = [];
+  if (!f.member) {
+    const claudeInstalled = enablement.claudeMembers(manifest.skills, enablement.userEnabled(home));
+    const claudeScope = registry.scope(Object.assign({}, scopeOpts, { installed: claudeInstalled }));
+    for (const name of registry.scope(scopeOpts)) if (!claudeScope.includes(name)) pluginOff.push(name);
+  }
 
   // The registry's own text, copied before the precedence loop below writes
   // the operator's over it. This is the only moment both sides exist in one
@@ -2074,6 +2089,10 @@ function cmdRouters(f) {
     // B-180: the star line rides only when the operator turned it on.
     star: require('../lib/config.js').starEnabled(require('../lib/config.js').readConfig(home)),
     remove, preserve, sources, dryRun: f.dryRun, log,
+    perAgent: pluginOff.length ? { claude: {
+      routers: Object.fromEntries(Object.entries(packaged).filter(([name]) => !pluginOff.includes(name))),
+      remove: remove.concat(pluginOff.filter((name) => !remove.includes(name))),
+    } } : undefined,
   });
 
   // Whatever left the block is kept, not dropped. A switch that loses the
@@ -2086,7 +2105,7 @@ function cmdRouters(f) {
         // only words the operator wrote; the packaged text needs no copy, and a
         // stashed copy would come back instead of the current text the day the
         // machine gains it.
-        if (offMachine.includes(name) && registry.REGISTRY[name]
+        if ((offMachine.includes(name) || pluginOff.includes(name)) && registry.REGISTRY[name]
             && body.trim() === registry.REGISTRY[name].text.trim()) continue;
         configLib.stashSet(home, name, body);
       }
@@ -2810,6 +2829,44 @@ function lastListingMeasure(claudeRoot) {
   return null;
 }
 
+/**
+ * B-337: the listing entries a skill walk misses. Plugin commands (`<plugin>/commands/*.md`,
+ * listed as `plugin:command`) of every enabled plugin, from the install path the registry
+ * records (Homebrew, PassionCode and cache roots alike); skills and commands whose front
+ * matter sets `disable-model-invocation: true` (never in the listing); and plugins whose
+ * marketplace has no install location on disk (Claude Code logs "marketplace-load-failed"
+ * and loads none of their skills). Read-only; any read that fails contributes nothing.
+ */
+function listingExtras(claudeRoot, home, skills) {
+  const out = { commands: [], unloadable: new Set(), noModel: new Set() };
+  const meta = require(path.join(ROOT, 'lib', 'skillmeta.js'));
+  const frontMatter = (text) => { const m = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text); return m ? m[1] : ''; };
+  const noModel = (text) => /^disable-model-invocation:\s*true\s*$/m.test(frontMatter(text));
+  for (const s of skills) {
+    try { if (s.path && noModel(fs.readFileSync(s.path, 'utf8'))) out.noModel.add(s.path); } catch (e) { /* unreadable: counted as listed */ }
+  }
+  let known = {};
+  try { known = JSON.parse(fs.readFileSync(path.join(claudeRoot, 'plugins', 'known_marketplaces.json'), 'utf8')) || {}; } catch (e) { known = {}; }
+  let registry = {};
+  try { registry = JSON.parse(fs.readFileSync(path.join(claudeRoot, 'plugins', 'installed_plugins.json'), 'utf8')).plugins || {}; } catch (e) { registry = {}; }
+  const enabled = require(path.join(ROOT, 'lib', 'enablement.js')).effective(home, process.cwd(), undefined, claudeRoot);
+  for (const [spec, rows] of Object.entries(registry)) {
+    if (enabled[spec] !== true || !Array.isArray(rows) || !rows[0] || !rows[0].installPath) continue;
+    const market = known[spec.split('@')[1]];
+    if (market && market.installLocation && !fs.existsSync(market.installLocation)) { out.unloadable.add(spec); continue; }
+    const dir = path.join(rows[0].installPath, 'commands');
+    let files = [];
+    try { files = fs.readdirSync(dir).filter((f) => f.endsWith('.md')); } catch (e) { continue; }
+    for (const f of files) {
+      let text = '';
+      try { text = fs.readFileSync(path.join(dir, f), 'utf8'); } catch (e) { continue; }
+      if (noModel(text)) continue;
+      out.commands.push({ name: `${spec.split('@')[0]}:${f.replace(/\.md$/, '')}`, description: meta.metadata(text).description || '' });
+    }
+  }
+  return out;
+}
+
 function runVisibilityUnlocked(opts) {
   const V = require(path.join(ROOT, 'lib', 'visibility.js'));
   const HV = require(path.join(ROOT, 'lib', 'hostvis.js'));
@@ -2903,8 +2960,16 @@ function runVisibilityUnlocked(opts) {
   const after = Object.assign({}, overrides);
   for (const n of claudeSet) after[n] = claudeSetMap[n];
   for (const n of claudeUnset) delete after[n];
-  const charsBefore = V.listingChars(skills.map((s) => ({ name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id, description: s.description, state: stateOf(s, overrides) })));
-  const charsAfter = V.listingChars(skills.map((s) => ({ name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id, description: s.description, state: stateOf(s, after) })));
+  // B-337: what Claude Code lists beyond the skill directories (plugin commands), and what
+  // it leaves out (model-invocation disabled, plugins whose marketplace cannot load).
+  const extras = doRevert ? { commands: [], unloadable: new Set(), noModel: new Set() } : listingExtras(claudeRoot, home, skills);
+  const rowsFor = (ov) => skills.map((s) => ({
+    name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id,
+    description: s.description,
+    state: extras.noModel.has(s.path) || (s.namespace === 'claude:plugin' && extras.unloadable.has(s.plugin)) ? 'hidden' : stateOf(s, ov),
+  })).concat(extras.commands.map((c) => Object.assign({ state: 'on' }, c)));
+  const charsBefore = V.listingChars(rowsFor(overrides));
+  const charsAfter = V.listingChars(rowsFor(after));
 
   // ── Codex ──
   const codexPath = path.join(codexRoot, 'config.toml');
@@ -3005,12 +3070,14 @@ function runVisibilityUnlocked(opts) {
       ? '    name-only tier: off (`--full-days N` turns it on: core skills unused for N days keep their name, lose their description)'
       : `    name-only tier: core skills not used within ${fullDays} days and not named in the instructions are listed by name only (${plan.nameOnly.length})`);
     log(`  Claude listing, launcher's estimate ≈ ${charsBefore} → ${charsAfter} characters`);
-    log('    (personal and registered plugin skills in Claude\'s `- name: description` form; bundled skills,');
-    log('    plugin commands and plugins loaded from other roots are not counted).');
+    log(`    (personal and plugin skills from every recorded install path, ${extras.commands.length} plugin command(s), in Claude's`);
+    log('    `- name: description` form; model-invocation-disabled entries and plugins whose marketplace');
+    log('    cannot load are left out. Claude Code\'s bundled skills are not on disk and are not counted).');
     const measured = lastListingMeasure(claudeRoot);
     log(measured
       ? `    Claude Code's own count (debug log ${measured.at}): ${measured.skills} entries, ${measured.chars} characters > ${measured.budget} budget.`
-      : '    Claude Code\'s own count: none logged yet. `claude -p x --debug`, then look for "Skill listing over budget".');
+      : '    Claude Code\'s own count: none logged. Measure it from an empty folder: `claude -p ok --debug-file <file>`,');
+    if (!measured) log('    then look for "Skill listing over budget" in <file>.');
     log('    Over budget, Claude Code 2.1.299 keeps bundled skills whole, gives the others their description');
     log('    most-used first and lists the rest by name only.');
   }
@@ -3913,7 +3980,7 @@ function cmdPack(argv) {
     log(`cannot read the installed skills (${e.message}): no answer rather than a wrong one`);
     return 1;
   }
-  log(packs.report(pack, skills, { lane }));
+  log(packs.report(pack, skills, { lane, mcp: packMcp(home) }));
   return 0;
 }
 
@@ -4944,6 +5011,52 @@ function resolveProviders(candidates) {
   return out;
 }
 
+/**
+ * `settings get <key> [--file <path>]` (G2): the value-free door the credential-read
+ * refusal names. Prints one allow-listed key of a Claude settings file as JSON, with
+ * credential-shaped strings redacted (lib/settingsget.js decides). Default file: the
+ * user-scope settings.json of the Claude profile this machine uses.
+ */
+function cmdSettings(rest) {
+  const G = require('../lib/settingsget.js');
+  const [verb, key, ...more] = rest;
+  if (verb !== 'get' || !key || key.startsWith('-')) {
+    log('usage: sshlg-skills settings get <key> [--file <path>]');
+    log(`allowed keys: ${G.ALLOWED.join(', ')}`);
+    return 2;
+  }
+  let file = null;
+  for (let i = 0; i < more.length; i++) {
+    if (more[i] === '--file' && more[i + 1]) file = more[++i];
+    else if (more[i].startsWith('--file=')) file = more[i].slice(7);
+    else { log(`settings get: unknown argument ${more[i]}`); return 2; }
+  }
+  if (!file) file = path.join(require('../lib/enablement.js').claudeRoot(os.homedir(), process.env), 'settings.json');
+  let text;
+  try { text = fs.readFileSync(file, 'utf8'); } catch (e) { log(`settings get: cannot read ${file} (${e.code || e.message})`); return 1; }
+  const r = G.project(text, key);
+  if (!r.ok) { log(`settings get: ${r.error}`); return r.code; }
+  process.stdout.write(JSON.stringify(r.value, null, 2) + '\n');
+  return 0;
+}
+
+/**
+ * L2 (audit 2026-11-11): which MCP servers a pack entry may call here. chrome-devtools
+ * counts only when Claude's plugin for it is enabled at user scope or a server whose name
+ * carries it is configured in ~/.claude.json; names only, no value is read out.
+ */
+function packMcp(home) {
+  const out = { 'chrome-devtools': false };
+  const enablement = require('../lib/enablement.js');
+  const enabled = enablement.userEnabled(home) || {};
+  if (Object.keys(enabled).some((k) => /^chrome-devtools/.test(k) && enabled[k] === true)) out['chrome-devtools'] = true;
+  try {
+    const servers = JSON.parse(fs.readFileSync(path.join(home, '.claude.json'), 'utf8')).mcpServers || {};
+    if (Object.keys(servers).some((k) => /chrome-devtools/.test(k))) out['chrome-devtools'] = true;
+  } catch (e) { /* no user MCP config: nothing more is connected */ }
+  return out;
+}
+
 function main(argv) {
   const [cmd, ...rest] = argv.slice(2);
   if (cmd === '--version' || cmd === '-v') { log(JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version); return 0; }
@@ -4989,6 +5102,7 @@ function main(argv) {
   if (cmd === 'enroll') { return cmdEnroll(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }
   if (cmd === 'humanizers') { return cmdHumanizers(argv); }
+  if (cmd === 'settings') { return cmdSettings(rest); }
   // `restore` takes a positional archive name.
   if (cmd === 'restore') return cmdRestoreAll(rest) ? 0 : 1;
   const f = parseFlags(rest);

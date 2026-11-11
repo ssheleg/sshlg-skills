@@ -51,6 +51,7 @@ const OWED = {
   'dumps-environment': /printenv \w+ >\/dev\/null|grep -c/,
   'curl-prints-headers': /-o \/dev\/null/,
   'content-read-tool': /presence, size or mode probe/,
+  'secret-guard-error': PROBE,
 };
 
 const FAKE_OR = 'sk-or-v1-' + 'a'.repeat(64);
@@ -153,6 +154,20 @@ for (const [rule, commands] of Object.entries(CORPUS)) {
     });
   });
 }
+
+// G5: an internal error in the reader decision is a refusal. No command reaches it on
+// purpose (that would be a bug to fix), so the reader is made to throw for this one case.
+it('secret-guard-error (a reader that throws)', () => {
+  const R = require('../lib/secretreaders.js');
+  const original = R.inspect;
+  R.inspect = () => { throw new RangeError('synthetic'); };
+  try {
+    const v = S.inspect('cat README.md', { cwd: '/tmp', home: '/home/fixture' });
+    assert.strictEqual(v && v.rule, 'secret-guard-error');
+    seen.add(v.rule);
+    check(v.rule, v.why);
+  } finally { R.inspect = original; }
+});
 
 for (const server of Object.keys(M.REGISTRY)) {
   for (const tool of Object.keys(M.REGISTRY[server])) {

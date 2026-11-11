@@ -44,8 +44,11 @@ it('whole-family managed context stays inside the recorded block budget', () => 
   // 1.70.1 lowers it: the map's roster table, the protocol's long form and the Fabric
   // router's Linux/Windows paths went (2026-10-20 context diet). 18,395 before, 16,116
   // after; 16,200 budgeted, so the saving cannot be spent back by accident.
+  // The 2026-11-11 audit lowers it again: the fabric router left its detection and probe
+  // details to `working-with-fabric`, while copywriting and project-audit gained a few
+  // words. 15,419 measured; 15,500 budgeted.
   const chars = [...R.parse(block).block].length;
-  assert.ok(chars <= 16200, `${chars} chars exceed the 16,200 block budget`);
+  assert.ok(chars <= 15500, `${chars} chars exceed the 15,500 block budget`);
 });
 it('all declared routes and both generated tables survive compaction', () => {
   assert.strictEqual(names.length, 15);

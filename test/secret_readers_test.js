@@ -51,6 +51,19 @@ const denied = [
   'xargs cat < ~/.netrc', 'xargs echo < ~/.netrc',
   "find /tmp/secrets -type f -exec sh -c 'cat \"$1\"' _ {} \\;",
   "printf '%s\\n' ~/.netrc | xargs -I{} sh -c 'cat {}'",
+  // G5 (audit 2026-11-11): a substitution inside a substitution resolves against its own body.
+  'cat "$(echo "$(echo ~/.claude/settings.json)")"',
+  'head "$(printf %s "$(echo "$(echo ~/.netrc)")")"',
+  // G3: a folder search that would still read a protected entry stays refused.
+  'rg -n budget ~/.claude', 'grep -rn budget ~/.claude',
+  'rg --hidden -n budget ~/.claude --glob "!settings*.json"',
+  'rg -uu -n budget ~/.claude --glob "!settings*.json"',
+  'grep -rn budget ~/.claude --exclude=settings*.json',
+  'grep -r foo ~/.codex --exclude=config.toml', 'rg -g "*.json" x ~/.claude',
+  'grep -r x .claude --exclude-dir=settings*.json',
+  'rg x ~/.config/agentgateway -g "!servers.y*ml"',
+  // G4: only templates and prose are exempt.
+  'cat .env.local', 'cat docs/secrets/key', 'cat .env.example.local',
 ];
 const allowed = [
   'rg --max-columns 200 /credentials lib/',
@@ -84,6 +97,17 @@ const allowed = [
   'cd /tmp/secrets; cd; cat provider',
   'rg TODO /tmp/opencode', 'cat /tmp/opencode/auth.json',
   "find /tmp/secrets -type f -exec sh -c 'stat \"$1\"' _ {} \\;",
+  'cat "$(echo "$(echo README.md)")"',
+  // G3 (audit 2026-11-11): an explicit exclusion of the protected entries is accepted.
+  'rg -n budget ~/.claude --glob "!settings*.json"',
+  'rg -n budget ~/.claude -g "!{settings*.json,.credentials.json}"',
+  'grep -rn budget ~/.claude --exclude=settings*.json --exclude=.credentials.json',
+  'grep -rn foo ~/.codex --exclude={config.toml,auth.json}',
+  'rg -g "*.md" budget ~/.claude', 'grep -rn x --include=*.md ~/.claude',
+  'rg x ~/.config/agentgateway -g "!servers.y*ml" -g "!secrets/"',
+  'grep -r x ~/.config/agentgateway --exclude=servers.y*ml --exclude-dir=secrets',
+  // G4 (audit 2026-11-11): templates and prose under a secret-looking name.
+  'cat .env.example', 'cat .env.sample', 'cat .env.template', 'cat docs/secrets/README.md',
 ];
 for (const cmd of denied) it(`deny ${cmd}`, () => assert.strictEqual(S.inspect(cmd)?.rule, 'reads-secret-file'));
 for (const cmd of allowed) it(`allow ${cmd}`, () => assert.strictEqual(S.inspect(cmd), null));
@@ -101,6 +125,12 @@ const toolCases = [
   ['Grep', { path: '/tmp/lib', pattern: '/credentials', output_mode: 'content' }, false],
   ['Grep', { pattern: '.', output_mode: 'content' }, true, '/tmp/secrets'],
   ['Bash', { command: 'cat provider' }, true, '/tmp/secrets'],
+  ['Grep', { path: '/h/.claude', pattern: 'budget', output_mode: 'content' }, true],
+  ['Grep', { path: '/h/.claude', pattern: 'budget', glob: '!{settings*.json,.credentials.json}', output_mode: 'content' }, false],
+  ['Grep', { path: '/h/.claude', pattern: 'budget', glob: '*.md', output_mode: 'content' }, false],
+  ['Grep', { path: '/h/.claude', pattern: 'budget', glob: '*.json', output_mode: 'content' }, true],
+  ['Read', { file_path: '/tmp/proj/.env.example' }, false],
+  ['Read', { file_path: '/tmp/secrets/README.md' }, false],
 ];
 for (const [tool, input, deny, cwd] of toolCases) it(`hook ${tool} ${JSON.stringify(input)}`, () => {
   const r = spawnSync(process.execPath, [path.join(__dirname, '../hooks/pre-tool-use.js')], {
@@ -108,6 +138,38 @@ for (const [tool, input, deny, cwd] of toolCases) it(`hook ${tool} ${JSON.string
   });
   assert.strictEqual(r.status, 0);
   assert.strictEqual(r.stdout ? JSON.parse(r.stdout).hookSpecificOutput.permissionDecision : null, deny ? 'deny' : null);
+});
+it('G3: glob matching understands stars, braces and a leading **/', () => {
+  const R = require('../lib/secretreaders.js');
+  assert.ok(R.globMatches('settings*.json', 'settings.local.json'));
+  assert.ok(R.globMatches('**/{auth,config}.*', 'config.toml'));
+  assert.ok(!R.globMatches('.claude/settings.json', 'settings.json'));
+  assert.ok(!R.globMatches('*.md', 'settings.json'));
+});
+it('G5: an internal error in the reader decision is a refusal with a remedy, not an allow', () => {
+  const R = require('../lib/secretreaders.js');
+  const original = R.inspect;
+  R.inspect = () => { throw new RangeError('synthetic'); };
+  try {
+    const v = S.inspect('cat README.md');
+    assert.strictEqual(v && v.rule, 'secret-guard-error');
+    assert.ok(/Split it into simpler steps/.test(v.why) && /QUOTED/.test(v.why));
+  } finally { R.inspect = original; }
+});
+it('G5: the nested substitution is denied through the real hook process', () => {
+  const r = spawnSync(process.execPath, [path.join(__dirname, '../hooks/pre-tool-use.js')], {
+    input: JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'cat "$(echo "$(echo ~/.claude/settings.json)")"' } }),
+    encoding: 'utf8',
+  });
+  assert.strictEqual(r.status, 0);
+  assert.strictEqual(JSON.parse(r.stdout).hookSpecificOutput.permissionDecision, 'deny');
+});
+it('G5: a malformed payload still fails silent', () => {
+  const r = spawnSync(process.execPath, [path.join(__dirname, '../hooks/pre-tool-use.js')], {
+    input: '{"tool_name": "Bash", "tool_input": ', encoding: 'utf8',
+  });
+  assert.strictEqual(r.status, 0);
+  assert.strictEqual(r.stdout, '');
 });
 it('Read and Grep reach the hook through installed matcher', () => {
   const re = new RegExp(`^(?:${require('../lib/hooks.js').entries('/test').PreToolUse.matcher})$`);
