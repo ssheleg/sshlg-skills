@@ -416,7 +416,7 @@ it('config set update.mode writes and removes the nightly job at once, never tou
     assert.deepStrictEqual(Object.keys(st), ['schema', 'updateMode', 'platform', 'job', 'registered', 'plan']);
     assert.strictEqual(st.schema, 'schedule-status/1');
     assert.strictEqual(st.updateMode, 'auto');
-    assert.deepStrictEqual(st.job.files, [job]);
+    assert.ok(Array.isArray(st.job.files) && st.job.files.includes(job), JSON.stringify(st.job));  // Linux adds the .service
     assert.strictEqual(st.registered, null, 'a fixture HOME was asked whether the job is registered');
     assert.strictEqual(st.plan.state, 'current', JSON.stringify(st));
     assert.strictEqual(go(['schedule', '--json', '--apply']).status, 2, '--json with --apply is a usage error');
