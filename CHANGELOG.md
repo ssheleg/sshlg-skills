@@ -1,3 +1,11 @@
+## v1.88.1 (2026-11-11): a marketplace refresh no longer aborts an update
+
+- `update` refused every run at xr-dev with *foreign Claude registry entries changed*, because Claude Code itself
+  moves a marketplace's `lastUpdated` while it installs any plugin (`claude-plugins-official`, 07:15:52Z to
+  07:16:16Z, during 1.88.0's update on the operator's machine). The foreign check now ignores a marketplace's refresh
+  time; a changed source or install location still refuses (`test/claude_pin_transaction_test.js`, the new case
+  fails on 1.88.0 with the machine's exact error).
+
 ## v1.88.0 (2026-11-11): family audit, legacy and friction removed
 
 - **The audit.** The operator's order (2026-11-11): «пройди по всем и найди проблемы и где можем оптимизировать и
