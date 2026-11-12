@@ -113,13 +113,13 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.33.5",
+      "version": "0.33.6",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "1a214b073c7d74905b77aca9d687af3362934c7b"
+      "commit": "1c3c5f83a73fa87139a7c4f5e879e5a67ea26f73"
     },
     {
       "name": "sheleg-design",
@@ -131,7 +131,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.66.5",
+      "version": "1.66.6",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -148,7 +148,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "0f3c7701eae79f99526a8b892ee880901a568f8b"
+      "commit": "b1417bf8a1b8d402ff81bb7f1c26f0887e806f10"
     },
     {
       "name": "seo-aeo-audit",
@@ -160,13 +160,13 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.32.4",
+      "version": "0.32.5",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "993aa5135c29feb3dfac5df671dde3cc94889c7c"
+      "commit": "5bf4a12c8f08bc55e2567d2cb26049483e25ee88"
     },
     {
       "name": "sheleg-dev",
@@ -184,13 +184,13 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.16.3",
+      "version": "0.16.4",
       "entry": null,
       "role": "integrations: money in, tracking, errors, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
       "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
-      "commit": "916b683a896ce429ac3fa89a7a8514d9104aad4a"
+      "commit": "1ba654ed2e329d20051e96673557424b7f0138a3"
     },
     {
       "name": "agent-stack",
@@ -225,13 +225,13 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.5.4",
+      "version": "0.5.5",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",
       "shape": "static",
       "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code.",
-      "commit": "d064a936d6c45a9d738942e3973269c90e1f18f5"
+      "commit": "23103a39d777f2a4520fc884c45d00c2a1c321dd"
     },
     {
       "name": "xr-dev",

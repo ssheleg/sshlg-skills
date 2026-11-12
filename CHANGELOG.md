@@ -1,3 +1,12 @@
+## v1.89.2 (2026-11-12): five family members published and pinned
+
+- The five members tagged on 2026-11-11 reached npm once each got an npm trusted publisher (B-348): make-skill
+  0.33.6 (one-command family updates, trusted publishing only), sheleg-design 1.66.6 (the short path first),
+  sheleg-dev 0.16.4 (Stripe API `2026-10-28.endive`), seo-aeo-audit 0.32.5 (a standing indexing route is the
+  approval), telegram-dev 0.5.5 (Bot API 10.4, Telethon 1.45.0). Pinned here with `scripts/sync-member-pins.js
+  --write` and `scripts/sync-claude-pins.js --write` (11 pins match); `docs/evidence/acceptance/ctx-04.06.json`
+  re-emitted.
+
 ## v1.89.1 (2026-11-11): a deleted project folder no longer blocks a member silently
 
 - A Claude local install record under a folder that no longer exists blocked its member at every `update` with no

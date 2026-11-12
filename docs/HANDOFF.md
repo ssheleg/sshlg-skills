@@ -8,7 +8,29 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-11 the listing estimate and `schedule --json` (1.89.0, 1.89.1)
+## Current: 2026-11-12 five members published and pinned (1.89.2)
+
+**Objective:** B-348, the one human gate left from the 2026-11-11 audit: five member releases tagged but not on
+npm because their packages had no npm trusted publisher.
+
+**Done:** B-348 closed. The operator signed in to npm (`npm login`, security key). `npm trust github <package>
+--repo ssheleg/<repo> --file release.yml --allow-publish --yes` ran for make-skill, sheleg-design-skill,
+sheleg-dev, seo-aeo-audit and telegram-dev; each needs its own 2FA confirmation on a web link that lives about five
+minutes. Without a terminal npm prints the link masked and exits, so each ran under `script -q` (a pseudo-terminal),
+which prints the link and polls; a local page renewed expired links until all five returned exit 0. The five failed
+publish jobs re-ran green; `npm view` reads 0.33.6, 1.66.6, 0.16.4, 0.32.5, 0.5.5. Pinned with
+`scripts/sync-member-pins.js --write` and `scripts/sync-claude-pins.js --write` (11 pins match); the family
+description total fell to 11446 and was recorded in DOCMAP; `ctx-04.06.json` re-emitted. Checks: `npm test`.
+
+**Board:** request `c52d8576` (B-336, observatory-log descriptions) answered: Observatory engine 0.35.12 holds the
+three descriptions at 1,046 characters; the live listing waits on PassionCode taking 0.35.12+.
+
+**Waits:** the B-336 requests, re-measured 2026-11-18 with `npx sshlg-skills visibility --measure`.
+
+**Next task:** B-338 (operator rules into the doctrine; wording changes need B-330's paired routing evaluation,
+B-347), then B-345.
+
+## Previous: 2026-11-11 the listing estimate and `schedule --json` (1.89.0, 1.89.1)
 
 **Objective:** continue the backlog by priority after the audit (operator's standing delegation, relayed by the
 fabric-98 coordinator session): B-337, then the next rows, through release and the local update.
