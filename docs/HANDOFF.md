@@ -8,7 +8,27 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-12 five members published and pinned (1.89.2)
+## Current: 2026-11-14 board run without a person (no release)
+
+**Objective:** read the 23 unread board messages addressed to this project and do what is the hub's own.
+
+**Done:** B-333 closed: sshlg-analytics-agent took the `actor` rule (reply `bac4f81f`, thread `63189199`); its home
+is that repository's `docs/guidance/events.md`, rules 11 and 12 (commit `603d880`), and the spec's AN-10 now points
+there. Kira's finding `c38ff051` (thread `8bd9d145`): task-pipeline's hooks write U+2014 as the field separator of
+the tracked `.task-pipeline/run.md` (`run-lifecycle.sh` `event:` lines, `gate-observer.sh` `gate:` lines,
+`release-gate.sh` `event: gate-blind`), and `release-gate.sh` and `build-gate.sh` parse that separator back, so the
+fix is a ledger-grammar change in the member, not the hub: forwarded to the task-pipeline project on the board,
+answered in Kira's thread. The other messages were status replies in shared threads; no answer owed. Checks:
+`python3 test/validate.py` and `python3 test/doc_refs.py`, exit 0. The full `npm test` did not finish inside this
+run's 15-minute limit, and its suites that write the operator file failed against the session's real
+`CLAUDE_CONFIG_DIR` (a Switchboard home), not against this docs-only change; nightly CI owns the full run.
+
+**Waits:** task-pipeline took the separator (reply `02d53bee`, its task `a9da05d5`): ` | ` for writers, readers
+accept both, release 1.105.0, PR by 2026-11-18; the hub pins 1.105.0 when it is on npm.
+
+**Next task:** unchanged: B-338, then B-345.
+
+## Previous: 2026-11-12 five members published and pinned (1.89.2)
 
 **Objective:** B-348, the one human gate left from the 2026-11-11 audit: five member releases tagged but not on
 npm because their packages had no npm trusted publisher.
