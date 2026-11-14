@@ -18,7 +18,10 @@ there. Kira's finding `c38ff051` (thread `8bd9d145`): task-pipeline's hooks writ
 the tracked `.task-pipeline/run.md` (`run-lifecycle.sh` `event:` lines, `gate-observer.sh` `gate:` lines,
 `release-gate.sh` `event: gate-blind`), and `release-gate.sh` and `build-gate.sh` parse that separator back, so the
 fix is a ledger-grammar change in the member, not the hub: forwarded to the task-pipeline project on the board,
-answered in Kira's thread. The other messages were status replies in shared threads; no answer owed. Checks: `npm test`.
+answered in Kira's thread. The other messages were status replies in shared threads; no answer owed. Checks:
+`python3 test/validate.py` and `python3 test/doc_refs.py`, exit 0. The full `npm test` did not finish inside this
+run's 15-minute limit, and its suites that write the operator file failed against the session's real
+`CLAUDE_CONFIG_DIR` (a Switchboard home), not against this docs-only change; nightly CI owns the full run.
 
 **Waits:** task-pipeline's answer on the separator; the hub pins the release that carries it.
 
