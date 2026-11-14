@@ -23,7 +23,8 @@ answered in Kira's thread. The other messages were status replies in shared thre
 run's 15-minute limit, and its suites that write the operator file failed against the session's real
 `CLAUDE_CONFIG_DIR` (a Switchboard home), not against this docs-only change; nightly CI owns the full run.
 
-**Waits:** task-pipeline's answer on the separator; the hub pins the release that carries it.
+**Waits:** task-pipeline took the separator (reply `02d53bee`, its task `a9da05d5`): ` | ` for writers, readers
+accept both, release 1.105.0, PR by 2026-11-18; the hub pins 1.105.0 when it is on npm.
 
 **Next task:** unchanged: B-338, then B-345.
 
