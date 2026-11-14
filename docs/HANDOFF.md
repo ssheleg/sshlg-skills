@@ -8,7 +8,23 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-12 five members published and pinned (1.89.2)
+## Current: 2026-11-14 board run without a person (no release)
+
+**Objective:** read the 23 unread board messages addressed to this project and do what is the hub's own.
+
+**Done:** B-333 closed: sshlg-analytics-agent took the `actor` rule (reply `bac4f81f`, thread `63189199`); its home
+is that repository's `docs/guidance/events.md`, rules 11 and 12 (commit `603d880`), and the spec's AN-10 now points
+there. Kira's finding `c38ff051` (thread `8bd9d145`): task-pipeline's hooks write U+2014 as the field separator of
+the tracked `.task-pipeline/run.md` (`run-lifecycle.sh` `event:` lines, `gate-observer.sh` `gate:` lines,
+`release-gate.sh` `event: gate-blind`), and `release-gate.sh` and `build-gate.sh` parse that separator back, so the
+fix is a ledger-grammar change in the member, not the hub: forwarded to the task-pipeline project on the board,
+answered in Kira's thread. The other messages were status replies in shared threads; no answer owed. Checks: `npm test`.
+
+**Waits:** task-pipeline's answer on the separator; the hub pins the release that carries it.
+
+**Next task:** unchanged: B-338, then B-345.
+
+## Previous: 2026-11-12 five members published and pinned (1.89.2)
 
 **Objective:** B-348, the one human gate left from the 2026-11-11 audit: five member releases tagged but not on
 npm because their packages had no npm trusted publisher.
