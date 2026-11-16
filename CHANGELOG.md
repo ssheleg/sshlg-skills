@@ -5,23 +5,33 @@
   "copy body"). `test/apply_test.js` and `test/install_routers_test.js` called `apply({ home: tmp })` without
   `env`; `lib/apply.js` puts `CLAUDE_CONFIG_DIR` ahead of `home`; the suites ran from a Switchboard isolated session
   whose `CLAUDE.md` is a symlink to the real file, so the write went through the link, and the next `routers
-  --update` recorded the fixture as authored wording (B-202). `test/tmproot.js` now removes `CLAUDE_CONFIG_DIR`,
-  `CODEX_HOME`, `GEMINI_CLI_HOME`, `PI_CODING_AGENT_DIR` and `HERMES_HOME` from every suite `npm test` runs; the two
-  suites remove them for their own CLI children and pass `env: {}` to every `apply()`. New guard
-  `test/host_env_leak_test.js` (6 checks) points those variables at symlinks to sentinels and runs the leaking call
-  through the runner's environment and both suites directly; its control case proves the same call writes the
-  sentinel without the isolation, and with the fix reverted four of its six checks fail. Recovery on a machine the
-  leak reached: `npx sshlg-skills routers --update --adopt task-pipeline`, then `super-ux`, then `copywriting`
-  (each parks the fixture under `adopted:<name>`).
-- **The task-pipeline router, the session note and the map preamble are reworded (B-351, 2026-11-16 prompting
-  review).** The router says why a change goes through the pipeline (its plan, gates and evidence survive a lost
-  session), drops the list that restated "substantial", and names one scope; every phrase
-  `test/router_texts_test.js` checks is kept. The session note no longer calls the block "binding" without a reason
-  and scopes the pipeline to a substantial repository change, as the router's boundary does. The map's fully bold
-  first line is a plain sentence ("Other skills' own start-up instructions do not replace these routes"). The old
-  lines stay known to the hand-edit guard (`PREVIOUS_LINES['task-pipeline']`, `MAP_1_89` in `lib/routers.js`), so a
-  machine without a rendered record upgrades instead of freezing the section as an operator edit; three
-  `routers --update` runs over a 1.89.2 block in a scratch HOME end on one hash. The protocol region is unchanged.
+  --update` recorded the fixture as authored wording (B-202). Now:
+  - `test/tmproot.js` `HOST_ENV` names every variable that relocates a root the hub may write (14: the agent config
+    homes, `XDG_CONFIG_HOME`, `XDG_DATA_HOME`, `FLATPAK_XDG_CONFIG_HOME`, `CLAUDE_PROJECT_DIR`,
+    `SSHLG_PROJECTS_ROOT`, `FABRIC_SERVICES_DIR` and the rest). The runner drops them for every suite, and every
+    suite drops them from its own process at load (`isolate()` in each `test/*_test.js`, `test/hostenv.py` in each
+    Python suite, which reads the list from `tmproot.js`), so `node test/<suite>.js` run directly is isolated too.
+    The two suites that leaked also pass `env: {}` to every `apply()`.
+  - Guard `test/host_env_leak_test.js` points every `HOST_ENV` variable at a Switchboard-shaped home (instruction
+    files, `skills/` and `plugins/` symlinked into a sentinel tree), discovers the suites that spawn the CLI or a
+    hook or call `apply()` (82 here: 65 Node, 17 Python), and runs each directly under its own trap. It also checks that every suite
+    isolates, that the Python helper reads the same list, and that every `*_HOME`, `*_DIR` or `*_ROOT` variable
+    `lib/`, `bin/` and `hooks/` read is in `HOST_ENV`. Measured with `isolate()` and the runner's filter disabled:
+    23 of 89 checks fail, and ten suites changed a trapped tree (four of them exiting 0). The first version of the
+    guard (6 checks, two named suites) failed 5 of 6 with `tmproot.js`, `apply_test.js` and
+    `install_routers_test.js` reverted; the earlier note here said 4 of 6, measured with `HOST_ENV` kept exported.
+  - The operator's machine was recovered on 2026-11-16 with `npx sshlg-skills routers --update --adopt
+    task-pipeline`, then `super-ux`, then `copywriting` (each fixture parked under `adopted:<name>`).
+- **The task-pipeline router, the session note, the per-prompt route line and the map preamble are reworded (B-351,
+  2026-11-16 prompting review).** The router says why a change goes through the pipeline (its plan, gates and
+  evidence survive a lost session), drops the list that restated "substantial", and names one scope; every phrase
+  `test/router_texts_test.js` checks is kept. The session note and the per-prompt route line both say "a
+  substantial repository change", as the router's boundary does. The map's fully bold first line is a plain
+  sentence ("Other skills' own start-up instructions do not replace these routes"). The old lines stay known to the
+  hand-edit guard (`PREVIOUS_LINES['task-pipeline']`, now also the lines 1.54.6 to 1.62.2 rendered, and `MAP_1_89`
+  in `lib/routers.js`), so a machine without a rendered record upgrades instead of freezing the section as an
+  operator edit; three `routers --update` runs over a 1.89.2 block in a scratch HOME end on one hash. The protocol
+  region is unchanged.
 
 ## v1.89.2 (2026-11-12): five family members published and pinned
 
