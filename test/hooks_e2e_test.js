@@ -932,7 +932,7 @@ it('a cache saying the set is current says nothing', () => {
   // An absence is only evidence when something present proves the hook ran. Three
   // of these four cases were satisfiable by the feature being missing entirely,
   // which is a suite that cannot tell "silent" from "absent".
-  assert.match(ctx, /ssheleg family/, 'the hook did not run, so its silence proves nothing');
+  assert.match(ctx, /routing block in your global instructions/, 'the hook did not run, so its silence proves nothing');
   assert.ok(!/A newer set is out/.test(ctx), 'a current set was announced as out of date');
 });
 
@@ -945,7 +945,7 @@ it('a CORRUPT cache starts the session and claims nothing', () => {
   fs.writeFileSync(path.join(dir, 'state.json'), '{ not json at all');
   const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
   const ctx = started.hookSpecificOutput.additionalContext;
-  assert.match(ctx, /ssheleg family/, 'the session lost its routing note to a bad cache');
+  assert.match(ctx, /routing block in your global instructions/, 'the session lost its routing note to a bad cache');
   assert.ok(!/A newer set is out/.test(ctx), 'an unreadable cache produced a version claim');
 });
 
@@ -956,7 +956,7 @@ it('a read-only state directory starts the session anyway', () => {
   fs.chmodSync(dir, 0o555);
   try {
     const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
-    assert.match(started.hookSpecificOutput.additionalContext, /ssheleg family/,
+    assert.match(started.hookSpecificOutput.additionalContext, /routing block in your global instructions/,
       'an unwritable cache directory broke the session');
   } finally {
     fs.chmodSync(dir, 0o755);

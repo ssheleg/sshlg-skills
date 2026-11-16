@@ -134,7 +134,8 @@ it('the map states precedence over a pack injected at SessionStart', () => {
   const body = R.renderMapSection([
     { name: 'task-pipeline', entry: '/task-pipeline', role: 'how a change reaches the repository' },
   ]);
-  assert.ok(/does not outrank this map/.test(body), 'the precedence rule is missing from the map section');
+  // B-351 (2026-11-16): the rule is a plain sentence now; the precedence it states is the same.
+  assert.ok(/start-up instructions do not replace these routes/.test(body), 'the precedence rule is missing from the map section');
   assert.ok(/stages 2–4/.test(body),
     'the rule must say WHERE brainstorming lives, or it only forbids without redirecting');
   assert.ok(/task-pipeline/.test(body), 'the rule names no owner for repository work');
@@ -144,7 +145,7 @@ it('the rule is carried by the map section, so an empty roster omits it', () => 
   // A lone member's installer renders no map — it must not assert a family it
   // cannot see, and that includes arbitrating between packs on its behalf.
   const empty = R.renderMapSection([]);
-  assert.ok(!/does not outrank/.test(empty), 'the rule leaked into an empty map');
+  assert.ok(!/do not replace these routes/.test(empty), 'the rule leaked into an empty map');
 });
 
 if (failures.length) {
