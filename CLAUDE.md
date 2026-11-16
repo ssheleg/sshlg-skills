@@ -40,6 +40,9 @@ to the checked artifact, and a historical receipt is not a current runtime claim
   `test/validate.py` owns the live/dated corpus. Live dead commands and paths fail;
   dated records are counted and disclosed, not rewritten. Negative controls cover
   the claim classes and an empty corpus. Quote a dead command as dead, never runnable.
+- **No fixture inherits a host root.** `test/tmproot.js` drops `CLAUDE_CONFIG_DIR`, `CODEX_HOME`,
+  `GEMINI_CLI_HOME`, `PI_CODING_AGENT_DIR` and `HERMES_HOME` from every suite: a Switchboard session's
+  CLAUDE.md is a symlink to the real one (B-350, `test/host_env_leak_test.js`).
 - **Submodule URLs are HTTPS.** An SSH URL works for a key holder and fails for
   other installers. `test/validate.py` rejects it; CI has a negative self-test.
 - **The pin is the promise.** The committed member version, `skills.json`, submodule

@@ -17,6 +17,25 @@ const os = require('os');
 const path = require('path');
 
 const PREFIX = 'sshlg-skills-run-';
+
+/**
+ * The host variables that relocate an agent's config root (lib/apply.js TARGETS, Hermes).
+ *
+ * A suite inherits them from the session that runs `npm test`, and lib/apply.js puts each one
+ * AHEAD of the fixture's `home`. A Switchboard isolated session sets CLAUDE_CONFIG_DIR to a home
+ * whose CLAUDE.md is a symlink to the operator's real ~/.claude/CLAUDE.md, so `apply({ home: tmp })`
+ * in a fixture wrote the fixture's router text into the real file (B-350, 2026-11-14: three routers
+ * read "Пакетный текст роутера task-pipeline.", "ux body", "copy body"). The runner removes them
+ * for every suite; a suite that needs one sets it to a path of its own.
+ */
+const HOST_ENV = ['CLAUDE_CONFIG_DIR', 'CODEX_HOME', 'GEMINI_CLI_HOME', 'PI_CODING_AGENT_DIR', 'HERMES_HOME'];
+
+/** A copy of `base` (default process.env) without the HOST_ENV variables. */
+function withoutHostEnv(base) {
+  const out = Object.assign({}, base || process.env);
+  for (const k of HOST_ENV) delete out[k];
+  return out;
+}
 const OWNER = '.runner-pid';
 
 function alive(pid) {
@@ -49,13 +68,13 @@ function open(base) {
   return dir;
 }
 
-/** The environment a suite runs with: every temp variable points into `dir`. */
+/** The environment a suite runs with: every temp variable points into `dir`, no host root inherited. */
 function env(dir, base) {
-  return Object.assign({}, base || process.env, { TMPDIR: dir, TMP: dir, TEMP: dir });
+  return Object.assign(withoutHostEnv(base), { TMPDIR: dir, TMP: dir, TEMP: dir });
 }
 
 function close(dir) {
   try { fs.rmSync(dir, { recursive: true, force: true }); } catch (_) { /* reaped by the next run */ }
 }
 
-module.exports = { PREFIX, OWNER, open, env, close, reapStale, alive };
+module.exports = { PREFIX, OWNER, HOST_ENV, withoutHostEnv, open, env, close, reapStale, alive };

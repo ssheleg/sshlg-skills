@@ -31,6 +31,12 @@ const apply = require('../lib/apply.js');
 const cursor = require('../lib/cursor.js');
 const R = require('../lib/routers.js');
 
+// No host root reaches a fixture from the session that runs this suite (B-350): lib/apply.js puts
+// CLAUDE_CONFIG_DIR and its siblings ahead of `home`, and a Switchboard session's CLAUDE_CONFIG_DIR
+// leads, through a symlink, to the operator's real CLAUDE.md. Removed here for the CLI children
+// this suite spawns, and every apply() below passes `env: {}` as well.
+for (const k of require('./tmproot.js').HOST_ENV) delete process.env[k];
+
 const BIN = path.join(__dirname, '..', 'bin', 'sshlg-skills.js');
 
 let checks = 0;
@@ -200,7 +206,7 @@ it('update creates the block in a NEW instruction-file target when consent is on
   const home = seededHome();
   fs.mkdirSync(path.join(home, '.pi', 'agent'), { recursive: true });
   const file = path.join(home, '.pi', 'agent', 'AGENTS.md');
-  const recs = apply.apply({ home, mode: 'update', consent: 'yes', consentRecorded: 'yes',
+  const recs = apply.apply({ env: {}, home, mode: 'update', consent: 'yes', consentRecorded: 'yes',
                              routers: ROUTERS, members: MEMBERS });
   const pi = recs.targets.find((r) => r.file === file);
   assert.ok(pi, JSON.stringify(recs.targets));
@@ -211,7 +217,7 @@ it('update creates the block in a NEW instruction-file target when consent is on
   const home2 = seededHome();
   fs.mkdirSync(path.join(home2, '.pi', 'agent'), { recursive: true });
   const file2 = path.join(home2, '.pi', 'agent', 'AGENTS.md');
-  apply.apply({ home: home2, mode: 'update', consent: 'yes', routers: ROUTERS, members: MEMBERS });
+  apply.apply({ env: {}, home: home2, mode: 'update', consent: 'yes', routers: ROUTERS, members: MEMBERS });
   assert.ok(!fs.existsSync(file2), 'update introduced a block the operator never agreed to');
 });
 

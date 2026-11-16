@@ -9,6 +9,12 @@ const os = require('os');
 const path = require('path');
 const A = require('../lib/apply.js');
 
+// No host root reaches a fixture from the session that runs this suite (B-350): lib/apply.js puts
+// CLAUDE_CONFIG_DIR and its siblings ahead of `home`, and a Switchboard session's CLAUDE_CONFIG_DIR
+// leads, through a symlink, to the operator's real CLAUDE.md. Removed here for the CLI children
+// this suite spawns, and every apply() below passes `env: {}` as well.
+for (const k of require('./tmproot.js').HOST_ENV) delete process.env[k];
+
 let checks = 0;
 const failures = [];
 function it(name, fn) {
@@ -26,21 +32,21 @@ const ROUTERS = { 'super-ux': 'ux body', 'copywriting': 'copy body' };
 it('update never creates a block that is not there', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n\nprose\n');
-  const r = A.apply({ home: h, mode: 'update', routers: ROUTERS, log: () => {} });
+  const r = A.apply({ env: {}, home: h, mode: 'update', routers: ROUTERS, log: () => {} });
   assert.strictEqual(fs.readFileSync(claudeMd(h), 'utf8'), '# mine\n\nprose\n');
   assert.ok(r.targets.every(t => ['no-block', 'absent', 'agent-absent'].includes(t.action)));
 });
 
 it('update never creates the file either', () => {
   const h = home();
-  A.apply({ home: h, mode: 'update', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'update', routers: ROUTERS, log: () => {} });
   assert.strictEqual(fs.existsSync(claudeMd(h)), false);
 });
 
 it('install with consent writes the block and keeps the prose', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n\nprose above\n');
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   const out = fs.readFileSync(claudeMd(h), 'utf8');
   assert.ok(out.startsWith('# mine\n\nprose above\n'));
   assert.ok(out.includes('SSHLG:ROUTER:super-ux:BEGIN'));
@@ -50,7 +56,7 @@ it('install with consent writes the block and keeps the prose', () => {
 it('install without consent writes no block', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n');
-  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
   const out = fs.readFileSync(claudeMd(h), 'utf8');
   assert.ok(!out.includes('SSHLG:ROUTER:super-ux'));
   assert.ok(out.startsWith('# mine\n'));
@@ -59,11 +65,11 @@ it('install without consent writes no block', () => {
 it('a second install refreshes the block and leaves the rest byte-identical', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n\nabove\n');
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   const first = fs.readFileSync(claudeMd(h), 'utf8');
   fs.appendFileSync(claudeMd(h), '\nprose the user added later\n');
   const withTail = fs.readFileSync(claudeMd(h), 'utf8');
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   const second = fs.readFileSync(claudeMd(h), 'utf8');
   assert.strictEqual(second, withTail);
   assert.ok(first.length > 0);
@@ -71,7 +77,7 @@ it('a second install refreshes the block and leaves the rest byte-identical', ()
 
 it('a target whose agent directory does not exist is skipped, not created', () => {
   const h = home(false);
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   assert.strictEqual(fs.existsSync(path.join(h, '.claude')), false);
   assert.strictEqual(fs.existsSync(path.join(h, '.codex')), false);
 });
@@ -79,7 +85,7 @@ it('a target whose agent directory does not exist is skipped, not created', () =
 it('dry run reports the diff and writes nothing', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n');
-  const r = A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, dryRun: true, log: () => {} });
+  const r = A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, dryRun: true, log: () => {} });
   assert.strictEqual(fs.readFileSync(claudeMd(h), 'utf8'), '# mine\n');
   assert.ok(r.targets.some(t => t.diff && t.diff.includes('+')));
 });
@@ -87,7 +93,7 @@ it('dry run reports the diff and writes nothing', () => {
 it('an opted-out file stays opted out through install', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n\n<!-- SSHLG:ROUTERS:OPTOUT -->\n');
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   const out = fs.readFileSync(claudeMd(h), 'utf8');
   assert.ok(!out.includes('SSHLG:ROUTER:super-ux'));
 });
@@ -98,7 +104,7 @@ it('an opted-out file stays opted out through install', () => {
 it('declining writes the marker and no block', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n');
-  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
   const out = fs.readFileSync(claudeMd(h), 'utf8');
   assert.ok(out.includes('SSHLG:ROUTERS:OPTOUT'));
   assert.ok(!out.includes('SSHLG:ROUTER:super-ux'));
@@ -108,18 +114,18 @@ it('declining writes the marker and no block', () => {
 it('the marker makes every later install and update silent', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n');
-  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
   const afterDecline = fs.readFileSync(claudeMd(h), 'utf8');
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
-  A.apply({ home: h, mode: 'update', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'update', routers: ROUTERS, log: () => {} });
   assert.strictEqual(fs.readFileSync(claudeMd(h), 'utf8'), afterDecline);
 });
 
 it('declining twice does not stack markers', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n');
-  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
-  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
   const out = fs.readFileSync(claudeMd(h), 'utf8');
   assert.strictEqual(out.split('SSHLG:ROUTERS:OPTOUT').length - 1, 1);
 });
@@ -127,14 +133,14 @@ it('declining twice does not stack markers', () => {
 it('a dry-run decline writes no marker either', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n');
-  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, dryRun: true, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'no', routers: ROUTERS, dryRun: true, log: () => {} });
   assert.strictEqual(fs.readFileSync(claudeMd(h), 'utf8'), '# mine\n');
 });
 
 it('the block names the marker as the way out', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n');
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   const out = fs.readFileSync(claudeMd(h), 'utf8');
   assert.ok(out.includes('SSHLG:ROUTERS:OPTOUT'), 'the header must name the opt-out marker');
 });
@@ -146,7 +152,7 @@ it('an existing codex home gets the block too', () => {
   const h = home();
   fs.mkdirSync(path.join(h, '.codex'), { recursive: true });
   fs.writeFileSync(path.join(h, '.codex', 'AGENTS.md'), '# agents\n');
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   const out = fs.readFileSync(path.join(h, '.codex', 'AGENTS.md'), 'utf8');
   assert.ok(out.includes('SSHLG:ROUTER:super-ux:BEGIN'));
   assert.ok(out.startsWith('# agents\n'));
@@ -157,7 +163,7 @@ it('both agent targets are written in one pass', () => {
   fs.mkdirSync(path.join(h, '.codex'), { recursive: true });
   fs.writeFileSync(path.join(h, '.codex', 'AGENTS.md'), '# agents\n');
   fs.writeFileSync(claudeMd(h), '# claude\n');
-  const r = A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  const r = A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   const written = r.targets.filter(t => t.action === 'updated' || t.action === 'created');
   assert.strictEqual(written.length, 2);
 });
@@ -167,7 +173,7 @@ it('one agent opting out does not silence the other', () => {
   fs.mkdirSync(path.join(h, '.codex'), { recursive: true });
   fs.writeFileSync(path.join(h, '.codex', 'AGENTS.md'), '# agents\n\n<!-- SSHLG:ROUTERS:OPTOUT -->\n');
   fs.writeFileSync(claudeMd(h), '# claude\n');
-  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   assert.ok(!fs.readFileSync(path.join(h, '.codex', 'AGENTS.md'), 'utf8').includes('SSHLG:ROUTER:super-ux'));
   assert.ok(fs.readFileSync(claudeMd(h), 'utf8').includes('SSHLG:ROUTER:super-ux'));
 });
@@ -191,7 +197,7 @@ it('`routers --update` adds the new routers, keeps authored wording, and is idem
     delete before['xr-dev'];
     delete before['web3d-dev'];
     fs.writeFileSync(claudeMd(h), '# mine\n\nprose the operator wrote\n');
-    A.apply({ home: h, mode: 'install', consent: 'yes', routers: before, log: () => {} });
+    A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: before, log: () => {} });
     const mine = '**My own super-ux rule.** Scenarios first, in my words.\n\n'
       + '**Refusal phrase: "no scenarios" or «без сценариев».**';
     fs.mkdirSync(path.join(h, '.sshlg-skills'), { recursive: true });
@@ -250,7 +256,7 @@ it('`routers --update`: members disabled for Claude leave CLAUDE.md only, three 
     fs.mkdirSync(path.join(h, '.codex'), { recursive: true });
     const all = registry.resolve({ installed: skills.map((s) => s.name) });
     for (const f of [claudeMd(h), path.join(h, '.codex', 'AGENTS.md')]) fs.writeFileSync(f, '# mine\n');
-    A.apply({ home: h, mode: 'install', consent: 'yes', routers: all, log: () => {},
+    A.apply({ env: {}, home: h, mode: 'install', consent: 'yes', routers: all, log: () => {},
       hostTargets: A.TARGETS.filter((t) => ['claude', 'codex'].includes(t.agent)), includeCursor: false });
     const off = ['telegram-dev', 'xr-dev', 'web3d-dev'];
     const enabled = {};
