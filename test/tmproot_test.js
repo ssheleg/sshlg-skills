@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // test/tmproot.js: every `npm test` run keeps its suites' temporary files in one directory
 // and removes it at exit; a root left by a killed run is removed by the next one.
 const assert = require('assert');

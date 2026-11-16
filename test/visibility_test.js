@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/visibility.js — which skills keep their place in a host's listing.
 //
 // The property under test is OWNERSHIP as much as the plan: the launcher hides only

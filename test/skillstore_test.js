@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/skillstore.js and the uninstall/backup/wipe/restore commands.
 //
 // The launcher had install and update and no way back: no uninstall, and no

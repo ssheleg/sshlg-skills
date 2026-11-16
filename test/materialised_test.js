@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/materialised.js — the difference between a router obeyed from the
 // tree and one skipped, and why the declaration is not the part that matters.
 //

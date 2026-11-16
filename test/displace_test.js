@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/displace.js.
 //
 // This module exists because of a limit in the event that triggers it:

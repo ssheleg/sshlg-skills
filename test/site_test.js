@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for scripts/site.js — the public site, built from this repository's own
 // single homes.
 //

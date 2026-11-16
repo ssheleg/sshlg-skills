@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 const assert=require('assert'),fs=require('fs'),path=require('path'),T=require('../lib/wait-rule-text.js');
 let n=0;
 function check(fn){fn();n++;}

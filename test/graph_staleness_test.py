@@ -16,6 +16,8 @@ would have been a catastrophe had it been true. `graphify god-nodes` printed rea
 against the same file one command later. That is why `resolve` takes measured facts rather
 than reading anything itself: the reading is where it went wrong.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'hostenv.py'))['isolate']()
 import os
 import sys
 

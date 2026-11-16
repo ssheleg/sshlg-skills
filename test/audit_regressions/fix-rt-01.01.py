@@ -12,6 +12,8 @@ authorizes no write; explain+fix keeps the action.
 
 Driven against the real module via node. Standard library only on this side.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import json
 import os
 import subprocess

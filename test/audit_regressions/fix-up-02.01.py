@@ -20,6 +20,8 @@ What this file proves, against the real CLI as a process:
 Standard library only. The unit half of the contract lives in
 test/operation-result_test.js.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import hashlib
 import os
 import shutil

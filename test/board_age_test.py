@@ -10,6 +10,8 @@ Three things here could go wrong quietly, and each is asserted on its own:
 - **prose in the table.** A date inside an entry's narrative is not a run stamp. Counting
   one inflates every row at once, which looks like the board finally working.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'hostenv.py'))['isolate']()
 import os
 import sys
 

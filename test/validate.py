@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Structural validator for the sshlg-skills umbrella repo. Exit 0 = pass."""
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'hostenv.py'))['isolate']()
 import glob, json, os, re, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

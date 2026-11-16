@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Whole-block context budget and the trust boundary lost in the old Telegram prose.
 const assert = require('assert');
 const R = require('../lib/routers.js');

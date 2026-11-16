@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The family's hook scripts as Cursor and Codex run them, and the installer that wires
 // them (B-209; B-218 CLAUDE-7, CLAUDE-8).
 //

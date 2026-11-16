@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The guard that stands where a credential would reach the transcript.
 //
 // The fixtures that matter most are the SECOND half. A guard that denies real

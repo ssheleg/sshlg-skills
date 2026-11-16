@@ -6,6 +6,8 @@ new canonical copy; eleven near-identical checks written one by one are how a fa
 with eleven slightly different ones. A pinned member without the file yet is listed as not
 looked at, never as passing; its next release brings the copy. Standard library only.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'hostenv.py'))['isolate']()
 import hashlib
 import json
 import os

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The MCP tools whose answer carries a credential (lib/mcpsecrets.js).
 //
 // Case 1 is the call that leaked five clusters' passwords on 2026-10-10. The second

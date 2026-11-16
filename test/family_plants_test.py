@@ -13,6 +13,8 @@ therefore judged by the failure lines it ADDS to that baseline, never by the exi
 Needs the members checked out (`git submodule update --init`); without them it reports
 that it could not look and passes nothing silently.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'hostenv.py'))['isolate']()
 import os
 import re
 import shutil

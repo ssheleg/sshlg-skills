@@ -19,6 +19,8 @@ The fix under test, against lib/turnstate.js as behaviour:
 Standard library only; drives the real module through node, including the
 fs round-trip with a temp HOME.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import json
 import os
 import subprocess

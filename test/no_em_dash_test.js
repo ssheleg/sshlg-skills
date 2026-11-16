@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-226. The operator's rule of 2026-10-18: text a person reads carries no em dash
 // (U+2014) and no substitute for one (`--`, a spaced hyphen used as a dash). 1.66.0 put
 // the rule in the PROTOCOL region and took the dash out of that region only; the router

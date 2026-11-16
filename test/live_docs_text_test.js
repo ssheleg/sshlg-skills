@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-289: the live documents carry no em dash (U+2014) and no substitute for one.
 //
 // The operator's rule covers docs: "Any text a person reads (chat answers, messages,

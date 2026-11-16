@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-350: a fixture must never reach an operator file through a host variable it inherited.
 //
 // On 2026-11-14 three routers in the operator's real ~/.claude/CLAUDE.md read fixture text
@@ -10,69 +11,112 @@
 // through the link, its backup into the fixture's temp home, and the next `routers --update`
 // recorded the fixture as the operator's own wording (B-202).
 //
-// Every case here points the host variables at directories whose instruction file is a symlink
-// to a SENTINEL in a temp directory, runs the code path the leak used, and asserts every sentinel
-// is byte for byte what it was. The first case is the control: without the isolation the same
-// path DOES write the sentinel, so a guard that stopped seeing the leak would fail here first.
+// The trap points every HOST_ENV variable at a directory of its own, shaped as a Switchboard
+// isolated home leaves it: instruction files, `skills/` and `plugins/` are symlinks into an
+// "operator" directory. A case passes when nothing under the trap or behind its links changed.
+// The suites that spawn the CLI or a hook, or call apply(), are DISCOVERED and each runs directly
+// (not through the runner) under its own trap. The control case proves the leak path still
+// writes the sentinel without isolation, so a guard that stopped seeing the leak fails first.
 
 const assert = require('assert');
 const crypto = require('crypto');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { spawnSync } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 const T = require('./tmproot.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const APPLY = JSON.stringify(path.join(ROOT, 'lib', 'apply.js'));
 const SENTINEL = '# the operator\'s file\n\nprose no fixture may touch\n';
+const SELF = path.basename(__filename);
 
 let checks = 0;
 const failures = [];
+const bases = [];
+function base() {
+  const b = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-hostleak-')));
+  bases.push(b);
+  return b;
+}
 function it(name, fn) {
   checks += 1;
-  const base = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-hostleak-')));
-  try { fn(base); } catch (e) { failures.push(`${name}: ${e.message}`); }
-  finally { fs.rmSync(base, { recursive: true, force: true }); }
+  try { fn(); } catch (e) { failures.push(`${name}: ${e.message}`); }
 }
 
-const sha = (f) => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+/** Every file and link under `dir`, with its bytes or target: a write anywhere changes it. */
+function treeHash(dir) {
+  const h = crypto.createHash('sha256');
+  const walk = (d) => {
+    let names = [];
+    try { names = fs.readdirSync(d).sort(); } catch (_) { return; }
+    for (const n of names) {
+      const p = path.join(d, n);
+      const st = fs.lstatSync(p);
+      h.update(`${path.relative(dir, p)}\0${st.isSymbolicLink() ? 'L' : st.isDirectory() ? 'D' : 'F'}\0`);
+      if (st.isSymbolicLink()) h.update(fs.readlinkSync(p));
+      else if (st.isDirectory()) walk(p);
+      else h.update(fs.readFileSync(p));
+      h.update('\n');
+    }
+  };
+  walk(dir);
+  return h.digest('hex');
+}
+
+/** Where each host root keeps an instruction or config file the hub may write. */
+const FILES = {
+  CLAUDE_CONFIG_DIR: ['CLAUDE.md', 'settings.json'],
+  CODEX_HOME: ['AGENTS.md', 'config.toml'],
+  GEMINI_CLI_HOME: [path.join('.gemini', 'GEMINI.md'), path.join('.gemini', 'settings.json')],
+  PI_CODING_AGENT_DIR: ['AGENTS.md'],
+  HERMES_HOME: ['config.yaml'],
+  KIMI_CODE_HOME: ['AGENTS.md', 'config.toml'],
+  QWEN_HOME: ['QWEN.md'],
+};
 
 /**
- * Host roots shaped as a Switchboard isolated session leaves them: each instruction file is a
- * symlink to a sentinel outside the root. Returns { env, sentinels: [{ file, hash }] }.
+ * Host roots shaped as a Switchboard isolated session leaves them. Every HOST_ENV variable is
+ * set; files in FILES and the `skills/` and `plugins/` directories of the Claude home are
+ * symlinks into `<base>/operator`. Returns { env, root, operator, before }.
  */
-function trap(base) {
+function trap(b) {
+  const root = path.join(b, 'switchboard');
+  const operator = path.join(b, 'operator');
+  fs.mkdirSync(operator, { recursive: true });
   const env = {};
-  const sentinels = [];
-  const link = (dir, file, name) => {
+  for (const k of T.HOST_ENV) {
+    const dir = path.join(root, k.toLowerCase());
     fs.mkdirSync(dir, { recursive: true });
-    const target = path.join(base, 'operator', name);
-    fs.mkdirSync(path.dirname(target), { recursive: true });
-    fs.writeFileSync(target, SENTINEL);
-    fs.symlinkSync(target, path.join(dir, file));
-    sentinels.push({ file: target, hash: sha(target) });
-  };
-  env.CLAUDE_CONFIG_DIR = path.join(base, 'switchboard', 'claude-home');
-  link(env.CLAUDE_CONFIG_DIR, 'CLAUDE.md', 'CLAUDE.md');
-  env.CODEX_HOME = path.join(base, 'switchboard', 'codex-home');
-  link(env.CODEX_HOME, 'AGENTS.md', 'AGENTS.md');
-  env.GEMINI_CLI_HOME = path.join(base, 'switchboard', 'gemini-home');
-  link(path.join(env.GEMINI_CLI_HOME, '.gemini'), 'GEMINI.md', 'GEMINI.md');
-  env.PI_CODING_AGENT_DIR = path.join(base, 'switchboard', 'pi-agent');
-  link(env.PI_CODING_AGENT_DIR, 'AGENTS.md', 'PI-AGENTS.md');
-  env.HERMES_HOME = path.join(base, 'switchboard', 'hermes-home');
-  fs.mkdirSync(env.HERMES_HOME, { recursive: true });
-  return { env, sentinels };
+    env[k] = dir;
+    for (const rel of FILES[k] || []) {
+      const target = path.join(operator, k.toLowerCase(), rel);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, SENTINEL);
+      fs.mkdirSync(path.dirname(path.join(dir, rel)), { recursive: true });
+      fs.symlinkSync(target, path.join(dir, rel));
+    }
+  }
+  for (const sub of ['skills', 'plugins']) {
+    const target = path.join(operator, 'claude', sub);
+    fs.mkdirSync(path.join(target, 'kept'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'kept', 'SKILL.md'), SENTINEL);
+    fs.symlinkSync(target, path.join(env.CLAUDE_CONFIG_DIR, sub));
+  }
+  return { env, root, operator, before: { root: treeHash(root), operator: treeHash(operator) } };
 }
 
-function changed(sentinels) {
-  return sentinels.filter((s) => sha(s.file) !== s.hash).map((s) => path.basename(s.file));
+/** The trapped trees that changed, by name; empty when the trap held. */
+function sprung(t) {
+  const out = [];
+  if (treeHash(t.operator) !== t.before.operator) out.push('a sentinel behind a symlink');
+  if (treeHash(t.root) !== t.before.root) out.push('a host root');
+  return out;
 }
 
 /** A fresh fixture home with every host directory present, as apply_test.js seeds one. */
-function fixtureHome(base) {
-  const h = path.join(base, 'fixture-home');
+function fixtureHome(b) {
+  const h = path.join(b, 'fixture-home');
   for (const d of ['.claude', '.codex', '.gemini', path.join('.pi', 'agent')]) {
     fs.mkdirSync(path.join(h, d), { recursive: true });
   }
@@ -85,29 +129,121 @@ function leakScript(home) {
     routers: { 'task-pipeline': 'Пакетный текст роутера task-pipeline.' }, log: () => {} });`;
 }
 
-function runChild(args, env) {
-  return spawnSync(process.execPath, args, { cwd: ROOT, encoding: 'utf8', env });
+// --- discovery -------------------------------------------------------------------------
+
+const JS_REACH = /sshlg-skills\.js|\b(?:A|apply)\.apply(?:One|Cursor|Extra)?\(|['"]hooks['"]|hooks\/[a-z-]+\.js/;
+const PY_REACH = /sshlg-skills\.js|apply\.js|["']hooks["']|hooks\/[a-z-]+\.js/;
+
+function pySuites() {
+  const out = fs.readdirSync(__dirname).filter((f) => f.endsWith('_test.py')).map((f) => path.join(__dirname, f));
+  const audit = path.join(__dirname, 'audit_regressions');
+  if (fs.existsSync(audit)) {
+    for (const f of fs.readdirSync(audit)) if (f.endsWith('.py')) out.push(path.join(audit, f));
+  }
+  return out.concat([path.join(__dirname, 'validate.py')]).sort();
+}
+const jsSuites = () => fs.readdirSync(__dirname).filter((f) => f.endsWith('_test.js')).sort()
+  .map((f) => path.join(__dirname, f));
+
+/** Suites that spawn the CLI or a hook, or call apply(): the ones that can reach a host root. */
+function reaching() {
+  const js = jsSuites().filter((f) => path.basename(f) !== SELF && JS_REACH.test(fs.readFileSync(f, 'utf8')));
+  const py = pySuites().filter((f) => PY_REACH.test(fs.readFileSync(f, 'utf8')));
+  return { js, py };
 }
 
-it('control: without the isolation the leaking call writes through the symlink', (base) => {
-  const { env, sentinels } = trap(base);
-  const home = fixtureHome(base);
-  const r = runChild(['-e', leakScript(home)], Object.assign({}, process.env, env, { HOME: home }));
+// --- static checks ---------------------------------------------------------------------
+
+it('every suite the runner discovers isolates its own process at load', () => {
+  const missing = [];
+  for (const f of jsSuites()) {
+    const head = fs.readFileSync(f, 'utf8').split('\n').slice(0, 5).join('\n');
+    if (!/require\('\.\/tmproot\.js'\)\.isolate\(\);/.test(head)) missing.push(path.relative(ROOT, f));
+  }
+  for (const f of pySuites()) {
+    if (!/_runpy\.run_path\([^\n]*'hostenv\.py'\)\)\['isolate'\]\(\)/.test(fs.readFileSync(f, 'utf8'))) {
+      missing.push(path.relative(ROOT, f));
+    }
+  }
+  assert.deepStrictEqual(missing, [], 'these suites never call isolate()');
+});
+
+it('discovery finds the suites that reach a host root, the two that leaked among them', () => {
+  const r = reaching();
+  const names = r.js.map((f) => path.basename(f));
+  for (const n of ['apply_test.js', 'install_routers_test.js', 'machine_predicate_test.js', 'pi_test.js',
+    'drift_test.js', 'hooks_e2e_test.js']) assert.ok(names.includes(n), `${n} was not discovered`);
+  assert.ok(r.js.length >= 40 && r.py.length >= 5, `discovery shrank: ${r.js.length} js, ${r.py.length} py`);
+});
+
+it('tmproot.env and isolate() drop exactly the host variables and keep the rest', () => {
+  const host = Object.fromEntries(T.HOST_ENV.map((k) => [k, `/${k}`]));
+  const e = T.env('/run', Object.assign({ HOME: '/h', PATH: '/p' }, host));
+  assert.deepStrictEqual(e, { HOME: '/h', PATH: '/p', TMPDIR: '/run', TMP: '/run', TEMP: '/run' });
+  const r = spawnSync(process.execPath, ['-e',
+    `const T=require(${JSON.stringify(path.join(__dirname, 'tmproot.js'))});T.isolate();` +
+    'process.stdout.write(JSON.stringify(T.HOST_ENV.filter((k)=>k in process.env).concat(process.env.KEEP)))'],
+  { encoding: 'utf8', env: Object.assign({ KEEP: 'kept', PATH: process.env.PATH }, host) });
   assert.strictEqual(r.status, 0, r.stderr);
-  assert.ok(changed(sentinels).includes('CLAUDE.md'),
+  assert.deepStrictEqual(JSON.parse(r.stdout), ['kept']);
+});
+
+it('the Python helper reads the same list from tmproot.js and removes it', () => {
+  const host = Object.fromEntries(T.HOST_ENV.map((k) => [k, `/${k}`]));
+  const code = 'import runpy,os,json,sys;m=runpy.run_path(sys.argv[1]);m["isolate"]();'
+    + 'print(json.dumps([m["host_env"](), [k for k in m["host_env"]() if k in os.environ]]))';
+  const r = spawnSync('python3', ['-I', '-c', code, path.join(__dirname, 'hostenv.py')],
+    { encoding: 'utf8', env: Object.assign({ PATH: process.env.PATH }, host) });
+  assert.strictEqual(r.status, 0, r.stderr);
+  assert.deepStrictEqual(JSON.parse(r.stdout), [T.HOST_ENV, []]);
+});
+
+it('every root-locating variable lib/, bin/ and hooks/ read is one tmproot removes', () => {
+  const READS = [
+    /\b(?:process\.env|env|e|c\.env|o\.env)\.([A-Z][A-Z0-9_]*(?:_HOME|_DIR|_ROOT))\b/g,
+    /\bpick\(\s*\w+,\s*'([A-Z][A-Z0-9_]*)'/g,
+    /\benv\[['"]([A-Z][A-Z0-9_]*(?:_HOME|_DIR|_ROOT))['"]\]/g,
+    /\benv:\s*'([A-Z][A-Z0-9_]*)'/g,
+  ];
+  const seen = new Set();
+  for (const dir of ['lib', 'bin', 'hooks']) {
+    for (const f of fs.readdirSync(path.join(ROOT, dir)).filter((n) => n.endsWith('.js'))) {
+      const src = fs.readFileSync(path.join(ROOT, dir, f), 'utf8');
+      for (const re of READS) for (const m of src.matchAll(re)) seen.add(m[1]);
+    }
+  }
+  // The two files the 2026-11-16 review named must contribute what they read.
+  for (const k of ['XDG_CONFIG_HOME', 'HERMES_HOME', 'KIMI_CODE_HOME', 'QWEN_HOME']) {
+    assert.ok(seen.has(k), `the scan no longer sees ${k}: the reader changed shape, re-derive the scan`);
+  }
+  const missing = [...seen].filter((k) => !T.HOST_ENV.includes(k)).sort();
+  assert.deepStrictEqual(missing, [], 'read by the hub and not removed from suites');
+});
+
+// --- dynamic checks --------------------------------------------------------------------
+
+it('control: without the isolation the leaking call writes through the symlink', () => {
+  const b = base();
+  const t = trap(b);
+  const home = fixtureHome(b);
+  const r = spawnSync(process.execPath, ['-e', leakScript(home)],
+    { cwd: ROOT, encoding: 'utf8', env: Object.assign({}, process.env, t.env, { HOME: home }) });
+  assert.strictEqual(r.status, 0, r.stderr);
+  assert.ok(sprung(t).includes('a sentinel behind a symlink'),
     'the leak path no longer writes the sentinel, so this guard proves nothing: re-derive it');
 });
 
-it('the runner\'s suite environment (tmproot.env) keeps the leaking call off every sentinel', (base) => {
-  const { env, sentinels } = trap(base);
-  const home = fixtureHome(base);
-  const runTmp = T.open(base);
+it('the runner\'s suite environment (tmproot.env) keeps the leaking call off the trap', () => {
+  const b = base();
+  const t = trap(b);
+  const home = fixtureHome(b);
+  const runTmp = T.open(b);
   try {
-    const childEnv = Object.assign(T.env(runTmp, Object.assign({}, process.env, env)), { HOME: home });
+    const childEnv = Object.assign(T.env(runTmp, Object.assign({}, process.env, t.env)), { HOME: home });
     for (const k of T.HOST_ENV) assert.ok(!(k in childEnv), `${k} reached the suite environment`);
-    const r = runChild(['-e', leakScript(home)], childEnv);
+    const r = spawnSync(process.execPath, ['-e', leakScript(home)], { cwd: ROOT, encoding: 'utf8', env: childEnv });
     assert.strictEqual(r.status, 0, r.stderr);
-    assert.deepStrictEqual(changed(sentinels), [], 'a sentinel changed');
+    assert.deepStrictEqual(sprung(t), [], 'the trap sprang');
     assert.ok(fs.readFileSync(path.join(home, '.claude', 'CLAUDE.md'), 'utf8').includes('SSHLG:ROUTERS:BEGIN'),
       'the call did not write the fixture home either, so it never ran the path');
   } finally {
@@ -115,39 +251,52 @@ it('the runner\'s suite environment (tmproot.env) keeps the leaking call off eve
   }
 });
 
-for (const suite of ['apply_test.js', 'install_routers_test.js']) {
-  it(`${suite} run directly from a Switchboard-shaped session leaves every sentinel alone`, (base) => {
-    const { env, sentinels } = trap(base);
-    const home = path.join(base, 'suite-home');
-    const tmp = path.join(base, 'suite-tmp');
+/** Run one discovered suite directly, from a Switchboard-shaped session, under its own trap. */
+function runTrapped(file) {
+  return new Promise((resolve) => {
+    const b = base();
+    const t = trap(b);
+    const home = path.join(b, 'suite-home');
+    const tmp = path.join(b, 'suite-tmp');
     fs.mkdirSync(home);
     fs.mkdirSync(tmp);
-    // Not through tmproot.env: the suite's own isolation is what is under test here.
-    const r = runChild([path.join(__dirname, suite)],
-      Object.assign({}, process.env, env, { HOME: home, TMPDIR: tmp, TMP: tmp, TEMP: tmp }));
-    assert.deepStrictEqual(changed(sentinels), [], `a sentinel changed (suite exit ${r.status})`);
-    assert.strictEqual(r.status, 0, `${r.stdout}${r.stderr}`);
+    const cmd = file.endsWith('.py') ? 'python3' : process.execPath;
+    const child = spawn(cmd, [file], {
+      cwd: ROOT,
+      env: Object.assign({}, process.env, t.env, { HOME: home, USERPROFILE: home, TMPDIR: tmp, TMP: tmp, TEMP: tmp }),
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    let out = '';
+    child.stdout.on('data', (d) => { out += d; });
+    child.stderr.on('data', (d) => { out += d; });
+    child.on('close', (code) => resolve({ file, code, out, sprung: sprung(t) }));
   });
 }
 
-it('tmproot.env drops exactly the host variables and keeps the rest', () => {
-  const e = T.env('/run', { HOME: '/h', PATH: '/p', CLAUDE_CONFIG_DIR: '/c', CODEX_HOME: '/x',
-    GEMINI_CLI_HOME: '/g', PI_CODING_AGENT_DIR: '/pi', HERMES_HOME: '/he' });
-  assert.deepStrictEqual(e, { HOME: '/h', PATH: '/p', TMPDIR: '/run', TMP: '/run', TEMP: '/run' });
-  assert.deepStrictEqual(T.HOST_ENV.slice().sort(),
-    ['CLAUDE_CONFIG_DIR', 'CODEX_HOME', 'GEMINI_CLI_HOME', 'HERMES_HOME', 'PI_CODING_AGENT_DIR']);
-});
-
-it('every host variable lib/apply.js reads is one tmproot removes', () => {
-  const A = require('../lib/apply.js');
-  for (const t of A.TARGETS) {
-    if (t.env) assert.ok(T.HOST_ENV.includes(t.env), `${t.agent}'s ${t.env} is not in tmproot.HOST_ENV`);
+async function trapped() {
+  const { js, py } = reaching();
+  const queue = js.concat(py);
+  const width = Math.max(2, Math.min(8, Math.floor(os.cpus().length / 2)));
+  const results = [];
+  const worker = async () => {
+    while (queue.length) results.push(await runTrapped(queue.shift()));
+  };
+  await Promise.all(Array.from({ length: width }, worker));
+  results.sort((a, b) => a.file.localeCompare(b.file));
+  for (const r of results) {
+    checks += 1;
+    const name = path.relative(ROOT, r.file);
+    if (r.sprung.length) failures.push(`${name} run directly under the trap changed ${r.sprung.join(' and ')} (exit ${r.code})`);
+    else if (r.code !== 0) failures.push(`${name} run directly under the trap exited ${r.code}:\n${r.out.slice(-1500)}`);
   }
-});
-
-if (failures.length) {
-  failures.forEach((f) => console.log(`FAIL: ${f}`));
-  console.log(`${failures.length} failure(s) out of ${checks} checks`);
-  process.exit(1);
 }
-console.log(`OK (${checks} checks)`);
+
+trapped().then(() => {
+  for (const b of bases) fs.rmSync(b, { recursive: true, force: true });
+  if (failures.length) {
+    failures.forEach((f) => console.log(`FAIL: ${f}`));
+    console.log(`${failures.length} failure(s) out of ${checks} checks`);
+    process.exit(1);
+  }
+  console.log(`OK (${checks} checks)`);
+});

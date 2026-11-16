@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 const fs=require('fs'),path=require('path'),os=require('os'),cp=require('child_process'),assert=require('assert'),crypto=require('crypto');
 const W=require('../lib/wait-rules'),P=require('../lib/wait-rule-policy'),A=require('../lib/apply');
 const BIN=path.resolve(__dirname,'../bin/sshlg-skills.js'),secret='SYNTHETIC_PRIVATE_DO_NOT_PRINT';

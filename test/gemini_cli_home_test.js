@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-204: Gemini CLI relocates with GEMINI_CLI_HOME, a HOME replacement — its config is
 // <GEMINI_CLI_HOME>/.gemini and its shared skills root <GEMINI_CLI_HOME>/.agents/skills
 // (Gemini CLI docs reference/configuration.md). GEMINI_CONFIG_DIR is not a Gemini

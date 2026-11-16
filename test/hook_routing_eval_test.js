@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The routing audit of 2026-10-08, kept as a gate.
 //
 // The audit typed twelve ordinary tasks at the installed runtime (1.53.0) and six of the

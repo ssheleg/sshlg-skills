@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Migration must move the operator's wording, not paraphrase it. The asides
 // are the part that makes a rule get followed instead of skimmed, and they
 // are exactly what a rewrite would smooth away.

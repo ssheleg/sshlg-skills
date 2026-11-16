@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // 1.74.2: a Codex whose `plugin list` cannot be read is not a green step. On 2026-10-22 the
 // 1.74.1 `update` printed "11 of 11 steps, all green" beside "not read: codex plugin list
 // failed — spawnSync codex ETIMEDOUT" (the read took 31.5 s at a load average near 60 against

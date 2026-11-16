@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/config.js — the pack's settings.
 //
 // Two properties carry the whole feature. First, only DEVIATIONS are stored:

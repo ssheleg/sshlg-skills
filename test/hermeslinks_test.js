@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-286: third-party skills Hermes reads through a link into the shared ~/.agents/skills.
 //
 // B-217 gave Hermes its own copy of every FAMILY skill, so a `skill_manage(patch)` stays in

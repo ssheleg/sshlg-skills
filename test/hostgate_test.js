@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-280: the family guard on Gemini CLI, Kimi Code CLI, Hermes Agent, Pi and OpenCode.
 // Payload fixtures follow the installed hosts read on 2026-11-02 (lib/hostgate.js header).
 const assert = require('assert');

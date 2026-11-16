@@ -19,6 +19,8 @@ The fix under test:
 Runs the real script when tiktoken is importable; otherwise the run-level
 checks report NOT_RUN (never PASS) and the source-level checks still bind.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import json
 import os
 import subprocess

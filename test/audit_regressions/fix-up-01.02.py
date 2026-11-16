@@ -17,6 +17,8 @@ The fix under test, against bin/sshlg-skills.js through node:
 
 Standard library only.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import json
 import os
 import subprocess

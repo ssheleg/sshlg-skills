@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Every router text carries four things. A router without a boundary swallows
 // everything, and one without a refusal phrase leaves no way to say no.
 //

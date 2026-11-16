@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/triggers.js — what the UserPromptSubmit hook injects.
 //
 // The load-bearing one is the first: every trigger this module fires on must be

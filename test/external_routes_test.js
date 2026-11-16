@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Routes the operator declares for skills OUTSIDE the family (REQ-04, 2026-10-08).
 //
 // The audit found media with no route at all: no hook line, no conflicts lexicon, no

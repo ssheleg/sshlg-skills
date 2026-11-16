@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/runledger.js — the status line's reading of the run ledger.
 //
 // The three that matter are about NOT inventing:

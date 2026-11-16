@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/apply.js — the only module allowed to write to a file the
 // operator owns and did not write.
 //
@@ -31,11 +32,6 @@ const apply = require('../lib/apply.js');
 const cursor = require('../lib/cursor.js');
 const R = require('../lib/routers.js');
 
-// No host root reaches a fixture from the session that runs this suite (B-350): lib/apply.js puts
-// CLAUDE_CONFIG_DIR and its siblings ahead of `home`, and a Switchboard session's CLAUDE_CONFIG_DIR
-// leads, through a symlink, to the operator's real CLAUDE.md. Removed here for the CLI children
-// this suite spawns, and every apply() below passes `env: {}` as well.
-for (const k of require('./tmproot.js').HOST_ENV) delete process.env[k];
 
 const BIN = path.join(__dirname, '..', 'bin', 'sshlg-skills.js');
 

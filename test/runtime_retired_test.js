@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-259: `lib/runtime-retired.js` lists, for every runtime module path the package
 // once shipped and no longer does, the sha256 of each blob that path held in Git
 // history. `lib/runtime.js` retires an unrecorded runtime file only on an exact match.

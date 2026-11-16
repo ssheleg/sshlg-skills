@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/conflicts.js — which installed skills land on a router's ground.
 //
 // The load-bearing one is the first block: this module matches short words against

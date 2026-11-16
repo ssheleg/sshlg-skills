@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/injectors.js — who else speaks before the first prompt.
 //
 // Three properties, and each one is a way this check could be worse than nothing:

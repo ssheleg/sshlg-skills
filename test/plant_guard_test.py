@@ -11,6 +11,8 @@ the mode case below is not an edge case, it is the incident.
 #   does not name: on 2026-08-24 an undeclared success-vocabulary constant made a
 #   ported runner report twenty healthy guards as broken, and nothing could see it.
 # diverges: CASES
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'hostenv.py'))['isolate']()
 import os
 import shutil
 import subprocess

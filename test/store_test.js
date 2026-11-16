@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/store.js — the JSON files under ~/.sshlg-skills/.
 //
 // The property that matters is the one Node does NOT give you for free:

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-295: a member's own gate runs `test/advertised_check.js` before it releases. It held
 // only the soundness half (every routed trigger is still advertised); a member could ship
 // a new `## Triggers` phrase no route reaches, and the hub's completeness fixture

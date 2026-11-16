@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-243: a local-scope install record left under a project's OLD path.
 //
 // When a project folder is renamed and its old name kept as a symlink to the new one, Claude

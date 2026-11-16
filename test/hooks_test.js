@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/hooks.js — the edit to the operator's settings.json.
 //
 // Two properties carry the file, and both are about not destroying something the

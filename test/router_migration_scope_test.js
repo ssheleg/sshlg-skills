@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The filesystem emitter was scoped, but its earlier migration was not.
 // Real CLI processes and synthetic host files expose that pre-emitter boundary.
 const assert=require('assert'),fs=require('fs'),os=require('os'),path=require('path'),{spawnSync}=require('child_process');

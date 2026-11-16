@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/runtime.js — the wired copy the hooks actually execute.
 //
 // B-22, found at stage 8 of the 2026-08-13 run and not by any gate: `update` brought

@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Windows has no POSIX mode bits worth reading: Node reports 0o666 for files, fs.chmod only
 // toggles read-only, and process.getuid does not exist. Reported from a 1.84.0 install
 // (2026-10-28): every write behind a backup refused with "backup retention storage is not

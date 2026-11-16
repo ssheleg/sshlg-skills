@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/quarantine.js — the recoverable-prune store.
 //
 // The incident this suite exists for, measured 2026-09-14 on v1.48.3: the store is

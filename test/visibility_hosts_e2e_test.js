@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // `visibility` on every host, run for real in a scratch HOME (B-143, wave L1 and its fix round).
 //
 // The marks are the operator's and live on the machine (~/.sshlg-skills/pack-marks.json);

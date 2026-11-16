@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/plan.js — the argv the launcher hands the skills CLI.
 //
 // This module exists because `install` and `update` built their commands in

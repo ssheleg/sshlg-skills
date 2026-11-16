@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for scripts/traffic.js — the family's traffic, folded into one number.
 //
 // The behaviour worth gating is not the arithmetic. It is that the ledger REPEATS:

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // End-to-end fixtures for the hook SCRIPTS and the command that wires them.
 //
 // Standing instruction #2 of this repository's retrospective exists because a

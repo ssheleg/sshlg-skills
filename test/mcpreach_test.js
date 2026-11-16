@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-177: a configured MCP server that does not answer when a session starts leaves that
 // session without its tools for good, and nothing says so. On 2026-10-12 a private asset
 // server (restarted by a release), `publisher` and `fabric-dashboards` refused, and an agent fell

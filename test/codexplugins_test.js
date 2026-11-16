@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // lib/codexplugins.js — Codex's native plugins through Codex's own CLI (B-166).
 // Pure parts and the step machine, driven by a scripted runner; no codex is spawned.
 const assert = require('assert');

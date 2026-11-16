@@ -18,6 +18,8 @@ Acceptance, run as behaviour against the harness with injected executors:
 
 Standard library only.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import hashlib
 import importlib.util
 import json

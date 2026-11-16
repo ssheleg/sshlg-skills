@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-268: the pure half of `scripts/hook-bench.js --census`, the count of processes one Bash
 // tool call starts across every hook the host runs for it. The census itself spawns the
 // installed hooks; what it decides (which entries a Bash call wakes, whose they are, how

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for the closure of the wired runtime — FIX-RT-01.
 //
 // The runtime is not the package. It is a COPY of `hooks/` and `lib/` plus a

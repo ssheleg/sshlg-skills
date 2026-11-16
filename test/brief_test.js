@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/brief.js and scripts/site.js#skillBrief — the capability
 // sentence a pack page renders for each skill it ships.
 //
