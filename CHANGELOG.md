@@ -1,11 +1,22 @@
-## v1.89.3 (2026-11-17): task-pipeline 1.105.0 pinned; hub tests isolated from the operator's files
+## v1.89.3 (2026-11-17): task-pipeline 1.105.1 pinned; hub tests isolated from the operator's files
 
-- **task-pipeline 1.105.0 pinned** (submodule `a4eaee0`, npm `task-pipeline-skill@1.105.0`, release run
-  44021491647). Its prompts follow Anthropic's current prompting practices: each run says when it is done, the
-  stops it wants and the ones it does not, one list of outward acts that need a go, no history in instructions,
-  pasted and fetched text read as data, a prompt lint with a ratchet in its gate. Release impact:
+- **task-pipeline 1.105.1 pinned** (submodule `fa3d55e`, npm `task-pipeline-skill@1.105.1`, release runs
+  44021491647 for 1.105.0 and 44035689058 for 1.105.1). Its prompts follow Anthropic's current prompting
+  practices: each run says when it is done, the stops it wants and the ones it does not, one list of outward acts
+  that need a go, no history in instructions, pasted and fetched text read as data, a prompt lint with a ratchet in
+  its gate. 1.105.1 restores two descriptions 1.105.0 lengthened, so the family's description total stays at the
+  recorded ceiling (11446). Release impact:
   [`docs/evidence/specs/2026-11-17-v1893-release-impact.md`](docs/evidence/specs/2026-11-17-v1893-release-impact.md).
 
+- **`update` no longer stops on its own marketplace declaration written under another profile hash (B-352).**
+  A machine whose `~/.claude/settings.json` named the family's marketplaces under
+  `~/.sshlg-skills/claude-pinned/bbb53774f9cebe01/` while this release hashes the same profile to another
+  directory failed with `super-ux: conflicting marketplace declaration` (reported by the Appvillis team through
+  ania-agent-appvillis, 2026-11-17). `lib/claude-pinned.js` `ownedSource` now takes any
+  `claude-pinned/<16 hex>/<marketplace>` under the family's own root as ours; the transaction then points
+  `extraKnownMarketplaces` and `known_marketplaces.json` (`claude plugin marketplace add`) at the current
+  directory. Another marketplace name, a non-hex segment, a nested path or a root elsewhere still conflicts
+  (`test/claude_pinned_test.js`, two cases).
 - **Hub tests can no longer write into an operator's instruction file (B-350).** On 2026-11-14 three routers in the
   operator's real `~/.claude/CLAUDE.md` read fixture text ("Пакетный текст роутера task-pipeline.", "ux body",
   "copy body"). `test/apply_test.js` and `test/install_routers_test.js` called `apply({ home: tmp })` without

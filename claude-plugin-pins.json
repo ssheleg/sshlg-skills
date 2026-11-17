@@ -1093,8 +1093,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "a4eaee0282f40fd546b8c00f720547a7f0b461ba",
-      "version": "1.105.0",
+      "commit": "fa3d55e2f93030b233aafadba50e5f84803ccb4f",
+      "version": "1.105.1",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1102,7 +1102,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.105.0",
+        "version": "1.105.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1125,7 +1125,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "415dd527090d4550f2c044504ba7941ee615f2c4ef544f6a356af1c9acdad4fd",
+          "sha256": "a5f9b2a6d7b2237d387361f12d3515078d93275141c48adeb25cf1a53f51bab3",
           "bytes": 1529
         },
         {
@@ -1245,8 +1245,8 @@
         },
         {
           "path": "skills/evidence-docs/SKILL.md",
-          "sha256": "ef97d14ed06ce8d74f2d08efb6c2fcc4410326fb397f7c95377685d3f2b99963",
-          "bytes": 9754
+          "sha256": "b548d961c47252ff3a411ae7f061d4de6198c8518362843e076d0ec87633128c",
+          "bytes": 9745
         },
         {
           "path": "skills/evidence-docs/templates/decisions.md",
@@ -1275,8 +1275,8 @@
         },
         {
           "path": "skills/project-audit/SKILL.md",
-          "sha256": "e827b784eead5bcaec436eb093d23652639b37027f525f8f74885f27180f0d46",
-          "bytes": 20875
+          "sha256": "6e75078354b27ee7a19934925170965cb87abc00eeaec0d920a0694da97fafd5",
+          "bytes": 20808
         },
         {
           "path": "skills/task-pipeline/assets/verifier-agent.md",

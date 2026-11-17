@@ -8,7 +8,7 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-17 task-pipeline 1.105.0 pinned, hub 1.89.3
+## Current: 2026-11-17 task-pipeline 1.105.1 pinned, hub 1.89.3
 
 **Objective:** wave W5 of the 2026-11-16 prompting review
 ([spec](https://github.com/ssheleg/task-pipeline/blob/a4eaee0/docs/reports/2026-11-16-anthropic-prompting/SPEC.md)):
@@ -16,15 +16,21 @@ release task-pipeline with its prompts rewritten to Anthropic's practices, pin i
 update the operator machine.
 
 **Done:** task-pipeline PR #170 squash-merged as `a4eaee0`, tag `v1.105.0`, release run 44021491647 success, npm
-`task-pipeline-skill@1.105.0`. Here: submodule moved to `a4eaee0`, `skills.json` and README at 1.105.0,
+`task-pipeline-skill@1.105.0`. The hub's validator then read the family's description total at 11522 over its
+ceiling 11446: 1.105.0 had lengthened the evidence-docs and project-audit descriptions. task-pipeline PR #171
+restored them (`fa3d55e`, tag `v1.105.1`, run 44035689058 success, npm 1.105.1). Here: submodule moved to
+`fa3d55e`, `skills.json` and README at 1.105.1,
 `scripts/sync-member-pins.js --write` (11 commits match staged gitlinks), `scripts/sync-claude-pins.js --write` (11
 pins match; only the task-pipeline record changed), `ctx-04.06.json` re-emitted, release impact
-[`2026-11-17-v1893-release-impact.md`](evidence/specs/2026-11-17-v1893-release-impact.md), B-350 closed. The
+[`2026-11-17-v1893-release-impact.md`](evidence/specs/2026-11-17-v1893-release-impact.md), B-350 closed.
+B-352 (board finding `1600efb5` from ania-agent-appvillis: `update` stopped on the family's own marketplace
+declaration under another profile hash) fixed in `lib/claude-pinned.js` `ownedSource` with two cases in
+`test/claude_pinned_test.js`; the reply on thread `3b07ed51` promises the version. The
 merged branch `fix/fixture-isolation-and-router-text` is archived at
 `refs/archive/2026-11-17/fix-fixture-isolation-and-router-text` and deleted.
 
 **Waits:** this release PR's check, the v1.89.3 tag's release run, then `npx --yes sshlg-skills@latest update` on
-the operator machine and the brand agent's posts (board request to sshlg-brand-agent, capability
+the operator machine, the version posted to Ania's thread `3b07ed51`, and the brand agent's posts (board request to sshlg-brand-agent, capability
 `change.request`).
 
 **Next task:** B-338, then B-345.
