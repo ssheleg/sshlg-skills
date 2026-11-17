@@ -1,3 +1,15 @@
+## v1.89.4 (2026-11-17): a home-directory project scope no longer blocks an update
+
+- **`update` moves a member Claude also recorded in a project scope for the home directory (B-353).** On
+  2026-11-17 at 00:48 UTC Claude Code wrote a `project` scope with `projectPath` the home directory for every
+  installed plugin on the operator machine; that project's `.claude` is the profile itself, so the record writes
+  the user scope's own `settings.json`. `lib/claude-pinned.js` admitted only user and local scopes, so the first
+  member with a new version (task-pipeline 1.105.1) stayed at 1.104.1 and `update` ended PARTIAL. Such a record is
+  now a target updated from that directory (`claude plugin update … --scope project`) and read back like the
+  others; a project scope anywhere else still blocks its member (`test/claude_pinned_test.js`, two cases).
+  Measured on the operator machine: both scopes of task-pipeline read 1.105.1 at `fa3d55e` after the run, and
+  the installed `SKILL.md`, references and agents equal the tag byte for byte.
+
 ## v1.89.3 (2026-11-17): task-pipeline 1.105.1 pinned; hub tests isolated from the operator's files
 
 - **task-pipeline 1.105.1 pinned** (submodule `fa3d55e`, npm `task-pipeline-skill@1.105.1`, release runs

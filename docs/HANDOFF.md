@@ -8,7 +8,24 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-17 task-pipeline 1.105.1 pinned, hub 1.89.3
+## Current: 2026-11-17 a home-directory project scope no longer blocks an update (1.89.4)
+
+**Objective:** finish W5 on the operator machine. `npx --yes sshlg-skills@latest update` on 1.89.3 ended PARTIAL:
+Claude Code had recorded a `project` scope at the home directory for every plugin (2026-11-17 00:48 UTC), and the
+hub admitted only user and local scopes (B-353).
+
+**Done:** `lib/claude-pinned.js` takes a project scope whose `.claude` is the profile as a target; two cases in
+`test/claude_pinned_test.js`. The operator machine ran `node bin/sshlg-skills.js update --claude-only` from the fix
+branch: `task-pipeline: verified`, both scopes at 1.105.1 `fa3d55e`, installed `SKILL.md`, references and agents
+equal to the tag; `~/.agents/skills/{task-pipeline,evidence-docs,project-audit}` equal too. The routing block in
+`~/.claude/CLAUDE.md` changed only in the task-pipeline router and the map preamble (B-351 text), against backup
+`CLAUDE.md--v2-…20261117T093203Z`.
+
+**Waits:** this PR's check, the v1.89.4 tag's release run, then `npx --yes sshlg-skills@latest update` reads clean.
+
+**Next task:** B-338, then B-345.
+
+## Previous: 2026-11-17 task-pipeline 1.105.1 pinned, hub 1.89.3
 
 **Objective:** wave W5 of the 2026-11-16 prompting review
 ([spec](https://github.com/ssheleg/task-pipeline/blob/a4eaee0/docs/reports/2026-11-16-anthropic-prompting/SPEC.md)):
