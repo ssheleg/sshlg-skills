@@ -1283,8 +1283,9 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 ```
 skills.json                  registry: repos, plugin ids, skill names, pins
 skills/*                     the eleven skill packs as pinned git submodules
-bin/sshlg-skills.js          the launcher (install / update / routers / config / hooks /
-                             injectors / conflicts / list / agents)
+bin/sshlg-skills.js          the launcher: usage, flags and the dispatch to its commands
+lib/cli-*.js                 one module per command area (install and update, codex, hooks,
+                             routers, rules, config, visibility, domains, hosts, info, ...)
 lib/routers-registry.js      the fifteen routers: text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js

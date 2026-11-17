@@ -27,6 +27,14 @@ sys.dont_write_bytecode = True
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 BIN = os.path.join(ROOT, "bin", "sshlg-skills.js")
+
+
+def launcher_source():
+    """bin/sshlg-skills.js and the command modules cut from it (lib/cli-*.js, B-357)."""
+    lib = os.path.join(ROOT, "lib")
+    paths = [BIN] + sorted(os.path.join(lib, n) for n in os.listdir(lib)
+                           if n.startswith("cli-") and n.endswith(".js"))
+    return "\n".join(open(p, encoding="utf-8").read() for p in paths)
 STORE = os.path.join(ROOT, "lib", "skillstore.js")
 
 failures = []
@@ -118,8 +126,7 @@ def t_symlink_quarantine_preserves_target():
 def t_prune_does_not_delete_without_quarantine():
     # Since B-355 the capture, manifest and delete live in lib/quarantine.js prune();
     # the launcher hands it the candidates and the root they were read from.
-    with open(BIN, encoding="utf-8") as fh:
-        s = fh.read()
+    s = launcher_source()
     body = s[s.index("function pruneClaudeShadows"):]
     body = body[:body.index("\n}\n")]
     assert "q.prune(candidates, { root: claudeRoot() })" in body, \

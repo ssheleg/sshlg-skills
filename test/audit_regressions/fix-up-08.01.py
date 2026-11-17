@@ -30,6 +30,14 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 APPLY = os.path.join(ROOT, "lib", "apply.js")
 BIN = os.path.join(ROOT, "bin", "sshlg-skills.js")
 
+
+def launcher_source():
+    """bin/sshlg-skills.js and the command modules cut from it (lib/cli-*.js, B-357)."""
+    lib = os.path.join(ROOT, "lib")
+    paths = [BIN] + sorted(os.path.join(lib, n) for n in os.listdir(lib)
+                           if n.startswith("cli-") and n.endswith(".js"))
+    return "\n".join(open(p, encoding="utf-8").read() for p in paths)
+
 failures = []
 checks = 0
 
@@ -92,8 +100,7 @@ def t_existence_is_separate():
 
 
 def t_bin_claude_root_honours_env():
-    with open(BIN, encoding="utf-8") as fh:
-        s = fh.read()
+    s = launcher_source()
     assert "function claudeRoot()" in s
     assert "process.env.CLAUDE_CONFIG_DIR" in s
     assert "path.join(claudeRoot(), 'skills')" in s, \

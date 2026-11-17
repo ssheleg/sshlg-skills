@@ -323,7 +323,7 @@ it('update says "only Codex held back" exactly when that is all that failed', ()
   assert.strictEqual(cp.heldOnly([{ status: 'deferred' }, { status: 'failed' }]), false, 'a failed plugin beside a held one');
   assert.strictEqual(cp.heldOnly([{ status: 'current' }]), false, 'nothing held back');
   assert.strictEqual(cp.heldOnly([]), false);
-  assert.match(fs.readFileSync(path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'utf8'), /codexHeld = cp\.heldOnly\(out\.results\)/);
+  assert.match(require('./launcher.js').source(), /codexHeld = cp\.heldOnly\(out\.results\)/);
 });
 
 it('a definition the job wrote for itself is registered by the next interactive run', () => {

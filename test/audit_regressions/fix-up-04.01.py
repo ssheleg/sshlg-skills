@@ -30,6 +30,14 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 PLAN = os.path.join(ROOT, "lib", "plan.js")
 BIN = os.path.join(ROOT, "bin", "sshlg-skills.js")
 
+
+def launcher_source():
+    """bin/sshlg-skills.js and the command modules cut from it (lib/cli-*.js, B-357)."""
+    lib = os.path.join(ROOT, "lib")
+    paths = [BIN] + sorted(os.path.join(lib, n) for n in os.listdir(lib)
+                           if n.startswith("cli-") and n.endswith(".js"))
+    return "\n".join(open(p, encoding="utf-8").read() for p in paths)
+
 failures = []
 checks = 0
 
@@ -108,8 +116,7 @@ def t_provider_verified_unit():
 
 
 def t_bin_wires_probe():
-    with open(BIN, encoding="utf-8") as fh:
-        s = fh.read()
+    s = launcher_source()
     assert "payloadExists" in s and "installedRecords" in s
     assert "plan.shadowsToPrune(members, installedRecords(), ls(base), payloadExists)" in s
     assert "SKILL.md" in s, "the payload probe does not check for a SKILL.md payload"

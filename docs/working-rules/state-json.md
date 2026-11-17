@@ -38,7 +38,7 @@ names a writer that failed instead of counting its keys as lost (`test/config_te
 | Key | Meaning | Writers | Readers |
 |---|---|---|---|
 | `schemaVersion` | `1` since 1.56.0 (`STATE_SCHEMA`, `lib/store.js`). Bumped only for a change old readers cannot survive | every writer below | external consumers, to detect the contract |
-| `routers` | `"yes"` / `"no"`: recorded consent to edit instruction files | `lib/consent.js` (`writeState`) | `lib/consent.js` (`askConsent`), `bin/sshlg-skills.js` (`consentRecorded`) |
+| `routers` | `"yes"` / `"no"`: recorded consent to edit instruction files | `lib/consent.js` (`writeState`) | `lib/consent.js` (`askConsent`), `lib/cli-routers.js` (`consentRecorded`) |
 | `updateCheck` | `{at, latest, ranAt, from, to, ok, deferred, busyAt, reportedRanAt}`: the set-update cache, one object, every writer merging its own keys into it. `at` and `latest`: the last registry probe (`record()`). `ranAt`, `from`, `to`, `ok`: the last unattended update (`ranRecord()`). `ranAt` is stamped before the run starts and the stamp CLEARS `from`, `to`, `ok` and `busyAt` (`startRecord()`), so while a run is in progress there is no outcome to report; the previous one is never read as this attempt's. `busyAt`: that update found `update.lock` held: exit 75, not a failure (exit 2 is a usage error and records `ok: false`); the whole previous `ranAt`/`from`/`to`/`ok` is put back (`busyRecord()`), and the idle updater waits 10 minutes after `busyAt` before trying again (`BUSY_BACKOFF_MS`). `deferred` (B-323): written only as `true`, beside `ok: true`, when `update` exited 1 because Codex holds its native plugins until it can switch them safely and nothing else failed (`update` says so in the file `SSHLG_SKILLS_OUTCOME` names); the next session says so instead of FAILED. The stamp clears it and a busy exit puts it back with the rest. The nightly job (`lib/updaterun.js --scheduled`, B-323) writes `at` and `latest` from its own registry answer before it decides, then the same outcome keys. `reportedRanAt`: the run SessionStart has already reported, so it is said once (`reportedRecord()`) | `lib/updateprobe.js` (`at`, `latest`), `lib/updaterun.js` (`ranAt`, `from`, `to`, `ok`, `deferred`, `busyAt`; with `--scheduled` also `at`, `latest`), `hooks/session-start.js` (`reportedRanAt`) | `hooks/session-start.js` via `lib/updatecheck.js` `plan()` (the notice and the "updated while you were away" line); `hooks/notification.js` via `shouldAutoUpdate()` (whether the idle updater runs); **Fabric Dashboards** `launcherLatest()` (`at`, `latest`) |
 | `inbound` | the open issues/PRs another agent left for the current repository | `lib/handoffprobe.js` | `hooks/session-start.js` via `lib/handoff.js` |
 | `injectors` | sorted spec names of the enabled plugins that speak at `SessionStart`: what the session line last told. **Machine-wide**: a fact about which plugins this machine enables, so a second session with the same set is told nothing (route notes, about one context, are per session in `turns/`) | `hooks/session-start.js` | `hooks/session-start.js` (`lib/injectors.js` `changed`) |
@@ -62,7 +62,7 @@ this file and `~/.sshlg-skills/runtime/package.json`:
   `lib/runtime.js` `sync`, the same copy the hooks execute). **It moves only on a run with the
   Claude host in scope**: a bare `update` or `--claude-only`; under `--no-claude` or any
   `--agent` list the runtime copy, its `settings.json` wiring and the Claude plugin step are all
-  skipped (`claudeScope()` in `bin/sshlg-skills.js`), so the version stays where it was.
+  skipped (`claudeScope()` in `lib/cli-core.js`), so the version stays where it was.
 
 Fabric Dashboards runs a bare `update`, so since 1.56.0 its background run also re-wires the
 consented Claude hooks in `~/.claude/settings.json` (one entry of ours present), through the same
@@ -237,8 +237,8 @@ Linux boot identity, other PID namespaces and network filesystems are not
 established by these controls. Source: [`lib/runtime.js`](../../lib/runtime.js),
 `sync`, `recover`, `withLock`; [`lib/runtime-recovery.js`](../../lib/runtime-recovery.js),
 `inspect`, `recover`;
-CLI failure propagation: [`bin/sshlg-skills.js`](../../bin/sshlg-skills.js),
-`cmdUpdate` and `cmdHooks`. The actual CLI and recovery controls are in
+CLI failure propagation: [`lib/cli-install.js`](../../lib/cli-install.js) `cmdUpdate` and
+[`lib/cli-hooks.js`](../../lib/cli-hooks.js) `cmdHooks`. The actual CLI and recovery controls are in
 [`test/runtime_atomic_test.js`](../../test/runtime_atomic_test.js) and
 [`test/runtime_recovery_test.js`](../../test/runtime_recovery_test.js), with
 [source-bound results](../evidence/completion-1013/runtime-atomic/README.md).

@@ -679,7 +679,8 @@ jobs:
           # The fixtures in test/runtime_test.js prove lib/runtime.js copies correctly
           # and cannot prove anybody calls it — delete the call and they all stay green,
           # which is exactly how B-22 survived five releases.
-          p = "/tmp/nortsync/bin/sshlg-skills.js"
+          # cmdUpdate lives in lib/cli-install.js since the launcher was cut into modules (B-357).
+          p = "/tmp/nortsync/lib/cli-install.js"
           t = open(p, encoding="utf-8").read()
           old = "const rt = require('../lib/runtime.js');"
           assert old in t, "PLANT DID NOT LAND: the require is not where the guard reads it"

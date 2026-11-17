@@ -264,7 +264,7 @@ agent surface under contract v5. `docs/ux/foundation.md` holds P-01 and the acto
 - **Expected result:** every enabled host reads back the pinned versions
 - **Errors & recovery:** a foreign write to a protected file mid-run refuses the write and names it (B-326); the next run recovers the journal
 - **Status:** implemented
-- **Coverage:** `bin/sshlg-skills.js:910-915 cmdUpdate`
+- **Coverage:** `lib/cli-install.js:422-544 cmdUpdate`
 - **Product:** unobserved
 
 ### SCN-013: An agent finds the skill a task needs
@@ -280,7 +280,7 @@ agent surface under contract v5. `docs/ux/foundation.md` holds P-01 and the acto
 - **Expected result:** the task names the skill it used
 - **Errors & recovery:** nothing matches -> the list is empty and the agent says so; a hidden skill is used by reading its file
 - **Status:** implemented
-- **Coverage:** `bin/sshlg-skills.js:2619-2625 cmdToolkit`
+- **Coverage:** `lib/cli-info.js:210-274 cmdToolkit`
 - **Product:** unobserved
 
 ### SCN-014: An agent measures what each host loads
@@ -296,6 +296,6 @@ agent surface under contract v5. `docs/ux/foundation.md` holds P-01 and the acto
 - **Expected result:** exit 0 with no error finding, or exit 1 naming the file to shrink
 - **Errors & recovery:** a host read through its fallback has no file; the report carries the row and the run does not throw (fixed in 1.87.0, `test/context_test.js`)
 - **Status:** implemented
-- **Coverage:** `bin/sshlg-skills.js:4191-4196 cmdContext`
+- **Coverage:** `lib/cli-info.js:410-449 cmdContext`
 - **Product:** unobserved
 

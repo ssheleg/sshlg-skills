@@ -59,6 +59,24 @@ def check_changelog_headings():
 check_changelog_headings()
 
 
+def launcher_source():
+    """The launcher's code: `bin/sshlg-skills.js` and the command modules cut from it
+    on 2026-11-17 (`lib/cli-*.js`, B-357), joined. A guard that reads the launcher's
+    text reads all of it, so moving a function between those files changes nothing a
+    guard sees. None when the entry file is absent."""
+    bin_path = os.path.join(ROOT, "bin", "sshlg-skills.js")
+    if not os.path.isfile(bin_path):
+        return None
+    parts = [bin_path] + sorted(
+        os.path.join(ROOT, "lib", n) for n in os.listdir(os.path.join(ROOT, "lib"))
+        if n.startswith("cli-") and n.endswith(".js"))
+    out = []
+    for p in parts:
+        with open(p, encoding="utf-8") as f:
+            out.append(f.read())
+    return "\n".join(out)
+
+
 def check_update_refreshes_runtime():
     """`update` must refresh the wired runtime, and only a check can hold that.
 
@@ -73,25 +91,23 @@ def check_update_refreshes_runtime():
     Scoped to the body of `cmdUpdate` on purpose: a repo-wide grep would be satisfied
     by the `cmdHooks` call that was always there.
     """
-    bin_path = os.path.join(ROOT, "bin", "sshlg-skills.js")
-    if not os.path.isfile(bin_path):
+    src = launcher_source()
+    if src is None:
         return
-    with open(bin_path, encoding="utf-8") as f:
-        src = f.read()
     m = re.search(r"\nfunction cmdUpdate\(.*?\n\}\n", src, re.S)
     if not m:
-        fail("bin/sshlg-skills.js: cmdUpdate() not found — this guard cannot find its "
+        fail("the launcher (bin/, lib/cli-*.js): cmdUpdate() not found — this guard cannot find its "
              "subject, and a guard with no subject passes everything")
         return
     body = m.group(0)
     if "runtime.js" not in body:
-        fail("bin/sshlg-skills.js: cmdUpdate() does not refresh the wired hook runtime "
+        fail("the launcher: cmdUpdate() does not refresh the wired hook runtime "
              "(no reference to lib/runtime.js in its body). The settings point at "
              "~/.sshlg-skills/runtime, so a release whose hooks changed reaches nobody "
              "who only runs `update` — B-22, which took five releases and a stage-8 "
              "directory listing to notice")
     elif "create: false" not in body and "create:false" not in body:
-        fail("bin/sshlg-skills.js: cmdUpdate() refreshes the runtime without "
+        fail("the launcher: cmdUpdate() refreshes the runtime without "
              "`create: false` — an update that CREATES a runtime installs hooks on a "
              "machine that never consented to them, which is the opposite failure")
 
@@ -504,11 +520,9 @@ def check_npm_payload():
     Derived from the source rather than a hand-kept list, because a hand-kept
     list is the thing that was already wrong.
     """
-    bin_path = os.path.join(ROOT, "bin", "sshlg-skills.js")
-    if not os.path.isfile(bin_path):
+    src = launcher_source()
+    if src is None:
         return
-    with open(bin_path, encoding="utf-8") as f:
-        src = f.read()
     pkg_local = None
     try:
         with open(os.path.join(ROOT, "package.json"), encoding="utf-8") as f:
@@ -1441,24 +1455,23 @@ def check_prune_reads_the_installed_set():
     argument, because it reads `$HOME`. This is that check, at the only level available:
     the call must not be handed a directory listing of `plugins/marketplaces`.
     """
-    src = os.path.join(ROOT, "bin", "sshlg-skills.js")
-    if not os.path.isfile(src):
+    text = launcher_source()
+    if text is None:
         _skips.append("bin/sshlg-skills.js absent — prune-input check not run")
         return
-    text = open(src, encoding="utf-8").read()
     m = re.search(r"plan\.shadowsToPrune\(([^)]*)\)", text)
     if not m:
-        fail("bin/sshlg-skills.js: no call to shadowsToPrune — the prune is the one thing "
+        fail("the launcher: no call to shadowsToPrune — the prune is the one thing "
              "that enforces one channel per agent, and it is gone")
         return
     args = m.group(1)
     if "marketDir" in args or "marketplaces" in args:
-        fail("bin/sshlg-skills.js: shadowsToPrune is being handed the MARKETPLACE listing. "
+        fail("the launcher: shadowsToPrune is being handed the MARKETPLACE listing. "
              "A marketplace outlives its plugin, so this prunes the plain copy of a member "
              "whose plugin is not installed — the only copy. Pass the installed set, read "
              "from installed_plugins.json, and pass nothing when it cannot be read")
     if "installed" not in args.lower():
-        fail("bin/sshlg-skills.js: shadowsToPrune's second argument does not name the "
+        fail("the launcher: shadowsToPrune's second argument does not name the "
              "installed set. It must be obvious at the call site which of the two sets "
              "this is, because the wrong one deletes work and both are one word")
 
