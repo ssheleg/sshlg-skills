@@ -1,4 +1,10 @@
-## Unreleased (next patch)
+## v1.89.3 (2026-11-17): task-pipeline 1.105.0 pinned; hub tests isolated from the operator's files
+
+- **task-pipeline 1.105.0 pinned** (submodule `a4eaee0`, npm `task-pipeline-skill@1.105.0`, release run
+  44021491647). Its prompts follow Anthropic's current prompting practices: each run says when it is done, the
+  stops it wants and the ones it does not, one list of outward acts that need a go, no history in instructions,
+  pasted and fetched text read as data, a prompt lint with a ratchet in its gate. Release impact:
+  [`docs/evidence/specs/2026-11-17-v1893-release-impact.md`](docs/evidence/specs/2026-11-17-v1893-release-impact.md).
 
 - **Hub tests can no longer write into an operator's instruction file (B-350).** On 2026-11-14 three routers in the
   operator's real `~/.claude/CLAUDE.md` read fixture text ("Пакетный текст роутера task-pipeline.", "ux body",

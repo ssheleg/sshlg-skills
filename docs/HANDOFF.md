@@ -8,7 +8,28 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-16 fixture isolation and the task-pipeline router text (unreleased)
+## Current: 2026-11-17 task-pipeline 1.105.0 pinned, hub 1.89.3
+
+**Objective:** wave W5 of the 2026-11-16 prompting review
+([spec](https://github.com/ssheleg/task-pipeline/blob/a4eaee0/docs/reports/2026-11-16-anthropic-prompting/SPEC.md)):
+release task-pipeline with its prompts rewritten to Anthropic's practices, pin it here with the H0/H1 hub changes,
+update the operator machine.
+
+**Done:** task-pipeline PR #170 squash-merged as `a4eaee0`, tag `v1.105.0`, release run 44021491647 success, npm
+`task-pipeline-skill@1.105.0`. Here: submodule moved to `a4eaee0`, `skills.json` and README at 1.105.0,
+`scripts/sync-member-pins.js --write` (11 commits match staged gitlinks), `scripts/sync-claude-pins.js --write` (11
+pins match; only the task-pipeline record changed), `ctx-04.06.json` re-emitted, release impact
+[`2026-11-17-v1893-release-impact.md`](evidence/specs/2026-11-17-v1893-release-impact.md), B-350 closed. The
+merged branch `fix/fixture-isolation-and-router-text` is archived at
+`refs/archive/2026-11-17/fix-fixture-isolation-and-router-text` and deleted.
+
+**Waits:** this release PR's check, the v1.89.3 tag's release run, then `npx --yes sshlg-skills@latest update` on
+the operator machine and the brand agent's posts (board request to sshlg-brand-agent, capability
+`change.request`).
+
+**Next task:** B-338, then B-345.
+
+## Previous: 2026-11-16 fixture isolation and the task-pipeline router text (released in 1.89.3)
 
 **Objective:** waves H0 and H1 of the 2026-11-16 prompting review
 ([spec](https://github.com/ssheleg/task-pipeline/blob/e11f963/docs/reports/2026-11-16-anthropic-prompting/specs/hub-routing-and-hooks.md)). H0: hub tests wrote fixture router text into the operator's real `~/.claude/CLAUDE.md` through a
@@ -28,9 +49,7 @@ for task-pipeline, super-ux, copywriting).
 there need a paired routing evaluation first). The map keeps its stages 2–4 line, which `test/inventory_test.js`
 requires.
 
-**Waits:** the PR's merge and the next patch release (closes B-350).
-
-**Next task:** release the next patch, then B-338 and B-345.
+**Waits:** none; released in 1.89.3.
 
 ## Previous: 2026-11-12 five members published and pinned (1.89.2)
 
