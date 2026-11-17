@@ -38,7 +38,7 @@ test('catalog failure before payload changes does not uninstall or pretend rollb
 test('changed frozen settings refuse before even checking runtime',f=>{const p=f.plan();fs.appendFileSync(f.sf,' ');assert.throws(()=>T.execute(p,[f.m],f.inventory,{runner:f.runner}),/plan changed/);assert.equal(f.calls.length,0);});
 test('unsupported native runtime refuses with no settings or catalog writes',f=>{const before=fs.readFileSync(f.sf);assert.throws(()=>T.execute(f.plan(),[f.m],f.inventory,{runner:()=>({status:0,stdout:'2.1.295'})}),/2.1.296/);assert.deepEqual(fs.readFileSync(f.sf),before);assert(!fs.existsSync(f.home+'/.sshlg-skills'));});
 test('unreadable backup is a failure before native child mutation',f=>{const A=require('../lib/apply'),old=A.protect;A.protect=()=>({action:'backup-failed'});try{const r=f.execute();assert(!r.ok);assert.equal(f.calls.filter(a=>a[0]!=='--version').length,0);}finally{A.protect=old;}});
-test('foreign setting changed by concurrent writer is retained and blocks continuation',f=>{f.setHook(a=>{if(a[1]==='marketplace'){let s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';fs.writeFileSync(f.sf,JSON.stringify(s));}return null;});const r=f.execute();assert(!r.ok);assert.equal(JSON.parse(fs.readFileSync(f.sf)).env.KEEP,'concurrent');assert(!f.calls.some(a=>a[1]==='uninstall'));assert.throws(f.plan,/incomplete Claude transaction/);});
+test('B-326: foreign setting changed by a concurrent writer mid-run is retained and the transaction completes',f=>{f.setHook(a=>{if(a[1]==='marketplace'){let s=JSON.parse(fs.readFileSync(f.sf));s.env.KEEP='concurrent';fs.writeFileSync(f.sf,JSON.stringify(s));}return null;});const r=f.execute();assert(r.ok,JSON.stringify(r));const s=JSON.parse(fs.readFileSync(f.sf));assert.equal(s.env.KEEP,'concurrent');assert.equal(s.extraKnownMarketplaces.fixture.source.source,'directory');assert.equal(s.enabledPlugins[f.id],false);assert.equal(JSON.parse(fs.readFileSync(r.receipt)).settingsRestored,true);f.plan();});
 test('saved configuration arriving during catalog action is never uninstalled',f=>{f.setHook(a=>{if(a[1]==='marketplace'){let s=JSON.parse(fs.readFileSync(f.sf));s.pluginConfigs={[f.id]:{}};fs.writeFileSync(f.sf,JSON.stringify(s));}return null;});assert(!f.execute().ok);assert(!f.calls.some(a=>a[1]==='uninstall'));});
 test('pending transaction and existing lock refuse before mutation',f=>{const p=f.plan();fs.mkdirSync(p.transactionRoot,{recursive:true});fs.writeFileSync(p.transactionRoot+'/latest.json','{"status":"running"}');assert.throws(f.plan,/incomplete/);fs.writeFileSync(p.transactionRoot+'/latest.json','{"status":"complete"}');fs.mkdirSync(p.transactionRoot+'/lock');assert.throws(f.plan,/incomplete/);});
 test('failed rollback stays explicit and never writes cache directly',f=>{f.setHook(a=>a[1]==='install'?{status:1}:null);const r=f.execute();assert(!r.ok);assert.match(r.results[0].rollback,/failed/);assert.equal(JSON.parse(fs.readFileSync(f.rf)).plugins[f.id],undefined);assert.equal(fs.readFileSync(f.payload+'/value.txt','utf8'),'first');});
@@ -212,6 +212,54 @@ test('B-242: an aliased local path is left as recorded and read back unchanged',
 // 5,642 files, 128 MB on the operator's machine by 2026-10-27). The newest KEEP finished ones
 // stay, every unfinished one stays, and the older finished ones retire their copies of the
 // operator's files into ~/.sshlg-skills/backups/, where ordinary retention keeps ten per file.
+// B-326: another session writes ~/.claude/settings.json while `update` runs (2026-11-07:
+// cleanupPeriodDays 14 -> 90). `during` lands the write right after the transaction's first
+// copy of settings.json, so before its protected settings write.
+function during(f,edit){const A=require('../lib/apply'),old=A.protect;let done=false;A.protect=(file,o)=>{const r=old(file,o);if(!done&&file===fs.realpathSync(f.sf)){done=true;const s=JSON.parse(fs.readFileSync(f.sf));edit(s);fs.writeFileSync(f.sf,JSON.stringify(s,null,4));}return r;};return ()=>{A.protect=old;assert(done,'foreign write did not land');};}
+test('B-326: a foreign key changed before the protected settings write survives and the write proceeds',f=>{
+ const undo=during(f,s=>{s.cleanupPeriodDays=90;});let r;try{r=f.execute();}finally{undo();}
+ assert(r.ok,JSON.stringify(r));const s=JSON.parse(fs.readFileSync(f.sf));assert.equal(s.cleanupPeriodDays,90);assert.equal(s.extraKnownMarketplaces.fixture.source.source,'directory');
+ assert.equal(JSON.parse(fs.readFileSync(r.receipt)).settingsRestored,true);f.plan();
+});
+test('B-326: an owned key changed before the protected settings write still refuses, and the refusal names the recovery command',f=>{
+ const undo=during(f,s=>{s.enabledPlugins[f.id]=true;s.cleanupPeriodDays=90;});let r;try{r=f.execute();}finally{undo();}
+ assert(!r.ok);assert.match(r.error,/owns/);assert(!f.calls.some(a=>['uninstall','install','update'].includes(a[1])||a[1]==='marketplace'));
+ const s=JSON.parse(fs.readFileSync(f.sf));assert.equal(s.enabledPlugins[f.id],true);assert.equal(s.cleanupPeriodDays,90);
+ let message='';try{f.plan();}catch(e){message=e.message;}
+ assert.match(message,/incomplete Claude transaction/);const m=/`(cp '[^`]+' '[^`]+')`/.exec(message);assert(m,message);
+ require('child_process').execSync(m[1]);assert.equal(JSON.parse(fs.readFileSync(f.sf)).enabledPlugins[f.id],false);
+ const again=f.plan();assert(again.recover,'the journal is recovered once the owned keys equal the copy');assert(T.execute(again,[f.m],f.inventory,{runner:f.runner}).ok);
+});
+test('B-326: restore re-applies only the owned keys onto a file whose foreign keys moved',f=>{
+ const plan=f.plan(),target=T.targetSettings(plan),backup=f.box+'/backups';
+ const current='{\n  "enabledPlugins": {"probe@fixture": true, "foreign@foreign": true},\n  "cleanupPeriodDays":     90,\n  "extraKnownMarketplaces": {"fixture": {"source": {"source": "github", "repo": "o/r"}, "autoUpdate": true}}\n}\n';
+ fs.writeFileSync(f.sf,current);const written=T.restoreSettings(plan,target,backup);
+ assert.equal(fs.readFileSync(f.sf,'utf8'),written);const s=JSON.parse(written);
+ assert.equal(s.enabledPlugins[f.id],false);assert.equal(s.enabledPlugins['foreign@foreign'],true);assert.equal(s.extraKnownMarketplaces.fixture.source.source,'directory');assert.equal(s.extraKnownMarketplaces.fixture.autoUpdate,true);
+ assert(written.includes('"cleanupPeriodDays":     90,\n'),written);assert(written.startsWith('{\n  "enabledPlugins": {'),written);
+ const kept=fs.readFileSync(f.sf,'utf8');fs.writeFileSync(f.sf,kept.replace('"cleanupPeriodDays"','"pluginConfigs": {"probe@fixture": {}},\n  "cleanupPeriodDays"'));
+ assert.throws(()=>T.restoreSettings(plan,written,backup),/pluginConfigs/,'a member\'s pluginConfigs moving mid-run is still a conflict');
+});
+test('B-326: a wedged journal whose owned keys equal its pre-run copy is recovered by the next run, which records it',f=>{
+ f.setHook(a=>a[1]==='marketplace'?{status:1}:null);const failed=f.execute();assert(!failed.ok);f.setHook(null);
+ const receipt=JSON.parse(fs.readFileSync(failed.receipt)),copy=receipt.backups.find(b=>b.file===fs.realpathSync(f.sf));assert.equal(copy.action,'saved');
+ // The 2026-11-07 journal: settings never restored, while another writer moved a foreign key.
+ const s=JSON.parse(fs.readFileSync(copy.path));s.cleanupPeriodDays=90;fs.writeFileSync(f.sf,JSON.stringify(s));
+ const wedged=JSON.stringify({...receipt,settingsRestored:false},null,2)+'\n',root=path.dirname(path.dirname(failed.receipt));
+ fs.writeFileSync(failed.receipt,wedged);fs.writeFileSync(path.join(root,'latest.json'),wedged);
+ const plan=f.plan();assert.equal(plan.recover.receipt,failed.receipt);
+ const r=T.execute(plan,[f.m],f.inventory,{runner:f.runner});assert(r.ok,JSON.stringify(r));assert.equal(r.recovered.receipt,failed.receipt);
+ const old=JSON.parse(fs.readFileSync(failed.receipt));assert.equal(old.settingsRestored,true);assert.match(old.recovered.reason,/owns/);
+ assert.equal(JSON.parse(fs.readFileSync(r.receipt)).recovered.receipt,failed.receipt);assert.equal(JSON.parse(fs.readFileSync(f.sf)).cleanupPeriodDays,90);
+ assert.equal(f.plan().recover,null);
+});
+test('B-326: recovery without a native job (nothing to update) records the recovery on its own',f=>{
+ f.setHook(a=>a[1]==='marketplace'?{status:1}:null);const failed=f.execute();f.setHook(null);
+ const receipt=JSON.parse(fs.readFileSync(failed.receipt)),wedged=JSON.stringify({...receipt,settingsRestored:false},null,2)+'\n';
+ fs.copyFileSync(receipt.backups.find(b=>b.file===fs.realpathSync(f.sf)).path,f.sf);fs.writeFileSync(failed.receipt,wedged);fs.writeFileSync(path.join(path.dirname(path.dirname(failed.receipt)),'latest.json'),wedged);
+ const p0=f.plan();const done=T.recover(p0);assert.equal(done.receipt,failed.receipt);assert.equal(JSON.parse(fs.readFileSync(failed.receipt)).settingsRestored,true);
+ assert.equal(f.plan().recover,null);assert.equal(T.recover(f.plan()),null);
+});
 function txDirs(f){const root=f.plan().transactionRoot;return fs.readdirSync(root).filter(n=>/^\d+-[a-f0-9]{12}$/.test(n)).sort();}
 test('B-224: KEEP+2 updates leave the newest KEEP finished transactions and retire the rest',f=>{
  const N=T.KEEP_FINISHED;assert(Number.isSafeInteger(N)&&N>=1,'KEEP_FINISHED is exported');
