@@ -309,7 +309,7 @@ function runTrapped(file) {
       live.delete(child.pid);
       const result = { file, code, out, timedOut, spawnError, sprung: sprung(t) };
       // Each suite's tree goes as soon as it is judged, so 82 trees never sit on the disk at once.
-      fs.rmSync(b, { recursive: true, force: true });
+      rmQuiet(b);
       const at = bases.indexOf(b);
       if (at !== -1) bases.splice(at, 1);
       resolve(result);
@@ -343,7 +343,8 @@ async function trapped() {
   }
 }
 
-const removeBases = () => { for (const b of bases.splice(0)) fs.rmSync(b, { recursive: true, force: true }); };
+const rmQuiet = (b) => { try { fs.rmSync(b, { recursive: true, force: true }); } catch (_) { /* tmproot's reaper reports it */ } };
+const removeBases = () => { for (const b of bases.splice(0)) rmQuiet(b); };
 
 // Detached suites do not die with the guard: kill them before their trees go, on any exit.
 process.on('exit', killLive);
