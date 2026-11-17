@@ -259,8 +259,12 @@ it('the runner\'s suite environment (tmproot.env) keeps the leaking call off the
   }
 });
 
-/** How long one trapped suite may run before it is treated as hung (the guard runs several at once). */
-const LIMIT_MS = 180000;
+/**
+ * How long one trapped suite may run before it is treated as hung. Some suites allow their own
+ * children 180 s (codex_native_e2e, visibility_hosts_e2e, extraroots) and the guard runs up to
+ * eight at once, so the limit sits well above that.
+ */
+const LIMIT_MS = 600000;
 
 /** Run one discovered suite directly, from a Switchboard-shaped session, under its own trap. */
 function runTrapped(file) {
@@ -272,26 +276,38 @@ function runTrapped(file) {
     fs.mkdirSync(home);
     fs.mkdirSync(tmp);
     const cmd = file.endsWith('.py') ? 'python3' : process.execPath;
+    // A process group of its own, so a timeout kills the CLI processes the suite spawned too,
+    // and none outlives the trap deleted below.
     const child = spawn(cmd, [file], {
       cwd: ROOT,
       env: Object.assign({}, process.env, t.env, { HOME: home, USERPROFILE: home, TMPDIR: tmp, TMP: tmp, TEMP: tmp }),
       stdio: ['ignore', 'pipe', 'pipe'],
+      detached: true,
     });
     let out = '';
     let timedOut = false;
-    // A hung suite must not hang the gate: killed after LIMIT_MS, recorded as a failure.
-    const timer = setTimeout(() => { timedOut = true; child.kill('SIGKILL'); }, LIMIT_MS);
-    child.stdout.on('data', (d) => { out += d; });
-    child.stderr.on('data', (d) => { out += d; });
-    child.on('close', (code) => {
+    let settled = false;
+    // A hung suite must not hang the gate: its group is killed after LIMIT_MS, recorded as a failure.
+    const timer = setTimeout(() => {
+      timedOut = true;
+      try { process.kill(-child.pid, 'SIGKILL'); } catch (_) { try { child.kill('SIGKILL'); } catch (__) { /* gone */ } }
+    }, LIMIT_MS);
+    const finish = (code, spawnError) => {
+      if (settled) return;
+      settled = true;
       clearTimeout(timer);
-      const result = { file, code, out, timedOut, sprung: sprung(t) };
+      const result = { file, code, out, timedOut, spawnError, sprung: sprung(t) };
       // Each suite's tree goes as soon as it is judged, so 82 trees never sit on the disk at once.
       fs.rmSync(b, { recursive: true, force: true });
       const at = bases.indexOf(b);
       if (at !== -1) bases.splice(at, 1);
       resolve(result);
-    });
+    };
+    child.stdout.on('data', (d) => { out += d; });
+    child.stderr.on('data', (d) => { out += d; });
+    // A suite that cannot start (python3 missing) is a failure of that suite, not a crash of the guard.
+    child.on('error', (e) => finish(null, e.message));
+    child.on('close', (code) => finish(code, null));
   });
 }
 
@@ -308,18 +324,25 @@ async function trapped() {
   for (const r of results) {
     checks += 1;
     const name = path.relative(ROOT, r.file);
-    if (r.timedOut) failures.push(`${name} run directly under the trap did not finish in ${LIMIT_MS / 1000} s and was killed`);
+    if (r.spawnError) failures.push(`${name} could not be started under the trap: ${r.spawnError}`);
+    else if (r.timedOut) failures.push(`${name} run directly under the trap did not finish in ${LIMIT_MS / 1000} s and was killed`);
     else if (r.sprung.length) failures.push(`${name} run directly under the trap changed ${r.sprung.join(' and ')} (exit ${r.code})`);
     else if (r.code !== 0) failures.push(`${name} run directly under the trap exited ${r.code}:\n${r.out.slice(-1500)}`);
   }
 }
 
+const removeBases = () => { for (const b of bases.splice(0)) fs.rmSync(b, { recursive: true, force: true }); };
+
 trapped().then(() => {
-  for (const b of bases) fs.rmSync(b, { recursive: true, force: true });
+  removeBases();
   if (failures.length) {
     failures.forEach((f) => console.log(`FAIL: ${f}`));
     console.log(`${failures.length} failure(s) out of ${checks} checks`);
     process.exit(1);
   }
   console.log(`OK (${checks} checks)`);
+}).catch((e) => {
+  removeBases();
+  console.log(`FAIL: the guard itself failed: ${e && e.stack ? e.stack : e}`);
+  process.exit(1);
 });
