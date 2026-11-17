@@ -140,6 +140,14 @@ for (const [router, name, files] of EXTRA) {
   });
 }
 
+it('B-345: the block names the rules file only where a domain route is listed', () => {
+  const withExtra = E.plan(tree({ 'package.json': pkg({ three: '0.180' }) }));
+  assert.ok(withExtra.block.includes('`.claude/rules/sshlg-domains.md`'), withExtra.block);
+  const without = E.plan(tree({ 'package.json': pkg({ express: '4' }) }));
+  assert.ok(without.block.includes('(the global routing block says what each one owns):'), without.block);
+  assert.ok(!without.block.includes('sshlg-domains.md'));
+});
+
 it('an internal tree carries no extra route (known-clean case)', () => {
   const d = E.detect(tree({ 'package.json': pkg({ express: '4', threejs_unrelated: '1', 'stripe-ish': '1' }) }));
   assert.deepStrictEqual(d.extras, {});

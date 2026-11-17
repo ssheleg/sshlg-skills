@@ -1,3 +1,43 @@
+## v1.90.0 (2026-11-17): the launcher cut into command modules; no write can lose the operator's data
+
+The 2026-11-17 refactor waves ([plan](docs/evidence/plans/2026-11-17-hub-refactor.md)). Every command answers as
+on 1.89.4 except where a fix below says otherwise.
+
+- **The launcher is a dispatcher (B-357).** `bin/sshlg-skills.js` keeps the usage, the flag parser and `main()`
+  (5211 lines to 315); each command's body lives in the `lib/cli-<area>.js` module of its area (15 modules: core,
+  install, codex, rewire, schedule, info, hosts, routers, rules, config, visibility, domains, enroll, hooks,
+  uninstall), moved verbatim by a parser-driven cut. Command modules reach each other through `core.lazy`, so none
+  requires another at load. The proof is a new suite, `test/cli_surface_golden_test.js` (B-354): 61 cases of the
+  launcher's output (the usage, each command's help, the version, an unknown command, and the read-only and
+  dry-run answers of every command deterministic in an empty HOME), byte for byte, written before the cut and
+  unchanged after it. The checks that read the launcher's text read `bin/` and `lib/cli-*.js` together.
+- **The shadow prune quarantines under the root it deletes from (B-355).** With `CLAUDE_CONFIG_DIR` set (every
+  Switchboard session sets it) the prune deleted under that profile while its quarantine read and wrote under
+  `~/.claude`, so with both copies present the uncaptured one was removed. `lib/quarantine.js` `prune()` now
+  captures under the root it is given, keeps a file's bytes (a binary file is no longer corrupted by a text read),
+  verifies a directory by a tree digest, writes the manifest before any delete and deletes nothing when it cannot;
+  a store whose run died before its manifest is archived rather than overwritten.
+- **A damaged own-state file is kept before it is replaced (B-356).** `writeJson` merged into `{}` for a
+  `config.json` or `state.json` it could not parse and renamed over it; it now copies a damaged file to
+  `<file>.damaged-<ms>` first and refuses one it cannot read.
+- **A foreign write to Claude's `settings.json` no longer wedges `update` (B-326).** The native transaction
+  compares and writes only the keys it owns and splices them onto the current file, so another session changing
+  `cleanupPeriodDays` mid-run no longer fails the run and every later one. A failed journal whose owned keys equal
+  its pre-run copy is recovered by the next run, which records it; otherwise the refusal names the recovery.
+- **The nightly job's edges (B-324).** `config set update.mode`, `config set update.auto` and
+  `schedule --apply/--revert` take `update.lock` and exit 75 while an update runs; a job still loaded after its
+  plist was deleted by hand is booted out; the job never boots itself out mid-run; the first Windows install is
+  announced. What only a real host can show is B-358.
+- **Router text for a domain member enabled only in a project (B-345).** Since 1.89.0 the Claude block carries a
+  member's router only when its plugin is on at user scope, so telegram-dev, xr-dev and web3d-dev, which `domains`
+  turns off there and on per project, had no router text in exactly the projects that load them. `domains` now
+  writes it into `.claude/rules/sshlg-domains.md` in such a project (Claude Code 2.1.299 reads `.claude/rules/*.md`,
+  measured), ignored through the clone's own `info/exclude`, your reworded router first; a file you wrote or edited
+  is left alone, and `--disable`/`--revert` remove the one it wrote. `enroll` names the file where a domain route
+  is listed.
+- **Board:** B-323, B-325 and B-333 closed with readbacks (B-333 carried from PR #314); B-341 closed (this
+  project's insight/1 folder); agent-stack told that the hub side of B-346 is live.
+
 ## v1.89.4 (2026-11-17): a home-directory project scope no longer blocks an update
 
 - **`update` moves a member Claude also recorded in a project scope for the home directory (B-353).** On
