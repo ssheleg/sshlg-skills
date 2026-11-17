@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Process/filesystem fault controls; every HOME and target is fixture-owned.
 const assert = require('assert');
 const fs = require('fs');

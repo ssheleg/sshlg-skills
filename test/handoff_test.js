@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 /**
  * The inbound-work surface, and the doctrine that makes it usable.
  *

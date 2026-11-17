@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for `node test/run.js --ratchets-from FILE` — DOCMAP's stated figures judged
 // against counts a full run wrote (`SSHLG_RATCHETS_OUT`), without running a suite.
 //

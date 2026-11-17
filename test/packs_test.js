@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/packs.js — the curated recommendations, and what they may not become.
 //
 // The property under test is not the contents of the pack; those are a judgement and

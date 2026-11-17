@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/domains.js — which family members a project's own files call for.
 //
 // Three properties. Evidence is read from what a repository DEPENDS on or DECLARES,

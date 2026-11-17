@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The PostToolUse layer that reads a credential by its LABEL (I-6 remainder, OPS-002).
 //
 // `secrets.scan` knows vendor prefixes (`sk-or-v1-`, `ghp_`, `AKIA` …). A key with no

@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // lib/lifecycle.js — native host lifecycle (FIX-UP-07.02). Zero deps, stdlib only.
 const assert = require('assert');
 const lc = require('../lib/lifecycle.js');

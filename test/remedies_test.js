@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Every refusal the secret guards print offers a step that works WITHOUT Observatory,
 // and offers it before any step that needs Observatory (USR-011, N-5).
 //

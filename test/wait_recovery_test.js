@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 const fs=require('fs'),path=require('path'),os=require('os'),assert=require('assert');
 const W=require('../lib/wait-rules'),P=require('../lib/wait-rule-policy'),A=require('../lib/apply'),B=require('../lib/backup');
 let n=0,fail=0;const opts={env:{},cursor:false,hostTargets:A.TARGETS.filter(x=>x.agent==='codex')};

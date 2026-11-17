@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // managed-blocks/1 writer (lib/blockwriter.js). Every case runs in a synthetic HOME:
 // the operator's own instruction files are never opened. The cases that matter most
 // are the byte ones — outside the selected block nothing may change, a preview writes

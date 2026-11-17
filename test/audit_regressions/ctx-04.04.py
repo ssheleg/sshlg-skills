@@ -19,6 +19,8 @@ Two layers:
 `--emit` runs both and writes docs/evidence/acceptance/ctx-04.04.json; the plain
 run verifies. Offline. Standard library + (optionally) node/git.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import json
 import os
 import subprocess

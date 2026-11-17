@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for the PROTOCOL region of the routing block — how a task opens and closes.
 //
 // This region is doctrine written into a file the operator owns and did not write, which

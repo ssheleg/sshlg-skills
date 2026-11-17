@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-216: family skill links in host roots outside the default agent set.
 //
 // The skills CLI 1.7.2 links skills into ~/.qwen/skills (qwen-code), $XDG_CONFIG_HOME/devin/skills

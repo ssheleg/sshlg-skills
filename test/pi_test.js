@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for Pi as a host (R37): lib/pi.js (read-only detection and the
 // duplicate report) and the routing block written to ~/.pi/agent/AGENTS.md by the
 // same writer as ~/.codex/AGENTS.md. Every fixture points HOME at a temp directory.

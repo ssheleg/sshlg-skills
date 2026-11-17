@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Consent fixtures. HOME is a parameter, never process.env, so these run
 // against a temp directory and can never touch the operator's real state.
 

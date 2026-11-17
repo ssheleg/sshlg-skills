@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Synthetic path strings only. No credential file is opened or command executed.
 const assert = require('assert');
 const { spawnSync } = require('child_process');

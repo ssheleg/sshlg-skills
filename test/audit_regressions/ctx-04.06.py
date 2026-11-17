@@ -18,6 +18,8 @@ operator's live channels. `--emit` writes docs/evidence/acceptance/ctx-04.06.jso
 the plain run verifies, with a NEGATIVE fixture proving a stale upgrade recovers
 the previous set. Offline. Standard library + node/git.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import hashlib
 import json
 import os

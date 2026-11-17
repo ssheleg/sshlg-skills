@@ -17,6 +17,8 @@ check off. Three ways that happens, each asserted on its own:
 And the miss that matters: an address that resolves to a file but names a line past its
 end. The file opens, the claim points at nothing, and `test -e` calls it fine.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'hostenv.py'))['isolate']()
 import ast
 import os
 import shutil

@@ -17,6 +17,48 @@ const os = require('os');
 const path = require('path');
 
 const PREFIX = 'sshlg-skills-run-';
+
+/**
+ * Every variable that relocates a root the hub may write: an agent's config home, the XDG
+ * homes, the project directory a hook acts on, the projects root `domains` enrols.
+ *
+ * A suite inherits them from the session that runs it, and the hub puts each one AHEAD of
+ * the fixture's `home`. A Switchboard isolated session sets CLAUDE_CONFIG_DIR to a home
+ * whose CLAUDE.md is a symlink to the operator's real ~/.claude/CLAUDE.md, so
+ * `apply({ home: tmp })` in a fixture wrote the fixture's router text into the real file
+ * (B-350, 2026-11-14: three routers read "Пакетный текст роутера task-pipeline.", "ux body",
+ * "copy body"). The runner removes them for every suite, every suite removes them from its
+ * own process at load (`isolate()`), and a suite that needs one sets it to a path of its own.
+ * `test/host_env_leak_test.js` fails when lib/, bin/ or hooks/ reads a `*_HOME`, `*_DIR` or
+ * `*_ROOT` variable missing here.
+ */
+const HOST_ENV = [
+  'CLAUDE_CONFIG_DIR', 'CODEX_HOME', 'GEMINI_CLI_HOME', 'PI_CODING_AGENT_DIR', 'HERMES_HOME',
+  'KIMI_CODE_HOME', 'QWEN_HOME', 'GROK_HOME', 'XDG_CONFIG_HOME', 'FLATPAK_XDG_CONFIG_HOME',
+  'XDG_DATA_HOME', 'XDG_STATE_HOME', 'FABRIC_SERVICES_DIR', 'CLAUDE_PROJECT_DIR', 'SSHLG_PROJECTS_ROOT',
+];
+// Not here, on purpose: APPDATA and LOCALAPPDATA. The hub only reads them, to find Zed's
+// settings (lib/host-targets.js) and Fabric's services directory (lib/machine.js) on Windows,
+// and never writes under them; a suite may need them to resolve Windows paths.
+
+/**
+ * Remove HOST_ENV from this process's environment, so the suite's own apply() calls and
+ * every child it spawns with `process.env` start without a host root. Every suite calls it
+ * at load, before it builds an environment; running `node test/<suite>.js` directly is then
+ * as safe as `npm test`. Returns the names it removed.
+ */
+function isolate() {
+  const removed = [];
+  for (const k of HOST_ENV) if (k in process.env) { delete process.env[k]; removed.push(k); }
+  return removed;
+}
+
+/** A copy of `base` (default process.env) without the HOST_ENV variables. */
+function withoutHostEnv(base) {
+  const out = Object.assign({}, base || process.env);
+  for (const k of HOST_ENV) delete out[k];
+  return out;
+}
 const OWNER = '.runner-pid';
 
 function alive(pid) {
@@ -49,13 +91,13 @@ function open(base) {
   return dir;
 }
 
-/** The environment a suite runs with: every temp variable points into `dir`. */
+/** The environment a suite runs with: every temp variable points into `dir`, no host root inherited. */
 function env(dir, base) {
-  return Object.assign({}, base || process.env, { TMPDIR: dir, TMP: dir, TEMP: dir });
+  return Object.assign(withoutHostEnv(base), { TMPDIR: dir, TMP: dir, TEMP: dir });
 }
 
 function close(dir) {
   try { fs.rmSync(dir, { recursive: true, force: true }); } catch (_) { /* reaped by the next run */ }
 }
 
-module.exports = { PREFIX, OWNER, open, env, close, reapStale, alive };
+module.exports = { PREFIX, OWNER, HOST_ENV, withoutHostEnv, isolate, open, env, close, reapStale, alive };

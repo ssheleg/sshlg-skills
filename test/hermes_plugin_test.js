@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-284: the routing block reaches Hermes as the hub's own plugin, two system-prompt
 // sections within Hermes' caps (4,000 a section, 8,000 for all plugins; Hermes Agent 0.22.2).
 const assert = require('assert');

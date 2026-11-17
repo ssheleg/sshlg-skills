@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for the pack half of lib/visibility.js — which packs a host hides, by the
 // operator's marks (pack-marks.json) and their per-pack overrides (config.json), and the
 // JSON edits that write it into Gemini, Pi and OpenCode settings.

@@ -40,6 +40,9 @@ to the checked artifact, and a historical receipt is not a current runtime claim
   `test/validate.py` owns the live/dated corpus. Live dead commands and paths fail;
   dated records are counted and disclosed, not rewritten. Negative controls cover
   the claim classes and an empty corpus. Quote a dead command as dead, never runnable.
+- **No suite inherits a host root.** Every suite calls `isolate()` (`test/tmproot.js`, `test/hostenv.py`) at
+  load and the runner drops `HOST_ENV` too: a Switchboard session's CLAUDE.md is a symlink to the real one
+  (B-350). `test/host_env_leak_test.js` runs every suite that reaches a host root under a symlink trap.
 - **Submodule URLs are HTTPS.** An SSH URL works for a key holder and fails for
   other installers. `test/validate.py` rejects it; CI has a negative self-test.
 - **The pin is the promise.** The committed member version, `skills.json`, submodule

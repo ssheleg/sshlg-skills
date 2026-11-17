@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/apply.js — the only module allowed to write to a file the
 // operator owns and did not write.
 //
@@ -200,7 +201,7 @@ it('update creates the block in a NEW instruction-file target when consent is on
   const home = seededHome();
   fs.mkdirSync(path.join(home, '.pi', 'agent'), { recursive: true });
   const file = path.join(home, '.pi', 'agent', 'AGENTS.md');
-  const recs = apply.apply({ home, mode: 'update', consent: 'yes', consentRecorded: 'yes',
+  const recs = apply.apply({ env: {}, home, mode: 'update', consent: 'yes', consentRecorded: 'yes',
                              routers: ROUTERS, members: MEMBERS });
   const pi = recs.targets.find((r) => r.file === file);
   assert.ok(pi, JSON.stringify(recs.targets));
@@ -211,7 +212,7 @@ it('update creates the block in a NEW instruction-file target when consent is on
   const home2 = seededHome();
   fs.mkdirSync(path.join(home2, '.pi', 'agent'), { recursive: true });
   const file2 = path.join(home2, '.pi', 'agent', 'AGENTS.md');
-  apply.apply({ home: home2, mode: 'update', consent: 'yes', routers: ROUTERS, members: MEMBERS });
+  apply.apply({ env: {}, home: home2, mode: 'update', consent: 'yes', routers: ROUTERS, members: MEMBERS });
   assert.ok(!fs.existsSync(file2), 'update introduced a block the operator never agreed to');
 });
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/cursor.js — the fourth channel, in its own shape.
 //
 // The other three targets are a managed block inside a file the operator owns

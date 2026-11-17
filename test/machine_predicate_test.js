@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-169 (a router that holds only on a machine with something installed outside the
 // family) and B-170 (the block's heading in English, the Russian one an alias), as
 // real `routers` runs against a sandbox HOME. Each case ends with three runs whose

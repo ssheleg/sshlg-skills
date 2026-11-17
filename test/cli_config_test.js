@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The `config` command, exercised as a command.
 //
 // These fixtures stand in for the UX scenarios this repo does not have: the

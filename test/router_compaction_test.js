@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Whole-block context budget and the trust boundary lost in the old Telegram prose.
 const assert = require('assert');
 const R = require('../lib/routers.js');
@@ -58,7 +59,7 @@ it('all declared routes and both generated tables survive compaction', () => {
   // 1.70.1: the map region no longer renders the member roster (its column repeated the
   // router table's); the member table lives in the README and on the site.
   assert.deepStrictEqual(rows('MAP'), []);
-  assert.match(region('MAP'), /does not outrank this map/);
+  assert.match(region('MAP'), /do not replace these routes/);
   assert.deepStrictEqual(rows('TABLE'), names);
 });
 it('Telegram separates signed input from untrusted parsed data', () => checkTelegram(block));

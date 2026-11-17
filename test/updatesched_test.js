@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 /**
  * The nightly update job (B-323, lib/updatesched.js): the plan per platform from fixtures, and
  * the writes against a temporary HOME with an injected runner, so no test registers anything

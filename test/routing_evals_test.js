@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for the routing-block eval — the RUN needs a model and is out of the
 // gate; the ARTIFACT is guarded here, which is the half that rots silently.
 //

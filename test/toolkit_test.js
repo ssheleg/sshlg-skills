@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/toolkit.js — the roster an agent picks its tools from.
 //
 // The property under test is not the ranking. It is that the index NEVER LIES BY

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/routers.js. The whole point of this module is that it
 // never touches disk, so every rule protecting the operator's file is proven
 // here, before any code exists that could write one.

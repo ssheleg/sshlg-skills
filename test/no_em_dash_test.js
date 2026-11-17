@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-226. The operator's rule of 2026-10-18: text a person reads carries no em dash
 // (U+2014) and no substitute for one (`--`, a spaced hyphen used as a dash). 1.66.0 put
 // the rule in the PROTOCOL region and took the dash out of that region only; the router
@@ -163,6 +164,7 @@ const REWORDED_SINCE = {
   copywriting: 'audit 2026-11-11: reads the surface\'s channels.md record, as the member does',
   'project-audit': 'audit 2026-11-11: a JSON sidecar, the HTML page only on --report',
   fabric: 'audit 2026-11-11: detection and probe details moved to working-with-fabric',
+  'task-pipeline': 'B-351, 2026-11-16 prompting review: says why changes go through the pipeline, one scope for "substantial", no list restating it',
 };
 
 it('the rewording is punctuation only: the words of every router are the words 1.80.0 shipped', () => {

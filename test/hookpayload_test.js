@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The payload normaliser (lib/hookpayload.js) and the PreToolUse matchers as each host
 // reads them (B-209, B-218 CLAUDE-6).
 //

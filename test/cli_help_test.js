@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 /**
  * B-198: every top-level subcommand answers `--help` and `-h` with its usage on
  * stdout and exit 0, and writes nothing: no file under HOME, no child process

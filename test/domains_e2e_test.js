@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // `domains` run for real against fixture projects in a scratch HOME.
 //
 // One project per domain, one with no domain (whose NAME and README name all four, so a

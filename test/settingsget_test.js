@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // G2 (audit 2026-11-11): `sshlg-skills settings get <key>` prints one allow-listed key of a
 // Claude settings file with credential-shaped strings redacted. Fixture values are built at
 // runtime so this file carries no live credential shape.

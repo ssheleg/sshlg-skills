@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-206: the routing block for every host that reads a global instruction file.
 // Every fixture is a temp HOME with a PATH that holds no host binary, so the machine
 // running the suite (which may have Kimi, Goose or Warp installed) cannot leak in.

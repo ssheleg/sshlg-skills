@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-167: Codex refuses to start when ~/.codex/config.toml defines one table twice — on
 // 2026-10-12 a project-trust table appeared as both ["projects"."/x"] and [projects."/x"],
 // the same key in two quotings, and `codex login status` answered `duplicate key`.

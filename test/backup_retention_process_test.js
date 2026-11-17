@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 const fs=require('fs'),path=require('path'),os=require('os'),assert=require('assert'),cp=require('child_process');
 const root=fs.realpathSync.native(fs.mkdtempSync(path.join(os.tmpdir(),'sshlg-retention-race-'))),children=[];
 const pause=ms=>new Promise(r=>setTimeout(r,ms));

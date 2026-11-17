@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/repogate.js — this repository's own gate, decided.
 //
 // The commit detector has to survive the spellings people actually use to get

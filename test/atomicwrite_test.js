@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/atomicwrite.js (B-260): the one helper every write to an
 // operator-owned file goes through after `apply.protect()` took the copy.
 // A crash between writing and renaming must leave the original byte for byte,

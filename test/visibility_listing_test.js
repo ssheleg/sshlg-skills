@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-337 (audit 2026-11-11): the Claude listing estimate counts plugin commands, leaves out
 // entries with `disable-model-invocation: true` and plugins whose marketplace cannot load,
 // and prints the measuring recipe when no debug count exists. Scratch HOME, preview only.

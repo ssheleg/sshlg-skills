@@ -8,7 +8,31 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-12 five members published and pinned (1.89.2)
+## Current: 2026-11-16 fixture isolation and the task-pipeline router text (unreleased)
+
+**Objective:** waves H0 and H1 of the 2026-11-16 prompting review
+([spec](https://github.com/ssheleg/task-pipeline/blob/e11f963/docs/reports/2026-11-16-anthropic-prompting/specs/hub-routing-and-hooks.md)). H0: hub tests wrote fixture router text into the operator's real `~/.claude/CLAUDE.md` through a
+Switchboard symlink (B-350). H1: the task-pipeline router, the session note and the map preamble reworded (B-351).
+
+**Done:** branch `fix/fixture-isolation-and-router-text`, PR #315. `test/tmproot.js` `HOST_ENV` (15 variables, `XDG_STATE_HOME` included) is
+dropped by the runner and by every suite at load (`isolate()`; `test/hostenv.py` for Python); guard
+`test/host_env_leak_test.js` discovers the suites that reach a host root and runs each directly under a
+Switchboard-shaped trap (89 checks; 23 fail with the isolation disabled). New `TASK_PIPELINE` text,
+`PREVIOUS_LINES['task-pipeline']` back to 1.54.6, `sessionNote`, the per-prompt route line, `MAP_PREAMBLE` with
+`MAP_1_89` known lines. Checks: `npm test` from a fresh HOME with the host variables unset, `shasum
+~/.claude/CLAUDE.md` equal before and after every run; three `routers --update` runs over a 1.89.2 block in a scratch
+HOME end on one hash. The operator's machine was recovered on 2026-11-16 at about 20:28 (`routers --update --adopt`
+for task-pipeline, super-ux, copywriting).
+
+**Decisions:** the protocol region's hook-mechanics paragraph was not moved to the README (B-347: wording changes
+there need a paired routing evaluation first). The map keeps its stages 2–4 line, which `test/inventory_test.js`
+requires.
+
+**Waits:** the PR's merge and the next patch release (closes B-350).
+
+**Next task:** release the next patch, then B-338 and B-345.
+
+## Previous: 2026-11-12 five members published and pinned (1.89.2)
 
 **Objective:** B-348, the one human gate left from the 2026-11-11 audit: five member releases tagged but not on
 npm because their packages had no npm trusted publisher.

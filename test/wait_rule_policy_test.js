@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Policy admission is independent from router consent; all homes are synthetic.
 const assert = require('assert');
 const fs = require('fs');

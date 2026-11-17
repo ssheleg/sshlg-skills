@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 const assert=require('assert');
 const C=require('../lib/claude-plugin-source');
 const m={name:'fixture',repo:'o/r',commit:'a'.repeat(40),version:'1.0.0',pluginInstall:'probe@fixture'};

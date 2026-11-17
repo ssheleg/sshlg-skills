@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 /**
  * Codex native safety, end to end: `update` defers a version change without deleting
  * an old payload. Catalog state is separate from thread-loaded generations.

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-240: `git checkout`/`restore`/`reset --hard`/`stash`/`clean -f` over uncommitted work.
 //
 // The decision is pure: `targets(command)` reads which destructive git invocations a

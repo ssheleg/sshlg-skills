@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/enroll.js and `npx sshlg-skills enroll`, one per bullet of the
 // spec's Tests section (docs/evidence/specs/2026-10-19-enroll.md).
 //

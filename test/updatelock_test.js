@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // The update lock and the state.json schema stamp (R05, B-159).
 //
 // `decide()` is pure and fixtured without a HOME. What only a process can show —

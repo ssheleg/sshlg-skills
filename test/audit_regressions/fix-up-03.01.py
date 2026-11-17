@@ -19,6 +19,8 @@ The fix under test (lib/plan.js resolveScope, run under node):
 
 Node is already required by this repo. No new mandatory package.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'hostenv.py'))['isolate']()
 import json
 import os
 import subprocess

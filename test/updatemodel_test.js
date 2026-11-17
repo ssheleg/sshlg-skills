@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/updatemodel.js — the closing line of every install.
 //
 // The behaviour worth gating is not the wording. It is that the notice REPORTS and never

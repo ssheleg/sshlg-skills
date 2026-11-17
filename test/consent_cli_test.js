@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // A routing-block run with no terminal decides nothing (reported from a Windows install,
 // 2026-10-28: an agent's run wrote opt-out markers into Codex AGENTS.md and Gemini GEMINI.md
 // and recorded a permanent "no"). `--routers yes|no` carries the person's answer instead.

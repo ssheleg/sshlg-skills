@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-222: a member's tag-only release checks run on the candidate BEFORE the tag is pushed.
 // The member's suite runs with the annotated tag present locally (task-pipeline's retro
 // declaration reads `git tag -l`), a red suite deletes the tag this run created, and only a

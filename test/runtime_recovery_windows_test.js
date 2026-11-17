@@ -1,4 +1,5 @@
 'use strict';
+require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // B-316: runtime recovery on Windows. A writer there holds `.sync.lock` open with share
 // mode 0 until it releases it; an exclusive open that succeeds proves the holder is gone.
 // The real scenarios need Windows (the CI `windows` job runs this file); elsewhere the

@@ -5,6 +5,8 @@ A tool that decides what gets done next deserves the same negative control as a 
 both defects it was written to fix are planted here, so a rewrite that reintroduces
 either fails rather than quietly reordering ten iterations of a loop.
 """
+import os as _os, runpy as _runpy  # B-350: no inherited host config root reaches this suite
+_runpy.run_path(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'hostenv.py'))['isolate']()
 import os
 import sys
 import tempfile
