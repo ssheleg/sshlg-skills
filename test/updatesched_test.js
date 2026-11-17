@@ -447,6 +447,116 @@ it('a record without a registered hash re-registers; a refused unlink is named',
   } finally { fs.rmSync(home, { recursive: true, force: true }); }
 });
 
+// --- B-324: the edges the 1.86.0 readings left open -------------------------------------
+it('a job still loaded with its plist deleted by hand is present: booted out, its record cleared', () => {
+  const home = tmpHome();
+  try {
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: recorder().run, env: {} };
+    S.apply(S.plan(o), o);
+    const plist = S.jobFiles('launchd', o)[0].file;
+    fs.unlinkSync(plist);
+    assert.ok(fs.existsSync(S.recordPath(home)));
+    const rec = recorder((cmd, args) => (args[0] === 'print' ? 0 : 0));
+    const off = Object.assign({}, o, { mode: 'notify', run: rec.run });
+    const p = S.plan(off);
+    assert.strictEqual(p.state, 'remove', 'a loaded job without its file read as absent');
+    assert.deepStrictEqual(p.files, []);
+    const r = S.apply(p, off);
+    assert.strictEqual(r.ok, true, r.lines.join('\n'));
+    assert.ok(rec.calls.includes('launchctl bootout gui/501/me.sshlg.skills.update'), rec.calls.join(' | '));
+    assert.ok(r.lines.some((l) => /booted out .*still loaded.*file was gone/.test(l)), r.lines.join(' | '));
+    assert.ok(!fs.existsSync(S.recordPath(home)), 'the record of a job booted out stayed');
+    // Not loaded and no file: absent, as before; a fixture HOME never asks the OS.
+    const gone = recorder((cmd, args) => (args[0] === 'print' ? 113 : 0));
+    assert.strictEqual(S.plan(Object.assign({}, off, { run: gone.run })).state, 'absent');
+    const quiet = recorder();
+    assert.strictEqual(S.plan(Object.assign({}, off, { run: quiet.run, register: false })).state, 'absent');
+    assert.deepStrictEqual(quiet.calls, [], 'a fixture HOME asked launchctl');
+    // A foreign file at our path with something loaded under the label is not ours to boot out.
+    fs.mkdirSync(path.dirname(plist), { recursive: true });
+    fs.writeFileSync(plist, '<plist>mine</plist>\n');
+    assert.strictEqual(S.plan(Object.assign({}, off, { run: recorder().run })).state, 'absent');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('the job never boots itself out when it sees a mode switched mid-run; it re-reads the mode first', () => {
+  const home = tmpHome();
+  try {
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, mode: 'auto', run: recorder().run, env: {} };
+    S.apply(S.plan(o), o);
+    const plist = S.jobFiles('launchd', o)[0].file;
+    for (const [now, state, line] of [['notify', 'deferred', /not removed: this run is the job itself/], ['auto', 'kept', /kept: update\.mode is auto again/]]) {
+      const job = recorder();
+      let asked = 0;
+      const inJob = Object.assign({}, o, { mode: 'notify', run: job.run, env: { SSHLG_SKILLS_JOB: '1' }, reread: () => { asked += 1; return now; } });
+      const r = S.apply(S.plan(inJob), inJob);
+      assert.strictEqual(asked, 1, `${now}: the mode was not read again before acting`);
+      assert.strictEqual(r.ok, true, r.lines.join(' | '));
+      assert.strictEqual(r.state, state);
+      assert.ok(r.lines.some((l) => line.test(l)), r.lines.join(' | '));
+      assert.ok(!job.calls.some((c) => c.includes('bootout')), `${now}: the job booted itself out: ${job.calls.join(' | ')}`);
+      assert.ok(fs.existsSync(plist) && fs.existsSync(S.recordPath(home)), `${now}: the job removed its own file or record`);
+    }
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('Windows: the exact schtasks command list, announced once, re-created on interactive runs, never from the job', () => {
+  const home = tmpHome();
+  try {
+    const node = 'C:\\nodejs\\node.exe';
+    const st = `04:${String(S.slot(home).minute).padStart(2, '0')}`;
+    const tr = `"${node}" "${S.scriptPath(home)}" --scheduled`;
+    const create = `schtasks /Create /F /SC DAILY /ST ${st} /TN sshlg-skills-update /TR ${tr}`;
+    let have = false;
+    const rec = recorder((cmd, args) => {
+      if (args[0] === '/Query') return have ? 0 : 1;
+      if (args[0] === '/Create') have = true;
+      if (args[0] === '/Delete') have = false;
+      return 0;
+    });
+    const o = { platform: 'schtasks', home, node, uid: null, mode: 'auto', run: rec.run, env: {} };
+    const first = S.plan(o);
+    assert.strictEqual(first.state, 'install', 'a first run never says install, so the announcement never shows on Windows');
+    assert.deepStrictEqual(first.files, []);
+    const r1 = S.apply(first, o);
+    assert.strictEqual(r1.ok, true, r1.lines.join(' | '));
+    assert.deepStrictEqual(rec.calls, ['schtasks /Query /TN sshlg-skills-update', create]);
+    const record = JSON.parse(fs.readFileSync(S.recordPath(home), 'utf8'));
+    assert.deepStrictEqual([record.platform, record.task, record.files], ['schtasks', 'sshlg-skills-update', []]);
+    assert.ok(record.registered, 'the record does not say what the OS was given');
+    rec.calls.length = 0;
+    const second = S.plan(o);
+    assert.strictEqual(second.state, 'current');
+    S.apply(second, o);
+    assert.deepStrictEqual(rec.calls, ['schtasks /Query /TN sshlg-skills-update', create], 'an interactive run re-creates the task (/F), by design');
+    rec.calls.length = 0;
+    const inJob = Object.assign({}, o, { env: { SSHLG_SKILLS_JOB: '1' } });
+    assert.deepStrictEqual(S.apply(S.plan(inJob), inJob).lines, []);
+    assert.deepStrictEqual(rec.calls, [], 'the job re-created its own task');
+    const off = Object.assign({}, o, { mode: 'notify' });
+    const rm = S.apply(S.plan(off), off);
+    assert.strictEqual(rm.state, 'remove');
+    assert.deepStrictEqual(rec.calls, ['schtasks /Query /TN sshlg-skills-update', 'schtasks /Delete /F /TN sshlg-skills-update']);
+    assert.ok(rm.lines.includes('removed the task sshlg-skills-update'), rm.lines.join(' | '));
+    assert.ok(!fs.existsSync(S.recordPath(home)));
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
+it('update: every step after the Codex step that can fail also fails restOk, so a Codex hold beside it is not "only Codex"', () => {
+  const src = require('./launcher.js').source();
+  const body = src.slice(src.indexOf('let restOk = ok'), src.indexOf('writeOutcome(require(\'../lib/updatecheck.js\').updateOutcome'));
+  assert.ok(body.length > 0 && body.length < 4000, 'the restOk span of cmdUpdate was not found');
+  const lines = body.split('\n').filter((l) => /\bok = /.test(l) && !/^\s*let restOk/.test(l));
+  assert.ok(lines.some((l) => /cmdDomains/.test(l)), 'the domain step moved out of the span this test reads');
+  for (const l of lines) {
+    if (/ok = codexOk && ok/.test(l)) continue;
+    const okSets = (l.match(/\bok = /g) || []).length;
+    assert.strictEqual((l.match(/restOk = /g) || []).length, okSets, `a failing step keeps restOk true, so a Codex hold beside it reads as "only Codex": ${l.trim()}`);
+  }
+  const U = require('../lib/updatecheck.js');
+  assert.strictEqual(U.updateOutcome({ ok: false, codexOk: false, codexHeld: true, restOk: false }).codexDeferredOnly, false);
+});
+
 // --- the runner the job executes (lib/updaterun.js --scheduled) ----------------------------
 const ROOT = path.join(__dirname, '..');
 const SELF = require('../package.json').version;
@@ -518,6 +628,111 @@ if (process.platform !== 'win32') {
       npx: 'echo \'{"ok":false,"codexDeferredOnly":false}\' > "$SSHLG_SKILLS_OUTCOME"\nexit 1' });
     assert.deepStrictEqual([failed.uc.ok, failed.uc.deferred], [false, undefined]);
     assert.match(chk.ranLine(failed.uc, Date.now()), /FAILED/);
+  });
+}
+
+// --- B-324 at the command line, in a fixture HOME (the OS schedulers are shims that log) -----
+function cliMachine() {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sched-cli-')));
+  const home = path.join(root, 'home');
+  const shims = path.join(root, 'bin');
+  const calls = path.join(root, 'calls.log');
+  fs.mkdirSync(home);
+  fs.mkdirSync(shims);
+  for (const c of ['git', 'npx', 'claude', 'codex', 'launchctl', 'systemctl', 'schtasks']) {
+    fs.writeFileSync(path.join(shims, c), `#!/bin/sh\necho "${c} $*" >> "${calls}"\nexit 0\n`, { mode: 0o755 });
+  }
+  const run = (...args) => {
+    const r = spawnSync(process.execPath, [path.join(ROOT, 'bin', 'sshlg-skills.js'), ...args], {
+      cwd: ROOT, encoding: 'utf8', timeout: 180000, stdio: ['ignore', 'pipe', 'pipe'],
+      env: { HOME: home, USERPROFILE: home, SSHLG_SKILLS_NO_UPDATE_CHECK: '1', NO_COLOR: '1',
+        PATH: [shims, path.dirname(process.execPath), '/usr/bin', '/bin'].join(path.delimiter) } });
+    return { code: r.status, out: `${r.stdout || ''}${r.stderr || ''}` };
+  };
+  const platform = S.platformOf(process.platform);
+  const job = S.jobFiles(platform, { home, node: NODE })[0].file;
+  const osCalls = () => (fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8') : '').split('\n').filter((l) => /^(launchctl|systemctl|schtasks) /.test(l));
+  const config = path.join(home, '.sshlg-skills', 'config.json');
+  const holdLock = () => {
+    fs.mkdirSync(path.join(home, '.sshlg-skills'), { recursive: true });
+    // This test process is alive and on this host: a running update, however old.
+    fs.writeFileSync(path.join(home, '.sshlg-skills', 'update.lock'), JSON.stringify({ pid: process.pid, startedAt: Date.now() - 5000, host: os.hostname() }));
+  };
+  return { root, home, run, job, osCalls, config, holdLock,
+    runner: path.join(home, '.sshlg-skills', 'scheduler', 'lib', 'updaterun.js'),
+    snap: () => [job, config].map((f) => (fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null)),
+    done: () => fs.rmSync(root, { recursive: true, force: true }) };
+}
+
+if (['darwin', 'linux'].includes(process.platform)) {
+  it('schedule --apply and --revert wait for a running update: exit 75, nothing changed, said as update says it', () => {
+    const m = cliMachine();
+    try {
+      m.holdLock();
+      const before = m.snap();
+      const a = m.run('schedule', '--apply');
+      assert.strictEqual(a.code, 75, a.out);
+      assert.match(a.out, /^schedule --apply: refused: another update is running \(pid \d+, started \d+ s ago\) on /m);
+      assert.match(a.out, /^ {2}lock: .*update\.lock \(taken over once its process is gone; a lock from another host after 30 minutes\)$/m);
+      assert.deepStrictEqual(m.snap(), before, 'schedule --apply wrote while an update held the lock');
+      const r = m.run('schedule', '--revert');
+      assert.strictEqual(r.code, 75, r.out);
+      assert.match(r.out, /^schedule --revert: refused: another update is running/m);
+      assert.deepStrictEqual(m.snap(), before, 'schedule --revert changed update.mode while an update held the lock');
+      // The read-only forms take no lock.
+      assert.strictEqual(m.run('schedule').code, 0);
+      assert.strictEqual(m.run('schedule', '--apply', '--dry-run').code, 0);
+      fs.unlinkSync(path.join(m.home, '.sshlg-skills', 'update.lock'));
+      const ok = m.run('schedule', '--apply');
+      assert.strictEqual(ok.code, 0, ok.out);
+      assert.ok(fs.existsSync(m.job));
+      assert.ok(!fs.existsSync(path.join(m.home, '.sshlg-skills', 'update.lock')), 'schedule --apply left its lock behind');
+      assert.deepStrictEqual(m.osCalls(), [], 'a fixture HOME reached the OS scheduler');
+    } finally { m.done(); }
+  });
+
+  it('install writes the job and uninstall removes it with its runner copy, in a fixture HOME', () => {
+    const m = cliMachine();
+    try {
+      const i = m.run('install', '--agent', 'gemini-cli');
+      assert.strictEqual(i.code, 0, i.out.slice(-1500));
+      assert.match(i.out, /== Nightly update job ==\n {2}wrote /);
+      assert.ok(fs.existsSync(m.job), 'install did not write the job');
+      assert.ok(fs.readFileSync(m.job, 'utf8').includes(S.OWNER));
+      assert.ok(fs.existsSync(m.runner), 'install did not make the runner copy the job runs');
+      assert.ok(fs.existsSync(S.recordPath(m.home)));
+      const u = m.run('uninstall', '--agent', 'gemini-cli');
+      assert.strictEqual(u.code, 0, u.out.slice(-1500));
+      assert.match(u.out, /== Removing the nightly update job ==\n {2}removed .*\(copy: /);
+      assert.ok(!fs.existsSync(m.job), 'uninstall left the job');
+      assert.ok(!fs.existsSync(S.schedulerDir(m.home)), 'uninstall left the runner copy');
+      assert.ok(!fs.existsSync(S.recordPath(m.home)), 'uninstall left the record');
+      assert.deepStrictEqual(m.osCalls(), [], 'a fixture HOME reached the OS scheduler');
+    } finally { m.done(); }
+  });
+
+  it('a removal that fails keeps the runner copy the still-registered job runs (config set and uninstall)', () => {
+    if (process.getuid && process.getuid() === 0) return;
+    const m = cliMachine();
+    try {
+      assert.strictEqual(m.run('config', 'set', 'update.mode', 'auto').code, 0);
+      assert.ok(fs.existsSync(m.job) && fs.existsSync(m.runner));
+      const dir = path.dirname(m.job);
+      fs.chmodSync(dir, 0o555);
+      let c;
+      let u;
+      try {
+        c = m.run('config', 'set', 'update.mode', 'notify');
+        assert.ok(fs.existsSync(m.runner), `a failed removal deleted the runner copy: ${c.out}`);
+        u = m.run('uninstall', '--agent', 'gemini-cli');
+      } finally { fs.chmodSync(dir, 0o755); }
+      assert.strictEqual(c.code, 1, c.out);
+      assert.match(c.out, /not removed: .*EACCES/);
+      assert.ok(fs.existsSync(m.job));
+      assert.notStrictEqual(u.code, 0, u.out.slice(-800));
+      assert.match(u.out, /== Removing the nightly update job ==\n {2}not removed: .*EACCES/);
+      assert.ok(fs.existsSync(m.runner), 'uninstall deleted the runner copy of a job it could not remove');
+    } finally { m.done(); }
   });
 }
 
