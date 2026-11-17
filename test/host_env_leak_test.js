@@ -266,6 +266,15 @@ it('the runner\'s suite environment (tmproot.env) keeps the leaking call off the
  */
 const LIMIT_MS = 600000;
 
+/** Process groups of the trapped suites still running, killed if the guard itself ends early. */
+const live = new Set();
+const killLive = () => {
+  for (const pid of live) {
+    try { process.kill(-pid, 'SIGKILL'); } catch (_) { /* already gone */ }
+  }
+  live.clear();
+};
+
 /** Run one discovered suite directly, from a Switchboard-shaped session, under its own trap. */
 function runTrapped(file) {
   return new Promise((resolve) => {
@@ -284,6 +293,7 @@ function runTrapped(file) {
       stdio: ['ignore', 'pipe', 'pipe'],
       detached: true,
     });
+    if (child.pid !== undefined) live.add(child.pid);
     let out = '';
     let timedOut = false;
     let settled = false;
@@ -296,6 +306,7 @@ function runTrapped(file) {
       if (settled) return;
       settled = true;
       clearTimeout(timer);
+      live.delete(child.pid);
       const result = { file, code, out, timedOut, spawnError, sprung: sprung(t) };
       // Each suite's tree goes as soon as it is judged, so 82 trees never sit on the disk at once.
       fs.rmSync(b, { recursive: true, force: true });
@@ -306,7 +317,8 @@ function runTrapped(file) {
     child.stdout.on('data', (d) => { out += d; });
     child.stderr.on('data', (d) => { out += d; });
     // A suite that cannot start (python3 missing) is a failure of that suite, not a crash of the guard.
-    child.on('error', (e) => finish(null, e.message));
+    // A failed kill also emits 'error'; only a child that never started settles here.
+    child.on('error', (e) => { if (child.pid === undefined) finish(null, e.message); });
     child.on('close', (code) => finish(code, null));
   });
 }
@@ -333,6 +345,12 @@ async function trapped() {
 
 const removeBases = () => { for (const b of bases.splice(0)) fs.rmSync(b, { recursive: true, force: true }); };
 
+// Detached suites do not die with the guard: kill them before their trees go, on any exit.
+process.on('exit', killLive);
+for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+  process.on(sig, () => { killLive(); removeBases(); process.exit(130); });
+}
+
 trapped().then(() => {
   removeBases();
   if (failures.length) {
@@ -342,6 +360,7 @@ trapped().then(() => {
   }
   console.log(`OK (${checks} checks)`);
 }).catch((e) => {
+  killLive();
   removeBases();
   console.log(`FAIL: the guard itself failed: ${e && e.stack ? e.stack : e}`);
   process.exit(1);

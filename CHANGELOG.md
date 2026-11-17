@@ -16,7 +16,7 @@
   - Guard `test/host_env_leak_test.js` points every `HOST_ENV` variable at a Switchboard-shaped home (instruction
     files, `skills/` and `plugins/` symlinked into a sentinel tree), discovers the suites that spawn the CLI or a
     hook or call `apply()` (82 here: 65 Node, 17 Python), and runs each directly under its own trap, killing one
-    that runs past 180 s and removing each trap as soon as it is judged. `APPDATA` and `LOCALAPPDATA` stay out: the hub
+    (with its process group) that runs past 600 s and removing each trap as soon as it is judged. `APPDATA` and `LOCALAPPDATA` stay out: the hub
     only reads them. It also checks that every suite
     isolates before its first import, that the Python helper reads the same list, and that every `*_HOME`, `*_DIR` or `*_ROOT` variable
     `lib/`, `bin/` and `hooks/` read is in `HOST_ENV`. Measured with `isolate()` and the runner's filter disabled:
