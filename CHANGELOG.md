@@ -6,16 +6,19 @@
   `env`; `lib/apply.js` puts `CLAUDE_CONFIG_DIR` ahead of `home`; the suites ran from a Switchboard isolated session
   whose `CLAUDE.md` is a symlink to the real file, so the write went through the link, and the next `routers
   --update` recorded the fixture as authored wording (B-202). Now:
-  - `test/tmproot.js` `HOST_ENV` names every variable that relocates a root the hub may write (14: the agent config
-    homes, `XDG_CONFIG_HOME`, `XDG_DATA_HOME`, `FLATPAK_XDG_CONFIG_HOME`, `CLAUDE_PROJECT_DIR`,
+  - `test/tmproot.js` `HOST_ENV` names every variable that relocates a root the hub may write (15: the agent config
+    homes, `XDG_CONFIG_HOME`, `XDG_DATA_HOME`, `XDG_STATE_HOME` (the skills CLI lock `uninstall` writes),
+    `FLATPAK_XDG_CONFIG_HOME`, `CLAUDE_PROJECT_DIR`,
     `SSHLG_PROJECTS_ROOT`, `FABRIC_SERVICES_DIR` and the rest). The runner drops them for every suite, and every
     suite drops them from its own process at load (`isolate()` in each `test/*_test.js`, `test/hostenv.py` in each
     Python suite, which reads the list from `tmproot.js`), so `node test/<suite>.js` run directly is isolated too.
     The two suites that leaked also pass `env: {}` to every `apply()`.
   - Guard `test/host_env_leak_test.js` points every `HOST_ENV` variable at a Switchboard-shaped home (instruction
     files, `skills/` and `plugins/` symlinked into a sentinel tree), discovers the suites that spawn the CLI or a
-    hook or call `apply()` (82 here: 65 Node, 17 Python), and runs each directly under its own trap. It also checks that every suite
-    isolates, that the Python helper reads the same list, and that every `*_HOME`, `*_DIR` or `*_ROOT` variable
+    hook or call `apply()` (82 here: 65 Node, 17 Python), and runs each directly under its own trap, killing one
+    that runs past 180 s and removing each trap as soon as it is judged. `APPDATA` and `LOCALAPPDATA` stay out: the hub
+    only reads them. It also checks that every suite
+    isolates before its first import, that the Python helper reads the same list, and that every `*_HOME`, `*_DIR` or `*_ROOT` variable
     `lib/`, `bin/` and `hooks/` read is in `HOST_ENV`. Measured with `isolate()` and the runner's filter disabled:
     23 of 89 checks fail, and ten suites changed a trapped tree (four of them exiting 0). The first version of the
     guard (6 checks, two named suites) failed 5 of 6 with `tmproot.js`, `apply_test.js` and

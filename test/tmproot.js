@@ -35,8 +35,11 @@ const PREFIX = 'sshlg-skills-run-';
 const HOST_ENV = [
   'CLAUDE_CONFIG_DIR', 'CODEX_HOME', 'GEMINI_CLI_HOME', 'PI_CODING_AGENT_DIR', 'HERMES_HOME',
   'KIMI_CODE_HOME', 'QWEN_HOME', 'GROK_HOME', 'XDG_CONFIG_HOME', 'FLATPAK_XDG_CONFIG_HOME',
-  'XDG_DATA_HOME', 'FABRIC_SERVICES_DIR', 'CLAUDE_PROJECT_DIR', 'SSHLG_PROJECTS_ROOT',
+  'XDG_DATA_HOME', 'XDG_STATE_HOME', 'FABRIC_SERVICES_DIR', 'CLAUDE_PROJECT_DIR', 'SSHLG_PROJECTS_ROOT',
 ];
+// Not here, on purpose: APPDATA and LOCALAPPDATA. The hub only reads them, to find Zed's
+// settings (lib/host-targets.js) and Fabric's services directory (lib/machine.js) on Windows,
+// and never writes under them; a suite may need them to resolve Windows paths.
 
 /**
  * Remove HOST_ENV from this process's environment, so the suite's own apply() calls and

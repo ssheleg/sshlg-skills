@@ -10,7 +10,6 @@ const os = require('os');
 const path = require('path');
 const A = require('../lib/apply.js');
 
-
 let checks = 0;
 const failures = [];
 function it(name, fn) {

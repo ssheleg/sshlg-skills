@@ -14,7 +14,7 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 ([spec](https://github.com/ssheleg/task-pipeline/blob/e11f963/docs/reports/2026-11-16-anthropic-prompting/specs/hub-routing-and-hooks.md)). H0: hub tests wrote fixture router text into the operator's real `~/.claude/CLAUDE.md` through a
 Switchboard symlink (B-350). H1: the task-pipeline router, the session note and the map preamble reworded (B-351).
 
-**Done:** branch `fix/fixture-isolation-and-router-text`, PR #315. `test/tmproot.js` `HOST_ENV` (14 variables) is
+**Done:** branch `fix/fixture-isolation-and-router-text`, PR #315. `test/tmproot.js` `HOST_ENV` (15 variables, `XDG_STATE_HOME` included) is
 dropped by the runner and by every suite at load (`isolate()`; `test/hostenv.py` for Python); guard
 `test/host_env_leak_test.js` discovers the suites that reach a host root and runs each directly under a
 Switchboard-shaped trap (89 checks; 23 fail with the isolation disabled). New `TASK_PIPELINE` text,

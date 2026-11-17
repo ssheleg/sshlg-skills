@@ -32,7 +32,6 @@ const apply = require('../lib/apply.js');
 const cursor = require('../lib/cursor.js');
 const R = require('../lib/routers.js');
 
-
 const BIN = path.join(__dirname, '..', 'bin', 'sshlg-skills.js');
 
 let checks = 0;

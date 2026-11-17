@@ -73,6 +73,7 @@ const FILES = {
   HERMES_HOME: ['config.yaml'],
   KIMI_CODE_HOME: ['AGENTS.md', 'config.toml'],
   QWEN_HOME: ['QWEN.md'],
+  XDG_STATE_HOME: [path.join('skills', '.skill-lock.json')],
 };
 
 /**
@@ -161,9 +162,13 @@ it('every suite the runner discovers isolates its own process at load', () => {
     if (!/require\('\.\/tmproot\.js'\)\.isolate\(\);/.test(head)) missing.push(path.relative(ROOT, f));
   }
   for (const f of pySuites()) {
-    if (!/_runpy\.run_path\([^\n]*'hostenv\.py'\)\)\['isolate'\]\(\)/.test(fs.readFileSync(f, 'utf8'))) {
-      missing.push(path.relative(ROOT, f));
-    }
+    // The call must come before the first top-level import other than its own line and
+    // `from __future__`: a module imported first could read the environment at import time.
+    const lines = fs.readFileSync(f, 'utf8').split('\n');
+    const call = lines.findIndex((l) => /^_runpy\.run_path\([^\n]*'hostenv\.py'\)\)\['isolate'\]\(\)/.test(l));
+    const firstImport = lines.findIndex((l) => /^(import|from) /.test(l) && !/^from __future__ /.test(l)
+      && !/^import os as _os, runpy as _runpy\b/.test(l));
+    if (call === -1 || (firstImport !== -1 && firstImport < call)) missing.push(path.relative(ROOT, f));
   }
   assert.deepStrictEqual(missing, [], 'these suites never call isolate()');
 });
@@ -204,6 +209,8 @@ it('every root-locating variable lib/, bin/ and hooks/ read is one tmproot remov
     /\bpick\(\s*\w+,\s*'([A-Z][A-Z0-9_]*)'/g,
     /\benv\[['"]([A-Z][A-Z0-9_]*(?:_HOME|_DIR|_ROOT))['"]\]/g,
     /\benv:\s*'([A-Z][A-Z0-9_]*)'/g,
+    // `(env || process.env).XDG_STATE_HOME` (lib/skillstore.js): a read after a parenthesis.
+    /\)\.([A-Z][A-Z0-9_]*(?:_HOME|_DIR|_ROOT))\b/g,
   ];
   const seen = new Set();
   for (const dir of ['lib', 'bin', 'hooks']) {
@@ -212,8 +219,9 @@ it('every root-locating variable lib/, bin/ and hooks/ read is one tmproot remov
       for (const re of READS) for (const m of src.matchAll(re)) seen.add(m[1]);
     }
   }
-  // The two files the 2026-11-16 review named must contribute what they read.
-  for (const k of ['XDG_CONFIG_HOME', 'HERMES_HOME', 'KIMI_CODE_HOME', 'QWEN_HOME']) {
+  // The files the 2026-11-16 reviews named (instruction-targets, hostgate-install, skillstore) must
+  // contribute what they read.
+  for (const k of ['XDG_CONFIG_HOME', 'XDG_STATE_HOME', 'HERMES_HOME', 'KIMI_CODE_HOME', 'QWEN_HOME']) {
     assert.ok(seen.has(k), `the scan no longer sees ${k}: the reader changed shape, re-derive the scan`);
   }
   const missing = [...seen].filter((k) => !T.HOST_ENV.includes(k)).sort();
@@ -251,6 +259,9 @@ it('the runner\'s suite environment (tmproot.env) keeps the leaking call off the
   }
 });
 
+/** How long one trapped suite may run before it is treated as hung (the guard runs several at once). */
+const LIMIT_MS = 180000;
+
 /** Run one discovered suite directly, from a Switchboard-shaped session, under its own trap. */
 function runTrapped(file) {
   return new Promise((resolve) => {
@@ -267,9 +278,20 @@ function runTrapped(file) {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     let out = '';
+    let timedOut = false;
+    // A hung suite must not hang the gate: killed after LIMIT_MS, recorded as a failure.
+    const timer = setTimeout(() => { timedOut = true; child.kill('SIGKILL'); }, LIMIT_MS);
     child.stdout.on('data', (d) => { out += d; });
     child.stderr.on('data', (d) => { out += d; });
-    child.on('close', (code) => resolve({ file, code, out, sprung: sprung(t) }));
+    child.on('close', (code) => {
+      clearTimeout(timer);
+      const result = { file, code, out, timedOut, sprung: sprung(t) };
+      // Each suite's tree goes as soon as it is judged, so 82 trees never sit on the disk at once.
+      fs.rmSync(b, { recursive: true, force: true });
+      const at = bases.indexOf(b);
+      if (at !== -1) bases.splice(at, 1);
+      resolve(result);
+    });
   });
 }
 
@@ -286,7 +308,8 @@ async function trapped() {
   for (const r of results) {
     checks += 1;
     const name = path.relative(ROOT, r.file);
-    if (r.sprung.length) failures.push(`${name} run directly under the trap changed ${r.sprung.join(' and ')} (exit ${r.code})`);
+    if (r.timedOut) failures.push(`${name} run directly under the trap did not finish in ${LIMIT_MS / 1000} s and was killed`);
+    else if (r.sprung.length) failures.push(`${name} run directly under the trap changed ${r.sprung.join(' and ')} (exit ${r.code})`);
     else if (r.code !== 0) failures.push(`${name} run directly under the trap exited ${r.code}:\n${r.out.slice(-1500)}`);
   }
 }
