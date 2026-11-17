@@ -343,11 +343,21 @@ async function trapped() {
   }
 }
 
-const rmQuiet = (b) => { try { fs.rmSync(b, { recursive: true, force: true }); } catch (_) { /* tmproot's reaper reports it */ } };
+// A tree that cannot be removed is left for the runner's per-run root (removed at close or by
+// reapStale); a direct run leaves it in TMPDIR and says where.
+const rmQuiet = (b) => {
+  try { fs.rmSync(b, { recursive: true, force: true }); } catch (e) { console.error(`left behind: ${b} (${e.code || e})`); }
+};
 const removeBases = () => { for (const b of bases.splice(0)) rmQuiet(b); };
 
 // Detached suites do not die with the guard: kill them before their trees go, on any exit.
 process.on('exit', killLive);
+process.on('uncaughtException', (e) => {
+  killLive();
+  removeBases();
+  console.log(`FAIL: the guard itself failed: ${e && e.stack ? e.stack : e}`);
+  process.exit(1);
+});
 for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
   process.on(sig, () => { killLive(); removeBases(); process.exit(130); });
 }
