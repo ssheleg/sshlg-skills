@@ -438,7 +438,7 @@ it('the module never reaches the filesystem', () => {
 it('the command prints and never installs — there is no write path to find', () => {
   // The refusal lib/updatemodel.js records: settings.json and known_marketplaces.json
   // belong to the operator. If an --install flag is ever added, this fails first.
-  const bin = fs.readFileSync(path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'utf8');
+  const bin = require('./launcher.js').source();
   const at = bin.indexOf('function cmdPack(');
   assert.ok(at !== -1, 'cmdPack is gone');
   const body = bin.slice(at, bin.indexOf('\nfunction ', at + 10));

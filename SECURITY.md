@@ -8,7 +8,7 @@ zero runtime dependencies and no post-install script.
 
 | Component | Runtime behavior |
 |---|---|
-| `bin/sshlg-skills.js` | Node script. Runs only when you invoke it. Spawns `claude`, `npx skills` and `git` as child processes; writes nothing outside `~/.claude/`, `~/.agents/skills/` and the checkout you ran it in. |
+| `bin/sshlg-skills.js`, `lib/cli-*.js` | Node script (the entry and its command modules). Runs only when you invoke it. Spawns `claude`, `npx skills` and `git` as child processes; writes nothing outside `~/.claude/`, `~/.agents/skills/` and the checkout you ran it in. |
 | `install.sh` | POSIX fallback for the same flow. |
 | `skills.json` | Data. The registry the launcher reads. |
 | `skills/*` | Pinned git submodules: the eight skills, each its own repo. |
@@ -68,7 +68,7 @@ git clone --recursive https://github.com/ssheleg/sshlg-skills && cd sshlg-skills
 ```
 
 ```bash
-grep -n "spawnSync\|execSync\|rmSync\|unlink" bin/sshlg-skills.js
+grep -n "spawnSync\|execSync\|rmSync\|unlink" bin/sshlg-skills.js lib/cli-*.js
 ```
 
 That is the entire process-spawning and deletion surface of the launcher.

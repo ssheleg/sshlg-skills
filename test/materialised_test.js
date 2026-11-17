@@ -152,7 +152,7 @@ it('the module never reaches the filesystem — it is handed a reader', () => {
 it('the command refuses a path that escapes the project root', () => {
   // A declaration is about THIS repository. `../../etc/passwd` resolving would make it
   // about something else, and the file it named would be read as evidence.
-  const bin = fs.readFileSync(path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'utf8');
+  const bin = require('./launcher.js').source();
   const at = bin.indexOf('function cmdMaterialised(');
   assert.ok(at !== -1, 'cmdMaterialised is gone');
   const body = bin.slice(at, bin.indexOf('\nfunction ', at + 10));
@@ -161,7 +161,7 @@ it('the command refuses a path that escapes the project root', () => {
 });
 
 it('the command never runs a guard', () => {
-  const bin = fs.readFileSync(path.join(__dirname, '..', 'bin', 'sshlg-skills.js'), 'utf8');
+  const bin = require('./launcher.js').source();
   const at = bin.indexOf('function cmdMaterialised(');
   const body = bin.slice(at, bin.indexOf('\nfunction ', at + 10));
   assert.ok(!/spawnSync|execSync|exec\(/.test(body),

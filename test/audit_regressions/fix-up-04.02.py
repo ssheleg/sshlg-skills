@@ -27,6 +27,14 @@ sys.dont_write_bytecode = True
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 BIN = os.path.join(ROOT, "bin", "sshlg-skills.js")
+
+
+def launcher_source():
+    """bin/sshlg-skills.js and the command modules cut from it (lib/cli-*.js, B-357)."""
+    lib = os.path.join(ROOT, "lib")
+    paths = [BIN] + sorted(os.path.join(lib, n) for n in os.listdir(lib)
+                           if n.startswith("cli-") and n.endswith(".js"))
+    return "\n".join(open(p, encoding="utf-8").read() for p in paths)
 STORE = os.path.join(ROOT, "lib", "skillstore.js")
 
 failures = []
@@ -116,13 +124,20 @@ def t_symlink_quarantine_preserves_target():
 
 
 def t_prune_does_not_delete_without_quarantine():
-    with open(BIN, encoding="utf-8") as fh:
-        s = fh.read()
+    # Since B-355 the capture, manifest and delete live in lib/quarantine.js prune();
+    # the launcher hands it the candidates and the root they were read from.
+    s = launcher_source()
     body = s[s.index("function pruneClaudeShadows"):]
     body = body[:body.index("\n}\n")]
-    assert "if (!row) {" in body and "do NOT delete" in body, \
-        "the prune deletes even when quarantine failed"
+    assert "q.prune(candidates, { root: claudeRoot() })" in body, \
+        "the launcher prunes outside the quarantine, or under another root than it read"
     qsrc = open(os.path.join(ROOT, "lib", "quarantine.js"), encoding="utf-8").read()
+    prune = qsrc[qsrc.index("function prune("):]
+    prune = prune[:prune.index("\n}\n")]
+    assert "if (row) rows.push(row)" in prune and "do NOT delete" in prune, \
+        "the prune deletes even when quarantine failed"
+    assert prune.index("writeManifest(") < prune.index("fs.rmSync("), \
+        "the prune deletes before its manifest is written"
     assert "Verify the capture BEFORE the caller removes" in qsrc, \
         "the quarantine is not verified before delete"
 

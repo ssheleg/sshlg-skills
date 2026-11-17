@@ -290,6 +290,13 @@ it('NO MODULE IN lib/ IS UNREACHABLE FROM PRODUCTION CODE', () => {
       const req = new RegExp(
         `require\\(\\s*(?:path\\.join\\([^)]*?)?['"\`][^'"\`]*${esc}(?:\\.js)?['"\`]`);
       if (req.test(src)) { referenced.add(lib); continue; }
+      // A fifth shape since the launcher was cut into modules (B-357): `lazy('./x.js', name)`
+      // in lib/cli-*.js is a require at call time, the one edge between command modules.
+      if (new RegExp(`\\blazy\\(\\s*['"\`]\\./${esc}(?:\\.js)?['"\`]`).test(src)) { referenced.add(lib); continue; }
+      // A script built into a node command by `codex-pending.watcherCommand` is run as a
+      // process exactly like a spawned one; before the cut this edge passed only because
+      // the same file happened to spawn process.execPath for another script.
+      if (new RegExp(`\\bwatcherCommand\\(\\s*path\\.join\\([^)]*['"\`][^'"\`]*${esc}\\.js['"\`]`).test(src)) { referenced.add(lib); continue; }
       const spawnsNode = /(?:spawn|execFile|spawnSync|execFileSync)\(\s*process\.execPath/.test(src);
       const namedInJoin = new RegExp(
         `path\\.join\\([^)]*['"\`][^'"\`]*${esc}\\.js['"\`]`).test(src);

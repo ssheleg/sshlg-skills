@@ -112,6 +112,73 @@ it('restore reconstructs the exact type and bytes from the live manifest', (q, h
   assert.strictEqual(fs.readFileSync(p, 'utf8'), 'bytes that must come back');
 });
 
+// B-355: the prune deleted under CLAUDE_CONFIG_DIR while the quarantine read and
+// wrote under ~/.claude, so with both copies present the uncaptured one was removed.
+it('capture, prune and restore work under CLAUDE_CONFIG_DIR, never under ~/.claude', (q, home) => {
+  const alt = path.join(home, 'switchboard-profile');
+  fs.mkdirSync(path.join(alt, 'skills'), { recursive: true });
+  fs.writeFileSync(path.join(alt, 'skills', 'vision'), 'the copy Claude reads');
+  fs.writeFileSync(path.join(home, '.claude', 'skills', 'vision'), 'an unrelated copy');
+  const saved = process.env.CLAUDE_CONFIG_DIR;
+  process.env.CLAUDE_CONFIG_DIR = alt;
+  try {
+    const r = q.prune(['vision'], { stamp: 'stamp-env' });
+    assert.deepStrictEqual(r.pruned, ['vision']);
+    assert.ok(!fs.existsSync(path.join(alt, 'skills', 'vision')), 'the copy under the profile was not pruned');
+    assert.strictEqual(fs.readFileSync(path.join(home, '.claude', 'skills', 'vision'), 'utf8'), 'an unrelated copy',
+      'the copy under ~/.claude was touched');
+    assert.ok(q.quarantineDir().startsWith(alt), `quarantine outside the profile: ${q.quarantineDir()}`);
+    assert.ok(q.restore('vision'), 'restore returned null');
+    assert.strictEqual(fs.readFileSync(path.join(alt, 'skills', 'vision'), 'utf8'), 'the copy Claude reads');
+  } finally {
+    if (saved === undefined) delete process.env.CLAUDE_CONFIG_DIR; else process.env.CLAUDE_CONFIG_DIR = saved;
+  }
+});
+
+it('a binary file survives capture and restore byte for byte', (q, home) => {
+  const p = path.join(home, '.claude', 'skills', 'bin');
+  const bytes = Buffer.from([0, 255, 128, 10, 0xc3, 0x28, 1, 2]);   // 0xc3 0x28 is not UTF-8
+  fs.writeFileSync(p, bytes);
+  const r = q.prune(['bin'], { stamp: 'stamp-bin' });
+  assert.deepStrictEqual(r.pruned, ['bin']);
+  assert.ok(q.restore('bin'), 'restore returned null');
+  assert.ok(fs.readFileSync(p).equals(bytes), 'the restored bytes differ');
+});
+
+it('a directory capture is verified by its contents, and restores them', (q, home) => {
+  const d = path.join(home, '.claude', 'skills', 'tree');
+  fs.mkdirSync(path.join(d, 'references'), { recursive: true });
+  fs.writeFileSync(path.join(d, 'SKILL.md'), 'top');
+  fs.writeFileSync(path.join(d, 'references', 'a.md'), 'deep');
+  const row = q.capture('tree');
+  assert.ok(row && row.kind === 'dir' && /^[0-9a-f]{64}$/.test(row.digest), JSON.stringify(row));
+  const r = q.prune(['tree'], { stamp: 'stamp-tree' });
+  assert.deepStrictEqual(r.pruned, ['tree']);
+  q.restore('tree');
+  assert.strictEqual(fs.readFileSync(path.join(d, 'references', 'a.md'), 'utf8'), 'deep');
+});
+
+it('a manifest that cannot be written stops the prune before any delete', (q, home) => {
+  const p = path.join(home, '.claude', 'skills', 'edited');
+  fs.writeFileSync(p, 'the only copy');
+  const enospc = () => { const e = new Error('no space left on device'); e.code = 'ENOSPC'; throw e; };
+  const r = q.prune(['edited'], { stamp: 'stamp-x', writeFile: enospc });
+  assert.deepStrictEqual(r.pruned, [], 'pruned without a manifest');
+  assert.match(String(r.error), /ENOSPC/, 'no error reported');
+  assert.strictEqual(fs.readFileSync(p, 'utf8'), 'the only copy');
+});
+
+it('a store whose manifest is gone is archived, never overwritten by the next capture', (q, home) => {
+  const p = path.join(home, '.claude', 'skills', 'edited');
+  fs.writeFileSync(p, 'first run bytes');
+  q.capture('edited');                                   // a run that died before its manifest
+  fs.writeFileSync(p, 'second run bytes');
+  const r = q.prune(['edited'], { stamp: 'stamp-2' });
+  assert.deepStrictEqual(r.pruned, ['edited']);
+  assert.ok(r.archived, 'the manifest-less store was not archived');
+  assert.strictEqual(fs.readFileSync(path.join(r.archived, 'edited'), 'utf8'), 'first run bytes');
+});
+
 if (failures.length) {
   for (const f of failures) console.error(`FAIL: ${f}`);
   console.error(`\n${failures.length} of ${checks} failed`);

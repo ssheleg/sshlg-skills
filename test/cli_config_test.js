@@ -446,6 +446,45 @@ it('config set update.mode writes and removes the nightly job at once, never tou
   } finally { fs.rmSync(home, { recursive: true, force: true }); }
 });
 
+// B-324: a mode change waits for a running update, as update itself does.
+it('config set update.mode and update.auto wait for a running update: exit 75, nothing changed', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-modelock-'));
+  try {
+    const shims = path.join(home, 'shims');
+    fs.mkdirSync(shims);
+    const calls = path.join(home, 'os-calls.log');
+    for (const cmd of ['launchctl', 'systemctl', 'schtasks']) {
+      fs.writeFileSync(path.join(shims, cmd), `#!/bin/sh\necho "${cmd} $*" >> "${calls}"\nexit 0\n`, { mode: 0o755 });
+    }
+    const env = Object.assign({}, process.env, { HOME: home, PATH: `${shims}${path.delimiter}${process.env.PATH}` });
+    const go = (args) => { const r = spawnSync(process.execPath, [BIN].concat(args), { encoding: 'utf8', env }); return { code: r.status, out: (r.stdout || '') + (r.stderr || '') }; };
+    const job = { darwin: path.join(home, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist'),
+      linux: path.join(home, '.config', 'systemd', 'user', 'sshlg-skills-update.timer') }[process.platform];
+    if (!job) return;
+    assert.strictEqual(go(['config', 'set', 'update.mode', 'auto']).code, 0);
+    const cfg = path.join(home, '.sshlg-skills', 'config.json');
+    const lock = path.join(home, '.sshlg-skills', 'update.lock');
+    fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, startedAt: Date.now() - 3000, host: os.hostname() }));
+    const snap = () => [cfg, job].map((f) => (fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null));
+    const before = snap();
+    for (const args of [['update.mode', 'notify'], ['update.mode', 'off'], ['update.auto', 'off']]) {
+      const r = go(['config', 'set'].concat(args));
+      assert.strictEqual(r.code, 75, `${args.join(' ')}: ${r.out}`);
+      assert.match(r.out, /^config set: refused: another update is running \(pid \d+, started \d+ s ago\) on /m, r.out);
+      assert.match(r.out, /^ {2}lock: .*update\.lock \(taken over once its process is gone; a lock from another host after 30 minutes\)$/m, r.out);
+      assert.deepStrictEqual(snap(), before, `${args.join(' ')} changed the mode or the job while an update held the lock`);
+    }
+    // Another key is not the update's business and takes no lock.
+    assert.strictEqual(go(['config', 'set', 'routers.seo-llmo', 'off']).code, 0);
+    fs.unlinkSync(lock);
+    const r = go(['config', 'set', 'update.mode', 'notify']);
+    assert.strictEqual(r.code, 0, r.out);
+    assert.ok(!fs.existsSync(job));
+    assert.ok(!fs.existsSync(lock), 'config set left its lock behind');
+    assert.ok(!fs.existsSync(calls), 'a fixture HOME reached the OS scheduler');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
 // B-192: a blocked member keeps its installed version, the run continues to the other
 // channels, and the result is partial (nonzero) rather than a stop.
 it('blocked Claude members make the update partial without stopping later channels', () => {

@@ -493,6 +493,13 @@ npx sshlg-skills domains --root ~/code --no-usage   # another projects directory
   member stays on at user scope**. A negated rule (`!.claude/settings.local.json`) does not
   count as ignored. If the member was already turned off by an earlier `--apply`, it goes back
   on at user scope, so the refused project still has it.
+- **The router text goes with the member (B-345).** A member that is on in a project and
+  off at user scope has no section in the global routing block, so `domains` writes its
+  router text into `.claude/rules/sshlg-domains.md` in that project, which Claude Code reads.
+  The file is personal like `settings.local.json`: where git does not ignore it, the line
+  `/.claude/rules/sshlg-domains.md` is added to the clone's own `info/exclude` (never
+  committed). Your reworded router (`routers --adopt`) is the text used. A file you wrote or
+  edited is left alone; `--disable` and `--revert` remove the one `domains` wrote.
 - **Ownership.** `~/.sshlg-skills/domains.json` records each value `--apply` wrote.
   `--revert` changes only those values, and only while they still hold what `--apply`
   set: a value you changed afterwards is yours. To keep a member off in one project, set
@@ -1283,8 +1290,9 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 ```
 skills.json                  registry: repos, plugin ids, skill names, pins
 skills/*                     the eleven skill packs as pinned git submodules
-bin/sshlg-skills.js          the launcher (install / update / routers / config / hooks /
-                             injectors / conflicts / list / agents)
+bin/sshlg-skills.js          the launcher: usage, flags and the dispatch to its commands
+lib/cli-*.js                 one module per command area (install and update, codex, hooks,
+                             routers, rules, config, visibility, domains, hosts, info, ...)
 lib/routers-registry.js      the fifteen routers: text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js

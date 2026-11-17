@@ -255,6 +255,32 @@ it('B-227: a live holder that never lets go makes the waiter fail loudly, not wr
   fs.unlinkSync(`${file}.lock`);
 });
 
+// B-356: writeJson merged into `{}` for a file it could not parse and renamed over it,
+// so a damaged config.json lost every decision in it with no copy left behind.
+it('a damaged file is kept beside the target before writeJson replaces it', () => {
+  const home = tmpHome();
+  const f = path.join(home, 'config.json');
+  fs.writeFileSync(f, '{"routers": {"super-ux": "off"}, oops');
+  S.writeJson(f, { b: 2 });
+  assert.deepStrictEqual(S.readJson(f), { b: 2 });
+  const kept = fs.readdirSync(home).filter((n) => n.startsWith('config.json.damaged-'));
+  assert.strictEqual(kept.length, 1, `no copy of the damaged file: ${fs.readdirSync(home)}`);
+  assert.strictEqual(fs.readFileSync(path.join(home, kept[0]), 'utf8'), '{"routers": {"super-ux": "off"}, oops');
+});
+
+it('a file writeJson cannot read is refused, never replaced', () => {
+  if (process.platform === 'win32' || process.getuid() === 0) return;   // no unreadable file for root or on Windows
+  const home = tmpHome();
+  const f = path.join(home, 'config.json');
+  fs.writeFileSync(f, '{"keep": true}');
+  fs.chmodSync(f, 0o000);
+  let code = null;
+  try { S.writeJson(f, { b: 2 }); } catch (e) { code = e.code; }
+  fs.chmodSync(f, 0o600);
+  assert.strictEqual(code, 'EACCES', `an unreadable file was written over (code ${code})`);
+  assert.strictEqual(fs.readFileSync(f, 'utf8'), '{"keep": true}');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

@@ -8,7 +8,32 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-17 a home-directory project scope no longer blocks an update (1.89.4)
+## Current: 2026-11-17 the launcher cut into command modules; refactor waves W-A to W-D (1.90.0)
+
+**Objective (operator, 2026-11-17, this repository's session):** «Анализируй тот вид, который должен быть в конце,
+все функции, которые должны работать корректно … составь план рефакторинга, и волнами все до конца закрой. Не
+забудь параллельно решать задачи, которые прилетают.»
+
+**Plan:** [`evidence/plans/2026-11-17-hub-refactor.md`](evidence/plans/2026-11-17-hub-refactor.md) (survey, the
+target form, waves W-A to W-D). Branch `refactor/hub-2026-11-17`.
+
+**Done:** W-A: the CLI surface fixture (B-354), the quarantine root and manifest order (B-355), damaged own-state
+files kept (B-356). W-B: `bin/sshlg-skills.js` cut into `lib/cli-*.js` (B-357), fixture unchanged. W-C: B-324,
+B-326, B-341, B-345 closed; B-323, B-325, B-333 closed with readbacks; agent-stack told on the board (thread `aacbf0e8`)
+that the hub side of B-346 is live. W-D: release 1.90.0.
+
+**B-345:** Claude Code 2.1.299 loads `.claude/rules/*.md` and `CLAUDE.local.md` in a project (`claude -p` in an
+empty git folder named both planted codewords). `domains` writes a domain member's router text into
+`.claude/rules/sshlg-domains.md` where the member is on only in that project.
+
+**Waits:** the release PR's check, the v1.90.0 release run, then `npx --yes sshlg-skills@latest update` on this
+machine reads clean.
+
+**Next task:** B-338 (operator rules into the routing protocol; needs B-347's paired routing evaluation for its
+protocol paragraph and the exact wording of rule 1 from its board threads), then B-276 and B-320 (live hook probes:
+Codex and Cursor are signed in on this machine).
+
+## Previous: 2026-11-17 a home-directory project scope no longer blocks an update (1.89.4)
 
 **Objective:** finish W5 on the operator machine. `npx --yes sshlg-skills@latest update` on 1.89.3 ended PARTIAL:
 Claude Code had recorded a `project` scope at the home directory for every plugin (2026-11-17 00:48 UTC), and the
