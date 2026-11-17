@@ -244,33 +244,17 @@ function shadowCandidates() {
 
 // Recoverable pruning (FIX-UP-04.02): capture each shadow copy to a verified
 // quarantine before deleting it, so a wrong prune or an injected failure can be
-// restored to exactly what was there. The fs logic lives in lib/quarantine.js
-// (the pack's own recovery state), delegated here.
+// restored to exactly what was there. lib/quarantine.js prune() does the capture,
+// the manifest and only then the delete, under the same root the candidates were
+// read from (B-355).
 function pruneClaudeShadows() {
   const q = require('../lib/quarantine.js');
-  const skillstore = require('../lib/skillstore.js');
-  const pruned = [];
-  const rows = [];
   const candidates = shadowCandidates();
-  // A previous run's store is keyed by the same ids. Roll it aside BEFORE the first
-  // capture, or the second run throws EEXIST here and `update` dies with the plain
-  // copies already created and nothing pruned (v1.48.3, measured 2026-09-14).
-  if (candidates.length) {
-    const rolled = q.rollPrevious();
-    if (rolled) log(`  previous quarantine archived: ${rolled}`);
-  }
-  for (const id of candidates) {
-    const row = q.capture(id);
-    if (!row) { /* could not quarantine → do NOT delete: recoverability first */ continue; }
-    try {
-      fs.rmSync(path.join(claudeRoot(), 'skills', id), { recursive: true, force: true });
-      pruned.push(id);
-      rows.push(row);
-    } catch (_) { /* leave it; not fatal */ }
-  }
-  if (rows.length) q.writeManifest(rows, skillstore.stampName(new Date()));
-  if (pruned.length) {
-    log(`  pruned Claude plain copies that would shadow the plugin (quarantined, restorable): ${pruned.join(', ')}`);
+  const r = q.prune(candidates, { root: claudeRoot() });
+  if (r.archived) log(`  previous quarantine archived: ${r.archived}`);
+  if (r.error) log(`  shadow prune skipped: ${r.error}`);
+  if (r.pruned.length) {
+    log(`  pruned Claude plain copies that would shadow the plugin (quarantined, restorable): ${r.pruned.join(', ')}`);
   }
 }
 

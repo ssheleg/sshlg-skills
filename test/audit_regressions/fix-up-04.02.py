@@ -116,13 +116,21 @@ def t_symlink_quarantine_preserves_target():
 
 
 def t_prune_does_not_delete_without_quarantine():
+    # Since B-355 the capture, manifest and delete live in lib/quarantine.js prune();
+    # the launcher hands it the candidates and the root they were read from.
     with open(BIN, encoding="utf-8") as fh:
         s = fh.read()
     body = s[s.index("function pruneClaudeShadows"):]
     body = body[:body.index("\n}\n")]
-    assert "if (!row) {" in body and "do NOT delete" in body, \
-        "the prune deletes even when quarantine failed"
+    assert "q.prune(candidates, { root: claudeRoot() })" in body, \
+        "the launcher prunes outside the quarantine, or under another root than it read"
     qsrc = open(os.path.join(ROOT, "lib", "quarantine.js"), encoding="utf-8").read()
+    prune = qsrc[qsrc.index("function prune("):]
+    prune = prune[:prune.index("\n}\n")]
+    assert "if (row) rows.push(row)" in prune and "do NOT delete" in prune, \
+        "the prune deletes even when quarantine failed"
+    assert prune.index("writeManifest(") < prune.index("fs.rmSync("), \
+        "the prune deletes before its manifest is written"
     assert "Verify the capture BEFORE the caller removes" in qsrc, \
         "the quarantine is not verified before delete"
 
