@@ -1,3 +1,12 @@
+## v1.90.5 (2026-11-18): an uncertain Claude pin transaction no longer wedges `update`
+
+- **B-361.** A native Claude command cut off by a signal or timeout left its journal `uncertain`, and every later
+  `update` refused it with no recovery command (studio-agent's board finding 3eee0210, the Mac Studio's headless
+  `nicegram` space). Such a journal now goes through B-326's check: when the settings keys it owns equal its copy
+  taken before it ran, the next run marks it restored and re-pins every member with payload readback; otherwise the
+  refusal names the recovery command. A held lock or a `running` journal still refuses. Rollback:
+  `npm dist-tag add sshlg-skills@1.90.4 latest`.
+
 ## v1.90.4 (2026-11-18): agent-stack 0.33.2 pinned, old MCP tool names stay callable
 
 - **agent-stack 0.33.2 pinned** (submodule `2bfb472`, npm `@ssheleg/agent-stack@0.33.2`, agent-stack PR #79, release

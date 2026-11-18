@@ -8,7 +8,13 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-18 agent-stack 0.33.2 pinned, hub 1.90.4
+## Current: 2026-11-18 an uncertain Claude pin transaction recovers itself (B-361), hub 1.90.5
+
+**Objective:** studio-agent's board finding 3eee0210: an uncertain journal wedged `update` in the Mac Studio's
+headless `nicegram` space. **Done:** `lib/claude-pinned.js`, `lib/claude-pin-transaction.js`, two tests, B-361
+closed. **Waits:** the release run, then the reply in board thread e4616907 with the version. **Next task:** B-338.
+
+## Previous: 2026-11-18 agent-stack 0.33.2 pinned, hub 1.90.4
 
 **Objective:** the agents database decided R28 for the two doors (board thread 1c1524e4): old tool names leave
 `tools/list` as `retired` and stay callable. agent-stack 0.33.2 (PR #79, release run 44382448756) carries it and the
