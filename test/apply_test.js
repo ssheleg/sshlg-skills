@@ -415,11 +415,14 @@ it('every write to a protected file goes through protect()', () => {
   //                    open with share mode 0 by `hold` (B-316); never an operator file.
   // These exact exceptions do not change the detection of protected user-file writes
   // in other modules. Moving a config writer here requires re-review of this claim.
+  //   selfcopy.js      the launcher's own copy under ~/.sshlg-skills/launcher/<version>-<digest>
+  //                    (B-359): the package's shipped files, written to a temp folder and renamed;
+  //                    never a host file.
   //   atomicwrite.js   the ONE helper that lands operator bytes (B-260); its callers are
   //                    what the protect() window below is checked on.
   const OWN_STATE = ['lib/backup.js', 'lib/store.js', 'lib/turnstate.js', 'lib/quarantine.js',
     'lib/updatelock.js', 'lib/backup-retention.js', 'lib/codex-pending.js', 'lib/runtime.js',
-    'lib/runtime-recovery.js', 'lib/atomicwrite.js'];
+    'lib/runtime-recovery.js', 'lib/atomicwrite.js', 'lib/selfcopy.js'];
   for (const rel of corpus.filter((f) => !OWN_STATE.includes(f))) {
     const src = fs.readFileSync(path.join(__dirname, '..', rel), 'utf8').split('\n');
     src.forEach((line, i) => {
@@ -463,7 +466,7 @@ it('THE PROTECT EXEMPTIONS ARE EXACTLY THE MODULES THAT WRITE THE PACK\'S OWN ST
   }
   assert.deepStrictEqual([...new Set(unguarded)].sort(),
     ['lib/atomicwrite.js', 'lib/backup-retention.js', 'lib/backup.js', 'lib/codex-pending.js',
-      'lib/quarantine.js', 'lib/runtime-recovery.js', 'lib/runtime.js', 'lib/store.js', 'lib/turnstate.js', 'lib/updatelock.js'],
+      'lib/quarantine.js', 'lib/runtime-recovery.js', 'lib/runtime.js', 'lib/selfcopy.js', 'lib/store.js', 'lib/turnstate.js', 'lib/updatelock.js'],
     'a module writes outside protect() and is not explicitly declared to write '
     + 'only the pack\'s own state — argue for it in the exemption list or route it '
     + 'through protect()');

@@ -292,6 +292,18 @@ function main(argv) {
   // `restore` takes a positional archive name.
   if (cmd === 'restore') return cmdRestoreAll(rest) ? 0 : 1;
   const f = parseFlags(rest);
+  if (['install', 'i', 'update', 'up'].includes(cmd) && !f.dryRun) {
+    // B-359: a run from the npx cache moves to a copy npm cannot prune mid-run, then runs there.
+    const sc = require('../lib/selfcopy.js');
+    let to = null;
+    try { to = sc.relaunchRoot({ root: ROOT, home: os.homedir(), env: process.env }); }
+    catch (e) { log(`  running from the npx cache (stable copy not made: ${e.code || e.message})`); }
+    if (to) {
+      const r = require('child_process').spawnSync(process.execPath, [path.join(to, 'bin', 'sshlg-skills.js'), cmd, ...rest],
+        { stdio: 'inherit', env: Object.assign({}, process.env, { [sc.ENV]: '1' }) });
+      return r.status === null ? 1 : r.status;
+    }
+  }
   if (['install', 'i', 'update', 'up'].includes(cmd)) {
     // Fail before building/executing any operation, including plugin-only runs.
     try {
