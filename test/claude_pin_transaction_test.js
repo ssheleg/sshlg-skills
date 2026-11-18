@@ -286,3 +286,20 @@ test('B-224: an unreadable receipt counts as unfinished and is kept',f=>{
  assert(txDirs(f).includes(first));assert.equal(txDirs(f).length,T.KEEP_FINISHED+1);
 });
 console.log(`PASS: Claude native transaction — ${count} cases`);
+
+// B-361: the Mac Studio's headless `nicegram` space, 2026-11-18: an install killed mid-run left an
+// uncertain journal and every later `update` refused it, with no command that recovers it.
+test('B-361: an uncertain journal whose owned keys equal its pre-run copy is recovered by the next run, which re-pins',f=>{
+ f.setHook(a=>a[1]==='install'?{status:null,signal:'SIGKILL'}:null);const failed=f.execute();assert(!failed.ok);assert.match(failed.error,/uncertain/);f.setHook(null);
+ const receipt=JSON.parse(fs.readFileSync(failed.receipt));assert.equal(receipt.uncertain,true);
+ fs.copyFileSync(receipt.backups.find(b=>b.file===fs.realpathSync(f.sf)).path,f.sf);
+ const plan=f.plan();assert.equal(plan.recover.receipt,failed.receipt);assert.equal(plan.recover.uncertain,true);
+ const r=T.execute(plan,[f.m],f.inventory,{runner:f.runner});assert(r.ok,JSON.stringify(r));assert.equal(r.recovered.receipt,failed.receipt);
+ const old=JSON.parse(fs.readFileSync(failed.receipt));assert.equal(old.settingsRestored,true);assert.match(old.recovered.reason,/B-361/);
+ assert.equal(f.plan().recover,null);
+});
+test('B-361: an uncertain journal whose owned keys moved still refuses, naming the recovery command',f=>{
+ f.setHook(args=>{if(args[1]==='install'){const s=JSON.parse(fs.readFileSync(f.sf));s.enabledPlugins[f.id]=true;fs.writeFileSync(f.sf,JSON.stringify(s));return {status:null,signal:'SIGKILL'};}return null;});
+ const failed=f.execute();assert(!failed.ok);f.setHook(null);
+ assert.throws(f.plan,/incomplete Claude transaction.*Recover:/s);
+});
