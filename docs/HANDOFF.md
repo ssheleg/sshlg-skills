@@ -18,7 +18,14 @@ and the same disk pressure failed the web3d-dev clones.
 `~/.sshlg-skills/launcher/<version>-<digest>`. `test/selfcopy_test.js` (5). 1.90.0 itself is released (tag
 `v1.90.0`, release run 44194768090 success, npm 1.90.0).
 
-**Waits:** this release's check and tag run, then `npx --yes sshlg-skills@latest update` on this machine reads clean.
+**Released and read back (2026-11-18):** PR #319, CI run 44221509691 green, tag `v1.90.1`, release run 44222450437
+success, npm 1.90.1. `npx --yes sshlg-skills@latest update` on this machine ran from
+`~/.sshlg-skills/launcher/1.90.1-0716f656260a`: 33 of 33 skills CLI steps (web3d-dev included), Claude native
+transaction `verified` for all eleven members. Result PARTIAL only for Codex: nine plugins deferred while active
+sessions hold their payloads (`DEFERRED_ACTIVE_GENERATION_SAFETY`, by design; the deferred-update watcher is
+printed in the run).
+
+**Waits:** none in this repository.
 
 **Next task:** B-338 (operator rules into the routing protocol; needs B-347's paired routing evaluation), then
 B-276 and B-320 (live hook probes: Codex and Cursor are signed in here), then B-346 once agent-stack tags 0.32.2.
