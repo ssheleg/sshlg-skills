@@ -8,7 +8,22 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-17 the launcher cut into command modules; refactor waves W-A to W-D (1.90.0)
+## Current: 2026-11-18 update runs from a stable copy (1.90.1)
+
+**Objective:** finish W-D of the 2026-11-17 refactor: the 1.90.0 update on this machine. It failed (B-359): the npx
+cache folder it ran from was removed mid-run while the disk was at 0.2 GB free, so a lazy `require` found nothing,
+and the same disk pressure failed the web3d-dev clones.
+
+**Done:** `lib/selfcopy.js`: `install` and `update` started from the npx cache run from
+`~/.sshlg-skills/launcher/<version>-<digest>`. `test/selfcopy_test.js` (5). 1.90.0 itself is released (tag
+`v1.90.0`, release run 44194768090 success, npm 1.90.0).
+
+**Waits:** this release's check and tag run, then `npx --yes sshlg-skills@latest update` on this machine reads clean.
+
+**Next task:** B-338 (operator rules into the routing protocol; needs B-347's paired routing evaluation), then
+B-276 and B-320 (live hook probes: Codex and Cursor are signed in here), then B-346 once agent-stack tags 0.32.2.
+
+## Previous: 2026-11-17 the launcher cut into command modules; refactor waves W-A to W-D (1.90.0)
 
 **Objective (operator, 2026-11-17, this repository's session):** «Анализируй тот вид, который должен быть в конце,
 все функции, которые должны работать корректно … составь план рефакторинга, и волнами все до конца закрой. Не

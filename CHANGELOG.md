@@ -1,3 +1,12 @@
+## v1.90.1 (2026-11-18): update runs from a copy the npx cache cannot take away
+
+- **`install` and `update` no longer die when npm prunes the npx cache mid-run (B-359).** The 1.90.0 update on the
+  operator machine failed after its skills CLI steps with `Cannot find module '../lib/quarantine.js'`: the
+  `~/.npm/_npx/<hash>` folder it ran from had been removed under it (the disk was at 0.2 GB free). A run started from
+  the npx cache now copies the package's shipped files to `~/.sshlg-skills/launcher/<version>-<digest>` once (reused,
+  the two newest kept) and runs from there; a checkout or a global install runs where it is, and `--dry-run` never
+  copies (`lib/selfcopy.js`, `test/selfcopy_test.js`).
+
 ## v1.90.0 (2026-11-17): the launcher cut into command modules; no write can lose the operator's data
 
 The 2026-11-17 refactor waves ([plan](docs/evidence/plans/2026-11-17-hub-refactor.md)). Every command answers as
