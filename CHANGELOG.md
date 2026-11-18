@@ -1,3 +1,13 @@
+## v1.90.4 (2026-11-18): agent-stack 0.33.2 pinned, old MCP tool names stay callable
+
+- **agent-stack 0.33.2 pinned** (submodule `2bfb472`, npm `@ssheleg/agent-stack@0.33.2`, agent-stack PR #79, release
+  run 44382448756). `mcp-two-doors.md` follows the agents database's decision on its R28 (board thread 1c1524e4): an
+  old tool name leaves `tools/list` as `retired` with its date and stays callable as a deprecated alias, instead of
+  being removed after one release. A new trap: `execute` forwarding its own `Mcp-Name` header is refused 400 by an MCP
+  `2026-07-28` transport check (seo-content-agent TRAP-587). Release impact: as v1.90.3
+  ([`docs/evidence/specs/2026-11-18-v1903-release-impact.md`](docs/evidence/specs/2026-11-18-v1903-release-impact.md));
+  rollback `npm dist-tag add sshlg-skills@1.90.3 latest`.
+
 ## v1.90.3 (2026-11-18): agent-stack 0.33.1 pinned, every MCP server we build has two doors
 
 - **agent-stack 0.33.1 pinned** (submodule `26b1f72`, npm `@ssheleg/agent-stack@0.33.1`). 0.33.0 is agent-stack PR #77

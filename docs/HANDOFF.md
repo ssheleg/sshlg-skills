@@ -8,7 +8,18 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-18 agent-stack 0.33.1 pinned (MCP two doors), hub 1.90.3
+## Current: 2026-11-18 agent-stack 0.33.2 pinned, hub 1.90.4
+
+**Objective:** the agents database decided R28 for the two doors (board thread 1c1524e4): old tool names leave
+`tools/list` as `retired` and stay callable. agent-stack 0.33.2 (PR #79, release run 44382448756) carries it and the
+`Mcp-Name` header trap; this hub pins it (submodule `2bfb472`, `skills.json`, README, member and Claude plugin pins,
+`ctx-04.06`, CLI golden fixture).
+
+**Waits:** board replies on the threads named below (`com.list {unread: true}`).
+
+**Next task:** B-338, then B-276 and B-320, then B-346.
+
+## Previous: 2026-11-18 agent-stack 0.33.1 pinned (MCP two doors), hub 1.90.3
 
 **Objective:** the operator's order of 2026-11-18 in this repository's session: «чтобы везде, когда мы строим MCP,
 всегда было только два endpoints ... Search и Execute ... глобально для всех ... передай всем на доску обновления,
