@@ -24,8 +24,13 @@ ab3ecf7e to fabric-agent-adapter, e6e13934 to fabric-agent-contract, announcemen
 a53c3048 (Appvillis), 9fed30b9 (PassionCode), 8dc19039 and efa92aec. The board refuses a thread joining two
 businesses, so the announcement is split by business.
 
-**Waits:** this PR's check, the v1.90.3 tag's release run, `npx --yes sshlg-skills@latest update` here; replies on
-the board threads above (read with `com.list {unread: true}`).
+**Released and installed:** PR #322 (`e6c186b6`, CI run 44371497224 green), tag `v1.90.3`, release run 44372737686
+success, `npm view sshlg-skills version` 1.90.3. `npx --yes sshlg-skills@latest update` on the operator machine:
+33 of 33 steps, PARTIAL only for the Codex native catalog (`DEFERRED_ACTIVE_GENERATION_SAFETY`, every family member,
+as before); Claude Code holds `agent-stack/0.33.1` with `skills/agent-interop/references/mcp-two-doors.md`, and the
+rewritten `~/Library/LaunchAgents/me.sshlg.skills.update.plist` parses with `plistlib` (B-360).
+
+**Waits:** replies on the board threads above (read with `com.list {unread: true}`).
 
 **Next task:** B-338, then B-276 and B-320, then B-346.
 
