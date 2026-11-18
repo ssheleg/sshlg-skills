@@ -8,7 +8,28 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-18 sheleg-design 1.67.1 pinned, hub 1.90.2
+## Current: 2026-11-18 agent-stack 0.33.1 pinned (MCP two doors), hub 1.90.3
+
+**Objective:** the operator's order of 2026-11-18 in this repository's session: «чтобы везде, когда мы строим MCP,
+всегда было только два endpoints ... Search и Execute ... глобально для всех ... передай всем на доску обновления,
+абсолютно всем, у кого есть какие-то MCP».
+
+**Done:** agent-stack 0.33.0 (PR ssheleg/agent-stack#77, tag `v0.33.0`, release run 44356954501, npm 0.33.0):
+`agent-interop/references/mcp-two-doors.md`, Rule one, pointers, a regression test. The hub validator refused the 0.33.0 pin (member-ledger ratchet), so agent-stack 0.33.1 (PR #78) recorded
+the shipped version. Here: submodule at `26b1f72`, `skills.json` and README at 0.33.1, `scripts/sync-member-pins.js --write`, `scripts/sync-claude-pins.js --write`,
+`ctx-04.06.json` re-emitted, the CLI golden fixture rewritten, B-360 (the plist comment) fixed and closed, release
+impact [`2026-11-18-v1903-release-impact.md`](evidence/specs/2026-11-18-v1903-release-impact.md). Board: request
+3257c650 to fabric-agents-database (thread 1c1524e4; a test request 56a11729 sent there by mistake was cancelled),
+ab3ecf7e to fabric-agent-adapter, e6e13934 to fabric-agent-contract, announcements in threads 87ea6cd6, 2bbe0f75,
+a53c3048 (Appvillis), 9fed30b9 (PassionCode), 8dc19039 and efa92aec. The board refuses a thread joining two
+businesses, so the announcement is split by business.
+
+**Waits:** this PR's check, the v1.90.3 tag's release run, `npx --yes sshlg-skills@latest update` here; replies on
+the board threads above (read with `com.list {unread: true}`).
+
+**Next task:** B-338, then B-276 and B-320, then B-346.
+
+## Previous: 2026-11-18 sheleg-design 1.67.1 pinned, hub 1.90.2
 
 **Objective:** make sheleg-design's `phosphor` pack (1.67.0, PR #65, release run 44280802407) visible: a member
 release is invisible until this hub bumps its pin

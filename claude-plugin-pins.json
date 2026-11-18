@@ -3340,8 +3340,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "0fee9350d5e3965b2457930dd1c890ea0cd0789f",
-      "version": "0.32.1",
+      "commit": "26b1f72a8fe73350342f2f0e5b9d8a90710c63c1",
+      "version": "0.33.1",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3349,7 +3349,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.32.1",
+        "version": "0.33.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3374,7 +3374,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "9baf5349c84abab9cd95b6a17fe1441abbd21909daedf0741fc8d6e036dbbcba",
+          "sha256": "4a581cb761216f32717cf8cb5e6ed0901ead6b97b97dbcf923810c403b103713",
           "bytes": 1081
         },
         {
@@ -3449,8 +3449,8 @@
         },
         {
           "path": "skills/agent-harness/references/tools.md",
-          "sha256": "572822bc05a710019fc5454f2ddb3750537dbf3667fc73fad0c8bcdcd0f1346a",
-          "bytes": 10351
+          "sha256": "29c64b53b026284616f35ae856d2cb68c63e94d0b4d9cf19d8e304bea8e1cdf9",
+          "bytes": 10721
         },
         {
           "path": "skills/agent-harness/references/workbench-contracts.md",
@@ -3479,8 +3479,8 @@
         },
         {
           "path": "skills/agent-interop/references/agent-surface.md",
-          "sha256": "340038d22b5ca1d92b5746a1f4ef4c871526ec106cce472507d95e706e552040",
-          "bytes": 15966
+          "sha256": "07cff9bbac44d72fdd5313ab5bf708abf69a8005ac3a3bef91a142e58079e528",
+          "bytes": 16182
         },
         {
           "path": "skills/agent-interop/references/gateway.md",
@@ -3498,9 +3498,14 @@
           "bytes": 7152
         },
         {
+          "path": "skills/agent-interop/references/mcp-two-doors.md",
+          "sha256": "11694f2af21fc16d0b4eb6d352d4453bba5b6af64d11b77496009af6011ad8bf",
+          "bytes": 9361
+        },
+        {
           "path": "skills/agent-interop/references/mcp.md",
-          "sha256": "a197a16f5ba2d7c0aeccfc53625bb8ee8c4f316221201cff19f7c25efa0d2159",
-          "bytes": 14831
+          "sha256": "316877b92b1ad0fd2abf823b992a00bc3780cb6a72bc88764e7ab4b17924fc7b",
+          "bytes": 14916
         },
         {
           "path": "skills/agent-interop/references/registry.md",
@@ -3509,8 +3514,8 @@
         },
         {
           "path": "skills/agent-interop/SKILL.md",
-          "sha256": "f280d7f6b1b1ae5e3ffb7cf3a007318a0796ddf957d6fa38280b3b03287b99cc",
-          "bytes": 16494
+          "sha256": "88bd4825934b15d48fa0fae83615e330025263403658d84996539d61066f7475",
+          "bytes": 17464
         },
         {
           "path": "skills/agent-orchestrator/references/context-engineering.md",
