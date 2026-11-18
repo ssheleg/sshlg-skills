@@ -131,7 +131,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.66.6",
+      "version": "1.67.1",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -148,7 +148,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "b1417bf8a1b8d402ff81bb7f1c26f0887e806f10"
+      "commit": "91e9b752263ebbb87f1f5fbe3e908083565ed352"
     },
     {
       "name": "seo-aeo-audit",

@@ -1,3 +1,12 @@
+## v1.90.2 (2026-11-18): sheleg-design 1.67.1 pinned, the `phosphor` pack
+
+- **sheleg-design 1.67.1 pinned** (submodule `91e9b75`, npm `sheleg-design-skill@1.67.1`). 1.67.0 adds the fortieth
+  style pack, `phosphor` (a green-black terminal field, one phosphor green, digital rain behind glass windows, comic
+  story panels), measured off `assessment.passioncode.ai` (sheleg-design PR #65, release run 44280802407). 1.67.0
+  shipped with its verification ledger still headed by 1.66.6, which this validator's member-ledger ratchet (0)
+  refuses, so 1.67.1 (sheleg-design PR #66) records the shipped version and changes nothing else. Release impact:
+  [`docs/evidence/specs/2026-11-18-v1902-release-impact.md`](docs/evidence/specs/2026-11-18-v1902-release-impact.md).
+
 ## v1.90.1 (2026-11-18): update runs from a copy the npx cache cannot take away
 
 - **`install` and `update` no longer die when npm prunes the npx cache mid-run (B-359).** The 1.90.0 update on the
