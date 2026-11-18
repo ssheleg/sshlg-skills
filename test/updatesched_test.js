@@ -48,7 +48,10 @@ it('the time is the same for one account on every run, at night, and differs acr
 it('launchd: one plist, the absolute node, the runner copy, a calendar slot, a PATH that is not the shell\'s', () => {
   const [f] = S.jobFiles('launchd', base('launchd'));
   assert.strictEqual(f.file, path.join(HOME, 'Library', 'LaunchAgents', 'me.sshlg.skills.update.plist'));
-  assert.ok(f.text.includes(S.MARK), 'the file does not say who owns it');
+  assert.ok(f.text.includes(S.MARK_XML), 'the file does not say who owns it');
+  // A comment holding `--` is not well-formed XML: launchd and plistlib refuse the whole file (board finding fd6cf23d).
+  for (const c of f.text.match(/<!--([\s\S]*?)-->/g) || []) assert.ok(!c.slice(4, -3).includes('--'), `XML comment holds "--": ${c}`);
+  assert.ok(!S.MARK_XML.includes('--'));
   assert.ok(f.text.includes('<string>/opt/node v26/bin/node</string>'));
   assert.ok(f.text.includes(`<string>${path.join(HOME, '.sshlg-skills', 'scheduler', 'lib', 'updaterun.js')}</string>`));
   assert.ok(f.text.includes('<string>--scheduled</string>'));
@@ -384,7 +387,7 @@ it('the job never registers itself, on any platform; an older ownership line is 
     } finally { fs.rmSync(home, { recursive: true, force: true }); }
   }
   const want = S.jobFiles('launchd', base('launchd'))[0].text;
-  const older = want.replace(S.MARK, `${S.OWNER} (an older release's wording).`);
+  const older = want.replace(S.MARK_XML, `${S.OWNER} (an older release's wording).`);
   assert.strictEqual(S.plan(base('launchd', { read: () => ({ text: older }) })).state, 'update', 'a reworded ownership line made our own job foreign');
   assert.strictEqual(S.plan(base('launchd', { mode: 'off', read: () => ({ text: older }) })).state, 'remove');
 });

@@ -1,3 +1,17 @@
+## v1.90.3 (2026-11-18): agent-stack 0.33.0 pinned, every MCP server we build has two doors
+
+- **agent-stack 0.33.0 pinned** (submodule `98025b3`, npm `@ssheleg/agent-stack@0.33.0`, agent-stack PR #77, release
+  run 44356954501). The operator's rule of 2026-11-18: an MCP server we build or run lists only `search` and
+  `execute`. agent-interop gains `references/mcp-two-doors.md` (the operation catalogue, the one gated path, at most
+  three measured exceptions, one release of aliases for old tool names, the snapshot, conformance tests) and "Rule
+  one"; agent-harness `tools.md`, `mcp.md` and `agent-surface.md` point at it. The Fabric board was told: requests to
+  fabric-agents-database (templates, R33, etalons, organization copies), fabric-agent-adapter (the service kit) and
+  fabric-agent-contract (fold `fabric.job.get` and `fabric.job.cancel` into `execute`), and announcements to every
+  project with an MCP server. Release impact:
+  [`docs/evidence/specs/2026-11-18-v1903-release-impact.md`](docs/evidence/specs/2026-11-18-v1903-release-impact.md).
+- **The nightly job's launchd plist is well-formed XML (B-360).** Its comment no longer holds `--`; board finding
+  fd6cf23d from company-assessment-agent. The next `update` rewrites an installed plist.
+
 ## v1.90.2 (2026-11-18): sheleg-design 1.67.1 pinned, the `phosphor` pack
 
 - **sheleg-design 1.67.1 pinned** (submodule `91e9b75`, npm `sheleg-design-skill@1.67.1`). 1.67.0 adds the fortieth

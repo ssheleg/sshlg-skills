@@ -205,13 +205,13 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.32.1",
+      "version": "0.33.0",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "0fee9350d5e3965b2457930dd1c890ea0cd0789f"
+      "commit": "98025b3c706b798a5c4e49dd6bf26b3003590b8f"
     },
     {
       "name": "telegram-dev",
