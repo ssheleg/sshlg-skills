@@ -8,7 +8,27 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-18 update runs from a stable copy (1.90.1)
+## Current: 2026-11-18 sheleg-design 1.67.1 pinned, hub 1.90.2
+
+**Objective:** make sheleg-design's `phosphor` pack (1.67.0, PR #65, release run 44280802407) visible: a member
+release is invisible until this hub bumps its pin
+([CONTRIBUTING](../CONTRIBUTING.md#the-pins-here-are-what-the-family-publishes-whatever-npm-says)).
+
+**Done:** the validator refused the 1.67.0 pin (`1 member ledger(s) describe a version older than they ship
+(sheleg-design)`, ratchet 0): 1.67.0 shipped with its ledger headed by 1.66.6. sheleg-design PR #66 recorded the
+shipped version (1.67.1, no skill changes), the same shape as its 1.66.2. Here: submodule moved to the v1.67.1
+commit, `skills.json` and README at 1.67.1, `scripts/sync-member-pins.js --write` and
+`scripts/sync-claude-pins.js --write`, `ctx-04.06.json` re-emitted, the CLI golden fixture rewritten
+(`SSHLG_GOLDEN_WRITE=1`, only the three `list` cases move), release impact
+[`2026-11-18-v1902-release-impact.md`](evidence/specs/2026-11-18-v1902-release-impact.md).
+
+**Waits:** this release PR's check, the v1.90.2 tag's release run, then `npx --yes sshlg-skills@latest update` on
+the operator machine.
+
+**Next task:** B-338 (operator rules into the routing protocol; needs B-347's paired routing evaluation), then
+B-276 and B-320 (live hook probes: Codex and Cursor are signed in here), then B-346 once agent-stack tags 0.32.2.
+
+## Previous: 2026-11-18 update runs from a stable copy (1.90.1)
 
 **Objective:** finish W-D of the 2026-11-17 refactor: the 1.90.0 update on this machine. It failed (B-359): the npx
 cache folder it ran from was removed mid-run while the disk was at 0.2 GB free, so a lazy `require` found nothing,
