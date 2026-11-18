@@ -1,7 +1,8 @@
-## v1.90.3 (2026-11-18): agent-stack 0.33.0 pinned, every MCP server we build has two doors
+## v1.90.3 (2026-11-18): agent-stack 0.33.1 pinned, every MCP server we build has two doors
 
-- **agent-stack 0.33.0 pinned** (submodule `98025b3`, npm `@ssheleg/agent-stack@0.33.0`, agent-stack PR #77, release
-  run 44356954501). The operator's rule of 2026-11-18: an MCP server we build or run lists only `search` and
+- **agent-stack 0.33.1 pinned** (submodule `26b1f72`, npm `@ssheleg/agent-stack@0.33.1`). 0.33.0 is agent-stack PR #77
+  (release run 44356954501); 0.33.1 (PR #78) records the shipped version in its ledger, which this validator's
+  member-ledger ratchet requires. The operator's rule of 2026-11-18: an MCP server we build or run lists only `search` and
   `execute`. agent-interop gains `references/mcp-two-doors.md` (the operation catalogue, the one gated path, at most
   three measured exceptions, one release of aliases for old tool names, the snapshot, conformance tests) and "Rule
   one"; agent-harness `tools.md`, `mcp.md` and `agent-surface.md` point at it. The Fabric board was told: requests to
