@@ -8,7 +8,20 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-19 agent-stack 0.33.3 pinned, the site names the two-door rule, hub 1.90.6
+## Current: 2026-11-19 1.90.6 read back on the live site; B-346 and B-276 probed, both wait
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the
+session): clear 1.90.6's wait, then the next rows. **Done:** pages run on `26fc9feb` green; the live
+`https://skills.sshlg.me/skills/agent-stack/` is byte-identical to `node scripts/site.js` built from `origin/main` and
+reads in Safari «two tools, search and execute» and «v0.33.3»; `npm view sshlg-skills version` 1.90.6. B-346: the
+pinned agent-stack 0.33.3 still advertises only the bare «аудит агента»; its PR ssheleg/agent-stack#76 (0.32.2) is
+open and behind `main`, so the hub keeps both `PENDING` entries; a note went to board thread `aacbf0e8` (message
+`6e203dad`). B-276: the live probes ran as far as they can today (row in the backlog: Codex hit its usage limit,
+Cursor needs a sign-in). **Waits:** Codex usage reset (2026-11-20 11:42 local); agent-stack's merge and tag of B-162;
+a Cursor sign-in (the operator's). **Next task:** the B-276 Codex probe after the reset (both runs named in its row),
+then B-338 with B-347's paired routing evaluation, then B-346 once agent-stack tags B-162.
+
+## Previous: 2026-11-19 agent-stack 0.33.3 pinned, the site names the two-door rule, hub 1.90.6
 
 **Objective:** the operator's order of 2026-11-19: collect the session's errors into the retro, close the skill side
 of the MCP two-door rule and update the site. **Done:** agent-stack 0.33.3 (ledger guard, Fabric contract
