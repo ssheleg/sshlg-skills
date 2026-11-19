@@ -198,20 +198,20 @@
       "dir": "skills/agent-stack",
       "pluginMarketplace": "ssheleg/agent-stack",
       "pluginInstall": "agent-stack@agent-stack",
-      "desc": "Production patterns for AI agent systems, in four skills. The orchestrator: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay, and the shape of the work as a graph — an edge that carries no data is no edge, and a parallel layer gets a checker before the node that consumes it. The harness: what the agent is TOLD — system prompts, tool descriptions, technique choice, workflow versus agent, static versus dynamic, plus a seven-track audit of somebody else's agent and a scanner for the defects that are mechanically visible. The evals: suites that measure whether it actually works. The interop layer: MCP 2026-07-28 and what it deprecated, A2A 1.0, the registry, the gateway. Plus the wallet side of reselling LLM access.",
+      "desc": "Production patterns for AI agent systems, in four skills. The orchestrator: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay, and the shape of the work as a graph — an edge that carries no data is no edge, and a parallel layer gets a checker before the node that consumes it. The harness: what the agent is TOLD — system prompts, tool descriptions, technique choice, workflow versus agent, static versus dynamic, plus a seven-track audit of somebody else's agent and a scanner for the defects that are mechanically visible. The evals: suites that measure whether it actually works. The interop layer: MCP 2026-07-28 and what it deprecated, the rule that every MCP server we build lists two tools, search and execute, A2A 1.0, the registry, the gateway. Plus the wallet side of reselling LLM access.",
       "skillNames": [
         "agent-orchestrator",
         "agent-evals",
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.33.2",
+      "version": "0.33.3",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "2bfb472dc819f29ea68774f2d2b3862796622d89"
+      "commit": "01e180ca55fa10bc72d616ae67e23c321862e7ab"
     },
     {
       "name": "telegram-dev",

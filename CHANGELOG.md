@@ -1,3 +1,18 @@
+## v1.90.6 (2026-11-19): agent-stack 0.33.3 pinned, the site names the two-door rule, the run's retro
+
+- **agent-stack 0.33.3 pinned** (submodule `01e180c`, npm `@ssheleg/agent-stack@0.33.3`, agent-stack PR #80, release
+  run 44464120993): the member's own gate refuses a tree whose verification ledger does not name the version it ships
+  (the class that cost 0.33.1), and `mcp-two-doors.md` records what the Fabric contract accepts from
+  `v0.1.0+2026-11-19` (DEC-0182: a capability missing from a compact `tools/list` is read from the `search`
+  catalogue).
+- **The site and README name the rule.** agent-stack's description in `skills.json` and README now says every MCP
+  server we build lists two tools, `search` and `execute`; the pages workflow rebuilds skills.sshlg.me from it.
+- **`npm test` names a checkout without its members.** A fresh worktree without `git submodule update --init` failed
+  seven suites on 2026-11-18 and read like a broken change; `test/run.js` now prints a `NOTE:` naming the missing
+  members on its first and last line (`test/members_present.js`, four cases).
+- **Retro.** The run's divergences (two releases spent, a canon that contradicted the agents base, the runner note
+  above) are in `docs/evidence/retro/2026-Q4.md`, section "2026-11-19 · MCP two doors"; one stamp rotated.
+
 ## v1.90.5 (2026-11-18): an uncertain Claude pin transaction no longer wedges `update`
 
 - **B-361.** A native Claude command cut off by a signal or timeout left its journal `uncertain`, and every later
