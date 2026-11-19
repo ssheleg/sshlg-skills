@@ -119,9 +119,11 @@ used.)*
 
 ## Run stamps
 
-Rotated out: 83 oldest run stamps, verbatim in retro/2026-Q4.md sha256:9643c68429a9
+Rotated out: 84 oldest run stamps, verbatim in retro/2026-Q4.md sha256:7b66ae0845e3
 
 Moved out: 14 loose paragraphs, verbatim in retro/2026-Q4.md sha256:b1964f7ebcc7
+
+- **2026-11-19: MCP two doors as agent-stack 0.33.0 to 0.33.3 and hub 1.90.3 to 1.90.6; two releases spent on a missing ledger row and a canon that contradicted the agents base** (#8 fired: a background wrapper said exit 0 over `FAIL: 7 of 173`; #11 fired: those 7 were a checkout without members)
 
 - **2026-11-09: AI-native family as 1.87.0; npm held two members at the operator's gate** (#4 fired: zsh kept an unquoted command whole; #11 fired: a test passed on old code because a hook refused the command that wrote it)
 
@@ -140,5 +142,3 @@ Moved out: 14 loose paragraphs, verbatim in retro/2026-Q4.md sha256:b1964f7ebcc7
 - **2026-10-11/12 — integration waves: green was not verified until a second reading of every fix, and a release gate burned two tags** moved: retro/2026-Q4.md sha256:aed5fb0e2605
 
 - **2026-10-10/11 — the readback said PASS where the model saw nothing, and my own pin bump broke Continue** moved: retro/2026-Q4.md sha256:41a690568341
-
-- **2026-09-28 — the import I wrote by hand was wrong, and only a snapshot of the release could say so** moved: retro/2026-Q4.md sha256:64c455031dd7

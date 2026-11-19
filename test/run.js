@@ -182,6 +182,11 @@ process.on('exit', () => tmproot.close(RUN_TMP));
 for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) process.on(sig, () => process.exit(130));
 
 const failed = [];
+// 2026-11-19 retro: a checkout without its members fails member-reading suites for that alone.
+const memberCheck = require('./members_present.js');
+const missing = memberCheck.missingMembers(ROOT);
+const memberNote = memberCheck.note(missing, JSON.parse(fs.readFileSync(path.join(ROOT, 'skills.json'), 'utf8')).skills.length);
+if (memberNote) process.stdout.write(memberNote);
 
 if (!run('structural validator', 'python3', [path.join(TEST_DIR, 'validate.py')])) {
   failed.push('validate.py');
@@ -196,6 +201,7 @@ for (const suite of suites) {
 process.stdout.write(`\n${'='.repeat(60)}\n`);
 if (failed.length) {
   process.stdout.write(`FAIL: ${failed.length} of ${suites.length + pySuites.length + auditSuites.length + 1} — ${failed.join(', ')}\n`);
+  if (memberNote) process.stdout.write(memberNote);
   process.exit(1);
 }
 

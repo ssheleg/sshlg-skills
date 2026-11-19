@@ -8,7 +8,15 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-18 an uncertain Claude pin transaction recovers itself (B-361), hub 1.90.5
+## Current: 2026-11-19 agent-stack 0.33.3 pinned, the site names the two-door rule, hub 1.90.6
+
+**Objective:** the operator's order of 2026-11-19: collect the session's errors into the retro, close the skill side
+of the MCP two-door rule and update the site. **Done:** agent-stack 0.33.3 (ledger guard, Fabric contract
+DEC-0182), the pin, `skills.json` and README descriptions, the runner's members note, the retro
+(`docs/evidence/retro/2026-Q4.md` "2026-11-19 · MCP two doors"). **Waits:** the pages run after merge, then the live
+page read in Safari. **Next task:** B-338.
+
+## Previous: 2026-11-18 an uncertain Claude pin transaction recovers itself (B-361), hub 1.90.5
 
 **Objective:** studio-agent's board finding 3eee0210: an uncertain journal wedged `update` in the Mac Studio's
 headless `nicegram` space. **Done:** `lib/claude-pinned.js`, `lib/claude-pin-transaction.js`, two tests, B-361
