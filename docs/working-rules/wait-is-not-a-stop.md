@@ -26,6 +26,16 @@ outage, data loss, leaked credential or open security hole, nothing that worked 
 now broken, no shipped claim made false) becomes a board row with its evidence, not more
 work in this unit. Then take the next task by priority as a new unit.
 
+Answer what waits on you in the same turn with its state now: what is done, where, when
+the rest is ready and what blocks it. Do an order right the first time: name its risks,
+then do it. The operator's order to act is the act-specific grant for the access it needs:
+issue that token, scoped to the act, through its owner's door, then act; wider access
+stays the operator's decision. Make
+the content an order asks for; publishing risk goes beside it as metadata, never cuts it.
+An order to finish autonomously gets no choices: pick the best option at each stop and
+have a second model judge the pick; an order for trial versions shows the variants and
+waits for the picks.
+
 The rule grants no authority for an outward action. A watcher may merge, publish,
 spend, send, change access, reset or force-push only under an act-specific grant
 and the repository's applicable checks. Green CI, generic "continue", or enabling

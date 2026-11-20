@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-20 B-276 Codex half proven live; Cursor waits on a sign-in
+## Current: 2026-11-20 wait-v4 carries the relayed operator rules (B-338), paired evaluation +3
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+B-338 with B-347's paired evaluation, as the previous entry named. **Done:** `wait-v4` in `lib/wait-rule-text.js` and
+its canonical copy `docs/working-rules/wait-is-not-a-stop.md`: one paragraph (+675 characters) with the five rules
+B-338 lists; `wait-v3` kept in `PREVIOUS` so applied rules upgrade in place; the upgrade fixture in
+`test/wait_rules_test.js`. Paired evaluation, four situations, one fresh agent per pair: action A 1 of 4, B 4 of 4;
+text support A 0, B 4 ([run](runs/2026-11-20-wait-v4-eval.md)). B-347's W1 part moved; its router trims remain. Merged
+to `main`, **not released**: a tag publishes to npm, which this unattended run leaves to a session with the operator.
+**Waits:** the release of this change (operator session; then `update` and the read-back close B-338); a Cursor sign-in
+for B-276; agent-stack's merge and tag of B-162 (PR ssheleg/agent-stack#76 still open) for B-346. **Next task:** cut
+the release that ships `wait-v4` (version bump, tag, read the installed rule back), then B-347's "Among the routers"
+trims with their own paired evaluation, then B-346 once agent-stack tags B-162.
+
+## Previous: 2026-11-20 B-276 Codex half proven live; Cursor waits on a sign-in
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor after the Codex usage reset, no
 person in the session): the B-276 Codex probe named by the previous entry. **Done:** two `codex exec` runs on Codex
