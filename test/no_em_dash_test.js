@@ -182,7 +182,10 @@ it('the rewording is punctuation only: the words of every router are the words 1
   }
   assert.strictEqual(words(R.HEADING), words(OLD_HEADING));
   assert.strictEqual(words(cursor.DESCRIPTION), words(OLD_DESCRIPTION));
-  assert.strictEqual(words(T.BODY), words(T.PREVIOUS['wait-v2']));
+  // wait-v3 was the punctuation-only rewording; wait-v4 (B-338) adds words on purpose and keeps
+  // wait-v3 in PREVIOUS, the same way a reworded router keeps its previous lines.
+  assert.strictEqual(words(T.PREVIOUS['wait-v3']), words(T.PREVIOUS['wait-v2']));
+  assert.ok(T.REVISION === 'wait-v3' || T.PREVIOUS['wait-v3'], 'wait rule reworded with no wait-v3 kept');
 });
 
 it('the old heading and opener are recognised as legacy aliases', () => {
