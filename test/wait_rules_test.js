@@ -30,9 +30,9 @@ test('an applied wait-v1 rule upgrades in place to the current revision',h=>{
 });
 // B-226: wait-v3 takes the em dash out of the finish line. Every host that applied wait-v2
 // (1.64.0 to 1.80.0) must be reworded by update, not refused as an edited block.
-test('an applied wait-v2 rule upgrades in place to wait-v3, which carries no em dash',h=>{
+test('an applied wait-v2 rule upgrades in place to the current revision, which carries no em dash',h=>{
  const crypto=require('crypto'),dg=s=>crypto.createHash('sha256').update(s).digest('hex');
- assert.equal(T.REVISION,'wait-v3');assert(T.PREVIOUS['wait-v2'].includes('—'),'wait-v2 is not the 1.80.0 wording');
+ assert(T.PREVIOUS['wait-v2'].includes('—'),'wait-v2 is not the 1.80.0 wording');
  const f=host(h,'claude');P.set(h,'on');apply(h);
  const rec=W.receipt(h),r=Object.values(rec.data.records)[0],v2=r.segment.replace(T.render('claude'),T.render('claude',T.PREVIOUS['wait-v2']));
  assert.notEqual(v2,r.segment,'the fixture did not rebuild wait-v2');
@@ -40,7 +40,26 @@ test('an applied wait-v2 rule upgrades in place to wait-v3, which carries no em 
  const p=apply(h,{automatic:true});assert.equal(p.rows.find(x=>x.agent==='claude').action,'write');
  const text=fs.readFileSync(f,'utf8');assert(!text.includes('—'),'an em dash survived the upgrade');assert(text.includes('A finding that blocks nothing (no exit check red'));
  assert(text.startsWith('FOREIGN\n'));assert.equal(text.split(T.BEGIN).length,2);
- assert.equal(Object.values(W.receipt(h).data.records)[0].sourceRevision,'wait-v3');
+ assert.equal(Object.values(W.receipt(h).data.records)[0].sourceRevision,T.REVISION);
+ const hashes=[];for(let i=0;i<3;i++){apply(h,{automatic:true});hashes.push(dg(fs.readFileSync(f)));}
+ assert(hashes[0]===hashes[1]&&hashes[1]===hashes[2],'a later update changed the file again');
+});
+// B-338: wait-v4 carries the operator rules relayed on the board. Every host that applied
+// wait-v3 (1.80.1 to 1.90.6) must be reworded by update, and the new lines must arrive.
+test('an applied wait-v3 rule upgrades in place to wait-v4 with the relayed operator rules',h=>{
+ const crypto=require('crypto'),dg=s=>crypto.createHash('sha256').update(s).digest('hex');
+ assert.equal(T.REVISION,'wait-v4');
+ const lines=['Answer what waits on you in the same turn with its state now','Do an order right the first time',"The operator's order to act is the act-specific grant for the access it needs",'publishing risk goes beside it as metadata','have a second model judge the pick','an order for trial versions shows the variants'];
+ for(const l of lines){assert(T.BODY.includes(l),'wait-v4 lacks: '+l);assert(!T.PREVIOUS['wait-v3'].includes(l),'wait-v3 already had: '+l);}
+ assert(!T.BODY.includes('\u2014'),'wait-v4 carries an em dash');
+ const f=host(h,'codex');P.set(h,'on');apply(h);
+ const rec=W.receipt(h),r=Object.values(rec.data.records)[0],v3=r.segment.replace(T.render('codex'),T.render('codex',T.PREVIOUS['wait-v3']));
+ assert.notEqual(v3,r.segment,'the fixture did not rebuild wait-v3');
+ fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace(r.segment,v3));Object.assign(r,{segment:v3,sourceRevision:'wait-v3',sourceHash:dg(v3)});fs.writeFileSync(rec.file,JSON.stringify(rec.data));
+ const p=apply(h,{automatic:true});assert.equal(p.rows.find(x=>x.agent==='codex').action,'write');
+ const text=fs.readFileSync(f,'utf8');for(const l of lines)assert(text.includes(l),'upgrade lost: '+l);
+ assert(text.startsWith('FOREIGN\n'));assert.equal(text.split(T.BEGIN).length,2);
+ assert.equal(Object.values(W.receipt(h).data.records)[0].sourceRevision,'wait-v4');
  const hashes=[];for(let i=0;i<3;i++){apply(h,{automatic:true});hashes.push(dg(fs.readFileSync(f)));}
  assert(hashes[0]===hashes[1]&&hashes[1]===hashes[2],'a later update changed the file again');
 });
