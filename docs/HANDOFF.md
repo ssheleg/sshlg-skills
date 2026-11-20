@@ -22,6 +22,20 @@ for B-276; agent-stack's merge and tag of B-162 (PR ssheleg/agent-stack#76 still
 the release that ships `wait-v4` (version bump, tag, read the installed rule back), then B-347's "Among the routers"
 trims with their own paired evaluation, then B-346 once agent-stack tags B-162.
 
+## Pending branch: `feat/doc-graph-family-rule` (2026-11-21, paused by the owner, not released)
+
+**Objective:** the owner's order of 2026-11-20 (CEO window of Fabric, brief
+`2026-11-20-release-ui-rounds-and-graph-docs-brief.md` items 2 and 3): the family rule that docs and data rooms are
+graphs from day one, with the hidden refactoring. **Done:** one sentence added to the evidence-docs router in
+`lib/routers-registry.js` (`npx task-pipeline-skill doc-graph init`; tasks convert ungraphed docs);
+`node test/router_compaction_test.js` OK (8 checks; the first, longer wording measured 15,613 against the 15,500 block
+budget and was cut), `router_texts_test.js` OK (97), `routers_test.js` OK (44), `install_routers_test.js` OK (19).
+**Waits:** task-pipeline 1.106.0 (branch `feat/doc-graph-starter` in ssheleg/task-pipeline, not merged, not tagged);
+the owner paused all sessions on 2026-11-21 00:30 for the strategic plan (fabric-workspace session 2d03ce15).
+**Next task, when resumed:** release task-pipeline 1.106.0, then on this branch pin it (`skills/task-pipeline`
+gitlink, `node scripts/sync-member-pins.js --write`, `skills.json` version, README table, CHANGELOG, version bump),
+run `npm test`, merge, tag, `npx --yes sshlg-skills@latest update`, read the installed router line back.
+
 ## Previous: 2026-11-20 B-276 Codex half proven live; Cursor waits on a sign-in
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor after the Codex usage reset, no
