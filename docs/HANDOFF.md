@@ -18,8 +18,10 @@ fixtures). **Not merged and not tagged:** `package.json` on `main` redeploys ski
 through a Fabric effect request. **Waits:** the operator's approval of the publication (then merge the release PR, push
 tag `v1.90.7`, watch `release.yml`, `npm view sshlg-skills version`, `npx --yes sshlg-skills@latest update`, read
 the installed `wait-v4` rule back and close B-338); a Cursor sign-in for B-276; agent-stack's merge and tag of B-162
-for B-346. **Next task:** B-347's "Among the routers" trims with their own paired evaluation (independent of the
-release), then B-346 once agent-stack tags B-162.
+for B-346. B-347's "Among the routers" trims are left to the operator (decision in its row: B-256's 2026-10-25 choice
+to keep the block unchanged). B-276 re-checked 16:20 UTC: `cursor-agent -p` still answers `Authentication required`.
+**Next task:** the release once approved (steps above), then B-346 once agent-stack tags B-162 (PR
+ssheleg/agent-stack#76 still open).
 
 ## Previous: 2026-11-20 wait-v4 carries the relayed operator rules (B-338), paired evaluation +3
 
