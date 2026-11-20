@@ -8,7 +8,19 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-19 1.90.6 read back on the live site; B-346 and B-276 probed, both wait
+## Current: 2026-11-20 B-276 Codex half proven live; Cursor waits on a sign-in
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor after the Codex usage reset, no
+person in the session): the B-276 Codex probe named by the previous entry. **Done:** two `codex exec` runs on Codex
+0.169.0 against a scratch `$CLAUDE_CONFIG_DIR/CLAUDE.md` after `hooks install --codex`: without
+`--dangerously-bypass-hook-trust` the untrusted hook did not run (the append went through, no copy taken); with it the
+guard ran and took its copy before the write, then emitted no decision, which is the designed behaviour (the row's
+expectation «the guard must refuse» was wrong). `~/.codex/hooks.json` is back byte for byte. Evidence in the
+[B-276 row](evidence/backlog.md). No code changed, no release. **Waits:** a Cursor sign-in (`cursor-agent login`, the
+operator's) for the rest of B-276; agent-stack's merge and tag of B-162 for B-346. **Next task:** B-338 with B-347's
+paired routing evaluation (B-330's bar, B-336's budget), then B-346 once agent-stack tags B-162.
+
+## Previous: 2026-11-19 1.90.6 read back on the live site; B-346 and B-276 probed, both wait
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the
 session): clear 1.90.6's wait, then the next rows. **Done:** pages run on `26fc9feb` green; the live
