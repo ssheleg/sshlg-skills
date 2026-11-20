@@ -8,7 +8,22 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-20 wait-v4 carries the relayed operator rules (B-338), paired evaluation +3
+## Current: 2026-11-20 release 1.90.7 prepared for `wait-v4`, tag waits on the operator
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+cut the release that ships `wait-v4`, as the previous entry named. **Done:** branch `release/1.90.7` with
+`package.json` 1.90.7 and its `CHANGELOG.md` section (B-338, B-276); local `npm test` exit 0 (174 suites, 3574
+fixtures). **Not merged and not tagged:** `package.json` on `main` redeploys skills.sshlg.me (`pages.yml`) and the
+`v1.90.7` tag publishes to npm (`release.yml`); both are publication, which this unattended run hands to the operator
+through a Fabric effect request. **Waits:** the operator's approval of the publication (then merge the release PR, push
+tag `v1.90.7`, watch `release.yml`, `npm view sshlg-skills version`, `npx --yes sshlg-skills@latest update`, read
+the installed `wait-v4` rule back and close B-338); a Cursor sign-in for B-276; agent-stack's merge and tag of B-162
+for B-346. B-347's "Among the routers" trims are left to the operator (decision in its row: B-256's 2026-10-25 choice
+to keep the block unchanged). B-276 re-checked 16:20 UTC: `cursor-agent -p` still answers `Authentication required`.
+**Next task:** the release once approved (steps above), then B-346 once agent-stack tags B-162 (PR
+ssheleg/agent-stack#76 still open).
+
+## Previous: 2026-11-20 wait-v4 carries the relayed operator rules (B-338), paired evaluation +3
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 B-338 with B-347's paired evaluation, as the previous entry named. **Done:** `wait-v4` in `lib/wait-rule-text.js` and

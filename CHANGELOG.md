@@ -1,3 +1,16 @@
+## v1.90.7 (2026-11-20): the wait rule carries the operator rules relayed on the board (`wait-v4`)
+
+- **B-338.** The installed rule "A wait is not a stop" gains one paragraph: answer what waits on you in the same turn
+  with its state now; do an order right the first time; the operator's order to act is the act-specific grant for the
+  access it needs (wider access stays the operator's decision); make the content an order asks for and put publishing
+  risk beside it as metadata; an autonomous order gets no choices and a second model judges each pick, a trial order
+  shows the variants. `wait-v3` stays in `PREVIOUS`, so `update` rewrites an applied rule in place
+  (`test/wait_rules_test.js`). Paired evaluation, four situations, one fresh agent per pair: action 1 of 4 before,
+  4 of 4 after, no regression (`docs/runs/2026-11-20-wait-v4-eval.md`). Merged in PR #329. Rollback:
+  `npm dist-tag add sshlg-skills@1.90.6 latest`.
+- **B-276.** The Codex half of the hook-trust probe ran live on Codex 0.169.0 (PR #328, documents only); the Cursor half
+  waits on a sign-in.
+
 ## v1.90.6 (2026-11-19): agent-stack 0.33.3 pinned, the site names the two-door rule, the run's retro
 
 - **agent-stack 0.33.3 pinned** (submodule `01e180c`, npm `@ssheleg/agent-stack@0.33.3`, agent-stack PR #80, release
