@@ -164,6 +164,7 @@ const REWORDED_SINCE = {
   copywriting: 'audit 2026-11-11: reads the surface\'s channels.md record, as the member does',
   'project-audit': 'audit 2026-11-11: a JSON sidecar, the HTML page only on --report',
   fabric: 'audit 2026-11-11: detection and probe details moved to working-with-fabric',
+  'evidence-docs': '2026-11-21: docs and data rooms are graphs from day one (task-pipeline 1.106.0, doc-graph.md), two lines added',
   'task-pipeline': 'B-351, 2026-11-16 prompting review: says why changes go through the pipeline, one scope for "substantial", no list restating it',
 };
 
