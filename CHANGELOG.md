@@ -1,3 +1,11 @@
+## v1.91.1 (2026-11-21): task-pipeline 1.109.0 pinned (the spec protocol's family rule, measured)
+
+- **task-pipeline 1.109.0 pinned** (submodule `bd3f50f`, npm `task-pipeline-skill@1.109.0`, task-pipeline
+  PR #178): `research validate` records a validator of the author's own model family with a warning and
+  `research check` never counts it toward the tier minimum. Two measurements with their decision rules
+  committed before each run (B-175, B-176) found the author's family caught the most planted errors and
+  judged its own family's text the hardest; one other family preferred its own text, so diversity stays.
+
 ## v1.91.0 (2026-11-21): task-pipeline 1.108.0 pinned (the documentation graph, the spec protocol, the validator call); docs and data rooms are graphs from day one
 
 - **task-pipeline 1.108.0 pinned** (submodule `b707dde`, npm `task-pipeline-skill@1.108.0`), which carries 1.106.0

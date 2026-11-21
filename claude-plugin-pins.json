@@ -1093,8 +1093,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "b707ddef97a4fd2d93d7694fbca0bf1e0d103b4c",
-      "version": "1.108.0",
+      "commit": "bd3f50fa4e34a0a68e0ffd0026b24dfcdc4aed53",
+      "version": "1.109.0",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1102,7 +1102,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.108.0",
+        "version": "1.109.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1125,7 +1125,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "be539026a8ee8ce92fcf64ce624fb5d35df7dd4d1a1c9a082157494c66def828",
+          "sha256": "04c510f335d9408b4e07b7f854df2eafc6fc48ddc2d772d7f256ef99f65d2e2c",
           "bytes": 1529
         },
         {
@@ -1565,8 +1565,8 @@
         },
         {
           "path": "skills/task-pipeline/references/spec-protocol.md",
-          "sha256": "1e0636a2a3d732fe63cdea4e18407b001abf24790fe55e9d2ca2eb8d7efa71a2",
-          "bytes": 4544
+          "sha256": "babc00a16944a2cf6cacad1ac57056bf92073da246bd109a11c83e2138487ff5",
+          "bytes": 4580
         },
         {
           "path": "skills/task-pipeline/references/spec.md",
@@ -1720,8 +1720,8 @@
         },
         {
           "path": "skills/task-pipeline/scripts/spec_protocol.py",
-          "sha256": "c12631cabe43101b2f73984f93d67bb688f3ed40c5a760b89c9b8bc287c00adf",
-          "bytes": 30024
+          "sha256": "b7946e3d38a9ed7149f79562ca38518d4f4a7fd754aca168731dcbaf62df7764",
+          "bytes": 30497
         },
         {
           "path": "skills/task-pipeline/scripts/stage_checkpoint.py",
