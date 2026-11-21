@@ -8,7 +8,19 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-20 wait-v4 carries the relayed operator rules (B-338), paired evaluation +3
+## Current: 2026-11-21 SP-04 and SD-SKL-02 filed as B-362 (board request e8c153ee)
+
+**Objective:** answer Fabric board request `e8c153ee` (amendment A-1 to the system plan of 2026-11-21, thread
+`26137b30`; no person in the session): a backlog row for SP-04 with its linked SD feature and a date for the first.
+**Done:** [B-362](evidence/backlog.md) holds SD-SKL-02 and SP-04 in one row, as the amendment asks (extend the SD
+row, no duplicate); the open tally reads 20. **Decisions:** the SD-SKL-02 row did not exist yet (request `93587c18`,
+the spec itself, is still queued), so this run created it with SP-04 inside; SD-SKL-01 and SD-SKL-03 stay with
+`93587c18`. The declaration's home is `skills.json`, beside the pin, a proposal the design stage confirms.
+**Checks run:** `python3 test/validate.py` with the submodules checked out. **Waits:** SP-01's `pipeline-run/1`
+schema (fabric-agent-contract, target 2026-12-05); everything the previous entry lists. **Next task:** unchanged
+from the previous entry (the release that ships `wait-v4`); B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-20 wait-v4 carries the relayed operator rules (B-338), paired evaluation +3
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 B-338 with B-347's paired evaluation, as the previous entry named. **Done:** `wait-v4` in `lib/wait-rule-text.js` and
