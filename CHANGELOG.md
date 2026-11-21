@@ -11,6 +11,8 @@
   - **1.108.0, the validator call** (task-pipeline PR #177): `spec_protocol.py research validate` sends the blind
     dossier to a model of another family over any OpenAI-compatible route, the key read from a named variable, and
     records nothing when the call fails.
+- **The wait rule `wait-v4`** carries the five operator rules relayed on the board (B-338, #329); `wait-v3`
+  upgrades in place. No separate 1.90.7: this release ships it.
 - **The family rule.** The evidence-docs router says docs and data rooms are graphs from day one and that a task
   converts the documentation it meets; it stays under the routing block's 15 500-character budget.
 
