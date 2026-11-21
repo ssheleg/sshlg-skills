@@ -8,7 +8,25 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-21 SP-04 and SD-SKL-02 filed as B-362 (board request e8c153ee)
+## Current: 2026-11-21 no separate 1.90.7: `wait-v4` ships with release 1.91.0
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+read the result of the wait on the 1.90.7 publication and continue. **Found:** the publication was not allowed (the
+Fabric effect request asked again on 2026-11-21 answered `allowed: false`); `npm view sshlg-skills version` reads
+1.90.6; the release PR ssheleg/sshlg-skills#330 conflicts with `main` since #332; PR ssheleg/sshlg-skills#331
+(release 1.91.0, task-pipeline 1.108.0, the owner's order, another session's branch `feat/doc-graph-family-rule`) is
+open; PR ssheleg/agent-stack#76 (B-162) is still open and untagged. **Decisions:** no separate 1.90.7. `main` already
+holds `wait-v4` (#329), so 1.91.0 ships it; one release instead of two, and this run publishes nothing. The two
+decisions the 1.90.7 branch carried only in its own commits (B-347's router trims stay the operator's, B-276's Cursor
+re-check) are now on `main` in their rows. A comment on #331 asks its changelog to name `wait-v4` (B-338); #330 stays
+open until 1.91.0 is on npm, then it is closed unmerged. **Checks run:** `python3 test/validate.py` with the
+submodules checked out (documents only; the full `npm test` was not run, the machine was under its disk hold line).
+**Waits:** release 1.91.0 on npm (the session that owns #331); a Cursor sign-in for B-276 (the operator's);
+agent-stack's merge and tag of B-162 for B-346. **Next task:** once `npm view sshlg-skills version` reads 1.91.0:
+`npx --yes sshlg-skills@latest update`, read the installed `wait-v4` rule back, close B-338 and PR #330. Then B-346
+once agent-stack tags B-162. B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-21 SP-04 and SD-SKL-02 filed as B-362 (board request e8c153ee)
 
 **Objective:** answer Fabric board request `e8c153ee` (amendment A-1 to the system plan of 2026-11-21, thread
 `26137b30`; no person in the session): a backlog row for SP-04 with its linked SD feature and a date for the first.
