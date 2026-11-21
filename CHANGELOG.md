@@ -1,3 +1,15 @@
+## v1.91.0 (2026-11-21): task-pipeline 1.107.0 pinned (the documentation graph, the spec protocol); docs and data rooms are graphs from day one
+
+- **task-pipeline 1.107.0 pinned** (submodule `631b541`, npm `task-pipeline-skill@1.107.0`), which carries 1.106.0:
+  - **1.106.0, the documentation graph** (task-pipeline PR #174): `docgraph.py`, a starter pack installed with one
+    command (`npx task-pipeline-skill doc-graph init`), cited search, basic self-healing and cleanup, and the hidden
+    refactoring that converts documentation no agent can use yet; SD-TPL-01 of the 2026-11-21 system plan.
+  - **1.107.0, the spec protocol** (task-pipeline PR #176): the spec sized by complexity, a classed question ledger
+    in which only strategy and a researched unknown reach the owner, research by scouts and validators of another
+    model family, spec then board then build (the owner's order of 2026-11-21, OT-07 of amendment A-2).
+- **The family rule.** The evidence-docs router says docs and data rooms are graphs from day one and that a task
+  converts the documentation it meets; it stays under the routing block's 15 500-character budget.
+
 ## v1.90.6 (2026-11-19): agent-stack 0.33.3 pinned, the site names the two-door rule, the run's retro
 
 - **agent-stack 0.33.3 pinned** (submodule `01e180c`, npm `@ssheleg/agent-stack@0.33.3`, agent-stack PR #80, release
