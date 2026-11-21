@@ -1,12 +1,16 @@
-## v1.91.0 (2026-11-21): task-pipeline 1.107.0 pinned (the documentation graph, the spec protocol); docs and data rooms are graphs from day one
+## v1.91.0 (2026-11-21): task-pipeline 1.108.0 pinned (the documentation graph, the spec protocol, the validator call); docs and data rooms are graphs from day one
 
-- **task-pipeline 1.107.0 pinned** (submodule `631b541`, npm `task-pipeline-skill@1.107.0`), which carries 1.106.0:
+- **task-pipeline 1.108.0 pinned** (submodule `b707dde`, npm `task-pipeline-skill@1.108.0`), which carries 1.106.0
+  and 1.107.0:
   - **1.106.0, the documentation graph** (task-pipeline PR #174): `docgraph.py`, a starter pack installed with one
     command (`npx task-pipeline-skill doc-graph init`), cited search, basic self-healing and cleanup, and the hidden
     refactoring that converts documentation no agent can use yet; SD-TPL-01 of the 2026-11-21 system plan.
   - **1.107.0, the spec protocol** (task-pipeline PR #176): the spec sized by complexity, a classed question ledger
     in which only strategy and a researched unknown reach the owner, research by scouts and validators of another
     model family, spec then board then build (the owner's order of 2026-11-21, OT-07 of amendment A-2).
+  - **1.108.0, the validator call** (task-pipeline PR #177): `spec_protocol.py research validate` sends the blind
+    dossier to a model of another family over any OpenAI-compatible route, the key read from a named variable, and
+    records nothing when the call fails.
 - **The family rule.** The evidence-docs router says docs and data rooms are graphs from day one and that a task
   converts the documentation it meets; it stays under the routing block's 15 500-character budget.
 
