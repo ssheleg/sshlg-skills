@@ -8,7 +8,30 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-21 no separate 1.90.7: `wait-v4` ships with release 1.91.0
+## Current: 2026-11-21 `wait-v4` read back from release 1.91.0; B-338 closed
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+read the result of the wait on release 1.91.0 and do the step the previous entry named. **Found:** PR
+ssheleg/sshlg-skills#331 merged as `d3903fe9`, tag `v1.91.0` points at it, `npm view sshlg-skills version` reads
+1.91.0. **Done:** `npx --yes sshlg-skills@latest update` on this machine (launcher copy `1.91.0-e572be1ee29c`);
+the `wait-v4` segment rendered from `lib/wait-rule-text.js` at the tag is present exactly once in each of the five
+host files (Claude, Codex, Gemini, Pi, Cursor), `rules.wait` prints `unchanged` for all five;
+[B-338](evidence/backlog.md) closed and B-364 filed (Codex plugins behind their pins), the open tally reads 20; PR ssheleg/sshlg-skills#330 closed unmerged and its
+branch `release/1.90.7` deleted. **Checks run:** the read-back above; `python3 test/validate.py` with the submodules
+checked out (documents only). **Not clean:** `update` ended `PARTIAL`, exit 1, twice. The first run came from a
+Switchboard isolated Claude home, where `visibility` and `domains` refuse a profile that is not the owner
+(`~/.claude`) and `rules.wait` does not extend itself to a home without a receipt; the second, with
+`CLAUDE_CONFIG_DIR` unset, left one cause: nine Codex native plugins deferred while Codex sessions were live
+(`DEFERRED_ACTIVE_GENERATION_SAFETY`; the guard is B-188's and the exit code B-210's boundary, both by design, but
+the native catalog is now several releases behind, which is B-364). An unattended run that
+starts in an isolated home should unset `CLAUDE_CONFIG_DIR` for `update`, or it reads refusals that are not defects.
+**Waits:** agent-stack's merge and tag of B-162 (PR ssheleg/agent-stack#76 open on 2026-11-21) for B-346; a Cursor
+sign-in for B-276 (the operator's); release 1.91.1 (PR ssheleg/sshlg-skills#334, another session's branch
+`release/pin-tp-1.109.0`, it adds B-363, so the tally becomes 21 when both are on `main`). **Next task:** B-346 once
+agent-stack tags B-162 (re-pin, delete the two `PENDING` entries in `lib/triggers.js`). Until then the open rows
+with no outside wait, by RICE in the backlog. B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-21 no separate 1.90.7: `wait-v4` ships with release 1.91.0
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 read the result of the wait on the 1.90.7 publication and continue. **Found:** the publication was not allowed (the
