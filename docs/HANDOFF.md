@@ -32,7 +32,7 @@ from an empty folder) on Claude Code 2.1.330, in both homes. Default home: the s
 hook's execution line appears once (session-start.sh, guard.sh, release-gate.sh, renew.sh, gate-observer.sh,
 memory-nudge.sh), every one from `plugins/cache/`. Isolated home: synced copies not read, *34 hooks from 25 plugins*,
 the same six runs once. The cache wins even where the synced copy is newer (task-pipeline~g2 1.111.0 against the cache copy
-at the then pin 1.109.0; 1.92.0 above pins 1.111.0), so the hub pin decides the hook code. B-366 closed with no code. **Decisions:** no pruning and no `doctor`
+at the then pin 1.109.0; 1.92.0 above pins 1.111.0), so the hub pin decides the hook code. B-366 closed with no code, PR ssheleg/sshlg-skills#348. **Decisions:** no pruning and no `doctor`
 line: the synced folder belongs to the account and the pinned copy already wins; re-measure when a Claude Code release
 changes plugin loading. **Checks run:** `npm test` on the branch PASS (176 suites, 3590 fixtures, 11 members). **Waits:** agent-stack's merge and tag of
 B-162 for B-346; a Cursor sign-in for B-276 (the operator's); agent-sync's next release for B-344's close; the Mac
