@@ -8,7 +8,32 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 `schedule --daemon`: the nightly job for an account with no graphical login (B-334)
+## Current: 2026-11-22 Claude Code's skill listing re-measured: the isolated home fits, the default home does not (B-336, B-365)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
+`v0.33.3`, so B-346 waits; the release and B-364's adapter need the operator in the session, so of the open rows with
+no outside wait B-336 was taken: its owners' deadline (2026-11-18) had passed and its close is a measurement.
+**Done:** measured on Claude Code 2.1.330 with `claude -p ok --debug-file <f>` and a positive control
+(`--settings '{"skillListingBudgetFraction":0.001}'`, which prints the size against a 3,000 budget, so the absence of
+the warning at the default budget is read, not assumed). Switchboard's isolated home: 100 skills, 27,031 characters,
+under 30,000, in a neutral folder and in this repository. The default home: 178 skills, 59,744 characters, over. The
+gap is six plugins the default account syncs from claude.ai into `~/.claude/plugins/synced/` (figma, data, marketing,
+engineering, design, productivity: 57 skills, 18,406 description characters), outside `enabledPlugins` and outside the
+family. `visibility` estimated the default home at 22,461 characters because it does not read that folder: filed as
+[B-365](evidence/backlog.md). No code changed. **Decisions:** B-336 stays open (the default home still prints the
+over-budget line). The synced plugins were not touched: whether they sync is a setting of the operator's claude.ai
+account, and figma is the plugin the global rules name as the Figma MCP route. B-365 was filed rather than fixed in
+this run: the estimate's reader and its fixtures are a change of their own, and the run had under an hour.
+**Checks run:** the three measurements above (debug files kept outside the repository); `npm test` on the branch
+PASS (175 suites, 3583 fixtures, 11 members). **Waits:** agent-stack's merge and tag of B-162 for B-346; a Cursor sign-in for B-276 (the
+operator's); agent-sync's next release for B-344's close; the Mac Studio's install of the daemon for B-334's close
+(after the next release). **Next task:** B-346 once agent-stack tags B-162; otherwise B-365 (`listingExtras` in
+`lib/cli-visibility.js` reads `<claude home>/plugins/synced/*/*/skills`, newest of `<name>` and `<name>~g2`, with
+fixtures); then the release that carries B-331, B-358 and B-334 (with the operator in the session: the tag
+publishes); B-364's adapter design with the operator in the session. B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-22 `schedule --daemon`: the nightly job for an account with no graphical login (B-334)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
