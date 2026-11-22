@@ -20,7 +20,7 @@ running node, one whose path names no version (new `versionedPath`), then PATH o
 When only a versioned path exists, the job keeps it and `schedule`, `install` and `update` print one line naming the
 path and the repairing step (`schedule --apply` under the node that stays). `schedule` prints the job's node;
 `schedule --json` adds `job.node` and `job.nodeVersioned` (fields only added, still `schedule-status/1`); the README
-says both. **Decisions:** a different node is never taken, even an unversioned one: the existing case "a node on PATH
+says both. PR ssheleg/sshlg-skills#341. **Decisions:** a different node is never taken, even an unversioned one: the existing case "a node on PATH
 that is another version must not be taken" stays, since the job would then run under a runtime `update` was not run
 with. So plain nvm without a `current` link, and Volta, keep a versioned path and get the disclosure, not a silent
 switch. Not released: a tag publishes to npm, which an unattended run leaves to a session with the operator; the
