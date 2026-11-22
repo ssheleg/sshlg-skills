@@ -20,7 +20,7 @@ toolkit, visibility and its `marks`, domains, pack, materialised, signature, hum
 that command's own usage lines and returns 2, with no child process and no write. `schedule`, `settings` and `context`
 already refused and now name the argument they refuse. A value keeps the rule the commands already apply (the token
 after a valued flag is its value unless it starts with `--`); `config` checks its verb and key only, since a value is
-the operator's text. **Decisions:** `hooks recovery`, `rules`, `blocks`, `enroll` and the install family keep their own
+the operator's text. PR ssheleg/sshlg-skills#339. **Decisions:** `hooks recovery`, `rules`, `blocks`, `enroll` and the install family keep their own
 parsers (`SELF_PARSING`), and a test fails a command `main()` dispatches on that neither list names. Not released: a
 tag publishes to npm, which an unattended run leaves to a session with the operator; the change ships with the next
 release. [B-331](evidence/backlog.md) stays open (tally 20) for what is left: `uninstall`, `backup`, `wipe` and
