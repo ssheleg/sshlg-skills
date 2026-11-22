@@ -25,7 +25,7 @@ function git(cwd, args, ok = true) {
 // branch run cannot see and a tag run can.
 const TAG_READING_SUITE = 'node -e "const t=require(\'child_process\').execSync(\'git tag -l v*\').toString();process.exit(t.includes(process.env.WANT)?0:1)"';
 
-function member(name, { version = '1.2.3', plugin = version, suite = TAG_READING_SUITE, changelog = true, heading = `## v${version}` } = {}) {
+function member(name, { version = '1.2.3', plugin = version, suite = TAG_READING_SUITE, changelog = true, heading = `## v${version}`, files = {} } = {}) {
   const remote = path.join(base, `${name}.git`), repo = path.join(base, name);
   git(base, ['init', '-q', '--bare', '-b', 'main', remote]);
   fs.mkdirSync(path.join(repo, 'plugins', 'm', '.claude-plugin'), { recursive: true });
@@ -33,6 +33,7 @@ function member(name, { version = '1.2.3', plugin = version, suite = TAG_READING
   git(repo, ['config', 'user.name', 'Fixture']); git(repo, ['config', 'user.email', 'fixture@example.invalid']);
   fs.writeFileSync(path.join(repo, 'package.json'), JSON.stringify({ version, scripts: { test: suite } }) + '\n');
   fs.writeFileSync(path.join(repo, 'plugins', 'm', '.claude-plugin', 'plugin.json'), JSON.stringify({ name: 'm', version: plugin }) + '\n');
+  for (const [rel, body] of Object.entries(files)) fs.writeFileSync(path.join(repo, rel), body);
   fs.writeFileSync(path.join(repo, 'CHANGELOG.md'), changelog ? `# Changelog\n\n${heading}\n\n- a fix\n` : '# Changelog\n');
   git(repo, ['add', '-A']); git(repo, ['commit', '-q', '-m', 'release']);
   git(repo, ['remote', 'add', 'origin', remote]); git(repo, ['push', '-q', 'origin', 'main']);
@@ -107,6 +108,52 @@ try {
   test('a malformed tag refuses', () => {
     const { repo } = member('badtag');
     assert.throws(() => W.releaseMember(repo, '--delete', { push: false, env }), /tag/);
+  });
+
+  // B-363: task-pipeline v1.109.0 failed on a stdout line ("FAIL ... 401") that the report cut,
+  // because the last 15 lines of stdout+stderr were a later suite's unittest summary on stderr.
+  const NOISY = [
+    "console.log('ok suite one');",
+    "console.log('FAIL: negative self-test 401 did not fire');",
+    "for (let i = 0; i < 30; i++) console.log('ok filler ' + i);",
+    "for (let i = 0; i < 20; i++) console.error('test_case_' + i + ' ... ok');",
+    "console.error('Ran 46 tests in 0.2s'); console.error('OK');",
+    "process.exit(1);",
+  ].join('\n');
+
+  test('a red suite reports the failing stdout line that a later stderr tail used to cut', () => {
+    const { repo } = member('noisy', { suite: 'node suite.js', files: { 'suite.js': NOISY } });
+    let message = '';
+    try { W.releaseMember(repo, 'v1.2.3', { push: false, env }); } catch (e) { message = e.message; }
+    assert.match(message, /suite failed on the candidate/);
+    assert.match(message, /FAIL: negative self-test 401 did not fire/, 'the failing line is shown');
+    assert.match(message, /stdout, last \d+ lines?:[\s\S]*ok filler 29/, 'stdout has its own tail');
+    assert.match(message, /stderr, last \d+ lines?:[\s\S]*Ran 46 tests/, 'stderr has its own tail');
+    assert.ok(message.indexOf('ok filler 29') < message.indexOf('Ran 46 tests'), 'the tails are apart, stdout first');
+    assert.match(message, /python3 on the suite's PATH: /, 'the interpreter the suite saw is named');
+  });
+
+  test('the failure report keeps the streams apart, marks failing lines and bounds its size', () => {
+    const out = ['ok a', 'FAIL: one', ...Array.from({ length: 40 }, (_, i) => `ok ${i}`)].join('\n');
+    const err = ['Traceback (most recent call last):', 'AssertionError: two', ...Array.from({ length: 40 }, (_, i) => `noise ${i}`)].join('\n');
+    const r = W.failureReport(out, err);
+    assert.match(r, /lines that name a failure:\n {2}stdout:2: FAIL: one\n {2}stderr:1: Traceback[^\n]*\n {2}stderr:2: AssertionError: two/);
+    assert.ok(!r.includes('ok 24') && r.includes('ok 25') && r.includes('ok 39'), 'stdout tail is the last 15 lines');
+    assert.ok(!r.includes('noise 24') && r.includes('noise 39'), 'stderr tail is the last 15 lines');
+    assert.strictEqual(W.failureReport('', ''), 'the suite printed nothing');
+    assert.ok(!/lines that name a failure/.test(W.failureReport('ok\n', '')), 'no failing line, no empty section');
+    assert.match(W.failureReport('ok\n', ''), /stdout, last 1 line:\n {2}ok$/);
+    const many = W.failureReport(Array.from({ length: 200 }, (_, i) => `FAIL ${i}`).join('\n'), '');
+    assert.match(many, /stdout:1: FAIL 0/); assert.match(many, /and 180 more/);
+    assert.ok(!many.includes('stdout:21: FAIL 20'), 'failing lines are capped at 20');
+    const wide = W.failureReport(`FAIL ${'x'.repeat(5000)}`, '');
+    assert.ok(wide.length < 1500, 'a very long line is cut');
+    assert.ok(!/FAIL/.test(W.failureReport('0 failed, 12 passed\nno errors\n', '').split('stdout, last')[0]), 'a passing summary is not a failure line');
+  });
+
+  test('the interpreter line names the python3 on the given PATH, or says there is none', () => {
+    assert.match(W.suiteInterpreter(base, env), /^python3 on the suite's PATH: \S.* \(\d+\.\d+/);
+    assert.strictEqual(W.suiteInterpreter(base, { PATH: path.join(base, 'empty-bin') }), "python3 on the suite's PATH: none found");
   });
 
   test('the suite command is the package test:all when present, else test', () => {

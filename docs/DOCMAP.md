@@ -160,6 +160,8 @@ candidate not on `origin`'s default branch, a `plugin.json` or `package.json` ve
 differs from the tag, a missing CHANGELOG section or a dirty tree; then it creates the
 annotated tag locally, runs the member's own `test:all` script (else its `test` script) with
 the tag present, and pushes only when that is green. A red suite removes the tag this run created.
+Its error lists the lines that name a failure with their stream and line number, then stdout's and
+stderr's own tails, then the `python3` the suite's PATH resolves (B-363).
 `test/release_member_test.js` runs every branch against a bare remote.
 
 ```bash
@@ -193,8 +195,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=174 fixtures=3574 members=11 -->
-**Ratchets.** 174 suites, 3574 fixtures, 11 pinned members; these three numbers are
+<!-- ratchets: suites=174 fixtures=3577 members=11 -->
+**Ratchets.** 174 suites, 3577 fixtures, 11 pinned members; these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree, and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
