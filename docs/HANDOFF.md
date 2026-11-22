@@ -17,9 +17,16 @@ bd16f215): the spec is written by the session's own model and its loop is at han
 `claude-plugin-pins.json` by `scripts/sync-claude-pins.js --write --source-root ~/DATA/sshlg-skills`, the CLI golden
 fixture by `SSHLG_GOLDEN_WRITE=1`, `ctx-04.06.json` by its `--emit`. The release also carries what main holds unreleased (B-331's flag
 checks, B-358's node path, B-334's `schedule --daemon`, #340 to #343; B-365's synced-plugin count, #344 and #346, merged into this branch), which the previous entry named as the release that
-pins task-pipeline; hence 1.92.0, not a patch. **Next task:** PR, merge, tag `v1.92.0`, watch the
-release run, `npm view sshlg-skills version`, `npx --yes sshlg-skills@latest update`, read back the installed
-task-pipeline plugin version and the hook `task-prompt-nudge.sh` in the installed tree.
+pins task-pipeline; hence 1.92.0, not a patch. **Shipped:** PR ssheleg/sshlg-skills#345 squash-merged as `ea729685` (origin/main merged in,
+no rebase); tag `v1.92.0` on `ea729685` by `scripts/tag.sh` from a clean checkout with submodules at their pins;
+release run 45039161531 success; `npm view sshlg-skills version` reads 1.92.0. `npx --yes sshlg-skills@latest update`
+(launcher `1.92.0-a17882e9a6e5`): Claude Code holds `task-pipeline@task-pipeline` 1.111.0 at `28827759`; the installed
+`hooks/task-prompt-nudge.sh` prints its note for a prompt with no end result, and `scripts/spec_protocol.py loop`
+prints the loop. **Not clean:** `update` ended `PARTIAL`, exit 1: Codex's task-pipeline plugin deferred
+(`DEFERRED_ACTIVE_GENERATION_SAFETY`, [B-364](evidence/backlog.md)), its watcher armed. **Checks run:** `npm test` on
+the merged branch PASS (176 suites, 3590 fixtures, 11 members); PR checks validate, windows, self-tests-a and -b green.
+**Next task:** B-346 once agent-stack tags B-162; otherwise B-366's measurement; B-334's close after a Mac Studio
+space installs the daemon from this release.
 
 ## Previous: 2026-11-22 `visibility` counts the plugins the account syncs from claude.ai (B-365); hooks read twice filed (B-366)
 
