@@ -22,7 +22,7 @@ steps on stderr; it writes nothing and asks no scheduler. Once an administrator 
 (`label`, `loaded`; fields only added, still `schedule-status/1`), and `apply` answers state `daemon` in place of
 `unreachable`. Without one, the `unreachable` line on macOS now names `schedule --daemon`. The usage text gained two
 lines, so `test/fixtures/cli-surface.json` was rewritten with `SSHLG_GOLDEN_WRITE=1` (its diff is those lines); the
-README says all of it. **Decisions:** of the row's two routes the LaunchDaemon was taken: the other is a descriptor
+README says all of it. PR ssheleg/sshlg-skills#343. **Decisions:** of the row's two routes the LaunchDaemon was taken: the other is a descriptor
 for Observatory's space-daemon validator, whose schema is that project's and unread here. The launcher prints and
 never installs: `/Library/LaunchDaemons` and `launchctl bootstrap system` take root, and a launcher that runs sudo is
 not this one. A `user/<uid>` fallback was not written: whether that domain exists for such an account could not be
