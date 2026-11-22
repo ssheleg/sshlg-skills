@@ -8,7 +8,20 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 `schedule --daemon`: the nightly job for an account with no graphical login (B-334)
+## Current: 2026-11-22 task-pipeline 1.111.0 pinned; the release carries B-331, B-358, B-334 (1.92.0)
+
+**Objective:** the owner's two orders of 2026-11-22 relayed by the CEO of Fabric (board requests 94a61249 and
+bd16f215): the spec is written by the session's own model and its loop is at hand; tasks for executors are checked.
+**Done:** task-pipeline 1.110.0 (PR #181, tag on 478dce5, release run 44985031524 success, npm 1.110.0) and 1.111.0
+(PR #182, merged as 2882775) shipped from the member; this change pins `2882775`: `skills.json` and the README by hand,
+`claude-plugin-pins.json` by `scripts/sync-claude-pins.js --write --source-root ~/DATA/sshlg-skills`, the CLI golden
+fixture by `SSHLG_GOLDEN_WRITE=1`, `ctx-04.06.json` by its `--emit`. The release also carries what main holds unreleased (B-331's flag
+checks, B-358's node path, B-334's `schedule --daemon`, #340 to #343), which the previous entry named as the release that
+pins task-pipeline; hence 1.92.0, not a patch. **Next task:** PR, merge, tag `v1.91.2`, watch the
+release run, `npm view sshlg-skills version`, `npx --yes sshlg-skills@latest update`, read back the installed
+task-pipeline plugin version and the hook `task-prompt-nudge.sh` in the installed tree.
+
+## Previous: 2026-11-22 `schedule --daemon`: the nightly job for an account with no graphical login (B-334)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is

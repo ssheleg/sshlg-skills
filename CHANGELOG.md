@@ -1,3 +1,21 @@
+## v1.92.0 (2026-11-22): task-pipeline 1.111.0 pinned (the spec's author, the spec loop, the task prompt check); flags each command reads; the nightly job's node and daemon
+
+- **Each command accepts only the flags it reads** (B-331, #339 and #340): an unknown or foreign flag is refused with
+  `unknown flag for <command>: <flag>`, that command's usage lines and exit 2, before any child process or write.
+- **The nightly job prefers a node path that names no version** (B-358, #341); a versioned one is kept and named.
+- **`schedule --daemon`** prints the nightly job as a LaunchDaemon for an account with no graphical login (B-334,
+  #343); it writes nothing and runs no sudo.
+
+- **task-pipeline 1.111.0 pinned** (submodule `2882775`, npm `task-pipeline-skill@1.111.0`), which carries 1.110.0:
+  - **1.110.0, who writes the spec** (task-pipeline PR #181, the owner's order of 2026-11-22, board request
+    94a61249): stages 2 to 4 are written by the session's own model, a paid call to another model to write the
+    spec only on the operator's recorded request; `spec_protocol.py loop` prints the five steps of the spec loop
+    with who does each.
+  - **1.111.0, the task prompt check** (task-pipeline PR #182, the owner's order of 2026-11-22, board request
+    bd16f215): `scripts/task_prompt.py` reads a task for an executor (end result, finish criterion, a closing pass
+    for what was missed, no stop for approval); the plugin hook `task-prompt-nudge.sh` runs it before every
+    subagent dispatch, in every project, as a note that never blocks. Measured on 2,410 tasks of three days.
+
 ## v1.91.1 (2026-11-21): task-pipeline 1.109.0 pinned (the spec protocol's family rule, measured)
 
 - **task-pipeline 1.109.0 pinned** (submodule `bd3f50f`, npm `task-pipeline-skill@1.109.0`, task-pipeline

@@ -1093,8 +1093,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "bd3f50fa4e34a0a68e0ffd0026b24dfcdc4aed53",
-      "version": "1.109.0",
+      "commit": "28827759b73338133bf278c7a253b6652c52c393",
+      "version": "1.111.0",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1102,7 +1102,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.109.0",
+        "version": "1.111.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1125,7 +1125,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "04c510f335d9408b4e07b7f854df2eafc6fc48ddc2d772d7f256ef99f65d2e2c",
+          "sha256": "9c1eae2d8d10b3b2d871c04e4ca98f49f6c07b5aadfb9e356941a1240238b93d",
           "bytes": 1529
         },
         {
@@ -1190,8 +1190,8 @@
         },
         {
           "path": "hooks/hooks.json",
-          "sha256": "d86584ab1012a4cd0b757462c16ed9cf48b89bb91be8bb1b1c3e38a88e87ca94",
-          "bytes": 2556
+          "sha256": "2f681f09c0d9a27ce1c859ad2948371327e8d48b5628d31a98b6cb7df6985936",
+          "bytes": 2981
         },
         {
           "path": "hooks/memory-nudge.sh",
@@ -1207,6 +1207,11 @@
           "path": "hooks/run-lifecycle.sh",
           "sha256": "ee8ebed36884dc08ea10af78964e2e657d669e71c3f209f299e5323a881fa6d3",
           "bytes": 4633
+        },
+        {
+          "path": "hooks/task-prompt-nudge.sh",
+          "sha256": "1d05252f39c7b4216a13cdb104cc868b86f9b22a08292ec0f0330b4ae31bc5cf",
+          "bytes": 2253
         },
         {
           "path": "skills/evidence-docs/references/doc-graph.md",
@@ -1400,8 +1405,8 @@
         },
         {
           "path": "skills/task-pipeline/references/build.md",
-          "sha256": "07fdcbdf6f2e8ebb78a4b108581c2ff1546147a9508fff62439619781e00f885",
-          "bytes": 40833
+          "sha256": "bf90e5506ffd578abc62ac6a28b6859df90332753bcc8546096f3aece5c145c3",
+          "bytes": 40865
         },
         {
           "path": "skills/task-pipeline/references/certification.md",
@@ -1510,8 +1515,8 @@
         },
         {
           "path": "skills/task-pipeline/references/model-tiering.md",
-          "sha256": "beb4e9d48ad3196a28fb0256f8a16cbf9ce9920979a4b10f8c4a757ef4a43a8b",
-          "bytes": 7277
+          "sha256": "c12a2f158ec836fdfaf1f512594f799fc30d4fa7582d4c29794660eb8c3004b9",
+          "bytes": 6252
         },
         {
           "path": "skills/task-pipeline/references/planning.md",
@@ -1565,8 +1570,8 @@
         },
         {
           "path": "skills/task-pipeline/references/spec-protocol.md",
-          "sha256": "babc00a16944a2cf6cacad1ac57056bf92073da246bd109a11c83e2138487ff5",
-          "bytes": 4580
+          "sha256": "5e5cf9d7aa4d47f97898835d6b71fe99d6e75320ff1ce073164c1698226f5608",
+          "bytes": 5752
         },
         {
           "path": "skills/task-pipeline/references/spec.md",
@@ -1585,18 +1590,18 @@
         },
         {
           "path": "skills/task-pipeline/references/stage-02-brainstorm.md",
-          "sha256": "f9bfed07b670cf24011f272eca9ae90e308d96b27edb3ed8bc1a33e58a51b035",
-          "bytes": 4285
+          "sha256": "492b68e4e060761d45ad868a1ea018dced3157b35be4511df2a8ab73639d20a3",
+          "bytes": 4014
         },
         {
           "path": "skills/task-pipeline/references/stage-03-spec.md",
-          "sha256": "c923fc588174780c51ea4497f84d90bed6802316553ad9604a2ed25da2eeabf6",
-          "bytes": 3373
+          "sha256": "b788f3239d7540531165b418400c833059e3b71b9c58bc14ce914358bc3d0714",
+          "bytes": 3577
         },
         {
           "path": "skills/task-pipeline/references/stage-04-plan.md",
-          "sha256": "2986c87fff619dab1f308db0b715a56e1f2f72e1b66ac8652fe9d41bc7e760ed",
-          "bytes": 671
+          "sha256": "8bc6853dc88d4ae84dbd91bd49bcb7080bfe7855b68a134e59bc90385c71578f",
+          "bytes": 773
         },
         {
           "path": "skills/task-pipeline/references/stage-05-dev.md",
@@ -1645,8 +1650,8 @@
         },
         {
           "path": "skills/task-pipeline/references/waves.md",
-          "sha256": "7b3d35ea29ce1af96098baef57269c62d191e8005a7e8e7b4763d867e7e194df",
-          "bytes": 17891
+          "sha256": "1a55eb9484094430afb88f1169e228edf6513c2f851debcf08622214eeaa41b9",
+          "bytes": 17974
         },
         {
           "path": "skills/task-pipeline/references/work-graph.md",
@@ -1720,13 +1725,18 @@
         },
         {
           "path": "skills/task-pipeline/scripts/spec_protocol.py",
-          "sha256": "b7946e3d38a9ed7149f79562ca38518d4f4a7fd754aca168731dcbaf62df7764",
-          "bytes": 30497
+          "sha256": "d64707debb923079ba9e4b4c928d517b3094e615b99e2a1ddc3faeeddb9139c2",
+          "bytes": 33413
         },
         {
           "path": "skills/task-pipeline/scripts/stage_checkpoint.py",
           "sha256": "d97bf9403e94ffef513f7c6ef305b581dcc0f3ca6552f387b54ce7b857969cf3",
           "bytes": 30260
+        },
+        {
+          "path": "skills/task-pipeline/scripts/task_prompt.py",
+          "sha256": "598fb67cf6f529fcdd84a65d383958c95aaeabdd67aeaaa133e4c207716ff873",
+          "bytes": 14321
         },
         {
           "path": "skills/task-pipeline/scripts/visual_gate.py",
@@ -1740,8 +1750,8 @@
         },
         {
           "path": "skills/task-pipeline/SKILL.md",
-          "sha256": "5e7fdfca6a8044d5c4582f7690fc579033dbe12949dc028bd3c4c26fd0f6bcf8",
-          "bytes": 16635
+          "sha256": "91920a14f03b030cc92b332dd5d10e93bedaebb46210daf1099b349e4d5943f8",
+          "bytes": 16641
         },
         {
           "path": "skills/task-pipeline/templates/adr.md",
