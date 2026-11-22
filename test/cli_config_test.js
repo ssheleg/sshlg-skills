@@ -414,7 +414,8 @@ it('config set update.mode writes and removes the nightly job at once, never tou
     r = go(['schedule', '--json']);
     assert.strictEqual(r.status, 0, r.stdout + r.stderr);
     const st = JSON.parse(r.stdout);
-    assert.deepStrictEqual(Object.keys(st), ['schema', 'updateMode', 'platform', 'job', 'registered', 'plan']);
+    assert.deepStrictEqual(Object.keys(st), ['schema', 'updateMode', 'platform', 'job', 'registered', 'plan', 'daemon']);
+    assert.strictEqual(st.daemon, null, 'a fixture HOME was asked about a system-domain job');
     assert.strictEqual(st.schema, 'schedule-status/1');
     assert.strictEqual(st.updateMode, 'auto');
     assert.ok(Array.isArray(st.job.files) && st.job.files.includes(job), JSON.stringify(st.job));  // Linux adds the .service
@@ -427,6 +428,27 @@ it('config set update.mode writes and removes the nightly job at once, never tou
     assert.ok(human.includes(`node             ${st.job.node}`), human);
     assert.strictEqual(/a folder of one node version/.test(human), st.job.nodeVersioned, human);
     assert.strictEqual(go(['schedule', '--json', '--apply']).status, 2, '--json with --apply is a usage error');
+    // B-334: the job as a LaunchDaemon for an account with no graphical login. stdout is the
+    // file and nothing else; the steps go to stderr; nothing is written and no scheduler asked.
+    assert.strictEqual(go(['schedule', '--daemon', '--apply']).status, 2, '--daemon with another flag is a usage error');
+    const before = fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8') : '';
+    const d = go(['schedule', '--daemon']);
+    if (process.platform === 'darwin') {
+      assert.strictEqual(d.status, 0, d.stdout + d.stderr);
+      assert.ok(d.stdout.startsWith('<?xml') && d.stdout.endsWith('</plist>\n'), d.stdout.slice(0, 200));
+      const user = os.userInfo().username;
+      assert.ok(d.stdout.includes(`<key>Label</key><string>me.sshlg.skills.update.${user}</string>`), d.stdout);
+      assert.ok(d.stdout.includes(`<key>UserName</key><string>${user}</string>`), d.stdout);
+      assert.ok(d.stdout.includes(`<key>HOME</key><string>${home}</string>`), d.stdout);
+      assert.ok(d.stdout.includes(`<string>${runner}</string>`), 'the daemon runs another script than the job');
+      assert.ok(!d.stdout.split('\n')[1].slice(4, -3).includes('--'), 'the XML comment holds a double hyphen: not XML');
+      assert.match(d.stderr, /sudo launchctl bootstrap system \/Library\/LaunchDaemons\/me\.sshlg\.skills\.update\./);
+    } else {
+      assert.strictEqual(d.status, 1, d.stdout + d.stderr);
+      assert.strictEqual(d.stdout, '', 'a platform without launchd printed a file');
+      assert.match(d.stderr, /a LaunchDaemon is macOS's/);
+    }
+    assert.strictEqual(fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8') : '', before, 'schedule --daemon reached the OS scheduler');
     r = go(['schedule', '--revert']);
     assert.ok(!fs.existsSync(job), 'schedule --revert left the job');
     const gone = JSON.parse(go(['schedule', '--json']).stdout);

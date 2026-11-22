@@ -8,7 +8,41 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 Codex's nine family plugins are back at their pins (B-364, the measured state)
+## Current: 2026-11-22 `schedule --daemon`: the nightly job for an account with no graphical login (B-334)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
+`v0.33.3`, so B-346 waits; next by the previous entry was B-334. The job is a LaunchAgent loaded into `gui/<uid>`,
+a domain an account that never logs in graphically does not have, so `schedule` read `registered no` there and
+`update` advised a login session that never comes. **Done:** `schedule --daemon` prints the same job as a
+LaunchDaemon for the account (`daemonFile` in `lib/updatesched.js`: label `me.sshlg.skills.update.<user>`,
+`UserName`, `HOME` set outright, the same node, runner and minute as the LaunchAgent), the file on stdout and the
+steps on stderr; it writes nothing and asks no scheduler. Once an administrator has loaded it, `schedule` reads
+`registered yes (system daemon …)`, `schedule --json` reads `registered: true` and a new last field `daemon`
+(`label`, `loaded`; fields only added, still `schedule-status/1`), and `apply` answers state `daemon` in place of
+`unreachable`. Without one, the `unreachable` line on macOS now names `schedule --daemon`. The usage text gained two
+lines, so `test/fixtures/cli-surface.json` was rewritten with `SSHLG_GOLDEN_WRITE=1` (its diff is those lines); the
+README says all of it. PR ssheleg/sshlg-skills#343. **Decisions:** of the row's two routes the LaunchDaemon was taken: the other is a descriptor
+for Observatory's space-daemon validator, whose schema is that project's and unread here. The launcher prints and
+never installs: `/Library/LaunchDaemons` and `launchctl bootstrap system` take root, and a launcher that runs sudo is
+not this one. A `user/<uid>` fallback was not written: whether that domain exists for such an account could not be
+measured on this machine. The daemon is asked about only when the login session holds no job, so a machine with a
+login pays no extra call. `schedule --revert` and `uninstall` leave the daemon to who installed it, and the README
+says so. Not released: a tag publishes to npm, which an unattended run leaves to a session with the operator; the
+change ships with the next release. [B-334](evidence/backlog.md) stays open (tally 20) until a Mac Studio space
+installs the daemon and its `schedule` reads `registered yes`: loading into the system domain was not measured (no
+root here). The worktree `hub-pin-tp-1.110` (branch `chore/pin-task-pipeline-1.110.0`, no commits of its own)
+belongs to another run and was left as found. **Checks run:** `node test/updatesched_test.js` 43 cases (2 new);
+`node test/cli_config_test.js` 27 checks; `plutil -lint` on the printed file OK; `launchctl print system/<label>`
+without root: 0 for a loaded service, 113 for an absent one; `npm test` on the branch PASS (175 suites, 3583 fixtures, 11 members; the first full run refused the stale fixture ratchet in `docs/DOCMAP.md`, 3581, now 3583). **Waits:**
+agent-stack's merge and tag of B-162 for B-346; a Cursor sign-in for B-276 (the operator's); agent-sync's next
+release for B-344's close; the Mac Studio's install of the daemon for B-334's close (after the next release).
+**Next task:** B-346 once agent-stack tags B-162 (re-pin, delete the two `PENDING` entries in `lib/triggers.js`);
+otherwise the release that carries B-331, B-358 and B-334 (with the operator in the session: the tag publishes),
+which also pins task-pipeline 1.110.0; B-364's adapter design with the operator in the session. B-362's design
+starts 2026-11-28.
+
+## Previous: 2026-11-22 Codex's nine family plugins are back at their pins (B-364, the measured state)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is

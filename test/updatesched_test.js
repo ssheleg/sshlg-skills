@@ -777,4 +777,80 @@ if (['darwin', 'linux'].includes(process.platform)) {
   });
 }
 
+// B-334: an account with no graphical login has no gui/<uid> domain; its job is a LaunchDaemon.
+it('the daemon file is the same job under UserName, one label per account, and strict XML', () => {
+  const o = { home: '/Users/space & one', node: NODE, user: 'nicegram' };
+  const d = S.daemonFile(o);
+  assert.strictEqual(d.label, 'me.sshlg.skills.update.nicegram');
+  assert.strictEqual(d.file, '/Library/LaunchDaemons/me.sshlg.skills.update.nicegram.plist');
+  const agent = S.jobFiles('launchd', o)[0].text;
+  const between = (t, a, b) => t.slice(t.indexOf(a), t.indexOf(b));
+  assert.strictEqual(between(d.text, '<key>ProgramArguments', '<key>EnvironmentVariables'),
+    between(agent, '<key>ProgramArguments', '<key>EnvironmentVariables'), 'the daemon runs another command or minute than the agent');
+  assert.ok(d.text.includes('<key>UserName</key><string>nicegram</string>'));
+  assert.ok(d.text.includes('<key>HOME</key><string>/Users/space &amp; one</string>'), d.text);
+  assert.ok(d.text.includes('<key>SSHLG_SKILLS_JOB</key><string>1</string>'), 'the job would re-register itself from inside');
+  assert.ok(d.text.includes(S.OWNER));
+  for (const c of d.text.match(/<!--[\s\S]*?-->/g)) assert.ok(!c.slice(4, -3).includes('--'), `not XML: ${c}`);
+  assert.ok(!/revert/.test(d.text), 'the daemon file names a removal that does not remove it');
+  if (process.platform === 'darwin') {
+    const f = path.join(os.tmpdir(), `sched-daemon-${process.pid}.plist`);
+    fs.writeFileSync(f, d.text);
+    try {
+      const lint = spawnSync('plutil', ['-lint', f], { encoding: 'utf8' });
+      if (!lint.error) assert.strictEqual(lint.status, 0, lint.stdout + lint.stderr);
+    } finally { fs.rmSync(f, { force: true }); }
+  }
+  assert.notStrictEqual(S.daemonFile(Object.assign({}, o, { user: 'other' })).label, d.label);
+  for (const bad of [undefined, null, '', 'a b', 'a/b', '../x', 'x'.repeat(65), '-x']) {
+    assert.strictEqual(S.daemonLabel(bad), null, `label made from ${JSON.stringify(bad)}`);
+    assert.strictEqual(S.daemonFile(Object.assign({}, o, { user: bad })), null);
+    assert.strictEqual(S.daemonLoadedCommand({ user: bad }), null);
+  }
+  assert.deepStrictEqual(S.daemonLoadedCommand(o), { cmd: 'launchctl', args: ['print', 'system/me.sshlg.skills.update.nicegram'] });
+});
+
+it('no login session: a loaded system daemon is the registration; without one the line names the daemon mode', () => {
+  const gone = 'Could not find domain for user gui: 601';
+  const mk = (daemonUp) => (cmd, args) => {
+    if (args[0] === 'print') return { code: args[1].startsWith('system/') && daemonUp ? 0 : 113, stdout: '', stderr: gone };
+    if (args[0] === 'bootout') return { code: 3, stdout: '', stderr: '' };
+    return { code: 113, stdout: '', stderr: gone };
+  };
+  let home = tmpHome();
+  try {
+    const o = { platform: 'launchd', home, node: NODE, uid: 601, user: 'nicegram', mode: 'auto', run: mk(true) };
+    const r = S.apply(S.plan(o), o);
+    assert.strictEqual(r.ok, true, r.lines.join('\n'));
+    assert.strictEqual(r.state, 'daemon');
+    assert.ok(r.lines.some((l) => /runs as the system daemon me\.sshlg\.skills\.update\.nicegram/.test(l)), r.lines.join('\n'));
+    assert.ok(!r.lines.some((l) => /not registered/.test(l)), r.lines.join('\n'));
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+  home = tmpHome();
+  try {
+    const o = { platform: 'launchd', home, node: NODE, uid: 601, user: 'nicegram', mode: 'auto', run: mk(false) };
+    const r = S.apply(S.plan(o), o);
+    assert.strictEqual(r.state, 'unreachable');
+    assert.ok(r.lines.some((l) => /schedule --daemon/.test(l)), r.lines.join('\n'));
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+  home = tmpHome();
+  try {
+    // A login session that takes the job never asks about a daemon; systemd is never told of one.
+    const rec = recorder();
+    const o = { platform: 'launchd', home, node: NODE, uid: 501, user: 'nicegram', mode: 'auto', run: rec.run };
+    S.apply(S.plan(o), o);
+    assert.ok(!rec.calls.some((c) => c.includes('system/')), rec.calls.join(' | '));
+    assert.strictEqual(S.daemonLoaded({ platform: 'systemd', user: 'nicegram', run: () => ({ code: 0 }) }), false);
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+  home = tmpHome();
+  try {
+    const run = (cmd, args) => (args[0] === 'print' || args.includes('is-enabled') ? { code: 1, stdout: '', stderr: '' }
+      : { code: 1, stdout: '', stderr: 'Failed to connect to bus: No medium found' });
+    const o = { platform: 'systemd', home, node: NODE, uid: 601, user: 'nicegram', mode: 'auto', run };
+    const r = S.apply(S.plan(o), o);
+    assert.strictEqual(r.state, 'unreachable');
+    assert.ok(!r.lines.some((l) => /--daemon/.test(l)), 'a Linux account was offered a LaunchDaemon');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
 console.log(`\nPASS: nightly update job — ${n} case(s)`);

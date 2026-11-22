@@ -131,6 +131,8 @@ Usage:
                                                       # it is out; off says nothing (B-323)
   npx sshlg-skills schedule [--apply | --revert] [--dry-run] [--json]
                                                       # the nightly update job: status, level with update.mode, remove
+  npx sshlg-skills schedule --daemon                  # macOS, an account with no graphical login: print the job
+                                                      # as a LaunchDaemon an administrator installs (B-334)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run] [--codex] [--gemini] [--kimi] [--hermes] [--pi] [--opencode]
                                                       # --codex: also the guard in Codex's hooks.json
