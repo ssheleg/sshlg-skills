@@ -8,7 +8,30 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 `release-member.js` shows why a member's suite failed (B-363)
+## Current: 2026-11-22 agent-sync's wiring snapshot stops inventing a parent and a credential file (B-344)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
+`v0.33.3`, so B-346 waits; next by the previous entry was B-344. agent-sync's project on the board lists no capability
+and no responder (`com.directory`, 2026-11-22), so the change was made in its repository under its own rules. **Done:** ssheleg/agent-sync#52, squash-merged as `18c0a312`:
+`agent_sync.py setup` asks git whether the checkout has a superproject (`in_submodule`); a standalone repository with
+no `.env.agent-sync` and no registers now reads "credentials: none read, no `.env.agent-sync` found here" and "This
+repository is not a submodule, so no parent holds its ids", and the board's repository page says `none`; a submodule
+keeps the old lines. The same PR pins agent-sync's `validate` job to `ubuntu-24.04`: `ubuntu-latest` became Ubuntu
+26.04 with no Python 3.9 build, so `setup-python` had failed every nightly run from 2026-11-18 and blocked the PR's
+required check (the other ten members' nightly runs of 2026-11-21 read success). **Decisions:** no agent-sync version,
+tag or npm release and no hub pin: a tag publishes to npm, which an unattended run leaves to a session with the
+operator; the entry sits under `## Unreleased` in agent-sync's changelog. [B-344](evidence/backlog.md) therefore stays
+open (tally 20) until the hub pins that release and regenerates `docs/AGENT_SYNC.md`. The required checks were started
+by the workflow's own `ready_for_review` trigger (draft, then ready), not by a manual dispatch. **Checks run:**
+agent-sync `npm test` PASS (25 suites, each in its own HOME), the two new cases in `test/coordination_test.py` watched
+red on the old script, PR checks `validate` and `House skill audit` green; hub `npm test` on this branch (documents
+only). **Waits:** agent-stack's merge and tag of B-162 for B-346; a Cursor sign-in for B-276 (the operator's); agent-sync's
+next release for B-344's close. **Next task:** B-346 once agent-stack tags B-162 (re-pin, delete the two `PENDING`
+entries in `lib/triggers.js`); otherwise B-331's remainder (an unknown flag refused across the launcher). When a
+session with the operator releases agent-sync, it pins it here and closes B-344. B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-22 `release-member.js` shows why a member's suite failed (B-363)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
