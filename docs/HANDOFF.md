@@ -25,8 +25,8 @@ release run 45039161531 success; `npm view sshlg-skills version` reads 1.92.0. `
 prints the loop. **Not clean:** `update` ended `PARTIAL`, exit 1: Codex's task-pipeline plugin deferred
 (`DEFERRED_ACTIVE_GENERATION_SAFETY`, [B-364](evidence/backlog.md)), its watcher armed. **Checks run:** `npm test` on
 the merged branch PASS (176 suites, 3590 fixtures, 11 members); PR checks validate, windows, self-tests-a and -b green.
-**Next task:** B-346 once agent-stack tags B-162; otherwise B-366's measurement; B-334's close after a Mac Studio
-space installs the daemon from this release.
+**Next task:** B-346 once agent-stack tags B-162 (B-366 was closed by the entry below); B-334's close after a Mac
+Studio space installs the daemon from this release.
 
 ## Previous: 2026-11-22 family hooks run once although Claude Code reads two copies (B-366 closed, measured)
 
