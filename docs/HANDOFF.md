@@ -8,7 +8,30 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 the nightly job prefers a node path that names no version (B-358, the nvm part)
+## Current: 2026-11-22 Codex's nine family plugins are back at their pins (B-364, the measured state)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
+`v0.33.3`, so B-346 waits; next by the previous entry was B-364. `codex plugin list --json -m <marketplace>` read all
+nine installed plugins behind their pins (task-pipeline 1.102.2 against 1.109.0), and `ps` showed no `codex` process:
+the one moment the row asks for. **Done:** with Codex's config backed up under
+`~/.sshlg-skills/backups/codex-config-2026-11-22T0450Z/`, each plugin was moved by hand as on 2026-10-27
+(`codex plugin marketplace remove`, `add <repo> --ref v<pin>`, `codex plugin add`), with a process check before each.
+`refreshAll` from `lib/codexplugins.js` on the live catalog (codex-cli 0.169.0) then read
+`9 already at it in the native catalog, 0 deferred: overall current`. No hub code changed. PR ssheleg/sshlg-skills#342. **Decisions:** the nightly
+job was not taught to move the plugins. The receipt's admission in `lib/codex-pending.js` asks for a separately
+reviewed retirement adapter and names "no timer or process-count bypass"; a native mutation written and merged with
+no person reading it is not that review, so the design of that adapter is a task for a session with the operator.
+[B-364](evidence/backlog.md) stays open (tally 20) for that cause: the next re-pin defers again while a Codex
+session is live. The worktree `hub-pin-tp-1.110` (branch `chore/pin-task-pipeline-1.110.0`, no commits of its own)
+belongs to another run and was left as found; when that pin lands, Codex's task-pipeline is one release behind again.
+**Checks run:** the readback above; `npm test` on the branch PASS (175 suites, 3581 fixtures, 11 members). **Waits:** agent-stack's merge and
+tag of B-162 for B-346; a Cursor sign-in for B-276 (the operator's); agent-sync's next release for B-344's close.
+**Next task:** B-346 once agent-stack tags B-162 (re-pin, delete the two `PENDING` entries in `lib/triggers.js`);
+otherwise B-334 (a job for an account with no graphical login); B-364's adapter design with the operator in the
+session. B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-22 the nightly job prefers a node path that names no version (B-358, the nvm part)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
