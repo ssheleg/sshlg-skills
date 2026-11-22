@@ -19,7 +19,7 @@ the `python3` the suite's PATH resolves. [B-363](evidence/backlog.md) closed, th
 ssheleg/sshlg-skills#337. **Decisions:** not released: a tag publishes to npm, which an unattended run leaves to a
 session with the operator; the change ships with the next release. B-364 was not taken: its cause is live Codex
 sessions, which this run does not stop. **Checks run:** `node test/release_member_test.js` 14 cases (the new case
-watched red on the old code); `npm test` on the branch. **Waits:** agent-stack's merge and tag of B-162 for B-346; a
+watched red on the old code); `npm test` on the branch PASS (174 suites, 3577 fixtures, 11 members; the first run refused the stale fixture ratchet in `docs/DOCMAP.md`, 3574, now 3577). **Waits:** agent-stack's merge and tag of B-162 for B-346; a
 Cursor sign-in for B-276 (the operator's). **Next task:** B-346 once agent-stack tags B-162 (re-pin, delete the two
 `PENDING` entries in `lib/triggers.js`); otherwise [B-344](evidence/backlog.md) (two wrong template lines in the
 generated `docs/AGENT_SYNC.md`, an agent-sync change), then B-331's remainder. B-362's design starts 2026-11-28.
