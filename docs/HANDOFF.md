@@ -21,7 +21,7 @@ under 30,000, in a neutral folder and in this repository. The default home: 178 
 gap is six plugins the default account syncs from claude.ai into `~/.claude/plugins/synced/` (figma, data, marketing,
 engineering, design, productivity: 57 skills, 18,406 description characters), outside `enabledPlugins` and outside the
 family. `visibility` estimated the default home at 22,461 characters because it does not read that folder: filed as
-[B-365](evidence/backlog.md). No code changed. **Decisions:** B-336 stays open (the default home still prints the
+[B-365](evidence/backlog.md). No code changed. PR ssheleg/sshlg-skills#344. **Decisions:** B-336 stays open (the default home still prints the
 over-budget line). The synced plugins were not touched: whether they sync is a setting of the operator's claude.ai
 account, and figma is the plugin the global rules name as the Figma MCP route. B-365 was filed rather than fixed in
 this run: the estimate's reader and its fixtures are a change of their own, and the run had under an hour.
