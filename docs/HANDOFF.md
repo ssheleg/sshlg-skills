@@ -28,6 +28,24 @@ the merged branch PASS (176 suites, 3590 fixtures, 11 members); PR checks valida
 **Next task:** B-346 once agent-stack tags B-162; otherwise B-366's measurement; B-334's close after a Mac Studio
 space installs the daemon from this release.
 
+## Previous: 2026-11-22 family hooks run once although Claude Code reads two copies (B-366 closed, measured)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and agent-stack's newest
+tag is `v0.33.3`, so B-346 waits; next was B-366's measurement. **Done:** one headless call with one Bash tool call
+(`claude -p "Run the bash command: echo hello-b366. Then reply done." --allowedTools "Bash(echo:*)" --debug-file <f>`
+from an empty folder) on Claude Code 2.1.330, in both homes. Default home: the synced `agent-sync~g2` and
+`task-pipeline~g2` `hooks.json` are read, then the cache copies; *Registered 34 hooks from 31 plugins*; each family
+hook's execution line appears once (session-start.sh, guard.sh, release-gate.sh, renew.sh, gate-observer.sh,
+memory-nudge.sh), every one from `plugins/cache/`. Isolated home: synced copies not read, *34 hooks from 25 plugins*,
+the same six runs once. The cache wins even where the synced copy is newer (task-pipeline~g2 1.111.0 against the cache copy
+at the then pin 1.109.0; 1.92.0 above pins 1.111.0), so the hub pin decides the hook code. B-366 closed with no code, PR ssheleg/sshlg-skills#348. **Decisions:** no pruning and no `doctor`
+line: the synced folder belongs to the account and the pinned copy already wins; re-measure when a Claude Code release
+changes plugin loading. **Checks run:** `npm test` on the branch PASS (176 suites, 3590 fixtures, 11 members). **Waits:** agent-stack's merge and tag of
+B-162 for B-346; a Cursor sign-in for B-276 (the operator's); agent-sync's next release for B-344's close; the Mac
+Studio's install of the daemon for B-334's close (after the next release). **Next task:** B-346 once agent-stack tags
+B-162; otherwise the 1.92.0 release the entry above holds in flight (its own session); B-364's adapter design with the operator in the session. B-362's design starts 2026-11-28.
+
 ## Previous: 2026-11-22 `visibility` counts the plugins the account syncs from claude.ai (B-365); hooks read twice filed (B-366)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
