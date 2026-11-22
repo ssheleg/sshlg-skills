@@ -8,7 +8,35 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 Claude Code's skill listing re-measured: the isolated home fits, the default home does not (B-336, B-365)
+## Current: 2026-11-22 `visibility` counts the plugins the account syncs from claude.ai (B-365); hooks read twice filed (B-366)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and agent-stack's newest
+tag is `v0.33.3`, so B-346 waits; next by the previous entry was B-365. **Done:** the loading rule was measured before
+any code (Claude Code 2.1.330, `claude -p ok --debug-file <f>` from an empty folder, default home): a synced plugin
+loads from its newest copy (`design~g2` over `design`; data and figma from their only copy), is skipped when an
+enabled installed plugin has its name (agent-sync, task-pipeline, make-skill, super-ux, sheleg-design, seo-aeo-audit
+came from the cache), and loads when the installed namesake is disabled (figma). `syncedPlugins()` in
+`lib/cli-visibility.js` finds the account folder (`<organizationUuid>_<accountUuid>` from `.claude.json`; without
+one, the only account folder holding a manifest; with several, none, and the preview says so) and the newest copy of
+each plugin; `listingExtras` counts their model-invocable skills in the estimate and the preview names them as the
+account's to disable. On the default home the preview prints *data 10, design 7, engineering 10, figma 17,
+marketing 8, productivity 4*, the debug log's own `Loaded <n> skills` counts; the estimate moved from 22,461
+characters (88 entries) to 42,306 (144). README says it. B-365 closed. **Decisions:** skills only, no commands: none
+of the six loaded synced plugins has a `commands/` folder, so counting them would be a guess. The launcher still
+writes nothing for synced plugins: their overrides belong to the account. **Seen on the way:** the same debug log
+reads agent-sync's and task-pipeline's `hooks.json` twice, from the cache and from the synced `~g2` copy, filed as
+[B-366](evidence/backlog.md) (a second channel for two family plugins; whether hooks fire twice is not measured).
+**Checks run:** `node test/visibility_synced_test.js` 6 checks, 4 of them fail on the previous code (negative
+control); `visibility_listing_test.js` 8 and `visibility_test.js` 29 pass; `npm test` on the branch: see the PR.
+**Waits:** agent-stack's merge and tag of B-162 for B-346; a Cursor sign-in for B-276 (the operator's); agent-sync's
+next release for B-344's close; the Mac Studio's install of the daemon for B-334's close (after the next release).
+**Next task:** B-346 once agent-stack tags B-162; otherwise B-366's measurement (one scratch hook counting
+`PreToolUse` events with both copies present); then the release that carries B-331, B-358, B-334 and B-365 (with
+the operator in the session: the tag publishes); B-364's adapter design with the operator in the session. B-362's
+design starts 2026-11-28.
+
+## Previous: 2026-11-22 Claude Code's skill listing re-measured: the isolated home fits, the default home does not (B-336, B-365)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
