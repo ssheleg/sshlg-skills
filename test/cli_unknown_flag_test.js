@@ -154,6 +154,67 @@ it('commands with a parser of their own are left to it', () => {
   ok('hooks', 'recovery', 'inspect', BOGUS);
 });
 
+// --- the install family: one parser, each command its own flags ------------------
+const own = (cmd, ...rest) => assert.strictEqual(F.foreignFamilyFlag(cmd, rest), null, `${cmd} ${rest.join(' ')}`);
+const foreign = (want, cmd, ...rest) => assert.strictEqual(F.foreignFamilyFlag(cmd, rest), want, `${cmd} ${rest.join(' ')}`);
+
+it('an install-family command accepts the flags it reads', () => {
+  for (const cmd of ['install', 'i']) own(cmd, '--agent', 'cursor,zed', '-a', 'codex', '--all', '--no-claude', '--dry-run', '--routers', 'yes', '--member', 'make-skill');
+  for (const cmd of ['update', 'up']) own(cmd, '--agent', 'codex', '--all', '--claude-only', '--bump-pins', '--dry-run', '--member', 'make-skill');
+  for (const cmd of ['uninstall', 'un']) own(cmd, '--no-claude', '--dry-run', '--agent', 'codex', '--claude-only', '--member', 'make-skill');
+  own('backup'); own('wipe', '--dry-run');
+  own('routers', '--member', 'make-skill', '--update', '--dry-run', '--agent', 'codex', '--no-claude', '--routers', 'no');
+  own('routers', '--diff', 'task-pipeline'); own('routers', '--update', '--adopt', 'task-pipeline,super-ux', '--claude-only');
+});
+
+it('a flag only another install-family command reads is foreign here', () => {
+  foreign('--bump-pins', 'install', '--bump-pins'); foreign('--adopt', 'i', '--agent', 'codex', '--adopt', 'x');
+  foreign('--diff', 'update', '--diff', 'task-pipeline'); foreign('--update', 'up', '--update');
+  foreign('--all', 'uninstall', '--all'); foreign('--bump-pins', 'un', '--dry-run', '--bump-pins');
+  foreign('--routers', 'uninstall', '--routers', 'yes');
+  for (const flag of ['--dry-run', '--all', '--no-claude', '--claude-only', '--bump-pins', '--update']) foreign(flag, 'backup', flag);
+  foreign('--agent', 'backup', '--agent', 'codex'); foreign('-a', 'backup', '-a', 'codex');
+  foreign('--no-claude', 'wipe', '--no-claude'); foreign('--member', 'wipe', '--dry-run', '--member', 'x');
+  foreign('--all', 'routers', '--all'); foreign('--bump-pins', 'routers', '--update', '--bump-pins');
+});
+
+it('a value is not judged as a flag, and what no family command reads is left to the parser', () => {
+  own('routers', '--member', 'bump-pins'); own('install', '--agent', 'all');
+  own('wipe', BOGUS); own('backup', 'stray-word');
+  assert.strictEqual(F.foreignFamilyFlag('list', ['--all']), null, 'a command outside the family');
+});
+
+it('every install-family name main() dispatches on has its own flag set', () => {
+  for (const cmd of ['install', 'i', 'update', 'up', 'uninstall', 'un', 'backup', 'wipe', 'routers']) {
+    assert.ok(names.has(cmd), `${cmd} is not dispatched`);
+    assert.ok(F.familyCovers(cmd), `${cmd} has no flag set`);
+  }
+});
+
+it('the launcher refuses a foreign family flag: exit 2, the flag named, own usage, nothing run or written', () => {
+  for (const args of [['backup', '--dry-run'], ['wipe', '--no-claude'], ['wipe', '--dry-run', '--agent', 'codex'],
+    ['uninstall', '--dry-run', '--all'], ['un', '--bump-pins'], ['routers', '--all'], ['routers', '--dry-run', '--bump-pins'],
+    ['install', '--dry-run', '--bump-pins'], ['update', '--dry-run', '--adopt', 'task-pipeline']]) {
+    const r = cli(args);
+    const out = `${r.stdout}${r.stderr}`;
+    const bad = args.find((a) => F.foreignFamilyFlag(args[0], [a]) === a);
+    assert.strictEqual(r.status, 2, `${args.join(' ')}: exit ${r.status}\n${out}`);
+    assert.ok(out.includes(`unknown flag for ${args[0]}: ${bad}`), `${args.join(' ')}:\n${out}`);
+    assert.ok(out.includes('npx sshlg-skills '), `${args.join(' ')}: no usage`);
+    assert.deepStrictEqual(r.calls, [], `${args.join(' ')}: child processes ${r.calls}`);
+    assert.deepStrictEqual(r.homeFiles, [], `${args.join(' ')}: HOME writes ${r.homeFiles}`);
+    assert.deepStrictEqual(r.cwdFiles, [], `${args.join(' ')}: cwd writes ${r.cwdFiles}`);
+  }
+});
+
+it('wipe --dry-run and uninstall --dry-run still preview', () => {
+  for (const args of [['wipe', '--dry-run'], ['uninstall', '--dry-run', '--no-claude']]) {
+    const r = cli(args);
+    assert.strictEqual(r.status, 0, `${args.join(' ')}: exit ${r.status}\n${r.stdout}${r.stderr}`);
+    assert.ok(!/unknown flag/.test(r.stdout + r.stderr), r.stdout);
+  }
+});
+
 it('`--` ends the flags and a lone `-` is not one', () => {
   ok('list', '--', BOGUS); ok('restore', '-');
 });

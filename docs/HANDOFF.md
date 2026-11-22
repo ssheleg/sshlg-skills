@@ -8,7 +8,34 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 the launcher refuses a flag a command does not read (B-331, first remainder)
+## Current: 2026-11-22 each install-family command accepts only its own flags (B-331, `parseFlags` split)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
+`v0.33.3`, so B-346 waits; next by the previous entry was B-331's `parseFlags` split. `install`, `update`,
+`uninstall`, `backup`, `wipe` and `routers` share one parser, so each accepted every flag any of them reads:
+`wipe --dry-run --agent codex --bump-pins` and `routers --dry-run --all` exited 0, `backup --dry-run` took a real
+backup and `wipe --no-claude` wiped Claude's skills too. **Done:** `FAMILY` in `lib/cli-flags.js` names the flags
+each of the six reads, and `foreignFamilyFlag` returns the first flag the shared parser knows that the command does
+not read; `main()` in `bin/sshlg-skills.js` refuses it with `unknown flag for <command>: <flag>`, that command's own
+usage lines and exit 2, before the parser, any child process or any write. A token no family command reads is still
+refused by `parseFlags` itself. **Decisions:** a command's set follows what it reads, helpers included, so nothing
+that works is refused: `uninstall` and `routers` keep `--agent`, `--no-claude`, `--claude-only` and `--member`
+(`scopedRoutingTargets` and the wait plan read them; suites on `main` call `uninstall --agent` and
+`routers --agent`), and `update` keeps `--routers` (it hands the answer to the routing refresh `install` runs,
+which asks for consent only in install mode). The usage text is unchanged: it does not list `--agent` for
+`uninstall` and `routers` or `--member` anywhere, which is a documentation row for a session that changes the usage
+fixture (`test/fixtures/cli-surface.json`). Not released: a tag publishes to npm, which an unattended run leaves to
+a session with the operator; the change ships with the next release. [B-331](evidence/backlog.md) stays open (tally
+20) for the CLI-readiness probe recipe (agent-stack's next release) and enroll's `internal` profile (BN-19).
+**Checks run:** `node test/cli_unknown_flag_test.js` 51 cases (6 new: 5 red on the old launcher, one a guard that the previews still run); `npm test` on
+the branch PASS (175 suites, 3578 fixtures, 11 members; the documents were written after that run and `python3 test/validate.py` passed on them). **Waits:** agent-stack's merge and tag of B-162 for B-346; a Cursor sign-in for B-276
+(the operator's); agent-sync's next release for B-344's close. **Next task:** B-346 once agent-stack tags B-162
+(re-pin, delete the two `PENDING` entries in `lib/triggers.js`); otherwise the open rows with no outside wait by
+RICE in the backlog (B-331's two remainders both wait: one on agent-stack's release, one on BN-19's design).
+B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-22 the launcher refuses a flag a command does not read (B-331, first remainder)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and unmerged, so B-346
