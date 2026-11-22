@@ -8,7 +8,23 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-21 release 1.91.1 on npm: task-pipeline 1.109.0 pinned and installed
+## Current: 2026-11-22 `release-member.js` shows why a member's suite failed (B-363)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
+`v0.33.3`, so B-346 waits; the open row with no outside wait and the highest priority was B-363. **Done:**
+`releaseMember` in `lib/releasewatch.js` no longer reports the last 15 lines of stdout joined with stderr. Its error
+lists the lines that name a failure with their stream and line number, keeps each stream's own last 15 lines, and names
+the `python3` the suite's PATH resolves. [B-363](evidence/backlog.md) closed, the open tally reads 20. PR
+ssheleg/sshlg-skills#337. **Decisions:** not released: a tag publishes to npm, which an unattended run leaves to a
+session with the operator; the change ships with the next release. B-364 was not taken: its cause is live Codex
+sessions, which this run does not stop. **Checks run:** `node test/release_member_test.js` 14 cases (the new case
+watched red on the old code); `npm test` on the branch. **Waits:** agent-stack's merge and tag of B-162 for B-346; a
+Cursor sign-in for B-276 (the operator's). **Next task:** B-346 once agent-stack tags B-162 (re-pin, delete the two
+`PENDING` entries in `lib/triggers.js`); otherwise [B-344](evidence/backlog.md) (two wrong template lines in the
+generated `docs/AGENT_SYNC.md`, an agent-sync change), then B-331's remainder. B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-21 release 1.91.1 on npm: task-pipeline 1.109.0 pinned and installed
 
 **Objective:** the owner's order of 2026-11-21 (lifted pause, reconciler A-3 step 7: release task-pipeline, update the
 local installs, continue the spec protocol). **Done:** task-pipeline 1.109.0 on npm (tag `v1.109.0` on `bd3f50f`,

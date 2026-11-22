@@ -160,6 +160,8 @@ candidate not on `origin`'s default branch, a `plugin.json` or `package.json` ve
 differs from the tag, a missing CHANGELOG section or a dirty tree; then it creates the
 annotated tag locally, runs the member's own `test:all` script (else its `test` script) with
 the tag present, and pushes only when that is green. A red suite removes the tag this run created.
+Its error lists the lines that name a failure with their stream and line number, then stdout's and
+stderr's own tails, then the `python3` the suite's PATH resolves (B-363).
 `test/release_member_test.js` runs every branch against a bare remote.
 
 ```bash
