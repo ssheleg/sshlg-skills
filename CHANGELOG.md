@@ -5,6 +5,8 @@
 - **The nightly job prefers a node path that names no version** (B-358, #341); a versioned one is kept and named.
 - **`schedule --daemon`** prints the nightly job as a LaunchDaemon for an account with no graphical login (B-334,
   #343); it writes nothing and runs no sudo.
+- **`visibility` counts the plugins the account syncs from claude.ai** (B-365, #344 and #346): their model-invocable
+  skills enter the listing estimate and the preview names them as the account's to disable.
 
 - **task-pipeline 1.111.0 pinned** (submodule `2882775`, npm `task-pipeline-skill@1.111.0`), which carries 1.110.0:
   - **1.110.0, who writes the spec** (task-pipeline PR #181, the owner's order of 2026-11-22, board request

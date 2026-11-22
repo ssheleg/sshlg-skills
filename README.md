@@ -884,6 +884,11 @@ hides every other installed pack; an existing file is replaced only with `--repl
   plugin command on disk, one entry per name, the way Claude Code lists them (B-337: on
   2026-11-11 its 84 entries were exactly the on-disk part of Claude Code's 105); Claude Code's
   bundled and built-in plugin skills are not on disk, so its own count is the one to trust.
+  It also counts the plugins the signed-in account syncs from claude.ai
+  (`<claude home>/plugins/synced/<organization>_<account>/`, the newest `<name>~g<N>` copy),
+  except a plugin whose name an enabled installed plugin has, and names them: the launcher
+  cannot hide them, since they are the account's setting (B-365: on 2026-11-22 the six synced
+  plugins it named carried the same skill counts as Claude Code 2.1.330's debug log).
   `--measure` takes that count now: one `claude -p ok --no-session-persistence` call from a new
   empty folder with no MCP server and no hook (a Fabric MCP server would register the folder as
   a board project; the count is the same without it), its debug log read for the two listing
