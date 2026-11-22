@@ -28,7 +28,7 @@ writes nothing for synced plugins: their overrides belong to the account. **Seen
 reads agent-sync's and task-pipeline's `hooks.json` twice, from the cache and from the synced `~g2` copy, filed as
 [B-366](evidence/backlog.md) (a second channel for two family plugins; whether hooks fire twice is not measured).
 **Checks run:** `node test/visibility_synced_test.js` 6 checks, 4 of them fail on the previous code (negative
-control); `visibility_listing_test.js` 8 and `visibility_test.js` 29 pass; `npm test` on the branch: see the PR.
+control); `visibility_listing_test.js` 8 and `visibility_test.js` 29 pass; `npm test` on the branch PASS (176 suites, 3590 fixtures, 11 members; DOCMAP ratchets raised from 175 and 3583).
 **Waits:** agent-stack's merge and tag of B-162 for B-346; a Cursor sign-in for B-276 (the operator's); agent-sync's
 next release for B-344's close; the Mac Studio's install of the daemon for B-334's close (after the next release).
 **Next task:** B-346 once agent-stack tags B-162; otherwise B-366's measurement (one scratch hook counting
