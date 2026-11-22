@@ -259,6 +259,15 @@ function main(argv) {
     if (u) { log(u); return 0; }
     log(`unknown command: ${cmd}`); usage(); return 2;
   }
+  // B-331: a flag the command does not read is refused here, before it runs. The
+  // commands with a parser of their own (lib/cli-flags.js SELF_PARSING) refuse there.
+  const stray = require('../lib/cli-flags.js').unknownFlag(cmd, rest);
+  if (stray) {
+    log(`unknown flag for ${cmd}: ${stray}`);
+    const u = commandUsage(cmd);
+    if (u) log(u);
+    return 2;
+  }
   if (cmd === 'list' || cmd === 'ls') { cmdList(argv); return 0; }
   if (cmd === 'agents') { cmdAgents(); return 0; }
   if (cmd === 'hosts') { cmdHosts(); return 0; }
