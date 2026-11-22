@@ -18,7 +18,7 @@ the one moment the row asks for. **Done:** with Codex's config backed up under
 `~/.sshlg-skills/backups/codex-config-2026-11-22T0450Z/`, each plugin was moved by hand as on 2026-10-27
 (`codex plugin marketplace remove`, `add <repo> --ref v<pin>`, `codex plugin add`), with a process check before each.
 `refreshAll` from `lib/codexplugins.js` on the live catalog (codex-cli 0.169.0) then read
-`9 already at it in the native catalog, 0 deferred: overall current`. No hub code changed. **Decisions:** the nightly
+`9 already at it in the native catalog, 0 deferred: overall current`. No hub code changed. PR ssheleg/sshlg-skills#342. **Decisions:** the nightly
 job was not taught to move the plugins. The receipt's admission in `lib/codex-pending.js` asks for a separately
 reviewed retirement adapter and names "no timer or process-count bypass"; a native mutation written and merged with
 no person reading it is not that review, so the design of that adapter is a task for a session with the operator.
