@@ -8,7 +8,33 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 each install-family command accepts only its own flags (B-331, `parseFlags` split)
+## Current: 2026-11-22 the nightly job prefers a node path that names no version (B-358, the nvm part)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is
+`v0.33.3`, so B-346 waits; B-331's two remainders wait as well; of the open rows with no outside wait, B-358 names a
+concrete change. `stableNode` returned the first PATH entry that resolves to the running node; under nvm that is the
+version's own folder (`versions/node/v22.3.0/bin`), which `nvm uninstall` deletes, and the job then cannot start,
+with no error anywhere. **Done:** `stableNode` in `lib/updatesched.js` takes, among the entries that resolve to the
+running node, one whose path names no version (new `versionedPath`), then PATH order; Homebrew's result is unchanged.
+When only a versioned path exists, the job keeps it and `schedule`, `install` and `update` print one line naming the
+path and the repairing step (`schedule --apply` under the node that stays). `schedule` prints the job's node;
+`schedule --json` adds `job.node` and `job.nodeVersioned` (fields only added, still `schedule-status/1`); the README
+says both. **Decisions:** a different node is never taken, even an unversioned one: the existing case "a node on PATH
+that is another version must not be taken" stays, since the job would then run under a runtime `update` was not run
+with. So plain nvm without a `current` link, and Volta, keep a versioned path and get the disclosure, not a silent
+switch. Not released: a tag publishes to npm, which an unattended run leaves to a session with the operator; the
+change ships with the next release. [B-358](evidence/backlog.md) stays open (tally 20) for the Windows `schtasks`
+probe and the shutdown window, which need those hosts. The worktree `hub-pin-tp-1.110` (branch
+`chore/pin-task-pipeline-1.110.0`, no commits of its own) belongs to another run and was left as found.
+**Checks run:** `node test/updatesched_test.js` 41 cases (3 new; the preference case watched red on the old code);
+`node test/cli_config_test.js` 27 checks; `npm test` on the branch PASS (175 suites, 3581 fixtures, 11 members; the first run refused the stale fixture ratchet in `docs/DOCMAP.md`, 3578, now 3581). **Waits:** agent-stack's merge
+and tag of B-162 for B-346; a Cursor sign-in for B-276 (the operator's); agent-sync's next release for B-344's close.
+**Next task:** B-346 once agent-stack tags B-162 (re-pin, delete the two `PENDING` entries in `lib/triggers.js`);
+otherwise B-364 (let the nightly job move Codex's deferred plugins at a moment with no Codex session), then B-334
+(a job for an account with no graphical login). B-362's design starts 2026-11-28.
+
+## Previous: 2026-11-22 each install-family command accepts only its own flags (B-331, `parseFlags` split)
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open and its newest tag is

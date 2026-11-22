@@ -245,7 +245,7 @@ npx sshlg-skills schedule --revert                # remove the job (and set upda
 ```
 
 `schedule --json` is the form another program reads (B-340): `schema` (`schedule-status/1`),
-`updateMode`, `platform`, `job` (`at`, `files`, `task`, or `null` when none is recorded),
+`updateMode`, `platform`, `job` (`at`, `files`, `task`, `node`, `nodeVersioned`, or `null` when none is recorded),
 `registered` (`true`/`false`, `null` when the OS was not asked) and `plan` (`state`, `reason`).
 Fields are only added within `schedule-status/1`; renaming or removing one makes it `/2`.
 The text output carries no such promise.
@@ -262,7 +262,11 @@ Linux machine needs lingering on. On Windows it is a daily task `sshlg-skills-up
 longer than `schtasks /TR` takes (261 characters) is reported, not scheduled. The time is 04:MM
 local, the minute fixed per account. The job runs `node ~/.sshlg-skills/scheduler/lib/updaterun.js
 --scheduled` with an absolute node path that survives an upgrade (the PATH entry resolving to the
-running node, so Homebrew's `/opt/homebrew/bin/node` rather than its versioned keg), with
+running node, so Homebrew's `/opt/homebrew/bin/node` rather than its versioned keg; among several
+such entries one whose path names no version wins, so nvm's `current` link rather than
+`versions/node/v22.3.0`). When every entry of the running node sits in one version's folder, the
+job keeps that path, `schedule` says so, and `schedule --apply` under the node you keep repairs it
+after that version is removed. The job runs with
 `~/.local/bin` on its PATH, from a copy `update` refreshes: it asks the registry, and
 runs `npx --yes sshlg-skills@latest update` only when a newer set is out and no unattended run
 started in the last 20 hours (the job's own period is a day, so last night's run never skips tonight's). `update.lock` keeps it apart from the idle run and from yours. What it

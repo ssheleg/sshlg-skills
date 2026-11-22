@@ -420,6 +420,12 @@ it('config set update.mode writes and removes the nightly job at once, never tou
     assert.ok(Array.isArray(st.job.files) && st.job.files.includes(job), JSON.stringify(st.job));  // Linux adds the .service
     assert.strictEqual(st.registered, null, 'a fixture HOME was asked whether the job is registered');
     assert.strictEqual(st.plan.state, 'current', JSON.stringify(st));
+    // B-358: the node the job runs and whether its path names a version, for the reader that cannot see the plist.
+    assert.ok(path.isAbsolute(st.job.node), JSON.stringify(st.job));
+    assert.strictEqual(typeof st.job.nodeVersioned, 'boolean', JSON.stringify(st.job));
+    const human = go(['schedule']).stdout;
+    assert.ok(human.includes(`node             ${st.job.node}`), human);
+    assert.strictEqual(/a folder of one node version/.test(human), st.job.nodeVersioned, human);
     assert.strictEqual(go(['schedule', '--json', '--apply']).status, 2, '--json with --apply is a usage error');
     r = go(['schedule', '--revert']);
     assert.ok(!fs.existsSync(job), 'schedule --revert left the job');

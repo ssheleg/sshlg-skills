@@ -245,6 +245,44 @@ it('the job runs a node path that survives an upgrade, not the versioned keg', (
     'a node on PATH that is another version must not be taken');
 });
 
+it('among PATH entries of the running node, one whose path names no version wins (B-358)', () => {
+  // nvm: the versioned directory is first on PATH and is the running binary itself; a
+  // `current` link (NVM_SYMLINK_CURRENT) resolves to it and survives `nvm uninstall` of that version.
+  const ver = '/Users/a/.nvm/versions/node/v22.3.0/bin/node';
+  const links = { '/Users/a/.nvm/current/bin/node': ver };
+  const real = (p) => links[p] || p;
+  const exists = (p) => p in links || p === ver;
+  assert.strictEqual(S.stableNode(ver, ['/Users/a/.nvm/versions/node/v22.3.0/bin', '/Users/a/.nvm/current/bin'], { realpath: real, exists }),
+    '/Users/a/.nvm/current/bin/node');
+  assert.strictEqual(S.stableNode(ver, ['/Users/a/.nvm/versions/node/v22.3.0/bin', '/usr/bin'], { realpath: real, exists }), ver,
+    'no unversioned entry of the same binary: the versioned one, never another node');
+  // Two unversioned entries: PATH order still decides.
+  const two = { '/a/bin/node': ver, '/b/bin/node': ver };
+  assert.strictEqual(S.stableNode(ver, ['/b/bin', '/a/bin'], { realpath: (p) => two[p] || p, exists: () => true }), '/b/bin/node');
+});
+
+it('a path that names a version is told from one that does not (B-358)', () => {
+  for (const p of ['/Users/a/.nvm/versions/node/v22.3.0/bin/node', '/opt/homebrew/Cellar/node/26.10.0_2/bin/node',
+    '/Users/a/.volta/tools/image/node/22.3.0/bin/node', '/Users/a/.local/share/fnm/node-versions/v20.11.1/installation/bin/node',
+    '/opt/node-v22.3.0-linux-x64/bin/node', '/Users/a/.asdf/installs/nodejs/21.6/bin/node',
+    'C:\\Users\\a\\AppData\\Roaming\\nvm\\v22.3.0\\node.exe']) {
+    assert.strictEqual(S.versionedPath(p), true, p);
+  }
+  for (const p of ['/opt/homebrew/bin/node', '/usr/local/bin/node', '/usr/bin/node', '/Users/a/.nvm/current/bin/node',
+    '/Users/a.b/bin/node', '/opt/node22/bin/node', 'C:\\Program Files\\nodejs\\node.exe', '', null]) {
+    assert.strictEqual(S.versionedPath(p), false, String(p));
+  }
+});
+
+it('a job whose node sits in one version\'s folder is said, with the step that repairs it (B-358)', () => {
+  const C = require('../lib/cli-schedule.js');
+  const line = C.versionedNodeLine(S, '/Users/a/.nvm/versions/node/v22.3.0/bin/node');
+  assert.match(line, /\/Users\/a\/\.nvm\/versions\/node\/v22\.3\.0\/bin\/node/);
+  assert.match(line, /schedule --apply/);
+  assert.strictEqual(C.versionedNodeLine(S, '/opt/homebrew/bin/node'), null);
+  assert.strictEqual(C.versionedNodeLine(S, undefined), null);
+});
+
 it('only the account\'s own HOME may reach the OS scheduler, and skip keeps it away', () => {
   assert.strictEqual(S.shouldRegister({ home: '/Users/a', accountHome: '/Users/a', env: {} }), true);
   assert.strictEqual(S.shouldRegister({ home: '/tmp/fixture', accountHome: '/Users/a', env: {} }), false);
