@@ -242,11 +242,13 @@ npx sshlg-skills schedule                         # the nightly job: mode, time,
 npx sshlg-skills schedule --json                  # the same for a program: schedule-status/1
 npx sshlg-skills config set update.mode notify    # only say a newer set is out; auto | notify | off
 npx sshlg-skills schedule --revert                # remove the job (and set update.mode notify)
+npx sshlg-skills schedule --daemon                # macOS: print the job as a LaunchDaemon (see below)
 ```
 
 `schedule --json` is the form another program reads (B-340): `schema` (`schedule-status/1`),
 `updateMode`, `platform`, `job` (`at`, `files`, `task`, `node`, `nodeVersioned`, or `null` when none is recorded),
-`registered` (`true`/`false`, `null` when the OS was not asked) and `plan` (`state`, `reason`).
+`registered` (`true`/`false`, `null` when the OS was not asked), `plan` (`state`, `reason`) and
+`daemon` (macOS: `label`, `loaded`, the account's system-domain job; `null` elsewhere or when the OS was not asked).
 Fields are only added within `schedule-status/1`; renaming or removing one makes it `/2`.
 The text output carries no such promise.
 
@@ -279,6 +281,21 @@ only when `HOME` is the account's own home, so a test or sandbox `HOME` gets the
 a machine with no user scheduler reachable (a container, WSL without systemd) is told so, and
 `update` keeps its exit code.
 The older `update.auto off` reads as `notify`. `uninstall` removes the job.
+
+A macOS account that never logs in graphically (a hidden service account, a headless space) has no
+`gui/<uid>` domain, so its LaunchAgent is never loaded and `schedule` reads `registered no` (B-334).
+`schedule --daemon` prints the same job as a LaunchDaemon for that account: label
+`me.sshlg.skills.update.<user>`, `UserName` the account, the same node, runner and minute, `HOME`
+set outright. The file goes to stdout and nothing else does; the steps go to stderr. The launcher
+writes nothing and never runs sudo: an administrator saves the output as
+`/Library/LaunchDaemons/me.sshlg.skills.update.<user>.plist` (owner root, mode 644) and runs
+`sudo launchctl bootstrap system <that file>`. From then on `schedule` reads
+`registered yes (system daemon …)`, `schedule --json` reads `registered: true` with
+`daemon.loaded: true`, and `update` says the job runs as that daemon. `schedule --revert` and
+`uninstall` remove the LaunchAgent only; the daemon is removed by who installed it
+(`sudo launchctl bootout system/me.sshlg.skills.update.<user>`, then the file). The file was
+linted (`plutil -lint`) and parsed strictly; loading it into the system domain was not run by
+this repository's checks, which have no root.
 
 ### The way back
 
