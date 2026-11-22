@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 task-pipeline 1.111.0 pinned; the release carries B-331, B-358, B-334, B-365 (1.92.0)
+## Current: 2026-11-22 backlog rows read as released after 1.92.0; B-346 still waits on agent-stack's publication
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open (`mergeStateStatus`
+BLOCKED, no checks reported) and agent-stack's newest tag is `v0.33.3`; its last comment leaves the merge and tag
+`v0.33.4` to a session with the operator, because a tag publishes. So B-346 waits. **Done:** the backlog said B-331,
+B-334 and B-358 "ship with the next release" or are "not released" although 1.92.0 (`ea729685`) carries them; their
+status cells now name the release, and B-364 records that the 1.92.0 `update` deferred Codex's task-pipeline plugin
+again. **Asked:** a Fabric effect request (publication) for agent-stack PR #76 and tag `v0.33.4`; the first answer
+is a refusal by design, the operator now sees it. **Checks run:** `npm test` on this branch PASS (176 suites, 3590 fixtures, 11 members).
+**Next task:** B-346 once agent-stack tags `v0.33.4`: pin it, delete the two `PENDING` entries in `lib/triggers.js`
+and the bare «аудит агента» from the agent-harness route. Every other open row waits on a person, another project or
+a date (B-362's design starts 2026-11-28).
+
+## Previous: 2026-11-22 task-pipeline 1.111.0 pinned; the release carries B-331, B-358, B-334, B-365 (1.92.0)
 
 **Objective:** the owner's two orders of 2026-11-22 relayed by the CEO of Fabric (board requests 94a61249 and
 bd16f215): the spec is written by the session's own model and its loop is at hand; tasks for executors are checked.
