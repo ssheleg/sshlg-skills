@@ -23,7 +23,7 @@ each plugin; `listingExtras` counts their model-invocable skills in the estimate
 account's to disable. On the default home the preview prints *data 10, design 7, engineering 10, figma 17,
 marketing 8, productivity 4*, the debug log's own `Loaded <n> skills` counts; the estimate moved from 22,461
 characters (88 entries) to 42,306 (144). README says it. B-365 closed. **Decisions:** skills only, no commands: none
-of the six loaded synced plugins has a `commands/` folder, so counting them would be a guess. The launcher still
+of the six loaded synced plugins has a `commands/` folder, so counting them would be a guess. PR ssheleg/sshlg-skills#346. The launcher still
 writes nothing for synced plugins: their overrides belong to the account. **Seen on the way:** the same debug log
 reads agent-sync's and task-pipeline's `hooks.json` twice, from the cache and from the synced `~g2` copy, filed as
 [B-366](evidence/backlog.md) (a second channel for two family plugins; whether hooks fire twice is not measured).
