@@ -261,7 +261,9 @@ function main(argv) {
   }
   // B-331: a flag the command does not read is refused here, before it runs. The
   // commands with a parser of their own (lib/cli-flags.js SELF_PARSING) refuse there.
-  const stray = require('../lib/cli-flags.js').unknownFlag(cmd, rest);
+  // The install family shares parseFlags; a flag only another of its commands reads is refused too.
+  const cliFlags = require('../lib/cli-flags.js');
+  const stray = cliFlags.unknownFlag(cmd, rest) || cliFlags.foreignFamilyFlag(cmd, rest);
   if (stray) {
     log(`unknown flag for ${cmd}: ${stray}`);
     const u = commandUsage(cmd);
