@@ -1,3 +1,13 @@
+## v1.92.1 (2026-11-23): agent-stack 0.33.4 pinned; «аудит агента» routes by its two phrases
+
+- **agent-stack 0.33.4 pinned** (npm `@ssheleg/agent-stack@0.33.4`, agent-stack PR #76, B-162): the agent-harness
+  description advertises «аудит промпта и инструментов агента» and «аудит системного промпта агента» in place of the
+  bare «аудит агента», which names two jobs (agent-harness and fabric-agents:assessing-agents).
+- **Routing follows the pin** (B-346, #354): the two phrases route to agent-stack without a `PENDING` excuse, and the
+  bare «аудит агента» no longer does.
+- **The family description total rises from 11446 to 11469 characters** with the swap; the rise is recorded in
+  `docs/DOCMAP.md` and B-374 wins it back at the member's next release.
+
 ## v1.92.0 (2026-11-22): task-pipeline 1.111.0 pinned (the spec's author, the spec loop, the task prompt check); flags each command reads; the nightly job's node and daemon
 
 - **Each command accepts only the flags it reads** (B-331, #339 and #340): an unknown or foreign flag is refused with
