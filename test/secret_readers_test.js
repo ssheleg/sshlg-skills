@@ -19,7 +19,11 @@ const denied = [
   'grep -e /credentials ~/.netrc', 'grep --regexp TOKEN -- ~/.npmrc',
   "sed -n '1,5p' ~/proj/.env", "awk '{print}' ~/proj/.env",
   "sed -e 's/a/b/' ~/proj/.env", "awk -F : '{print $1}' ~/.netrc",
-  'cat .env', 'head ../secrets/key', 'cd ~/.config/agentgateway && cat secrets/provider',
+  'cat .env', 'head ../secrets/key',
+  // B-367: the source-code exemption covers the folder rule only, never a key-file name or a key folder.
+  'cat src/secrets/.env', 'cat src/secrets/server.pem', 'cat src/secrets/credentials.json',
+  'cat src/secrets/token.json', 'cat src/secrets/provider', 'cat ~/.config/agentgateway/secrets/provider.js',
+  'grep -rn x src/secrets', 'cd ~/.config/agentgateway && cat secrets/provider',
   'cd ~/.config/agentgateway/secrets && cat provider',
   "printf '%s\\n' ~/.netrc | xargs cat", 'xargs -n 1 cat ~/.netrc',
   "find ~/.config/agentgateway/secrets -type f -exec cat {} \\;",
@@ -109,6 +113,9 @@ const allowed = [
   'grep -r x ~/.config/agentgateway --exclude=servers.y*ml --exclude-dir=secrets',
   // G4 (audit 2026-11-11): templates and prose under a secret-looking name.
   'cat .env.example', 'cat .env.sample', 'cat .env.template', 'cat docs/secrets/README.md',
+  // B-367 (webpilot BL-266, 2026-11-23): source code in a folder named `secrets/` is code, not a key store.
+  "sed -n '1,80p' src/secrets/local.ts", 'grep -n lock test/secrets/local.test.ts',
+  'cat lib/secrets/store.mjs', 'head src/secrets/index.js', 'cat app/secrets/vault.py',
 ];
 for (const cmd of denied) it(`deny ${cmd}`, () => assert.strictEqual(S.inspect(cmd)?.rule, 'reads-secret-file'));
 for (const cmd of allowed) it(`allow ${cmd}`, () => assert.strictEqual(S.inspect(cmd), null));
@@ -132,6 +139,10 @@ const toolCases = [
   ['Grep', { path: '/h/.claude', pattern: 'budget', glob: '*.json', output_mode: 'content' }, true],
   ['Read', { file_path: '/tmp/proj/.env.example' }, false],
   ['Read', { file_path: '/tmp/secrets/README.md' }, false],
+  ['Read', { file_path: '/tmp/webpilot/src/secrets/local.ts' }, false],
+  ['Read', { file_path: '/tmp/webpilot/test/secrets/local.test.ts' }, false],
+  ['Read', { file_path: '/tmp/webpilot/src/secrets/keys.json' }, true],
+  ['Read', { file_path: '/h/.config/agentgateway/secrets/provider.ts' }, true],
 ];
 for (const [tool, input, deny, cwd] of toolCases) it(`hook ${tool} ${JSON.stringify(input)}`, () => {
   const r = spawnSync(process.execPath, [path.join(__dirname, '../hooks/pre-tool-use.js')], {

@@ -8,7 +8,23 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-25 1.92.5 shipped and installed (agent-sync 1.23.7)
+## Current: 2026-11-25 1.92.6: the content-read guard lets source code under `secrets/` be read (B-367)
+
+**Objective:** Fabric board request 08206413 from webpilot (BL-266), unattended run, no person in the session:
+webpilot's `src/secrets/local.ts` and `test/secrets/local.test.ts` (code and tests, no key) were refused by the
+PreToolUse content-read guard, so its one red nightly test could not be read. **Done:** `secretsFolder` in
+`lib/secretreaders.js` lifts the `secrets/` folder rule for `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs`, `.mts`,
+`.cts` and `.py`; key-file names, other extensions under `secrets/`, the agentgateway key folder and a recursive
+search of a `secrets/` folder stay refused. **Decision:** an extension list rather than a `git ls-files` probe or a
+per-repository allowlist (the guard stays pure; see [B-367](evidence/backlog.md)). **Checks run:** `node
+test/secret_readers_test.js` OK (181 checks; webpilot's two Read cases red on the previous code); `npm test` PASS (176
+suites, 3606 fixtures, 11 members; DOCMAP's fixture ratchet moved from 3590). **2026-11-25 (Fabric wait supervisor resumed this
+session for webpilot's wait 3a3b56c2):** the branch rebased onto `main` at `fd611062` (conflicts only in this file and
+the backlog), cut as release 1.92.6 in the same PR (package version, CHANGELOG). **Next task:** after merge,
+`scripts/tag.sh v1.92.6 --push`, watch the release run, `npx --yes sshlg-skills@latest update`, answer webpilot on
+board thread 6caea09e with the version; then the board queue's first ready task.
+
+## Previous: 2026-11-25 1.92.5 shipped and installed (agent-sync 1.23.7)
 
 **Objective:** the open refactor task on the Fabric board (board supervisor run, no person in the session): the previous
 entry's next task, the hub release carrying the agent-sync 1.23.7 pin. **Done:** PR #361 marked ready for review (the
