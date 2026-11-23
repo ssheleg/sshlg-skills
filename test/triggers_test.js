@@ -337,9 +337,12 @@ it('a minor-edit word beside real delivery work keeps the pipeline', () => {
 });
 
 it('agent-harness audits reach agent-stack by the phrases operators type (agent-stack B-162)', () => {
-  for (const p of ['аудит промпта и инструментов агента', 'аудит системного промпта агента', 'аудит агента']) {
+  for (const p of ['аудит промпта и инструментов агента', 'аудит системного промпта агента']) {
     assert.ok(T.match(p).includes('agent-stack'), `agent-stack missed: ${p}`);
   }
+  // B-346: the bare «аудит агента» names two jobs (this one and fabric-agents:assessing-agents),
+  // so since agent-stack 0.33.4 stopped advertising it, it no longer routes to agent-stack.
+  assert.ok(!T.match('аудит агента').includes('agent-stack'), 'the bare «аудит агента» still routes to agent-stack');
 });
 
 it('matching is case-insensitive', () => {

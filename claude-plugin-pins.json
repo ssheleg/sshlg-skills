@@ -3380,8 +3380,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "01e180ca55fa10bc72d616ae67e23c321862e7ab",
-      "version": "0.33.3",
+      "commit": "841bd00d5f2a226cf1a0d2344c4d666fcbafdb9a",
+      "version": "0.33.4",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3389,7 +3389,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.33.3",
+        "version": "0.33.4",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3414,7 +3414,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "9c20efeb76bf345477421c0e30722933c803c804d642ba7267591c1670ddfe69",
+          "sha256": "ded367ccc09fdea0c653e8055bd577f5558834b4c9baea4d4f916c1be5a0d5ca",
           "bytes": 1081
         },
         {
@@ -3509,8 +3509,8 @@
         },
         {
           "path": "skills/agent-harness/SKILL.md",
-          "sha256": "dfdc2f36124c9425c249698610a264fd3862e5ddfeaa8e8d7242521c04f05c30",
-          "bytes": 14772
+          "sha256": "a8307c3ada0936307f8c1b859c661ccb05e1b75cd13134a13255839737d2f5bf",
+          "bytes": 15275
         },
         {
           "path": "skills/agent-interop/references/a2a.md",
