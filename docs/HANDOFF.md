@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-22 backlog rows read as released after 1.92.0; B-346 still waits on agent-stack's publication
+## Current: 2026-11-23 Codex's task-pipeline plugin moved to its pin 1.111.0 (B-364); B-346 still waits on agent-stack
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor after the 09:00 wait, no person
+in the session): the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open
+(`mergeStateStatus` BLOCKED) and agent-stack's newest tag is still `v0.33.3`, so B-346 waits. `codex plugin list` showed
+task-pipeline at 1.109.0 against its pin 1.111.0 (the 1.92.0 `update` had deferred it) and every other family plugin at
+its pin. **Done:** `pgrep -x codex` found no Codex process, so task-pipeline was moved by hand as on 2026-11-22 (config
+backed up first; commands in [B-364](evidence/backlog.md)); `refreshCodexPlugins` from `lib/cli-codex.js` then read
+`9 already at it in the native catalog, 0 deferred, 0 failed: overall current`. B-364 stays open for its cause.
+**Not touched:** the worktree `_worktrees/hub-ui-mechanics-pins` (uncommitted super-ux and sheleg-design pins) and PR
+ssheleg/sshlg-skills#351 (B-367) belong to another session. **Checks run:** `npm test` on this branch (result in the PR).
+**Next task:** B-346 once agent-stack tags `v0.33.4`: pin it, delete the two `PENDING` entries in `lib/triggers.js` and
+the bare «аудит агента» from the agent-harness route.
+
+## Previous: 2026-11-22 backlog rows read as released after 1.92.0; B-346 still waits on agent-stack's publication
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open (`mergeStateStatus`
