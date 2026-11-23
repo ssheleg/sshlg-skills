@@ -1,3 +1,12 @@
+## v1.92.2 (2026-11-23): task-pipeline 1.113.1 pinned (the consilium, the default judge)
+
+- **task-pipeline 1.113.1 pinned** (npm `task-pipeline-skill@1.113.1`, PRs ssheleg/task-pipeline#186 and #187): every
+  evaluation and decision from size M up goes to a council of models of different vendors, judged blind, and the
+  strongest model of the host's map rules last (`scripts/consilium.py`, `references/consilium.md`). The owner's order of
+  2026-11-23 (requests 6f5b7054 and 62e0c402). It also carries 1.112.x (the novice walk in the design review), which
+  never reached npm on its own.
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
 ## v1.92.1 (2026-11-23): agent-stack 0.33.4 pinned; «аудит агента» routes by its two phrases
 
 - **agent-stack 0.33.4 pinned** (npm `@ssheleg/agent-stack@0.33.4`, agent-stack PR #76, B-162): the agent-harness
