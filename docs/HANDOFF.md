@@ -8,7 +8,19 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-23 Codex's task-pipeline plugin moved to its pin 1.111.0 (B-364); B-346 still waits on agent-stack
+## Current: 2026-11-23 agent-stack 0.33.4 pinned; B-346 closed («аудит агента» routes by its two phrases)
+
+**Objective:** the open refactor task on the Fabric board (resumed after the 18:00 wait; the run moved to another
+account mid-way when its first account reached its limit, Observatory handoffs `handoff:4cad1103d8faa0f9` and `handoff:739d530eec3d8a13`): the previous
+entry's next task. **Found:** agent-stack PR ssheleg/agent-stack#76 merged (`841bd00`), tag `v0.33.4`, its release run
+green and npm `@ssheleg/agent-stack` at 0.33.4 (`latest`). **Done:** B-346: the submodule, `skills.json`, the README row
+and `claude-plugin-pins.json` (`scripts/sync-claude-pins.js --write`) pin 0.33.4; `lib/triggers.js` drops both `PENDING`
+entries and the bare «аудит агента» from the agent-harness route. **Checks run:** `npm test` on this branch: `PASS: 176 checks green` (3590 fixtures, 11 pinned members). The
+agent-stack description swap lifts the family description total from 11446 to 11469; the rise is recorded in
+`docs/DOCMAP.md` and [B-374](evidence/backlog.md) wins it back. **Not released:** the pin reaches installs with the next hub release (version bump, CHANGELOG, `scripts/tag.sh`).
+**Next task:** cut that hub release, then the board queue's first ready task.
+
+## Previous: 2026-11-23 Codex's task-pipeline plugin moved to its pin 1.111.0 (B-364); B-346 still waits on agent-stack
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor after the 09:00 wait, no person
 in the session): the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open
