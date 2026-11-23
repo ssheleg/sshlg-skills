@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-23 Codex's task-pipeline plugin moved to its pin 1.111.0 (B-364); B-346 still waits on agent-stack
+## Current: 2026-11-23 PassionCode 1.0 iteration rows filed (B-368 to B-373; ST-18, ST-12, ST-05, ST-16, ST-23, ST-27)
+
+**Objective:** Fabric board request 2d0a58f9 (thread 93e9c6d3, fabric-workspace relaying DEC-0126, the owner's words of
+2026-11-23 08:47 UTC): one backlog row per ST of this hub with its first date and what is deferred, answered by
+2026-11-25 18:00 UTC (amendment A-4). Unattended dispatch run, no board tools on this machine; the answer is the run's
+result, which Fabric posts in the thread. **Done:** six rows in [backlog](evidence/backlog.md): B-368 (ST-18 skills
+audit, due 2026-12-03, first 2026-11-24), B-369 (ST-12 report skills record `artifact/1`, due 2026-12-05, first
+2026-11-30), B-370 (ST-05 audit findings, 2026-11-27), B-371 (ST-16 runner check, pulls B-362's runner part forward to
+2026-12-07), B-372 (ST-23 defects, until 2026-12-07), B-373 (ST-27 family candidate, 2026-12-08). B-367 was already
+taken by PR ssheleg/sshlg-skills#351 (another session), so this run's ids start at B-368. **Deferred past 1.0:** cleanup
+the audit performs itself (1.0 is read-only), the audit on hosts beyond Claude Code, Codex, Hermes and Pi.
+**Checks run:** `npm test` (176 checks green, submodules checked out). **Next task:** B-370 (ST-05 findings, due
+2026-11-27) and B-368's first step on 2026-11-24; B-346 still waits on agent-stack `v0.33.4`.
+
+## Previous: 2026-11-23 Codex's task-pipeline plugin moved to its pin 1.111.0 (B-364); B-346 still waits on agent-stack
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor after the 09:00 wait, no person
 in the session): the previous entry's next task. **Found:** PR ssheleg/agent-stack#76 (B-162) is still open
