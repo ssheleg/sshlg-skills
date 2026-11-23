@@ -8,7 +8,20 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-23 agent-stack 0.33.4 pinned; B-346 closed («аудит агента» routes by its two phrases)
+## Current: 2026-11-23 1.92.1 shipped and installed (agent-stack 0.33.4)
+
+**Objective:** the open refactor task on the Fabric board: the previous entry's next task, the hub release carrying the
+agent-stack 0.33.4 pin. **Done:** #354 merged (`1f5d0727`, CI `validate`, `windows`, `self-tests-a`, `self-tests-b`
+green); release PR #355 merged (`c05f1157`, same four checks green); `scripts/tag.sh v1.92.1 --push` printed
+`TAG_PUSHED` for `c05f1157`; release run 45262603255 succeeded (`release`, `publish`); `npm view sshlg-skills version`
+reads 1.92.1. **Installed:** `npx --yes sshlg-skills@latest update` ran 33 of 33 steps, result `PARTIAL`: Claude Code's
+agent-stack plugin is at 0.33.4 (`installed_plugins.json`, the installed agent-harness SKILL.md carries «аудит
+системного промпта агента»); Codex deferred agent-stack (`DEFERRED_ACTIVE_GENERATION_SAFETY`, native catalog 0.33.3,
+receipt under `~/.sshlg-skills/codex-deferred/`, its watcher printed by the update), the class [B-364](evidence/backlog.md)
+tracks. A new Claude session loads the new listing. **Checks run:** `npm test` on both trees: `PASS: 176 checks green`.
+**Next task:** the board queue's first ready task.
+
+## Previous: 2026-11-23 agent-stack 0.33.4 pinned; B-346 closed («аудит агента» routes by its two phrases)
 
 **Objective:** the open refactor task on the Fabric board (resumed after the 18:00 wait; the run moved to another
 account mid-way when its first account reached its limit, Observatory handoffs `handoff:4cad1103d8faa0f9` and `handoff:739d530eec3d8a13`): the previous
