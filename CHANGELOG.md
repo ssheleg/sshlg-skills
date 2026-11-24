@@ -1,3 +1,13 @@
+## v1.92.3 (2026-11-24): task-pipeline 1.114.0 pinned (money by role, the project brain's minimum)
+
+- **task-pipeline 1.114.0 pinned** (npm `task-pipeline-skill@1.114.0`, PR ssheleg/task-pipeline#188, release run
+  45276162070): the owner's order of 2026-11-23 on the model and token budget by role. A spec's meanings are thought by
+  the strongest model by tokens in one call and its text is written on the subscription; validators answer by tokens one
+  call each; every token call is booked with its route, model, cost and task (`scripts/spend.py`, with the
+  development-mode ceiling warning). It also ships the project brain's minimum (`scripts/brain.py recall`: up to ten
+  lines from this project's own memory before a task, read-only) and the lesson index fix (B-163).
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
 ## v1.92.2 (2026-11-23): task-pipeline 1.113.1 pinned (the consilium, the default judge)
 
 - **task-pipeline 1.113.1 pinned** (npm `task-pipeline-skill@1.113.1`, PRs ssheleg/task-pipeline#186 and #187): every
