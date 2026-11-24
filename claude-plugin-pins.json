@@ -1933,8 +1933,8 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "454691a5feff029d8ddba61df2d7ce64d1a87eed",
-      "version": "1.23.6",
+      "commit": "be9a38ee7d357aff5f00bed30fed71b9ff1a903d",
+      "version": "1.23.7",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
       "entry": {
@@ -1942,7 +1942,7 @@
         "displayName": "Agent Sync",
         "source": "./plugins/agent-sync",
         "description": "Coordination layer for multi-agent repositories. Gives task-pipeline runs leases with a TTL, race-free ID reservation, a cross-repo signal feed, an append-only run journal and a machine-generated read-only board. A lease is decided by a primitive that genuinely has compare-and-swap — an atomic file create on one machine, a pushed git ref across machines — never by the knowledge base, which loses concurrent writes; the store carries the record and the ID allocation, which is positional over the merged log. The knowledge backend is a pluggable adapter (Outline, filesystem) declaring its own capabilities and degrading out loud. Ships Claude Code hooks that deny edits to guarded registry files without a live lease.",
-        "version": "1.23.6",
+        "version": "1.23.7",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1965,7 +1965,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "44d4b7a0db2db2b741cfa677db17717ea2b69c8394d32ccd7adba13752414907",
+          "sha256": "5e76496147e1cc7838a38094111d59c06bb247b0dcaf4fc20a4ffa319ea3124d",
           "bytes": 695
         },
         {
@@ -2070,8 +2070,8 @@
         },
         {
           "path": "skills/agent-sync/scripts/agent_sync.py",
-          "sha256": "f6a36499cc2e5e3ae74cf6ef55f5e7f6af450379650f484c1114ca38873b6d85",
-          "bytes": 380052
+          "sha256": "0626bf1a83b194c49fd86c0a4fef3b6ef81368d073a9b9a2c2a0f01a793c7f00",
+          "bytes": 381283
         },
         {
           "path": "skills/agent-sync/scripts/bash_writes.py",
@@ -2080,7 +2080,7 @@
         },
         {
           "path": "skills/agent-sync/SKILL.md",
-          "sha256": "287a8bc6a047f4791d8c8c9c59811d45b59dd67e13b15c2f53628cba85e283e0",
+          "sha256": "b00a6071edd358451d5acf0de3f6a8274193cc4aa8e07eba3800de7a186df3a8",
           "bytes": 17902
         }
       ]

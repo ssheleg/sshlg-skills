@@ -1,3 +1,11 @@
+## v1.92.4 (2026-11-24): agent-sync 1.23.7 pinned; the coordination page tells the truth about this hub (B-344)
+
+- **agent-sync 1.23.7 pinned** (npm `@ssheleg/agent-sync@1.23.7`, PRs ssheleg/agent-sync#52 and #53): `setup` no longer
+  writes "credentials read from `(none found)`" for a repository with no `.env.agent-sync`, nor "Ids live in the parent
+  repository" for one that is not a submodule.
+- `docs/AGENT_SYNC.md` regenerated with `agent_sync.py setup` from the pinned script; both lines read back.
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
 ## v1.92.3 (2026-11-24): task-pipeline 1.114.0 pinned (money by role, the project brain's minimum)
 
 - **task-pipeline 1.114.0 pinned** (npm `task-pipeline-skill@1.114.0`, PR ssheleg/task-pipeline#188, release run

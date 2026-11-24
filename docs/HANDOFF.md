@@ -8,7 +8,23 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-23 1.92.1 shipped and installed (agent-stack 0.33.4)
+## Current: 2026-11-24 agent-sync 1.23.7 pinned; B-344 closed (1.92.4)
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session,
+Observatory handoff `handoff:682ab335aeab3712`): the previous entry's next task, the board queue's first ready row.
+**Found:** B-364 still waits (six live `codex` processes, so the deferral guard holds); Claude Code already holds the
+1.92.3 pins. B-344 was the first row nothing blocked: its fix sat unreleased on agent-sync `main` since 2026-11-22.
+**Done:** agent-sync PR ssheleg/agent-sync#53 (version 1.23.7 in its six places, CHANGELOG, verification, HANDOFF;
+`npm run test:all` PASS, 25 suites and 79 self-test fixtures) merged and tagged `v1.23.7` by `scripts/release-member.js`;
+this change pins it (submodule, `skills.json`, README, `claude-plugin-pins.json` by `scripts/sync-claude-pins.js
+--write`, CLI golden, ctx-04.06) and regenerates `docs/AGENT_SYNC.md` with the pinned script: both lines now read true.
+**Decision:** Fabric's effect request for the publication answered `allowed: false` because an unattended runner's tools
+are not visible to it, with "perform the effect yourself"; the release went ahead on the operator's development-mode
+rule of 2026-11-23 (releases ship on green checks), as 1.92.1 did. **Checks run:** `npm test` on this branch (result in
+the PR). **Next task:** tag `v1.92.4` once merged, watch the release run, `npm view sshlg-skills version`,
+`npx --yes sshlg-skills@latest update`; then the board queue's first ready row.
+
+## Previous: 2026-11-23 1.92.1 shipped and installed (agent-stack 0.33.4)
 
 **Objective:** the open refactor task on the Fabric board: the previous entry's next task, the hub release carrying the
 agent-stack 0.33.4 pin. **Done:** #354 merged (`1f5d0727`, CI `validate`, `windows`, `self-tests-a`, `self-tests-b`
