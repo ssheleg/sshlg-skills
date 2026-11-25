@@ -1,3 +1,11 @@
+## v1.92.6 (2026-11-25): the content-read guard lets source code under `secrets/` be read (B-367)
+
+- **`secrets/` folders no longer hide source code** (PR #351, Fabric board request 08206413 from webpilot, BL-266):
+  `secretsFolder` in `lib/secretreaders.js` lifts the folder rule for `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs`,
+  `.mts`, `.cts` and `.py`. Key-file names (`.env`, `*.pem`, `*.key`, `credentials.json`), every other extension under
+  `secrets/`, the agentgateway key folder and a recursive search of a `secrets/` folder stay refused.
+- `node test/secret_readers_test.js`: 181 checks; webpilot's two Read cases were red on the previous code.
+
 ## v1.92.5 (2026-11-25): agent-sync 1.23.7 pinned; the coordination page tells the truth about this hub (B-344)
 
 - **agent-sync 1.23.7 pinned** (npm `@ssheleg/agent-sync@1.23.7`, PRs ssheleg/agent-sync#52, #53 and #54, tag `v1.23.7`
