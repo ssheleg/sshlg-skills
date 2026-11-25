@@ -8,7 +8,27 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-25 PassionCode 1.0 iteration rows landed (B-368 to B-373)
+## Current: 2026-11-25 super-ux 0.68.0 and sheleg-design 1.68.0 pinned (1.92.7)
+
+**Objective:** the open refactor task on the Fabric board (board supervisor run, no person in the session): the queue's
+first ready work. **Done:** PR #353 (rows B-368 to B-373) had `main` merged in (no force-push), its required `validate`
+ran on the `ready_for_review` event (run 45607329402: `validate`, `windows`, `self-tests-a`, `self-tests-b` green; a
+`workflow_dispatch` run does not count for the ruleset) and was squash-merged as `31e871a3`. B-370's first check,
+`python3 test/check_pins.py`, read two pins BEHIND: super-ux 0.67.1 against 0.68.0 (`v0.68.0` at `e10cb7a`) and
+sheleg-design 1.67.1 against 1.68.0 (`v1.68.0` at `4c0accc`); this branch moves both submodules, `skills.json`, the
+README rows, `claude-plugin-pins.json` (`scripts/sync-member-pins.js --write`, `scripts/sync-claude-pins.js --write`:
+11 match), the CLI golden and `ctx-04.06.json`, package 1.92.7. **Found, not touched:** the worktree
+`_worktrees/hub-ui-mechanics-pins` (branch `chore/pins-ui-mechanics-2026-11-23`, never pushed) holds the same two pins
+uncommitted, last written 2026-11-23 06:17; this release supersedes it, and its owner removes it. B-370's second finding (no Pi in `skills.json`'s host list)
+is recorded on its row for B-371. **Checks run:** before the CHANGELOG entry, `npm test` failed only on the missing
+CHANGELOG entry (`version mismatch`); after it, `test/validate.py` PASS, `test/triggers_test.js` OK (83),
+`test/cli_help_test.js` PASS (76). The full local run did not finish: the machine ran at load average 50 to 75 from
+other sessions, two runs were stopped by the 30-minute limit, and a golden rewrite under that load recorded timeouts
+(`status: null`), so it was discarded and the fixture written right after the pin move kept. The full suite is the
+PR's `validate` run. **Next task:** after merge, `scripts/tag.sh v1.92.7 --push`, watch the release run,
+`CLAUDE_CONFIG_DIR="$HOME/.claude" npx --yes sshlg-skills@latest update`; then B-370's remaining reads (due 2026-11-27).
+
+## Previous: 2026-11-25 PassionCode 1.0 iteration rows landed (B-368 to B-373)
 
 **Objective:** the open refactor task on the Fabric board (board supervisor run, no person in the session): the board
 queue's first ready task. **Found:** PR #353 (the six ST rows of board request 2d0a58f9, docs only) open since

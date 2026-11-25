@@ -56,13 +56,13 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.67.1",
+      "version": "0.68.0",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
       "shape": "static",
       "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
-      "commit": "2b7e58193277577fbd1100c0317d631be0a6b435"
+      "commit": "e10cb7ac56ad1f6e4bcf50235640f9f5ffc330f2"
     },
     {
       "name": "task-pipeline",
@@ -131,7 +131,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.67.1",
+      "version": "1.68.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -148,7 +148,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "91e9b752263ebbb87f1f5fbe3e908083565ed352"
+      "commit": "4c0acccfa65aa4f95b0cdc0bf9f4fbae44ec4a98"
     },
     {
       "name": "seo-aeo-audit",

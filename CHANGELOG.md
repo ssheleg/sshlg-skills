@@ -1,3 +1,12 @@
+## v1.92.7 (2026-11-25): super-ux 0.68.0 and sheleg-design 1.68.0 pinned (UI mechanics, the action map)
+
+- **super-ux 0.68.0 pinned** (tag `v0.68.0` at `e10cb7a`, ssheleg/super-ux#67): a screen's `Actions:` table (the action
+  map), `ux_lint.py` U096 to U106, and the novice in the test panel.
+- **sheleg-design 1.68.0 pinned** (tag `v1.68.0` at `4c0accc`, ssheleg/sheleg-design-skill#67): control profiles and
+  spacing, iPad and regular width, screen ceilings.
+- Both found by `python3 test/check_pins.py` (BEHIND) during the B-370 audit; both members released on 2026-11-23
+  for the operator's order of that day (request dcc725be). The CLI golden and the ctx-04.06 receipt follow the pins.
+
 ## v1.92.6 (2026-11-25): the content-read guard lets source code under `secrets/` be read (B-367)
 
 - **`secrets/` folders no longer hide source code** (PR #351, Fabric board request 08206413 from webpilot, BL-266):
