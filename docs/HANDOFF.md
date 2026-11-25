@@ -8,7 +8,25 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-25 super-ux 0.68.0 and sheleg-design 1.68.0 pinned (1.92.7)
+## Current: 2026-11-25 1.92.7 shipped; Claude install half done (sheleg-design waits for the nightly job)
+
+**Objective:** the previous entry's next task. **Done:** PR #365's required `validate` ran on `ready_for_review` (run
+45657109659: `validate`, `windows`, `self-tests-a`, `self-tests-b` green), squash-merged as `8aa4d3c8`;
+`scripts/tag.sh v1.92.7 --push` printed `TAG_PUSHED` (tag object `d26e9aca`); release run 45659385470 success;
+`npm view sshlg-skills version` reads 1.92.7. Lease B-370 released; branch `pin/ui-mechanics-1.92.7` and its worktree
+removed. **Installed, partly:** `CLAUDE_CONFIG_DIR="$HOME/.claude" npx --yes sshlg-skills@latest update` at load
+average 50 to 75 from other sessions: the first run's native transaction for super-ux ended `uncertain` (the Claude
+command outran its limit); the second run took it as B-361 recovery and read `super-ux: payload equals pin e10cb7a`,
+then refused the native transaction before execution (`claude --version` did not exit cleanly). So
+`installed_plugins.json` reads super-ux 0.68.0 and sheleg-design still 1.67.1 in Claude Code's default home; Codex was
+not reached. **Wait:** the nightly job (`~/.sshlg-skills/schedule.json`, launchd `me.sshlg.skills.update`, 04:41
+local) runs the same `update`; the next run reads `installed_plugins.json` for sheleg-design 1.68.0 and, if it is not
+there, runs the update once at normal load. **Not done:** the Fabric claim was not released and no Observatory
+checkpoint was written after 11:31 UTC: both MCP servers disconnected mid-session and have no CLI write route.
+**Next task:** confirm sheleg-design 1.68.0 in Claude and Codex; then B-370's remaining reads (the routing block
+against the members' descriptions, the family claims in the adapter and the contract; due 2026-11-27).
+
+## Previous: 2026-11-25 super-ux 0.68.0 and sheleg-design 1.68.0 pinned (1.92.7)
 
 **Objective:** the open refactor task on the Fabric board (board supervisor run, no person in the session): the queue's
 first ready work. **Done:** PR #353 (rows B-368 to B-373) had `main` merged in (no force-push), its required `validate`
