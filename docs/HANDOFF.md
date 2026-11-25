@@ -8,7 +8,20 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-25 1.92.6: the content-read guard lets source code under `secrets/` be read (B-367)
+## Current: 2026-11-25 1.92.6 shipped and installed (B-367)
+
+**Objective:** Fabric wait 3a3b56c2 from webpilot (board thread 6caea09e, request 08206413): merge PR #351 and release
+the hub with it, so webpilot can read `src/secrets/local.ts` for BL-266. **Done:** #351 rebased onto `fd611062`, local
+`npm test` `PASS: 176 checks green` (3606 fixtures), one CI run on the frozen head (45587667521: `validate`, `windows`,
+`self-tests-a`, `self-tests-b` green), squash-merged as `51f71b3b`; `scripts/tag.sh v1.92.6 --push` printed
+`TAG_PUSHED` (tag object `ee28743b`); release run 45588683971 success; `npm view sshlg-skills version` reads 1.92.6.
+**Installed:** `CLAUDE_CONFIG_DIR="$HOME/.claude" npx --yes sshlg-skills@latest update`: `33 of 33 steps, all green`,
+Codex nine plugins `already at it`. The installed `~/.sshlg-skills/runtime/hooks/pre-tool-use.js` lets a `sed` of
+webpilot's `src/secrets/local.ts` through and still denies a `cat` of a `.json` under `src/secrets/`. webpilot answered
+on the thread, the wait cleared as arrived. **Note:** the rebase of the PR branch was pushed with
+`--force-with-lease` pinned to the old head `0a355c74`. **Next task:** the board queue's first ready task.
+
+## Previous: 2026-11-25 1.92.6: the content-read guard lets source code under `secrets/` be read (B-367)
 
 **Objective:** Fabric board request 08206413 from webpilot (BL-266), unattended run, no person in the session:
 webpilot's `src/secrets/local.ts` and `test/secrets/local.test.ts` (code and tests, no key) were refused by the
