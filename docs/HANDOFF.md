@@ -8,7 +8,28 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-25 agent-sync 1.23.7 pinned (1.92.5); B-344 closed
+## Current: 2026-11-25 1.92.5 shipped and installed (agent-sync 1.23.7)
+
+**Objective:** the open refactor task on the Fabric board (board supervisor run, no person in the session): the previous
+entry's next task, the hub release carrying the agent-sync 1.23.7 pin. **Done:** PR #361 marked ready for review (the
+repository's CI runs only on `ready_for_review`, nightly and manual), its `validate`, `windows`, `self-tests-a` and
+`self-tests-b` green (run 45572895865), squash-merged as `55fa8787`; `scripts/tag.sh v1.92.5 --push` printed
+`TAG_PUSHED` (tag object `cd84dc8d`); release run 45573815563 success; `npm view sshlg-skills version` reads 1.92.5.
+The superseded wip branch `fix/b344-agent-sync-1.23.7` is archived at `refs/archive/2026-11-25/fix/b344-agent-sync-1.23.7`
+and deleted. **Installed:** `npx --yes sshlg-skills@latest update` from launcher `1.92.5-e0eae16997fe` ran 33 of 33
+steps, `PARTIAL`: Claude Code's default home has agent-sync 1.23.7 and seo-aeo-audit 0.33.0 (`installed_plugins.json`);
+Codex deferred four plugins (`DEFERRED_ACTIVE_GENERATION_SAFETY`). `pgrep -x codex` found no process, so the four were
+moved by hand as in [B-364](evidence/backlog.md) (config backed up under
+`~/.sshlg-skills/backups/codex-config-2026-11-25T0820Z/`); `codex plugin list` then reads all nine family plugins at
+their pins (task-pipeline 1.114.0, agent-sync 1.23.7, seo-aeo-audit 0.33.0, agent-stack 0.33.4, make-skill 0.33.6,
+sheleg-design 1.67.1, sheleg-dev 0.16.4, super-ux 0.67.1, web3d-dev 0.2.8). An update run from a Switchboard isolated
+home refuses the `visibility` and `domains` steps (ownership is the default profile's) and ends `PARTIAL`; run it with
+`env -u CLAUDE_CONFIG_DIR` or `CLAUDE_CONFIG_DIR="$HOME/.claude"`. A follow-up board run read it back from launcher 1.92.5
+with `CLAUDE_CONFIG_DIR="$HOME/.claude"`: `33 of 33 steps, all green`, agent-sync `payload equals pin 0e9eb5f`, Codex nine
+plugins `already at it`. No `refs/agent-sync/leases/B-344` remains on origin. **Checks
+run:** `npm test` on the release branch: `PASS: 176 checks green`. **Next task:** the board queue's first ready task.
+
+## Previous: 2026-11-25 agent-sync 1.23.7 pinned (1.92.5); B-344 closed
 
 **Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
 B-344, the two wrong template lines in `docs/AGENT_SYNC.md`. **Found:** agent-sync `v1.23.7` tagged at `0e9eb5f`
