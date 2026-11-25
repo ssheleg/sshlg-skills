@@ -8,7 +8,20 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-25 seo-aeo-audit 0.33.0 pinned (1.92.4)
+## Current: 2026-11-25 agent-sync 1.23.7 pinned (1.92.5); B-344 closed
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+B-344, the two wrong template lines in `docs/AGENT_SYNC.md`. **Found:** agent-sync `v1.23.7` tagged at `0e9eb5f`
+(ssheleg/agent-sync#52, #53, #54) and npm `@ssheleg/agent-sync` reads 1.23.7; hub 1.92.4 was already tagged and on npm,
+so the earlier wip branch `fix/b344-agent-sync-1.23.7` (based on 1.92.3, gitlink at a PR head) is superseded by this
+one, cut from `main` at `92d586b0`. **Done:** submodule at `0e9eb5f`, `skills.json`, the README row and
+`claude-plugin-pins.json` at 1.23.7 (`scripts/sync-member-pins.js --write` and `scripts/sync-claude-pins.js --write`:
+11 match), `docs/AGENT_SYNC.md` regenerated with `agent_sync.py setup` (both lines read back), the CLI golden and
+`ctx-04.06.json` re-emitted, package 1.92.5, B-344 closed (open tally 19). **Checks run:** `npm test` on this branch
+with the submodules materialized. **Next task:** after merge, `scripts/tag.sh v1.92.5 --push`, watch the release run,
+`npx --yes sshlg-skills@latest update`, then the board queue's first ready task.
+
+## Previous: 2026-11-25 seo-aeo-audit 0.33.0 pinned (1.92.4)
 
 **Objective:** CEO order (thread `fe70b7d7`, message `d51292fd`; Studio session 54): release seo-aeo-audit 0.33.0
 (Google's ranking hub and generative AI controls) and pin it here. **Found and done in the member:** PR
