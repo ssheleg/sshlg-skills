@@ -8,7 +8,23 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-25 1.92.7 shipped; Claude install half done (sheleg-design waits for the nightly job)
+## Current: 2026-11-25 B-370 third and fourth reads (routing block, adapter); B-375 and B-376 filed
+
+**Objective:** the previous entry's next task (board supervisor run, no person in the session). **Install:**
+sheleg-design 1.68.0 is still not installed (`~/.claude/plugins/cache/sheleg-design-skill/sheleg-design/` holds 1.67.1 as
+newest; Codex's cache too); no update was run: the disk sentry refuses installs below 12 GB free (10.3 GB) and the load
+average read 57. The nightly job (04:41 local, 2026-11-26) stays the wait. **Done:** B-370's third read: `node
+bin/sshlg-skills.js routers` reads every managed target `unchanged`; every router's refusal phrases searched in its
+member's `SKILL.md` files at the pinned commit: two gaps filed, B-375 (task-pipeline's evidence-docs lacks "no docs" and
+«на словах», project-audit lacks "no diagnosis") and B-376 (Kimi Code gets no block here: `~/.agents/AGENTS.md` is a
+local symlink; `README.md:25` and `README.md:603` disagree on Kimi's target). Fourth read: fabric-agent-adapter 0.96.0's
+family names all resolve; no finding. **Checks run:** `python3 test/validate.py` in a worktree without submodules: the
+only failures are the unmaterialized-submodule ones; the full suite is the PR's `validate`. **Next task:** confirm
+sheleg-design 1.68.0 after the nightly job; then B-370's last reads (the contract's family claims and the runner list
+against Fabric's runner catalogue) through those projects' boards, and B-370's findings posted to the ST-05 thread by
+2026-11-27.
+
+## Previous: 2026-11-25 1.92.7 shipped; Claude install half done (sheleg-design waits for the nightly job)
 
 **Objective:** the previous entry's next task. **Done:** PR #365's required `validate` ran on `ready_for_review` (run
 45657109659: `validate`, `windows`, `self-tests-a`, `self-tests-b` green), squash-merged as `8aa4d3c8`;
