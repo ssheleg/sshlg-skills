@@ -1,3 +1,11 @@
+## v1.92.4 (2026-11-25): seo-aeo-audit 0.33.0 pinned (Google's ranking hub and generative AI controls)
+
+- **seo-aeo-audit 0.33.0 pinned** (PR ssheleg/seo-aeo-audit#72, squash `9649d47`, tag `v0.33.0`): research of
+  Google's Search Central update of 2026-11-24 (the ranking hub, advance notice of significant ranking updates, the
+  five generative AI controls, the planned `__usage_ai-training` token, how AI Overviews and AI Mode pick supporting
+  links), carried into the update timeline, the crawler table (track K2a) and the AI-answer checks.
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
 ## v1.92.3 (2026-11-24): task-pipeline 1.114.0 pinned (money by role, the project brain's minimum)
 
 - **task-pipeline 1.114.0 pinned** (npm `task-pipeline-skill@1.114.0`, PR ssheleg/task-pipeline#188, release run

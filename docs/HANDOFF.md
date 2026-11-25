@@ -8,7 +8,23 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-23 1.92.1 shipped and installed (agent-stack 0.33.4)
+## Current: 2026-11-25 seo-aeo-audit 0.33.0 pinned (1.92.4)
+
+**Objective:** CEO order (thread `fe70b7d7`, message `d51292fd`; Studio session 54): release seo-aeo-audit 0.33.0
+(Google's ranking hub and generative AI controls) and pin it here. **Found and done in the member:** PR
+ssheleg/seo-aeo-audit#72 squash-merged as `9649d47` after one fix commit (the v0.33.0 run stamp sat inside the
+v0.32.5 stamp's bold, so the member's run-stamp negative self-test could not plant); its required checks `validate` and
+`House skill audit` ran once on the frozen head (run 45524897479, success); `scripts/release-member.js
+~/DATA/seo-aeo-audit v0.33.0 --push` printed `TAG_PUSHED` (tag object `630c409`, suite exit 0); release run
+45526234604 success (validate, House skill audit, release, publish); `npm view @ssheleg/seo-aeo-audit version` reads
+0.33.0. **Here:** submodule at `9649d47`, `skills.json` and the README row at 0.33.0, `scripts/sync-member-pins.js
+--write` (11 commits match staged gitlinks), `scripts/sync-claude-pins.js --write` (11 pins match), `ctx-04.06.json`
+re-emitted, the CLI golden fixture rewritten, package 1.92.4. **Checks run:** `npm test` on this branch with the
+submodules materialized. **Next task:** after merge, `scripts/tag.sh v1.92.4 --push`, watch the release run, confirm
+`npx --yes sshlg-skills@latest list` shows seo-aeo-audit v0.33.0; studio-agent then runs
+`npx --yes sshlg-skills@latest update` on the MacBook.
+
+## Previous: 2026-11-23 1.92.1 shipped and installed (agent-stack 0.33.4)
 
 **Objective:** the open refactor task on the Fabric board: the previous entry's next task, the hub release carrying the
 agent-stack 0.33.4 pin. **Done:** #354 merged (`1f5d0727`, CI `validate`, `windows`, `self-tests-a`, `self-tests-b`
