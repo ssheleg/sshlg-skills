@@ -1093,8 +1093,8 @@
     {
       "name": "task-pipeline",
       "repo": "ssheleg/task-pipeline",
-      "commit": "28827759b73338133bf278c7a253b6652c52c393",
-      "version": "1.111.0",
+      "commit": "14a6cf07b98485bcb3fba02e9a1f619c4d18a038",
+      "version": "1.114.0",
       "pluginInstall": "task-pipeline@task-pipeline",
       "pluginPath": "plugins/task-pipeline",
       "entry": {
@@ -1102,7 +1102,7 @@
         "displayName": "Task Pipeline",
         "source": "./plugins/task-pipeline",
         "description": "Runs a substantial task through a mandatory built-in intake grill, then 10 gated stages (docs, brainstorm+decompose, spec, plan, subagent build, tests, lint/deploy, post-deploy, docs/wiki, acceptance). Every stage's doctrine is built into the skill — no companion plugin required — with typed auto/judgment/manual gates, a frozen requirement spine that closes with evidence, a work board and a verification ledger that outlive a run, an exposure line naming what shipped unconfirmed, a progress rail computed from the project's own config, a proportional short path for small changes, a loop guard whose ceilings stop and record a blocker, and stage-3 tracks for what a product does, how it sounds and how it looks. Two modes need no task: `checkup` (what is unverified) and `setup` (audit existing docs); a third, `waves`, takes the whole board and closes it in waves that each finish in one pass. Retro insights can publish upstream as issues, opt-in and redacted.",
-        "version": "1.111.0",
+        "version": "1.114.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1125,7 +1125,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "9c1eae2d8d10b3b2d871c04e4ca98f49f6c07b5aadfb9e356941a1240238b93d",
+          "sha256": "935bdb8750f66122f71fffe047a52c2f6c9f467a389e4431856aadacbce2a0ff",
           "bytes": 1529
         },
         {
@@ -1135,8 +1135,8 @@
         },
         {
           "path": "agents/design-tester.md",
-          "sha256": "caf14b1fe3bc74c7acba23e42364759c5f091ef43d75f0c369577a9250bcad76",
-          "bytes": 7330
+          "sha256": "e260bda69c0c55e5157c0ffa3f6c0233df78a773bbadb56225122f5b87611dd1",
+          "bytes": 7337
         },
         {
           "path": "agents/verifier-agent.md",
@@ -1225,8 +1225,8 @@
         },
         {
           "path": "skills/evidence-docs/references/gates.md",
-          "sha256": "af1342cb1c3ae1f1771bc95f8414adc9077f0cea52864ae74ea43484415ed04a",
-          "bytes": 41205
+          "sha256": "a3c95f7349604b443996526b8729542adf4c7b22ee1231e5381eb26d1a7d283b",
+          "bytes": 41278
         },
         {
           "path": "skills/evidence-docs/references/GENERATED.md",
@@ -1292,6 +1292,11 @@
           "path": "skills/project-audit/SKILL.md",
           "sha256": "6e75078354b27ee7a19934925170965cb87abc00eeaec0d920a0694da97fafd5",
           "bytes": 20808
+        },
+        {
+          "path": "skills/task-pipeline/assets/consilium.example.json",
+          "sha256": "0125857821885aa0749f36fdd0cf67b67345dbca611c1ff349a31002f8bd9aad",
+          "bytes": 2534
         },
         {
           "path": "skills/task-pipeline/assets/verifier-agent.md",
@@ -1419,9 +1424,14 @@
           "bytes": 31379
         },
         {
+          "path": "skills/task-pipeline/references/consilium.md",
+          "sha256": "bdc3f8896e199bd0c387bf98d4ea92913fcbd80ba69dc36039e9a5de364babe7",
+          "bytes": 2944
+        },
+        {
           "path": "skills/task-pipeline/references/continuity.md",
-          "sha256": "2cdc60eb7ad7608d419e0b51cbe2cb444eb82e7c179c6159f468ff5a95625aaf",
-          "bytes": 31813
+          "sha256": "d516020b07b0a1eb628f06ced05ba23038fd623f8778cac62f69c8340f800584",
+          "bytes": 31238
         },
         {
           "path": "skills/task-pipeline/references/conventions.md",
@@ -1470,8 +1480,8 @@
         },
         {
           "path": "skills/task-pipeline/references/gates.md",
-          "sha256": "e9facbe4e5fabd78a0ae0e34fa7f0a35d201372f6de05083ed68d6721e352319",
-          "bytes": 39752
+          "sha256": "eee5260774e6324e3b09ce60ce02a20deec1a8b2ebed93703365133d648de23c",
+          "bytes": 39825
         },
         {
           "path": "skills/task-pipeline/references/grill.md",
@@ -1500,8 +1510,8 @@
         },
         {
           "path": "skills/task-pipeline/references/knowledge-sources.md",
-          "sha256": "4684de0b76e53e1981740d29df57a085f5c812d8a90a679040119d8e2f5ad21c",
-          "bytes": 21933
+          "sha256": "191570be97f0184f6d31657bbaf5c72cc6a584693952a8de4603b4f5e22819d0",
+          "bytes": 21969
         },
         {
           "path": "skills/task-pipeline/references/learned.md",
@@ -1515,8 +1525,8 @@
         },
         {
           "path": "skills/task-pipeline/references/model-tiering.md",
-          "sha256": "c12a2f158ec836fdfaf1f512594f799fc30d4fa7582d4c29794660eb8c3004b9",
-          "bytes": 6252
+          "sha256": "7621a0d265557227925dfb058d9325fe1bb6003ba28cbfdf4279b6d424547a24",
+          "bytes": 5835
         },
         {
           "path": "skills/task-pipeline/references/planning.md",
@@ -1525,8 +1535,8 @@
         },
         {
           "path": "skills/task-pipeline/references/portability.md",
-          "sha256": "42a0c08d701325dfbdbea71c9882c65a0eb62909b962ef66080a6d5788993e52",
-          "bytes": 13167
+          "sha256": "c2fe894f542028e3f99aa0bd2c935bc7d2c50478c993f8a35a5070d712c128ff",
+          "bytes": 13303
         },
         {
           "path": "skills/task-pipeline/references/prioritisation.md",
@@ -1555,8 +1565,8 @@
         },
         {
           "path": "skills/task-pipeline/references/retrospective.md",
-          "sha256": "d31eba5f2c5ac6ce55ac881f5236b369c80a93104ea92adc57c45d4f5f20cf2e",
-          "bytes": 38233
+          "sha256": "86c64ace788594593d39fa157f916c1f6a2758cb178647f6f384bad71a1e9a42",
+          "bytes": 36408
         },
         {
           "path": "skills/task-pipeline/references/review.md",
@@ -1570,8 +1580,8 @@
         },
         {
           "path": "skills/task-pipeline/references/spec-protocol.md",
-          "sha256": "5e5cf9d7aa4d47f97898835d6b71fe99d6e75320ff1ce073164c1698226f5608",
-          "bytes": 5752
+          "sha256": "741a505414baf9b1042b31640496aaa108d2fef3c100f8ba9a31319a45114281",
+          "bytes": 6008
         },
         {
           "path": "skills/task-pipeline/references/spec.md",
@@ -1664,14 +1674,24 @@
           "bytes": 56087
         },
         {
+          "path": "skills/task-pipeline/scripts/brain.py",
+          "sha256": "7daf58429dde725e562b07841a71f7a99418fe8fc62e5fb56d4c6ea394870311",
+          "bytes": 13678
+        },
+        {
+          "path": "skills/task-pipeline/scripts/consilium.py",
+          "sha256": "155e3aa05cb3ffab034687a9a682b62ce681aa91850322e485a6b3cb10475c4b",
+          "bytes": 24935
+        },
+        {
           "path": "skills/task-pipeline/scripts/context_packets.py",
           "sha256": "a5421cd4e40ff9610ebc482e465b0ec2ab0101ed078a5ccef03867421950cfb8",
           "bytes": 29799
         },
         {
           "path": "skills/task-pipeline/scripts/design_gate.py",
-          "sha256": "2429bc6272294ee1034420a4015886111941adef3a0f65de9df2d77b8e1cc07e",
-          "bytes": 21490
+          "sha256": "e881c7a3758ec2f62163a2a90df7f40b0ff4d2d9d35235babcb1279e49fd0d12",
+          "bytes": 23457
         },
         {
           "path": "skills/task-pipeline/scripts/docgraph.py",
@@ -1685,13 +1705,18 @@
         },
         {
           "path": "skills/task-pipeline/scripts/graph.py",
-          "sha256": "a5cb392d312a8a7f35e3bd49cb313fb35240aa5f465bd5216441d81097f6b961",
+          "sha256": "b5f76b862e6131685bb58543b9733cb0eb4891a7391d4d780f28b2c0ef53658c",
           "bytes": 117006
         },
         {
           "path": "skills/task-pipeline/scripts/lessons.py",
-          "sha256": "b803b6cdfa4b41d45d7f647c745c6b041067fb281413b5b29054c2fa4763d15c",
-          "bytes": 119518
+          "sha256": "e1942a3c9ca9d1b169c1067ca5b96e0688eff86819a7222fe6f7f06ad224ffbf",
+          "bytes": 120637
+        },
+        {
+          "path": "skills/task-pipeline/scripts/meanings.py",
+          "sha256": "99ce6c9e752fffcf3c06eb62db89e7d488df684f1cf030c588d75b1b75bba7a9",
+          "bytes": 13391
         },
         {
           "path": "skills/task-pipeline/scripts/packet.py",
@@ -1725,8 +1750,13 @@
         },
         {
           "path": "skills/task-pipeline/scripts/spec_protocol.py",
-          "sha256": "d64707debb923079ba9e4b4c928d517b3094e615b99e2a1ddc3faeeddb9139c2",
-          "bytes": 33413
+          "sha256": "42eb7219310d43008be8deb35d695a3cf405b2f3291854ce8a74a42b3c4bcb96",
+          "bytes": 35172
+        },
+        {
+          "path": "skills/task-pipeline/scripts/spend.py",
+          "sha256": "327f24623ececd1d0cdb5f9a1c615591c0b7b50c133c039a6775552424498955",
+          "bytes": 11525
         },
         {
           "path": "skills/task-pipeline/scripts/stage_checkpoint.py",
@@ -1885,7 +1915,7 @@
         },
         {
           "path": "skills/task-pipeline/templates/run.md",
-          "sha256": "17625b579f8044fb6aa4eac31cb3b33922f54722e17b844935438dc0687a8f41",
+          "sha256": "a05e479557dddc9f89b6d9a31a247fba33c1fbe001f8437619f76c2fe18a7fd9",
           "bytes": 13203
         },
         {
@@ -1903,8 +1933,8 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "454691a5feff029d8ddba61df2d7ce64d1a87eed",
-      "version": "1.23.6",
+      "commit": "0e9eb5fd00e9cd82f54266bf792c7fe14d2778f9",
+      "version": "1.23.7",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
       "entry": {
@@ -1912,7 +1942,7 @@
         "displayName": "Agent Sync",
         "source": "./plugins/agent-sync",
         "description": "Coordination layer for multi-agent repositories. Gives task-pipeline runs leases with a TTL, race-free ID reservation, a cross-repo signal feed, an append-only run journal and a machine-generated read-only board. A lease is decided by a primitive that genuinely has compare-and-swap — an atomic file create on one machine, a pushed git ref across machines — never by the knowledge base, which loses concurrent writes; the store carries the record and the ID allocation, which is positional over the merged log. The knowledge backend is a pluggable adapter (Outline, filesystem) declaring its own capabilities and degrading out loud. Ships Claude Code hooks that deny edits to guarded registry files without a live lease.",
-        "version": "1.23.6",
+        "version": "1.23.7",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -1935,7 +1965,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "44d4b7a0db2db2b741cfa677db17717ea2b69c8394d32ccd7adba13752414907",
+          "sha256": "5e76496147e1cc7838a38094111d59c06bb247b0dcaf4fc20a4ffa319ea3124d",
           "bytes": 695
         },
         {
@@ -2040,8 +2070,8 @@
         },
         {
           "path": "skills/agent-sync/scripts/agent_sync.py",
-          "sha256": "f6a36499cc2e5e3ae74cf6ef55f5e7f6af450379650f484c1114ca38873b6d85",
-          "bytes": 380052
+          "sha256": "0626bf1a83b194c49fd86c0a4fef3b6ef81368d073a9b9a2c2a0f01a793c7f00",
+          "bytes": 381283
         },
         {
           "path": "skills/agent-sync/scripts/bash_writes.py",
@@ -2050,7 +2080,7 @@
         },
         {
           "path": "skills/agent-sync/SKILL.md",
-          "sha256": "287a8bc6a047f4791d8c8c9c59811d45b59dd67e13b15c2f53628cba85e283e0",
+          "sha256": "b00a6071edd358451d5acf0de3f6a8274193cc4aa8e07eba3800de7a186df3a8",
           "bytes": 17902
         }
       ]
@@ -2797,8 +2827,8 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "5bf4a12c8f08bc55e2567d2cb26049483e25ee88",
-      "version": "0.32.5",
+      "commit": "9649d47780c0539061277ba83a93ea779377cb35",
+      "version": "0.33.0",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
       "entry": {
@@ -2806,7 +2836,7 @@
         "displayName": "SEO + AEO Audit",
         "source": "./plugins/seo-aeo-audit",
         "description": "Audits a website across ten evidence-based tracks (access & indexation, canonicalization, architecture & link equity, intent, content value, extractability/AEO, entity consensus, experience signals, risk, measurement) and outputs a findings report plus a prioritized change plan with verification steps. Includes a stdlib-only page auditor with answer-engine read-budget analysis.",
-        "version": "0.32.5",
+        "version": "0.33.0",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2831,7 +2861,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "1443d124d67da23e09f22c3bdd418b782835f43cdd826ff5c255619e7f56d5ef",
+          "sha256": "d0c4cceb084d5d909f972cb3fa277555ae895a0172c76b4f46b1147f04235372",
           "bytes": 766
         },
         {
@@ -2846,18 +2876,18 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/aeo-geo.md",
-          "sha256": "2dc019d7adc6dd7202f1277402e41c7c57bfa0d8fb3fbdfea94e0f5fd57f1ce5",
-          "bytes": 38359
+          "sha256": "b8ee979b181b79b51f4433f4c33de1ba06b448205da546cbebdef7e46c3874ba",
+          "bytes": 39962
         },
         {
           "path": "skills/seo-aeo-audit/references/agent-readiness.md",
-          "sha256": "4d632853ae4d44afe11fcc3c0bf650e1eabb26d3524cb0f3bd0f2396d2744b22",
-          "bytes": 40290
+          "sha256": "1a70d90b4b9d0495c05a14f9adb2657e4b9f4d8fd6d526a9af57c7002e1eb117",
+          "bytes": 41813
         },
         {
           "path": "skills/seo-aeo-audit/references/algorithm-updates.md",
-          "sha256": "e774719890c87e5ffe240c45d4e5dcf4e724cac859e8192f74d8bdc344d4739a",
-          "bytes": 23563
+          "sha256": "f712b52aebca621dd87d435b28c91f224e17826851d9e6aea92ff8e12e35402f",
+          "bytes": 28190
         },
         {
           "path": "skills/seo-aeo-audit/references/architecture-and-equity.md",
@@ -2981,47 +3011,47 @@
         },
         {
           "path": "skills/seo-aeo-audit/scripts/agent_surface.py",
-          "sha256": "e64d4d0fb4b79c0d4e9ae7257bf3bc618c8896c27acd2c0a521e830c356e3a15",
+          "sha256": "3c97e1741a898d6b4c829eac05d9bbb0a39f6956fc27460f5caac9fb3259b217",
           "bytes": 97369
         },
         {
           "path": "skills/seo-aeo-audit/scripts/ai_panel.py",
-          "sha256": "4a2211d2049ffc4262ff8c0ee90e57d6d5b53e02dabea8f537c9a3a28baa731e",
+          "sha256": "7a887544feac23be5c33b7a37e028cc6ac4409d0241964e22a0bfb739fefa2ca",
           "bytes": 25265
         },
         {
           "path": "skills/seo-aeo-audit/scripts/bwt_pull.py",
-          "sha256": "e5fceeb95d3622b8340ae6e75ff3f1052f64270b0d1191c6c424079445c6b7a0",
+          "sha256": "151af57f326f61d7cf19ef464144a3efe18ef76dcd07086ee2166b5b24c2596c",
           "bytes": 25406
         },
         {
           "path": "skills/seo-aeo-audit/scripts/gsc_pull.py",
-          "sha256": "938cdd0ce699c34d67e79322d994c33eca245a878d3b1aaa3852006c4bb9f185",
+          "sha256": "7569a31ef5133838c80b841b5b22607c8c51640730d822a03fc862ef546109ae",
           "bytes": 61129
         },
         {
           "path": "skills/seo-aeo-audit/scripts/page_audit.py",
-          "sha256": "bc3cdfd094d5c5aebd17066bd5e2c2cea48d48f2bc74fb50a0e8fab681dd954e",
+          "sha256": "a0464939f3e51032f4461eb14db6886664b878cff646d9d61189a9081eec45a7",
           "bytes": 80700
         },
         {
           "path": "skills/seo-aeo-audit/scripts/preflight.py",
-          "sha256": "61b6794ae6b9db8c6fb0d5883252adf91323fd75d95b4c84b8001a9b622ff860",
+          "sha256": "afddfd40846a9978832d3bcee1219916d99a8a6a09d05454573f87ff0e54fecd",
           "bytes": 65296
         },
         {
           "path": "skills/seo-aeo-audit/scripts/psi_pull.py",
-          "sha256": "e82a6608c70174b3d0c7ae0266f0cecad773543d4d0707e69c027ede0e5984f3",
+          "sha256": "01fecd8732087f6dcfd2165f05d0b8ae954541c7ab126fe053f1196803a872fb",
           "bytes": 28519
         },
         {
           "path": "skills/seo-aeo-audit/scripts/sitemap_audit.py",
-          "sha256": "bf425ae8c13fe3769abc1a11ba32f9f84e9c44ef31d387e366796a81eccc752c",
+          "sha256": "0d8d8a4f0d41f48324791476f3f188031c536d45ea4f5b28aa2f2963e248fcd2",
           "bytes": 44647
         },
         {
           "path": "skills/seo-aeo-audit/scripts/url_inspection.py",
-          "sha256": "ce0661bb70febcf5642b75e3be345bcf2437be8e903d8adbf0589500490c5b6d",
+          "sha256": "b1272066e9c978d9b6b225b169400b5b621087885bdc0223d1267f9ced41e896",
           "bytes": 36540
         },
         {
@@ -3380,8 +3410,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "01e180ca55fa10bc72d616ae67e23c321862e7ab",
-      "version": "0.33.3",
+      "commit": "841bd00d5f2a226cf1a0d2344c4d666fcbafdb9a",
+      "version": "0.33.4",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3389,7 +3419,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.33.3",
+        "version": "0.33.4",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3414,7 +3444,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "9c20efeb76bf345477421c0e30722933c803c804d642ba7267591c1670ddfe69",
+          "sha256": "ded367ccc09fdea0c653e8055bd577f5558834b4c9baea4d4f916c1be5a0d5ca",
           "bytes": 1081
         },
         {
@@ -3509,8 +3539,8 @@
         },
         {
           "path": "skills/agent-harness/SKILL.md",
-          "sha256": "dfdc2f36124c9425c249698610a264fd3862e5ddfeaa8e8d7242521c04f05c30",
-          "bytes": 14772
+          "sha256": "a8307c3ada0936307f8c1b859c661ccb05e1b75cd13134a13255839737d2f5bf",
+          "bytes": 15275
         },
         {
           "path": "skills/agent-interop/references/a2a.md",

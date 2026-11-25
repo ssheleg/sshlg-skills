@@ -1,3 +1,57 @@
+## v1.92.6 (2026-11-25): the content-read guard lets source code under `secrets/` be read (B-367)
+
+- **`secrets/` folders no longer hide source code** (PR #351, Fabric board request 08206413 from webpilot, BL-266):
+  `secretsFolder` in `lib/secretreaders.js` lifts the folder rule for `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs`,
+  `.mts`, `.cts` and `.py`. Key-file names (`.env`, `*.pem`, `*.key`, `credentials.json`), every other extension under
+  `secrets/`, the agentgateway key folder and a recursive search of a `secrets/` folder stay refused.
+- `node test/secret_readers_test.js`: 181 checks; webpilot's two Read cases were red on the previous code.
+
+## v1.92.5 (2026-11-25): agent-sync 1.23.7 pinned; the coordination page tells the truth about this hub (B-344)
+
+- **agent-sync 1.23.7 pinned** (npm `@ssheleg/agent-sync@1.23.7`, PRs ssheleg/agent-sync#52, #53 and #54, tag `v1.23.7`
+  at `0e9eb5f`): `setup` no longer writes "credentials read from `(none found)`" for a repository with no
+  `.env.agent-sync`, nor "Ids live in the parent repository" for one that is not a submodule; the local gate tells a
+  suite's leak from another session's write.
+- `docs/AGENT_SYNC.md` regenerated with `agent_sync.py setup` from the pinned script; both lines read back.
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
+## v1.92.4 (2026-11-25): seo-aeo-audit 0.33.0 pinned (Google's ranking hub and generative AI controls)
+
+- **seo-aeo-audit 0.33.0 pinned** (PR ssheleg/seo-aeo-audit#72, squash `9649d47`, tag `v0.33.0`): research of
+  Google's Search Central update of 2026-11-24 (the ranking hub, advance notice of significant ranking updates, the
+  five generative AI controls, the planned `__usage_ai-training` token, how AI Overviews and AI Mode pick supporting
+  links), carried into the update timeline, the crawler table (track K2a) and the AI-answer checks.
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
+## v1.92.3 (2026-11-24): task-pipeline 1.114.0 pinned (money by role, the project brain's minimum)
+
+- **task-pipeline 1.114.0 pinned** (npm `task-pipeline-skill@1.114.0`, PR ssheleg/task-pipeline#188, release run
+  45276162070): the owner's order of 2026-11-23 on the model and token budget by role. A spec's meanings are thought by
+  the strongest model by tokens in one call and its text is written on the subscription; validators answer by tokens one
+  call each; every token call is booked with its route, model, cost and task (`scripts/spend.py`, with the
+  development-mode ceiling warning). It also ships the project brain's minimum (`scripts/brain.py recall`: up to ten
+  lines from this project's own memory before a task, read-only) and the lesson index fix (B-163).
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
+## v1.92.2 (2026-11-23): task-pipeline 1.113.1 pinned (the consilium, the default judge)
+
+- **task-pipeline 1.113.1 pinned** (npm `task-pipeline-skill@1.113.1`, PRs ssheleg/task-pipeline#186 and #187): every
+  evaluation and decision from size M up goes to a council of models of different vendors, judged blind, and the
+  strongest model of the host's map rules last (`scripts/consilium.py`, `references/consilium.md`). The owner's order of
+  2026-11-23 (requests 6f5b7054 and 62e0c402). It also carries 1.112.x (the novice walk in the design review), which
+  never reached npm on its own.
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
+## v1.92.1 (2026-11-23): agent-stack 0.33.4 pinned; «аудит агента» routes by its two phrases
+
+- **agent-stack 0.33.4 pinned** (npm `@ssheleg/agent-stack@0.33.4`, agent-stack PR #76, B-162): the agent-harness
+  description advertises «аудит промпта и инструментов агента» and «аудит системного промпта агента» in place of the
+  bare «аудит агента», which names two jobs (agent-harness and fabric-agents:assessing-agents).
+- **Routing follows the pin** (B-346, #354): the two phrases route to agent-stack without a `PENDING` excuse, and the
+  bare «аудит агента» no longer does.
+- **The family description total rises from 11446 to 11469 characters** with the swap; the rise is recorded in
+  `docs/DOCMAP.md` and B-374 wins it back at the member's next release.
+
 ## v1.92.0 (2026-11-22): task-pipeline 1.111.0 pinned (the spec's author, the spec loop, the task prompt check); flags each command reads; the nightly job's node and daemon
 
 - **Each command accepts only the flags it reads** (B-331, #339 and #340): an unknown or foreign flag is refused with

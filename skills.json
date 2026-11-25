@@ -76,13 +76,13 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.111.0",
+      "version": "1.114.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
       "shape": "static",
       "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third — `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision.",
-      "commit": "28827759b73338133bf278c7a253b6652c52c393"
+      "commit": "14a6cf07b98485bcb3fba02e9a1f619c4d18a038"
     },
     {
       "name": "agent-sync",
@@ -94,13 +94,13 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.23.6",
+      "version": "1.23.7",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
       "shape": "static",
       "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape.",
-      "commit": "454691a5feff029d8ddba61df2d7ce64d1a87eed"
+      "commit": "0e9eb5fd00e9cd82f54266bf792c7fe14d2778f9"
     },
     {
       "name": "make-skill",
@@ -160,13 +160,13 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.32.5",
+      "version": "0.33.0",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "5bf4a12c8f08bc55e2567d2cb26049483e25ee88"
+      "commit": "9649d47780c0539061277ba83a93ea779377cb35"
     },
     {
       "name": "sheleg-dev",
@@ -205,13 +205,13 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.33.3",
+      "version": "0.33.4",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "01e180ca55fa10bc72d616ae67e23c321862e7ab"
+      "commit": "841bd00d5f2a226cf1a0d2344c4d666fcbafdb9a"
     },
     {
       "name": "telegram-dev",

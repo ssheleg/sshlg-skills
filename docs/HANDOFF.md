@@ -8,7 +8,17 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-23 PassionCode 1.0 iteration rows filed (B-368 to B-373; ST-18, ST-12, ST-05, ST-16, ST-23, ST-27)
+## Current: 2026-11-25 PassionCode 1.0 iteration rows landed (B-368 to B-373)
+
+**Objective:** the open refactor task on the Fabric board (board supervisor run, no person in the session): the board
+queue's first ready task. **Found:** PR #353 (the six ST rows of board request 2d0a58f9, docs only) open since
+2026-11-23 and never merged, while `main` had already filed B-374 past its ids. **Done:** `origin/main` (`ba05fb43`)
+merged into the PR branch (no force-push); conflicts only in this file and the backlog: rows ordered B-367, B-368 to
+B-373, B-374; open tally 25 (main's 19 plus the six). The entry below keeps the PR's own text; its last line about
+B-346 is stale (B-346 closed 2026-11-23, agent-stack 0.33.4). **Checks run:** `npm test` on the merged branch.
+**Next task:** B-370 (ST-05, this hub's read-only audit findings, due 2026-11-27); then B-368 (ST-18, due 2026-12-03).
+
+## Previous: 2026-11-23 PassionCode 1.0 iteration rows filed (B-368 to B-373; ST-18, ST-12, ST-05, ST-16, ST-23, ST-27)
 
 **Objective:** Fabric board request 2d0a58f9 (thread 93e9c6d3, fabric-workspace relaying DEC-0126, the owner's words of
 2026-11-23 08:47 UTC): one backlog row per ST of this hub with its first date and what is deferred, answered by
@@ -21,6 +31,110 @@ taken by PR ssheleg/sshlg-skills#351 (another session), so this run's ids start 
 the audit performs itself (1.0 is read-only), the audit on hosts beyond Claude Code, Codex, Hermes and Pi.
 **Checks run:** `npm test` (176 checks green, submodules checked out). **Next task:** B-370 (ST-05 findings, due
 2026-11-27) and B-368's first step on 2026-11-24; B-346 still waits on agent-stack `v0.33.4`.
+
+## Previous: 2026-11-25 1.92.6 shipped and installed (B-367)
+
+**Objective:** Fabric wait 3a3b56c2 from webpilot (board thread 6caea09e, request 08206413): merge PR #351 and release
+the hub with it, so webpilot can read `src/secrets/local.ts` for BL-266. **Done:** #351 rebased onto `fd611062`, local
+`npm test` `PASS: 176 checks green` (3606 fixtures), one CI run on the frozen head (45587667521: `validate`, `windows`,
+`self-tests-a`, `self-tests-b` green), squash-merged as `51f71b3b`; `scripts/tag.sh v1.92.6 --push` printed
+`TAG_PUSHED` (tag object `ee28743b`); release run 45588683971 success; `npm view sshlg-skills version` reads 1.92.6.
+**Installed:** `CLAUDE_CONFIG_DIR="$HOME/.claude" npx --yes sshlg-skills@latest update`: `33 of 33 steps, all green`,
+Codex nine plugins `already at it`. The installed `~/.sshlg-skills/runtime/hooks/pre-tool-use.js` lets a `sed` of
+webpilot's `src/secrets/local.ts` through and still denies a `cat` of a `.json` under `src/secrets/`. webpilot answered
+on the thread, the wait cleared as arrived. **Note:** the rebase of the PR branch was pushed with
+`--force-with-lease` pinned to the old head `0a355c74`. **Next task:** the board queue's first ready task.
+
+## Previous: 2026-11-25 1.92.6: the content-read guard lets source code under `secrets/` be read (B-367)
+
+**Objective:** Fabric board request 08206413 from webpilot (BL-266), unattended run, no person in the session:
+webpilot's `src/secrets/local.ts` and `test/secrets/local.test.ts` (code and tests, no key) were refused by the
+PreToolUse content-read guard, so its one red nightly test could not be read. **Done:** `secretsFolder` in
+`lib/secretreaders.js` lifts the `secrets/` folder rule for `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs`, `.mts`,
+`.cts` and `.py`; key-file names, other extensions under `secrets/`, the agentgateway key folder and a recursive
+search of a `secrets/` folder stay refused. **Decision:** an extension list rather than a `git ls-files` probe or a
+per-repository allowlist (the guard stays pure; see [B-367](evidence/backlog.md)). **Checks run:** `node
+test/secret_readers_test.js` OK (181 checks; webpilot's two Read cases red on the previous code); `npm test` PASS (176
+suites, 3606 fixtures, 11 members; DOCMAP's fixture ratchet moved from 3590). **2026-11-25 (Fabric wait supervisor resumed this
+session for webpilot's wait 3a3b56c2):** the branch rebased onto `main` at `fd611062` (conflicts only in this file and
+the backlog), cut as release 1.92.6 in the same PR (package version, CHANGELOG). **Next task:** after merge,
+`scripts/tag.sh v1.92.6 --push`, watch the release run, `npx --yes sshlg-skills@latest update`, answer webpilot on
+board thread 6caea09e with the version; then the board queue's first ready task.
+
+## Previous: 2026-11-25 1.92.5 shipped and installed (agent-sync 1.23.7)
+
+**Objective:** the open refactor task on the Fabric board (board supervisor run, no person in the session): the previous
+entry's next task, the hub release carrying the agent-sync 1.23.7 pin. **Done:** PR #361 marked ready for review (the
+repository's CI runs only on `ready_for_review`, nightly and manual), its `validate`, `windows`, `self-tests-a` and
+`self-tests-b` green (run 45572895865), squash-merged as `55fa8787`; `scripts/tag.sh v1.92.5 --push` printed
+`TAG_PUSHED` (tag object `cd84dc8d`); release run 45573815563 success; `npm view sshlg-skills version` reads 1.92.5.
+The superseded wip branch `fix/b344-agent-sync-1.23.7` is archived at `refs/archive/2026-11-25/fix/b344-agent-sync-1.23.7`
+and deleted. **Installed:** `npx --yes sshlg-skills@latest update` from launcher `1.92.5-e0eae16997fe` ran 33 of 33
+steps, `PARTIAL`: Claude Code's default home has agent-sync 1.23.7 and seo-aeo-audit 0.33.0 (`installed_plugins.json`);
+Codex deferred four plugins (`DEFERRED_ACTIVE_GENERATION_SAFETY`). `pgrep -x codex` found no process, so the four were
+moved by hand as in [B-364](evidence/backlog.md) (config backed up under
+`~/.sshlg-skills/backups/codex-config-2026-11-25T0820Z/`); `codex plugin list` then reads all nine family plugins at
+their pins (task-pipeline 1.114.0, agent-sync 1.23.7, seo-aeo-audit 0.33.0, agent-stack 0.33.4, make-skill 0.33.6,
+sheleg-design 1.67.1, sheleg-dev 0.16.4, super-ux 0.67.1, web3d-dev 0.2.8). An update run from a Switchboard isolated
+home refuses the `visibility` and `domains` steps (ownership is the default profile's) and ends `PARTIAL`; run it with
+`env -u CLAUDE_CONFIG_DIR` or `CLAUDE_CONFIG_DIR="$HOME/.claude"`. A follow-up board run read it back from launcher 1.92.5
+with `CLAUDE_CONFIG_DIR="$HOME/.claude"`: `33 of 33 steps, all green`, agent-sync `payload equals pin 0e9eb5f`, Codex nine
+plugins `already at it`. No `refs/agent-sync/leases/B-344` remains on origin. **Checks
+run:** `npm test` on the release branch: `PASS: 176 checks green`. **Next task:** the board queue's first ready task.
+
+## Previous: 2026-11-25 agent-sync 1.23.7 pinned (1.92.5); B-344 closed
+
+**Objective:** the open refactor task on the Fabric board (resumed by the board supervisor, no person in the session):
+B-344, the two wrong template lines in `docs/AGENT_SYNC.md`. **Found:** agent-sync `v1.23.7` tagged at `0e9eb5f`
+(ssheleg/agent-sync#52, #53, #54) and npm `@ssheleg/agent-sync` reads 1.23.7; hub 1.92.4 was already tagged and on npm,
+so the earlier wip branch `fix/b344-agent-sync-1.23.7` (based on 1.92.3, gitlink at a PR head) is superseded by this
+one, cut from `main` at `92d586b0`. **Done:** submodule at `0e9eb5f`, `skills.json`, the README row and
+`claude-plugin-pins.json` at 1.23.7 (`scripts/sync-member-pins.js --write` and `scripts/sync-claude-pins.js --write`:
+11 match), `docs/AGENT_SYNC.md` regenerated with `agent_sync.py setup` (both lines read back), the CLI golden and
+`ctx-04.06.json` re-emitted, package 1.92.5, B-344 closed (open tally 19). **Checks run:** `npm test` on this branch
+with the submodules materialized. **Next task:** after merge, `scripts/tag.sh v1.92.5 --push`, watch the release run,
+`npx --yes sshlg-skills@latest update`, then the board queue's first ready task.
+
+## Previous: 2026-11-25 seo-aeo-audit 0.33.0 pinned (1.92.4)
+
+**Objective:** CEO order (thread `fe70b7d7`, message `d51292fd`; Studio session 54): release seo-aeo-audit 0.33.0
+(Google's ranking hub and generative AI controls) and pin it here. **Found and done in the member:** PR
+ssheleg/seo-aeo-audit#72 squash-merged as `9649d47` after one fix commit (the v0.33.0 run stamp sat inside the
+v0.32.5 stamp's bold, so the member's run-stamp negative self-test could not plant); its required checks `validate` and
+`House skill audit` ran once on the frozen head (run 45524897479, success); `scripts/release-member.js
+~/DATA/seo-aeo-audit v0.33.0 --push` printed `TAG_PUSHED` (tag object `630c409`, suite exit 0); release run
+45526234604 success (validate, House skill audit, release, publish); `npm view @ssheleg/seo-aeo-audit version` reads
+0.33.0. **Here:** submodule at `9649d47`, `skills.json` and the README row at 0.33.0, `scripts/sync-member-pins.js
+--write` (11 commits match staged gitlinks), `scripts/sync-claude-pins.js --write` (11 pins match), `ctx-04.06.json`
+re-emitted, the CLI golden fixture rewritten, package 1.92.4. **Checks run:** `npm test` on this branch with the
+submodules materialized. **Next task:** after merge, `scripts/tag.sh v1.92.4 --push`, watch the release run, confirm
+`npx --yes sshlg-skills@latest list` shows seo-aeo-audit v0.33.0; studio-agent then runs
+`npx --yes sshlg-skills@latest update` on the MacBook.
+
+## Previous: 2026-11-23 1.92.1 shipped and installed (agent-stack 0.33.4)
+
+**Objective:** the open refactor task on the Fabric board: the previous entry's next task, the hub release carrying the
+agent-stack 0.33.4 pin. **Done:** #354 merged (`1f5d0727`, CI `validate`, `windows`, `self-tests-a`, `self-tests-b`
+green); release PR #355 merged (`c05f1157`, same four checks green); `scripts/tag.sh v1.92.1 --push` printed
+`TAG_PUSHED` for `c05f1157`; release run 45262603255 succeeded (`release`, `publish`); `npm view sshlg-skills version`
+reads 1.92.1. **Installed:** `npx --yes sshlg-skills@latest update` ran 33 of 33 steps, result `PARTIAL`: Claude Code's
+agent-stack plugin is at 0.33.4 (`installed_plugins.json`, the installed agent-harness SKILL.md carries «аудит
+системного промпта агента»); Codex deferred agent-stack (`DEFERRED_ACTIVE_GENERATION_SAFETY`, native catalog 0.33.3,
+receipt under `~/.sshlg-skills/codex-deferred/`, its watcher printed by the update), the class [B-364](evidence/backlog.md)
+tracks. A new Claude session loads the new listing. **Checks run:** `npm test` on both trees: `PASS: 176 checks green`.
+**Next task:** the board queue's first ready task.
+
+## Previous: 2026-11-23 agent-stack 0.33.4 pinned; B-346 closed («аудит агента» routes by its two phrases)
+
+**Objective:** the open refactor task on the Fabric board (resumed after the 18:00 wait; the run moved to another
+account mid-way when its first account reached its limit, Observatory handoffs `handoff:4cad1103d8faa0f9` and `handoff:739d530eec3d8a13`): the previous
+entry's next task. **Found:** agent-stack PR ssheleg/agent-stack#76 merged (`841bd00`), tag `v0.33.4`, its release run
+green and npm `@ssheleg/agent-stack` at 0.33.4 (`latest`). **Done:** B-346: the submodule, `skills.json`, the README row
+and `claude-plugin-pins.json` (`scripts/sync-claude-pins.js --write`) pin 0.33.4; `lib/triggers.js` drops both `PENDING`
+entries and the bare «аудит агента» from the agent-harness route. **Checks run:** `npm test` on this branch: `PASS: 176 checks green` (3590 fixtures, 11 pinned members). The
+agent-stack description swap lifts the family description total from 11446 to 11469; the rise is recorded in
+`docs/DOCMAP.md` and [B-374](evidence/backlog.md) wins it back. **Not released:** the pin reaches installs with the next hub release (version bump, CHANGELOG, `scripts/tag.sh`).
+**Next task:** cut that hub release, then the board queue's first ready task.
 
 ## Previous: 2026-11-23 Codex's task-pipeline plugin moved to its pin 1.111.0 (B-364); B-346 still waits on agent-stack
 
