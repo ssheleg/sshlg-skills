@@ -1,4 +1,4 @@
-<!-- agent-sync:generated source=sshlg-skills@16e1a555 cfg=0e1197d667a6 at=2026-11-11T01:04:52Z (regenerate with `agent_sync.py setup`, do not hand-edit) -->
+<!-- agent-sync:generated source=sshlg-skills@92d586b0 cfg=0e1197d667a6 at=2026-11-25T04:00:38Z (regenerate with `agent_sync.py setup`, do not hand-edit) -->
 
 # How documentation and coordination work in sshlg-skills
 
@@ -19,11 +19,11 @@ them is the finding.** Reconcile before starting a task and after finishing it.
 
 - record plane: **fs** · lease: **git**: exclusive across machines · runs recorded **gated**
 - lease TTL 2700s, renewed every 300s
-- credentials read from `(none found)` (gitignored, never committed)
+- credentials: none read, no `.env.agent-sync` found here (when one is added it stays gitignored, never committed)
 
 ### Id registers: reserve before you write
 
-None declared here. Ids live in the parent repository; reserve them there.
+None declared here. This repository is not a submodule, so no parent holds its ids: declare a register under `idRegisters` in `.claude/agent-sync.json` before reserving one.
 
 ### Guarded files: a live lease is required to write these
 

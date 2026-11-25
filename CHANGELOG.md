@@ -1,3 +1,12 @@
+## v1.92.5 (2026-11-25): agent-sync 1.23.7 pinned; the coordination page tells the truth about this hub (B-344)
+
+- **agent-sync 1.23.7 pinned** (npm `@ssheleg/agent-sync@1.23.7`, PRs ssheleg/agent-sync#52, #53 and #54, tag `v1.23.7`
+  at `0e9eb5f`): `setup` no longer writes "credentials read from `(none found)`" for a repository with no
+  `.env.agent-sync`, nor "Ids live in the parent repository" for one that is not a submodule; the local gate tells a
+  suite's leak from another session's write.
+- `docs/AGENT_SYNC.md` regenerated with `agent_sync.py setup` from the pinned script; both lines read back.
+- The CLI golden and the ctx-04.06 receipt follow the pin.
+
 ## v1.92.4 (2026-11-25): seo-aeo-audit 0.33.0 pinned (Google's ranking hub and generative AI controls)
 
 - **seo-aeo-audit 0.33.0 pinned** (PR ssheleg/seo-aeo-audit#72, squash `9649d47`, tag `v0.33.0`): research of
