@@ -22,8 +22,9 @@ for the machines. · **[Follow @sshlg93 on X](https://x.com/intent/follow?screen
 Works with **Claude Code** (as plugins) and **DeepSeek Harness** (`dsh`), plus
 Cursor, OpenCode, Codex, Kilo, Kimi, Hermes, Gemini CLI, Windsurf, Zed
 and other targets among the 79+ agents the vercel `skills` CLI supports.
-Kimi gets the skills only: the hub has no instruction target for it, so the
-routing block reaches it only through a file you keep yourself
+Kimi reads the routing block from `~/.agents/AGENTS.md`, the file it shares
+with Goose, Warp and Droid; where that file is a symlink the hub writes
+nothing there and `hosts` says where it points
 ([which](#routing--making-the-family-engage-by-default)). OpenClaw is opt-in (`--agent openclaw`,
 [why](#install)). The pinned snapshot has 77 global targets; native extension
 support is checked separately in the [compatibility report](docs/reports/2026-10-16-coding-agent-compatibility/README.md).

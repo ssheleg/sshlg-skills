@@ -14,8 +14,9 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 fabric-agent-contract's board (request 026a47d7, thread 5ab6b6a2, due 2026-11-30 12:00 UTC; Fabric wait 1dd2a5e5).
 B-368's first step written: [inventory and finding draft](evidence/specs/2026-11-26-st18-skills-audit-inventory.md),
 read by running `toolkit`, `conflicts`, `hosts` and `visibility` without writing flags. Two corrections to the B-368
-row: the hub has no `doctor` command, and use is read from `skillUsage`, not transcripts. **Checks run:**
-`python3 test/validate.py` on this branch (docs only; the full suite is the PR's `validate`). **Next task:** on
+row: the hub has no `doctor` command, and use is read from `skillUsage`, not transcripts. B-376's README half: `README.md:25` now agrees with the host table and `lib/instruction-targets.js:106` (Kimi reads `~/.agents/AGENTS.md`); its other half stays with B-371. **Checks run:**
+`python3 test/validate.py`, `test/doc_refs.py` (exit 0) and `test/cli_surface_golden_test.js` (61 cases) on these
+branches (docs only; the full suite is each PR's `validate`). **Next task:** on
 2026-11-28 read ST-08's `project-manifest/1` and bind the draft to it, then build the read-only audit (B-368, due
 2026-12-03); read the contract's answer to 026a47d7 for B-378; when free disk is above 12 GB and no Codex process runs,
 move Codex's super-ux and sheleg-design to their pins (B-364).
