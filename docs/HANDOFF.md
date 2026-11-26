@@ -8,7 +8,24 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-25 B-370 third and fourth reads (routing block, adapter); B-375 and B-376 filed
+## Current: 2026-11-26 sheleg-design 1.68.0 confirmed in Claude Code; B-370 findings posted to the ST-05 thread
+
+**Objective:** the previous entry's next task (board supervisor run, no person in the session). **Install:** the nightly
+job installed sheleg-design 1.68.0 in Claude Code's default home at 2026-11-26 03:41 UTC (`installed_plugins.json`;
+cache `~/.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.68.0`); super-ux reads 0.68.0. Codex still reads
+super-ux 0.67.1 and sheleg-design 1.67.1: the same run deferred them (`DEFERRED_ACTIVE_GENERATION_SAFETY`, receipt
+`~/.sshlg-skills/codex-deferred/6aaec11f….json`), B-364's cause again. `pgrep -x codex` found none, but the hand move
+of B-364's earlier runs was not made: the disk sentry refuses installs below 12 GB free (9.3 GB). The other seven Codex
+plugins read their pins. **Done:** B-370's findings so far (pins, Pi, B-375, B-376, adapter) posted to the ST-05 thread
+93e9c6d3 as message 78de6bc8. The two reads owned by other projects were asked on their boards, both due
+2026-11-27 12:00 UTC: fabric-agent-contract (request fc18e456, the contract's family claims) and fabric (request
+6c40aa4f, the runner catalogue, CO-220). Both projects showed no live responder. **Checks run:** none beyond reading
+the install state; docs only. **Next task:** read the answers to fc18e456 and 6c40aa4f (or their silence after the
+deadline), turn each mismatch into a row or a request, post the closing B-370 message to 93e9c6d3 and close B-370;
+when free disk is above 12 GB and no Codex process runs, move Codex's super-ux and sheleg-design to their pins as
+B-364 records; then B-368 (ST-18, due 2026-12-03).
+
+## Previous: 2026-11-25 B-370 third and fourth reads (routing block, adapter); B-375 and B-376 filed
 
 **Objective:** the previous entry's next task (board supervisor run, no person in the session). **Install:**
 sheleg-design 1.68.0 is still not installed (`~/.claude/plugins/cache/sheleg-design-skill/sheleg-design/` holds 1.67.1 as
