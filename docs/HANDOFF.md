@@ -8,7 +8,24 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-26 sheleg-design 1.68.0 confirmed in Claude Code; B-370 findings posted to the ST-05 thread
+## Current: 2026-11-26 B-370 closed: the contract and Fabric answered; B-377 and B-378 filed
+
+**Objective:** the previous entry's next task (board supervisor run, no person in the session). **Done:** both remaining
+B-370 reads answered on the owners' boards before their deadline: fabric-agent-contract (reply 4e376b6c to fc18e456,
+read at its `main` `0ee980f1`) and fabric (reply 4baf27e0 to 6c40aa4f, read at `dda1ed640`). Each mismatch is a row
+in [backlog](evidence/backlog.md): B-377 (agent-stack's two-door canon and the contract's `compact-mcp-search/1`
+describe the `search` answer with different fields; a request to agent-stack), B-378 (the contract's device baseline
+names a skill by digest only, the hub pins by version; with B-368). Notes added to B-371 (Pi is a Fabric console only;
+an isolated `CODEX_HOME` session reads neither the block nor the plugins, by design) and B-376 (Fabric confirms the
+Kimi block is the hub's to deliver). No-mismatch reads: DEC-0182 cites agent-stack 0.33, the pin is 0.33.4 and cites
+DEC-0182 back; the contract's agent-sync versions sit below the 1.23.7 pin. B-370 closed; closing message on the ST-05
+thread 93e9c6d3. **Not done:** Codex's super-ux 0.67.1 and sheleg-design 1.67.1 (B-364): free disk read 8.6 GB, below
+the sentry's 12 GB line, so no install ran. **Checks run:** `python3 test/validate.py` on this branch (docs only; the
+full suite is the PR's `validate`). **Next task:** B-368 (ST-18, the skills audit, due 2026-12-03), starting with
+B-378's question to the contract; when free disk is above 12 GB and no Codex process runs, move Codex's super-ux and
+sheleg-design to their pins as B-364 records.
+
+## Previous: 2026-11-26 sheleg-design 1.68.0 confirmed in Claude Code; B-370 findings posted to the ST-05 thread
 
 **Objective:** the previous entry's next task (board supervisor run, no person in the session). **Install:** the nightly
 job installed sheleg-design 1.68.0 in Claude Code's default home at 2026-11-26 03:41 UTC (`installed_plugins.json`;
