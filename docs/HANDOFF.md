@@ -8,7 +8,19 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-26 B-370 closed: the contract and Fabric answered; B-377 and B-378 filed
+## Current: 2026-11-26 B-368's first step: what the launcher already reports, and a draft finding
+
+**Objective:** the previous entry's next task, in the same board supervisor run. **Done:** B-378's question asked on
+fabric-agent-contract's board (request 026a47d7, thread 5ab6b6a2, due 2026-11-30 12:00 UTC; Fabric wait 1dd2a5e5).
+B-368's first step written: [inventory and finding draft](evidence/specs/2026-11-26-st18-skills-audit-inventory.md),
+read by running `toolkit`, `conflicts`, `hosts` and `visibility` without writing flags. Two corrections to the B-368
+row: the hub has no `doctor` command, and use is read from `skillUsage`, not transcripts. **Checks run:**
+`python3 test/validate.py` on this branch (docs only; the full suite is the PR's `validate`). **Next task:** on
+2026-11-28 read ST-08's `project-manifest/1` and bind the draft to it, then build the read-only audit (B-368, due
+2026-12-03); read the contract's answer to 026a47d7 for B-378; when free disk is above 12 GB and no Codex process runs,
+move Codex's super-ux and sheleg-design to their pins (B-364).
+
+## Previous: 2026-11-26 B-370 closed: the contract and Fabric answered; B-377 and B-378 filed
 
 **Objective:** the previous entry's next task (board supervisor run, no person in the session). **Done:** both remaining
 B-370 reads answered on the owners' boards before their deadline: fabric-agent-contract (reply 4e376b6c to fc18e456,
