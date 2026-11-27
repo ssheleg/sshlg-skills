@@ -755,8 +755,8 @@ it('a refusal beats the question exception too', () => {
 //
 // A rule that removes false positives by silencing genuine refusals is worse than the
 // one it replaces. The first formulation of this rule did exactly that: it required
-// punctuation on BOTH sides and missed «сделай лендинг как есть» and «объясни на
-// «словах»», because Russian puts the phrase at the end without a comma. Measured, not
+// punctuation on BOTH sides and missed «сделай лендинг как есть» and
+// «объясни на словах», because Russian puts the phrase at the end without a comma. Measured, not
 // reasoned — which is why the trailing case exists at all.
 //
 // Both corpora here are SELF-WRITTEN, which is the same weakness that held the four
@@ -800,8 +800,8 @@ it('the refusal rule did not narrow ordinary routing', () => {
 
 it('a Russian verbal prefix does not hide an advertised stem', () => {
   // The suffix side of a trigger has always been tolerant; the prefix side ended the
-  // match before the stem was reached, so «рефактор модуля» routed and «отрефактори
-  // «модуль»» did not — one word, two answers. Measured across the shipped table before
+  // match before the stem was reached, so «рефактор модуля» routed and
+  // «отрефактори модуль» did not — one word, two answers. Measured across the shipped table before
   // the fix: not one prefixed form of any single-word Cyrillic trigger reached its own
   // route. `B-84` recorded this class as settled and it was not.
   // «`оплата`» is sheleg-dev's since 2026-10-08, so the payment module names the pack too
@@ -814,8 +814,8 @@ it('a Russian verbal prefix does not hide an advertised stem', () => {
 });
 
 it('the prefix rule stops at five letters, and that is what keeps it honest', () => {
-  // «`фикс`» is four letters. Without the floor, «`за`» + «`фикс`» would route «зафиксируй
-  // «результат»» to the delivery pipeline — recording a result and fixing a defect are
+  // «`фикс`» is four letters. Without the floor, «`за`» + «`фикс`» would route
+  // «зафиксируй результат» to the delivery pipeline — recording a result and fixing a defect are
   // different acts wearing the same shape. The floor is the whole reason the rule can
   // be tolerant at all.
   assert.deepStrictEqual(T.match('зафиксируй результат'), []);

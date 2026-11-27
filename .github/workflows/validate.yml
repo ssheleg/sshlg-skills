@@ -45,6 +45,9 @@ jobs:
           SSHLG_RATCHETS_OUT: /tmp/ratchets.json
         run: npm test
 
+      - name: English system docs (order 72185b98)
+        run: python3 tools/lang/cyrillic_scan.py check .
+
       - name: Native Claude payload inventory matches exact gitlink trees
         run: node scripts/sync-claude-pins.js --check
 

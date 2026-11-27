@@ -24,3 +24,6 @@ test/triggers_test.js
 test/cli_config_test.js
 test/protocol_test.js
 test/audit_regressions/fix-rt-01.02.py
+# Member submodules: each member is its own repository, scanned and translated there
+# (one PR per member, order 72185b98); the hub only pins them.
+skills/**
