@@ -238,7 +238,7 @@ it('a word a family trigger carries is never dropped as non-discriminating', () 
 });
 
 // ── `--find`: the agent parsed the meaning, the search ranks CONCEPTS ─────────────
-// Measured 2026-10-10: `--for "сделай pdf отчёт из таблицы excel"` put
+// Measured 2026-10-10: `--for «сделай pdf отчёт из таблицы excel»` put
 // portfolio-monitoring first and never printed `pdf` or `xlsx`, because a raw sentence
 // was scored word by word with a two-word floor. `--find` takes the concepts the agent
 // derived and treats each one as deliberate.

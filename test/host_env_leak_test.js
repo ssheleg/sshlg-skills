@@ -4,7 +4,7 @@ require('./tmproot.js').isolate(); // B-350: no inherited host config root reach
 // B-350: a fixture must never reach an operator file through a host variable it inherited.
 //
 // On 2026-11-14 three routers in the operator's real ~/.claude/CLAUDE.md read fixture text
-// ("Пакетный текст роутера task-pipeline.", "ux body", "copy body", from test/apply_test.js and
+// («Пакетный текст роутера task-pipeline.», "ux body", "copy body", from test/apply_test.js and
 // test/install_routers_test.js). Both suites called `apply({ home: tmp })` without `env`;
 // lib/apply.js puts CLAUDE_CONFIG_DIR ahead of `home`; the suites ran from a Switchboard isolated
 // session whose CLAUDE_CONFIG_DIR held a CLAUDE.md symlinked to the real file. The write went

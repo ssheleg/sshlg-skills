@@ -827,7 +827,7 @@ does not ship, and a published package naming one would ship a fact about one
 laptop as doctrine. So you declare the route, and it lives only in your settings:
 
 ```bash
-npx sshlg-skills config set routes.external.example-media.triggers "promo video, ad video, icon, voice-over, ролик, иконка"
+npx sshlg-skills config set routes.external.example-media.triggers «promo video, ad video, icon, voice-over, ролик, иконка»
 npx sshlg-skills config set routes.external.example-media.skill example-media   # defaults to the name
 npx sshlg-skills config                                                          # lists what you declared
 npx sshlg-skills config set routes.external.example-media off                   # forget it
@@ -1010,14 +1010,14 @@ npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only 
 # status line someone else holds alone without blocking the rest. Every path (`hooks`, `hooks install`, `update`
 # and the ConfigChange notice) judges an entry by the fields this pack writes, so fields you added to our entries
 # (a `timeout`, a `padding`) are kept and never called stale. `hooks` prints why each entry differs (matcher |
-# command | the field | order) and lists an absent one apart, as "не подключено здесь", with `hooks install`.
+# command | the field | order) and lists an absent one apart, as «не подключено здесь», with `hooks install`.
 # `update` also takes ~/.sshlg-skills/update.lock: a second one exits 75 naming the holder (docs/working-rules/state-json.md).
 # When `update` lists an event as not wired here, keep in mind that `hooks install` re-adds every removed family entry.
 npx sshlg-skills injectors                # who else speaks at SessionStart, and which MCP server instructions claim ground
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
-npx sshlg-skills toolkit --find "pdf, xlsx, отчёт"  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
+npx sshlg-skills toolkit --find «pdf, xlsx, отчёт»  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
 npx sshlg-skills toolkit --find "skill audit" --copies # include alternate paths with identical entry text
 npx sshlg-skills visibility               # Claude/Codex: hide all outside the core; Gemini/Pi/OpenCode/Hermes: hide marked packs; Cursor/Kimi: cannot hide
 npx sshlg-skills domains                  # scope xr-dev, web3d-dev, telegram-dev; preserve hook-bearing members; --apply, --revert

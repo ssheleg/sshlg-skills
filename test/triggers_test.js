@@ -81,7 +81,7 @@ function description(file) {
   const d = /^description:\s*(?:>-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|(?![\s\S]))/m.exec(fm[1]);
   // Whitespace is collapsed for the same reason `router_texts_test.js` collapses
   // it: a folded scalar is hard-wrapped, so an advertised phrase can land across
-  // a line break (`"оплата\n  подпиской"`). Matching the raw string would make the
+  // a line break (`«оплата\n  подпиской»`). Matching the raw string would make the
   // WRAPPING load-bearing and reject a trigger the skill does advertise. A host
   // reads the folded value as one line, which is what this now compares against.
   return (d ? d[1] : '').toLowerCase().replace(/\s+/g, ' ');
@@ -157,9 +157,9 @@ it('a PENDING excuse names its skill, the member change it waits on, and a real 
 });
 
 it('a trigger carrying ё routes identically without it, which is how it is typed', () => {
-  // Russian is normally typed WITHOUT ё. Measured 2026-09-03 before the fold:
-  // `звезды телеграм` reached nothing while `звёзды телеграм` reached telegram-dev,
-  // and the same for `отчет о приемке` against evidence-docs. Two routers were
+  // Russian is normally typed WITHOUT «ё». Measured 2026-09-03 before the fold:
+  // «`звезды телеграм`» reached nothing while «`звёзды телеграм`» reached telegram-dev,
+  // and the same for «`отчет о приемке`» against evidence-docs. Two routers were
   // unreachable for the standard spelling of their own advertised triggers.
   const withYo = [];
   for (const spec of Object.values(T.ROUTES)) {
@@ -177,8 +177,8 @@ it('a trigger carrying ё routes identically without it, which is how it is type
 });
 
 it('folding ё does not make two different triggers collide', () => {
-  // The precision the fold spends. Russian has real pairs — всё/все, нёбо/небо — so a
-  // trigger whose е-form is a different word would over-match. Nothing in the shipped
+  // The precision the fold spends. Russian has real pairs — «всё»/«все, нёбо»/«небо» — so a
+  // trigger whose «е-form» is a different word would over-match. Nothing in the shipped
   // table does today; this is what notices when one arrives.
   const seen = new Map();
   const collisions = [];
@@ -422,7 +422,7 @@ it('no refusal phrase is also a trigger, or saying it would fire the hook', () =
 
 it('no trigger MATCHES inside a refusal — the raw check above cannot see a stem', () => {
   // The raw-containment check passed «без интеграций» while the matcher fired
-  // `интеграция` inside it: `интеграций` is one inflection away, which is exactly
+  // «`интеграция`» inside it: «`интеграций`» is one inflection away, which is exactly
   // the tolerance `matches` exists to provide. A refusal the matcher reads as a
   // trigger is the B-82 shape — the phrase can never be added, and if it were,
   // the advertised opt-out would summon the route it declines. Checked the way
@@ -504,7 +504,7 @@ it('the advertised English aliases actually opt out — the XF-04 regression', (
 
 it('sheleg-dev declines as «без обвязки»/"no wiring" — the XF-01 regression', () => {
   // Before the rename the block advertised «без интеграций», which the matcher
-  // reads as task-pipeline's `интеграция`: «оплата подпиской, но без интеграций»
+  // reads as task-pipeline's «`интеграция`»: «оплата подпиской, но без интеграций»
   // → ["task-pipeline","sheleg-dev"], optedOut false (measured 2026-08-29). The
   // renamed phrase is sayable in both languages:
   assert.strictEqual(T.optedOut('оплата подпиской, но без обвязки'), true);
@@ -521,7 +521,7 @@ it('sheleg-dev declines as «без обвязки»/"no wiring" — the XF-01 r
 //
 // Twenty prompts written the way an operator writes them, not the way a skill's
 // description is written. Substring matching scored 11 on 2026-08-12, and the two
-// it still misses are honest: neither `исправь` nor a bare `fix` is a word any of
+// it still misses are honest: neither «`исправь`» nor a bare `fix` is a word any of
 // these skills advertises, so routing on them would be inventing policy here.
 
 const CORPUS = [
@@ -592,8 +592,8 @@ it('a word can always still match itself, whatever was cut from it', () => {
 
 // --- a hyphen inside a trigger is a separator, not a letter (B-84) -----------
 //
-// `agent-interop` advertises `MCP-сервер`, so the route carried the word and
-// `подключи mcp сервер` still reached nothing: splitting a trigger on whitespace
+// `agent-interop` advertises «`MCP-сервер`», so the route carried the word and
+// «`подключи mcp сервер`» still reached nothing: splitting a trigger on whitespace
 // alone made the hyphen load-bearing. The `gap` between words had always accepted
 // hyphens, which is why only one half of the seam was ever exercised.
 
@@ -615,7 +615,7 @@ it('a refusal survives the same split, in both spellings', () => {
 });
 
 it('splitting on the hyphen did not loosen anything into a neighbouring word', () => {
-  // The precision controls from the `аудит`/`аудитория` case, re-run against the
+  // The precision controls from the «`аудит`»/«`аудитория`» case, re-run against the
   // split: a trigger's words must still each END where a word ends.
   assert.deepStrictEqual(T.match('аудитория лендинга выросла'), []);
   assert.deepStrictEqual(T.match('субагентство недвижимости'), []);
@@ -741,7 +741,7 @@ it('a trigger phrased as a question still fires — the skill claimed those word
 
 it('and a plain question still wins over a plain trigger', () => {
   // The exception must not become "questions route now". These carry real
-  // triggers (`аудит`, `интеграция`, `миграция`) in a question, and stay silent.
+  // triggers («`аудит`», «`интеграция`», «`миграция`») in a question, and stay silent.
   assert.deepStrictEqual(T.match('почему этот аудит падает?'), []);
   assert.deepStrictEqual(T.match('объясни, как работает интеграция'), []);
   assert.deepStrictEqual(T.match('что делает эта миграция'), []);
@@ -756,7 +756,7 @@ it('a refusal beats the question exception too', () => {
 // A rule that removes false positives by silencing genuine refusals is worse than the
 // one it replaces. The first formulation of this rule did exactly that: it required
 // punctuation on BOTH sides and missed «сделай лендинг как есть» and «объясни на
-// словах», because Russian puts the phrase at the end without a comma. Measured, not
+// «словах»», because Russian puts the phrase at the end without a comma. Measured, not
 // reasoned — which is why the trailing case exists at all.
 //
 // Both corpora here are SELF-WRITTEN, which is the same weakness that held the four
@@ -801,10 +801,10 @@ it('the refusal rule did not narrow ordinary routing', () => {
 it('a Russian verbal prefix does not hide an advertised stem', () => {
   // The suffix side of a trigger has always been tolerant; the prefix side ended the
   // match before the stem was reached, so «рефактор модуля» routed and «отрефактори
-  // модуль» did not — one word, two answers. Measured across the shipped table before
+  // «модуль»» did not — one word, two answers. Measured across the shipped table before
   // the fix: not one prefixed form of any single-word Cyrillic trigger reached its own
   // route. `B-84` recorded this class as settled and it was not.
-  // `оплата` is sheleg-dev's since 2026-10-08, so the payment module names the pack too
+  // «`оплата`» is sheleg-dev's since 2026-10-08, so the payment module names the pack too
   assert.deepStrictEqual(T.match('отрефактори модуль оплаты'), ['task-pipeline', 'sheleg-dev']);
   assert.deepStrictEqual(T.match('зарефакторь этот класс'), ['task-pipeline']);
   assert.deepStrictEqual(T.match('перепроверь прод'), ['task-pipeline']);
@@ -814,8 +814,8 @@ it('a Russian verbal prefix does not hide an advertised stem', () => {
 });
 
 it('the prefix rule stops at five letters, and that is what keeps it honest', () => {
-  // `фикс` is four letters. Without the floor, `за` + `фикс` would route «зафиксируй
-  // результат» to the delivery pipeline — recording a result and fixing a defect are
+  // «`фикс`» is four letters. Without the floor, «`за`» + «`фикс`» would route «зафиксируй
+  // «результат»» to the delivery pipeline — recording a result and fixing a defect are
   // different acts wearing the same shape. The floor is the whole reason the rule can
   // be tolerant at all.
   assert.deepStrictEqual(T.match('зафиксируй результат'), []);
@@ -826,15 +826,15 @@ it('the prefix rule stops at five letters, and that is what keeps it honest', ()
 
 it('no single-letter prefix, because one letter reaches the middles of words', () => {
   // Declared, never derived — and the list is asserted rather than described, so a
-  // later edit that adds `с` or `в` fails here instead of in a session six weeks on.
+  // later edit that adds «`с`» or «`в`» fails here instead of in a session six weeks on.
   const src = fs.readFileSync(path.join(__dirname, '..', 'lib', 'triggers.js'), 'utf8');
   const m = /const RU_PREFIX = '([^']+)'/.exec(src);
   assert.ok(m, 'RU_PREFIX is gone');
   const singles = m[1].split('|').filter((p) => p.length < 2);
   assert.deepStrictEqual(singles, [],
     `single-letter prefixes would match inside unrelated words: ${singles.join(', ')}`);
-  // Longest-first, because alternation is first-match: `пере` before `пер`, `про`
-  // before `по`. A list sorted the other way silently matches the shorter one.
+  // Longest-first, because alternation is first-match: «`пере`» before «`пер`», «`про`»
+  // before «`по`». A list sorted the other way silently matches the shorter one.
   const parts = m[1].split('|');
   for (let i = 0; i < parts.length; i += 1) {
     for (let j = i + 1; j < parts.length; j += 1) {
@@ -969,7 +969,7 @@ it('B-296: A-Frame routes to the xr-dev route that advertises it, and "a frame" 
 // Each fixture below reproduced on 4374ffe before the matcher changed.
 
 it('a three-letter Cyrillic noun inflects — «бота» is `бот`', () => {
-  // `wordPattern` returned a word under four letters verbatim, so `телеграм бот` could
+  // `wordPattern` returned a word under four letters verbatim, so «`телеграм бот`» could
   // match «телеграм бот» and never «телеграм-бота», the accusative an operator types.
   assert.ok(T.match('добавь телеграм-бота').includes('telegram-dev'));
   assert.ok(T.match('сделай телеграм бота').includes('telegram-dev'));
@@ -980,7 +980,7 @@ it('a three-letter Cyrillic noun inflects — «бота» is `бот`', () => {
 
 it('a declared Cyrillic brand stem matches its Latin spelling inside Russian text', () => {
   // «Telegram-бота»: a Latin brand followed by a Cyrillic inflection, which neither the
-  // English trigger `telegram bot` nor the Russian `телеграм бот` could reach.
+  // English trigger `telegram bot` nor the Russian «`телеграм бот`» could reach.
   assert.ok(T.match('добавь Telegram-бота').includes('telegram-dev'));
   assert.ok(T.match('добавь Telegram бота в проект').includes('telegram-dev'));
   assert.ok(T.match('перенеси дизайн из Figma в код').includes('sheleg-design'));
@@ -995,7 +995,7 @@ it('a declared Cyrillic brand stem matches its Latin spelling inside Russian tex
 });
 
 it('an OBJECT routes only when an action verb governs it', () => {
-  // `дашборд`, `баг`, `app store` are words that occur in questions, logs and status talk
+  // «`дашборд`», «`баг`», `app store` are words that occur in questions, logs and status talk
   // as often as in instructions. As objects they need «сделай/добавь/почини/…» or
   // make/build/add/fix/write in front of them, within the same two-word gap a phrase uses.
   assert.ok(T.match('сделай дашборд в админке').includes('sheleg-design'));
@@ -1163,7 +1163,7 @@ it('a newly printed facet route on a writing prompt prints task-pipeline beside 
 // building its expression. That is only an optimisation if it never changes an answer, so
 // this compares both against the expression alone, for every shipped phrase — triggers,
 // objects, QUESTION and REFUSALS — and the forms people type: inflected endings, a verbal
-// prefix, a hyphen for a space, upper case, `ё`, and a Latin brand inside Russian.
+// prefix, a hyphen for a space, upper case, «`ё`», and a Latin brand inside Russian.
 // Watched failing with `requiredStems` keeping alias words (receipt, fix round).
 it('the stem prefilter never changes an answer of matches() or objectMatches()', () => {
   const phrases = new Set(T.QUESTION.concat(T.REFUSALS));
@@ -1225,9 +1225,9 @@ it('the stem prefilter never changes an answer of matches() or objectMatches()',
   assert.strictEqual(wrong.length, 0, `${wrong.length} of ${compared} differ, e.g.\n  ${wrong.slice(0, 5).join('\n  ')}`);
 });
 
-// --- B-84's с/ш case, held on its own -------------------------------------
+// --- B-84's «с»/«ш» case, held on its own -------------------------------------
 //
-// `stemRu` cuts `записать` to `записа-` and cannot reach `запиш-`; the table carries
+// `stemRu` cuts «`записать`» to «`записа-`» and cannot reach «`запиш-`»; the table carries
 // the advertised imperative «запиши решение» instead. Until 2026-10-27 the only
 // fixture that said the imperative routed also carried `decision record`, so the
 // imperative could have gone and the fixture would still pass.
@@ -1247,9 +1247,9 @@ it('B-84: the imperative of an с/ш verb routes on its own, and the stemmer was
 //
 // «реферальная программа» is advertised in the nominative; an order is in the
 // accusative, «сделай реферальную программу». `stemRu` cut one letter, leaving
-// `реферальна-` and `реферальну-`, so the phrase never matched an inflected order.
+// «`реферальна-`» and «`реферальну-`», so the phrase never matched an inflected order.
 // Clearly adjectival two-letter endings are now cut whole; endings that nouns share
-// (-ие, -ий, -ей, -ем, -ом, -им, -их) still cut one letter, so nouns do not widen.
+// (-«ие», -«ий», -«ей», -«ем», -«ом», -«им», -«их») still cut one letter, so nouns do not widen.
 
 it('B-267: an adjective trigger matches its inflected forms, and nouns did not widen', () => {
   // «сделай …» also names delivery (an order to change something); the facet must be there
@@ -1281,7 +1281,7 @@ it('B-297/B-298: a 3D model and a Quest-named phrase route; an ML model and a ph
 
 // --- B-241: a status question and a look are not orders --------------------
 //
-// «миграция прошла? посмотри логи» read as a write, because `миграция` is a noun in
+// «миграция прошла? посмотри логи» read as a write, because «`миграция`» is a noun in
 // CHANGE_WORDS and a clause that names a migration counted as one being ordered. A
 // clause that asks WHETHER something happened, or a turn that only asks to look, writes
 // nothing; an imperative inside the same clause still does.
@@ -1355,7 +1355,7 @@ it('B-241: the hook stops naming delivery for a status question or a look', () =
     assert.deepStrictEqual(T.match(p), [], p);
   }
   // an audit the pipeline claims keeps its route: checking production is a finding
-  // that lands in the repository, and `проверь`/`check` are its words, not a look
+  // that lands in the repository, and «`проверь`»/`check` are its words, not a look
   assert.deepStrictEqual(T.match('перепроверь прод'), ['task-pipeline']);
   assert.ok(T.match('check the fix in production').includes('task-pipeline'));
   for (const p of ['проведи миграцию', 'миграция упала? почини её', 'посмотри логи и почини миграцию']) {

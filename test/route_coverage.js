@@ -63,7 +63,7 @@ const CASES = [
   // `lib/routers-registry.js` ("product decisions, funnels, onboarding,
   // payment steps") and knowledge the pack genuinely carries.
   // --- diagnosis: the whole project as the subject ----------------------
-  // Territory the project-audit router claims. `аудит` alone belongs to
+  // Territory the project-audit router claims. «`аудит`» alone belongs to
   // task-pipeline and correctly reaches it; these phrases must reach the
   // diagnosis route as well, and a request to audit ONE thing must not.
   // --- the design lane's own vocabulary, and the words a router text names ------
@@ -76,9 +76,9 @@ const CASES = [
   ['сверстай лендинг', 'sheleg-design'],
   ['нужна вёрстка дашборда', 'sheleg-design'],
   ['redesign the landing page', 'sheleg-design'],
-  // --- ё, which Russian is normally typed without --------------------------------
+  // --- «ё», which Russian is normally typed without --------------------------------
   // Both spellings must name the same route. Before the fold in `normalise()` the
-  // right-hand spelling of each of these reached nothing while the ё form routed.
+  // right-hand spelling of each of these reached nothing while the «ё» form routed.
   ['звезды телеграм', 'telegram-dev'],
   ['отчет о приемке', 'evidence-docs'],
   ['сделай темную тему', 'sheleg-design'],
@@ -175,17 +175,17 @@ const CASES = [
 
   // --- Russian verbal prefixes, which the matcher loses entirely ------------
   // `phrasePattern` demanded a word boundary BEFORE the stem, so every prefixed form
-  // of an advertised verb reached nothing while the bare stem routed: `рефактор
-  // модуля` → task-pipeline and `отрефактори модуль` → []. B-84 recorded this class
+  // of an advertised verb reached nothing while the bare stem routed: `«рефактор»
+  // «модуля»` → task-pipeline and «`отрефактори модуль`» → []. B-84 recorded this class
   // as settled in v0.85.1; it was not. The suffix side has always been tolerant
-  // (`stem[а-яё]{0,allowance}`), and Russian prefixes an operator actually types —
-  // от-, за-, по-, про-, пере-, до- — sat on the other side of the same word.
+  // («`stem[а-яё]{0,allowance}`»), and Russian prefixes an operator actually types —
+  // «от-, за-, по-, про-, пере-, до-» — sat on the other side of the same word.
   ['зарефакторь этот класс', 'task-pipeline'],
   ['проаудируй проект', 'project-audit|task-pipeline'],
   ['перепроверь прод', 'task-pipeline'],
   ['доработай онбординг', 'task-pipeline'],
   // The precision this spends, probed rather than asserted. Prefix tolerance applies
-  // only to stems of five letters or more, so `фикс` stays untouched and
+  // only to stems of five letters or more, so «`фикс`» stays untouched and
   // «зафиксируй результат» — a different act in the same shape — keeps its silence.
   ['зафиксируй результат', ''],
   ['записал в блокнот', ''],
@@ -200,8 +200,8 @@ const CASES = [
   ['find reference screens', 'super-ux'],
   ['нужны визуальные референсы', 'sheleg-design|super-ux'],
   ['какой style pack взять', 'sheleg-design'],
-  // Refused by measurement rather than left undone: the bare `стиль` fires on
-  // «стиль кода» and «стиль коммитов», `подбери стиль` on the same, and
+  // Refused by measurement rather than left undone: the bare «`стиль`» fires on
+  // «стиль кода» and «стиль коммитов», «`подбери стиль`» on the same, and
   // `pick a style` on *pick a style guide for python*. Silence is the wanted answer.
   ['подбери стиль кода', ''],
   ['стиль коммитов', ''],
