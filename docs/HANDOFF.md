@@ -8,7 +8,18 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+## Current: 2026-11-27 B-379: `project-reports` duplicates redirected to obsidian-memory-vault
+
+**Objective:** a Fabric dispatch run for fabric-workspace's request 81a17e4c (thread 4b5db450, spec 2026-11-30, release
+2026-12-03): make `project-reports` refuse a second report on a topic. **Done:** ownership checked: the skill and
+`reports.py` live in `ssheleg/obsidian-memory-vault` (`sshlg-projects-vault/_meta/reports`), not here; the current
+behaviour and the catalogue's duplicate count are measured in [B-379](evidence/backlog.md); the answer, naming the owner,
+is this run's dispatch result, which Fabric posts in the thread. **Decisions:** no change to the vault from this run
+(not this repository's file; the requester asked where to send it); the hub's part joins B-369's 2026-11-30 list.
+**Open:** none for B-379. **Checks run:** `python3 test/doc_refs.py`. **Next task:** the previous entry's next task
+(B-368 `audit skills`, due 2026-12-03), then B-369's list on 2026-11-30.
+
+## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
 **Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
 1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**
