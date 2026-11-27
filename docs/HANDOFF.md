@@ -8,7 +8,20 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-26 B-368's first step: what the launcher already reports, and a draft finding
+## Current: 2026-11-27 the contract's DEC-0199 form answered for ST-18
+
+**Objective:** fabric-agent-contract's board request 7a893a3d (unattended dispatch run, no board on this machine; the
+answer is the run's result, which Fabric posts in the thread): does `project-setup/1`'s `skills` part suffice for
+ST-18, and what is the audit's report called. **Done:** read PR #365 at `a7f5909d`; the
+[answer](evidence/specs/2026-11-26-st18-skills-audit-inventory.md#2026-11-27-the-hubs-answer-to-dec-0199-project-setup1):
+the four hint kinds suffice; three schema changes asked (`runner` on a skill item, `maxItems` above 512, `synced:` in
+`other`) and two descriptions; the report decided as `skills-audit/1`, `npx sshlg-skills skills-audit`, copies under
+`~/.sshlg-skills/skills-audit/`, nothing in a repository. Notes on B-368 and B-377 (the contract's SK-1 to SK-3 land
+with agent-stack, due 2026-12-07). **Checks run:** `python3 test/validate.py`, `python3 test/doc_refs.py` on this
+branch (docs only). **Next task:** on 2026-11-28 read the contract's reply to 7a893a3d and PR #365 as merged, bind
+B-368 to it and build the read-only `skills-audit` (due 2026-12-03); read the answer to 026a47d7 for B-378.
+
+## Previous: 2026-11-26 B-368's first step: what the launcher already reports, and a draft finding
 
 **Objective:** the previous entry's next task, in the same board supervisor run. **Done:** B-378's question asked on
 fabric-agent-contract's board (request 026a47d7, thread 5ab6b6a2, due 2026-11-30 12:00 UTC; Fabric wait 1dd2a5e5).
