@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-26 B-368's first step: what the launcher already reports, and a draft finding
+## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+
+**Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
+1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**
+answered as reply fbd93666 and the wait 3a37ee79 cleared. The draft finding is bound to the contract's
+`project-setup/1` skills item (PR #365 at `a7f5909d`): [spec section](evidence/specs/2026-11-26-st18-skills-audit-inventory.md#bound-to-the-contracts-shape-2026-11-27).
+**Decisions:** the report is `skills-audit/1` on stdout from `npx sshlg-skills audit skills --json [--project <root>]`,
+no file by default; `stale.latest` is the hub's pin. **Open:** the contract's answer on an optional `runner` per hint
+(fallback: Claude Code's reading fills the view). The request's responder slot reads absent at generation 2; the
+answer was sent as a participant reply because the request asked questions and the waiter named this reply as the
+item. **Checks run:** `python3 test/doc_refs.py` (exit 0); `python3 test/validate.py` here fails only on the checks that need materialized submodules (not checked out in this worktree, disk at 6.9 GB), so the full suite is the PR's `validate`. **Next task:** build the
+read-only `audit skills` command with a pure decision module and fixtures (B-368, due 2026-12-03); read the
+contract's answers to fbd93666 and 026a47d7 (B-378); B-364 when free disk is above 12 GB.
+
+## Previous: 2026-11-26 B-368's first step: what the launcher already reports, and a draft finding
 
 **Objective:** the previous entry's next task, in the same board supervisor run. **Done:** B-378's question asked on
 fabric-agent-contract's board (request 026a47d7, thread 5ab6b6a2, due 2026-11-30 12:00 UTC; Fabric wait 1dd2a5e5).
