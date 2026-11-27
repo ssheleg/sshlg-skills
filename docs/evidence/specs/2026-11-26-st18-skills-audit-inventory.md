@@ -50,9 +50,39 @@ profile it read in every answer and, when the profile is not the ownership one, 
 Every hint is a command the report prints and never runs (1.0 stays read-only). The `digest` field waits for the
 contract's answer on how `harness.baseline` computes a skill digest (request 026a47d7, due 2026-11-30, B-378).
 
+## Bound to the contract's shape (2026-11-27)
+
+fabric-agent-contract proposed the view's skills part in DEC-0199 (draft PR #365, head `a7f5909d`,
+`schemas/project-setup.schema.json` `/properties/skills`, `docs/specification/project-manifest.md` PS-4) and asked on
+its board (request 7a893a3d, thread 1580e344, due 2026-12-02). This hub's answer is message fbd93666:
+
+| Draft kind above | Contract `hints[].kind` | Field the contract adds |
+|---|---|---|
+| `duplicate` | `duplicate` | `other`: `global`, `project` or `plugin:<name>`, never a path |
+| `shadowed` | `shadowed` | `other`, as above |
+| `stale` | `stale` | `latest`: the hub fills it with the pin `update` installs (offline; pins equal releases per `test/check_pins.py`) |
+| `unrouted` | `unused` | none: the contract's definition is route-based, which is what Codex, Hermes and Pi allow; `skillUsage` is extra evidence on Claude Code |
+
+Checked on the operator machine the same day: all 658 skill directory names (`~/.claude/skills`, the plugin cache,
+`~/.codex/skills`, `~/.agents/skills`) match the item's `name` pattern, and no plugin name repeats across marketplaces
+in `installed_plugins.json`, so `other` without a marketplace loses nothing today; synced claude.ai copies (B-365)
+are reported as `plugin:<synced plugin>`.
+
+**Asked of the contract:** an optional `runner` (catalogue id) on each hint, and `hints.maxItems` from 4 to 16, because
+one skill of one scope can be current in Claude Code and stale in Codex (super-ux 0.68.0 against 0.67.1, B-364).
+**Fallback if it does not land by 2026-12-03:** the view's skills part is filled from the Claude Code reading and the
+per-runner split stays in this hub's own report.
+
+**Report name, decided here:** format `skills-audit/1`, printed on stdout, no file by default (1.0 is read-only):
+`npx sshlg-skills audit skills --json` for the machine, `--project <root>` to add the `project`-scope skills from
+`<root>/.claude/skills` and `<root>/.agents/skills`, `--out <file>` when the harness wants a file. Its `skills` array is
+item-for-item the `project-setup/1` item with `source: skills-audit`; the profile read, runners and evidence paths sit
+in other members the harness does not copy (PS-5). A profile the audit could not read is named, so the harness puts
+`skills-audit` in `degraded` rather than show an empty list (PS-1).
+
 ## Next
 
-1. 2026-11-28: read ST-08's `project-manifest/1` «Настройка» block and bind the draft to it.
+1. Done early (2026-11-27, section above); re-read PR #365 when it merges (planned 2026-12-03) for the `runner` answer.
 2. 2026-11-28 to 2026-12-02: one read-only command (`audit skills [--json]` or a `--json` on the existing readers),
    pure decision module with fixtures, no `HOME` in tests (house invariant: guards decide in pure modules).
 3. Hosts: Claude Code, Codex, Hermes, Pi; others deferred past 1.0 as the row says.
