@@ -153,7 +153,7 @@ it('a deeper subheading does NOT end its parent section', () => {
 // --- migration must not read its own output ------------------------------
 //
 // Shipped in v0.22.0 and reproduced against it: the block's own heading is
-// `## Роутинг работы — семья ssheleg`, which the `## Роутинг работы` pattern
+// «`## Роутинг работы — семья ssheleg`», which the «`## Роутинг работы`» pattern
 // matches. On a SECOND run migration took it for a hand-written rule and cut
 // from there to EOF — carrying the closing sentinel and every rule below it
 // out of the operator's global instructions. The command then called the

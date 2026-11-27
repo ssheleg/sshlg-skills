@@ -107,7 +107,7 @@ rather than described as shipped, which is the manifesto's rule applied to the m
 
 That sentence was wrong for three days after the manifesto stopped saying it, and its own
 receipt pointed at a different row than the one it named. `pod-manifesto` now checks the
-claim from its end (`tools/check-currency.py`), and this end is where it is written.
+claim from its end (`<pod-manifesto>/tools/check-currency.py`), and this end is where it is written.
 
 If the ideas are useful to you, a ⭐ on this repository helps other people find them.
 
@@ -827,7 +827,7 @@ does not ship, and a published package naming one would ship a fact about one
 laptop as doctrine. So you declare the route, and it lives only in your settings:
 
 ```bash
-npx sshlg-skills config set routes.external.example-media.triggers "promo video, ad video, icon, voice-over, ролик, иконка"
+npx sshlg-skills config set routes.external.example-media.triggers «promo video, ad video, icon, voice-over, ролик, иконка»
 npx sshlg-skills config set routes.external.example-media.skill example-media   # defaults to the name
 npx sshlg-skills config                                                          # lists what you declared
 npx sshlg-skills config set routes.external.example-media off                   # forget it
@@ -917,7 +917,7 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 | Codex | `enabled = false` entries in `~/.codex/config.toml` `[skills] config` | since v1.55.0 | be read from its SKILL.md path when asked |
 | Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`). The entry is the name Gemini loads: it turns `:` `\` `/` `<` `>` `*` `?` `"` `\|` in a skill's name into `-`, so `ui-toolkit/web` is written as `ui-toolkit-web` (B-214) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
 | Pi 1.1.0 | `-<path>` exact exclusions in the `skills` array of `~/.pi/agent/settings.json`, one per folder holding the skill (`~/.agents/skills`, `~/.pi/agent/skills`); the file is created if absent and removed again by `--revert` | Pi's own docs, settings → Resources; `isEnabledByOverrides` in its `dist/core/package-manager.js` | be loaded for one session with `pi --skill <path>` |
-| Hermes 0.21.4 | `skills.disabled` in its config.yaml, written by its own CLI (`hermes config set skills.disabled '<json list>'`, read back with `hermes config get --json`); `hermes skills list` shows `disabled`. A config.yaml Hermes created during the write keeps `{}` after `--revert` unsets the key | `hermes_cli/skills_config.py`; `tools/skills_tool.py` `_find_all_skills` | come back through `hermes skills config` |
+| Hermes 0.21.4 | `skills.disabled` in its config.yaml, written by its own CLI (`hermes config set skills.disabled '<json list>'`, read back with `hermes config get --json`); `hermes skills list` shows `disabled`. A config.yaml Hermes created during the write keeps `{}` after `--revert` unsets the key | `hermes_cli/skills_config.py`; `<hermes>/tools/skills_tool.py` `_find_all_skills` | come back through `hermes skills config` |
 | OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config`. An `opencode.jsonc` is refused. Its roots are walked to any depth, as OpenCode 1.19.0 globs `skills/**/SKILL.md`; a nested skill takes the pack of the installed skill that holds it (B-214) | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission | be read as a plain file |
 | Cursor agent CLI 2026.09.02 | **cannot hide on cursor**: no setting switches a skill off. The only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) | (not hidden) |
 | Kimi 2.1.1 | **cannot hide on kimi**: `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) | (not hidden) |
@@ -1010,14 +1010,14 @@ npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only 
 # status line someone else holds alone without blocking the rest. Every path (`hooks`, `hooks install`, `update`
 # and the ConfigChange notice) judges an entry by the fields this pack writes, so fields you added to our entries
 # (a `timeout`, a `padding`) are kept and never called stale. `hooks` prints why each entry differs (matcher |
-# command | the field | order) and lists an absent one apart, as "не подключено здесь", with `hooks install`.
+# command | the field | order) and lists an absent one apart, as «не подключено здесь», with `hooks install`.
 # `update` also takes ~/.sshlg-skills/update.lock: a second one exits 75 naming the holder (docs/working-rules/state-json.md).
 # When `update` lists an event as not wired here, keep in mind that `hooks install` re-adds every removed family entry.
 npx sshlg-skills injectors                # who else speaks at SessionStart, and which MCP server instructions claim ground
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
-npx sshlg-skills toolkit --find "pdf, xlsx, отчёт"  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
+npx sshlg-skills toolkit --find «pdf, xlsx, отчёт»  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
 npx sshlg-skills toolkit --find "skill audit" --copies # include alternate paths with identical entry text
 npx sshlg-skills visibility               # Claude/Codex: hide all outside the core; Gemini/Pi/OpenCode/Hermes: hide marked packs; Cursor/Kimi: cannot hide
 npx sshlg-skills domains                  # scope xr-dev, web3d-dev, telegram-dev; preserve hook-bearing members; --apply, --revert

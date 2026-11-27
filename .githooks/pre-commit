@@ -1,0 +1,8 @@
+#!/bin/sh
+# English system documentation lock-in (order 72185b98): refuse a commit whose staged
+# docs or code comments carry Cyrillic outside .cyrillic-allow. Enable once per clone:
+#   git config core.hooksPath .githooks
+files=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$files" ] && exit 0
+# shellcheck disable=SC2086
+exec python3 tools/lang/cyrillic_scan.py check . --paths $files

@@ -112,7 +112,7 @@ it('no brief carries Cyrillic — the site is English and the analogues are trig
   // English and its triggers in both languages, so Cyrillic surviving into a brief is
   // always a trigger analogue and never prose. `task-pipeline` shipped nine Russian words
   // onto its own page because its analogues are neither quoted nor labelled —
-  // `… hardening; фича, фикс, рефактор …` and `audit/аудит, bug hunt/проверь ошибки` —
+  // «`… hardening; фича, фикс, рефактор …`» and «`audit/аудит, bug hunt/проверь ошибки`» —
   // so the quoted-run and labelled-list arms both passed straight over them.
   for (const m of data.skills) {
     for (const name of m.skillNames || []) {
@@ -124,7 +124,7 @@ it('no brief carries Cyrillic — the site is English and the analogues are trig
 });
 
 it('removing an analogue does not leave the clause it belonged to open', () => {
-  // Stripping `or on 'run this through the pipeline' / 'прогони по конвейеру'` left the
+  // Stripping `or on 'run this through the pipeline' / «прогони по конвейеру»` left the
   // page reading `… PR review, or on. Runs a substantial task…` — a sentence that stops
   // mid-preposition, which reads as a truncation bug rather than a summary.
   const out = capabilityBrief(

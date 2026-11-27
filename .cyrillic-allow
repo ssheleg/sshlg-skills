@@ -1,0 +1,29 @@
+# English-docs scanner exceptions (order 72185b98). One glob per line; the comment above
+# each glob is its reason. Dated records stay as written until wave 4 (translation, or an
+# English summary on top).
+# Dated record: release history (wave 4).
+CHANGELOG.md
+# Dated records: audits, briefs, specs, plans, retros, backlog and verification receipts (wave 4).
+docs/evidence/**
+# Dated records: research and compatibility reports (wave 4).
+docs/reports/**
+# Dated record: the 2026-09-06 pack triage (wave 4).
+docs/audit/**
+# Dated records: an SEO audit and a milestone run log (wave 4).
+docs/seo/audit-*.md
+docs/runs/**
+# Dated handoffs: the 2026-10-13 continuation note and archived handoffs (wave 4).
+docs/CLAUDE-CONTINUE.md
+docs/HANDOFF-20*.md
+# Dated record: eval run results; their Russian rows are the test inputs (wave 4).
+test/evals/RESULTS.md
+# Test inputs: Russian phrases a user types, which the router and migrations must
+# recognise (code strings, wave 3). The scanner also reads these code lines as a block
+# comment after a "/*" inside a string; the files' own comments are English or «».
+test/triggers_test.js
+test/cli_config_test.js
+test/protocol_test.js
+test/audit_regressions/fix-rt-01.02.py
+# Member submodules: each member is its own repository, scanned and translated there
+# (one PR per member, order 72185b98); the hub only pins them.
+skills/**

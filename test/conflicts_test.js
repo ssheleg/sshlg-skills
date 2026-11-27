@@ -6,8 +6,8 @@ require('./tmproot.js').isolate(); // B-350: no inherited host config root reach
 // The load-bearing one is the first block: this module matches short words against
 // other people's descriptions, and its first run over a real machine produced a
 // report two thirds of which was words inside other words — `lease` in *please*,
-// `ux` inside a longer word. That is the family's oldest matching bug (`аудит`
-// matching `аудитория`, documented in lib/triggers.js) rediscovered from the other
+// `ux` inside a longer word. That is the family's oldest matching bug («`аудит`»
+// matching «`аудитория`», documented in lib/triggers.js) rediscovered from the other
 // side, so the boundary cases are asserted before anything else.
 //
 // The rest is about what the module may CLAIM. A list of other people's packs

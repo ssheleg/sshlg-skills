@@ -5,7 +5,7 @@
  *
  * `test/triggers_test.js` already asserts this across all eight members, and that is one
  * repository too far away. B-54: `sheleg-design` 1.37.0 shipped green on 4636 checks
- * having dropped `фигма в код` from its description while that phrase was a live trigger
+ * having dropped «`фигма в код`» from its description while that phrase was a live trigger
  * here. The member has no way to know the trigger table exists, the member releases
  * FIRST, and the umbrella found out minutes after the tag — costing a patch release and
  * leaving a window where the hook named a skill that no longer claimed the words.

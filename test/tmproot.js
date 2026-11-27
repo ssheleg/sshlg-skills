@@ -26,7 +26,7 @@ const PREFIX = 'sshlg-skills-run-';
  * the fixture's `home`. A Switchboard isolated session sets CLAUDE_CONFIG_DIR to a home
  * whose CLAUDE.md is a symlink to the operator's real ~/.claude/CLAUDE.md, so
  * `apply({ home: tmp })` in a fixture wrote the fixture's router text into the real file
- * (B-350, 2026-11-14: three routers read "Пакетный текст роутера task-pipeline.", "ux body",
+ * (B-350, 2026-11-14: three routers read «Пакетный текст роутера task-pipeline.», "ux body",
  * "copy body"). The runner removes them for every suite, every suite removes them from its
  * own process at load (`isolate()`), and a suite that needs one sets it to a path of its own.
  * `test/host_env_leak_test.js` fails when lib/, bin/ or hooks/ reads a `*_HOME`, `*_DIR` or

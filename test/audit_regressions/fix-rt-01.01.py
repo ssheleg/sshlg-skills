@@ -55,7 +55,7 @@ def t_audit_only_authorizes_no_write():
                    "audit the routing block", "review the diff and report"):
         v = classify(prompt)
         # «сделай ревью» opens with an imperative that is not a change verb for
-        # the ARTIFACT — but 'сделай' IS in the change lexicon; accept write only
+        # the ARTIFACT — but «сделай» IS in the change lexicon; accept write only
         # when the clause really is a change clause. The two clean audit prompts
         # must never authorize a write.
         if prompt in ("проведи аудит скилов", "audit the routing block"):
