@@ -8,7 +8,29 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+## Current: 2026-11-28 B-378: the hub prints skill-digest/1 from its pins
+
+**Objective:** Fabric's board supervisor resumed task cc24fc42; the contract had answered 1b589f2a with DEC-0204
+`skill-digest/1` merged (reply 0e28c9f1, fabric-agent-contract `main` `bd0bee1a`, vectors at `bcd30b99`). **Done:**
+[lib/skilldigest.js](../lib/skilldigest.js) ports the contract's `src/skill-digest.ts` (both routes);
+`npx sshlg-skills digest [<member>] [--json]` prints the plugin and per-skill digests from
+[claude-plugin-pins.json](../claude-plugin-pins.json); [test/skilldigest_test.js](../test/skilldigest_test.js) runs the
+31 vendored vectors ([test/fixtures/contract/skill-digest.json](../test/fixtures/contract/skill-digest.json),
+unchanged from `bcd30b99`) through the entries and folder routes, plus the pins. Branch `feat/b378-skill-digest`.
+**Finding:** on this Mac (Claude Code 2.1.332) the folder route over the installed cache never equals the pin:
+Claude Code writes `.in_use/<pid>` into every used plugin version and skill scripts leave `__pycache__/*.pyc`
+(make-skill 0.33.6 matches once `.in_use/` is dropped; agent-sync 1.23.7 and task-pipeline 1.114.0 once
+`__pycache__/` is dropped too; no pinned file missing or changed). Asked the contract to exclude them (request
+6418d31f, thread 5ab6b6a2, due 2026-12-03; Fabric wait c8b20b3d). The hub's port stays byte-identical to the
+reference until the contract decides. **Not done:** GitHub Actions is still billing-locked (run 46147269053, "account
+is locked due to a billing issue"), so neither this PR nor B-368's PR #378 can show a green `validate`; B-364 waits
+for free disk above 12 GB (read 10 GB). **Checks run:** `node test/skilldigest_test.js` (55 checks); `npm test` with the submodules materialized (the PR carries the result); every pinned member and each of its 39 skills gives the same digest by the pin and by the folder route over its submodule tree at the pinned commit. **Next task:** when the
+billing lock lifts, merge PR #378 (B-368) first, then rebase this branch (both touch the usage block, `lib/cli-flags.js`
+and the CLI golden: regenerate it with `SSHLG_GOLDEN_WRITE=1`), then let `audit skills` add the pin digest to a
+`stale` hint's evidence; read the contract's answer to 6418d31f and apply its exclusions with their vectors.
+The B-368 entries of 2026-11-28 live on `feat/b368-audit-skills` until that PR merges.
+
+## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
 **Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
 1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**
