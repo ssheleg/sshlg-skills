@@ -1,3 +1,10 @@
+## v1.92.8 (2026-11-28): super-ux 0.69.1 pinned (AT-17, no devaluation in public text)
+
+- **super-ux 0.69.1 pinned** (tag `v0.69.1` at `ad65da1`, ssheleg/super-ux#71, on top of `v0.69.0` at `65b92c6`,
+  ssheleg/super-ux#70): the copywriting catalogue gains AT-17 "no devaluation in public text", the owner's rule of
+  2026-11-28 (Fabric board request 976e4a2f), and 0.69.1 names the exceptions its checker found.
+- B-379. The CLI golden and the ctx-04.06 receipt follow the pin.
+
 ## v1.92.7 (2026-11-25): super-ux 0.68.0 and sheleg-design 1.68.0 pinned (UI mechanics, the action map)
 
 - **super-ux 0.68.0 pinned** (tag `v0.68.0` at `e10cb7a`, ssheleg/super-ux#67): a screen's `Actions:` table (the action
