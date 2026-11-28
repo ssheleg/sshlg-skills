@@ -1213,7 +1213,9 @@ npx sshlg-skills agents      # supported agent ids
 npx sshlg-skills conflicts   # installed skills that land on ground a router owns
 npx sshlg-skills audit skills [--json] [--project <dir>]
                              # read-only skills audit: duplicates, shadowed copies, installs
-                             # behind their pin, skills no route reaches; prints hints, runs none
+                             # behind their pin, skills no route reaches; prints hints, runs none.
+                             # Reads Claude Code, Codex, Pi and Hermes (Hermes: its profile folder,
+                             # minus skills.disabled); a part not read is named in the report
 npx sshlg-skills toolkit     # every skill this machine can reach; the family is a fraction of it
 npx sshlg-skills pack        # curated recommendations, measured against this machine
 npx sshlg-skills humanizers  # anti-AI-writing skills this machine can reach, and the

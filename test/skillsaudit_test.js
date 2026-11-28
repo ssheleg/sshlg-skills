@@ -189,6 +189,118 @@ it('codexPluginFlags reads every quoting and only true/false', () => {
   assert.strictEqual(A.codexPluginFlags(null).size, 0);
 });
 
+// B-368 second cut: Pi and Hermes.
+const pl = (name, dir, real, scope) => ({ name, scope: scope || 'global', channel: 'plain', plugin: null, version: null, path: `${dir}/${name}`, real, callable: true });
+const runner = (id, copies, extra) => A.audit(Object.assign({}, base, { routed: ['foo'], runners: [Object.assign({ id, profile: `/h/.${id}`, copies }, extra || {})] }));
+
+it('two different plain directories of one skill in one runner are a duplicate', () => {
+  const r = runner('hermes', [pl('foo', '/h/.hermes/skills', '/r/a'), pl('foo', '/h/.hermes/skills/x/nested', '/r/b')]);
+  assert.deepStrictEqual(kinds(item(r, 'foo')), ['duplicate:global']);
+  assert.strictEqual(r.skills[0].hints[0].runner, 'hermes');
+  assert.ok(/remove \/h\/\.hermes\/skills\/x\/nested\/foo/.test(r.evidence[0].commands.join('\n')), r.evidence[0].commands.join('\n'));
+});
+
+it('the same directory reached twice (a link) is one copy, no hint', () => {
+  const r = runner('pi', [pl('foo', '/h/.pi/agent/skills', '/r/a'), pl('foo', '/h/.agents/skills', '/r/a')]);
+  assert.deepStrictEqual(kinds(item(r, 'foo')), []);
+});
+
+it('copies without a resolved directory are not compared (Claude Code and Codex walkers)', () => {
+  const a = plain('foo'); const b = Object.assign(plain('foo'), { path: '/elsewhere/foo' });
+  const r = run([a, b], { routed: ['foo'] });
+  assert.deepStrictEqual(kinds(item(r, 'foo')), []);
+});
+
+it('Pi: two project roots with different copies are a project duplicate', () => {
+  const r = runner('pi', [pl('foo', '/p/.pi/skills', '/r/p1', 'project'), pl('foo', '/p/.agents/skills', '/r/p2', 'project')]);
+  assert.deepStrictEqual(kinds(item(r, 'foo', 'project')), ['duplicate:project']);
+});
+
+it('Pi: a project copy over a user copy shadows the global item', () => {
+  const r = runner('pi', [pl('foo', '/p/.pi/skills', '/r/p1', 'project'), pl('foo', '/h/.pi/agent/skills', '/r/u1')]);
+  assert.deepStrictEqual(kinds(item(r, 'foo')), ['shadowed:project']);
+  assert.deepStrictEqual(kinds(item(r, 'foo', 'project')), ['duplicate:global']);
+});
+
+it('hermesDisabled reads a block list, a flow list and a JSON-array string under skills only', () => {
+  const block = 'model: x\nskills:\n  creation_nudge_interval: 15\n  disabled:\n    - a\n    - "b"   # note\n\n    - \'c\'\n  external_dirs: []\ntools:\n  disabled:\n    - not-a-skill\n';
+  assert.deepStrictEqual([...A.hermesDisabled(block)], ['a', 'b', 'c']);
+  assert.deepStrictEqual([...A.hermesDisabled('skills:\n  disabled: [a, "b"]\n')], ['a', 'b']);
+  assert.deepStrictEqual([...A.hermesDisabled('skills:\n  disabled: \'["a", "b"]\'\n')], ['a', 'b']);
+  assert.deepStrictEqual([...A.hermesDisabled('skills:\n  disabled: solo\n')], ['solo']);
+});
+
+it('hermesDisabled: absent, malformed or not text hides nothing', () => {
+  assert.strictEqual(A.hermesDisabled('tools:\n  disabled:\n    - x\n').size, 0);
+  assert.strictEqual(A.hermesDisabled('skills:\n  disabled: [a, b\n').size, 0);
+  assert.strictEqual(A.hermesDisabled(null).size, 0);
+});
+
+it('frontmatterName: the front matter name, quoted or not; null without one', () => {
+  assert.strictEqual(A.frontmatterName('---\nname: "my-skill"\ndescription: x\n---\nbody'), 'my-skill');
+  assert.strictEqual(A.frontmatterName('﻿---\r\nname: plain\r\n---\r\n'), 'plain');
+  assert.strictEqual(A.frontmatterName('---\ndescription: no name\n---\n'), null);
+  assert.strictEqual(A.frontmatterName('# no front matter\nname: x'), null);
+  assert.strictEqual(A.frontmatterName(undefined), null);
+});
+
+// The walker half, on a throwaway tree (no HOME: every path is handed in).
+{
+  const fs = require('fs');
+  const os = require('os');
+  const path = require('path');
+  const W = require('../lib/cli-audit.js');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'skillsaudit-'));
+  const skill = (dir, fm) => { fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, 'SKILL.md'), fm || '---\ndescription: d\n---\n'); };
+  try {
+    const hh = path.join(tmp, 'hermes');
+    skill(path.join(hh, 'skills', 'alpha'));
+    skill(path.join(hh, 'skills', 'cat', 'beta'), '---\nname: beta-named\n---\n');
+    skill(path.join(hh, 'skills', 'alpha', 'references', 'inner'));        // support folder of a skill: not scanned
+    skill(path.join(hh, 'skills', 'alpha', 'plugins', 'p', 'alpha'));      // nested copy: scanned
+    skill(path.join(hh, 'skills', '.archive', 'old'));                     // pruned
+    skill(path.join(hh, 'skills', 'off'));
+    fs.writeFileSync(path.join(hh, 'config.yaml'), 'skills:\n  disabled:\n    - off\n');
+    fs.symlinkSync(path.join(hh, 'skills', 'cat'), path.join(hh, 'skills', 'loop'));  // the same folder again
+    it('hermesCopies walks as Hermes does: names, pruning, disabled, links', () => {
+      const got = W.hermesCopies(hh);
+      const names = got.copies.map((c) => c.name).sort();
+      assert.deepStrictEqual(names, ['alpha', 'alpha', 'beta-named']);
+      assert.strictEqual(got.disabled, 1);
+      const r = A.audit(Object.assign({}, base, { routed: ['alpha', 'beta-named'], runners: [{ id: 'hermes', profile: hh, copies: got.copies }] }));
+      assert.deepStrictEqual(kinds(item(r, 'alpha')), ['duplicate:global']);
+      assert.deepStrictEqual(kinds(item(r, 'beta-named')), []);
+    });
+
+    const home = path.join(tmp, 'home');
+    skill(path.join(home, '.pi', 'agent', 'skills', 'gamma'));
+    skill(path.join(home, '.agents', 'skills', 'gamma'));
+    skill(path.join(home, '.agents', 'skills', 'delta'));
+    const proj = path.join(tmp, 'proj');
+    fs.mkdirSync(path.join(proj, '.git'), { recursive: true });
+    skill(path.join(proj, '.pi', 'skills', 'delta'));
+    it('piCopies: user roots are global; an untrusted project loads no project copy', () => {
+      const env = { PI_CODING_AGENT_DIR: path.join(home, '.pi', 'agent') };
+      fs.writeFileSync(path.join(home, '.pi', 'agent', 'settings.json'), JSON.stringify({ defaultProjectTrust: 'never' }));
+      const got = W.piCopies(home, env, proj);
+      assert.deepStrictEqual(got.copies.map((c) => `${c.scope}:${c.name}`).sort(), ['global:delta', 'global:gamma', 'global:gamma']);
+      assert.ok(/not loaded \(Pi trust: untrusted/.test(got.note), got.note);
+    });
+    it('piCopies: a trusted project adds its copies, and the audit sees the shadow', () => {
+      const env = { PI_CODING_AGENT_DIR: path.join(home, '.pi', 'agent') };
+      fs.writeFileSync(path.join(home, '.pi', 'agent', 'settings.json'), JSON.stringify({ defaultProjectTrust: 'always' }));
+      const got = W.piCopies(home, env, proj);
+      assert.strictEqual(got.note, null);
+      const r = A.audit(Object.assign({}, base, { routed: ['gamma', 'delta'], runners: [{ id: 'pi', profile: env.PI_CODING_AGENT_DIR, copies: got.copies }] }));
+      assert.deepStrictEqual(kinds(item(r, 'gamma')), ['duplicate:global']);
+      assert.deepStrictEqual(kinds(item(r, 'delta')), ['shadowed:project']);
+      assert.deepStrictEqual(kinds(item(r, 'delta', 'project')), ['duplicate:global']);
+    });
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+}
+
 if (failures.length) {
   console.error(`FAIL: skillsaudit, ${failures.length} of ${checks}`);
   for (const f of failures) console.error(`  ${f}`);

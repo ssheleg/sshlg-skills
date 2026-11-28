@@ -8,7 +8,24 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-28 B-368 first cut: `audit skills` reads Claude Code and Codex, read-only
+## Current: 2026-11-28 B-368 second cut: `audit skills` reads Pi and Hermes too
+
+**Objective:** the previous entry's next step that does not wait on CI (a second Fabric board supervisor run for the
+refactor task, no person in the session). **Done:** Pi is read from its user roots and, with `--project` in a project Pi
+trusts, its project roots (`lib/pi.js` discovery and trust); Hermes from `<HERMES_HOME or ~/.hermes>/skills` walked as
+Hermes walks it, named by front matter, minus `skills.disabled` in its `config.yaml` (`hermesDisabled`). New rule: two
+different plain directories of one skill in one runner are a `duplicate` (only copies carrying `real` are compared, so
+Claude Code and Codex results are unchanged). [Second cut](evidence/specs/2026-11-26-st18-skills-audit-inventory.md#built-second-cut-pi-and-hermes-2026-11-28).
+**Decisions:** Hermes `external_dirs`, `create_dir`, plugin and project skills are not read and the runner's note says
+so (PS-1), rather than guessing their precedence. **Checks run:** `node test/skillsaudit_test.js` (32);
+`node bin/sshlg-skills.js audit skills --json` on the operator machine (claude-code, codex, pi, hermes read, none
+degraded; duplicate 8); the full `npm test` result is in the commit's receipt below. **Blocked (human gate, unchanged):**
+GitHub Actions is still locked over billing (run 46147269053 on `main`, 2026-11-28 12:58 UTC, not started); Fabric
+question da2f2e56. **Next task:** once the billing lock is lifted, mark PR #378 draft and ready again (one `validate`
+run) and squash-merge it when green; read the contract's answer to 1b589f2a (B-378, due 2026-12-03); B-364 when free
+disk is above 12 GB and no Codex process runs (14 GB free at 14:00 UTC today).
+
+## Previous: 2026-11-28 B-368 first cut: `audit skills` reads Claude Code and Codex, read-only
 
 **Objective:** the previous entry's next task (Fabric board supervisor run for the refactor task, no person in the
 session). **Done:** `npx sshlg-skills audit skills [--json] [--project <dir>] [--days 60] [--full]`: the pure decision
