@@ -1,0 +1,818 @@
+{
+  "description": "skill-digest/1 (DEC-0204, DEC-0206): the digest of a skill or plugin root, by the hub's route (its pinned entries) and the node's (the installed folder). Written by tools/vectors/skill-digest.ts; never edit by hand.",
+  "algorithm": "sha256: + hex SHA-256 of the UTF-8 RFC 8785 form of {files: [{path, sha256}]}; paths relative, '/', NFC, ordered by UTF-8 bytes; sha256 in the sha256: form; .git and __pycache__ segments and .DS_Store files excluded, and in a plugin's root the .in_use folder and the .orphaned_at file; a link to a file counts as its target's bytes, a dangling link or a link to a directory leaves the digest unknown",
+  "cases": [
+    {
+      "name": "a skill of one file",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:a612d4e855bb6c821b69f544125825f29f6385b74520fa5fd185cbbe57b052f7",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "a skill with a nested reference",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "references/notes.md",
+          "text": "notes\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:53e666f30d80021b402d0a6e0a5561bd506202781c93266edb5c23b4df2cab5a",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"references/notes.md\",\"sha256\":\"sha256:444e0fffbd825e9610ff5b199485707a0c895339ae80c15cc8a8aee41b106fda\"}]}"
+      }
+    },
+    {
+      "name": "a plugin with two skills",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "README.md",
+          "text": "# Demo plugin\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "skills/demo/references/notes.md",
+          "text": "notes\n"
+        },
+        {
+          "path": "skills/other/SKILL.md",
+          "text": "---\nname: other\n---\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:33097120acb36967995c313f44e481fbc2f1ca07f5b75c806ec928911b9f1164",
+        "canonical": "{\"files\":[{\"path\":\".claude-plugin/plugin.json\",\"sha256\":\"sha256:a9168273b6039cf703ac9b607ecd1680c16de1494b4cff5aaf88072e467a5242\"},{\"path\":\"README.md\",\"sha256\":\"sha256:67948424c023617d44aaacec37005833c5a195196f2807a9a21274e8f3bb4482\"},{\"path\":\"skills/demo/SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"skills/demo/references/notes.md\",\"sha256\":\"sha256:444e0fffbd825e9610ff5b199485707a0c895339ae80c15cc8a8aee41b106fda\"},{\"path\":\"skills/other/SKILL.md\",\"sha256\":\"sha256:92f1cb57fd990e6eaa92dd14e527eb6471f46fcc814a664f4829dc8f6f717408\"}]}"
+      }
+    },
+    {
+      "name": "a plugin's skill from the plugin's list: the entries under skills/demo, prefix removed, give the skill's own digest",
+      "kind": "skill",
+      "route": "entries",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "README.md",
+          "text": "# Demo plugin\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "skills/demo/references/notes.md",
+          "text": "notes\n"
+        },
+        {
+          "path": "skills/other/SKILL.md",
+          "text": "---\nname: other\n---\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:53e666f30d80021b402d0a6e0a5561bd506202781c93266edb5c23b4df2cab5a",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"references/notes.md\",\"sha256\":\"sha256:444e0fffbd825e9610ff5b199485707a0c895339ae80c15cc8a8aee41b106fda\"}]}"
+      },
+      "under": "skills/demo"
+    },
+    {
+      "name": "CRLF line endings are hashed as they are",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "hex": "2d2d2d0d0a6e616d653a2064656d6f0d0a2d2d2d0d0a"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:4615526b38a4c3d73f7c8d337c88b02c14de12745af777fb2731b36191052ebb",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:5ec9c24eef8a922bcc82efdd059ceeef851de6ca3043d7b424c756e2c41b691b\"}]}"
+      }
+    },
+    {
+      "name": "a byte-order mark is hashed as it is",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "hex": "efbbbf232044656d6f0a"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:eb1da0fd99b24a87671be80af5938711cd5581379b02a8dc4075f9c2a199edc1",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:9102bf4aa5d294ca7fbf69036ab7731067ef3c4b903af339cf0288609feb557e\"}]}"
+      }
+    },
+    {
+      "name": "an empty file is listed with the SHA-256 of no bytes",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "empty.txt",
+          "text": ""
+        }
+      ],
+      "expected": {
+        "digest": "sha256:73a82f03a80a9c8a15ad733567b3542ed95a20bcf6fee09d54b5e70e88831e1b",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"empty.txt\",\"sha256\":\"sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"}]}"
+      }
+    },
+    {
+      "name": "binary bytes",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "assets/icon.bin",
+          "hex": "00ff10fe7f80"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:6d94c98c6fb3b9f305cc6ae9df1ec97bc7d07b779ad6efbf0aeec1d67fb810af",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"assets/icon.bin\",\"sha256\":\"sha256:bf1e5769fa2ef4e1329ada1e67b3b1835e82247c58dee36a21d6ddac1ebb3ce0\"}]}"
+      }
+    },
+    {
+      "name": "UTF-8 byte order: an upper-case name sorts before a lower-case one",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "a.md",
+          "text": "a\n"
+        },
+        {
+          "path": "B.md",
+          "text": "b\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:8ec7d59ec73ca4fe182c1813bef74e6f2c4c463aac140ba7314230dd66ab6a46",
+        "canonical": "{\"files\":[{\"path\":\"B.md\",\"sha256\":\"sha256:0263829989b6fd954f72baaf2fc64bc2e2f01d692d4de72986ea808f6e99813f\"},{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"a.md\",\"sha256\":\"sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7\"}]}"
+      }
+    },
+    {
+      "name": "UTF-8 byte order, not UTF-16: U+FF5E sorts before U+1F600",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "x/😀.md",
+          "text": "smile\n"
+        },
+        {
+          "path": "x/～.md",
+          "text": "tilde\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:f717532b32927ec4ffe7b918d46a768b67822c714abfbd1c9147c0275bb6d770",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"x/～.md\",\"sha256\":\"sha256:2e5eb29909463e08e713d1d4d0ea9f31efb7eb634eccd7682132a847bdbc855c\"},{\"path\":\"x/😀.md\",\"sha256\":\"sha256:afdbe5c62eaa85fb1610acd334f294a746bbd9e361d6c336bceaf4e04edc8b3f\"}]}"
+      }
+    },
+    {
+      "name": "a path segment sorts by its bytes, not as a folder: 'a-b' (0x2d) before 'a/b' (0x2f)",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "a/b.md",
+          "text": "1\n"
+        },
+        {
+          "path": "a-b.md",
+          "text": "2\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:e758fe26252499637e074b5357cd1bbf8761dc0e134bd2d8b538bca1749387ed",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"a-b.md\",\"sha256\":\"sha256:53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3\"},{\"path\":\"a/b.md\",\"sha256\":\"sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865\"}]}"
+      }
+    },
+    {
+      "name": "a decomposed name is listed in NFC",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "résumé.md",
+          "text": "cv\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:0f164e139507e6ff94f8a4ed96be8a2fd47b9bb2bbbd0e19cb76f5fa7d9c94f0",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"résumé.md\",\"sha256\":\"sha256:07259e5b665022a574deff3afceba8412457ff55a43cfe0298c55e7cbcf0f1be\"}]}"
+      }
+    },
+    {
+      "name": "excluded: .git folders and files and .DS_Store at any depth; .github, .gitignore and x.DS_Store are kept",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": ".git/HEAD",
+          "text": "ref: refs/heads/main\n"
+        },
+        {
+          "path": ".DS_Store",
+          "hex": "00000001"
+        },
+        {
+          "path": "skills/demo/.DS_Store",
+          "hex": "00000001"
+        },
+        {
+          "path": "vendor/lib/.git",
+          "text": "gitdir: ../../.git/modules/lib\n"
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "text": "on: push\n"
+        },
+        {
+          "path": ".gitignore",
+          "text": "node_modules\n"
+        },
+        {
+          "path": "notes.DS_Store",
+          "text": "kept\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:506c8b923e37747cb8265a6545620a418a88c9239ca9e37d4fcf81b953424fad",
+        "canonical": "{\"files\":[{\"path\":\".claude-plugin/plugin.json\",\"sha256\":\"sha256:a9168273b6039cf703ac9b607ecd1680c16de1494b4cff5aaf88072e467a5242\"},{\"path\":\".github/workflows/ci.yml\",\"sha256\":\"sha256:b602f7ad4316adfd9f3e5ca998773702a5db1a1f1599a14516f40101665fb6d2\"},{\"path\":\".gitignore\",\"sha256\":\"sha256:16d30e4462189fb14dd611bdb708c510630c576a1f35b9383e89a4352da36c97\"},{\"path\":\"notes.DS_Store\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"}]}"
+      }
+    },
+    {
+      "name": "a folder named .DS_Store is not a .DS_Store file: its files are listed",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": ".DS_Store/kept.md",
+          "text": "kept\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:408ec0ddb04a83461055c8c49d5bd1f8b95ce248d98366a1e165208be5c803c8",
+        "canonical": "{\"files\":[{\"path\":\".DS_Store/kept.md\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "excluded (DEC-0206): __pycache__ folders at any depth, in a plugin; a .pyc outside one and a name holding __pycache__ are kept",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "skills/demo/scripts/run.py",
+          "text": "print('x')\n"
+        },
+        {
+          "path": "skills/demo/scripts/__pycache__/run.cpython-313.pyc",
+          "hex": "f30d0d0a00000000"
+        },
+        {
+          "path": "hooks/__pycache__/hook.cpython-312.pyc",
+          "hex": "cb0d0d0a00000000"
+        },
+        {
+          "path": "legacy/old.pyc",
+          "hex": "03f30d0a"
+        },
+        {
+          "path": "docs/__pycache__.md",
+          "text": "kept\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:766c4f44e227a3545fd5b6b6b1242bcb663326fd1506a6f9e4b306753debf4cc",
+        "canonical": "{\"files\":[{\"path\":\".claude-plugin/plugin.json\",\"sha256\":\"sha256:a9168273b6039cf703ac9b607ecd1680c16de1494b4cff5aaf88072e467a5242\"},{\"path\":\"docs/__pycache__.md\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"legacy/old.pyc\",\"sha256\":\"sha256:263fd1947f76a014dccfc5a48361f56fc3b3ecf31d7a25f3900fbba5cae67972\"},{\"path\":\"skills/demo/SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"skills/demo/scripts/run.py\",\"sha256\":\"sha256:96dd2db88b7dc8e28cabe68d8e766dde83570e8050ca995a1af38b609cec8395\"}]}"
+      }
+    },
+    {
+      "name": "excluded (DEC-0206): __pycache__ in a skill too",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "scripts/__pycache__/a.cpython-313.pyc",
+          "hex": "f30d0d0a"
+        },
+        {
+          "path": "scripts/a.py",
+          "text": "a = 1\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:5379531864c3eb273b1167234365816b7edf624a4cffdb8ee6eeb36d15586bd7",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"scripts/a.py\",\"sha256\":\"sha256:cb78bd8a17f7b751fe0d4663366dcbc257204033ef7ddd64b1f2969573b5b2e2\"}]}"
+      }
+    },
+    {
+      "name": "excluded (DEC-0206): a plugin root's .in_use folder (one file per process) and its .orphaned_at file",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": ".in_use/41213",
+          "text": ""
+        },
+        {
+          "path": ".in_use/77001",
+          "text": ""
+        },
+        {
+          "path": ".orphaned_at",
+          "text": "1764340000000"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:b2781c51697f61039710bb31add2c619d2e80dae32d2b06c0f1bc15f39ba1b4a",
+        "canonical": "{\"files\":[{\"path\":\".claude-plugin/plugin.json\",\"sha256\":\"sha256:a9168273b6039cf703ac9b607ecd1680c16de1494b4cff5aaf88072e467a5242\"},{\"path\":\"skills/demo/SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "kept (DEC-0206): .in_use and .orphaned_at below a plugin's root, a file named .in_use and a folder named .orphaned_at at its root",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "skills/demo/.in_use/1",
+          "text": "kept\n"
+        },
+        {
+          "path": "skills/demo/.orphaned_at",
+          "text": "kept\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": ".in_use",
+          "text": "a file, kept\n"
+        },
+        {
+          "path": ".orphaned_at/x",
+          "text": "kept\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:1ea45e021555dfedb0f9b655f7add55630ac9fd13edbedfbd5f5e6cfa00488c1",
+        "canonical": "{\"files\":[{\"path\":\".claude-plugin/plugin.json\",\"sha256\":\"sha256:a9168273b6039cf703ac9b607ecd1680c16de1494b4cff5aaf88072e467a5242\"},{\"path\":\".in_use\",\"sha256\":\"sha256:617474f37ea008da7114789c351c62a8d8a0ea79d2045922d534f76306b7bf8d\"},{\"path\":\".orphaned_at/x\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"skills/demo/.in_use/1\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"skills/demo/.orphaned_at\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"skills/demo/SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "kept (DEC-0206): a skill's own .in_use folder and .orphaned_at file are its files (the exclusion is a plugin root's)",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": ".in_use/1",
+          "text": "kept\n"
+        },
+        {
+          "path": ".orphaned_at",
+          "text": "kept\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:81aaf690242da34fcfacf8361c84f2a35ae58377796a10229ad8c3ed3d49d048",
+        "canonical": "{\"files\":[{\"path\":\".in_use/1\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\".orphaned_at\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "a plugin's skill from the plugin's installed list: .in_use, .orphaned_at and __pycache__ dropped, the skill's digest unchanged",
+      "kind": "skill",
+      "route": "entries",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "README.md",
+          "text": "# Demo plugin\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "skills/demo/references/notes.md",
+          "text": "notes\n"
+        },
+        {
+          "path": "skills/other/SKILL.md",
+          "text": "---\nname: other\n---\n"
+        },
+        {
+          "path": ".in_use/5",
+          "text": ""
+        },
+        {
+          "path": ".orphaned_at",
+          "text": "1"
+        },
+        {
+          "path": "skills/demo/__pycache__/x.pyc",
+          "hex": "00"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:53e666f30d80021b402d0a6e0a5561bd506202781c93266edb5c23b4df2cab5a",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"references/notes.md\",\"sha256\":\"sha256:444e0fffbd825e9610ff5b199485707a0c895339ae80c15cc8a8aee41b106fda\"}]}"
+      },
+      "under": "skills/demo"
+    },
+    {
+      "name": "a link to a file in the root counts as the target's bytes under the link's own path; the target is listed too",
+      "kind": "skill",
+      "route": "folder",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "shared.md",
+          "text": "shared\n"
+        },
+        {
+          "path": "alias.md",
+          "link": "shared.md"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:3e31d8f1c79dff99735b86264455bf790572e40d24cf83ba7fbf2b5e6bed5b38",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"alias.md\",\"sha256\":\"sha256:cf99975aa7995fad86fae7f3b0905143f30a52501944dff26002afc99c3b8419\"},{\"path\":\"shared.md\",\"sha256\":\"sha256:cf99975aa7995fad86fae7f3b0905143f30a52501944dff26002afc99c3b8419\"}]}"
+      }
+    },
+    {
+      "name": "a link to a file outside the root counts as the target's bytes",
+      "kind": "skill",
+      "route": "folder",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "LICENSE",
+          "link": "../LICENSE"
+        }
+      ],
+      "outside": [
+        {
+          "path": "LICENSE",
+          "text": "MIT\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:2e293c9f6fb71ead0585c9837c5c19a838d06a259924660e3977fe30b8d85a3f",
+        "canonical": "{\"files\":[{\"path\":\"LICENSE\",\"sha256\":\"sha256:adc37366f403835c1470ab2df93d3837d4719372fc1ef8593d922e06f033f8b2\"},{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "the root itself reached through a link",
+      "kind": "skill",
+      "route": "folder",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:a612d4e855bb6c821b69f544125825f29f6385b74520fa5fd185cbbe57b052f7",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      },
+      "rootLink": true
+    },
+    {
+      "name": "a link that leads nowhere: unknown, never the digest of what is left",
+      "kind": "skill",
+      "route": "folder",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "gone.md",
+          "link": "missing.md"
+        }
+      ],
+      "expected": {
+        "unknown": "dangling-link",
+        "path": "gone.md"
+      }
+    },
+    {
+      "name": "a link to a folder: unknown, never followed",
+      "kind": "skill",
+      "route": "folder",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "real/a.md",
+          "text": "a\n"
+        },
+        {
+          "path": "alias",
+          "link": "real"
+        }
+      ],
+      "expected": {
+        "unknown": "link-to-folder",
+        "path": "alias"
+      }
+    },
+    {
+      "name": "a skill without SKILL.md",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "README.md",
+          "text": "x\n"
+        }
+      ],
+      "expected": {
+        "unknown": "no-marker",
+        "path": "SKILL.md"
+      }
+    },
+    {
+      "name": "a plugin without .claude-plugin/plugin.json",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        }
+      ],
+      "expected": {
+        "unknown": "no-marker",
+        "path": ".claude-plugin/plugin.json"
+      }
+    },
+    {
+      "name": "an empty root",
+      "kind": "skill",
+      "route": "both",
+      "files": [],
+      "expected": {
+        "unknown": "no-marker",
+        "path": "SKILL.md"
+      }
+    },
+    {
+      "name": "a marker only inside .git does not count",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": ".git/SKILL.md",
+          "text": "x\n"
+        }
+      ],
+      "expected": {
+        "unknown": "no-marker",
+        "path": "SKILL.md"
+      }
+    },
+    {
+      "name": "two entries one path after NFC",
+      "kind": "skill",
+      "route": "entries",
+      "entries": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "path": "café.md",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "path": "café.md",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "expected": {
+        "unknown": "path-duplicate",
+        "path": "café.md"
+      }
+    },
+    {
+      "name": "an absolute path",
+      "kind": "skill",
+      "route": "entries",
+      "entries": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "path": "/etc/x",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "expected": {
+        "unknown": "path-invalid",
+        "path": "/etc/x"
+      }
+    },
+    {
+      "name": "a .. segment",
+      "kind": "skill",
+      "route": "entries",
+      "entries": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "path": "a/../b",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "expected": {
+        "unknown": "path-invalid",
+        "path": "a/../b"
+      }
+    },
+    {
+      "name": "an empty segment",
+      "kind": "skill",
+      "route": "entries",
+      "entries": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "path": "a//b",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "expected": {
+        "unknown": "path-invalid",
+        "path": "a//b"
+      }
+    },
+    {
+      "name": "a backslash",
+      "kind": "skill",
+      "route": "entries",
+      "entries": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "path": "a\\b",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "expected": {
+        "unknown": "path-invalid",
+        "path": "a\\b"
+      }
+    },
+    {
+      "name": "a bare hex sha256, without the sha256: prefix",
+      "kind": "skill",
+      "route": "entries",
+      "entries": [
+        {
+          "path": "SKILL.md",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "expected": {
+        "unknown": "input-invalid"
+      }
+    },
+    {
+      "name": "an upper-case sha256",
+      "kind": "skill",
+      "route": "entries",
+      "entries": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      ],
+      "expected": {
+        "unknown": "input-invalid"
+      }
+    },
+    {
+      "name": "a kind the function does not know",
+      "kind": "agent",
+      "route": "entries",
+      "entries": [
+        {
+          "path": "SKILL.md",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "expected": {
+        "unknown": "input-invalid"
+      }
+    }
+  ]
+}

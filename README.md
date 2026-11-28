@@ -1218,6 +1218,9 @@ npx sshlg-skills signature --used "<skill>=<what it did>,…"
                              # a report's one-line header and short footer: every
                              # address looked up from the manifest, never typed
 npx sshlg-skills enroll      # this repository's routes, written into its own CLAUDE.md
+npx sshlg-skills digest      # skill-digest/1 (fabric-agent-contract DEC-0204) of each pinned
+                             # member and each of its skills, read from claude-plugin-pins.json;
+                             # the digest a device baseline names; --json, or one member by name
 npx sshlg-skills rules --help   # any command's usage (also -h, or help <command>);
                                 # prints only: no backup, no install, no network
 npx sshlg-skills --version   # the package version (also -v)

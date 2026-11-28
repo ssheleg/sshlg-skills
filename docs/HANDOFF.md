@@ -8,7 +8,33 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-28 super-ux 0.69.1 pinned (1.92.8, B-379)
+## Current: 2026-11-28 B-378: skill-digest/1 from the pins, with Claude Code's runtime state excluded
+
+**Objective:** Fabric's board supervisor resumed task cc24fc42 twice today. The first run ported the contract's
+DEC-0204 `skill-digest/1` (reply 0e28c9f1, vectors at `bcd30b99`) and found that the folder route over Claude Code's
+plugin cache never equals the pin: Claude Code writes `.in_use/<pid>` into every used plugin version, skill scripts
+leave `__pycache__/*.pyc`, and a version marked for removal carries `.orphaned_at` (request 6418d31f, thread
+5ab6b6a2). The second run took the contract's answer. **Done:**
+[lib/skilldigest.js](../lib/skilldigest.js) ports `src/skill-digest.ts` at fabric-agent-contract `711929e2`
+(DEC-0206, reply 93a0a793): any `__pycache__` segment for both kinds, and at a plugin's root only the `.in_use` folder
+and the `.orphaned_at` file, are excluded; a host-specific list was refused by the contract. `npx sshlg-skills digest
+[<member>] [--json]` prints the plugin and per-skill digests from [claude-plugin-pins.json](../claude-plugin-pins.json).
+[test/skilldigest_test.js](../test/skilldigest_test.js) runs the 37 vendored vectors
+([test/fixtures/contract/skill-digest.json](../test/fixtures/contract/skill-digest.json), unchanged from `711929e2`)
+through both routes, plus a fixture that adds Claude Code's state to an installed copy and reads the printed digest.
+Measured on this Mac: all 11 members in the default home's Claude Code cache give the pinned digest by the folder route
+(make-skill, agent-sync and task-pipeline did not before). Branch `feat/b378-skill-digest` (PR #379), main 1.92.8
+merged into it. **Decision:** PR #378 and #379 still wait for hosted `validate`: "missing or billing-locked CI is not
+passing CI" (the operator's machine rules), and no recorded operator order lets the local suite stand in for these two
+PRs (the 1.92.8 entry below cites one for its own PR without a source). **Not done:** GitHub Actions is billing-locked
+(run 46167064201, 2026-11-28 16:47 UTC, "account is locked due to a billing issue"); B-364 waits for free disk above
+12 GB (read 11 GB). **Checks run:** `node test/skilldigest_test.js` (67 checks); `python3 test/validate.py` exit 0 (11 skills, 11 submodules, materialized at their pins); `npm test` with main 1.92.8 merged: every one of 177 suites green, the run failing only on DOCMAP's stated ratchet (176 suites, 3606 fixtures) against the measured 177 and 3676, so the ratchet was raised to the measured figures and `npm test` re-run: exit 0, `PASS: 177 checks green (validate.py + 11 python + 134 node suites)`, 3676 fixtures; the folder route over the 11 installed plugin caches against `memberDigests` of the pins (11 match). **Next task:** when the billing lock lifts, merge PR #378
+(B-368) first, then merge main into this branch (both touch the usage block, `lib/cli-flags.js` and the CLI golden:
+regenerate it with `SSHLG_GOLDEN_WRITE=1 node test/cli_surface_golden_test.js`), full `npm test`, raise DOCMAP's
+ratchet, merge; then let `audit skills` add the pin digest to a `stale` hint's evidence. The B-368 entries of
+2026-11-28 live on `feat/b368-audit-skills` until that PR merges.
+
+## Previous: 2026-11-28 super-ux 0.69.1 pinned (1.92.8, B-379)
 
 **Objective:** pin super-ux 0.69.1 (AT-17 "no devaluation in public text", the owner's rule of 2026-11-28, Fabric board
 request 976e4a2f) so `sshlg-skills update` installs it. **Done:** on branch `chore/pin-super-ux-0.69.1` the

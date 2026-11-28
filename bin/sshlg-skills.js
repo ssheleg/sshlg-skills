@@ -35,7 +35,7 @@ const { cmdEnroll } = require('../lib/cli-enroll.js');
 const { cmdHooks } = require('../lib/cli-hooks.js');
 const { cmdHosts } = require('../lib/cli-hosts.js');
 const {
-  cmdAgents, cmdConflicts, cmdContext, cmdHumanizers, cmdInjectors, cmdList, cmdMaterialised,
+  cmdAgents, cmdConflicts, cmdContext, cmdDigest, cmdHumanizers, cmdInjectors, cmdList, cmdMaterialised,
   cmdPack, cmdSettings, cmdSignature, cmdToolkit
 } = require('../lib/cli-info.js');
 const {
@@ -164,6 +164,8 @@ Usage:
   npx sshlg-skills pack [<name>] [--lane <id>] [--check]
                                                       # curated recommendations, measured here
   npx sshlg-skills materialised                       # routers this project says live in its tree
+  npx sshlg-skills digest [<member>] [--json]         # skill-digest/1 of each pinned member and its skills
+                                                      # (DEC-0204), read from the pins; no network
   npx sshlg-skills enroll [--root DIR] [--dry-run] [--json] [--surface public-web|app-text|internal]
                                                       # this repository's routes: SSHLG:PROJECT block in its
                                                       # CLAUDE.md/AGENTS.md, routers.json for existing material
@@ -298,6 +300,7 @@ function main(argv) {
   if (cmd === 'domains') return runDomainsLocked(argv);
   if (cmd === 'pack' || cmd === 'packs') { return cmdPack(argv); }
   if (cmd === 'materialised' || cmd === 'materialized') { return cmdMaterialised(argv); }
+  if (cmd === 'digest') { return cmdDigest(argv); }
   if (cmd === 'enroll') { return cmdEnroll(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }
   if (cmd === 'humanizers') { return cmdHumanizers(argv); }
