@@ -4,8 +4,8 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "e10cb7ac56ad1f6e4bcf50235640f9f5ffc330f2",
-      "version": "0.68.0",
+      "commit": "ad65da1842c9faa04dfc9083cfe1abe911630254",
+      "version": "0.69.1",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
       "entry": {
@@ -13,7 +13,7 @@
         "displayName": "Super UX",
         "source": "./plugins/super-ux",
         "description": "Scenario-driven UI development: a versioned design chain in docs/ux/ that runs product vision -> personas, JTBD, journeys and stories -> user flows -> a screens+states UI map with Figma frames -> traced use-case scenarios -> evidence-backed audits -> concrete fix plans. Skills: vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting. /ux is the single plain-language entry point and reaches every skill; a stdlib linter fails on doc drift; a tag-indexed best-practices catalog, PRN heuristics and component guidelines guide design; one style pack (via the sheleg-design companion) locks the visual identity.",
-        "version": "0.68.0",
+        "version": "0.69.1",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -40,7 +40,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "6d47a37eae2e0819ba1e660c55f747ab84c33e66b791113fdd5633a4bbe11f8f",
+          "sha256": "ee3eea34fb00644273c9750847292ef097ec154a94b45db03bae8d465a518296",
           "bytes": 1202
         },
         {
@@ -140,8 +140,8 @@
         },
         {
           "path": "skills/brand-voice/references/ai-tells.md",
-          "sha256": "801a7b003150874dfc78415fe79646e928fa126e56e4ab63f966fe149d968afb",
-          "bytes": 21117
+          "sha256": "64122891f423b7aebbb3a3946b7d97e25d2fd0e680c0ef1b07338e773c45e856",
+          "bytes": 26283
         },
         {
           "path": "skills/brand-voice/references/brand-contract.md",
@@ -250,8 +250,8 @@
         },
         {
           "path": "skills/copywriting/references/ai-tells.md",
-          "sha256": "801a7b003150874dfc78415fe79646e928fa126e56e4ab63f966fe149d968afb",
-          "bytes": 21117
+          "sha256": "64122891f423b7aebbb3a3946b7d97e25d2fd0e680c0ef1b07338e773c45e856",
+          "bytes": 26283
         },
         {
           "path": "skills/copywriting/references/brand-contract.md",
@@ -325,8 +325,8 @@
         },
         {
           "path": "skills/copywriting/SKILL.md",
-          "sha256": "66231b06d31b6c4d70f92234a16b4f55f0e63dbb609140b0e58619a48ea6f717",
-          "bytes": 15497
+          "sha256": "25fc1cbb5d3b2d78480b366eae4da23003b00daffc177b0abc625781fde6fd26",
+          "bytes": 16061
         },
         {
           "path": "skills/copywriting/templates/brand/copy-brief.md",
@@ -335,8 +335,8 @@
         },
         {
           "path": "skills/references/ai-tells.md",
-          "sha256": "801a7b003150874dfc78415fe79646e928fa126e56e4ab63f966fe149d968afb",
-          "bytes": 21117
+          "sha256": "64122891f423b7aebbb3a3946b7d97e25d2fd0e680c0ef1b07338e773c45e856",
+          "bytes": 26283
         },
         {
           "path": "skills/references/audit-depth.md",
@@ -520,8 +520,8 @@
         },
         {
           "path": "skills/ux-audit/references/ai-tells.md",
-          "sha256": "801a7b003150874dfc78415fe79646e928fa126e56e4ab63f966fe149d968afb",
-          "bytes": 21117
+          "sha256": "64122891f423b7aebbb3a3946b7d97e25d2fd0e680c0ef1b07338e773c45e856",
+          "bytes": 26283
         },
         {
           "path": "skills/ux-audit/references/audit-depth.md",

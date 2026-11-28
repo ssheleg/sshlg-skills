@@ -12,14 +12,14 @@
   ],
   "run": {
     "host_platform": "darwin",
-    "node": "v26.10.0"
+    "node": "v26.12.0"
   },
   "scenarios": {
     "member_count": 11,
     "upgraded_member": "agent-stack",
     "clean_install": {
-      "expected": "f48307917e78f1740fac52f51b7aa24196860cf3688002d3591d53e7ddb30b92",
-      "installed": "f48307917e78f1740fac52f51b7aa24196860cf3688002d3591d53e7ddb30b92",
+      "expected": "38c836de4bbebf16cf1cb38157fa45ef0e224baad176a70ea110e20a23939221",
+      "installed": "38c836de4bbebf16cf1cb38157fa45ef0e224baad176a70ea110e20a23939221",
       "active": "current",
       "channels": {
         "claude": "current",
@@ -28,8 +28,8 @@
       }
     },
     "upgrade": {
-      "expected": "a8d47728e4031e99160e688fb5000113bb9a6a3e8f4e18e83583935863304450",
-      "installed": "a8d47728e4031e99160e688fb5000113bb9a6a3e8f4e18e83583935863304450",
+      "expected": "2e1611aa1159569bbfb6c54f72dd95bc6890ff7f9c4b6cd78dbed948bd8fc97a",
+      "installed": "2e1611aa1159569bbfb6c54f72dd95bc6890ff7f9c4b6cd78dbed948bd8fc97a",
       "active": "current",
       "channels": {
         "claude": "current",
@@ -38,8 +38,8 @@
       }
     },
     "faulted_upgrade": {
-      "expected": "a8d47728e4031e99160e688fb5000113bb9a6a3e8f4e18e83583935863304450",
-      "installed": "f48307917e78f1740fac52f51b7aa24196860cf3688002d3591d53e7ddb30b92",
+      "expected": "2e1611aa1159569bbfb6c54f72dd95bc6890ff7f9c4b6cd78dbed948bd8fc97a",
+      "installed": "38c836de4bbebf16cf1cb38157fa45ef0e224baad176a70ea110e20a23939221",
       "active": "stale",
       "channels": {
         "claude": "stale",
@@ -48,8 +48,8 @@
       }
     },
     "recovery": {
-      "expected": "f48307917e78f1740fac52f51b7aa24196860cf3688002d3591d53e7ddb30b92",
-      "installed": "f48307917e78f1740fac52f51b7aa24196860cf3688002d3591d53e7ddb30b92",
+      "expected": "38c836de4bbebf16cf1cb38157fa45ef0e224baad176a70ea110e20a23939221",
+      "installed": "38c836de4bbebf16cf1cb38157fa45ef0e224baad176a70ea110e20a23939221",
       "active": "current",
       "channels": {
         "claude": "current",
