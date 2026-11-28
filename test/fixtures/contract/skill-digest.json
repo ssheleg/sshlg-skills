@@ -1,6 +1,6 @@
 {
-  "description": "skill-digest/1 (DEC-0204): the digest of a skill or plugin root, by the hub's route (its pinned entries) and the node's (the installed folder). Written by tools/vectors/skill-digest.ts; never edit by hand.",
-  "algorithm": "sha256: + hex SHA-256 of the UTF-8 RFC 8785 form of {files: [{path, sha256}]}; paths relative, '/', NFC, ordered by UTF-8 bytes; sha256 in the sha256: form; .git segments and .DS_Store files excluded; a link to a file counts as its target's bytes, a dangling link or a link to a directory leaves the digest unknown",
+  "description": "skill-digest/1 (DEC-0204, DEC-0206): the digest of a skill or plugin root, by the hub's route (its pinned entries) and the node's (the installed folder). Written by tools/vectors/skill-digest.ts; never edit by hand.",
+  "algorithm": "sha256: + hex SHA-256 of the UTF-8 RFC 8785 form of {files: [{path, sha256}]}; paths relative, '/', NFC, ordered by UTF-8 bytes; sha256 in the sha256: form; .git and __pycache__ segments and .DS_Store files excluded, and in a plugin's root the .in_use folder and the .orphaned_at file; a link to a file counts as its target's bytes, a dangling link or a link to a directory leaves the digest unknown",
   "cases": [
     {
       "name": "a skill of one file",
@@ -316,6 +316,201 @@
         "digest": "sha256:408ec0ddb04a83461055c8c49d5bd1f8b95ce248d98366a1e165208be5c803c8",
         "canonical": "{\"files\":[{\"path\":\".DS_Store/kept.md\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
       }
+    },
+    {
+      "name": "excluded (DEC-0206): __pycache__ folders at any depth, in a plugin; a .pyc outside one and a name holding __pycache__ are kept",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "skills/demo/scripts/run.py",
+          "text": "print('x')\n"
+        },
+        {
+          "path": "skills/demo/scripts/__pycache__/run.cpython-313.pyc",
+          "hex": "f30d0d0a00000000"
+        },
+        {
+          "path": "hooks/__pycache__/hook.cpython-312.pyc",
+          "hex": "cb0d0d0a00000000"
+        },
+        {
+          "path": "legacy/old.pyc",
+          "hex": "03f30d0a"
+        },
+        {
+          "path": "docs/__pycache__.md",
+          "text": "kept\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:766c4f44e227a3545fd5b6b6b1242bcb663326fd1506a6f9e4b306753debf4cc",
+        "canonical": "{\"files\":[{\"path\":\".claude-plugin/plugin.json\",\"sha256\":\"sha256:a9168273b6039cf703ac9b607ecd1680c16de1494b4cff5aaf88072e467a5242\"},{\"path\":\"docs/__pycache__.md\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"legacy/old.pyc\",\"sha256\":\"sha256:263fd1947f76a014dccfc5a48361f56fc3b3ecf31d7a25f3900fbba5cae67972\"},{\"path\":\"skills/demo/SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"skills/demo/scripts/run.py\",\"sha256\":\"sha256:96dd2db88b7dc8e28cabe68d8e766dde83570e8050ca995a1af38b609cec8395\"}]}"
+      }
+    },
+    {
+      "name": "excluded (DEC-0206): __pycache__ in a skill too",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "scripts/__pycache__/a.cpython-313.pyc",
+          "hex": "f30d0d0a"
+        },
+        {
+          "path": "scripts/a.py",
+          "text": "a = 1\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:5379531864c3eb273b1167234365816b7edf624a4cffdb8ee6eeb36d15586bd7",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"scripts/a.py\",\"sha256\":\"sha256:cb78bd8a17f7b751fe0d4663366dcbc257204033ef7ddd64b1f2969573b5b2e2\"}]}"
+      }
+    },
+    {
+      "name": "excluded (DEC-0206): a plugin root's .in_use folder (one file per process) and its .orphaned_at file",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": ".in_use/41213",
+          "text": ""
+        },
+        {
+          "path": ".in_use/77001",
+          "text": ""
+        },
+        {
+          "path": ".orphaned_at",
+          "text": "1764340000000"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:b2781c51697f61039710bb31add2c619d2e80dae32d2b06c0f1bc15f39ba1b4a",
+        "canonical": "{\"files\":[{\"path\":\".claude-plugin/plugin.json\",\"sha256\":\"sha256:a9168273b6039cf703ac9b607ecd1680c16de1494b4cff5aaf88072e467a5242\"},{\"path\":\"skills/demo/SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "kept (DEC-0206): .in_use and .orphaned_at below a plugin's root, a file named .in_use and a folder named .orphaned_at at its root",
+      "kind": "plugin",
+      "route": "both",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "skills/demo/.in_use/1",
+          "text": "kept\n"
+        },
+        {
+          "path": "skills/demo/.orphaned_at",
+          "text": "kept\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": ".in_use",
+          "text": "a file, kept\n"
+        },
+        {
+          "path": ".orphaned_at/x",
+          "text": "kept\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:1ea45e021555dfedb0f9b655f7add55630ac9fd13edbedfbd5f5e6cfa00488c1",
+        "canonical": "{\"files\":[{\"path\":\".claude-plugin/plugin.json\",\"sha256\":\"sha256:a9168273b6039cf703ac9b607ecd1680c16de1494b4cff5aaf88072e467a5242\"},{\"path\":\".in_use\",\"sha256\":\"sha256:617474f37ea008da7114789c351c62a8d8a0ea79d2045922d534f76306b7bf8d\"},{\"path\":\".orphaned_at/x\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"skills/demo/.in_use/1\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"skills/demo/.orphaned_at\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"skills/demo/SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "kept (DEC-0206): a skill's own .in_use folder and .orphaned_at file are its files (the exclusion is a plugin root's)",
+      "kind": "skill",
+      "route": "both",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": ".in_use/1",
+          "text": "kept\n"
+        },
+        {
+          "path": ".orphaned_at",
+          "text": "kept\n"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:81aaf690242da34fcfacf8361c84f2a35ae58377796a10229ad8c3ed3d49d048",
+        "canonical": "{\"files\":[{\"path\":\".in_use/1\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\".orphaned_at\",\"sha256\":\"sha256:78051faade059d70866df6a3fb83ef348721fd74a87e93ef95c493f87d0d236b\"},{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"}]}"
+      }
+    },
+    {
+      "name": "a plugin's skill from the plugin's installed list: .in_use, .orphaned_at and __pycache__ dropped, the skill's digest unchanged",
+      "kind": "skill",
+      "route": "entries",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "text": "{\"name\":\"demo-plugin\",\"version\":\"1.0.0\"}\n"
+        },
+        {
+          "path": "README.md",
+          "text": "# Demo plugin\n"
+        },
+        {
+          "path": "skills/demo/SKILL.md",
+          "text": "---\nname: demo\ndescription: A demo skill.\n---\n\n# Demo\n"
+        },
+        {
+          "path": "skills/demo/references/notes.md",
+          "text": "notes\n"
+        },
+        {
+          "path": "skills/other/SKILL.md",
+          "text": "---\nname: other\n---\n"
+        },
+        {
+          "path": ".in_use/5",
+          "text": ""
+        },
+        {
+          "path": ".orphaned_at",
+          "text": "1"
+        },
+        {
+          "path": "skills/demo/__pycache__/x.pyc",
+          "hex": "00"
+        }
+      ],
+      "expected": {
+        "digest": "sha256:53e666f30d80021b402d0a6e0a5561bd506202781c93266edb5c23b4df2cab5a",
+        "canonical": "{\"files\":[{\"path\":\"SKILL.md\",\"sha256\":\"sha256:cb96c3017fd9c69e7a91d450aeb1dc167b18fa7f2bd96387a9d3cf9769643969\"},{\"path\":\"references/notes.md\",\"sha256\":\"sha256:444e0fffbd825e9610ff5b199485707a0c895339ae80c15cc8a8aee41b106fda\"}]}"
+      },
+      "under": "skills/demo"
     },
     {
       "name": "a link to a file in the root counts as the target's bytes under the link's own path; the target is listed too",

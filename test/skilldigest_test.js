@@ -2,7 +2,7 @@
 'use strict';
 require('./tmproot.js').isolate(); // B-350: no inherited host config root reaches this suite or its children
 // Fixtures for lib/skilldigest.js (B-378): the contract's `skill-digest/1` vectors
-// (fabric-agent-contract DEC-0204, `fixtures/vectors/skill-digest.json` at bcd30b99, vendored
+// (fabric-agent-contract DEC-0204 and DEC-0206, `fixtures/vectors/skill-digest.json` at 711929e2, vendored
 // unchanged in test/fixtures/contract/skill-digest.json) through the hub's route (entries) and
 // a node's (folder), then the hub's own pins.
 //
@@ -51,8 +51,8 @@ function same(actual, expected) {
   }
 }
 
-it('the vendored vectors are the 31 cases DEC-0204 published', () => {
-  assert.strictEqual(VECTORS.cases.length, 31);
+it('the vendored vectors are the 37 cases DEC-0204 and DEC-0206 published', () => {
+  assert.strictEqual(VECTORS.cases.length, 37);
   assert.ok(VECTORS.cases.every((c) => ['both', 'entries', 'folder'].includes(c.route)));
 });
 
@@ -143,6 +143,37 @@ it('a pinned member installed byte for byte gives the printed digest (both route
   const printed = D.memberDigests({ name: 'demo', version: '1.0.0', commit: 'x', files });
   assert.strictEqual(printed.plugin.digest, D.skillDigestOfFolder('plugin', base).digest);
   assert.strictEqual(printed.skills[0].digest, D.skillDigestOfFolder('skill', path.join(base, 'skills', 'demo')).digest);
+});
+
+it('Claude Code runtime state in an installed copy leaves the printed digest unchanged (DEC-0206)', () => {
+  // Measured 2026-11-28 (request 6418d31f): a cached plugin version carries .in_use/<pid> files at
+  // its root and __pycache__/*.pyc next to the scripts its hooks ran; .orphaned_at marks a version
+  // to remove. None of them is the plugin's content.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-skilldigest-cc-'));
+  const tree = {
+    '.claude-plugin/plugin.json': '{"name":"demo","version":"1.0.0"}\n',
+    'skills/demo/SKILL.md': '---\nname: demo\n---\n',
+    'skills/demo/scripts/run.py': 'print(1)\n',
+  };
+  const files = [];
+  for (const [rel, text] of Object.entries(tree)) {
+    const at = path.join(base, ...rel.split('/'));
+    fs.mkdirSync(path.dirname(at), { recursive: true });
+    fs.writeFileSync(at, text);
+    files.push({ path: rel, sha256: crypto.createHash('sha256').update(text).digest('hex'), bytes: Buffer.byteLength(text) });
+  }
+  const printed = D.memberDigests({ name: 'demo', version: '1.0.0', commit: 'x', files });
+  fs.mkdirSync(path.join(base, '.in_use'));
+  fs.writeFileSync(path.join(base, '.in_use', '4242'), '');
+  fs.writeFileSync(path.join(base, '.orphaned_at'), '1764340000000');
+  fs.mkdirSync(path.join(base, 'skills', 'demo', 'scripts', '__pycache__'));
+  fs.writeFileSync(path.join(base, 'skills', 'demo', 'scripts', '__pycache__', 'run.cpython-312.pyc'), Buffer.from([0x0d, 0x0d]));
+  assert.strictEqual(D.skillDigestOfFolder('plugin', base).digest, printed.plugin.digest);
+  assert.strictEqual(D.skillDigestOfFolder('skill', path.join(base, 'skills', 'demo')).digest, printed.skills[0].digest);
+  // The same names inside a skill root stay listed: only a plugin's root holds Claude Code's state.
+  fs.mkdirSync(path.join(base, 'skills', 'demo', '.in_use'));
+  fs.writeFileSync(path.join(base, 'skills', 'demo', '.in_use', '1'), '');
+  assert.notStrictEqual(D.skillDigestOfFolder('skill', path.join(base, 'skills', 'demo')).digest, printed.skills[0].digest);
 });
 
 it('a pin with a bare hex that is not 64 lower-case digits reads input-invalid, never a digest', () => {
