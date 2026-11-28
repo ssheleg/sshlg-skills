@@ -48,8 +48,12 @@ it('whole-family managed context stays inside the recorded block budget', () => 
   // The 2026-11-11 audit lowers it again: the fabric router left its detection and probe
   // details to `working-with-fabric`, while copywriting and project-audit gained a few
   // words. 15,419 measured; 15,500 budgeted.
+  // 2026-11-28 moves it once more, for the 1.66.0 reason: the owner ordered a line in the
+  // rules every session loads that links fabric-workspace's feedback rule (reliability
+  // program row M13-06a, B-388), and only this block reaches every host. 15,492 measured
+  // before, 15,745 after (+253, the line and its blank); 15,800 budgeted.
   const chars = [...R.parse(block).block].length;
-  assert.ok(chars <= 15500, `${chars} chars exceed the 15,500 block budget`);
+  assert.ok(chars <= 15800, `${chars} chars exceed the 15,800 block budget`);
 });
 it('all declared routes and both generated tables survive compaction', () => {
   assert.strictEqual(names.length, 15);

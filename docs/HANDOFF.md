@@ -8,7 +8,27 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-28 reliability program module 2: nine rows received (B-379 to B-387)
+## Current: 2026-11-28 reliability program module 13: the feedback line in the protocol (B-388, M13-06a)
+
+**Objective:** fabric-workspace's board request 4e606012 (thread 0a045ab0; the owner's order of 2026-11-28 through the
+Fabric CEO's request 8fdc9594): this hub's one new row of the module 13 spec, M13-06a, and its first ask, one line in
+the rules every session loads that links fabric-workspace `knowledge/feedback-protocol.md` without copying it.
+Dispatched run, no board on this machine; the answer is the run's result. **Done:** the spec read at fabric-workspace
+`origin/main` `c9f554ca`; row filed as B-388 in [backlog](evidence/backlog.md); the line added to the protocol region
+(`lib/routers.js`, `PROTOCOL_LINES`, after the em dash rule, worded for hosts with Fabric), its test in
+`test/protocol_test.js`, the block budget moved to 15,800 with its reason in `test/router_compaction_test.js`.
+**Decisions:** the protocol region, not the Fabric router, because the rule binds every delivered result, not Fabric
+work; worded "Where Fabric is installed" because the page sits in a private repository and the block ships publicly;
+no CHANGELOG section until the release names its version. **Checks run:** `node test/protocol_test.js` (24),
+`node test/router_compaction_test.js` (8); `routers --update` three times on a copy of this machine's
+`~/.claude/CLAUDE.md` under a temporary HOME: the line added, no guard refusal, one hash; `npm test` (result in the PR).
+**Open:** the line reaches sessions only after the next hub release and `npx --yes sshlg-skills@latest update`; the
+release is a production step this run did not take. This branch stacks on PR #375 (B-379 to B-387). **Next task:**
+release the line (merge #375 then this PR, version, tag, confirm the npm package, update this machine, then read
+`~/.claude/CLAUDE.md` for `knowledge/feedback-protocol.md`); then B-379 (M2-02, due 2026-12-02) as the entry below
+says, and B-388 (b) with B-380 by 2026-12-05.
+
+## Previous: 2026-11-28 reliability program module 2: nine rows received (B-379 to B-387)
 
 **Objective:** fabric-workspace's board request 343d8a19 (the Fabric CEO's order 2e12853d, priority 1): this hub's new
 rows of the module 2 spec (one rule registry, rendered views, gates). Dispatched run on a machine without the board;
