@@ -1015,6 +1015,7 @@ npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only 
 # When `update` lists an event as not wired here, keep in mind that `hooks install` re-adds every removed family entry.
 npx sshlg-skills injectors                # who else speaks at SessionStart, and which MCP server instructions claim ground
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
+npx sshlg-skills audit skills            # read-only: duplicate, shadowed, stale, unused skills (skills-audit/1 with --json)
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
 npx sshlg-skills toolkit --find "pdf, xlsx, отчёт"  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
@@ -1210,6 +1211,9 @@ above Claude Code's 200-line target or its 40,000-character warning. The rules b
 npx sshlg-skills list        # the family, versions and descriptions
 npx sshlg-skills agents      # supported agent ids
 npx sshlg-skills conflicts   # installed skills that land on ground a router owns
+npx sshlg-skills audit skills [--json] [--project <dir>]
+                             # read-only skills audit: duplicates, shadowed copies, installs
+                             # behind their pin, skills no route reaches; prints hints, runs none
 npx sshlg-skills toolkit     # every skill this machine can reach; the family is a fraction of it
 npx sshlg-skills pack        # curated recommendations, measured against this machine
 npx sshlg-skills humanizers  # anti-AI-writing skills this machine can reach, and the

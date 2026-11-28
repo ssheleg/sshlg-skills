@@ -8,7 +8,25 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+## Current: 2026-11-28 B-368 first cut: `audit skills` reads Claude Code, read-only
+
+**Objective:** the previous entry's next task (Fabric board supervisor run for the refactor task, no person in the
+session). **Done:** `npx sshlg-skills audit skills [--json] [--project <dir>] [--days 60] [--full]`: the pure decision
+module `lib/skillsaudit.js` (17 fixtures in `test/skillsaudit_test.js`, no `HOME`), the walker `lib/cli-audit.js`, the
+flag table entry, the usage line, README and the CLI golden. The `skills` array is the contract's `project-setup/1`
+item exactly (PR #365 head `6e7c5c5a` took the `runner` per hint and `maxItems: 16` this hub asked for). Codex, Hermes
+and Pi are named in `degraded` as not read. [Built section](evidence/specs/2026-11-26-st18-skills-audit-inventory.md#built-first-cut-2026-11-28).
+B-378: the contract answered 026a47d7 (reply de611df5): it has no skill digest algorithm and asks this hub to propose
+one. **Decisions:** `expected` left out (no project manifest read here); `shadowed.other` names the hiding copy.
+**Checks run:** `node test/skillsaudit_test.js` (17), `test/cli_help_test.js` (78), `test/cli_surface_golden_test.js`
+(62, fixture re-recorded for the new usage line), `test/cli_unknown_flag_test.js` (52), `test/conflicts_test.js` (21);
+`node bin/sshlg-skills.js audit skills --json` on the operator machine (524 skills, parsed as JSON). The full suite is
+the PR's `validate` (this worktree has no materialized submodules; disk 9.8 GB free). **Next task:** read Codex into
+the audit (its `~/.codex/skills`, plugin cache and `config.toml`), then Hermes and Pi (B-368, due 2026-12-03); write
+B-378's digest proposal as a request to fabric-agent-contract (canonical JSON file list with SHA-256, vectors); B-364
+when free disk is above 12 GB.
+
+## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
 **Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
 1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**

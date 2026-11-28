@@ -80,9 +80,34 @@ item-for-item the `project-setup/1` item with `source: skills-audit`; the profil
 in other members the harness does not copy (PS-5). A profile the audit could not read is named, so the harness puts
 `skills-audit` in `degraded` rather than show an empty list (PS-1).
 
+## Built, first cut (2026-11-28)
+
+The contract's PR #365 moved to head `6e7c5c5a` and took both asks: each hint has an optional `runner` (catalogue id)
+and `hints.maxItems` is 16. The first cut follows that shape:
+
+- `lib/skillsaudit.js`: the pure decision module. Input: per runner the copies it loads (`plugin` or `plain`, scope,
+  version, path), the pins, the routed names, `skillUsage`. Output: `skills-audit/1` with `skills` (the contract item and
+  nothing else: `name`, `scope`, `version`, `installed`, `hints`, `source: skills-audit`), and beside it `runners`,
+  `degraded`, `counts`, `evidence` (copies with paths and the commands a person may run), `skipped`.
+- `lib/cli-audit.js`: the walker. Claude Code is read (the same `conflicts.readSkills` roster, versions from
+  `installed_plugins.json`, `skillUsage` from `.claude.json`); `--project <root>` adds `.claude/skills` and
+  `.agents/skills`. Codex, Hermes and Pi, when their home exists, are listed in `degraded` as "not read by this
+  release", never as clean.
+- `npx sshlg-skills audit skills [--json] [--project <dir>] [--days 60] [--full]`; nothing is written.
+- `test/skillsaudit_test.js`: 17 fixtures with no `HOME` (each kind, the runner on every hint, one item across two
+  runners, a runner not read, the contract's item and hint members and patterns, determinism, no em dash in the text).
+
+Measured on the operator machine (Switchboard isolated home, so its `skillUsage` is that home's): 524 skills read in
+Claude Code; duplicate 0, shadowed 0, stale 0, unused 485; with a planted project copy of `copywriting`: shadowed 1
+(global, by project) and duplicate 1 (project, by `plugin:super-ux`).
+
+Decisions in the first cut: `expected` is left out (it means "the project's manifest names it", and this hub reads no
+project manifest); `shadowed.other` names where the HIDING copy is, as the contract's description says ("another copy
+hides this one"); a namespaced id (`plugin:skill`) counts as routed when its bare name is.
+
 ## Next
 
 1. Done early (2026-11-27, section above); re-read PR #365 when it merges (planned 2026-12-03) for the `runner` answer.
-2. 2026-11-28 to 2026-12-02: one read-only command (`audit skills [--json]` or a `--json` on the existing readers),
-   pure decision module with fixtures, no `HOME` in tests (house invariant: guards decide in pure modules).
+2. Done 2026-11-28 for Claude Code (section above). Next: read Codex (`~/.codex/skills`, its plugin cache and
+   `config.toml`), then Hermes and Pi, into the same runner list; then `--out <file>` if the harness asks for one.
 3. Hosts: Claude Code, Codex, Hermes, Pi; others deferred past 1.0 as the row says.
