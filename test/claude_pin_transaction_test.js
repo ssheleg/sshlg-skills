@@ -285,7 +285,6 @@ test('B-224: an unreadable receipt counts as unfinished and is kept',f=>{
  for(let i=0;i<T.KEEP_FINISHED+1;i++)assert(f.execute().ok);
  assert(txDirs(f).includes(first));assert.equal(txDirs(f).length,T.KEEP_FINISHED+1);
 });
-console.log(`PASS: Claude native transaction — ${count} cases`);
 
 // B-361: the Mac Studio's headless `nicegram` space, 2026-11-18: an install killed mid-run left an
 // uncertain journal and every later `update` refused it, with no command that recovers it.
@@ -303,3 +302,36 @@ test('B-361: an uncertain journal whose owned keys moved still refuses, naming t
  const failed=f.execute();assert(!failed.ok);f.setHook(null);
  assert.throws(f.plan,/incomplete Claude transaction.*Recover:/s);
 });
+// B-379 (Studio STU-476, 2026-11-28): an absent enabledPlugins key is not a choice; `false` is.
+const withoutKey=(f,map=true)=>{const s=JSON.parse(fs.readFileSync(f.sf));if(map)delete s.enabledPlugins[f.id];else delete s.enabledPlugins;fs.writeFileSync(f.sf,JSON.stringify(s,null,2));};
+const sha=file=>S.sha256(fs.readFileSync(file,'utf8'));
+test('B-379: an installed member whose key is absent is enabled by repair, and stays enabled over three runs',f=>{
+ withoutKey(f);assert.equal(f.plan().jobs[0].action,'reinstall');
+ const r=f.execute();assert(r.ok,JSON.stringify(r));const s=JSON.parse(fs.readFileSync(f.sf));
+ assert.equal(s.enabledPlugins[f.id],true);assert.equal(s.enabledPlugins['foreign@foreign'],false);assert.equal(s.env.KEEP,'same');
+ const once=sha(f.sf);for(let i=0;i<2;i++){assert.equal(f.plan().jobs[0].action,'verify');assert(f.execute().ok);assert.equal(sha(f.sf),once);}
+});
+test('B-379: a member already at its pin whose key is absent is enabled by the verify run',f=>{
+ assert(f.execute().ok);withoutKey(f);assert.equal(f.plan().jobs[0].action,'verify');
+ const r=f.execute();assert(r.ok,JSON.stringify(r));assert.equal(JSON.parse(fs.readFileSync(f.sf)).enabledPlugins[f.id],true);
+ assert.equal(JSON.parse(fs.readFileSync(r.receipt)).settingsRestored,true);
+});
+test('B-379: an empty enabledPlugins before the run: the rebound member is enabled after it',f=>{
+ fs.writeFileSync(f.payload+'/value.txt','second');withoutKey(f,false);const p=f.plan();assert.equal(p.jobs[0].action,'rebind');
+ const r=T.execute(p,[f.m],f.inventory,{runner:f.runner});assert(r.ok,JSON.stringify(r));
+ assert.deepEqual(JSON.parse(fs.readFileSync(f.sf)).enabledPlugins,{[f.id]:true});
+});
+test('B-379: an explicit false survives rebind, repair and verify',f=>{
+ for(const step of ['rebind','reinstall','verify']){
+  if(step==='rebind')fs.writeFileSync(f.payload+'/value.txt','second');if(step==='reinstall')fs.writeFileSync(f.payload+'/value.txt','first');
+  assert.equal(f.plan().jobs[0].action,step);assert(f.execute().ok);assert.equal(JSON.parse(fs.readFileSync(f.sf)).enabledPlugins[f.id],false,step);
+ }
+});
+test('B-379: a member installed only in a local project scope gets no user-scope key',f=>{
+ const job=(old,scope)=>({marketplace:'fixture',dir:'/d',pluginInstall:f.id,old,targets:[{scope,projectPath:scope==='user'?null:'/p',exact:false}]});
+ const plan=jobs=>({settings:{text:'{}\n',data:{}},jobs});
+ assert.equal(JSON.parse(T.targetSettings(plan([job({version:'1.0.0'},'local')]))).enabledPlugins,undefined);
+ assert.equal(JSON.parse(T.targetSettings(plan([job({version:'1.0.0'},'user')]))).enabledPlugins[f.id],true);
+ assert.equal(JSON.parse(T.targetSettings(plan([job(null,'user')]))).enabledPlugins[f.id],true);
+});
+console.log(`PASS: Claude native transaction — ${count} cases`);

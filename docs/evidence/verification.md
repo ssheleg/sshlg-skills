@@ -1,3 +1,11 @@
+## 2026-11-28: an absent `enabledPlugins` key no longer keeps an installed member off (B-379), branch `fix/b379-absent-enabled-key`, unreleased
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| AEK-1 | A member installed in the user scope whose `enabledPlugins` key is absent before the run is `true` after it, for the reinstall, verify and rebind actions, and an empty `enabledPlugins` map ends holding the member | `node test/claude_pin_transaction_test.js` (55 cases; the B-379 cases fail on the previous `targetSettings` with `undefined == true`) | unreleased | a change to `targetSettings` or `rebase` in `lib/claude-pin-transaction.js` | 2026-11-28, branch tree |
+| AEK-2 | An explicit `false` survives rebind, reinstall and verify; a member installed only in a local project scope gets no user-scope key | the same suite, cases `an explicit false survives…` and `…only in a local project scope…` | unreleased | the same | 2026-11-28, branch tree |
+| AEK-3 | After the first enabling run, two more runs leave `settings.json` byte-identical (same SHA-256) | the same suite, case `…stays enabled over three runs` | unreleased | the same | 2026-11-28, branch tree |
+
 ## 2026-10-26: family descriptions within 300 characters (B-255), branch `release/1.79.0`, 1.79.0
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
@@ -176,7 +184,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**801** id'd requirement rows below, **643** read `verified` and none of them says which
+**804** id'd requirement rows below, **643** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with

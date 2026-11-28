@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+## Current: 2026-11-28 B-379: an absent `enabledPlugins` key no longer keeps an installed member off
+
+**Objective:** answer studio-agent's board request a400db26 (thread 933f55a4, from STU-476): on the Studio, homes
+`passioncode` and `nicegram` held every family plugin installed but not enabled after `update`. **Done:** the hypothesis
+holds. `targetSettings` in `lib/claude-pin-transaction.js` enabled an absent key only for a fresh install (`!j.old`), and
+each restore put an already installed member's absent key back. Now an absent key becomes `true` for every member the run
+leaves installed in the user scope (or the home project scope); an explicit `false` is kept; a local-only member gets no
+user-scope key. Five B-379 cases in `test/claude_pin_transaction_test.js` (red on the old code). Backlog row B-379,
+verification AEK-1 to AEK-3. **Decisions:** absent is not a choice, `false` is (`claude plugin disable` and
+`domains --apply` both write `false`, `lib/cli-domains.js:307`). **Open:** the release that ships it (version bump,
+CHANGELOG, tag; it reaches every installer, so it is left to a release session), then `update` on the Studio homes and
+studio-agent's hourly check reading them enabled. **Checks run:** `node test/claude_pin_transaction_test.js` (55 cases),
+`npm test` (see the PR). **Next task:** release B-379 from branch `fix/b379-absent-enabled-key`, then B-368 as below.
+
+## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
 **Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
 1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**
