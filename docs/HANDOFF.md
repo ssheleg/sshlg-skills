@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+## Current: 2026-11-28 super-ux 0.69.1 pinned (1.92.8, B-379)
+
+**Objective:** pin super-ux 0.69.1 (AT-17 "no devaluation in public text", the owner's rule of 2026-11-28, Fabric board
+request 976e4a2f) so `sshlg-skills update` installs it. **Done:** on branch `chore/pin-super-ux-0.69.1` the
+`skills/super-ux` gitlink moved from `e10cb7a` (0.68.0) to `ad65da1` (tag `v0.69.1`); `skills.json` version by hand and
+commit by `scripts/sync-member-pins.js --write`, `claude-plugin-pins.json` by `scripts/sync-claude-pins.js --write`
+(11 match), the README row, the CLI golden (`SSHLG_GOLDEN_WRITE=1 node test/cli_surface_golden_test.js`, 61 cases),
+`ctx-04.06.json` (`python3 test/audit_regressions/ctx-04.06.py --emit`), package 1.92.8, the CHANGELOG entry and the
+closed row B-379 (lease taken with `agent_sync.py acquire B-379`). **Checks run:** `python3 test/validate.py` exit 0 (PASS, 11 skills, 11 submodules); `npm test` exit 0 (176 suites, 3606 fixtures, all green); `node scripts/sync-member-pins.js --check` and `node scripts/sync-claude-pins.js --check` exit 0 (11 match); `python3 test/doc_refs.py` exit 0; `python3 test/check_pins.py` read super-ux "ok 0.68.0" before the move because npm still serves 0.68.0 (the member's publish run is blocked by the same billing lock).
+**Prerequisite:** hosted Actions do not start (the account is locked for billing), so the PR's `validate` cannot run;
+the local suite stands in for it, by the operator's order. **Next task:** after merge, `scripts/tag.sh v1.92.8 --push`
+(the release run fails on the billing lock, so npm keeps 1.92.7 until billing is restored and the run re-runs), then
+`env -u CLAUDE_CONFIG_DIR node bin/sshlg-skills.js update` from the merged checkout; then the B-368 task below.
+
+## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
 **Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
 1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**
