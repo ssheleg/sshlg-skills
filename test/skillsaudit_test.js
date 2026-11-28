@@ -157,6 +157,25 @@ it('compareVersions orders dotted numbers and refuses others', () => {
   assert.strictEqual(A.compareVersions(null, '1.0.0'), null);
 });
 
+it('outside Claude Code a plain copy beside a plugin is a duplicate, not shadowed', () => {
+  const r = A.audit(Object.assign({}, base, { runners: [{ id: 'codex', profile: '/h/.codex',
+    copies: [plugin('copywriting', 'super-ux@super-ux', '0.68.0'), plain('copywriting')] }] }));
+  assert.deepStrictEqual(r.skills[0].hints, [{ kind: 'duplicate', other: 'global', runner: 'codex' }]);
+});
+
+it('a duplicate in another runner names that runner, not a claude command', () => {
+  const r = A.audit(Object.assign({}, base, { routed: ['viz'], runners: [{ id: 'codex', profile: '/h/.codex',
+    copies: [plugin('viz', 'viz@a', '1.0.0'), plugin('viz', 'viz@b', '1.0.0')] }] }));
+  const cmds = r.evidence[0].commands.join('\n');
+  assert.ok(/in codex/.test(cmds) && !/claude plugin/.test(cmds), cmds);
+});
+
+it('a runner note is kept and printed', () => {
+  const r = A.audit(Object.assign({}, base, { runners: [{ id: 'codex', profile: '/h/.codex', note: 'flags not read', copies: [] }] }));
+  assert.strictEqual(r.runners[0].note, 'flags not read');
+  assert.ok(/note: codex: flags not read/.test(A.render(r)));
+});
+
 if (failures.length) {
   console.error(`FAIL: skillsaudit, ${failures.length} of ${checks}`);
   for (const f of failures) console.error(`  ${f}`);

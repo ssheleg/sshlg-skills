@@ -8,23 +8,24 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-28 B-368 first cut: `audit skills` reads Claude Code, read-only
+## Current: 2026-11-28 B-368 first cut: `audit skills` reads Claude Code and Codex, read-only
 
 **Objective:** the previous entry's next task (Fabric board supervisor run for the refactor task, no person in the
 session). **Done:** `npx sshlg-skills audit skills [--json] [--project <dir>] [--days 60] [--full]`: the pure decision
-module `lib/skillsaudit.js` (17 fixtures in `test/skillsaudit_test.js`, no `HOME`), the walker `lib/cli-audit.js`, the
+module `lib/skillsaudit.js` (20 fixtures in `test/skillsaudit_test.js`, no `HOME`), the walker `lib/cli-audit.js`, the
 flag table entry, the usage line, README and the CLI golden. The `skills` array is the contract's `project-setup/1`
-item exactly (PR #365 head `6e7c5c5a` took the `runner` per hint and `maxItems: 16` this hub asked for). Codex, Hermes
-and Pi are named in `degraded` as not read. [Built section](evidence/specs/2026-11-26-st18-skills-audit-inventory.md#built-first-cut-2026-11-28).
+item exactly (PR #365 head `6e7c5c5a` took the `runner` per hint and `maxItems: 16` this hub asked for). Codex is read
+from its plugin cache and `skills` folder (its `config.toml` enabled flags not yet); on this machine it shows super-ux
+and sheleg-design behind their pins (8 stale, B-364). Hermes and Pi are named in `degraded` as not read. [Built section](evidence/specs/2026-11-26-st18-skills-audit-inventory.md#built-first-cut-2026-11-28).
 B-378: the contract answered 026a47d7 (reply de611df5): it has no skill digest algorithm and asks this hub to propose
-one. **Decisions:** `expected` left out (no project manifest read here); `shadowed.other` names the hiding copy.
-**Checks run:** `node test/skillsaudit_test.js` (17), `test/cli_help_test.js` (78), `test/cli_surface_golden_test.js`
+one; proposed as `skill-digest/1` (request 1b589f2a, due 2026-12-03, Fabric wait b0fb3e6f). **Decisions:** `expected` left out (no project manifest read here); `shadowed.other` names the hiding copy.
+**Checks run:** `node test/skillsaudit_test.js` (20), `test/cli_help_test.js` (78), `test/cli_surface_golden_test.js`
 (62, fixture re-recorded for the new usage line), `test/cli_unknown_flag_test.js` (52), `test/conflicts_test.js` (21);
-`node bin/sshlg-skills.js audit skills --json` on the operator machine (524 skills, parsed as JSON). The full suite is
-the PR's `validate` (this worktree has no materialized submodules; disk 9.8 GB free). **Next task:** read Codex into
-the audit (its `~/.codex/skills`, plugin cache and `config.toml`), then Hermes and Pi (B-368, due 2026-12-03); write
-B-378's digest proposal as a request to fabric-agent-contract (canonical JSON file list with SHA-256, vectors); B-364
-when free disk is above 12 GB.
+`node bin/sshlg-skills.js audit skills --json` on the operator machine (609 skills across Claude Code and Codex,
+parsed as JSON). The full suite is
+the PR's `validate` (this worktree has no materialized submodules; disk 9.8 GB free). **Next task:** merge PR #378
+once its `validate` is green; then Codex's `config.toml` enabled flags, Hermes and Pi in the audit (B-368, due
+2026-12-03); read the contract's answer to 1b589f2a (B-378); B-364 when free disk is above 12 GB.
 
 ## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
