@@ -92,12 +92,13 @@ and `hints.maxItems` is 16. The first cut follows that shape:
 - `lib/cli-audit.js`: the walker. Claude Code is read (the same `conflicts.readSkills` roster, versions from
   `installed_plugins.json`, `skillUsage` from `.claude.json`); `--project <root>` adds `.claude/skills` and
   `.agents/skills`. Codex is read from its plugin cache (`<CODEX_HOME>/plugins/cache/<marketplace>/<plugin>/<version>/
-  skills/<id>`, newest version folder) and `<CODEX_HOME>/skills`; its `config.toml` enabled flags are not read yet,
-  which the runner's `note` says. Hermes and Pi, when their home exists, are listed in `degraded` as "not read by this
+  skills/<id>`, newest version folder) and `<CODEX_HOME>/skills`; a plugin whose `[plugins."<name>@<marketplace>"]`
+  table in `config.toml` says `enabled = false` is skipped (`codexPluginFlags`, every quoting Codex writes; a missing
+  or unreadable flag never hides a plugin). Hermes and Pi, when their home exists, are listed in `degraded` as "not read by this
   release", never as clean. Only Claude Code's precedence is measured, so a plain copy beside a plugin is `shadowed`
   there and `duplicate` in other runners.
 - `npx sshlg-skills audit skills [--json] [--project <dir>] [--days 60] [--full]`; nothing is written.
-- `test/skillsaudit_test.js`: 20 fixtures with no `HOME` (each kind, the runner on every hint, one item across two
+- `test/skillsaudit_test.js`: 21 fixtures with no `HOME` (each kind, the runner on every hint, one item across two
   runners, a runner not read, the contract's item and hint members and patterns, determinism, no em dash in the text).
 
 Measured on the operator machine (Switchboard isolated home, so its `skillUsage` is that home's): 524 skills read in
@@ -113,6 +114,5 @@ hides this one"); a namespaced id (`plugin:skill`) counts as routed when its bar
 ## Next
 
 1. Done early (2026-11-27, section above); re-read PR #365 when it merges (planned 2026-12-03) for the `runner` answer.
-2. Done 2026-11-28 for Claude Code and Codex (section above). Next: Codex's `config.toml` enabled flags, then Hermes
-   and Pi, into the same runner list; then `--out <file>` if the harness asks for one; the digest once B-378 lands.
+2. Done 2026-11-28 for Claude Code and Codex (section above). Next: Hermes and Pi, into the same runner list; then `--out <file>` if the harness asks for one; the digest once B-378 lands.
 3. Hosts: Claude Code, Codex, Hermes, Pi; others deferred past 1.0 as the row says.

@@ -176,6 +176,19 @@ it('a runner note is kept and printed', () => {
   assert.ok(/note: codex: flags not read/.test(A.render(r)));
 });
 
+it('codexPluginFlags reads every quoting and only true/false', () => {
+  const text = [
+    '[plugins."super-ux@super-ux"]', 'enabled = true',
+    "[plugins.'visualize@openai-bundled']", 'enabled = false  # off',
+    '["plugins"."pdf@openai-primary-runtime"]', 'enabled = "no"',
+    '[plugins.make-skill@make-skill]', 'other = 1',
+    '[mcp_servers.x]', 'enabled = false',
+  ].join('\n');
+  const m = A.codexPluginFlags(text);
+  assert.deepStrictEqual([...m.entries()], [['super-ux@super-ux', true], ['visualize@openai-bundled', false]]);
+  assert.strictEqual(A.codexPluginFlags(null).size, 0);
+});
+
 if (failures.length) {
   console.error(`FAIL: skillsaudit, ${failures.length} of ${checks}`);
   for (const f of failures) console.error(`  ${f}`);
