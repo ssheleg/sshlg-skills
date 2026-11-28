@@ -8,7 +8,48 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+## Current: 2026-11-28 B-368 second cut: `audit skills` reads Pi and Hermes too
+
+**Objective:** the previous entry's next step that does not wait on CI (a second Fabric board supervisor run for the
+refactor task, no person in the session). **Done:** Pi is read from its user roots and, with `--project` in a project Pi
+trusts, its project roots (`lib/pi.js` discovery and trust); Hermes from `<HERMES_HOME or ~/.hermes>/skills` walked as
+Hermes walks it, named by front matter, minus `skills.disabled` in its `config.yaml` (`hermesDisabled`). New rule: two
+different plain directories of one skill in one runner are a `duplicate` (only copies carrying `real` are compared, so
+Claude Code and Codex results are unchanged). [Second cut](evidence/specs/2026-11-26-st18-skills-audit-inventory.md#built-second-cut-pi-and-hermes-2026-11-28).
+**Decisions:** Hermes `external_dirs`, `create_dir`, plugin and project skills are not read and the runner's note says
+so (PS-1), rather than guessing their precedence. **Checks run:** `node test/skillsaudit_test.js` (32);
+`node bin/sshlg-skills.js audit skills --json` on the operator machine (claude-code, codex, pi, hermes read, none
+degraded; duplicate 8); the full `npm test` result is in the commit's receipt below. **Blocked (human gate, unchanged):**
+GitHub Actions is still locked over billing (run 46147269053 on `main`, 2026-11-28 12:58 UTC, not started); Fabric
+question da2f2e56. **Next task:** once the billing lock is lifted, mark PR #378 draft and ready again (one `validate`
+run) and squash-merge it when green; read the contract's answer to 1b589f2a (B-378, due 2026-12-03); B-364 when free
+disk is above 12 GB and no Codex process runs (14 GB free at 14:00 UTC today).
+
+## Previous: 2026-11-28 B-368 first cut: `audit skills` reads Claude Code and Codex, read-only
+
+**Objective:** the previous entry's next task (Fabric board supervisor run for the refactor task, no person in the
+session). **Done:** `npx sshlg-skills audit skills [--json] [--project <dir>] [--days 60] [--full]`: the pure decision
+module `lib/skillsaudit.js` (21 fixtures in `test/skillsaudit_test.js`, no `HOME`), the walker `lib/cli-audit.js`, the
+flag table entry, the usage line, README and the CLI golden. The `skills` array is the contract's `project-setup/1`
+item exactly (PR #365 head `6e7c5c5a` took the `runner` per hint and `maxItems: 16` this hub asked for). Codex is read
+from its plugin cache and `skills` folder, skipping plugins `config.toml` disables; on this machine it shows super-ux
+and sheleg-design behind their pins (8 stale, B-364). Hermes and Pi are named in `degraded` as not read. [Built section](evidence/specs/2026-11-26-st18-skills-audit-inventory.md#built-first-cut-2026-11-28).
+B-378: the contract answered 026a47d7 (reply de611df5): it has no skill digest algorithm and asks this hub to propose
+one; proposed as `skill-digest/1` (request 1b589f2a, due 2026-12-03, Fabric wait b0fb3e6f). **Decisions:** `expected` left out (no project manifest read here); `shadowed.other` names the hiding copy.
+**Checks run:** `node test/skillsaudit_test.js` (21), `test/cli_help_test.js` (78), `test/cli_surface_golden_test.js`
+(62, fixture re-recorded for the new usage line), `test/cli_unknown_flag_test.js` (52), `test/conflicts_test.js` (21);
+`node bin/sshlg-skills.js audit skills --json` on the operator machine (609 skills across Claude Code and Codex,
+parsed as JSON). The full suite is
+the PR's `validate` (this worktree has no materialized submodules; disk 9.8 GB free). **Blocked (human gate):** GitHub Actions started no job on PR #378 (run 46145255524, 2026-11-28 12:33 UTC: "your
+account is locked due to a billing issue"), and `main` requires `validate`; billing-blocked CI is not passing CI, so
+the PR is not merged. Asked of the owner as Fabric question da2f2e56 (payment, https://github.com/settings/billing).
+Instead the full `npm test` ran locally on this branch with submodules materialized: `PASS: 177 checks green
+(validate.py + 11 python + 134 node suites)`, exit 0, 3630 fixtures (DOCMAP ratchet moved 176/3606 to 177/3630).
+**Next task:** once the billing lock is lifted, mark PR #378 draft and ready again (one `validate` run under the
+nightly-CI policy) and squash-merge it when green; then Hermes and Pi in the audit (B-368, due
+2026-12-03); read the contract's answer to 1b589f2a (B-378); B-364 when free disk is above 12 GB.
+
+## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
 **Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
 1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**

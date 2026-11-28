@@ -33,6 +33,7 @@ const { cmdConfig } = require('../lib/cli-config.js');
 const { runDomainsLocked } = require('../lib/cli-domains.js');
 const { cmdEnroll } = require('../lib/cli-enroll.js');
 const { cmdHooks } = require('../lib/cli-hooks.js');
+const { cmdAudit } = require('../lib/cli-audit.js');
 const { cmdHosts } = require('../lib/cli-hosts.js');
 const {
   cmdAgents, cmdConflicts, cmdContext, cmdHumanizers, cmdInjectors, cmdList, cmdMaterialised,
@@ -144,6 +145,9 @@ Usage:
                                                       # duplicates; local MCP servers that do not answer
   npx sshlg-skills injectors                          # who else speaks at SessionStart
   npx sshlg-skills conflicts                          # installed skills on a router's ground
+  npx sshlg-skills audit skills [--json] [--project <dir>] [--days 60] [--full]
+                                                      # read-only: duplicate, shadowed, stale and
+                                                      # unused skills, with hints it never runs
   npx sshlg-skills humanizers                         # anti-AI-writing skills this machine can reach
   npx sshlg-skills signature --used "<skill>[=what it did],…"
                                                       # report header + footer, links looked up
@@ -293,6 +297,7 @@ function main(argv) {
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'context') return cmdContext(rest);
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
+  if (cmd === 'audit') return cmdAudit(rest);
   if (cmd === 'toolkit') { return cmdToolkit(argv) || 0; }
   if (cmd === 'visibility') return cmdVisibility(argv);
   if (cmd === 'domains') return runDomainsLocked(argv);

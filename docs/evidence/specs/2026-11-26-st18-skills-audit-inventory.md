@@ -80,9 +80,70 @@ item-for-item the `project-setup/1` item with `source: skills-audit`; the profil
 in other members the harness does not copy (PS-5). A profile the audit could not read is named, so the harness puts
 `skills-audit` in `degraded` rather than show an empty list (PS-1).
 
+## Built, first cut (2026-11-28)
+
+The contract's PR #365 moved to head `6e7c5c5a` and took both asks: each hint has an optional `runner` (catalogue id)
+and `hints.maxItems` is 16. The first cut follows that shape:
+
+- `lib/skillsaudit.js`: the pure decision module. Input: per runner the copies it loads (`plugin` or `plain`, scope,
+  version, path), the pins, the routed names, `skillUsage`. Output: `skills-audit/1` with `skills` (the contract item and
+  nothing else: `name`, `scope`, `version`, `installed`, `hints`, `source: skills-audit`), and beside it `runners`,
+  `degraded`, `counts`, `evidence` (copies with paths and the commands a person may run), `skipped`.
+- `lib/cli-audit.js`: the walker. Claude Code is read (the same `conflicts.readSkills` roster, versions from
+  `installed_plugins.json`, `skillUsage` from `.claude.json`); `--project <root>` adds `.claude/skills` and
+  `.agents/skills`. Codex is read from its plugin cache (`<CODEX_HOME>/plugins/cache/<marketplace>/<plugin>/<version>/
+  skills/<id>`, newest version folder) and `<CODEX_HOME>/skills`; a plugin whose `[plugins."<name>@<marketplace>"]`
+  table in `config.toml` says `enabled = false` is skipped (`codexPluginFlags`, every quoting Codex writes; a missing
+  or unreadable flag never hides a plugin). Hermes and Pi, when their home exists, are listed in `degraded` as "not read by this
+  release", never as clean. Only Claude Code's precedence is measured, so a plain copy beside a plugin is `shadowed`
+  there and `duplicate` in other runners.
+- `npx sshlg-skills audit skills [--json] [--project <dir>] [--days 60] [--full]`; nothing is written.
+- `test/skillsaudit_test.js`: 21 fixtures with no `HOME` (each kind, the runner on every hint, one item across two
+  runners, a runner not read, the contract's item and hint members and patterns, determinism, no em dash in the text).
+
+Measured on the operator machine (Switchboard isolated home, so its `skillUsage` is that home's): 524 skills read in
+Claude Code alone gave duplicate 0, shadowed 0, stale 0, unused 485; with a planted project copy of `copywriting`:
+shadowed 1 (global, by project) and duplicate 1 (project, by `plugin:super-ux`). With Codex read: 609 skills,
+duplicate 1 (`visualize` from `openai-bundled` and `openai-curated-remote`), stale 8 (super-ux 0.67.1 and
+sheleg-design 1.67.1 in Codex against pins 0.68.0 and 1.68.0, the drift B-364 records), unused 641 hints.
+
+Decisions in the first cut: `expected` is left out (it means "the project's manifest names it", and this hub reads no
+project manifest); `shadowed.other` names where the HIDING copy is, as the contract's description says ("another copy
+hides this one"); a namespaced id (`plugin:skill`) counts as routed when its bare name is.
+
+## Built: second cut, Pi and Hermes (2026-11-28)
+
+The first cut's "not read" for Pi and Hermes is replaced by reading them (`lib/cli-audit.js` `piCopies`,
+`hermesCopies`):
+
+- Pi, the way Pi 1.1.0 discovers skills (`lib/pi.js`, read in its installed code for B-221 and B-263): the user roots
+  `<PI_CODING_AGENT_DIR or ~/.pi/agent>/skills` and `~/.agents/skills` as global copies; with `--project`, `.pi/skills`
+  and `.agents/skills` up to the git root as project copies, only when `projectTrust` says Pi loads them (an `asks`
+  project is read and the runner's note says a headless run does not load it; `untrusted` or `unknown` is noted and
+  not read). The same directory reached twice is read once.
+- Hermes, the way Hermes walks its profile folder (hermes-agent `agent/skill_utils.py` `iter_skill_index_files` and
+  `EXCLUDED_SKILL_DIRS`, `tools/skills_tool.py` `_skill_catalog`, at `d923a5eb48`, 2026-10-15): every `SKILL.md` under
+  `<HERMES_HOME or ~/.hermes>/skills`, links followed, `.archive`, VCS and dependency folders pruned, a skill's
+  `references`, `templates`, `assets` and `scripts` not scanned, named by the front matter's `name` or the folder;
+  `skills.disabled` in `config.yaml` left out (`hermesDisabled`: a block list, a flow list or a JSON-array string, as
+  `parse_config_string_list` accepts; an unreadable value hides nothing). Not read, and said so in the runner's note:
+  `skills.external_dirs`, `skills.create_dir`, plugin skills, project skills, `platform_disabled`.
+- A new rule in the decision module: two different plain directories of one skill in one scope of one runner (each
+  copy carries `real`, its resolved directory) are a `duplicate`. Pi keeps the first it discovers and Hermes refuses a
+  same-tier ambiguity, so either way one copy is dead weight or a trap. Copies without `real` (the Claude Code and Codex
+  walkers) are not compared, so the first cut's results are unchanged.
+- `test/skillsaudit_test.js`: 32 fixtures (11 new: the two-copies rule, a link read once, the Pi project and shadow
+  cases, `hermesDisabled` and `frontmatterName` forms, and the walkers on a throwaway tree).
+
+Measured on the operator machine: four runners read (claude-code, codex, pi, hermes), none in `degraded`; Hermes
+322 skills disabled in `config.yaml` left out; duplicate 8: `visualize` in Codex (as before), `skill-creator` in Pi
+(two different copies in `~/.pi/agent/skills` and `~/.agents/skills`), and six in Hermes where a skill folder holds a
+nested copy of itself (`avoid-ai-writing`, `computer-use`, `docx`, `llm-wiki`, `pdf`, `xlsx`, for example
+`~/.hermes/skills/avoid-ai-writing/plugins/avoid-ai-writing/skills/avoid-ai-writing`). The audit names them; it
+removes nothing.
+
 ## Next
 
 1. Done early (2026-11-27, section above); re-read PR #365 when it merges (planned 2026-12-03) for the `runner` answer.
-2. 2026-11-28 to 2026-12-02: one read-only command (`audit skills [--json]` or a `--json` on the existing readers),
-   pure decision module with fixtures, no `HOME` in tests (house invariant: guards decide in pure modules).
+2. Done 2026-11-28 for Claude Code and Codex, then for Pi and Hermes (sections above). Next: `--out <file>` if the harness asks for one; the digest once B-378 lands; Hermes `external_dirs`, `create_dir`, plugin and project skills if the harness needs them (named in the runner note until then).
 3. Hosts: Claude Code, Codex, Hermes, Pi; others deferred past 1.0 as the row says.
