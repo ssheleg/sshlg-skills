@@ -286,6 +286,21 @@ it('the no-em-dash rule arrives in the protocol, once, and says what it binds', 
     'the rule sits above the boundary it is exempt from');
 });
 
+// Reliability program row M13-06a (2026-11-28, Fabric CEO request 8fdc9594): the rules every
+// session loads name fabric-workspace's feedback rule by its page, once, and carry no copy
+// of it, so the page keeps its one home.
+it('M13-06a: the protocol names the feedback page once and copies none of it', () => {
+  const out = write(EMPTY);
+  const flat = protocolBody(out).replace(/\s+/g, ' ');
+  assert.strictEqual(count(out, '`knowledge/feedback-protocol.md`'), 1, 'the feedback page is missing or doubled');
+  assert.ok(/fabric-workspace `knowledge\/feedback-protocol\.md`/.test(flat), 'the page is not named with its repository');
+  assert.ok(/Where Fabric is installed/.test(flat), 'a host without Fabric is told to read a page it cannot reach');
+  for (const copied of ['The rule in five lines', 'Outcome window', 'silence after he has seen it'])
+    assert.ok(!flat.includes(copied), `the block copies the page's text: ${copied}`);
+  assert.ok(flat.indexOf('Feedback on delivered work') > flat.indexOf('No em dash'),
+    'the line sits above the em dash rule and moves its "work above"');
+});
+
 it('the protocol region itself carries no em dash', () => {
   const body = protocolBody(write(EMPTY));
   const at = body.indexOf(EM);
