@@ -2,8 +2,8 @@
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
 |---|---|---|---|---|---|
-| AEK-1 | A member installed in the user scope whose `enabledPlugins` key is absent before the run is `true` after it, for the reinstall, verify and rebind actions, and an empty `enabledPlugins` map ends holding the member | `node test/claude_pin_transaction_test.js` (55 cases; the B-379 cases fail on the previous `targetSettings` with `undefined == true`) | unreleased | a change to `targetSettings` or `rebase` in `lib/claude-pin-transaction.js` | 2026-11-28, branch tree |
-| AEK-2 | An explicit `false` survives rebind, reinstall and verify; a member installed only in a local project scope gets no user-scope key | the same suite, cases `an explicit false survives…` and `…only in a local project scope…` | unreleased | the same | 2026-11-28, branch tree |
+| AEK-1 | A member installed in the user scope whose `enabledPlugins` key is absent before the run is `true` after it, for the reinstall, verify and rebind actions, and an empty `enabledPlugins` map ends holding the member | `node test/claude_pin_transaction_test.js` (56 cases; the B-379 cases fail on the previous `targetSettings` with `undefined == true`) | unreleased | a change to `targetSettings` or `rebase` in `lib/claude-pin-transaction.js` | 2026-11-28, branch tree |
+| AEK-2 | An explicit `false` survives rebind, reinstall and verify; a member installed only in a local project scope gets no user-scope key | the same suite, cases `an explicit false survives…` and `…only in a local project scope…`; the update preview names the enabling (`enablesNote`, `lib/cli-install.js`) | unreleased | the same | 2026-11-28, branch tree |
 | AEK-3 | After the first enabling run, two more runs leave `settings.json` byte-identical (same SHA-256) | the same suite, case `…stays enabled over three runs` | unreleased | the same | 2026-11-28, branch tree |
 
 ## 2026-10-26: family descriptions within 300 characters (B-255), branch `release/1.79.0`, 1.79.0

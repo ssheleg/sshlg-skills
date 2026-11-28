@@ -333,5 +333,11 @@ test('B-379: a member installed only in a local project scope gets no user-scope
  assert.equal(JSON.parse(T.targetSettings(plan([job({version:'1.0.0'},'local')]))).enabledPlugins,undefined);
  assert.equal(JSON.parse(T.targetSettings(plan([job({version:'1.0.0'},'user')]))).enabledPlugins[f.id],true);
  assert.equal(JSON.parse(T.targetSettings(plan([job(null,'user')]))).enabledPlugins[f.id],true);
+ const off={settings:{text:'{}',data:{enabledPlugins:{[f.id]:false}}}},local=plan([job({version:'1.0.0'},'local')]);
+ assert.equal(T.enables(local,local.jobs[0]),false);assert.equal(T.enables(plan([]),job({version:'1.0.0'},'user')),true);assert.equal(T.enables(off,job({version:'1.0.0'},'user')),false);
+});
+test('B-379: the update preview names the enabling for an installed member whose key is absent, and only then',f=>{
+ const {enablesNote}=require('../lib/cli-install');assert.equal(enablesNote(f.plan(),f.id),'');
+ withoutKey(f);assert.match(enablesNote(f.plan(),f.id),/key absent: set to true/);
 });
 console.log(`PASS: Claude native transaction — ${count} cases`);

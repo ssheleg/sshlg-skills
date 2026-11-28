@@ -15,11 +15,11 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 holds. `targetSettings` in `lib/claude-pin-transaction.js` enabled an absent key only for a fresh install (`!j.old`), and
 each restore put an already installed member's absent key back. Now an absent key becomes `true` for every member the run
 leaves installed in the user scope (or the home project scope); an explicit `false` is kept; a local-only member gets no
-user-scope key. Five B-379 cases in `test/claude_pin_transaction_test.js` (red on the old code). Backlog row B-379,
+user-scope key; the `update` preview names the enabling. Six B-379 cases in `test/claude_pin_transaction_test.js` (red on the old code). Backlog row B-379,
 verification AEK-1 to AEK-3. **Decisions:** absent is not a choice, `false` is (`claude plugin disable` and
 `domains --apply` both write `false`, `lib/cli-domains.js:307`). **Open:** the release that ships it (version bump,
 CHANGELOG, tag; it reaches every installer, so it is left to a release session), then `update` on the Studio homes and
-studio-agent's hourly check reading them enabled. **Checks run:** `node test/claude_pin_transaction_test.js` (55 cases),
+studio-agent's hourly check reading them enabled. **Checks run:** `node test/claude_pin_transaction_test.js` (56 cases),
 `npm test` (see the PR). **Next task:** release B-379 from branch `fix/b379-absent-enabled-key`, then B-368 as below.
 
 ## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
