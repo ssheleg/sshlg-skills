@@ -8,7 +8,23 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+## Current: 2026-11-28 W0-7: operator-rules contradictions resolved on the Mac Studio
+
+**Objective:** Fabric board request a9fae523 (system-reliability program, wave 0 row W0-7, due 2026-11-29): resolve
+twelve contradiction pairs in the operator-rules source and the installed global block by the owner's latest word,
+align the source with the installed block, rebuild the copies for other runtimes. Unattended dispatch on the Mac
+Studio (no board, no Observatory there). **Done (local files only, no rule text in this public repository):** the
+source was aligned with the newer installed block, then patched and reinstalled with
+`npx sshlg-skills blocks install OPERATOR:GLOBAL-RULES --owner OPERATOR --agent claude|codex --apply` (both
+`VERIFIED`; the Codex copy of 2026-11-21 replaced); deny rules for the retired connectors added to the default and
+the session's Claude settings, each with a 0600 backup. The decision table is in the board answer. **Open:** the
+MacBook carries its own source and installed block, which this run cannot reach; the same patch must be applied
+there (named in the answer). Removing the connectors from the owner's claude.ai account needs his sign-in.
+**Found:** B-379 (`blocks install` refuses in a Switchboard home). **Checks run:** the installed block and the Codex
+block each compared byte for byte with the source (`cmp`, equal); the patch script run three times, one hash.
+**Next:** B-379; then the previous entry's next task.
+
+## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
 **Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
 1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**
