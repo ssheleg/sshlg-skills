@@ -24,7 +24,7 @@ Claude Code writes `.in_use/<pid>` into every used plugin version and skill scri
 6418d31f, thread 5ab6b6a2, due 2026-12-03; Fabric wait c8b20b3d). The hub's port stays byte-identical to the
 reference until the contract decides. **Not done:** GitHub Actions is still billing-locked (run 46147269053, "account
 is locked due to a billing issue"), so neither this PR nor B-368's PR #378 can show a green `validate`; B-364 waits
-for free disk above 12 GB (read 10 GB). **Checks run:** `node test/skilldigest_test.js` (55 checks); `npm test` with the submodules materialized (the PR carries the result); every pinned member and each of its 39 skills gives the same digest by the pin and by the folder route over its submodule tree at the pinned commit. **Next task:** when the
+for free disk above 12 GB (read 10 GB). **Checks run:** `node test/skilldigest_test.js` (55 checks); `npm test` with the submodules materialized: 176 of 177 green, `host_env_leak_test.js` red on `runtime_recovery_test.js`'s killed-writer case under machine load; both suites green run alone (92 and 42 checks), so DOCMAP's ratchet (176 suites, 3606 fixtures) is raised on the next green full run; every pinned member and each of its 39 skills gives the same digest by the pin and by the folder route over its submodule tree at the pinned commit. **Next task:** when the
 billing lock lifts, merge PR #378 (B-368) first, then rebase this branch (both touch the usage block, `lib/cli-flags.js`
 and the CLI golden: regenerate it with `SSHLG_GOLDEN_WRITE=1`), then let `audit skills` add the pin digest to a
 `stale` hint's evidence; read the contract's answer to 6418d31f and apply its exclusions with their vectors.
