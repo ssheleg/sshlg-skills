@@ -20,7 +20,7 @@ verification AEK-1 to AEK-3. **Decisions:** absent is not a choice, `false` is (
 `domains --apply` both write `false`, `lib/cli-domains.js:307`). **Open:** the release that ships it (version bump,
 CHANGELOG, tag; it reaches every installer, so it is left to a release session), then `update` on the Studio homes and
 studio-agent's hourly check reading them enabled. **Checks run:** `node test/claude_pin_transaction_test.js` (56 cases),
-`npm test` (see the PR). **Next task:** release B-379 from branch `fix/b379-absent-enabled-key`, then B-368 as below.
+`npm test` with the submodules checked out: 176 suites, 3614 fixtures, all green (DOCMAP fixture ratchet 3606 to 3614). **Next task:** release B-379 from branch `fix/b379-absent-enabled-key`, then B-368 as below.
 
 ## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
