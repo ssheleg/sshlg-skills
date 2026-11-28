@@ -8,7 +8,21 @@ Before editing read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), th
 [skills.json](../skills.json) owns the member inventory and pins;
 [backlog](evidence/backlog.md) owns open work.
 
-## Current: 2026-11-27 B-368: the ST-18 shape answered to the contract
+## Current: 2026-11-28 reliability program module 2: nine rows received (B-379 to B-387)
+
+**Objective:** fabric-workspace's board request 343d8a19 (the Fabric CEO's order 2e12853d, priority 1): this hub's new
+rows of the module 2 spec (one rule registry, rendered views, gates). Dispatched run on a machine without the board;
+the answer is the run's result, which Fabric posts in the request's thread. **Done:** the spec read at fabric-workspace
+`origin/main` `cb62b1e2`; rows filed as B-379 to B-387 in [backlog](evidence/backlog.md); builder condition 7 measured
+and decided, seven intake decisions and the needs from other projects recorded at
+[intake](evidence/specs/2026-11-28-m2-rules-intake.md). **Decisions:** Codex gets project rules through its
+`UserPromptSubmit` hook (present in codex-cli 0.171.0); new `rules` verbs are subcommands beside the wait rule; strict
+YAML subset, zero dependencies; a view inside a shared global file is a managed block. **Checks run:** `python3
+test/doc_refs.py`, `python3 test/validate.py` (results in the PR). **Next task:** build B-379 (M2-02, due 2026-12-02,
+release aimed at 2026-12-01), starting with the `rule/1` schema, the YAML subset parser and `rules export --json` as a
+pure module with fixtures; B-368 (due 2026-12-03) in parallel.
+
+## Previous: 2026-11-27 B-368: the ST-18 shape answered to the contract
 
 **Objective:** Fabric's wait supervisor resumed this project for fabric-agent-contract's request 7a893a3d (thread
 1580e344, due 2026-12-02): do the DEC-0199 hint kinds suffice for ST-18, and what is the audit report called. **Done:**
